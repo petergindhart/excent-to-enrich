@@ -19,7 +19,9 @@ AS
 		InvolvementID = inv.DestID,
 		StartStatus = '3AC946C4-57CF-4C96-84A7-3FF5A40F33AA', -- Placed
 		PlannedEndDate = sc.IEPEndDate,
-		IsTransitional = CASE WHEN sc.TranServNeeds = 1 THEN 1 ELSE 0 END
+		IsTransitional = CASE WHEN sc.TranServNeeds = 1 THEN 1 ELSE 0 END,
+		VersionDestID = ver.DestID,
+		VersionFinalizedDate = case when iep.IEPComplete = 'IEPComplete' THEN sc.IEPInitDate ELSE NULL END
 	FROM
 		EXCENTO.MAP_StudentID stu JOIN
 		EXCENTO.IEPTbl iep ON iep.GStudentID = stu.GStudentID JOIN
@@ -27,7 +29,8 @@ AS
 		StudentSchoolHistory sch ON sch.StudentID = stu.DestID AND dbo.DateInRange(sc.IEPInitDate, sch.StartDate, sch.EndDate) = 1 JOIN
 		StudentGradeLevelHistory gl ON gl.StudentID = stu.DestID AND dbo.DateInRange(sc.IEPInitDate, gl.StartDate, gl.EndDate) = 1 LEFT JOIN
 		EXCENTO.MAP_IepID mt ON iep.IEPSeqNum = mt.IEPSeqNum LEFT JOIN
-		EXCENTO.MAP_InvolvementID inv ON iep.GStudentID = inv.GStudentID
+		EXCENTO.MAP_InvolvementID inv ON iep.GStudentID = inv.GStudentID LEFT JOIN
+		EXCENTO.Map_VersionID ver ON iep.IEPSeqNum = ver.IEPSeqNum
 	WHERE
-		iep.IEPComplete = 'IEPComplete'
+		iep.IEPComplete = 'IEPComplete' -- remove clause due to VersionFinalizedDate?
 GO
