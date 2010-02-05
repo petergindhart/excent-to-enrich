@@ -27,6 +27,6 @@ AS
 			( lre02.EdPlacement IS NULL AND lre02.PrePlacement = placeMap.PrePlacement ) LEFT JOIN
 		IepPlacement place ON lre.DestID = place.ID
 	WHERE
-		lre01.DeleteDate IS NULL AND
-		lre02.DeleteDate IS NULL
+		ISNULL(lre01.Del_Flag, 0) = 0 AND
+		ISNULL(lre02.DeleteDate, 0) = 0
 GO

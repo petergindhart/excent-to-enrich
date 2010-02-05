@@ -8,23 +8,20 @@ CREATE VIEW EXCENTO.Transform_Demographics
 AS
 	SELECT
 		DestID = sec.ID,
-		PrimaryLanguageID = lang.ID,
-		PrimaryLanguageHomeID = langH.ID,
-		ServiceDistrictID = distS.ID,
-		ServiceSchoolID = schS.ID,
-		HomeDistrictID = distH.ID,
-		HomeSchoolID = schH.ID
+		PrimaryLanguageID = cast(NULL as uniqueidentifier),
+		PrimaryLanguageHomeID = cast(NULL as uniqueidentifier),
+		ServiceDistrictID = d.DestID,
+		ServiceSchoolID = s.DestID,
+		HomeDistrictID = cast(NULL as uniqueidentifier),
+		HomeSchoolID = cast(NULL as uniqueidentifier)
 	FROM
 		EXCENTO.Transform_Iep iep JOIN
 		PrgSection sec ON
 			sec.VersionID = iep.VersionDestID AND
-			sec.DefID = 'C26636EE-5939-45C7-A43A-D1D18049B9BD' --IEP Demographics
-		LEFT JOIN 
-		IepLanguage lang ON lang.Name = 'Should Never Be True' LEFT JOIN
-		IepLanguage langH ON langH.Name = 'Should Never Be True' LEFT JOIN
-		IepDistrict distS ON distS.Name = 'Should Never Be True' LEFT JOIN
-		IepDistrict schS ON schS.Name = 'Should Never Be True' LEFT JOIN
-		IepDistrict distH ON distH.Name = 'Should Never Be True' LEFT JOIN
-		IepDistrict schH ON schH.Name = 'Should Never Be True'
+			sec.DefID = 'C26636EE-5939-45C7-A43A-D1D18049B9BD' JOIN --IEP Demographics
+		EXCENTO.Transform_Involvement inv on inv.DestID = iep.InvolvementID JOIN
+		EXCENTO.Student stu on stu.GStudentID = inv.GStudentID JOIN
+		EXCENTO.MAP_DistrictID d on stu.DistrictID = d.GDistrictID JOIN
+		EXCENTO.MAP_SchoolID s on stu.SchoolID = s.SchoolID
 GO
 
