@@ -12,8 +12,8 @@ AS
 		PrimaryLanguageHomeID = cast(NULL as uniqueidentifier),
 		ServiceDistrictID = d.DestID,
 		ServiceSchoolID = s.DestID,
-		HomeDistrictID = cast(NULL as uniqueidentifier),
-		HomeSchoolID = cast(NULL as uniqueidentifier)
+		HomeDistrictID = hd.DestID,
+		HomeSchoolID = hs.DestID
 	FROM
 		EXCENTO.Transform_Iep iep JOIN
 		PrgSection sec ON
@@ -22,6 +22,9 @@ AS
 		EXCENTO.Transform_Involvement inv on inv.DestID = iep.InvolvementID JOIN
 		EXCENTO.Student stu on stu.GStudentID = inv.GStudentID JOIN
 		EXCENTO.MAP_DistrictID d on stu.DistrictID = d.GDistrictID JOIN
-		EXCENTO.MAP_SchoolID s on stu.SchoolID = s.SchoolID
+		EXCENTO.MAP_SchoolID s on stu.SchoolID = s.SchoolID LEFT JOIN
+		EXCENTO.ReportStudentSchools sch on stu.GStudentID = sch.GStudentID LEFT JOIN 
+		EXCENTO.MAP_DistrictID hd on sch.ResidDistCode = hd.GDistrictID LEFT JOIN
+		EXCENTO.MAP_SchoolID hs on sch.ResidSchCode = hs.SchoolID 
+		
 GO
-
