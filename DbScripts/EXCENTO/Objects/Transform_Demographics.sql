@@ -19,8 +19,7 @@ AS
 		PrgSection sec ON
 			sec.VersionID = iep.VersionDestID AND
 			sec.DefID = 'C26636EE-5939-45C7-A43A-D1D18049B9BD' JOIN --IEP Demographics
-		EXCENTO.Transform_Involvement inv on inv.DestID = iep.InvolvementID JOIN
-		EXCENTO.Student stu on stu.GStudentID = inv.GStudentID JOIN
+		EXCENTO.Student stu on stu.GStudentID = iep.GStudentID JOIN
 		EXCENTO.MAP_DistrictID d on stu.DistrictID = d.GDistrictID JOIN
 		EXCENTO.MAP_SchoolID s on stu.SchoolID = s.SchoolID LEFT JOIN
 		EXCENTO.ReportStudentSchools sch on stu.GStudentID = sch.GStudentID LEFT JOIN 

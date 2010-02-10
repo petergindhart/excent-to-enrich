@@ -6,6 +6,7 @@ CREATE VIEW EXCENTO.Transform_Iep
 AS
 
 	SELECT
+		iep.GStudentID,
 		iep.IEPSeqNum,
 		mt.DestID,
 		DefID = '251DA756-A67A-453C-A676-3B88C1B9340C', -- IEP
