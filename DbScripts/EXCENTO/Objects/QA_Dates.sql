@@ -1,3 +1,4 @@
+--#include Transform_Iep.sql
 IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'[EXCENTO].[QA_Dates]') AND OBJECTPROPERTY(id, N'IsView') = 1)
 DROP VIEW [EXCENTO].[QA_Dates]
 GO
