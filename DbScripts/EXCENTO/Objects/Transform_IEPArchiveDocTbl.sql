@@ -4,7 +4,7 @@ GO
 
 CREATE VIEW EXCENTO.Transform_IEPArchiveDocTbl
 AS
-	select
+	SELECT
 		d.RecNum,
 		m.DestID,
 		OriginalName = 'C:\Blah.pdf', 
@@ -12,8 +12,14 @@ AS
 		MimeType = 'document\pdf', 
 		[Content] =  d.PDFImage, 
 		IsTemporary = 0
-	from
-		EXCENTO.IEPArchiveDocTbl d left join
+	FROM
+		EXCENTO.IEPArchiveDocTbl d LEFT JOIN
 		EXCENTO.MAP_FileDataID m on d.RecNum = m.RecNum
+	WHERE d.RecNum = (
+		SELECT max(dIn.RecNum) RecNum 
+		FROM EXCENTO.IEPArchiveDocTbl dIn
+		WHERE d.GStudentID = dIn.GStudentID
+		GROUP BY dIn.GStudentID
+		)
 GO
 
