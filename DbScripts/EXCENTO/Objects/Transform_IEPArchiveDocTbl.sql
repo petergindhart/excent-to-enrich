@@ -16,3 +16,4 @@ AS
 		EXCENTO.IEPArchiveDocTbl d left join
 		EXCENTO.MAP_FileDataID m on d.RecNum = m.RecNum
 GO
+
