@@ -1,12 +1,12 @@
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[EXCENTO].[ICIEPModTbl_SC_LOCAL]') AND type in (N'U'))
-DROP TABLE [EXCENTO].[ICIEPModTbl_SC_LOCAL]
-GO
-
 IF  EXISTS (SELECT * FROM sys.views WHERE object_id = OBJECT_ID(N'[EXCENTO].[ICIEPModTbl_SC]'))
 DROP VIEW [EXCENTO].[ICIEPModTbl_SC]
 GO
 
-CREATE TABLE [EXCENTO].[ICIEPModTbl_SC](
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[EXCENTO].[ICIEPModTbl_SC_LOCAL]') AND type in (N'U'))
+DROP TABLE [EXCENTO].[ICIEPModTbl_SC_LOCAL]
+GO
+
+CREATE TABLE [EXCENTO].[ICIEPModTbl_SC_LOCAL](
 	[GStudentID] [uniqueidentifier] NOT NULL,
 	[IEPComplSeqNum] [bigint] NULL,
 	[IEPModSeq] [bigint] NOT NULL,
@@ -21,7 +21,7 @@ CREATE TABLE [EXCENTO].[ICIEPModTbl_SC](
 	[DeleteDate] [datetime] NULL,
 	[Del_Flag] [bit] NOT NULL
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
-
+GO
 
 CREATE VIEW [EXCENTO].[ICIEPModTbl_SC]
 AS

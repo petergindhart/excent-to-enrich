@@ -32,6 +32,7 @@ CREATE TABLE [EXCENTO].[ICIEPTbl_LOCAL](
 	[ParentParticipated] [bit] NULL,
 	[SpecRevMeetDate] [datetime] NULL
 ) ON [PRIMARY]
+GO
 
 
 CREATE VIEW [EXCENTO].[ICIEPTbl]

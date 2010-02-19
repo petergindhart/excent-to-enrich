@@ -1,3 +1,7 @@
+IF  EXISTS (SELECT * FROM sys.views WHERE object_id = OBJECT_ID(N'[EXCENTO].[IEPCompleteTbl]'))
+DROP VIEW [EXCENTO].[IEPCompleteTbl]
+GO
+
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[EXCENTO].[IEPCompleteTbl_LOCAL]') AND type in (N'U'))
 DROP TABLE [EXCENTO].[IEPCompleteTbl_LOCAL]
 GO
