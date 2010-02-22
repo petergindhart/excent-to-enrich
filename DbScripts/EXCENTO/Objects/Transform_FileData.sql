@@ -1,8 +1,8 @@
-IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'[EXCENTO].Transform_IEPArchiveDocTbl') AND OBJECTPROPERTY(id, N'IsView') = 1)
-DROP VIEW [EXCENTO].Transform_IEPArchiveDocTbl
+IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'[EXCENTO].Transform_FileData') AND OBJECTPROPERTY(id, N'IsView') = 1)
+DROP VIEW [EXCENTO].Transform_FileData
 GO
 
-CREATE VIEW EXCENTO.Transform_IEPArchiveDocTbl
+CREATE VIEW EXCENTO.Transform_FileData
 AS
 	SELECT
 		d.RecNum,
@@ -22,4 +22,3 @@ AS
 		GROUP BY dIn.GStudentID
 		)
 GO
-
