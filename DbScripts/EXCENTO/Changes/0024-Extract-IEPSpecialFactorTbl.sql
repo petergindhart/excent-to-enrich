@@ -1,13 +1,12 @@
-IF  EXISTS (SELECT * FROM sys.views WHERE object_id = OBJECT_ID(N'[EXCENTO].[IEPSpecialFactorTbl]'))
-DROP VIEW [EXCENTO].[IEPSpecialFactorTbl]
-GO
-
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[EXCENTO].[IEPSpecialFactorTbl_LOCAL]') AND type in (N'U'))
+IF  EXISTS (SELECT 1 FROM sys.objects WHERE object_id = OBJECT_ID(N'[EXCENTO].[IEPSpecialFactorTbl_LOCAL]') AND type in (N'U'))
 DROP TABLE [EXCENTO].[IEPSpecialFactorTbl_LOCAL]
 GO
 
+IF  EXISTS (SELECT 1 FROM sys.views WHERE object_id = OBJECT_ID(N'[EXCENTO].[IEPSpecialFactorTbl]'))
+DROP VIEW [EXCENTO].[IEPSpecialFactorTbl]
+GO
+
 CREATE TABLE [EXCENTO].[IEPSpecialFactorTbl_LOCAL](
-	[IEPComplSeqNum] [bigint] NOT NULL,
 	[GStudentID] [uniqueidentifier] NOT NULL,
 	[Considered1] [bit] NULL,
 	[Considered2] [bit] NULL,
@@ -28,8 +27,12 @@ CREATE TABLE [EXCENTO].[IEPSpecialFactorTbl_LOCAL](
 	[LEP] [bit] NULL,
 	[StrengthConc] [bit] NULL,
 	[ESYDeter] [datetime] NULL,
-	[RecNum] [int] NOT NULL,
-	[Considered8NA] [bit] NULL
+	[RecNum] [int] IDENTITY(1,1) NOT NULL,
+	[Considered8NA] [bit] NULL,
+ CONSTRAINT [PK_RecNum] PRIMARY KEY CLUSTERED 
+(
+	[RecNum] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON, FILLFACTOR = 90) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
 
