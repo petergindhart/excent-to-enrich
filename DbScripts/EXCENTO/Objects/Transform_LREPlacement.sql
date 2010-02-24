@@ -8,7 +8,9 @@ AS
 		DestID = place.ID,
 		InstanceID = sec.DestID,
 		TypeID = placeMap.PlacementTypeID,
-		OptionID = placeMap.DestID
+		OptionID = placeMap.DestID,
+		IsEnabled = 0,
+		IsDecOneCount = 0
 	FROM
 		EXCENTO.Transform_Iep iep JOIN
 		EXCENTO.Transform_Section sec ON sec.ItemID = iep.DestID JOIN
