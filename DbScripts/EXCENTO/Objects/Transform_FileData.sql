@@ -11,9 +11,12 @@ AS
 		ReceivedDate = IEPCompleteDate, 
 		MimeType = 'document\pdf', 
 		[Content] =  d.PDFImage, 
-		IsTemporary = 0
+		IsTemporary = 0,
+		DocItemID = iep.DestID, 
+		DocVersionID = iep.VersionDestID
 	FROM
-		EXCENTO.IEPArchiveDocTbl d LEFT JOIN
+		EXCENTO.Transform_Iep iep JOIN
+		EXCENTO.IEPArchiveDocTbl d on d.GStudentID = iep.GStudentID LEFT JOIN
 		EXCENTO.MAP_FileDataID m on d.RecNum = m.RecNum
 	WHERE d.RecNum = (
 		SELECT max(dIn.RecNum) RecNum 
