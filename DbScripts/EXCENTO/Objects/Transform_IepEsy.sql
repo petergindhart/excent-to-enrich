@@ -33,3 +33,4 @@ AS
 					  end, 'N') = x.Code 
 	WHERE isnull(o.del_flag,0)=0
 GO
+-- last line

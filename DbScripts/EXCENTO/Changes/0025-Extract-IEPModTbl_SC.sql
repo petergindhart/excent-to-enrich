@@ -31,5 +31,4 @@ CREATE VIEW [EXCENTO].[IEPModTbl_SC]
 AS
 	SELECT * FROM [EXCENTO].[IEPModTbl_SC_LOCAL]
 GO
-
-
+-- Last line

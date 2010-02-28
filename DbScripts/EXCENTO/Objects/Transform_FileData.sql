@@ -25,3 +25,4 @@ AS
 		GROUP BY dIn.GStudentID
 		)
 GO
+-- last line
