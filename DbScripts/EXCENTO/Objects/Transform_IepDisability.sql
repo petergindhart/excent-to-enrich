@@ -1,5 +1,3 @@
---#include ..\Changes\0025-Extract-DisabilityLook.sql
-
 IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'[EXCENTO].[Transform_IepDisability]') AND OBJECTPROPERTY(id, N'IsView') = 1)
 	DROP VIEW [EXCENTO].[Transform_IepDisability]
 GO
