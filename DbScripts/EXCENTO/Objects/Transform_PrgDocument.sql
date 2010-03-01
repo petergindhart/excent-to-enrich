@@ -4,8 +4,8 @@ GO
 
 CREATE VIEW [EXCENTO].[Transform_PrgDocument]
 AS
-SELECT 
-      ID = ISNULL(doc.ID, NEWID()),
+SELECT
+      DestID = ISNULL(doc.ID, NEWID()),
       DefId = 'E26B279A-4206-49F4-94C7-4933782A8E66', 
       ItemId = fd.DocItemID,
       ContentFileId = fd.DestID,
