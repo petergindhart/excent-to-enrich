@@ -7,7 +7,7 @@ AS
 SELECT 
       ID = ISNULL(doc.ID, NEWID()),
       DefId = 'E26B279A-4206-49F4-94C7-4933782A8E66', 
-      ItemId = fd.DestID,
+      ItemId = fd.DocItemID,
       ContentFileId = fd.DestID,
       FinalizedBy = 'EEE133BD-C557-47E1-AB67-EE413DD3D1AB', -- BuiltIn: Support
       FinalizedDate = GETDATE(),
