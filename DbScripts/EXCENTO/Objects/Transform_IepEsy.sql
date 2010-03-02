@@ -14,7 +14,7 @@ AS
 		  EXCENTO.Transform_Iep iep JOIN
 		  PrgSection sec ON
 				sec.VersionID = iep.VersionDestID AND
-				sec.DefID = '8E378CDD-D392-4952-A98F-F210346F657E' LEFT JOIN --IEP ESY      
+				sec.DefID = '8E378CDD-D392-4952-A98F-F210346F657E' LEFT JOIN --IEP ESY
 		  EXCENTO.IEPSpecialFactorTbl o ON iep.GStudentID = o.GStudentID LEFT JOIN
 		  (
 				SELECT 
@@ -33,4 +33,4 @@ AS
 					  end, 'N') = x.Code 
 	WHERE isnull(o.del_flag,0)=0
 GO
--- last line
+-- NOTE:  it may be necessary to modify this view to select only one record per student
