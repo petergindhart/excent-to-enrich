@@ -16,9 +16,9 @@ AS
 			(SFD.SEQUENCE = 5 AND eosf.LEP = 1) OR  
 			(SFD.SEQUENCE = 6 AND eosf.Considered1 = 1)   
 			THEN 'B76DDCD6-B261-4D46-A98E-857B0A814A0C' ELSE 'F7E20A86-2709-4170-9810-15B601C61B79' END,
-		Text = NULL,
-		FormInstanceId = NULL,
-		DocumentId = NULL
+		Text = cast(NULL as text),
+		FormInstanceId = cast(NULL as uniqueidentifier),
+		DocumentId = cast(NULL as uniqueidentifier)
 	FROM
 		EXCENTO.Transform_Iep iep JOIN
 		dbo.PrgSection sec ON 
