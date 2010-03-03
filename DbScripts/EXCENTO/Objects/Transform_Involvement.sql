@@ -10,7 +10,7 @@ AS
 		mt.DestID,
 		stu.DestID [StudentID],
 		ProgramID = 'F98A8EF2-98E2-4CAC-95AF-D7D89EF7F80C',
-		VariantID = NULL,
+		VariantID = cast(NULL as uniqueidentifier),
 		StartDate = MIN(sc.IEPInitDate),
 		EndDate = CASE WHEN MAX(sc.IEPEndDate) > GETDATE() THEN NULL ELSE MAX(sc.IEPEndDate)END
 	FROM

@@ -5,8 +5,7 @@ GO
 CREATE VIEW [EXCENTO].[Transform_IepSpecialFactor]
 AS
 	SELECT
-		eosf.GStudentID, 
-		DestID = sf.ID,
+		DestID = sec.ID,
 		InstanceID = sec.ID,
 		DefID = sfd.ID,
 		AnswerID = 	CASE WHEN  
