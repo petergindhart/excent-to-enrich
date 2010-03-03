@@ -5,6 +5,7 @@ GO
 CREATE VIEW [EXCENTO].[Transform_IepService]
 AS
 	SELECT 
+		iep.GStudentID,
 		DestID = isnull(iv.id, newid()),
 		InstanceID = sec.ID,
 		DefID = sec.DefID,
