@@ -5,7 +5,7 @@ GO
 CREATE VIEW [EXCENTO].[Transform_IepSpecialFactor]
 AS
 	SELECT
-		DestID = sec.ID,
+		DestID = isnull(sf.id, newid()),
 		InstanceID = sec.ID,
 		DefID = sfd.ID,
 		AnswerID = 	CASE WHEN  
@@ -27,7 +27,7 @@ AS
 		dbo.IepSpecialFactor sf on 
 			sf.DefID = sfd.ID AND
 			sf.InstanceID = sec.ID LEFT JOIN
-		EXCENTO.IEPSpecialFactorTbl eosf on 
+		EXCENTO.IEPSpecialFactorTbl eosf on
 			iep.GStudentID = eosf.GStudentID AND
 			isnull(eosf.del_flag,0)=0
 --	WHERE
