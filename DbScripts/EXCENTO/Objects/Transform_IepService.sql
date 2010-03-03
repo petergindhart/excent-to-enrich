@@ -14,14 +14,14 @@ AS
 			isnull('DeliveryStatement : '+cast(case when v.Type = 'S' then v.Subject when v.Type = 'R' then convert(varchar(max), v.RelServDesc) end as varchar(max)), ''), 
 		IsRelated = cast(case when v.Type = 'R' then 1 else 0 end as bit),
 		IsDirect = cast(case when Include1 = 1 then 1 else 0 end as bit),
-		Location = v.LocationDesc,
+		Location = convert(varchar(50), v.LocationDesc),
 		StartDate = v.InitDate,
 		EndDate = v.EndDate,
 		Amount = cast(0 as int),
 		UnitID = cast(NULL as uniqueidentifier),
 		FrequencyID = cast(NULL as uniqueidentifier),
-		ExcludesFromGenEd = cast(NULL as bit),
-		ProviderTitle = v.ProvDesc,
+		ExcludesFromGenEd = cast(0 as bit),
+		ProviderTitle = convert(varchar(100), v.ProvDesc),
 		Sequence = cast(0 as int),
 		IsEsy = cast(isnull(v.ESY,0) as bit)
 	FROM
