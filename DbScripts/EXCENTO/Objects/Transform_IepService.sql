@@ -4,11 +4,11 @@ GO
 
 CREATE VIEW [EXCENTO].[Transform_IepService]
 AS
-	SELECT 
+	SELECT
 		iep.GStudentID,
 		DestID = isnull(iv.id, newid()),
 		InstanceID = sec.ID,
-		DefID = sec.DefID,
+		DefID = isnull(sd.ID, (select ID from dbo.IepServiceDef where Name = 'Unknown')),
 		DeliveryStatement = 
 			isnull('Frequency : '+v.Frequency+char(13)+char(10), '')+
 			isnull('Length	  : '+v.Length+char(13)+char(10), '')+
@@ -34,7 +34,9 @@ AS
 			iv.InstanceID = sec.ID LEFT JOIN
 		EXCENTO.ServiceTbl v on 
 			iep.GStudentID = v.GStudentID AND
-			isnull(v.del_flag,0)=0
+			isnull(v.del_flag,0)=0 LEFT JOIN
+		dbo.IepServiceDef sd on
+			v.ServDesc = sd.Name
 	WHERE
 		isnull(v.del_flag,0)=0
 GO
