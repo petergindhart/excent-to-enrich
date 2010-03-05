@@ -60,3 +60,22 @@ AS
 	SELECT * FROM [EXCENTO].[ServiceTbl_LOCAL]
 GO
 
+-- ###################################################################################### MAP table
+
+IF  EXISTS (SELECT 1 FROM sys.objects WHERE object_id = OBJECT_ID(N'EXCENTO.MAP_IepServiceID') AND type in (N'U'))
+DROP TABLE EXCENTO.MAP_IepServiceID
+GO
+
+CREATE TABLE EXCENTO.MAP_IepServiceID (
+ServSeqNum int not null,
+DestID	uniqueidentifier not null
+)
+GO
+ALTER TABLE EXCENTO.MAP_IepServiceID
+	ADD CONSTRAINT PK_MAP_IepServiceID
+		PRIMARY KEY CLUSTERED (ServSeqNum)
+GO
+
+-- ######################################################################################
+
+
