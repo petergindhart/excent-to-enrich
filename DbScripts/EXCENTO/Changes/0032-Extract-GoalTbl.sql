@@ -59,3 +59,22 @@ AS
 	SELECT * FROM [EXCENTO].[GoalTbl_LOCAL]
 GO
 
+-- ###################################################################################### MAP table
+
+IF  EXISTS (SELECT 1 FROM sys.objects WHERE object_id = OBJECT_ID(N'EXCENTO.MAP_IepGoalID') AND type in (N'U'))
+DROP TABLE EXCENTO.MAP_IepGoalID
+GO
+
+CREATE TABLE EXCENTO.MAP_IepGoalID (
+GoalSeqNum int not null,
+DestID	uniqueidentifier not null
+)
+GO
+ALTER TABLE EXCENTO.MAP_IepGoalID
+	ADD CONSTRAINT PK_MAP_IepGoalID
+		PRIMARY KEY CLUSTERED (GoalSeqNum)
+GO
+
+
+-- ###################################################################################### MAP table
+
