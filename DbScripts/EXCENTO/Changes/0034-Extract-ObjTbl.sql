@@ -46,3 +46,25 @@ CREATE VIEW [EXCENTO].[ObjTbl]
 AS
 	SELECT * FROM [EXCENTO].[ObjTbl_LOCAL]
 GO
+
+
+-- ###################################################################################### MAP table
+
+if exists (select 1 from sys.schemas s join sys.objects o on s.schema_id = o.schema_id where s.name = 'EXCENTO' and o.name = 'MAP_IepMeasurableGoalID' and o.type = 'U')
+drop table EXCENTO.MAP_IepMeasurableGoalID
+go
+
+create table EXCENTO.MAP_IepMeasurableGoalID (
+GoalSeqNum		int				not null,
+ObjSeqNum		int				not null,
+DestID			uniqueidentifier not null
+)
+GO
+
+alter table EXCENTO.MAP_IepMeasurableGoalID 
+	add constraint PK_MAP_IepMeasurableGoal 
+		primary key (GoalSeqNum, ObjSeqNum)
+GO
+
+-- ###################################################################################### MAP table
+
