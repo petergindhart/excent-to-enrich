@@ -29,7 +29,7 @@ AS
 				FROM EXCENTO.ServiceTbl
 				WHERE GStudentID = v.GStudentID AND
 				ISNULL(del_flag,0)=0 AND
-				ServSeqNum < v.ServSeqNum 
+				ServSeqNum < v.ServSeqNum
 			),
 		IsEsy = cast(isnull(v.ESY,0) as bit)
 FROM
@@ -43,7 +43,8 @@ FROM
 	EXCENTO.MAP_IepServiceID m on
 		v.ServSeqNum = m.ServSeqNum LEFT JOIN
 	dbo.IepService iv on
-		sec.ID = iv.InstanceID LEFT JOIN
+		sec.ID = iv.InstanceID AND
+		m.DestID = iv.ID LEFT JOIN
 	dbo.IepServiceDef sd on
 		v.ServDesc = sd.Name
 WHERE

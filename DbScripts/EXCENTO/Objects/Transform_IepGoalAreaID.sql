@@ -8,7 +8,7 @@ AS
 		DestID = cast('CFD77237-0E1D-4055-B557-AA6978B3A21B' as uniqueidentifier), 
 		Sequence = cast(0 as int),
 		Name = CONVERT(VARCHAR(100), 'No Bank Selected'),
-		AllowCustomProbes = cast(0 as bit)
+		AllowCustomProbes = cast(1 as bit)
 UNION ALL
 	SELECT
 		ga.DestID,
