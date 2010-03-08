@@ -15,7 +15,8 @@ FROM
 	EXCENTO.Transform_Iep iep JOIN
 	dbo.PrgSection sec ON
 		sec.VersionID = iep.VersionDestID AND
-		sec.DefID = '8E378CDD-D392-4952-A98F-F210346F657E' LEFT JOIN --IEP Assessments
+-- 		sec.DefID = '8E378CDD-D392-4952-A98F-F210346F657E' LEFT JOIN --IEP Assessments.    uh, this is supposed to be accomodations.
+		sec.DefID = '62BD2FF9-FC42-4295-8C7C-23ADB9417841', --IEP Accomodations
 	EXCENTO.IEPModTbl_SC a on iep.GStudentID = a.GStudentID AND
 	a.IEPModSeq = (
 	SELECT
