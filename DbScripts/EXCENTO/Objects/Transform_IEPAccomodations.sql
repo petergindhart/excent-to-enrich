@@ -16,13 +16,13 @@ FROM
 	dbo.PrgSection sec ON
 		sec.VersionID = iep.VersionDestID AND
 -- 		sec.DefID = '8E378CDD-D392-4952-A98F-F210346F657E' LEFT JOIN --IEP Assessments.    uh, this is supposed to be accomodations.
-		sec.DefID = '62BD2FF9-FC42-4295-8C7C-23ADB9417841', --IEP Accomodations
+		sec.DefID = '62BD2FF9-FC42-4295-8C7C-23ADB9417841' LEFT JOIN --IEP Accomodations
 	EXCENTO.IEPModTbl_SC a on iep.GStudentID = a.GStudentID AND
 	a.IEPModSeq = (
 	SELECT
 		max(b.IEPModSeq) IEPModSeq
 	FROM 
-		EXCENTO.IEPModTbl_SC b 
+		EXCENTO.IEPModTbl_SC b
 	WHERE 
 	isnull(b.del_flag,0)=0 AND 
 	b.gstudentid = a.gstudentid AND 

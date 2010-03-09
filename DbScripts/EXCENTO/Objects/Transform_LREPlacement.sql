@@ -1,3 +1,4 @@
+--#include Transform_Section.sql
 IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'[EXCENTO].[Transform_LREPlacement]') AND OBJECTPROPERTY(id, N'IsView') = 1)
 	DROP VIEW [EXCENTO].[Transform_LREPlacement]
 GO
