@@ -7,8 +7,8 @@ AS
 	SELECT
 		iep.GStudentID,
 		g.GoalSeqNum,
-		DestID = isnull(ig.ID, newid()),
-		InstanceID = sec.ID,
+		m.DestID,
+		InstanceID = sec.ID, -- this is correct
 		Sequence = (
 				SELECT count(*)
 				FROM EXCENTO.GoalTbl
@@ -36,9 +36,6 @@ AS
 			(isnull(g.del_flag,0)=0 and g.IEPStatus = 1) LEFT JOIN
 		EXCENTO.MAP_IepGoalID m on
 			g.GoalSeqNum = m.GoalSeqNum LEFT JOIN
-		dbo.IepGoal ig on
-			sec.ID = ig.InstanceID AND
-			m.DestID = ig.ID LEFT JOIN
 		EXCENTO.MAP_IepGoalAreaID gm on
 			g.BankDesc = gm.BankDesc LEFT JOIN
 		dbo.IepGoalArea ga on
