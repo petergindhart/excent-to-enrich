@@ -105,17 +105,3 @@ INSERT INTO [PrgSectionType]
            ,'Extended School Year'
            ,'~/SpecEd/SectionEsy.ascx')
 GO
-
-INSERT INTO [PrgSectionDef]
-           ([ID]
-           ,[TypeID]
-           ,[ItemDefID]
-           ,[Sequence]
-           ,[IsVersioned])
-     VALUES
-           ('8E378CDD-D392-4952-A98F-F210346F657E'
-           ,'9B10DCDE-15CC-4AA3-808A-DFD51CE91079'
-           ,'251DA756-A67A-453C-A676-3B88C1B9340C'
-           ,5
-           ,1)
-GO

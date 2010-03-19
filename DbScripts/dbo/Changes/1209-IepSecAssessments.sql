@@ -305,5 +305,4 @@ GO
 
 
 insert PrgSectionType values ( '6F3F1C06-64C6-4C70-A834-0941ACCD0F62', 'IEP Assessments', 'iepassess', 'State and District Assessment Participation', null, null, null, '~/SpecEd/SectionAssessments.ascx' )
-insert PrgSectionDef values ( '4F6B787A-A490-4769-8D09-D30A0573D116', '6F3F1C06-64C6-4C70-A834-0941ACCD0F62', '251DA756-A67A-453C-A676-3B88C1B9340C', 7, 1, null, null, null, null, null )
 

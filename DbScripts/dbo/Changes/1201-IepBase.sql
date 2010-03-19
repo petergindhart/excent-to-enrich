@@ -160,8 +160,6 @@ ALTER TABLE dbo.PrgIep ADD CONSTRAINT
 	)
 GO
 
--- insert Program for Special Education
-insert into Program values ( 'F98A8EF2-98E2-4CAC-95AF-D7D89EF7F80C', 'Special Education', 'Integration of evaluation, eligibility, placement, and monitoring aspects of a child receiving assistance under IDEA to ensure compliance with federal regulations.', NULL, NULL, 'SpEd', NULL )
 -- insert PrgItemType for IEP
 insert PrgItemType values ( 'A5990B5E-AFAD-4EF0-9CCA-DC3685296870', 'IEP', 'Individualized Education Program' )
 
@@ -170,13 +168,5 @@ insert EnumValue values( 'B76DDCD6-B261-4D46-A98E-857B0A814A0C', 'C8F52BFC-1AE8-
 insert EnumValue values( 'F7E20A86-2709-4170-9810-15B601C61B79', 'C8F52BFC-1AE8-4CC5-A9CA-EA746EDA336E', 'No', 'N', 1, 1 )
 
 
-
-insert PrgVariant values ('D9D0ABAD-69F6-46DF-83CB-BAFC72AAAB86', 'F98A8EF2-98E2-4CAC-95AF-D7D89EF7F80C', 'Special Education')
-
-insert PrgStatus values ('3AC946C4-57CF-4C96-84A7-3FF5A40F33AA', 'F98A8EF2-98E2-4CAC-95AF-D7D89EF7F80C', 0, 'Placed', 0, 0, NULL, '85AAB540-503F-4613-9F1F-A14C72764285')
-insert PrgStatus values ('667E6AEB-4DC8-4B64-99CB-0AAC39764BA8', 'F98A8EF2-98E2-4CAC-95AF-D7D89EF7F80C', 1, 'Transfered Out', 1, 0, NULL, 'FA528C27-E567-4CC9-A328-FF499BB803F6')
-insert PrgStatus values ('649D12AD-F9EE-40E2-888A-3D89A767B05A', 'F98A8EF2-98E2-4CAC-95AF-D7D89EF7F80C', 2, 'Consent Revoked', 1, 0, NULL, 'FA528C27-E567-4CC9-A328-FF499BB803F6')
-
-insert PrgItemDef values ('251DA756-A67A-453C-A676-3B88C1B9340C', 'A5990B5E-AFAD-4EF0-9CCA-DC3685296870', 'F98A8EF2-98E2-4CAC-95AF-D7D89EF7F80C', '3AC946C4-57CF-4C96-84A7-3FF5A40F33AA', 'Individualized Education Plan', NULL, NULL, 0, NULL, 0)
 
 

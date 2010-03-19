@@ -175,4 +175,3 @@ ALTER TABLE dbo.IepServiceProvider ADD CONSTRAINT
 GO
 
 insert PrgSectionType values ( '54228EE4-3A8C-4544-9216-D842BE7B0A3B', 'IEP Services', 'iepserv', 'Services', null, null, null, '~/SpecEd/SectionServices.ascx' )
-insert PrgSectionDef values ( 'EEC339BC-F160-4D6C-B684-5E53386DE983', '54228EE4-3A8C-4544-9216-D842BE7B0A3B', '251DA756-A67A-453C-A676-3B88C1B9340C', 8, 1, null, null, null, null, null )

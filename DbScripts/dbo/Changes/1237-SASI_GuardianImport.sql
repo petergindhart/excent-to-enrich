@@ -1,3 +1,5 @@
+--#assume VC3ETL:20
+
 IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'[dbo].[sasi_aprn_local]') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
 DROP TABLE [dbo].[sasi_aprn_local]
 GO

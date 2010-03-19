@@ -18,7 +18,7 @@ AS
 		SchoolID = sch.SchoolID,
 		GradeLevelID = gl.GradeLevelID,
 		InvolvementID = inv.DestID,
-		StartStatus = '3AC946C4-57CF-4C96-84A7-3FF5A40F33AA', -- Placed
+		StartStatus = '30D6BCD2-94BF-4B7E-BA00-15724A543F0E', -- Placed
 		PlannedEndDate = sc.IEPEndDate,
 		IsTransitional = CASE WHEN sc.TranServNeeds = 1 THEN 1 ELSE 0 END,
 		VersionDestID = ver.DestID,
