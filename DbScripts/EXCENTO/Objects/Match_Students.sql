@@ -11,5 +11,7 @@ AS
 			a.StudentID = b.Number and
 			a.Lastname = b.LastName and
 			a.Deletedate is null and
-			b.CurrentSchoolID is not null --currently only active students; will update aftor manual student refactor
+			b.CurrentSchoolID is not null and --currently only active students; will update aftor manual student refactor
+			a.SpedStat = 1 and
+			isnull(a.del_flag,0)=0
 GO

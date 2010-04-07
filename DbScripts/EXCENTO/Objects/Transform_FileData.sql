@@ -7,19 +7,19 @@ AS
 	SELECT
 		d.RecNum,
 		m.DestID,
-		OriginalName = 'C:\Blah.pdf', 
-		ReceivedDate = IEPCompleteDate, 
-		MimeType = 'document\pdf', 
-		[Content] =  d.PDFImage, 
+ 		OriginalName = 'Previous IEP',
+		ReceivedDate = IEPCompleteDate,
+		MimeType = 'document\pdf',
+		[Content] =  d.PDFImage,
 		IsTemporary = 0,
-		DocItemID = iep.DestID, 
+		DocItemID = iep.DestID,
 		DocVersionID = iep.VersionDestID
 	FROM
 		EXCENTO.Transform_Iep iep JOIN
 		EXCENTO.IEPArchiveDocTbl d on d.GStudentID = iep.GStudentID LEFT JOIN
 		EXCENTO.MAP_FileDataID m on d.RecNum = m.RecNum
 	WHERE d.RecNum = (
-		SELECT max(dIn.RecNum) RecNum 
+		SELECT max(dIn.RecNum) RecNum
 		FROM EXCENTO.IEPArchiveDocTbl dIn
 		WHERE d.GStudentID = dIn.GStudentID
 		GROUP BY dIn.GStudentID
