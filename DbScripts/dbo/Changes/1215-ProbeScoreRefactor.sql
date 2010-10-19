@@ -244,6 +244,9 @@ GO
 ALTER TABLE dbo.ProbeScore
 	DROP CONSTRAINT FK_ProbeScore#ProbeType#
 GO
+ALTER TABLE dbo.ProbeTypeSchool
+	DROP CONSTRAINT FK_ProbeTypeSchool#ProbeTypes
+GO
 DROP TABLE dbo.ProbeType
 GO
 EXECUTE sp_rename N'dbo.Tmp_ProbeType', N'ProbeType', 'OBJECT' 
@@ -325,6 +328,15 @@ ALTER TABLE dbo.ProbeStandard ADD CONSTRAINT
 GO
 ALTER TABLE dbo.PrgProbeTypeSubVariant WITH NOCHECK ADD CONSTRAINT
 	FK_ProbeType#SubVariants FOREIGN KEY
+	(
+	ProbeTypeID
+	) REFERENCES dbo.ProbeType
+	(
+	ID
+	) ON DELETE  CASCADE 
+GO
+ALTER TABLE dbo.ProbeTypeSchool ADD CONSTRAINT
+	FK_ProbeTypeSchool#ProbeTypes FOREIGN KEY
 	(
 	ProbeTypeID
 	) REFERENCES dbo.ProbeType
