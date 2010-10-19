@@ -1,5 +1,4 @@
 --#include ..\Include\SC_Config_01.sql
---#include ..\Include\SC_Config_02.sql
 
 -- configure a program level activity definition with non versioned disability eligibility section
 insert PrgStatus values ( '2E9F71DF-05ED-447E-B496-3B47ACB49BE4', 'F98A8EF2-98E2-4CAC-95AF-D7D89EF7F80C', 3, 'Eligible', 0, 0, NULL, 'FA528C27-E567-4CC9-A328-FF499BB803F6')
