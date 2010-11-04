@@ -1,1 +1,0 @@
-INSERT INTO Feature VALUES ('19677e37-5904-475a-bc1a-4084bd6c7b49','Enrich.SalesDemo')
