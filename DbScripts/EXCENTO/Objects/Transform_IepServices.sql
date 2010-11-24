@@ -20,7 +20,7 @@ FROM
 		isnull(v.del_flag,0)=0 AND
 		v.RecNum = (
 			select min(RecNum) 
-			from Richland1_ExcentOnline.dbo.IEPServiceMainTbl_SC 
+			from IEPServiceMainTbl_SC 
 			where GStudentID = v.GStudentID
 			and isnull(del_flag,0)=0
 			) 

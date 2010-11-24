@@ -1,6 +1,8 @@
+/*
+
 IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'[EXCENTO].[Transform_IepMeasurableGoal]') AND OBJECTPROPERTY(id, N'IsView') = 1)
 DROP VIEW [EXCENTO].[Transform_IepMeasurableGoal]
-GO
+-- GO
 
 CREATE VIEW [EXCENTO].[Transform_IepMeasurableGoal]
 AS
@@ -58,5 +60,6 @@ UNION ALL
 			o.ObjSeqNum = m.ObjSeqNum
 	WHERE
 		o.IEPStatus = 1 and isnull(o.del_flag,0)=0
-GO
+-- GO
 
+*/

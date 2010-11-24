@@ -55,3 +55,10 @@ ALTER TABLE [EXCENTO].[MAP_FileData_SC_ConsentReEvalTbl] ADD CONSTRAINT
 	) ON [PRIMARY]
 GO
 
+
+create view [EXCENTO].[SC_ConsentReEvalTbl]
+as
+  select * from [EXCENTO].[SC_ConsentReEvalTbl_LOCAL]
+GO
+
+
