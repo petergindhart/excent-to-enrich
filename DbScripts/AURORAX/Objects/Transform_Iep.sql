@@ -7,7 +7,7 @@ AS
 	SELECT
 		iep.SASID,
 		mt.DestID,
-		DefID = '128417C8-782E-4E91-84BE-C0621442F29E', -- IEP - Direct Placement
+		DefID = '128417C8-782E-4E91-84BE-C0621442F29E', -- IEP - Direct Placement, CO
 		StudentID = stu.DestID,
 		StartDate = iep.IEPMeetingDate,
 		EndDate = CASE WHEN iep.NextAnnualDate > GETDATE() THEN NULL ELSE iep.NextAnnualDate END,
