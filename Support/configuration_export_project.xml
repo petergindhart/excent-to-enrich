@@ -4,5 +4,5 @@
 		ConnectionString="${connection}"
 		DeleteObsoleteRecords="false"
 		OutputFile="${outputfile}"
-		Tables="VC3ETL.ExtractDatabase[Id='${extractdatabase}'],VC3ETL.ExtractTable[ExtractDatabase='${extractdatabase}'],VC3ETL.LoadTable[ExtractDatabase='${extractdatabase}'],VC3ETL.LoadColumn[LoadTable in (select ID from VC3ETL.LoadTable where ExtractDatabase = '${extractdatabase}')]" />
+		Tables="VC3ETL.ExtractDatabase[Id='${extractdatabase}'],VC3ETL.FlatFileExtractDatabase[Id='${extractdatabase}'],dbo.InformExtractDatabase[Id='${extractdatabase}'],VC3ETL.ExtractTable[ExtractDatabase='${extractdatabase}'],VC3ETL.FlatFileExtractTable[Id in (select ID from VC3ETL.ExtractTable where ExtractDatabase='${extractdatabase}')],VC3ETL.FlatFileExtractColumn[ExtractFile in (select ID from VC3ETL.ExtractTable where ExtractDatabase='${extractdatabase}')],VC3ETL.LoadTable[ExtractDatabase='${extractdatabase}'],VC3ETL.LoadColumn[LoadTable in (select ID from VC3ETL.LoadTable where ExtractDatabase = '${extractdatabase}')]" />
 </project>
