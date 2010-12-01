@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8" ?> 
+<project name="Special Education Configuration">
+	<scriptdbdata
+		ConnectionString="${connection}"
+		DeleteObsoleteRecords="false"
+		OutputFile="${outputfile}"
+		Tables="VC3ETL.ExtractDatabase[Id='${extractdatabase}'],VC3ETL.ExtractTable[ExtractDatabase='${extractdatabase}'],VC3ETL.LoadTable[ExtractDatabase='${extractdatabase}'],VC3ETL.LoadColumn[LoadTable in (select ID from VC3ETL.LoadTable where ExtractDatabase = '${extractdatabase}')]" />
+</project>
