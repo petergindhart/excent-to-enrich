@@ -4,7 +4,7 @@ GO
 
 CREATE VIEW AURORAX.Transform_Iep
 AS
-	SELECT
+	SELECT distinct -- cheating with the distinct for now
 		iep.IEPPKID,
 		iep.SASID,
 		mt.DestID,
@@ -34,7 +34,30 @@ AS
 		StudentGradeLevelHistory gl ON gl.StudentID = stu.DestID AND dbo.DateInRange(iep.IEPMeetingDate, gl.StartDate, gl.EndDate) = 1 LEFT JOIN
 		AURORAX.MAP_IepID mt ON iep.IEPPKID = mt.IEPPKID LEFT JOIN 
 		AURORAX.MAP_InvolvementID inv ON iep.SASID = inv.SASID LEFT JOIN
-		AURORAX.Map_VersionID ver ON iep.IEPPKId = ver.IEPPKId
+		AURORAX.Map_VersionID ver ON iep.IEPPKId = ver.IEPPKId LEFT JOIN
+		  GradeLevel g on gl.GradeLevelID = g.ID
+	 WHERE iep.SASID not in 
+				(select SASID from AURORAX.IEP_Data group by SASID having count(*) > 1) AND
+		  sch.StartDate = (select max(StartDate)
+				from StudentSchoolHistory schIn 
+				where schIn.StudentID = sch.StudentID) AND
+		  gl.StartDate =
+				(select max(glSt.StartDate) 
+				from StudentGradeLevelHistory glSt 
+				where glSt.StudentID = gl.StudentID) and 
+		  gl.EndDate = 
+				(select max(glEnd.EndDate)
+				from StudentGradeLevelHistory glEnd 
+				where glEnd.StudentID = gl.StudentID) and
+		  g.sequence = (select max(sequence)
+				from StudentGradeLevelHistory glq JOIN
+					 GradeLevel g on glq.GradeLevelID = g.ID
+				where glq.StudentID = gl.StudentID )
 
 GO
 -- last line
+
+
+
+
+
