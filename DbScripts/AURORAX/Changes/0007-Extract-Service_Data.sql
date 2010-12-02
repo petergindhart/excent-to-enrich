@@ -7,6 +7,7 @@ DROP VIEW [AURORAX].[Service_Data]
 GO
 
 CREATE TABLE [AURORAX].[Service_Data_LOCAL](
+PKID							INT,
 SASID							varchar(20),
 BeginDate					datetime, 
 EndDate						datetime, 

@@ -5,6 +5,7 @@ GO
 CREATE VIEW AURORAX.Transform_Iep
 AS
 	SELECT
+		iep.IEPPKID,
 		iep.SASID,
 		mt.DestID,
 		DefID = '128417C8-782E-4E91-84BE-C0621442F29E', -- IEP - Direct Placement, CO
@@ -23,8 +24,8 @@ AS
 		VersionFinalizedDate = iep.IEPMeetingDate
 	FROM
 		AURORAX.MAP_StudentID stu JOIN -- what to do if this is the same table?  create two intances of it for now?
-		AURORAX.IEP_Data iep ON iep.SASID = stu.SASID JOIN
-		AURORAX.MAP_IepID mt ON iep.SASID = mt.SASID LEFT JOIN -- is there a need for this without an IEPSeqNum?
+		AURORAX.IEP_Data iep ON iep.SASID = stu.SASID LEFT JOIN
+		AURORAX.MAP_IepID mt ON iep.IEPPKID = mt.IEPPKID LEFT JOIN 
 		AURORAX.MAP_InvolvementID inv ON iep.SASID = inv.SASID LEFT JOIN
 		AURORAX.Map_VersionID ver ON iep.SASID = ver.SASID
 

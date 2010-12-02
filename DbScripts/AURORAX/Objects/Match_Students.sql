@@ -4,7 +4,7 @@ GO
 
 CREATE VIEW [AURORAX].[Match_Students]
 AS
-	SELECT a.SASID, b.ID [DestID]
+	SELECT distinct a.SASID, b.ID [DestID]
 	from
 		AURORAX.IEP_Data a join
 		dbo.Student b on
