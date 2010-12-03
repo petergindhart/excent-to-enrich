@@ -19,7 +19,7 @@ AS
 		InvolvementID = inv.DestID,
 		StartStatus = '796C212F-6003-4CD3-878D-53BEBE087E9A', -- Placed
 		PlannedEndDate = iep.NextAnnualDate,
-		IsTransitional = cast(NULL as bit),
+		IsTransitional = cast(0 as bit),
 		VersionDestID = ver.DestID,
 		VersionFinalizedDate = iep.IEPMeetingDate,
 		  EndStatusID = cast(NULL as uniqueidentifier),
@@ -55,6 +55,9 @@ AS
 				where glq.StudentID = gl.StudentID )
 GO
 -- last line
+
+-- select count(*) from AURORAX.Transform_Iep -- 1289
+
 
 
 

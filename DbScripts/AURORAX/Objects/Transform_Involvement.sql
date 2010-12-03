@@ -15,10 +15,12 @@ AS
 		EndDate = CASE WHEN MAX(iep.NextAnnualDate) > GETDATE() THEN NULL ELSE MAX(iep.NextAnnualDate)END
 	FROM
 		AURORAX.MAP_StudentID stu JOIN
-		AURORAX.IEP_Data iep ON iep.SASID = stu.SASID LEFT JOIN
-		-- StudentSchoolHistory sch ON sch.StudentID = stu.DestID AND dbo.DateInRange(sc.IEPInitDate, sch.StartDate, sch.EndDate) = 1 JOIN
+		AURORAX.IEP_Data iep ON iep.SASID = stu.SASID JOIN
+		AURORAX.Map_IepID imt on iep.IEPPKID = imt.IEPPKID LEFT JOIN 
+--		StudentSchoolHistory sch ON sch.StudentID = stu.DestID AND dbo.DateInRange(iep.IEPMeetingDate, sch.StartDate, sch.EndDate) = 1 JOIN
 		AURORAX.MAP_InvolvementID mt ON iep.SASID = mt.SASID
 	GROUP BY
 		iep.SASID, stu.DestID, mt.DestID
-
+-- 3816
 GO
+
