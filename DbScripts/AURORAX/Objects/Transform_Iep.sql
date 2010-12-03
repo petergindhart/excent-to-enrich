@@ -4,7 +4,7 @@ GO
 
 CREATE VIEW AURORAX.Transform_Iep
 AS
-	SELECT distinct -- cheating with the distinct for now
+	SELECT
 		iep.IEPPKID,
 		iep.SASID,
 		mt.DestID,
@@ -17,7 +17,7 @@ AS
 		SchoolID = sch.SchoolID,
 		GradeLevelID = gl.GradeLevelID,
 		InvolvementID = inv.DestID,
-		StartStatus = '30D6BCD2-94BF-4B7E-BA00-15724A543F0E', -- Placed
+		StartStatus = '796C212F-6003-4CD3-878D-53BEBE087E9A', -- Placed
 		PlannedEndDate = iep.NextAnnualDate,
 		IsTransitional = cast(NULL as bit),
 		VersionDestID = ver.DestID,
@@ -53,9 +53,10 @@ AS
 				from StudentGradeLevelHistory glq JOIN
 					 GradeLevel g on glq.GradeLevelID = g.ID
 				where glq.StudentID = gl.StudentID )
-
 GO
 -- last line
+
+
 
 
 

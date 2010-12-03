@@ -8,7 +8,7 @@ AS
 		DefID = d.ID,
 		ItemID = i.DestID,
 		VersionID = i.VersionDestID,
-		DestID = s.ID,
+		DestID = isnull(s.ID, newid()),
 	   FormInstanceID = fi.ID
 	FROM
 		AURORAX.Transform_Iep i CROSS JOIN
@@ -21,8 +21,8 @@ AS
 	WHERE
 		d.ID IN 
 			(
-			'0108601F-4978-450A-AA26-7324B7A685CC', --IEP Dates
-			'1A58E911-5016-471F-BBA5-04FB374D6145' --IEP Demographics
+			'0108601F-4978-450A-AA26-7324B7A685CC' --IEP Dates
+--			'1A58E911-5016-471F-BBA5-04FB374D6145' --IEP Demographics
 			/*
 			-- SUPPORTED SECTION DEFINITION OPTIONS --
 				select '''' + CAST(d.ID as varchar(36)) + ''', --' + t.Name
