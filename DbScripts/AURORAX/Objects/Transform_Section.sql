@@ -5,32 +5,48 @@ GO
 CREATE VIEW AURORAX.Transform_Section
 AS
 	SELECT
-		DefID = d.ID,
-		ItemID = i.DestID,
-		VersionID = i.VersionDestID,
 		DestID = isnull(s.ID, newid()),
-	   FormInstanceID = fi.ID
+		ItemID = i.DestID,
+		DefID = d.ID,
+		VersionID = i.VersionDestID,
+		FormInstanceID = fi.ID
 	FROM
 		AURORAX.Transform_Iep i CROSS JOIN
-		PrgSectionDef d LEFT JOIN
+		PrgSectionDef d LEFT JOIN -- left join???????
 		PrgSection s ON 
 			s.VersionID = i.VersionDestID AND
 			s.DefID = d.ID LEFT JOIN
-	 FormInstance fi ON 
-		  s.FormInstanceID = fi.ID -- is it necessary to join to PrgItemForm ?
+		FormInstance fi ON 
+			s.FormInstanceID = fi.ID -- is it necessary to join to PrgItemForm ?
 	WHERE
 		d.ID IN 
 			(
-			'0108601F-4978-450A-AA26-7324B7A685CC' --IEP Dates
---			'1A58E911-5016-471F-BBA5-04FB374D6145' --IEP Demographics
-			/*
-			-- SUPPORTED SECTION DEFINITION OPTIONS --
-				select '''' + CAST(d.ID as varchar(36)) + ''', --' + t.Name
+				'9AC79680-7989-4CC9-8116-1CCDB1D0AE5F', --IEP Services
+				'0CBA436F-8043-4D22-8F3D-289E057F1AAB', --IEP LRE
+				'F050EF5E-3ED8-43D5-8FE7-B122502DE86A', --Sped Eligibility Determination
+				'EE479921-3ECB-409A-96D7-61C8E7BA0E7B', --IEP Dates
+				'427AF47C-A2D2-47F0-8057-7040725E3D89' --IEP Demographics
+				/*
+				-- SUPPORTED SECTION DEFINITION OPTIONS --
+				select '''' + CAST(d.ID as varchar(36)) + ''', --' + t.Name, d.ItemDefID, t.*
 				from
-					 PrgSectionType t join
-					 PrgSectionDef d on
-					 d.TypeID = t.ID and
-					 d.ItemDefID = '128417C8-782E-4E91-84BE-C0621442F29E' -- IEP - Direct Placement
-			*/
-			)
+				PrgSectionType t join
+				PrgSectionDef d on
+				d.TypeID = t.ID and
+				d.ItemDefID = '8011D6A2-1014-454B-B83C-161CE678E3D3' -- IEP - Direct Placement
+				order by t.Name
+
+				*/
+		)
 GO
+
+-- select count(*) from AURORAX.Transform_Section
+
+-- select 2576/2 -- = 1288
+
+
+-- select * from AURORAX.Transform_Section
+
+-- sp_helptext 'AURORAX.Transform_Section'
+
+

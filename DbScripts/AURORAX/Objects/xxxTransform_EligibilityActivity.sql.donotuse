@@ -1,0 +1,55 @@
+IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'AURORAX.Transform_EligibilityActivity') AND OBJECTPROPERTY(id, N'IsView') = 1)
+DROP VIEW AURORAX.Transform_EligibilityActivity
+GO
+
+CREATE VIEW AURORAX.Transform_EligibilityActivity
+AS
+
+	SELECT
+		iep.SASID,
+		iep.IEPPKID,
+		act.DestID,
+		ItemDefID = '128417C8-782E-4E91-84BE-C0621442F29E',
+		StudentID = iep.StudentID,
+		StartDate = dis.StartDate,
+		CreatedDate = iep.StartDate,
+		CreatedBy = iep.CreatedBy,
+		SchoolID = iep.SchoolID,
+		GradeLevelID = iep.GradeLevelID,
+		InvolvementID = iep.InvolvementID,
+		StartStatus = '64736B6C-4C2C-4CE0-BED1-3EA7D825B2D6', -- Eligible
+		ReasonID = 'xxx', -- imported from EO
+		SectionDestID = ISNULL(sec.ID, NEWID()),
+		SectionDefID = 'F050EF5E-3ED8-43D5-8FE7-B122502DE86A',
+		VersionDestID = CAST(NULL AS UNIQUEIDENTIFIER)
+	FROM
+		AURORAX.Transform_Iep iep JOIN
+		(	-- has disability records
+			SELECT IEPPKID, StartDate = MIN(convert(datetime, IEPMeetingDate)) -- used createdate in Excent Transform
+			FROM AURORAX.IEP_Data
+			GROUP BY IEPPKID
+		) dis ON dis.IEPPKID = iep.IEPPKID LEFT JOIN
+		AURORAX.MAP_EligibilityActivityID act ON act.SASID = iep.SASID LEFT JOIN
+		PrgSection sec on sec.DefID = 'F050EF5E-3ED8-43D5-8FE7-B122502DE86A' and -- Sped Eligibility Determination
+			sec.ItemID = act.DestID
+
+GO
+
+/*
+
+select * 
+from Richland1EnrichDev..EnumValue where ID = 'FF63110D-D40A-407C-99BF-3A8C77EE4CDD'
+
+
+
+select name Name1, Description Description1, * from PrgItemDef -- where Name like 'Disab%'
+where ProgramID = '9F5E8A89-D027-4076-9759-FFED1B107E94'
+order by name1
+
+
+select * from Richland1EnrichDev..PrgItemDef where ID = '2DD5FDB4-85E6-4F8F-BF8A-44E962B7D416'
+
+*/
+
+
+

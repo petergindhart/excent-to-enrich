@@ -26,3 +26,7 @@ SELECT
 	Description = cast(NULL as varchar(max)),
 	DefaultProviderTitle = cast(NULL as varchar(100))
 GO
+
+
+
+
