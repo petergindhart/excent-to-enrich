@@ -39,14 +39,3 @@ AS
 				*/
 		)
 GO
-
--- select count(*) from AURORAX.Transform_Section
-
--- select 2576/2 -- = 1288
-
-
--- select * from AURORAX.Transform_Section
-
--- sp_helptext 'AURORAX.Transform_Section'
-
-

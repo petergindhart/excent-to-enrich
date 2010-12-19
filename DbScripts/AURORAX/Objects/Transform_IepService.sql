@@ -16,13 +16,13 @@ AS
 		EndDate = v.EndDate,
 		Amount = cast(v.ServiceTime as float)*60, -- must convert to int.  Provided in hours, calculate minutes
 		UnitID = '347548AB-489D-47C4-BE54-63FCF3859FD7', -- APS provides in hrs, converting to minutes
-		FrequencyID = freq.DestID, -- populate the lookup
+		FrequencyID = freq.DestID, 
 		ProviderTitle = prov.PositionDescription, 
 		Sequence = (
 				SELECT count(*)+1
 				FROM AURORAX.Service_Data
 				WHERE SASID = v.SASID AND
-				PKID < v.PKID -- no order by nec?
+				PKID < v.PKID 
 			),
 		RelatedID = case when isnull(v.IsRelated,0) = 0 then '4570E6F2-2691-4BB1-9BBB-A62AC3BEECB7' else '4CA5DB1F-2CAC-4DDC-B856-B4B8BFE88BDD' end,
 		DirectID = case when isnull(v.IsDirect,0) = 0 then '1A8BF908-E3ED-45B0-8EEC-99CB1AD0806F' else 'A7061714-ADA3-44F7-8329-159DD4AE2ECE' end, 
@@ -41,11 +41,3 @@ FROM
 	-- dbo.IepServiceDef sd on v.ServDesc = sd.Name -- we don't have this data yet
 	dbo.IepService dv on m.DestID = dv.ID
 GO
-
--- select * from AURORAX.Transform_IepService
--- select * from IepService
--- select * from AURORAX.PositionId
--- select * from AURORAX.Service_Data
-
-
-

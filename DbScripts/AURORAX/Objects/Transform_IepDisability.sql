@@ -8,9 +8,12 @@ AS
 		d.DisabilityCode,
 		DestID = m.DestID,
 		Name = d.DisabilityDesc,
-		Definition = d.DisabilityCode,
-		DeterminationFormTemplateID = CAST(NULL AS UNIQUEIDENTIFIER)
+		Definition = isnull(i.Definition, '<div></div>'),
+		i.DeterminationFormTemplateID 
 	FROM
 		AURORAX.DisabilityCode d LEFT JOIN
-		AURORAX.MAP_IepDisabilityID m on d.DisabilityCode = m.DisabilityCode
+		AURORAX.MAP_IepDisabilityID m on d.DisabilityCode = m.DisabilityCode LEFT JOIN
+		IepDisability i on m.DestId = i.ID
+	WHERE
+		d.DisabilityCode <> '00' 
 GO
