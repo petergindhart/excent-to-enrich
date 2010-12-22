@@ -17,7 +17,7 @@ AS
 		Amount = cast(v.ServiceTime as float)*60, -- must convert to int.  Provided in hours, calculate minutes
 		UnitID = '347548AB-489D-47C4-BE54-63FCF3859FD7', -- APS provides in hrs, converting to minutes
 		FrequencyID = freq.DestID, 
-		ProviderTitle = prov.PositionDescription, 
+		ProviderTitle = prov.PositionDescription, -- up to 100 characters
 		Sequence = (
 				SELECT count(*)+1
 				FROM AURORAX.Service_Data

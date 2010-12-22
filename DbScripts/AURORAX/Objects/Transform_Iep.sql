@@ -1,5 +1,5 @@
-IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'[AURORAX].[Transform_Iep]') AND OBJECTPROPERTY(id, N'IsView') = 1)
-DROP VIEW [AURORAX].[Transform_Iep]
+IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'AURORAX.Transform_Iep') AND OBJECTPROPERTY(id, N'IsView') = 1)
+DROP VIEW AURORAX.Transform_Iep
 GO
 
 CREATE VIEW AURORAX.Transform_Iep
@@ -15,22 +15,23 @@ AS
 		DefID = '8011D6A2-1014-454B-B83C-161CE678E3D3', -- PrgItemDef			Converted IEP
 		StudentID = stu.DestID,
 		StartDate = cast(iep.IEPMeetingDate as datetime),
-		EndDate = CASE WHEN cast(iep.NextAnnualDate as datetime) > GETDATE() THEN NULL ELSE cast(iep.NextAnnualDate as datetime) END,
+		EndDate = cast(NULL as datetime), -- CASE WHEN cast(iep.NextAnnualDate as datetime) > GETDATE() THEN NULL ELSE cast(iep.NextAnnualDate as datetime) END,
+		ItemOutcomeID = cast(NULL as uniqueidentifier),
 		CreatedDate = cast(iep.IEPMeetingDate as datetime),
 		CreatedBy = 'EEE133BD-C557-47E1-AB67-EE413DD3D1AB', -- BuiltIn: Support
+		EndedDate = cast(NULL as datetime),
+		EndedBy = cast(NULL as uniqueidentifier),
 		SchoolID = sch.SchoolID,
 		GradeLevelID = gl.GradeLevelID,
 		InvolvementID = inv.DestID,
 		StartStatus = '796C212F-6003-4CD3-878D-53BEBE087E9A', -- Placed
+		-- StartStatusID = cast(NULL as uniqueidentifier)
+		EndStatusID = cast(NULL as uniqueidentifier),
 		PlannedEndDate = cast(iep.NextAnnualDate as datetime),
+		-- how and where are the following columns used?
 		IsTransitional = cast(0 as bit),
 		VersionDestID = ver.DestID,
-		VersionFinalizedDate = cast(iep.IEPMeetingDate as datetime),
-		EndStatusID = cast(NULL as uniqueidentifier),
-		StartStatusID = cast(NULL as uniqueidentifier),
-		ItemOutcomeID = cast(NULL as uniqueidentifier),
-		EndedDate = cast(NULL as datetime),
-		EndedBy = cast(NULL as uniqueidentifier)
+		VersionFinalizedDate = cast(iep.IEPMeetingDate as datetime)
 	from AURORAX.MAP_StudentID stu JOIN
 		AURORAX.IEP_Data iep ON stu.SASID = iep.SASID JOIN
 			(
@@ -69,9 +70,4 @@ AS
  		AND
 		stu.DestID = (
 		select distinct gl.StudentID from StudentGradeLevelHistory gl where gl.StudentID = stu.DestID and dbo.DateInRange(iep.IEPMeetingDate, gl.StartDate, gl.EndDate) = 1 	) -- 3556
-
 GO
--- last line
--- select * from AURORAX.Transform_Iep -- 1479, some involvementids are null -- 1442 non-null involvements
-
-

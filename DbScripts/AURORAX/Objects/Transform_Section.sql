@@ -4,6 +4,7 @@ GO
 
 CREATE VIEW AURORAX.Transform_Section
 AS
+	-- versioned sections
 	SELECT
 		DestID = isnull(s.ID, newid()),
 		ItemID = i.DestID,
@@ -29,13 +30,39 @@ AS
 				/*
 				-- SUPPORTED SECTION DEFINITION OPTIONS --
 				select '''' + CAST(d.ID as varchar(36)) + ''', --' + t.Name, d.ItemDefID, t.*
-				from
-				PrgSectionType t join
-				PrgSectionDef d on
-				d.TypeID = t.ID and
-				d.ItemDefID = '8011D6A2-1014-454B-B83C-161CE678E3D3' -- IEP - Direct Placement
+				from PrgSectionType t join
+				PrgSectionDef d on d.TypeID = t.ID and d.ItemDefID = '8011D6A2-1014-454B-B83C-161CE678E3D3' -- IEP - Direct Placement
+				where d.IsVersioned = 1
 				order by t.Name
-
+				*/
+		)
+union all
+	-- non-versioned sections
+	SELECT
+		DestID = isnull(s.ID, newid()),
+		ItemID = i.DestID,
+		DefID = d.ID,
+		VersionID = NULL,
+		FormInstanceID = fi.ID
+	FROM
+		AURORAX.Transform_Iep i CROSS JOIN
+		PrgSectionDef d LEFT JOIN -- left join???????
+		PrgSection s ON 
+			s.VersionID is null AND
+			s.DefID = d.ID LEFT JOIN
+		FormInstance fi ON 
+			s.FormInstanceID = fi.ID -- is it necessary to join to PrgItemForm ?
+	WHERE
+		d.ID IN
+			(
+				'D83A4710-A69F-4310-91F8-CB5BFFB1FE4C' --Sped Consent Services -- non-versioned, don't set the versionid, don't fail the join 
+				/*
+				-- SUPPORTED SECTION DEFINITION OPTIONS --
+				select '''' + CAST(d.ID as varchar(36)) + ''', --' + t.Name, d.ItemDefID, t.*, d.*
+				from PrgSectionType t join
+					PrgSectionDef d on d.TypeID = t.ID and d.ItemDefID = '8011D6A2-1014-454B-B83C-161CE678E3D3' -- IEP - Direct Placement
+				where d.IsVersioned = 0
+				order by t.Name
 				*/
 		)
 GO

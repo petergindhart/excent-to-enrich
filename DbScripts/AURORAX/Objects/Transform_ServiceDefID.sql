@@ -24,13 +24,3 @@ SELECT
 	Description = cast(NULL as varchar(max)),
 	DefaultProviderTitle = cast(NULL as varchar(100))
 GO
-
-
--- select * from AURORAX.Transform_LRE
--- select * from AURORAX.ServiceDefinitionCode
-
--- select * from IepServiceDef -- where ID = '1CF4FFF7-D17D-4B76-BAE4-9CD0183DD008'
-
-
--- select * from AURORAX.LeastRestrictiveEnvironmentCode
-
