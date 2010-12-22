@@ -48,9 +48,10 @@ union all
 		AURORAX.Transform_Iep i CROSS JOIN
 		PrgSectionDef d LEFT JOIN -- left join???????
 		PrgSection s ON 
-			s.VersionID is null AND
-			s.DefID = d.ID LEFT JOIN
-		FormInstance fi ON 
+			s.DefID = d.ID AND
+			s.ItemID = i.DestID AND
+			s.VersionID is null LEFT JOIN
+		FormInstance fi ON
 			s.FormInstanceID = fi.ID -- is it necessary to join to PrgItemForm ?
 	WHERE
 		d.ID IN
