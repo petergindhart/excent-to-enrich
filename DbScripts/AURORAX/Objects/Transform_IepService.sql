@@ -9,7 +9,7 @@ AS
 		DestID = m.DestID,
 		InstanceID = sec.ID,
 		v.PKID,
-		DefID = '1CF4FFF7-D17D-4B76-BAE4-9CD0183DD008',
+		DefID = '1CF4FFF7-D17D-4B76-BAE4-9CD0183DD008', -- defaulting to this IepServiceDef for now.  likely requires map
 		DeliveryStatement = cast(NULL as text),
 		Location = loc.ServiceLocationDescription, -- there is no Lookup in Enrich.  Get from APS file
 		StartDate = v.BeginDate,
