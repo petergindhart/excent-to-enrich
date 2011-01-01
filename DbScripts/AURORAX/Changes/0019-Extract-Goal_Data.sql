@@ -22,3 +22,27 @@ CREATE VIEW [AURORAX].[Goal_Data]
 AS
 	SELECT * FROM [AURORAX].[Goal_Data_LOCAL]
 GO
+
+-- #############################################################################
+
+IF  EXISTS (SELECT 1 FROM sys.objects WHERE object_id = OBJECT_ID(N'AURORAX.MAP_PrgGoalID') AND type in (N'U'))
+DROP TABLE AURORAX.MAP_PrgGoalID
+GO
+
+CREATE TABLE AURORAX.MAP_PrgGoalID (
+GoalPKID INT not null,
+DestID	uniqueidentifier not null
+)
+
+
+-- #############################################################################
+
+
+IF  EXISTS (SELECT 1 FROM sys.objects WHERE object_id = OBJECT_ID(N'AURORAX.MAP_GoalScheduleID') AND type in (N'U'))
+DROP TABLE AURORAX.MAP_GoalScheduleID
+GO
+
+CREATE TABLE AURORAX.MAP_GoalScheduleID (
+GoalPKID INT not null,
+DestID	uniqueidentifier not null
+)

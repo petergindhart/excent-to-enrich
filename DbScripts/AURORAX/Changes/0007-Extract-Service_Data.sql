@@ -11,7 +11,7 @@ PKID							INT,
 SASID							varchar(20),
 BeginDate					datetime,
 EndDate						datetime,
-IsRelated					varchar(1),
+IsRelated					varchar(1), -- should be a bit?
 IsDirect						varchar(1),
 ExcludesFromGenEd			varchar(1),
 ServiceLocationCode		varchar(5),

@@ -21,3 +21,14 @@ CREATE VIEW [AURORAX].[Objective_Data]
 AS
 	SELECT * FROM [AURORAX].[Objective_Data_LOCAL]
 GO
+
+-- #############################################################################
+
+IF  EXISTS (SELECT 1 FROM sys.objects WHERE object_id = OBJECT_ID(N'AURORAX.MAP_PrgGoalObjectiveID') AND type in (N'U'))
+DROP TABLE AURORAX.MAP_PrgGoalObjectiveID
+GO
+
+CREATE TABLE AURORAX.MAP_PrgGoalObjectiveID (
+ObjPKID INT not null,
+DestID	uniqueidentifier not null
+)

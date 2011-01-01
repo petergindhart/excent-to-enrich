@@ -8,7 +8,8 @@ GO
 
 CREATE TABLE [AURORAX].[PostSchoolAreaCode_LOCAL](
 PostSchoolAreaCode    varchar(10) NOT NULL,
-PostSchoolAreaDescription    varchar(100) NOT NULL
+PostSchoolAreaDescription    varchar(100) NOT NULL,
+Sequence					int				NULL
 )
 GO
 

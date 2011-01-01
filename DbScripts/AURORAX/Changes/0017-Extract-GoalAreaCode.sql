@@ -8,7 +8,8 @@ GO
 
 CREATE TABLE [AURORAX].[GoalAreaCode_LOCAL](
 GoalAreaCode			varchar(10)	not null,
-GoalAreaDescription	varchar(100)	not null
+GoalAreaDescription	varchar(100)	not null,
+Sequence					int				NULL
 )
 GO
 
@@ -17,4 +18,3 @@ CREATE VIEW [AURORAX].[GoalAreaCode]
 AS
 	SELECT * FROM [AURORAX].[GoalAreaCode_LOCAL]
 GO
-
