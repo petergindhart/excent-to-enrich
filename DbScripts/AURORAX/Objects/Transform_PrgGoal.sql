@@ -17,7 +17,7 @@ AS
 				WHERE IEPPKID = g.IEPPKID AND
 				isnull(Sequence, GoalPKID) < isnull(g.Sequence, g.GoalPKID)
 			), 
-		IsProbeGoal = cast(1 as bit), -- imitating behavior of inserting a goal from UI
+		IsProbeGoal = cast(0 as bit), -- imitating behavior of inserting a goal from UI
 		TargetDate = iep.PlannedEndDate, -- assumption
 		GoalStatement = cast(g.GoalStatement as text), 
 		ProbeTypeID = cast(NULL as uniqueidentifier), -- Defaulted - this will be entered on the UI
