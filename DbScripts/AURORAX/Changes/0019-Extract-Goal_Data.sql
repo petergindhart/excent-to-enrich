@@ -13,7 +13,7 @@ IEPPKID    varchar(10) null,
 Sequence    varchar(3) null, 
 GoalAreaCOde    varchar(10) null, 
 PostSchoolAreaCode    varchar(10) null,
-IsEsy    varchar(1) null, 
+IsEsy    varchar(1) null,
 GoalStatement    varchar(4000) null
 )
 GO
@@ -34,9 +34,7 @@ GoalPKID INT not null,
 DestID	uniqueidentifier not null
 )
 
-
 -- #############################################################################
-
 
 IF  EXISTS (SELECT 1 FROM sys.objects WHERE object_id = OBJECT_ID(N'AURORAX.MAP_GoalScheduleID') AND type in (N'U'))
 DROP TABLE AURORAX.MAP_GoalScheduleID

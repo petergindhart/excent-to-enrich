@@ -12,4 +12,3 @@ AS
 		AURORAX.MAP_GoalScheduleID m on g.GoalPKID = m.GoalPKID LEFT JOIN 
 		dbo.Schedule s on m.DestID = s.ID 
 GO
--- select * from [AURORAX].[Transform_GoalSchedule]

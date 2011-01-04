@@ -16,7 +16,6 @@ ObjText    varchar(4000) null
 )
 GO
 
-
 CREATE VIEW [AURORAX].[Objective_Data]
 AS
 	SELECT * FROM [AURORAX].[Objective_Data_LOCAL]

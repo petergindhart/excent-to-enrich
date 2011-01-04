@@ -17,7 +17,7 @@ from (
 		Sequence = cast(0 as int),
 		Name = CONVERT(VARCHAR(100), 'No Goal Area Selected'),
 		AllowCustomProbes = cast(0 as bit)
-	FROM AURORAX.MAP_IepGoalAreaID m 
+	FROM AURORAX.MAP_IepGoalAreaID m
 	WHERE GoalAreaCode = '00'
 	UNION
 	SELECT
@@ -35,3 +35,4 @@ from (
 	) t LEFT JOIN
 	dbo.IepGoalArea ga on t.DestID = ga.ID
 GO
+-- last line

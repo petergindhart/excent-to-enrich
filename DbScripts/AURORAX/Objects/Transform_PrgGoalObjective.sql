@@ -22,4 +22,3 @@ AS
 		AURORAX.MAP_PrgGoalObjectiveID m on o.ObjPKID = m.ObjPKID LEFT JOIN
 		dbo.PrgGoalObjective d on m.DestID = d.ID
 GO
--- select * from AURORAX.Transform_PrgGoalObjective

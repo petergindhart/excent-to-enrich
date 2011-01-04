@@ -68,3 +68,4 @@ union all
 				*/
 		)
 GO
+-- last line

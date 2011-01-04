@@ -48,4 +48,3 @@ AS
 		AURORAX.MAP_IepGoalAreaID ga on g.GoalAreaCode = ga.GoalAreaCode LEFT JOIN
 		AURORAX.MAP_IepPostSchoolAreaDefID ps on g.PostSchoolAreaCode = ps.PostSchoolAreaCode 
 GO
--- select * from [AURORAX].[Transform_PrgGoal]

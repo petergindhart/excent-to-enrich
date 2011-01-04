@@ -12,7 +12,6 @@ ServiceDefinitionDescription	varchar(100)	not null
 )
 GO
 
-
 CREATE VIEW AURORAX.ServiceDefinitionCode
 AS
 	SELECT * FROM AURORAX.ServiceDefinitionCode_LOCAL

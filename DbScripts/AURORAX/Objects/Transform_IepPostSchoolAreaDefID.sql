@@ -29,5 +29,3 @@ done visually, and the GUIDs come from the CO-Template data.
 		AURORAX.MAP_IepPostSchoolAreaDefID m on c.PostSchoolAreaCode = m.PostSchoolAreaCode LEFT JOIN
 		dbo.IepPostSchoolAreaDef ga on m.DestID = ga.ID
 GO
--- select * from dbo.IepPostSchoolAreaDef
--- select * from AURORAX.Transform_IepPostSchoolAreaDefID

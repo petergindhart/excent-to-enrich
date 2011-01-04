@@ -23,7 +23,6 @@ insert AURORAX.MAP_IepGoalAreaID values ('02', '37EA0554-EC3F-4B95-AAD7-A52DECC7
 insert AURORAX.MAP_IepGoalAreaID values ('03', '0E95D360-5CBE-4ECA-820F-CC25864D70D8')
 go
 
-
 -- IepPostSchoolGoalID
 IF  EXISTS (SELECT 1 FROM sys.objects WHERE object_id = OBJECT_ID(N'AURORAX.MAP_IepPostSchoolAreaDefID') AND type in (N'U'))
 DROP TABLE AURORAX.MAP_IepPostSchoolAreaDefID

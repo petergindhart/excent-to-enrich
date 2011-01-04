@@ -13,7 +13,6 @@ Sequence					int				NULL
 )
 GO
 
-
 CREATE VIEW [AURORAX].[PostSchoolAreaCode]
 AS
 	SELECT * FROM [AURORAX].[PostSchoolAreaCode_LOCAL]
