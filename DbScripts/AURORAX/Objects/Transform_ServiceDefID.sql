@@ -1,26 +1,33 @@
-IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'AURORAX.Transform_ServiceDefID') AND OBJECTPROPERTY(id, N'IsView') = 1)
-DROP VIEW AURORAX.Transform_ServiceDefID
+IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'[AURORAX].[Transform_ServiceDefID]') AND OBJECTPROPERTY(id, N'IsView') = 1)
+DROP VIEW [AURORAX].[Transform_ServiceDefID]
 GO
 
-CREATE VIEW AURORAX.Transform_ServiceDefID 
+CREATE VIEW AURORAX.Transform_ServiceDefID
 AS
-SELECT 
-	t.DestID, 
-	Name = t.Name, 
-	Description = cast(NULL as varchar(max)),
-	DefaultProviderTitle = cast(NULL as varchar(100))
-FROM (
-	SELECT m.DestID,
-		Name = c.ServiceDefinitionDescription
-	FROM
-		AURORAX.ServiceDefinitionCode c JOIN
-		AURORAX.MAP_ServiceDefID m on c.ServiceDefinitionCode = m.ServiceDefinitionCode LEFT JOIN
-		IepServiceDef sd on m.DestID = sd.ID
-	) t
-UNION ALL
-SELECT
-	DestID = cast('1CF4FFF7-D17D-4B76-BAE4-9CD0183DD008' as uniqueidentifier), 
-	Name = CONVERT(VARCHAR(100), 'Unknown'), 
-	Description = cast(NULL as varchar(max)),
-	DefaultProviderTitle = cast(NULL as varchar(100))
+/*
+	This transform looks at the service table in order to exclude service definiation codes that are not used.
+	Unusual in that it uses 2 maps, a static map for the hard-coded mappings and a maintainable map.
+*/
+ SELECT
+  x.ServiceDefCode,
+  x.HardMap,
+  x.DestID,
+  TypeID = 'D3945E9D-AA0E-4555-BCB2-F8CA95CC7784',
+  Name = isnull(i.Name, x.Label),
+  Description = cast(NULL as text),
+  DefaultLocationID = cast(NULL as uniqueidentifier)
+ from (
+  select distinct
+   ServiceDefCode = x.Code,
+   HardMap = case when ms.ServiceDefCode is null then 0 else 1 end,
+   DestID = isnull(ms.DestID, m.DestID),
+   Label = isnull(d.Name, right(x.Label, len(x.Label)-(patindex('% - %', x.Label)+2)))
+  FROM
+   AURORAX.Lookups x join
+   AURORAX.Service v on x.Code = v.ServiceDefinitionCode and x.Type = 'Service' LEFT JOIN
+   AURORAX.MAP_ServiceDefID m on v.ServiceDefinitionCode = m.ServiceDefCode LEFT JOIN
+   AURORAX.MAP_ServiceDefIDstatic ms on x.code = ms.ServiceDefCode LEFT JOIN
+   ServiceDef d on ms.DestID = d.ID
+  ) x LEFT JOIN
+ ServiceDef i on x.DestId = i.ID
 GO

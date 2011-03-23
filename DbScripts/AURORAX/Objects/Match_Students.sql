@@ -4,9 +4,11 @@ GO
 
 CREATE VIEW [AURORAX].[Match_Students]
 AS
-	SELECT distinct a.SASID, b.ID [DestID]
+	SELECT a.StudentRefID, b.ID [DestID]
 	from
-		AURORAX.IEP_Data a join
+		AURORAX.Student a join
 		dbo.Student b on
-			a.StudentID = b.Number
+			a.StudentRefID = b.Number and
+			a.Lastname = b.LastName 
+			-- b.CurrentSchoolID is not null and --currently only active students; will update aftor manual student refactor
 GO

@@ -4,8 +4,8 @@ GO
 
 CREATE VIEW [AURORAX].[Transform_IepServices]
 AS
-	SELECT 
-		IEP.SASID,
+	SELECT
+		IEP.IepRefId,
 		DestID = sec.ID,
 		DeliveryStatement = cast(NULL as text)
 	FROM
