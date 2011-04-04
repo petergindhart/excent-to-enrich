@@ -90,7 +90,7 @@ GO
 ALTER TABLE AURORAX.Map_ServiceFrequencyID ADD CONSTRAINT
 PK_Map_ServiceFrequencyID PRIMARY KEY CLUSTERED
 (
-	DestID
+	ServiceFrequencyCode
 )
 GO
 
@@ -293,6 +293,68 @@ ALTER TABLE [AURORAX].[MAP_OutcomeID] ADD CONSTRAINT
 	) ON [PRIMARY]
 GO
 
+-- #############################################################################
+-- ServicePlan
+IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'AURORAX.MAP_ServicePlanID') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
+	DROP TABLE AURORAX.MAP_ServicePlanID
+GO
+CREATE TABLE AURORAX.MAP_ServicePlanID
+	(
+	ServiceRefID nvarchar(150) NOT NULL,
+	DestID uniqueidentifier NOT NULL
+	) 
+GO
+ALTER TABLE AURORAX.MAP_ServicePlanID ADD CONSTRAINT
+	PK_MAP_ServicePlanID PRIMARY KEY CLUSTERED
+	(
+	ServiceRefID
+	)
+GO
+
+-- #############################################################################
+-- Service Location
+-- static table for those values that are already in CO-template at time of developement - using static map to prevent deleting with ETL code
+IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'AURORAX.MAP_ServiceLocationIDstatic') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
+	DROP TABLE AURORAX.MAP_ServiceLocationIDstatic
+GO
+
+CREATE TABLE AURORAX.MAP_ServiceLocationIDstatic
+	(
+	ServiceLocationCode nvarchar(150) NOT NULL,
+	DestID uniqueidentifier NOT NULL
+	)
+GO
+ALTER TABLE AURORAX.MAP_ServiceLocationIDstatic ADD CONSTRAINT
+	PK_MAP_ServiceLocationID PRIMARY KEY CLUSTERED
+	(
+	ServiceLocationCode
+	)
+GO
+
+
+
+IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'AURORAX.MAP_ServiceLocationID') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
+	DROP TABLE AURORAX.MAP_ServiceLocationID
+GO
+
+CREATE TABLE AURORAX.MAP_ServiceLocationID
+	(
+	ServiceLocationCode nvarchar(150) NOT NULL,
+	DestID uniqueidentifier NOT NULL
+	)
+GO
+ALTER TABLE AURORAX.MAP_ServiceLocationID ADD CONSTRAINT
+	PK_MAP_ServiceLocationID PRIMARY KEY CLUSTERED
+	(
+	ServiceLocationCode
+	)
+GO
+
+
+
+
+
+
 
 
 set nocount on;
@@ -427,7 +489,9 @@ insert AURORAX.MAP_IepDisabilityID values ('16', '8AFF29C4-A480-4AE2-BBDC-DDE429
 insert AURORAX.Map_ServiceFrequencyID values ('01', 'A2080478-1A03-4928-905B-ED25DEC259E6')
 insert AURORAX.Map_ServiceFrequencyID values ('02', '3D4B557B-0C2E-4A41-9410-BA331F1D20DD')
 insert AURORAX.Map_ServiceFrequencyID values ('03', '5F3A2822-56F3-49DA-9592-F604B0F202C3')
+insert AURORAX.MAP_ServiceFrequencyID values ('AN', 'E2996A26-3DB5-42F3-907A-9F251F58AB09')
 insert AURORAX.Map_ServiceFrequencyID values ('D', '71590A00-2C40-40FF-ABD9-E73B09AF46A1')
+insert AURORAX.MAP_ServiceFrequencyID values ('ESY', 'E2996A26-3DB5-42F3-907A-9F251F58AB09')
 
 
 -- Service Def ID (static MAP)
@@ -450,6 +514,29 @@ insert AURORAX.Map_ServiceDefIDstatic (ServiceDefCode, DestID) values ('SvcRelSW
 insert AURORAX.Map_ServiceDefIDstatic (ServiceDefCode, DestID) values ('SvcRelSWI', 'C6BF0D48-6C01-456A-8661-227903696CA5')
 insert AURORAX.Map_ServiceDefIDstatic (ServiceDefCode, DestID) values ('SvcRelSLP', 'BF859DEF-67A2-4285-A871-E80315AF3BD5')
 insert AURORAX.Map_ServiceDefIDstatic (ServiceDefCode, DestID) values ('SvcRelSPCI', 'BF859DEF-67A2-4285-A871-E80315AF3BD5')
+
+insert AURORAX.Map_ServiceDefID (ServiceDefCode, DestID)
+select ServiceDefCode, DestID from AURORAX.Map_ServiceDefIDstatic
+
+
+-- Service Location
+insert AURORAX.MAP_ServiceLocationIDstatic values ('01', '27D86DFE-218E-4E1B-A6DB-8B8E74D6F8BA')
+insert AURORAX.MAP_ServiceLocationIDstatic values ('04', '465C097B-DEC0-4E20-ACDC-2ACF9E7F5DEF')
+insert AURORAX.MAP_ServiceLocationIDstatic values ('05', '2D48D839-511D-4CBA-9E72-BDE1348EDCFB')
+insert AURORAX.MAP_ServiceLocationIDstatic values ('06', '7A691C77-B4D6-4D4D-8A29-131FC1E7A33A')
+insert AURORAX.MAP_ServiceLocationIDstatic values ('18', '701DF30A-7C66-423D-9796-DE5B5CB97139')
+insert AURORAX.MAP_ServiceLocationIDstatic values ('20', 'B1DA5BF5-325B-496F-A0B2-4AEAA6085C64')
+insert AURORAX.MAP_ServiceLocationIDstatic values ('21', 'E9DD5433-BC4C-4817-BF1D-A0B9203BAB8B')
+insert AURORAX.MAP_ServiceLocationIDstatic values ('24', '8FC37445-260F-4185-8E43-F5EC8AFCDDB3')
+insert AURORAX.MAP_ServiceLocationIDstatic values ('COM', '8FC37445-260F-4185-8E43-F5EC8AFCDDB3')
+insert AURORAX.MAP_ServiceLocationIDstatic values ('HOM', '7A691C77-B4D6-4D4D-8A29-131FC1E7A33A')
+insert AURORAX.MAP_ServiceLocationIDstatic values ('SUM', '27D86DFE-218E-4E1B-A6DB-8B8E74D6F8BA')
+
+insert AURORAX.MAP_ServiceLocationID (ServiceLocationCode, DestID)
+select ServiceLocationCode, DestID from AURORAX.MAP_ServiceLocationIDstatic
+
+
+
 
 
 

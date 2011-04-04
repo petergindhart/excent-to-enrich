@@ -10,7 +10,7 @@ AS
 		iep.StudentRefID,
 		iep.IepRefID,
 		mt.DestID,
-		DefID = '251DA756-A67A-453C-A676-3B88C1B9340C', -- IEP
+		DefID = '8011D6A2-1014-454B-B83C-161CE678E3D3', -- Converted IEP
 		StudentID = stu.DestID,
 		ItemOutcomeID = cast(NULL as uniqueidentifier),
 		StartDate = iep.IEPMeetingDate,
