@@ -50,3 +50,4 @@ FROM
    AURORAX.MAP_ServiceProviderTitleID ttl on v.ServiceProviderCode = ttl.ServiceProviderCode LEFT JOIN
 	AURORAX.MAP_ScheduleID ssm on v.ServiceRefID = ssm.ServiceRefID 
 GO
+--

@@ -11,7 +11,7 @@ AS
 */
 select 
 	src.SchoolRefID, 
-	src.SchoolCode, 
+	src.SchoolCode,
 	DestID = isnull(tgt.ID, newid()),
 	Abbreviation = src.SchoolAbbreviation,
 	Name = src.SchoolName,
@@ -52,3 +52,4 @@ from (
 	) ss JOIN
 	AURORAX.School xs on ss.SchoolCode = xs.SchoolCode
 go
+--

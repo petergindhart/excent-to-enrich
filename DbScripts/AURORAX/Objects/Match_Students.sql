@@ -12,3 +12,4 @@ AS
 			a.Lastname = b.LastName 
 			-- b.CurrentSchoolID is not null and --currently only active students; will update aftor manual student refactor
 GO
+--

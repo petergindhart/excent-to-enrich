@@ -14,4 +14,3 @@ AS
 		sec.VersionID = iep.VersionDestID AND
 		sec.DefID = '84E5A67D-CC9A-4D5B-A7B8-C04E8C3B8E0A' --IEP Goals
 GO
--- last line

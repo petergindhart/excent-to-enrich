@@ -18,3 +18,4 @@ AS
 		x.Type = 'Disab' AND
 		x.Code <> '00' 
 GO
+--

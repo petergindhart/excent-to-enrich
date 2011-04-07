@@ -6,7 +6,7 @@ CREATE VIEW [AURORAX].[Transform_ServiceSchedule]
 AS  
  SELECT
   sched.DestID,
-  ScheduleID = sched.DestID, -- Hmm.   Sloppy?  Maybe.  But Expedient!  gg
+  ScheduleID = sched.DestID, -- Hmm.   Sloppy?  Maybe.  But Expedient!  gg 
   ServicePlanID = serv.DestID,
   serv.ProviderID,
   serv.Name,

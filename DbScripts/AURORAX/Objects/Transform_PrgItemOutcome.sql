@@ -7,7 +7,7 @@ AS
  SELECT   
   ExitReason = k.Code,
   m.DestID,   
-  CurrentDefID = '8011D6A2-1014-454B-B83C-161CE678E3D3',   
+  CurrentDefID = '8011D6A2-1014-454B-B83C-161CE678E3D3',
   Text = k.Label,   -- varchar(100)
   Sequence = (
     select count(*)+(select max(Sequence)+1 from PrgItemOutcome where CurrentDefID = '8011D6A2-1014-454B-B83C-161CE678E3D3') 
@@ -24,3 +24,4 @@ AS
  WHERE
   k.Type = 'ExitCode'
 GO  
+--

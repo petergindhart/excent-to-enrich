@@ -19,15 +19,4 @@ AS
 			sec.DefID = 'EE479921-3ECB-409A-96D7-61C8E7BA0E7B' JOIN --IEP Dates
 		  AURORAX.IEP i on iep.IepRefID = i.IepRefID
 GO
-
-/*
-select * from PrgSectionDef where ID = 'EE479921-3ECB-409A-96D7-61C8E7BA0E7B' 
-select * from PrgSectionType where ID = '7E6F8640-DEB8-441F-BD3A-4B2E96EAA6B4'
-
-
-select * from AURORAX.IEP 
-*/
-
-
-
-
+--

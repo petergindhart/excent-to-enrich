@@ -8,3 +8,4 @@ INSERT VC3ETL.ExtractDatabase (ID,Type,DatabaseType,Server,DatabaseOwner,Databas
 INSERT INTO VC3ETL.FlatFileExtractDatabase VALUES ('29D14961-928D-4BEE-9025-238496D144C6', 'D:\EnrichDataFiles')
 
 INSERT dbo.InformExtractDatabase (ID) values ('29D14961-928D-4BEE-9025-238496D144C6') -- note :  this was added after upgrade_db was run, but this was already in the db from earlier testing
+--

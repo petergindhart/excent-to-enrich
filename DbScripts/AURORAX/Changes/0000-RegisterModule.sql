@@ -8,3 +8,4 @@ exec VC3Deployment.CreateSchema 'AURORAX'
 exec VC3Deployment.AddModule 'AURORAX'
 exec VC3Deployment.AddModuleDependency @uses='AURORAX', @usedBy='dbo'
 exec VC3Deployment.AddModuleDependency @uses='AURORAX', @usedBy='VC3ETL'
+--

@@ -20,10 +20,11 @@ AS
   WeeklyThu = cast(0 as bit),   
   WeeklyFri = cast(0 as bit),   
   WeeklySat = cast(0 as bit),   
-  WeeklySun = cast(0 as bit),   
+  WeeklySun = cast(0 as bit),
   TimesPerDay = cast(0 as int)
  FROM  
   AURORAX.Service v LEFT JOIN
   AURORAX.MAP_ScheduleID m on v.ServiceRefID = m.ServiceRefID LEFT JOIN
   dbo.Schedule sched on m.DestID = sched.ID
 GO  
+--

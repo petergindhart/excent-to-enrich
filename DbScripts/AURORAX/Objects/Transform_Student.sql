@@ -55,3 +55,4 @@ AS
   AURORAX.MAP_StudentRefID ms on src.StudentRefID = ms.StudentRefID LEFT JOIN
   dbo.Student dest on ms.DestID = dest.ID
 GO
+--

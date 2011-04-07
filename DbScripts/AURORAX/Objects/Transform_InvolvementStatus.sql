@@ -13,3 +13,4 @@ select
 from AURORAX.Transform_IEP i left join
 	PrgInvolvementStatus s on i.InvolvementID = s.InvolvementID
 go
+--

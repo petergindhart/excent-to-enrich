@@ -22,3 +22,4 @@ CREATE VIEW [AURORAX].[Goal]
 AS  
  SELECT * FROM [AURORAX].[Goal_LOCAL]  
 GO
+--
