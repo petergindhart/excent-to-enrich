@@ -17,13 +17,13 @@ AS
 		PrgSection s ON
 			s.VersionID = i.VersionDestID AND
 			s.DefID = d.ID LEFT JOIN
-		FormInstance fi ON
+		FormInstance fi ON 
 			s.FormInstanceID = fi.ID -- is it necessary to join to PrgItemForm ?
 	WHERE
 		d.ID IN
 			(
 				'9AC79680-7989-4CC9-8116-1CCDB1D0AE5F', --IEP Services
-				'84E5A67D-CC9A-4D5B-A7B8-C04E8C3B8E0A', --IEP Goals
+--				'84E5A67D-CC9A-4D5B-A7B8-C04E8C3B8E0A', --IEP Goals
 				'0CBA436F-8043-4D22-8F3D-289E057F1AAB', --IEP LRE
 				'F050EF5E-3ED8-43D5-8FE7-B122502DE86A', --Sped Eligibility Determination
 				'427AF47C-A2D2-47F0-8057-7040725E3D89', --IEP Demographics
@@ -49,7 +49,7 @@ union all
 	FROM
 		AURORAX.Transform_Iep i CROSS JOIN
 		PrgSectionDef d LEFT JOIN -- left join???????
-		PrgSection s ON
+		PrgSection s ON 
 			s.DefID = d.ID AND
 			s.ItemID = i.DestID AND
 			s.VersionID is null LEFT JOIN
@@ -58,12 +58,12 @@ union all
 	WHERE
 		d.ID IN
 			(
-				'D83A4710-A69F-4310-91F8-CB5BFFB1FE4C' --Sped Consent Services -- non-versioned, don't set the versionid, don't fail the join
+				'D83A4710-A69F-4310-91F8-CB5BFFB1FE4C' --Sped Consent Services -- non-versioned, don't set the versionid, don't fail the join 
 				/*
 				-- SUPPORTED SECTION DEFINITION OPTIONS --
 				select '''' + CAST(d.ID as varchar(36)) + ''', --' + t.Name, d.ItemDefID, t.*, d.*
 				from PrgSectionType t join
-					PrgSectionDef d on d.TypeID = t.ID and d.ItemDefID = '8011D6A2-1014-454B-B83C-161CE678E3D3' -- IEP - Converted
+					PrgSectionDef d on d.TypeID = t.ID and d.ItemDefID = '8011D6A2-1014-454B-B83C-161CE678E3D3' -- IEP - Direct Placement
 				where d.IsVersioned = 0
 				order by t.Name
 				*/
