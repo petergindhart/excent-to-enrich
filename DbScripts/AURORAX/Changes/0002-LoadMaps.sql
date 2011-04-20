@@ -97,6 +97,28 @@ GO
 CREATE INDEX IX_Map_ServiceFrequencyID_ServiceFrequencyCode on AURORAX.Map_ServiceFrequencyID (ServiceFrequencyCode)
 GO
 
+
+-- #############################################################################
+-- Service Provider Title
+IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'AURORAX.MAP_ServiceProviderTitleID') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
+	DROP TABLE AURORAX.MAP_ServiceProviderTitleID
+GO
+
+CREATE TABLE AURORAX.MAP_ServiceProviderTitleID
+(
+	ServiceProviderTitleCode	varchar(150) NOT NULL,
+	DestID uniqueidentifier NOT NULL
+)
+GO
+
+ALTER TABLE AURORAX.MAP_ServiceProviderTitleID ADD CONSTRAINT
+PK_MAP_ServiceProviderTitleID PRIMARY KEY CLUSTERED
+(
+	ServiceProviderTitleCode
+)
+GO
+
+
 -- #############################################################################
 -- Service Definition
 IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'AURORAX.Map_ServiceDefID') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
@@ -325,7 +347,7 @@ CREATE TABLE AURORAX.MAP_ServiceLocationIDstatic
 	)
 GO
 ALTER TABLE AURORAX.MAP_ServiceLocationIDstatic ADD CONSTRAINT
-	PK_MAP_ServiceLocationID PRIMARY KEY CLUSTERED
+	PK_MAP_ServiceLocationIDstatic PRIMARY KEY CLUSTERED
 	(
 	ServiceLocationCode
 	)
@@ -351,6 +373,45 @@ ALTER TABLE AURORAX.MAP_ServiceLocationID ADD CONSTRAINT
 GO
 
 
+-- #############################################################################
+-- Goal
+IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'AURORAX.MAP_PrgGoalID') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
+	DROP TABLE AURORAX.MAP_PrgGoalID
+GO
+
+CREATE TABLE AURORAX.MAP_PrgGoalID
+	(
+	GoalRefID nvarchar(150) NOT NULL,
+	DestID uniqueidentifier NOT NULL
+	)
+GO
+
+ALTER TABLE AURORAX.MAP_PrgGoalID ADD CONSTRAINT
+	PK_MAP_PrgGoalID PRIMARY KEY CLUSTERED
+	(
+	GoalRefID
+	)
+GO
+
+-- #############################################################################
+-- Objective
+IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'AURORAX.MAP_PrgGoalObjectiveID') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
+	DROP TABLE AURORAX.MAP_PrgGoalObjectiveID
+GO
+
+CREATE TABLE AURORAX.MAP_PrgGoalObjectiveID
+	(
+	ObjectiveRefID nvarchar(150) NOT NULL,
+	DestID uniqueidentifier NOT NULL
+	)
+GO
+
+ALTER TABLE AURORAX.MAP_PrgGoalObjectiveID ADD CONSTRAINT
+	PK_MAP_PrgGoalObjectiveID PRIMARY KEY CLUSTERED
+	(
+	ObjectiveRefID
+	)
+GO
 
 
 

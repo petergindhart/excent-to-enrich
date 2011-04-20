@@ -1,7 +1,7 @@
 IF  EXISTS (SELECT 1 FROM sys.objects WHERE object_id = OBJECT_ID(N'[AURORAX].[Service_LOCAL]') AND type in (N'U'))
 DROP TABLE [AURORAX].[Service_LOCAL]  
 GO  
-  
+
 
 CREATE TABLE [AURORAX].[Service_LOCAL](  
 ServiceType    varchar(10), 
@@ -16,10 +16,10 @@ ExcludesFromGenEd    varchar(1),
 ServiceLocationCode    varchar(150), 
 ServiceProviderTitleCode    varchar(150),
 Sequence    varchar(2), 
-IsESY    varchar(1), 
+IsESY    varchar(1),
 ServiceTime    varchar(4), 
-ServiceFrequencyCode    varchar(150), 
-ServiceProviderSSN    varchar(9), 
+ServiceFrequencyCode    varchar(150),
+ServiceProviderSSN    varchar(11), 
 ServiceProviderRefId    varchar(150), 
 ServiceAreaText    varchar(254)
 )

@@ -47,7 +47,7 @@ FROM
 	AURORAX.MAP_ServiceDefID sdm on v.ServiceDefinitionCode = sdm.ServiceDefCode LEFT JOIN
 	AURORAX.MAP_ServiceLocationID loc on v.ServiceLocationCode = loc.ServiceLocationCode LEFT JOIN 
 	AURORAX.MAP_ServiceFrequencyID freq on v.ServiceFrequencyCode = freq.ServiceFrequencyCode LEFT JOIN 
-   AURORAX.MAP_ServiceProviderTitleID ttl on v.ServiceProviderCode = ttl.ServiceProviderCode LEFT JOIN
-	AURORAX.MAP_ScheduleID ssm on v.ServiceRefID = ssm.ServiceRefID 
+ 	AURORAX.MAP_ServiceProviderTitleID ttl on v.ServiceProviderTitleCode = ttl.ServiceProviderTitleCode LEFT JOIN
+	AURORAX.MAP_ScheduleID ssm on v.ServiceRefID = ssm.ServiceRefID
 GO
 --

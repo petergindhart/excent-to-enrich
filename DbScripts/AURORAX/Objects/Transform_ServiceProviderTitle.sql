@@ -10,7 +10,7 @@ AS
 	Name = k.Label
  FROM  
   AURORAX.Lookups k LEFT JOIN
-  AURORAX.MAP_ServiceProviderTitleID m on k.Code = m.ServiceProviderCode LEFT JOIN
+  AURORAX.MAP_ServiceProviderTitleID m on k.Code = m.ServiceProviderTitleCode LEFT JOIN
   dbo.ServiceProviderTitle t on m.DestID = t.ID
  WHERE
   k.Type = 'ServProv'
