@@ -2987,11 +2987,6 @@
             loaded so that their metadata is available
             </summary>
         </member>
-        <member name="M:VC3.Util.ReflectionUtil.GetSubTypes(System.Type)">
-            <summary>
-            Finds all classes derived from the specified baseType
-            </summary>
-        </member>
         <member name="M:VC3.Util.ReflectionUtil.RunStaticConstructors(System.Predicate{System.Type})">
             <summary>
             Ensures that the static constructor for a set of classes are run.  If the 
@@ -8073,11 +8068,6 @@
             <param name="items">The items to remove</param>
         </member>
         <member name="M:VC3.ComponentModel.GuidBusinessObjectList`1.#ctor">
-            <summary>
-            Creates an empty list of objects.
-            </summary>
-        </member>
-        <member name="M:VC3.ComponentModel.GuidBusinessObjectList`1.#ctor(System.Collections.Generic.IEnumerable{`0})">
             <summary>
             Creates an empty list of objects.
             </summary>
@@ -15285,11 +15275,6 @@
             <typeparam name="T">The type of <see cref="T:VC3.ComponentModel.BusinessObject"/></typeparam>
         </member>
         <member name="M:VC3.ComponentModel.BusinessObjectList`1.#ctor">
-            <summary>
-            Creates an empty list of objects.
-            </summary>
-        </member>
-        <member name="M:VC3.ComponentModel.BusinessObjectList`1.#ctor(System.Collections.Generic.IEnumerable{`0})">
             <summary>
             Creates an empty list of objects.
             </summary>

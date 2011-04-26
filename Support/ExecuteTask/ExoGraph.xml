@@ -1789,16 +1789,6 @@
             Sets the reference property back to the old value.
             </summary>
         </member>
-        <member name="P:ExoGraph.GraphReferenceChangeEvent.OldValueId">
-            <summary>
-            Gets the id of the old value at the moment the event occurred, which may be different than the current id of the old value.
-            </summary>
-        </member>
-        <member name="P:ExoGraph.GraphReferenceChangeEvent.NewValueId">
-            <summary>
-            Gets the id of the new value at the moment the event occurred, which may be different than the current id of the new value.
-            </summary>
-        </member>
         <member name="T:ExoGraph.GraphReference">
             <summary>
             Represents the association between two graph instances.
