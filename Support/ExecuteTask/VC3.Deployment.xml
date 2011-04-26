@@ -1567,6 +1567,80 @@
             Helper class to assist in hosting an object in a seperate <see cref="T:System.AppDomain"/>
             </summary>
         </member>
+        <member name="T:VC3.Deployment.AddOn.InstallAddOn">
+            <summary>
+            Task for installing an <see cref="T:VC3.Deployment.AddOn.IAddOn"/>.
+            </summary>
+            <example>
+            VC3.Deployment.AddOn.InstallAddOn /p Assembly=C:\AddOn.dll  DependencyDirectory=C:\bin ConfigurationFile=C:\Web.config ConnectionString=server=ServerName;uid=UserId;pwd=Password;database=DatabaseName
+            </example>
+        </member>
+        <member name="M:VC3.Deployment.AddOn.InstallAddOn.Cleanup">
+            <summary>
+            An error may occur while running this within Visual Studio due to Visual Studio holding the files. This error 
+            usually occurs while cleaning up files due to an error or upon completion of an installation.
+            </summary>
+        </member>
+        <member name="P:VC3.Deployment.AddOn.InstallAddOn.Assembly">
+            <summary>
+            Gets or sets the path of the <see cref="T:VC3.Deployment.AddOn.IAddOn"/>'s assembly. 
+            </summary>
+        </member>
+        <member name="P:VC3.Deployment.AddOn.InstallAddOn.WorkingDirectory">
+            <summary>
+            Gets or sets the <see cref="P:System.AppDomainSetup.ApplicationBase"/> used to configure the <see cref="T:VC3.Deployment.AddOn.InstallAddOns"/>'s application domain.
+            </summary>
+        </member>
+        <member name="P:VC3.Deployment.AddOn.InstallAddOn.CleanupWorkingDirectory">
+            <summary>
+            Gets or sets a flag indicating whether or not to cleanup the working directory when an error occurs or 
+            upon completion of an installation. This property was added for development purpose only to bypass the 
+            <see cref="M:VC3.Deployment.AddOn.InstallAddOn.Cleanup"/> process that may fail due to Visual Studio holding the files. 
+            </summary>
+        </member>
+        <member name="P:VC3.Deployment.AddOn.InstallAddOn.ConfigurationFile">
+            <summary>
+            Gets or sets the path of the configuration file for the <see cref="T:VC3.Deployment.AddOn.IAddOn"/>.
+            </summary>
+        </member>
+        <member name="P:VC3.Deployment.AddOn.InstallAddOn.DependencyDirectory">
+            <summary>
+            Gets or sets the directory containing the <see cref="T:VC3.Deployment.AddOn.IAddOn"/> assembly dependencies. 
+            </summary>
+        </member>
+        <member name="P:VC3.Deployment.AddOn.InstallAddOn.InstallationDirectory">
+            <summary>
+            Gets or sets the installation directory. 
+            </summary>
+        </member>
+        <member name="T:VC3.Deployment.AddOn.InstallAddOn.InstallAddOnHelper">
+            <summary>
+            Helper class marked as serializable containing the callback method to update <see cref="T:VC3.Deployment.AddOn.IAddOn"/>s in a
+            separate application domain. 
+            </summary>
+        </member>
+        <member name="M:VC3.Deployment.AddOn.AddOnException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            The serialization constructor used at deserialization.
+            </summary>
+            <param name="info"></param>
+            <param name="context"></param>
+        </member>
+        <member name="M:VC3.Deployment.AddOn.AddOnManager.GetAddOns``1">
+            <summary>
+            Gets a collection of <see cref="T:VC3.Deployment.AddOn.IAddOn"/>s by constructing instances of the specified type found in the entire application domain. 
+            </summary>
+            <typeparam name="T">The type of <see cref="T:VC3.Deployment.AddOn.IAddOn"/> to return.</typeparam>
+            <returns>A collection of <see cref="T:VC3.Deployment.AddOn.IAddOn"/>s.</returns>
+        </member>
+        <member name="M:VC3.Deployment.AddOn.AddOnManager.GetAddOns``1(System.String[])">
+            <summary>
+            Gets a collection of <see cref="T:VC3.Deployment.AddOn.IAddOn"/>s by constructing instances of the specified type found in the specified assemblies.
+            </summary>
+            <typeparam name="T">The type of <see cref="T:VC3.Deployment.AddOn.IAddOn"/> to return.</typeparam>
+            <param name="assemblyName">The assemblies containing add-ons.</param>
+            <returns></returns>
+        </member>
         <member name="T:VC3.Deployment.Xml.SetValue">
             <summary>
             Task for generating script to syncronize data in one or more tables
@@ -4196,6 +4270,46 @@
             from the script's filename.
             </summary>
         </member>
+        <member name="T:VC3.Deployment.AddOn.InstallAddOns">
+            <summary>
+            Task for installing all <see cref="T:VC3.Deployment.AddOn.IAddOn"/>s in a specified add-on directory. 
+            </summary>
+            <example>
+            VC3.Deployment.AddOn.InstallAddOns /p AddOnsDirectory=C:\AddOns DependencyDirectory=C:\bin ConfigurationFile=C:\Web.config ConnectionString=server=ServerName;uid=UserId;pwd=Password;database=DatabaseName
+            </example>
+        </member>
+        <member name="P:VC3.Deployment.AddOn.InstallAddOns.AddOnsDirectory">
+            <summary>
+            Gets or sets the directory containing the add-ons to install.
+            </summary>
+        </member>
+        <member name="P:VC3.Deployment.AddOn.InstallAddOns.WorkingDirectory">
+            <summary>
+            Gets or sets the <see cref="P:System.AppDomainSetup.ApplicationBase"/> used to configure the <see cref="T:VC3.Deployment.AddOn.InstallAddOns"/>'s application domain.
+            </summary>
+        </member>
+        <member name="P:VC3.Deployment.AddOn.InstallAddOns.CleanupWorkingDirectory">
+            <summary>
+            Gets or sets a flag indicating whether or not to cleanup the working directory when an error occurs or 
+            upon completion of an installation. This property was added for development purpose only to bypass the 
+            <see cref="M:VC3.Deployment.AddOn.InstallAddOn.Cleanup"/> process that may fail due to Visual Studio holding the files. 
+            </summary>
+        </member>
+        <member name="P:VC3.Deployment.AddOn.InstallAddOns.ConfigurationFile">
+            <summary>
+            Gets or sets the path of the configuration file for the <see cref="T:VC3.Deployment.AddOn.IAddOn"/>.
+            </summary>
+        </member>
+        <member name="P:VC3.Deployment.AddOn.InstallAddOns.DependencyDirectory">
+            <summary>
+            Gets the directory containing the <see cref="T:VC3.Deployment.AddOn.IAddOn"/> assembly dependencies. 
+            </summary>
+        </member>
+        <member name="P:VC3.Deployment.AddOn.InstallAddOns.InstallationDirectory">
+            <summary>
+            Gets or sets the installation directory. 
+            </summary>
+        </member>
         <member name="T:VC3.Deployment.Web.CreateSite">
             <summary>
             Task for creating IIS web sites.
@@ -4826,6 +4940,33 @@
         <member name="P:VC3.Deployment.IO.Copy.Destination">
             <summary>
             Gets or sets the destination file or directory.
+            </summary>
+        </member>
+        <member name="T:VC3.Deployment.AddOn.IAddOn">
+            <summary>
+            Defines the logic for installing an add-on.
+            </summary>
+        </member>
+        <member name="M:VC3.Deployment.AddOn.IAddOn.Install(System.Version)">
+            <summary>
+            Performs installation logic necessary for the add-on to be recognized by the application. 
+            </summary>
+            <param name="upgradingFrom">The version the add-on is upgrading from.</param>
+        </member>
+        <member name="M:VC3.Deployment.AddOn.IAddOn.ValidateInstallation">
+            <summary>
+            Validates the add-on is compatible with the core application.
+            </summary>
+            <returns>The <see cref="T:VC3.Deployment.AddOn.ValidateInstallationResult"/>.</returns>
+        </member>
+        <member name="P:VC3.Deployment.AddOn.IAddOn.Name">
+            <summary>
+            Gets the name of the add-on.
+            </summary>
+        </member>
+        <member name="T:VC3.Deployment.AddOn.IAddOnInstallStartup">
+            <summary>
+            Defines startup logic that should run before an <see cref="T:VC3.Deployment.AddOn.IAddOn"/> is installed.
             </summary>
         </member>
         <member name="T:VC3.Deployment.Xml.ForEach">
