@@ -14,4 +14,4 @@ AS
 			sec.VersionID = iep.VersionDestID AND
 			sec.DefID = '0CBA436F-8043-4D22-8F3D-289E057F1AAB'  --IEP LRE
 GO
--- last line
+-- 

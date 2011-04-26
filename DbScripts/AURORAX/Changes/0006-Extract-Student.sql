@@ -40,3 +40,4 @@ CREATE VIEW [AURORAX].[Student]
 AS
  SELECT * FROM [AURORAX].[Student_LOCAL]
 GO
+--

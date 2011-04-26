@@ -22,5 +22,4 @@ AS
 			sec.VersionID = iep.VersionDestID AND
 			sec.DefID = '427AF47C-A2D2-47F0-8057-7040725E3D89' --IEP Demographics
 GO
-
-
+--

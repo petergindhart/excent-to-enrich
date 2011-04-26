@@ -20,3 +20,4 @@ AS
   AURORAX.MAP_OrgUnit m on d.DistrictRefID = m.DistrictRefID LEFT JOIN
   OrgUnit ou on m.DestID = ou.ID
 GO
+--

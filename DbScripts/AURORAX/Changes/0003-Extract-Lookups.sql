@@ -25,3 +25,4 @@ CREATE VIEW [AURORAX].[Lookups]
 AS
 	SELECT * FROM [AURORAX].[Lookups_LOCAL]
 GO
+--

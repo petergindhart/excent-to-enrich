@@ -18,3 +18,4 @@ CREATE VIEW [AURORAX].[District]
 AS
  SELECT * FROM [AURORAX].[District_LOCAL]
 GO
+--
