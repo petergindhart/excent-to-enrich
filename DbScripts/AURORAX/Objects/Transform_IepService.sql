@@ -31,6 +31,7 @@ select
 		WHERE IepRefID = v.IepRefID AND
 		ServiceRefID < v.ServiceRefID
 		),
+   ServiceTypeID = 'D3945E9D-AA0E-4555-BCB2-F8CA95CC7784',
 -- ServiceSchedule
 	ServiceSchedueDestID = ssm.DestID,
 	ProviderID = cast(NULL as uniqueidentifier),  -- will require a matching view similar to Match_Students, but is complicated by the UserProfile works

@@ -15,7 +15,8 @@ AS
   TypeID = 'D3945E9D-AA0E-4555-BCB2-F8CA95CC7784',
   Name = isnull(i.Name, x.Label),
   Description = cast(NULL as text),
-  DefaultLocationID = cast(NULL as uniqueidentifier)
+  DefaultLocationID = cast(NULL as uniqueidentifier),
+  DefaultProviderTitleID = cast(NULL as uniqueidentifier)
  from (
   select distinct
    ServiceDefCode = x.Code,

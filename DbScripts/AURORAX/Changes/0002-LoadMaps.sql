@@ -251,51 +251,7 @@ ALTER TABLE AURORAX.MAP_OrgUnit ADD CONSTRAINT
 	)
 GO
 
-/*
--- #############################################################################
--- School Those associated with main OrgUnit will match based on SchoolCode
--- Do not use ETL delete
 
-	SEE THE SCHOOL TRANSFORM TO EXAMINE THE VIEW AURORAX.MAP_SchoolView
-
-IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'AURORAX.MAP_School') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
-	DROP TABLE AURORAX.MAP_School
--- GO
-
-CREATE TABLE AURORAX.MAP_School
-	(
-	SchoolCode nvarchar(150) NOT NULL, -- the transform uses this in a UNION query with the dbo.School table
-	DestID uniqueidentifier NOT NULL
-	)
--- GO
-
-ALTER TABLE AURORAX.MAP_School ADD CONSTRAINT
-	PK_MAP_School PRIMARY KEY CLUSTERED
-	(
-	SchoolCode
-	)
--- GO
-*/
-
-/*
--- #############################################################################
--- Student
-IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'[AURORAX].[MAP_StudentRefID]') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
-	DROP TABLE [AURORAX].[MAP_StudentRefID]
--- GO
-CREATE TABLE [AURORAX].[MAP_StudentRefID]
-	(
-	StudentRefID varchar(50) NOT NULL,
-	DestID uniqueidentifier NOT NULL
-	)  ON [PRIMARY]
--- GO
-ALTER TABLE [AURORAX].[MAP_StudentID] ADD CONSTRAINT
-	[PK_MAP_StudentID] PRIMARY KEY CLUSTERED
-	(
-	StudentRefID
-	) ON [PRIMARY]
--- GO
-*/
 
 -- #############################################################################
 -- ExitReason
@@ -394,6 +350,26 @@ ALTER TABLE AURORAX.MAP_PrgGoalID ADD CONSTRAINT
 GO
 
 -- #############################################################################
+-- Post School Goal Area
+IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'AURORAX.MAP_PostSchoolGoalAreaDefID') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
+	DROP TABLE AURORAX.MAP_PostSchoolGoalAreaDefID
+GO
+
+CREATE TABLE AURORAX.MAP_PostSchoolGoalAreaDefID
+	(
+	PostSchoolAreaID nvarchar(150) NOT NULL,
+	DestID uniqueidentifier NOT NULL
+	)
+GO
+
+ALTER TABLE AURORAX.MAP_PostSchoolGoalAreaDefID ADD CONSTRAINT
+	PK_MAP_PostSchoolGoalAreaDefID PRIMARY KEY CLUSTERED
+	(
+	PostSchoolAreaID
+	)
+GO
+
+-- #############################################################################
 -- Objective
 IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'AURORAX.MAP_PrgGoalObjectiveID') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
 	DROP TABLE AURORAX.MAP_PrgGoalObjectiveID
@@ -413,7 +389,39 @@ ALTER TABLE AURORAX.MAP_PrgGoalObjectiveID ADD CONSTRAINT
 	)
 GO
 
+-- #############################################################################
+-- Service
+CREATE TABLE AURORAX.MAP_IepServiceID
+	(
+	ServiceRefID nvarchar(150) NOT NULL,
+	DestID uniqueidentifier NOT NULL
+	)
+GO
+ALTER TABLE AURORAX.MAP_IepServiceID ADD CONSTRAINT
+	PK_MAP_IepServiceID PRIMARY KEY CLUSTERED
+	(
+	ServiceRefID
+	)
+GO
 
+-- #############################################################################
+-- Schedule
+IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'AURORAX.MAP_ScheduleID') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
+	DROP TABLE AURORAX.MAP_ScheduleID
+GO
+
+CREATE TABLE AURORAX.MAP_ScheduleID
+	(
+	ServiceRefID nvarchar(150) NOT NULL,
+	DestID uniqueidentifier NOT NULL
+	)
+GO
+ALTER TABLE AURORAX.MAP_ScheduleID ADD CONSTRAINT
+	PK_MAP_ScheduleID PRIMARY KEY CLUSTERED
+	(
+	ServiceRefID
+	)
+GO
 
 
 
@@ -460,72 +468,6 @@ INSERT AURORAX.Map_PlacementOptionID VALUES('DNQ', '75AC7101-1F19-439D-8898-DDF6
 -- these did not exist in IepPlacementOption (and maybe should not).  we are adding them here to avoid messing with more dynamic ETL
 insert IepPlacementOption (ID, TypeID, Sequence, Text) values ('B0091A53-FEBE-44FB-8D15-4ED6728B03B4', 'D9D84E5B-45F9-4C72-8265-51A945CD0049', 8, 'None')
 insert IepPlacementOption (ID, TypeID, Sequence, Text) values ('75AC7101-1F19-439D-8898-DDF6B310AA7A', 'D9D84E5B-45F9-4C72-8265-51A945CD0049', 9, 'Did not qualify')
-
-
-
-
-
-/*
-
-select LRECode, count(*) tot from AURORAX.IEP group by LRECode order by LRECode
-
-Already mapped 
-	204	17
-	208	22
-	301	3060
-	302	335
-	303	545
-	304	79
-	305	21
-	306	7
-
-New LRE Codes to map
-	201	404
-	203	1
-	209	160
-	210	6
-	211	2
-	308	3
-
-Already mapped
-	204	Ages 3-5: Separate Class	17
-	208	Ages 3-5: Service Provider Location	22
-	301	Ages 6-21: Regular Class at Least 80% of the Time	3060
-	302	Ages 6-21: Regular Class 40-79% of the Time	335
-	303	Ages 6-21: Regular Class Less than 40% of the Time	545
-	304	Ages 6-21: Separate School	79
-	305	Ages 6-21: Residential Facility	21
-	306	Ages 6-21: Homebound/Hospital	7
-
-Missing from Lookups file
-	201 (404 students)
-	203 (1 student)
-	21	(1 student)
-	41	(2 students)
-Not mapped
-	209	209-At least 10 hours per week and majority in reg. early childhood prog.	160
-	210	210-At least 10 hours per week and majority in some other location	6
-	211	211-Less than 10 hours per week & majority in reg. early childhood prog.	2
-	308	Ages 6-21: Private/Parochial Student on ISP	3
-
-
-
-000	None	42
-DNQ	Did not qualify	60
-
-000	42
-DNQ	60
-
-NULL	11
-
-select i.LRECode, k.Label LREDescription, count(*) tot from AURORAX.IEP i JOIN AURORAX.Lookups k on i.LRECode = k.Code where K.Type = 'LRE' group by i.LRECode, k.Label order by i.LRECode
-
-
-select * from AURORAX.Lookups where Type = 'LRE'
-
-
-*/
-
 
 -- Disability
 insert AURORAX.MAP_IepDisabilityID values ('01', '8D0AA58F-597A-462F-B509-BB8F0B2AB593')
@@ -597,151 +539,9 @@ insert AURORAX.MAP_ServiceLocationID (ServiceLocationCode, DestID)
 select ServiceLocationCode, DestID from AURORAX.MAP_ServiceLocationIDstatic
 
 
-
-
-
-
-/*
-
-select Code, Label, StateCode from AURORAX.Lookups where Type = 'Disab' order by Code
-
-01	Significant Limited Intellectual Capacity	01
-03	Significant Identifiable Emotional Disability	03
-04	Specific Learning Disability	04
-05	Hearing Disability	05
-06	Visual Disability	06
-07	Physical Disability	07
-08	Speech/Language	08
-09	Deaf-Blind	09
-10	Multiple Disabilities	10
-11	Preschool with a Disability	11
-12	Infant with a Disability	12
-13	Autism	13
-14	Traumatic Brain Injury	14
-15	None	NULL
-16	To be determined	NULL
-
-
-*/
-
-
-
-
-
-/*
-
-select * 
-from AURORAX.Lookups
-where Type = 'ExitCode'
-
-
-Special ed exit reasons
-09	Transferred to Regular Education (Staffed Out)
-FP	Preschool Fall Placement
-E	No Placement/Not Eligible
-
-
-Enrollment exit reasons
-	00	Not Applicable/Did Not Exit
-	01	Reached Maximum Age for Services
-	02	Death
-	06	K-6 Student Exited to an Unknown Educational Setting/Status
-	10	Grade Reassignment in Same School
-	11	Transfer to Public School in the Same District
-	12	Transfer to Non-District Site
-	13	Transfer to a Public School in a Different School District
-	14	Transfer to a School Located in a Different State/Country
-	15	Transfer to a Non-Public School
-	16	Transferred to Home-Based Education (Home Schooling)
-	18	Transfer to Voc Ed Program not by a District/BOCES
-	19	Transfer to State Facility Ongrounds School
-	21	Transfer to Facility by CO Dept. of Corrections
-	21B	Transfer to a Facility - Dept. of Corrections or DYC
-	22	Erroneoulsy Coded Grad Prior Year
-	25	Absence of More than 10 days
-	30	Illness/Injury
-	40	Discontinued Schooling/Dropped Out
-	45	Discontinued School 6 Weeks but Returned
-	50	Expulsion
-	55	Expelled no Educational Services and Returned
-	56	Expelled With Educational Services
-	60	Parent Refusal or Revocation of Consent
-	70	Transfer to External GED Program
-	90	Graduated with Regular Diploma
-	91	Graduated With Regular Diploma by Meeting IEP Requirements
-	92	Completed With Other Diploma
-	93	Completed with GED
-	94	Received GED From Non-District Prgm-Same Year in Which Student Transferred to GED Prgm
-	ES	Ending a Service
-	IS	Infant Screening - No Assessments Completed
-	NS	No show
-
-
-
-
-
-select * from PrgItemOutcome where CurrentDefID = '8011D6A2-1014-454B-B83C-161CE678E3D3'
-
-
-select * from PrgItemDef where ProgramID = '9F5E8A89-D027-4076-9759-FFED1B107E94' and TypeId = 'A5990B5E-AFAD-4EF0-9CCA-DC3685296870'
-
-select * from PrgItemType where ID = 'A5990B5E-AFAD-4EF0-9CCA-DC3685296870'
-
-
-
-select * from Program
-
-select count(*) tot, Text
-from (
-	select top 100 percent d.Name, o.Text, o.Sequence -- o.ID, 
-	from PrgItemDef d
-	join PrgItemOutcome o on d.ID = o.CurrentDefID
-	where d.ProgramID = '9F5E8A89-D027-4076-9759-FFED1B107E94' 
-	and d.TypeId = 'A5990B5E-AFAD-4EF0-9CCA-DC3685296870'
-	and o.DeletedDate is null
-	order by d.Name, o.sequence
-	) t
-group by Text
-order by Text
-
-
-2	Aged Out
-1	Closed and creating new IEP
-1	Completed
-3	Consent Revoked
-3	Died
-1	Dropped Out
-4	Exited District
-4	Exited Special Education
-1	Graduated with Regular High School Diploma
-1	Moved, Known to be Continuing
-1	Received a Certificate
-
-
-
-select ExitReason, count(*) tot
-from AURORAX.Student
-where ExitReason is not null
-group by ExitReason
-order by ExitReason
-
-
-
-
-
-
-
-
-*/
-
-
--- GradeLevel (in most if not all cases, the Special Ed database will use the same Grade Code as the SIS, in which case no mapping is necessary, but we will be prepared for it.)
--- APS - Special Ed grade code is the same as in SIS
-
-
--- DO NOT create MAPS for lookups not created in Template DB (dummy data includes GoalArea or PostSchoolGoalArea)
-
-
---
+-- Post School Area Goal Definition
+insert AURORAX.MAP_PostSchoolGoalAreaDefID values ('01', 'ADB5C7FD-C09F-41E3-9C0E-9AF403C741D1')
+insert AURORAX.MAP_PostSchoolGoalAreaDefID values ('02', '823BA9DB-AF13-42BD-9CC2-EAA884701523')
+insert AURORAX.MAP_PostSchoolGoalAreaDefID values ('03', '2B5D9C8A-7FA7-4E74-9F0C-53327209E751')
 
 

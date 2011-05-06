@@ -28,12 +28,13 @@ AS
 		PlannedEndDate = dateadd(yy, 1, iep.IEPMeetingDate),
 		IsTransitional = cast(0 as bit),  -- These will be Converted IEPs, but if they are over 14 is it considered Transitional?
 		VersionDestID = ver.DestID,
-		VersionFinalizedDate = iep.IEPMeetingDate
+		VersionFinalizedDate = iep.IEPMeetingDate,
+		IsEnded = cast(0 as bit)
 	FROM
 		AURORAX.Transform_Student stu JOIN
 		AURORAX.IEP iep ON iep.StudentRefID = stu.StudentRefID JOIN
 		AURORAX.MAP_InvolvementID inv ON iep.StudentRefID = inv.StudentRefID LEFT JOIN
 		AURORAX.MAP_IepRefID mt ON iep.IepRefID = mt.IepRefID LEFT JOIN
-		AURORAX.Map_VersionID ver ON iep.IepRefID = ver.IepRefID 
+		AURORAX.Map_VersionID ver ON iep.IepRefID = ver.IepRefID
 GO
--- 
+--

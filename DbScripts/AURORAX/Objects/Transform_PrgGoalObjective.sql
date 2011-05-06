@@ -9,7 +9,7 @@ AS
   DestID = cast(NULL as uniqueidentifier),
   GoalID = cast(NULL as uniqueidentifier),
   Sequence = cast(0 as int),
-  Text = cast(NULL as text)
+  Text = cast(o.ObjText as text)
  FROM
   AURORAX.Transform_PrgGoal g JOIN
   AURORAX.Objective o on g.GoalRefID = o.GoalRefID JOIN
