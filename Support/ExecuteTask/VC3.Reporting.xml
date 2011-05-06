@@ -15291,6 +15291,11 @@
             Creates an existing ReportSchemaColumn that will be automatically initialized as needed.
             </summary>
         </member>
+        <member name="M:VC3.Reporting.Design.ReportSchemaColumn.AllowedValuesExpressionUsesProperty(System.String)">
+            <summary>
+            Indicates if the allowed values are dynamic and reference a particular property
+            </summary>
+        </member>
         <member name="M:VC3.Reporting.Design.ReportSchemaColumn.GetInstance(System.String)">
             <summary>
             Gets an instance of <see cref="T:VC3.Reporting.Design.ReportSchemaColumn"/> based on the specified string identifier.
