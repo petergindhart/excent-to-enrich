@@ -16,3 +16,4 @@ AS
   AURORAX.MAP_PrgGoalObjectiveID m on o.ObjectiveRefID = m.ObjectiveRefID LEFT JOIN
   dbo.PrgGoalObjective obj on m.DestID = obj.ID
 GO
+---

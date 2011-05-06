@@ -18,7 +18,7 @@ AS
 	),
   IsProbeGoal = cast(0 as bit),
   TargetDate = cast(NULL as datetime),   
-  GoalStatement = cast(g.GoalStatement as text),   
+  GoalStatement = cast(g.GoalStatement as text),
   ProbeTypeID = cast(NULL as uniqueidentifier),
   NumericTarget = cast(0 as float),
   RubricTargetID = cast(NULL as uniqueidentifier),
@@ -37,5 +37,5 @@ AS
   AURORAX.MAP_PrgGoalID m on g.GoalRefID = m.GoalRefID LEFT JOIN
   AURORAX.MAP_PostSchoolGoalAreaDefID ps on g.PostSchoolAreaCode = ps.PostSchoolAreaID LEFT JOIN
   dbo.PrgGoal pg on m.DestID = pg.ID
--- order by i.IepRefID, Sequence
 GO
+---

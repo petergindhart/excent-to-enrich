@@ -37,4 +37,4 @@ AS
 		AURORAX.MAP_IepRefID mt ON iep.IepRefID = mt.IepRefID LEFT JOIN
 		AURORAX.Map_VersionID ver ON iep.IepRefID = ver.IepRefID
 GO
---
+---

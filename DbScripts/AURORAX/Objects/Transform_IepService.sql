@@ -8,7 +8,7 @@ select
 	v.ServiceType,
 	v.ServiceRefId,
 	iep.IepRefId,
-	m.DestID, 
+	m.DestID,
 -- IepServicePlan.  The case statements assume source data indicates Y or N (this is validated in the data validation tool)
 	InstanceID = sec.ID,
 	RelatedID = case when IsRelated = 'Y' then '4CA5DB1F-2CAC-4DDC-B856-B4B8BFE88BDD' else '4570E6F2-2691-4BB1-9BBB-A62AC3BEECB7' end, -- 4570E6F2-2691-4BB1-9BBB-A62AC3BEECB7	Special Education, 4CA5DB1F-2CAC-4DDC-B856-B4B8BFE88BDD	Related
@@ -34,7 +34,7 @@ select
    ServiceTypeID = 'D3945E9D-AA0E-4555-BCB2-F8CA95CC7784',
 -- ServiceSchedule
 	ServiceSchedueDestID = ssm.DestID,
-	ProviderID = cast(NULL as uniqueidentifier),  -- will require a matching view similar to Match_Students, but is complicated by the UserProfile works
+	ProviderID = cast(NULL as uniqueidentifier),  -- will require a matching view similar to Match_Students, but is complicated by how the UserProfile works
 	Name = cast(NULL as varchar),
 	LocationId = loc.DestID,
 	LocationDescription = cast(NULL as varchar)
@@ -51,4 +51,4 @@ FROM
  	AURORAX.MAP_ServiceProviderTitleID ttl on v.ServiceProviderTitleCode = ttl.ServiceProviderTitleCode LEFT JOIN
 	AURORAX.MAP_ScheduleID ssm on v.ServiceRefID = ssm.ServiceRefID
 GO
---
+---

@@ -16,7 +16,6 @@ ALTER TABLE [AURORAX].[MAP_StudentRefID] ADD CONSTRAINT
 	) ON [PRIMARY]
 GO
 
-
 -- #############################################################################
 -- Involvement
 IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'[AURORAX].[Map_InvolvementID]') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)

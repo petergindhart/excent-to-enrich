@@ -52,4 +52,4 @@ from (
 	) ss JOIN
 	AURORAX.School xs on ss.SchoolCode = xs.SchoolCode
 go
---
+---

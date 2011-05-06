@@ -30,4 +30,4 @@ from AURORAX.Lookups sc JOIN
 	dbo.PrgLocation pl on ms.DestID = pl.ID
 where sc.Type = 'ServLoc'
 go
---
+---

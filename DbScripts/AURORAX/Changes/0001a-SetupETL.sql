@@ -14,8 +14,6 @@ ALTER TABLE VC3ETL.FlatFileExtractTableType ADD
 GO
 
 
-
-
 /****** Object:  StoredProcedure [VC3ETL].[FlatFileExtractTableType_GetAllRecords]    Script Date: 04/18/2011 12:40:42 ******/
 IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'[VC3ETL].[FlatFileExtractTableType_GetAllRecords]') AND OBJECTPROPERTY(id,N'IsProcedure') = 1)
 DROP PROCEDURE [VC3ETL].[FlatFileExtractTableType_GetAllRecords]

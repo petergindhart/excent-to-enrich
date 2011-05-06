@@ -12,7 +12,6 @@ AS
 		OptionID = placeMap.DestID,
 		IsEnabled = 0,
 		IsDecOneCount = 0
-	-- select iep.IepId -- select iep.DestID iep_DestID, place.ID place_ID, sec.DestID sec_DestID, placeMap.PlacementTypeID placeMap_PlacementTypeID, placeMap.DestID placeMap_DestID, 0 IsEnabled, 0 IsDecOneCount
 	FROM
 		AURORAX.Transform_Iep iep LEFT JOIN -- left join for speed (filter in where clause)
 		AURORAX.Transform_Section sec ON sec.ItemID = iep.DestID JOIN -- and sec.DefID = '0CBA436F-8043-4D22-8F3D-289E057F1AAB' JOIN
@@ -24,4 +23,4 @@ AS
 	WHERE
 		sec.DefID = '0CBA436F-8043-4D22-8F3D-289E057F1AAB'
 GO
---
+---
