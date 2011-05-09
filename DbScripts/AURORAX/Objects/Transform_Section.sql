@@ -63,7 +63,7 @@ union all
 				-- SUPPORTED SECTION DEFINITION OPTIONS --
 				select '''' + CAST(d.ID as varchar(36)) + ''', --' + t.Name, d.ItemDefID, t.*, d.*
 				from PrgSectionType t join
-					PrgSectionDef d on d.TypeID = t.ID and d.ItemDefID = '8011D6A2-1014-454B-B83C-161CE678E3D3' -- IEP - Direct Placement
+					PrgSectionDef d on d.TypeID = t.ID and d.ItemDefID = '8011D6A2-1014-454B-B83C-161CE678E3D3' -- IEP - Converted
 				where d.IsVersioned = 0
 				order by t.Name
 				*/

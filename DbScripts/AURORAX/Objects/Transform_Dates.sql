@@ -11,7 +11,9 @@ AS
 		NextReviewDate = i.NextAnnualDate,
 		NextEvaluationDate = i.NextTriennialDate,
 		EligibilityDate = i.IEPMeetingDate, -- should this be InitialEvalCompleteDate?  we probably need curr eval date
-		ConsentDate = i.InitialConsentDate -- This is Initial - is that what is needed?
+		ConsentDate = i.InitialConsentDate, -- This is Initial - is that what is needed?
+		InitialEvaluationDate = i.InitialEvalCompleteDate,
+		LatestEvaluationDate = cast(NULL as datetime)
 	FROM
 		AURORAX.Transform_Iep iep JOIN
 		PrgSection sec ON
