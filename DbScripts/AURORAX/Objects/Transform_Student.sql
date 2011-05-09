@@ -6,9 +6,9 @@ GO
 
 CREATE VIEW [AURORAX].[Transform_Student]
 AS
- SELECT  
-  src.StudentRefID,  
-  DestID = dest.ID,
+ SELECT
+  src.StudentRefID,
+  DestID = isnull(dest.ID, ms.DestID), -- it seems I keep changing this.  may need to use isnull
   CurrentSchoolID = sch.DestID,  
   CurrentGradeLevelID = g.ID,  
   EthnicityID = me.DestID,  
@@ -36,8 +36,8 @@ AS
   x_spedExitDate = cast(NULL as datetime),  
   x_section504 = cast(0 as bit),  
   x_language = cast(NULL as uniqueidentifier),  
-  x_IEP = cast(0 as bit),  
-  x_giftedTalented = cast(NULL as uniqueidentifier),  
+  x_IEP = cast(0 as bit),
+  x_giftedTalented = cast(NULL as uniqueidentifier),
   x_englishProficiency = cast(NULL as uniqueidentifier),  
   x_DisabilityType = cast(NULL as uniqueidentifier),  
   x_FreeLunchID = cast(NULL as uniqueidentifier),  
