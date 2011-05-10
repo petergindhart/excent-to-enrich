@@ -10,14 +10,19 @@ AS
 		DestID = sec.ID,
 		PrimaryLanguageID = cast(NULL as uniqueidentifier),
 		PrimaryLanguageHomeID = cast(NULL as uniqueidentifier),
-		ServiceDistrictID = '6531EF88-352D-4620-AF5D-CE34C54A9F53',
-		ServiceSchoolID = iep.SchoolID,
-		HomeDistrictID = '6531EF88-352D-4620-AF5D-CE34C54A9F53',
-		HomeSchoolID = iep.SchoolID,
+		ServiceDistrictID = ds.DestID,
+		ServiceSchoolID = ss.DestID,
+		HomeDistrictID = dh.DestID,
+		HomeSchoolID = sh.DestID,
 		  InterpreterNeededID = cast(NULL as uniqueidentifier),
 		  LimittedEnglishProficiencyID = cast(NULL as uniqueidentifier)
 	FROM
-		AURORAX.Transform_Iep iep JOIN
+ 		AURORAX.Transform_Iep iep JOIN
+		AURORAX.Student s on iep.StudentRefID = s.StudentRefID LEFT JOIN
+		AURORAX.MAP_OrgUnit ds on s.ServiceDistrictRefID = ds.DistrictRefID LEFT JOIN
+		AURORAX.MAP_OrgUnit dh on s.HomeDistrictRefID = dh.DistrictRefID LEFT JOIN
+		AURORAX.MAP_SchoolView ss on s.ServiceSchoolRefID = ss.SchoolRefId LEFT JOIN
+		AURORAX.MAP_SchoolView sh on s.HomeSchoolRefID = sh.SchoolRefId JOIN
 		PrgSection sec ON
 			sec.VersionID = iep.VersionDestID AND
 			sec.DefID = '427AF47C-A2D2-47F0-8057-7040725E3D89' --IEP Demographics
