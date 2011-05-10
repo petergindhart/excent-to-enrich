@@ -7,13 +7,6 @@ INSERT INTO VC3TaskScheduler.ScheduledTaskSchedule (ID, TaskTypeID, Parameters, 
 -- INSERT VC3ETL.ExtractDatabase (ID,Type,DatabaseType,Server,DatabaseOwner,DatabaseName,Username,Password,LinkedServer,IsLinkedServerManaged,LastExtractDate,LastLoadDate,SucceededEmail,SucceededSubject,SucceededMessage,FailedEmail,FailedSubject,FailedMessage,RetainSnapshot,DestTableTempSuffix,DestTableFinalSuffix,FileGroup,Schedule,Name,Enabled) VALUES ('29D14961-928D-4BEE-9025-238496D144C6','84D37F9E-A389-4E56-812F-7378401F3347','58BA0C59-5087-4F38-B00B-F3480C93064B','\\10.0.1.26\FFDB\CO\AuroraPS',NULL,NULL,'DEVSERVER\FlatFileUser','vc3go!!',NULL,0,NULL,NULL,NULL,'[{BrandName}] {SisDatabase} import completed','Successfully imported {SnapshotRosterYear} {SisDatabase} data into {BrandName}.  {SisDatabase} data in {BrandName} is now current as of {SnapshotDate}.      Next Scheduled Import Time: {NextImportTime}',NULL,NULL,'[{BrandName}] {SisDatabase} import failed',1,'_NEW','_LOCAL',NULL,'B588BEC0-05E5-4891-8CF3-1D4FEDEE9EDC','Aurora PS Special Ed',1)
 -- INSERT INTO VC3ETL.FlatFileExtractDatabase VALUES ('29D14961-928D-4BEE-9025-238496D144C6', 'E:\EnrichDataFiles')
 
--- note:  this block of code is necessary only uuntil the update that contains the changes is released, after which the update will fail
-
-ALTER TABLE VC3ETL.FlatFileExtractTableType ADD
-	ColumnDelimiter char(1) NOT NULL CONSTRAINT DF_FlatFileExtractTableType_ColumnDelimiter DEFAULT ','
-GO
-
-
 /****** Object:  StoredProcedure [VC3ETL].[FlatFileExtractTableType_GetAllRecords]    Script Date: 04/18/2011 12:40:42 ******/
 IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'[VC3ETL].[FlatFileExtractTableType_GetAllRecords]') AND OBJECTPROPERTY(id,N'IsProcedure') = 1)
 DROP PROCEDURE [VC3ETL].[FlatFileExtractTableType_GetAllRecords]
