@@ -19,7 +19,7 @@ select
 	OrgUnitId = mo.DestID,
 	IsLocalOrg = case when r.ID is null then 0 else 1 end, 
 	ManuallyEntered = cast(1 as bit),
-	MinutesInstruction = cast(1800 as int), -- Defaulted for now. Should consider getting this from the customers.  Would need to be added to the data specification
+	MinutesInstruction = cast(NULL as int), -- Defaulted for now. Should consider getting this from the customers.  Would need to be added to the data specification
 	Street = cast(null as varchar),
 	City = cast(null as varchar),
 	State = cast(null as varchar),
