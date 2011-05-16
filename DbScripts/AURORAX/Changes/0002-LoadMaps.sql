@@ -460,7 +460,7 @@ INSERT AURORAX.Map_PlacementOptionID VALUES('210', 'DC20B53C-0559-44F6-A463-3A92
 INSERT AURORAX.Map_PlacementOptionID VALUES('211', 'DC20B53C-0559-44F6-A463-3A92D9D4F69A', 'E47FBA7F-8EB0-4869-89DF-9DD3456846EC')
 INSERT AURORAX.Map_PlacementOptionID VALUES('212', 'DC20B53C-0559-44F6-A463-3A92D9D4F69A', 'E47FBA7F-8EB0-4869-89DF-9DD3456846EC')
 
--- made these school age placement options although it is possible there are some students under 6yo with these coddes
+-- made these school age placement options although it is possible there are some students under 6yo with these codes
 INSERT AURORAX.Map_PlacementOptionID VALUES('000', 'B0091A53-FEBE-44FB-8D15-4ED6728B03B4', 'D9D84E5B-45F9-4C72-8265-51A945CD0049')
 INSERT AURORAX.Map_PlacementOptionID VALUES('DNQ', '75AC7101-1F19-439D-8898-DDF6B310AA7A', 'D9D84E5B-45F9-4C72-8265-51A945CD0049')
 
@@ -506,6 +506,7 @@ insert AURORAX.Map_ServiceDefIDstatic (ServiceDefCode, DestID) values ('SvcSped0
 insert AURORAX.Map_ServiceDefIDstatic (ServiceDefCode, DestID) values ('SvcRelOT', 'B874A136-2F0E-4955-AA1E-1F0D45F263FB')
 insert AURORAX.Map_ServiceDefIDstatic (ServiceDefCode, DestID) values ('SvcRelOTI', 'B874A136-2F0E-4955-AA1E-1F0D45F263FB')
 insert AURORAX.Map_ServiceDefIDstatic (ServiceDefCode, DestID) values ('SvcRelOM', '9362532B-A768-41E7-8E99-9BB899948DBC')
+insert AURORAX.Map_ServiceDefIDstatic (ServiceDefCode, DestID) values ('SvcRelOMI', '9362532B-A768-41E7-8E99-9BB899948DBC')
 insert AURORAX.Map_ServiceDefIDstatic (ServiceDefCode, DestID) values ('SvcRelPT', '73107912-4959-4137-910B-B17E52076074')
 insert AURORAX.Map_ServiceDefIDstatic (ServiceDefCode, DestID) values ('SvcRelPTI', '73107912-4959-4137-910B-B17E52076074')
 insert AURORAX.Map_ServiceDefIDstatic (ServiceDefCode, DestID) values ('SvcRelPSY', '7BBAAB01-398D-4835-B4B0-13D543FAC564')
@@ -520,27 +521,45 @@ insert AURORAX.Map_ServiceDefIDstatic (ServiceDefCode, DestID) values ('SvcRelSP
 insert AURORAX.Map_ServiceDefID (ServiceDefCode, DestID)
 select ServiceDefCode, DestID from AURORAX.Map_ServiceDefIDstatic
 
+-- Service Location (APS must have provide a list of Service Location Names, because after this ETL code was written for CO-Template, CO-APS-Template contained these values, which are exact matches for Clarity source data)
+insert AURORAX.MAP_ServiceLocationID values ('15', '6D519EB8-F273-4181-8DB2-54792ED1126F')
+insert AURORAX.MAP_ServiceLocationID values ('03', 'A90FF5C1-C51A-4C9F-8F3B-CEE99AFED980')
+insert AURORAX.MAP_ServiceLocationID values ('24', '8FC37445-260F-4185-8E43-F5EC8AFCDDB3')
+insert AURORAX.MAP_ServiceLocationID values ('COM', 'E967FF3C-AC67-4778-9E9F-4F49FD935B72')
+insert AURORAX.MAP_ServiceLocationID values ('10', '9473FEB6-503F-496D-9C90-63CD6E94EC9F')
+insert AURORAX.MAP_ServiceLocationID values ('19', '3B6B8A32-700A-4F8A-BC5E-CA4CDF7920FB')
+insert AURORAX.MAP_ServiceLocationID values ('07', '50C5A7AA-4A71-4E76-B47E-CB0E1FA1775B')
+insert AURORAX.MAP_ServiceLocationID values ('01', '27D86DFE-218E-4E1B-A6DB-8B8E74D6F8BA')
+insert AURORAX.MAP_ServiceLocationID values ('SUM', '387A9503-8745-4755-ACAF-58728AAD4351')
+insert AURORAX.MAP_ServiceLocationID values ('08', '06016E85-8225-45EA-B761-EE64829BD5A0')
+insert AURORAX.MAP_ServiceLocationID values ('18', '8B0E9E35-6B9F-4041-B904-B0D108A8B2D9')
+insert AURORAX.MAP_ServiceLocationID values ('17', '66653EED-EC31-4A1B-AD0B-B00E2D7A8E90')
+insert AURORAX.MAP_ServiceLocationID values ('21', '005427EA-B861-45F6-B136-8EC79F32609A')
+insert AURORAX.MAP_ServiceLocationID values ('06', '20ED1421-8D30-4AEB-ADB3-94331B8A13C7')
+insert AURORAX.MAP_ServiceLocationID values ('HOM', 'D232C672-1924-4BF4-BFB1-1B9019ADA3FC')
+insert AURORAX.MAP_ServiceLocationID values ('11', '8AD6C908-7820-443F-983B-D9708A7C9F7D')
+insert AURORAX.MAP_ServiceLocationID values ('16', '3BB542B3-C530-4FB7-A4BB-39F4CD89D0C1')
+insert AURORAX.MAP_ServiceLocationID values ('22', '4A472BFD-9AE5-4277-8E30-74E8440F5511')
+insert AURORAX.MAP_ServiceLocationID values ('23', 'F41868AE-61D1-48A7-8CE0-58B69E5725BD')
+insert AURORAX.MAP_ServiceLocationID values ('13', 'BF6D383F-F397-4D83-8549-E36BDC033FA2')
+insert AURORAX.MAP_ServiceLocationID values ('09', '2617D8AB-A9D7-40AF-880E-8668155D9E49')
+insert AURORAX.MAP_ServiceLocationID values ('14', '9A13DE6C-3F62-47CC-A2FB-58A19717C0CF')
+insert AURORAX.MAP_ServiceLocationID values ('02', '52C74FE7-5685-4F8C-AAF2-63B40A8E4B51')
+insert AURORAX.MAP_ServiceLocationID values ('05', '01FAB9FA-F6B5-493C-9A8C-2E67EBAF8989')
+insert AURORAX.MAP_ServiceLocationID values ('20', 'BE345EB3-2B44-4128-AAC1-06E088833E25')
+insert AURORAX.MAP_ServiceLocationID values ('SPEC', '0273F4CF-296E-4FEC-80C4-F467C7E72579')
+insert AURORAX.MAP_ServiceLocationID values ('12', 'A25AC160-418F-48ED-9BD0-B6874DE9E799')
+insert AURORAX.MAP_ServiceLocationID values ('04', '465C097B-DEC0-4E20-ACDC-2ACF9E7F5DEF')
 
--- Service Location
-insert AURORAX.MAP_ServiceLocationIDstatic values ('01', '27D86DFE-218E-4E1B-A6DB-8B8E74D6F8BA')
-insert AURORAX.MAP_ServiceLocationIDstatic values ('04', '465C097B-DEC0-4E20-ACDC-2ACF9E7F5DEF')
-insert AURORAX.MAP_ServiceLocationIDstatic values ('05', '2D48D839-511D-4CBA-9E72-BDE1348EDCFB')
-insert AURORAX.MAP_ServiceLocationIDstatic values ('06', '7A691C77-B4D6-4D4D-8A29-131FC1E7A33A')
-insert AURORAX.MAP_ServiceLocationIDstatic values ('18', '701DF30A-7C66-423D-9796-DE5B5CB97139')
-insert AURORAX.MAP_ServiceLocationIDstatic values ('20', 'B1DA5BF5-325B-496F-A0B2-4AEAA6085C64')
-insert AURORAX.MAP_ServiceLocationIDstatic values ('21', 'E9DD5433-BC4C-4817-BF1D-A0B9203BAB8B')
-insert AURORAX.MAP_ServiceLocationIDstatic values ('24', '8FC37445-260F-4185-8E43-F5EC8AFCDDB3')
-insert AURORAX.MAP_ServiceLocationIDstatic values ('COM', '8FC37445-260F-4185-8E43-F5EC8AFCDDB3')
-insert AURORAX.MAP_ServiceLocationIDstatic values ('HOM', '7A691C77-B4D6-4D4D-8A29-131FC1E7A33A')
-insert AURORAX.MAP_ServiceLocationIDstatic values ('SUM', '27D86DFE-218E-4E1B-A6DB-8B8E74D6F8BA')
 
-insert AURORAX.MAP_ServiceLocationID (ServiceLocationCode, DestID)
-select ServiceLocationCode, DestID from AURORAX.MAP_ServiceLocationIDstatic
+--insert AURORAX.MAP_ServiceLocationID (ServiceLocationCode, DestID)
+--select ServiceLocationCode, DestID from AURORAX.MAP_ServiceLocationIDstatic
 
 
--- Post School Area Goal Definition
+-- Post School Area Goal Definition (it appears this is no longer used)
+/*
 insert AURORAX.MAP_PostSchoolGoalAreaDefID values ('01', 'ADB5C7FD-C09F-41E3-9C0E-9AF403C741D1')
 insert AURORAX.MAP_PostSchoolGoalAreaDefID values ('02', '823BA9DB-AF13-42BD-9CC2-EAA884701523')
 insert AURORAX.MAP_PostSchoolGoalAreaDefID values ('03', '2B5D9C8A-7FA7-4E74-9F0C-53327209E751')
-
+*/
 
