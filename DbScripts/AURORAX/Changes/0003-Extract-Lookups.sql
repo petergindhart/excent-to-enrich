@@ -8,11 +8,12 @@ DROP TABLE [AURORAX].[Lookups_LOCAL]
 GO
 
 CREATE TABLE [AURORAX].[Lookups_LOCAL](
-Type    varchar(20) not null,
-Code    varchar(150) not null,
-StateCode varchar(150) not null,
-Label    varchar(255) not null,
-Sequence    int NULL
+Type	varchar(20),
+SubType	varchar(20),
+Code	varchar(150),
+Label	varchar(254),
+StateCode	varchar(10),
+Sequence	varchar(3)
 )
 GO
 

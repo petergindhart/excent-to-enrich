@@ -5,17 +5,18 @@ GO
 CREATE VIEW [AURORAX].[Transform_IepDisability]
 AS
 	SELECT
-		DisabilityCode = x.Code,
-		DestID = m.DestID,
-		Name = x.Label,
-		Definition = isnull(i.Definition, '<div></div>'),
-		i.DeterminationFormTemplateID 
+		DestID = ISNULL(x.ID, NEWID()),
+		Name = l.Label,
+		Definition = cast('' as text),
+		DeterminationFormTemplateID = cast(null as uniqueidentifier),
+		StateCode = l.StateCode,
+		DeletedDate = CASE WHEN x.ID IS NULL THEN GETDATE() ELSE x.DeletedDate END
 	FROM
-		AURORAX.Lookups x LEFT JOIN
-		AURORAX.MAP_IepDisabilityID m on x.Code = m.DisabilityCode LEFT JOIN
-		IepDisability i on m.DestId = i.ID
+		AURORAX.Lookups l LEFT JOIN
+		IepDisability x on l.StateCode = x.StateCode
 	WHERE
-		x.Type = 'Disab' AND
-		x.Code <> '00' 
+		l.Type = 'Disab' AND
+		--x.Code <> '00' AND -- use source table filter
+		l.StateCode IS NOT NULL
 GO
 --

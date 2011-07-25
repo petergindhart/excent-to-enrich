@@ -12,7 +12,7 @@ AS
   CurrentSchoolID = sch.DestID,  
   CurrentGradeLevelID = g.ID,  
   EthnicityID = me.DestID,  
-  GenderID = case when src.Sex = 'F' then 'D0975FE1-D5CD-4E08-A396-E5FF1E9E7DF5' when src.Sex = 'M' then '8486EF9D-001A-4ECB-9373-8FE53CBB778E' else NULL end,-- create a lookup map?  
+  GenderID = (select ID from EnumValue where Type = 'D6194389-17AC-494C-9C37-FD911DA2DD4B' and Code = src.Sex), -- will error if more than one value
   Number = src.StudentLocalID,  
   src.FirstName,  
   src.MiddleName,  

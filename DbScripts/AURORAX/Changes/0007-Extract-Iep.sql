@@ -4,14 +4,18 @@ GO
 
 
 CREATE TABLE [AURORAX].[IEP_LOCAL](
-IepRefID    varchar(150),
-StudentRefID    varchar(150),
-InitialConsentDate    datetime,
-InitialEvalCompleteDate    datetime,
-IEPMeetingDate    datetime,
-NextAnnualDate    datetime,
-NextTriennialDate    datetime,
-LRECode    varchar(150)
+IepRefID	varchar(150),
+StudentRefID	varchar(150),
+IEPStartDate	varchar(10),
+IEPEndDate	varchar(10),
+NextReviewDate	varchar(10),
+InitialEvaluationDate	varchar(10),
+LatestEvaluationDate	varchar(10),
+NextEvaluationDate	varchar(10),
+ConsentForServicesDate	varchar(10),
+LRECode	varchar(150),
+MinutesPerWeek	varchar(4),
+ServiceDeliveryStatement	varchar(8000),
 )
 GO
 
