@@ -7,11 +7,12 @@ AS
 	SELECT
 		IEP.IepRefId,
 		m.DestID,
-		DeliveryStatement = cast(NULL as text)
+		DeliveryStatement = x.ServiceDeliveryStatement
 	FROM
-		AURORAX.Transform_Iep iep JOIN
+		AURORAX.Transform_Iep iep JOIN		
 		AURORAX.Map_SectionID m on 
 			m.DefID = '9AC79680-7989-4CC9-8116-1CCDB1D0AE5F' and
-			m.VersionID = iep.VersionDestID
+			m.VersionID = iep.VersionDestID JOIN
+		AURORAX.IEP x on iep.IepRefID = x.IepRefID
 GO
 --
