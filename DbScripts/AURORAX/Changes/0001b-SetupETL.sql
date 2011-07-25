@@ -1,3 +1,4 @@
+/*
 
 set nocount on;
 
@@ -62,34 +63,35 @@ DECLARE @VC3ETL_LoadTable TABLE (ID uniqueidentifier, ExtractDatabase uniqueiden
 -- Insert the data to be synchronized into the temporary table
 INSERT INTO @VC3ETL_LoadTable VALUES ('90dc3810-824a-4040-a223-0290453aa934', '29d14961-928d-4bee-9025-238496d144c6', 6, 'AURORAX.Transform_Iep', 'PrgItem', 1, 'AURORAX.MAP_IepRefID', 'IepRefId', 'DestID', 1, 1, 0, 1, 1, NULL, NULL, NULL, 0, 0, '5/9/2011 11:28:24 AM')
 INSERT INTO @VC3ETL_LoadTable VALUES ('86a1d977-790c-4852-b574-1d305b814a17', '29d14961-928d-4bee-9025-238496d144c6', 999, 'PrgInvolvement_RecalculateStatuses @involvementID = NULL', NULL, 0, NULL, NULL, NULL, 0, 0, 0, 0, 1, NULL, NULL, NULL, 0, 0, '5/9/2011 11:28:24 AM')
-INSERT INTO @VC3ETL_LoadTable VALUES ('78d7c5c4-dc7b-4443-bd00-297742cf435b', '29d14961-928d-4bee-9025-238496d144c6', 25, 'AURORAX.Transform_PrgGoals', 'PrgGoals', 0, NULL, NULL, NULL, 1, 0, 1, 1, 1, NULL, NULL, NULL, 0, 0, '5/9/2011 11:28:24 AM')
-INSERT INTO @VC3ETL_LoadTable VALUES ('7629f1be-f9d4-4d99-9302-3009027fd50e', '29d14961-928d-4bee-9025-238496d144c6', 27, 'AURORAX.Transform_PrgGoal', 'IepGoal', 0, NULL, NULL, 'DestID', 1, 1, 1, 1, 1, NULL, NULL, NULL, 0, 0, '5/9/2011 11:28:24 AM')
+INSERT INTO @VC3ETL_LoadTable VALUES ('78d7c5c4-dc7b-4443-bd00-297742cf435b', '29d14961-928d-4bee-9025-238496d144c6', 26, 'AURORAX.Transform_PrgGoals', 'PrgGoals', 0, NULL, NULL, NULL, 1, 0, 1, 1, 1, NULL, NULL, NULL, 0, 0, '5/9/2011 11:28:24 AM')
+INSERT INTO @VC3ETL_LoadTable VALUES ('7629f1be-f9d4-4d99-9302-3009027fd50e', '29d14961-928d-4bee-9025-238496d144c6', 28, 'AURORAX.Transform_PrgGoal', 'IepGoal', 0, NULL, NULL, 'DestID', 1, 1, 1, 1, 1, NULL, NULL, NULL, 0, 0, '5/9/2011 11:28:24 AM')
 INSERT INTO @VC3ETL_LoadTable VALUES ('aad80f07-6023-4753-af26-309ff6bf845c', '29d14961-928d-4bee-9025-238496d144c6', 1, 'AURORAX.Transform_OrgUnit', 'OrgUnit', 1, 'AURORAX.MAP_OrgUnit', 'DistrictRefID', NULL, 1, 0, 1, 1, 1, NULL, 'd.ID <> (select LocalOrgRootID from dbo.SystemSettings)', NULL, 0, 0, '5/9/2011 11:28:24 AM')
 INSERT INTO @VC3ETL_LoadTable VALUES ('0650f23e-b249-4d90-8389-36b73375b506', '29d14961-928d-4bee-9025-238496d144c6', 4, 'AURORAX.Transform_Student', 'Student', 1, 'AURORAX.MAP_StudentRefID', 'StudentRefID', 'DestID', 1, 0, 1, 1, 1, NULL, 'd.ManuallyEntered = 1', NULL, 0, 0, '5/9/2011 11:28:24 AM')
 INSERT INTO @VC3ETL_LoadTable VALUES ('7dc04117-bfed-4d7b-afde-3adc11f8858a', '29d14961-928d-4bee-9025-238496d144c6', 16, 'AURORAX.Transform_LRE', 'IepLeastRestrictiveEnvironment', 0, NULL, NULL, NULL, 1, 0, 1, 1, 1, NULL, NULL, NULL, 0, 0, '5/9/2011 11:28:24 AM')
 INSERT INTO @VC3ETL_LoadTable VALUES ('24326fb7-7ed4-49fd-8831-455068906ab9', '29d14961-928d-4bee-9025-238496d144c6', 8, 'AURORAX.Transform_Iep', 'PrgVersion', 1, 'AURORAX.MAP_VersionID', 'IepRefId', 'DestID', 1, 0, 1, 1, 1, NULL, NULL, NULL, 0, 0, '5/9/2011 11:28:24 AM')
 INSERT INTO @VC3ETL_LoadTable VALUES ('a50621c2-b0ca-4eec-b77d-54777d6b0508', '29d14961-928d-4bee-9025-238496d144c6', 11, 'AURORAX.Transform_InvolvementStatus', 'PrgInvolvementStatus', 0, NULL, NULL, NULL, 2, 1, 0, 1, 1, 'InvolvementID not in (select InvolvementID from PrgInvolvementStatus)', 'InvolvementID not in (select ID from PrgInvolvement)', NULL, 0, 0, '5/9/2011 11:28:24 AM')
-INSERT INTO @VC3ETL_LoadTable VALUES ('0ec64939-dec1-4d0f-bc24-5767bcc85507', '29d14961-928d-4bee-9025-238496d144c6', 26, 'AURORAX.Transform_PrgGoal', 'PrgGoal', 1, 'AURORAX.MAP_PrgGoalID', 'GoalRefID', 'DestID', 1, 1, 1, 1, 1, NULL, NULL, NULL, 0, 0, '5/9/2011 11:28:24 AM')
+INSERT INTO @VC3ETL_LoadTable VALUES ('0ec64939-dec1-4d0f-bc24-5767bcc85507', '29d14961-928d-4bee-9025-238496d144c6', 27, 'AURORAX.Transform_PrgGoal', 'PrgGoal', 1, 'AURORAX.MAP_PrgGoalID', 'GoalRefID', 'DestID', 1, 1, 1, 1, 1, NULL, NULL, NULL, 0, 0, '5/9/2011 11:28:24 AM')
 INSERT INTO @VC3ETL_LoadTable VALUES ('562c44e5-1e09-440c-b8eb-61c41aca4a19', '29d14961-928d-4bee-9025-238496d144c6', 17, 'AURORAX.Transform_LREPlacement', 'IepPlacement', 0, NULL, NULL, NULL, 2, 1, 0, 1, 1, 'DestID not in (select ID from IepPlacement)', 'ID NOT IN (SELECT DestID FROM AURORAX.Transform_LREPlacement WHERE DestID IS NOT NULL)', NULL, 0, 0, '5/9/2011 11:28:24 AM')
 INSERT INTO @VC3ETL_LoadTable VALUES ('07a951d2-f745-41a2-bfdb-74f6f4e73390', '29d14961-928d-4bee-9025-238496d144c6', 7, 'AURORAX.Transform_Iep', 'PrgIep', 0, NULL, NULL, NULL, 1, 0, 1, 1, 1, NULL, NULL, NULL, 0, 0, '5/9/2011 11:28:24 AM')
-INSERT INTO @VC3ETL_LoadTable VALUES ('bf8fe220-458f-4e1b-965c-750cfd698730', '29d14961-928d-4bee-9025-238496d144c6', 19, 'AURORAX.Transform_ServiceProviderTitle', 'ServiceProviderTitle', 1, 'AURORAX.MAP_ServiceProviderTitleID', 'ServiceProviderCode', 'DestID', 1, 1, 0, 1, 1, NULL, NULL, NULL, 0, 0, '5/9/2011 11:28:24 AM')
-INSERT INTO @VC3ETL_LoadTable VALUES ('0cff91d7-4e85-46d7-aaf2-75a217aa7edd', '29d14961-928d-4bee-9025-238496d144c6', 20, 'AURORAX.Transform_Schedule', 'Schedule', 1, 'AURORAX.MAP_ScheduleID', 'ServiceRefID', 'DestID', 1, 1, 0, 1, 1, NULL, NULL, NULL, 0, 0, '5/9/2011 11:28:24 AM')
-INSERT INTO @VC3ETL_LoadTable VALUES ('7a51ccc5-42ed-46b1-8ecc-820a8269006f', '29d14961-928d-4bee-9025-238496d144c6', 21, 'AURORAX.Transform_IepService', 'ServicePlan', 1, 'AURORAX.MAP_IepServiceID', 'ServiceRefID', 'DestID', 1, 1, 0, 1, 1, NULL, NULL, NULL, 0, 0, '5/9/2011 11:28:24 AM')
+INSERT INTO @VC3ETL_LoadTable VALUES ('bf8fe220-458f-4e1b-965c-750cfd698730', '29d14961-928d-4bee-9025-238496d144c6', 20, 'AURORAX.Transform_ServiceProviderTitle', 'ServiceProviderTitle', 1, 'AURORAX.MAP_ServiceProviderTitleID', 'ServiceProviderCode', 'DestID', 1, 1, 0, 1, 1, NULL, NULL, NULL, 0, 0, '5/9/2011 11:28:24 AM')
+INSERT INTO @VC3ETL_LoadTable VALUES ('0cff91d7-4e85-46d7-aaf2-75a217aa7edd', '29d14961-928d-4bee-9025-238496d144c6', 21, 'AURORAX.Transform_Schedule', 'Schedule', 1, 'AURORAX.MAP_ScheduleID', 'ServiceRefID', 'DestID', 1, 1, 0, 1, 1, NULL, NULL, NULL, 0, 0, '5/9/2011 11:28:24 AM')
+INSERT INTO @VC3ETL_LoadTable VALUES ('7a51ccc5-42ed-46b1-8ecc-820a8269006f', '29d14961-928d-4bee-9025-238496d144c6', 22, 'AURORAX.Transform_IepService', 'ServicePlan', 1, 'AURORAX.MAP_IepServiceID', 'ServiceRefID', 'DestID', 1, 1, 0, 1, 1, NULL, NULL, NULL, 0, 0, '5/9/2011 11:28:24 AM')
 INSERT INTO @VC3ETL_LoadTable VALUES ('9ef8de14-d683-4653-969e-831eb33d5ce6', '29d14961-928d-4bee-9025-238496d144c6', 18, 'AURORAX.Transform_DisabilityEligibility', 'IepDisabilityEligibility', 1, 'AURORAX.MAP_DisabilityEligibilityID', 'IepRefId, Sequence', 'DestID', 1, 1, 0, 1, 1, NULL, NULL, NULL, 0, 0, '5/9/2011 11:28:24 AM')
 INSERT INTO @VC3ETL_LoadTable VALUES ('40e2bf15-0ad8-4d9c-a1a3-8819ad5eca79', '29d14961-928d-4bee-9025-238496d144c6', 10, 'AURORAX.Transform_Dates', 'IepDates', 0, NULL, NULL, NULL, 1, 0, 1, 1, 1, NULL, NULL, NULL, 0, 0, '5/9/2011 11:28:24 AM')
 INSERT INTO @VC3ETL_LoadTable VALUES ('bc3f2841-10b3-4d1a-9617-9230dc792f74', '29d14961-928d-4bee-9025-238496d144c6', 13, 'AURORAX.Transform_IepServices', 'IepServices', 0, NULL, NULL, NULL, 1, 0, 1, 1, 1, NULL, NULL, NULL, 0, 0, '5/9/2011 11:28:24 AM')
 INSERT INTO @VC3ETL_LoadTable VALUES ('c258b587-87b6-40fa-83db-946c55d48482', '29d14961-928d-4bee-9025-238496d144c6', 0, 'AURORAX.Transform_IepDisability', 'IepDisability', 0, NULL, NULL, NULL, 1, 0, 1, 1, 1, NULL, NULL, NULL, 0, 0, '5/9/2011 11:28:24 AM')
-INSERT INTO @VC3ETL_LoadTable VALUES ('750cba2a-ce1f-4653-9e43-9a450eac3653', '29d14961-928d-4bee-9025-238496d144c6', 22, 'AURORAX.Transform_IepService', 'IepServicePlan', 0, NULL, NULL, 'DestID', 1, 1, 1, 1, 1, NULL, NULL, NULL, 0, 0, '5/9/2011 11:28:24 AM')
+INSERT INTO @VC3ETL_LoadTable VALUES ('750cba2a-ce1f-4653-9e43-9a450eac3653', '29d14961-928d-4bee-9025-238496d144c6', 23, 'AURORAX.Transform_IepService', 'IepServicePlan', 0, NULL, NULL, 'DestID', 1, 1, 1, 1, 1, NULL, NULL, NULL, 0, 0, '5/9/2011 11:28:24 AM')
+INSERT INTO @VC3ETL_LoadTable VALUES ('92b262d9-69b2-4064-8705-9b0fce34f4bf', '29d14961-928d-4bee-9025-238496d144c6', 19, 'AURORAX.Transform_PrgLocation', 'PrgLocation', 1, 'AURORAX.MAP_ServiceLocationID', 'ServiceLocationCode', 'DestID', 1, 1, 0, 1, 1, NULL, NULL, NULL, 0, 0, '5/9/2011 11:28:24 AM')
 INSERT INTO @VC3ETL_LoadTable VALUES ('d9d1e9ff-0a17-435e-b0c1-9dcf2f77a2d5', '29d14961-928d-4bee-9025-238496d144c6', 15, 'AURORAX.Transform_ServiceDefID', 'IepServiceDef', 0, NULL, NULL, NULL, 1, 0, 1, 1, 1, NULL, NULL, NULL, 0, 0, '5/9/2011 11:28:24 AM')
 INSERT INTO @VC3ETL_LoadTable VALUES ('df0eeded-72fc-4b7b-978d-c0002b7661b8', '29d14961-928d-4bee-9025-238496d144c6', 12, 'AURORAX.Transform_Demographics', 'IepDemographics', 0, NULL, NULL, NULL, 1, 0, 1, 1, 1, NULL, NULL, NULL, 0, 0, '5/9/2011 11:28:24 AM')
 INSERT INTO @VC3ETL_LoadTable VALUES ('9fdb23c0-6833-49ed-b72c-d8e35cbe4bf0', '29d14961-928d-4bee-9025-238496d144c6', 3, 'AURORAX.Transform_PrgItemOutcome', 'PrgItemOutcome', 1, 'AURORAX.MAP_OutcomeID', 'ExitReason', 'DestID', 1, 1, 0, 1, 1, NULL, NULL, NULL, 0, 0, '5/9/2011 11:28:24 AM')
 INSERT INTO @VC3ETL_LoadTable VALUES ('13503b5b-45bf-4cb3-9843-de028cf0dd55', '29d14961-928d-4bee-9025-238496d144c6', 5, 'AURORAX.Transform_Involvement', 'PrgInvolvement', 1, 'AURORAX.MAP_InvolvementID', 'StudentRefID', 'DestID', 1, 1, 1, 1, 1, NULL, NULL, NULL, 0, 0, '5/9/2011 11:28:24 AM')
 INSERT INTO @VC3ETL_LoadTable VALUES ('6bb2a9ad-fa9b-47ef-93fa-e4a9e99e0005', '29d14961-928d-4bee-9025-238496d144c6', 2, 'AURORAX.Transform_School', 'School', 0, NULL, 'SchoolCode', NULL, 1, 0, 1, 1, 1, NULL, 'd.ID not in (select ID from School where IsLocalOrg = 1 and ManuallyEntered = 0)', NULL, 0, 0, '5/9/2011 11:28:24 AM')
-INSERT INTO @VC3ETL_LoadTable VALUES ('1d683708-d043-4ce3-8427-e5e9ad0d6256', '29d14961-928d-4bee-9025-238496d144c6', 28, 'AURORAX.Transform_PrgGoalObjective', 'PrgGoalObjective', 1, 'AURORAX.MAP_PrgGoalObjectiveID', 'ObjectiveRefID', 'DestID', 1, 1, 1, 1, 1, NULL, NULL, NULL, 0, 0, '5/9/2011 11:28:24 AM')
-INSERT INTO @VC3ETL_LoadTable VALUES ('bed8e644-368f-4ae7-81d7-e7ffbdbfa9b6', '29d14961-928d-4bee-9025-238496d144c6', 9, 'AURORAX.Transform_Section', 'PrgSection', 0, NULL, NULL, NULL, 2, 1, 0, 1, 1, 'DestID not in (select ID from PrgSection)', 'VersionID NOT IN (SELECT DestID FROM AURORAX.Map_VersionID) AND ID NOT IN (SELECT DestID FROM AURORAX.Transform_Section WHERE DestID IS NOT NULL UNION SELECT StartingSectionID FROM PrgMilestone)', NULL, 0, 0, '5/9/2011 11:28:24 AM')
-INSERT INTO @VC3ETL_LoadTable VALUES ('015973b8-d4ac-40df-b4ff-e8cbd787b8e8', '29d14961-928d-4bee-9025-238496d144c6', 23, 'AURORAX.Transform_ServiceSchedule', 'ServiceSchedule', 0, NULL, NULL, NULL, 1, 0, 1, 1, 1, NULL, NULL, NULL, 0, 0, '5/9/2011 11:28:24 AM')
+INSERT INTO @VC3ETL_LoadTable VALUES ('1d683708-d043-4ce3-8427-e5e9ad0d6256', '29d14961-928d-4bee-9025-238496d144c6', 29, 'AURORAX.Transform_PrgGoalObjective', 'PrgGoalObjective', 1, 'AURORAX.MAP_PrgGoalObjectiveID', 'ObjectiveRefID', 'DestID', 1, 1, 1, 1, 1, NULL, NULL, NULL, 0, 0, '5/9/2011 11:28:24 AM')
+INSERT INTO @VC3ETL_LoadTable VALUES ('bed8e644-368f-4ae7-81d7-e7ffbdbfa9b6', '29d14961-928d-4bee-9025-238496d144c6', 9, 'AURORAX.Transform_Section', 'PrgSection', 0, NULL, NULL, NULL, 2, 1, 0, 1, 1, 'DestID not in (select ID from PrgSection)', 'VersionID NOT IN (SELECT DestID FROM AURORAX.Map_VersionID) AND ID NOT IN (SELECT DestID FROM AURORAX.Transform_Section WHERE DestID IS NOT NULL)', NULL, 0, 0, '5/9/2011 11:28:24 AM')
+INSERT INTO @VC3ETL_LoadTable VALUES ('015973b8-d4ac-40df-b4ff-e8cbd787b8e8', '29d14961-928d-4bee-9025-238496d144c6', 24, 'AURORAX.Transform_ServiceSchedule', 'ServiceSchedule', 0, NULL, NULL, NULL, 1, 0, 1, 1, 1, NULL, NULL, NULL, 0, 0, '5/9/2011 11:28:24 AM')
 INSERT INTO @VC3ETL_LoadTable VALUES ('534be8de-46d8-4108-bd9f-f3937893f2e5', '29d14961-928d-4bee-9025-238496d144c6', 14, 'AURORAX.Transform_ServiceDefID', 'ServiceDef', 1, 'AURORAX.MAP_ServiceDefID', 'ServiceDefCode', 'DestID', 1, 1, 0, 1, 1, NULL, NULL, NULL, 0, 0, '5/9/2011 11:28:24 AM')
-INSERT INTO @VC3ETL_LoadTable VALUES ('8cf3ee0f-0a3b-4c16-8489-f43c011e94b1', '29d14961-928d-4bee-9025-238496d144c6', 24, 'AURORAX.Transform_ServiceSchedule', 'ServiceScheduleServicePlan', 0, NULL, NULL, NULL, 1, 0, 1, 1, 1, NULL, NULL, NULL, 0, 0, '5/9/2011 11:28:24 AM')
+INSERT INTO @VC3ETL_LoadTable VALUES ('8cf3ee0f-0a3b-4c16-8489-f43c011e94b1', '29d14961-928d-4bee-9025-238496d144c6', 25, 'AURORAX.Transform_ServiceSchedule', 'ServiceScheduleServicePlan', 0, NULL, NULL, NULL, 1, 0, 1, 1, 1, NULL, NULL, NULL, 0, 0, '5/9/2011 11:28:24 AM')
 
 -- Declare a temporary table to hold the data to be synchronized
 DECLARE @VC3ETL_LoadColumn TABLE (ID uniqueidentifier, LoadTable uniqueidentifier, SourceColumn varchar(500), DestColumn varchar(500), ColumnType char(1), UpdateOnDelete bit, DeletedValue varchar(500), NullValue varchar(500))
@@ -180,6 +182,7 @@ INSERT INTO @VC3ETL_LoadColumn VALUES ('2ae7f18e-0258-4f7f-b2af-66cb4f37f88a', '
 INSERT INTO @VC3ETL_LoadColumn VALUES ('ad50ec42-e663-489c-8135-67142d7f5b3b', '90dc3810-824a-4040-a223-0290453aa934', 'CreatedBy', 'CreatedBy', 'C', 0, NULL, NULL)
 INSERT INTO @VC3ETL_LoadColumn VALUES ('cc2ea47d-a413-4676-9caa-678e05679288', '7a51ccc5-42ed-46b1-8ecc-820a8269006f', 'DefID', 'DefID', 'C', 0, NULL, NULL)
 INSERT INTO @VC3ETL_LoadColumn VALUES ('fb03b6d1-4fc8-47b7-9a36-6aeb61d5f499', '0ec64939-dec1-4d0f-bc24-5767bcc85507', 'DestID', 'ID', 'K', 0, NULL, NULL)
+INSERT INTO @VC3ETL_LoadColumn VALUES ('54a1dfe3-2e99-4930-93fb-6b3db09dd785', '92b262d9-69b2-4064-8705-9b0fce34f4bf', 'DestID', 'ID', 'K', 0, NULL, NULL)
 INSERT INTO @VC3ETL_LoadColumn VALUES ('486d78ad-47ef-4159-9d71-6ca8f4671faa', '0ec64939-dec1-4d0f-bc24-5767bcc85507', 'Sequence', 'Sequence', 'C', 0, NULL, NULL)
 INSERT INTO @VC3ETL_LoadColumn VALUES ('cdbe9e9a-3790-4d72-b15b-6d5cb3eca5ac', 'aad80f07-6023-4753-af26-309ff6bf845c', 'PhoneNumber', 'PhoneNumber', 'C', 0, NULL, NULL)
 INSERT INTO @VC3ETL_LoadColumn VALUES ('027ceae0-da58-477c-92d7-6dea227df70d', 'aad80f07-6023-4753-af26-309ff6bf845c', 'ZipCode', 'ZipCode', 'C', 0, NULL, NULL)
@@ -270,6 +273,7 @@ INSERT INTO @VC3ETL_LoadColumn VALUES ('80e948ab-e118-434a-a786-cb572704c08e', '
 INSERT INTO @VC3ETL_LoadColumn VALUES ('64af83c1-ae78-4fc2-b00a-d1509f3594a8', '0cff91d7-4e85-46d7-aaf2-75a217aa7edd', 'DestID', 'ID', 'K', 0, NULL, NULL)
 INSERT INTO @VC3ETL_LoadColumn VALUES ('e354078e-2d95-42f7-9e01-d3537ce92dff', 'df0eeded-72fc-4b7b-978d-c0002b7661b8', 'HomeSchoolID', 'HomeSchoolID', 'C', 0, NULL, NULL)
 INSERT INTO @VC3ETL_LoadColumn VALUES ('a4033d67-4d1b-452e-a68c-d412538d04e5', '015973b8-d4ac-40df-b4ff-e8cbd787b8e8', 'LocationDescription', 'LocationDescription', 'C', 0, NULL, NULL)
+INSERT INTO @VC3ETL_LoadColumn VALUES ('008757f4-1744-4c93-8482-d50c6f19d365', '92b262d9-69b2-4064-8705-9b0fce34f4bf', 'Description', 'Description', 'C', 0, NULL, NULL)
 INSERT INTO @VC3ETL_LoadColumn VALUES ('d3edc29c-7ad3-437c-a7ae-d51e896b4d1b', '13503b5b-45bf-4cb3-9843-de028cf0dd55', 'DestID', 'ID', 'K', 0, NULL, NULL)
 INSERT INTO @VC3ETL_LoadColumn VALUES ('8d99e187-3ba3-45aa-a18a-d6fa1b44811c', '0cff91d7-4e85-46d7-aaf2-75a217aa7edd', 'StartDate', 'StartDate', 'C', 0, NULL, NULL)
 INSERT INTO @VC3ETL_LoadColumn VALUES ('98f02872-1fa9-43d0-af1b-d7754a308413', '9fdb23c0-6833-49ed-b72c-d8e35cbe4bf0', 'Text', 'Text', 'C', 0, NULL, NULL)
@@ -288,6 +292,7 @@ INSERT INTO @VC3ETL_LoadColumn VALUES ('8fbcac5c-90b7-4c04-9fce-e6f9039b9388', '
 INSERT INTO @VC3ETL_LoadColumn VALUES ('2f5300f0-2cdf-4138-a429-e8052eb5226b', '90dc3810-824a-4040-a223-0290453aa934', 'GradeLevelID', 'GradeLevelID', 'C', 0, NULL, NULL)
 INSERT INTO @VC3ETL_LoadColumn VALUES ('dafdbcaf-ebe8-4f49-a7ac-e97b3ded59a7', '7a51ccc5-42ed-46b1-8ecc-820a8269006f', 'StudentID', 'StudentID', 'C', 0, NULL, NULL)
 INSERT INTO @VC3ETL_LoadColumn VALUES ('e50ccd91-9653-45e1-931b-ea0a8535ac61', 'aad80f07-6023-4753-af26-309ff6bf845c', 'Street', 'Street', 'C', 0, NULL, NULL)
+INSERT INTO @VC3ETL_LoadColumn VALUES ('41d717f2-b66e-4a7a-b7eb-ea13df3e3917', '92b262d9-69b2-4064-8705-9b0fce34f4bf', 'Name', 'Name', 'C', 0, NULL, NULL)
 INSERT INTO @VC3ETL_LoadColumn VALUES ('c174a684-ad45-4805-83e2-ea8f6d324615', '40e2bf15-0ad8-4d9c-a1a3-8819ad5eca79', 'DestID', 'ID', 'K', 0, NULL, NULL)
 INSERT INTO @VC3ETL_LoadColumn VALUES ('727e5aff-900c-4d8f-a1fd-ebbb2abc1b8d', 'df0eeded-72fc-4b7b-978d-c0002b7661b8', 'LimittedEnglishProficiencyID', 'LimittedEnglishProficiencyID', 'C', 0, NULL, NULL)
 INSERT INTO @VC3ETL_LoadColumn VALUES ('3393fb20-49ec-4b9b-b0c0-ec8eb585e108', '0cff91d7-4e85-46d7-aaf2-75a217aa7edd', 'WeeklyFri', 'WeeklyFri', 'C', 0, NULL, NULL)
@@ -307,13 +312,12 @@ INSERT INTO @VC3ETL_LoadColumn VALUES ('1603ea8f-56d8-4ac1-a52f-f7fad2300888', '
 INSERT INTO @VC3ETL_LoadColumn VALUES ('9cefdf8f-286c-404a-8f16-fb0a7d3bbf70', '0650f23e-b249-4d90-8389-36b73375b506', 'x_language', 'x_language', 'C', 0, NULL, NULL)
 INSERT INTO @VC3ETL_LoadColumn VALUES ('ac5ce59f-7984-4230-8e72-fc3b4c6164fd', '0650f23e-b249-4d90-8389-36b73375b506', 'LastName', 'LastName', 'C', 0, NULL, NULL)
 INSERT INTO @VC3ETL_LoadColumn VALUES ('0b4f298c-9755-447c-ab3d-fcd851c61024', '9ef8de14-d683-4653-969e-831eb33d5ce6', 'DisabilityID', 'DisabilityID', 'C', 0, NULL, NULL)
+INSERT INTO @VC3ETL_LoadColumn VALUES ('0d12eb15-aef7-430d-a99a-fe1941af7539', '92b262d9-69b2-4064-8705-9b0fce34f4bf', 'MedicaidLocationID', 'MedicaidLocationID', 'C', 0, NULL, NULL)
 INSERT INTO @VC3ETL_LoadColumn VALUES ('9ba2f5a9-f400-4e4a-a83e-fe3f04fcad43', '0cff91d7-4e85-46d7-aaf2-75a217aa7edd', 'WeeklyWed', 'WeeklyWed', 'C', 0, NULL, NULL)
 INSERT INTO @VC3ETL_LoadColumn VALUES ('1043cb3e-c39b-4ad7-a773-fe4e7f1f7114', '0650f23e-b249-4d90-8389-36b73375b506', 'x_CountryOfOrigin', 'x_CountryOfOrigin', 'C', 0, NULL, NULL)
 INSERT INTO @VC3ETL_LoadColumn VALUES ('387b16f6-3664-4d15-b859-fe77b56324b7', '7a51ccc5-42ed-46b1-8ecc-820a8269006f', 'EndDate', 'EndDate', 'C', 0, NULL, NULL)
 INSERT INTO @VC3ETL_LoadColumn VALUES ('19f0a5ec-717d-40e3-b5bf-ff57cf87eac0', '750cba2a-ce1f-4653-9e43-9a450eac3653', 'InstanceID', 'InstanceID', 'C', 0, NULL, NULL)
 INSERT INTO @VC3ETL_LoadColumn VALUES ('5fc480f9-5b82-413b-9018-ffa6bec69030', 'd9d1e9ff-0a17-435e-b0c1-9dcf2f77a2d5', 'DestID', 'ID', 'K', 0, NULL, NULL)
-
-UPDATE VC3ETL.LoadTable set LastLoadDate = NULL WHERE ExtractDatabase = '29d14961-928d-4bee-9025-238496d144c6'
 
 set nocount off;
 
@@ -336,5 +340,9 @@ UPDATE Destination SET Destination.ExtractDatabase = Source.ExtractDatabase, Des
 UPDATE Destination SET Destination.Type = Source.Type, Destination.FileName = Source.FileName FROM @VC3ETL_FlatFileExtractTable Source JOIN VC3ETL.FlatFileExtractTable Destination ON Source.ID = Destination.ID
 UPDATE Destination SET Destination.ExtractDatabase = Source.ExtractDatabase, Destination.Sequence = Source.Sequence, Destination.SourceTable = Source.SourceTable, Destination.DestTable = Source.DestTable, Destination.HasMapTable = Source.HasMapTable, Destination.MapTable = Source.MapTable, Destination.KeyField = Source.KeyField, Destination.DeleteKey = Source.DeleteKey, Destination.ImportType = Source.ImportType, Destination.DeleteTrans = Source.DeleteTrans, Destination.UpdateTrans = Source.UpdateTrans, Destination.InsertTrans = Source.InsertTrans, Destination.Enabled = Source.Enabled, Destination.SourceTableFilter = Source.SourceTableFilter, Destination.DestTableFilter = Source.DestTableFilter, Destination.PurgeCondition = Source.PurgeCondition, Destination.KeepMappingAfterDelete = Source.KeepMappingAfterDelete, Destination.StartNewTransaction = Source.StartNewTransaction, Destination.LastLoadDate = Source.LastLoadDate FROM @VC3ETL_LoadTable Source JOIN VC3ETL.LoadTable Destination ON Source.ID = Destination.ID
 UPDATE Destination SET Destination.LoadTable = Source.LoadTable, Destination.SourceColumn = Source.SourceColumn, Destination.DestColumn = Source.DestColumn, Destination.ColumnType = Source.ColumnType, Destination.UpdateOnDelete = Source.UpdateOnDelete, Destination.DeletedValue = Source.DeletedValue, Destination.NullValue = Source.NullValue FROM @VC3ETL_LoadColumn Source JOIN VC3ETL.LoadColumn Destination ON Source.ID = Destination.ID
-GO
+
 --
+
+*/
+
+GO

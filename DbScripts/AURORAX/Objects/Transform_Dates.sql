@@ -7,18 +7,18 @@ GO
 CREATE VIEW AURORAX.Transform_Dates
 AS
 	SELECT
-		DestID = sec.ID,
-		NextReviewDate = i.NextReviewDate,
-		NextEvaluationDate = i.NextEvaluationDate,
-		EligibilityDate = i.LatestEvaluationDate, -- ??
-		ConsentDate = i.ConsentForServicesDate, -- This is Initial.
-		InitialEvaluationDate = i.InitialEvaluationDate,
-		LatestEvaluationDate = i.LatestEvaluationDate -- ??
+		DestID = m.DestID,
+		NextReviewDate = CASE WHEN ISDATE(s.NextReviewDate) = 1 THEN s.NextReviewDate ELSE NULL END,
+		NextEvaluationDate = CASE WHEN ISDATE(s.NextEvaluationDate) = 1 THEN s.NextEvaluationDate ELSE NULL END,
+		InitialEvaluationDate = CASE WHEN ISDATE(s.InitialEvaluationDate) = 1 THEN s.InitialEvaluationDate ELSE NULL END,
+		LatestEvaluationDate = CASE WHEN ISDATE(s.LatestEvaluationDate) = 1 THEN s.LatestEvaluationDate ELSE NULL END
+		--EligibilityDate = i.IEPMeetingDate, -- should this be InitialEvalCompleteDate?  we probably need curr eval date
+		--ConsentDate = i.InitialConsentDate, -- This is Initial - is that what is needed?
 	FROM
 		AURORAX.Transform_Iep iep JOIN
-		PrgSection sec ON
-			sec.VersionID = iep.VersionDestID AND
-			sec.DefID = 'EE479921-3ECB-409A-96D7-61C8E7BA0E7B' JOIN --IEP Dates
-		  AURORAX.IEP i on iep.IepRefID = i.IepRefID
+		AURORAX.IEP s on s.IepRefID = iep.IepRefID LEFT JOIN
+		AURORAX.Map_SectionID m on 
+			m.DefID = 'EE479921-3ECB-409A-96D7-61C8E7BA0E7B' and
+			m.VersionID = iep.VersionDestID
 GO
 --

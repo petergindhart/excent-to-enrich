@@ -6,19 +6,20 @@ CREATE VIEW AURORAX.Transform_Section
 AS
 	-- versioned sections
 	SELECT
-		DestID = isnull(s.ID, newid()),
+		s.DestID,
 		ItemID = i.DestID,
 		DefID = d.ID,
 		VersionID = i.VersionDestID,
-		FormInstanceID = fi.ID
+		FormInstanceID = cast(NULL as uniqueidentifier)
 	FROM
 		AURORAX.Transform_Iep i CROSS JOIN
 		PrgSectionDef d LEFT JOIN -- left join???????
-		PrgSection s ON
+		AURORAX.Map_SectionID s ON
 			s.VersionID = i.VersionDestID AND
-			s.DefID = d.ID LEFT JOIN
-		FormInstance fi ON 
-			s.FormInstanceID = fi.ID -- is it necessary to join to PrgItemForm ?
+			s.DefID = d.ID
+		--LEFT JOIN
+		--FormInstance fi ON 
+		--	s.FormInstanceID = fi.ID -- is it necessary to join to PrgItemForm ?
 	WHERE
 		d.ID IN
 			(
@@ -27,7 +28,8 @@ AS
 				'0CBA436F-8043-4D22-8F3D-289E057F1AAB', --IEP LRE
 				'F050EF5E-3ED8-43D5-8FE7-B122502DE86A', --Sped Eligibility Determination
 				'427AF47C-A2D2-47F0-8057-7040725E3D89', --IEP Demographics
-				'EE479921-3ECB-409A-96D7-61C8E7BA0E7B' --IEP Dates
+				'D83A4710-A69F-4310-91F8-CB5BFFB1FE4C', --Sped Consent Services
+				'EE479921-3ECB-409A-96D7-61C8E7BA0E7B'  --IEP Dates
 				/*
 				-- SUPPORTED SECTION DEFINITION OPTIONS --
 				select '''' + CAST(d.ID as varchar(36)) + ''', --' + t.Name, d.ItemDefID, t.*

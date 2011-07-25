@@ -6,13 +6,13 @@ CREATE VIEW [AURORAX].[Transform_IepServices]
 AS
 	SELECT
 		IEP.IepRefId,
-		DestID = sec.ID,
-		DeliveryStatement = cast(NULL as text)
+		m.DestID,
+		DeliveryStatement = x.ServiceDeliveryStatement
 	FROM
-		AURORAX.Transform_Iep iep JOIN
-		PrgSection sec ON
-			sec.VersionID = iep.VersionDestID AND
-			sec.DefID = '9AC79680-7989-4CC9-8116-1CCDB1D0AE5F' LEFT JOIN --IEP Services
-		dbo.IepServices iv on iv.ID = sec.ID 
+		AURORAX.Transform_Iep iep JOIN		
+		AURORAX.Map_SectionID m on 
+			m.DefID = '9AC79680-7989-4CC9-8116-1CCDB1D0AE5F' and
+			m.VersionID = iep.VersionDestID JOIN
+		AURORAX.IEP x on iep.IepRefID = x.IepRefID
 GO
 --

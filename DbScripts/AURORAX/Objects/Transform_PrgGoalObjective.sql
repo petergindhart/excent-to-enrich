@@ -7,18 +7,22 @@ AS
  SELECT
   o.ObjectiveRefID,
   DestID = m.DestID,
-  GoalID = g.DestID,
+  TypeID = cast('4440EBD6-2AAD-4B78-9018-F52EC89A8D49'  as uniqueidentifier),
+  InstanceID = g.InstanceID,
   Sequence = (
 	SELECT count(*)
 	FROM AURORAX.Objective
 	WHERE GoalRefID = g.GoalRefID AND
 	Sequence < o.Sequence
 	),
-  Text = cast(o.ObjText as text)
+  IsProbeGoal = cast(0 as bit),
+  TargetDate = g.TargetDate,
+  GoalStatement = cast(o.ObjText as text),
+  ParentID = g.DestID
  FROM
   AURORAX.Transform_PrgGoal g JOIN
   AURORAX.Objective o on g.GoalRefID = o.GoalRefID LEFT JOIN
   AURORAX.MAP_PrgGoalObjectiveID m on o.ObjectiveRefID = m.ObjectiveRefID LEFT JOIN
-  dbo.PrgGoalObjective obj on m.DestID = obj.ID
+  dbo.PrgGoal obj on m.DestID = obj.ID
 GO
 ---

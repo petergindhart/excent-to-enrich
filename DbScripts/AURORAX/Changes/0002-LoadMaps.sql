@@ -1,3 +1,24 @@
+---- #############################################################################
+---- GradeLevel Map Table
+--IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'[AURORAX].[Map_GradeLevelID]') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
+--	DROP TABLE [AURORAX].[Map_GradeLevelID]
+--GO
+--CREATE TABLE AURORAX.[Map_GradeLevelID]
+--(
+--	Type varchar(20) NOT NULL,
+--	SubType varchar(20) NOT NULL,
+--	Code varchar(150) NOT NULL,
+--	DestID uniqueidentifier NOT NULL
+--)
+--GO
+
+--ALTER TABLE AURORAX.Map_GradeLevelID ADD CONSTRAINT
+--PK_Map_GradeLevelID PRIMARY KEY CLUSTERED
+--(
+--	Type, SubType, Code
+--)
+--
+
 -- #############################################################################
 -- Student
 IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'[AURORAX].[MAP_StudentRefID]') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
@@ -70,8 +91,45 @@ PK_Map_VersionID PRIMARY KEY CLUSTERED
 )
 GO
 
+-- #############################################################################
+-- Section
+IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'[AURORAX].[Map_SectionID]') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
+	DROP TABLE [AURORAX].[Map_SectionID]
+GO
+CREATE TABLE AURORAX.Map_SectionID
+(
+	VersionID uniqueidentifier NOT NULL,
+	DefID uniqueidentifier NOT NULL,
+	DestID uniqueidentifier
+)
+GO
+ALTER TABLE AURORAX.Map_SectionID ADD CONSTRAINT
+PK_Map_SectionID PRIMARY KEY CLUSTERED
+(
+	VersionID, DefID
+)
+GO
+
 -- ########  Map tables below this line inserted with data (IDs) from Template DB IDs
 -- ########  from Template DB by hand with IDs provided by client by comparing the respective descriptions
+
+-- #############################################################################
+-- IepServiceCategory Map Table
+IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'[AURORAX].[MAP_IepServiceCategoryID]') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
+	DROP TABLE [AURORAX].[MAP_IepServiceCategoryID]
+GO
+CREATE TABLE AURORAX.[MAP_IepServiceCategoryID]
+(
+	SubType varchar(20) NOT NULL,
+	DestID uniqueidentifier NOT NULL
+)
+GO
+
+ALTER TABLE AURORAX.MAP_IepServiceCategoryID ADD CONSTRAINT
+PK_MAP_IepServiceCategoryID PRIMARY KEY CLUSTERED
+(
+	SubType
+)
 
 -- #############################################################################
 -- Service Frequency
@@ -117,6 +175,25 @@ PK_MAP_ServiceProviderTitleID PRIMARY KEY CLUSTERED
 )
 GO
 
+-- #############################################################################
+-- Service Location
+IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'AURORAX.MAP_PrgLocationID') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
+	DROP TABLE AURORAX.MAP_PrgLocationID
+GO
+
+CREATE TABLE AURORAX.MAP_PrgLocationID
+(
+	Code varchar(150) NOT NULL,
+	DestID uniqueidentifier NOT NULL
+)
+GO
+
+ALTER TABLE AURORAX.MAP_PrgLocationID ADD CONSTRAINT
+PK_MAP_PrgLocationID PRIMARY KEY CLUSTERED
+(
+	Code
+)
+GO
 
 -- #############################################################################
 -- Service Definition
@@ -164,7 +241,7 @@ GO
 CREATE INDEX IX_Map_ServiceDefIDstatic_ServiceDefCode on AURORAX.Map_ServiceDefIDstatic (ServiceDefCode)
 GO
 
-
+/*
 -- #############################################################################
 -- Disability
 IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'AURORAX.MAP_IepDisabilityID') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
@@ -182,7 +259,7 @@ ALTER TABLE AURORAX.MAP_IepDisabilityID ADD CONSTRAINT
 	DisabilityCode
 	)
 GO
-
+*/
 
 -- #############################################################################
 -- LRE Placement
@@ -468,6 +545,7 @@ INSERT AURORAX.Map_PlacementOptionID VALUES('DNQ', '75AC7101-1F19-439D-8898-DDF6
 insert IepPlacementOption (ID, TypeID, Sequence, Text) values ('B0091A53-FEBE-44FB-8D15-4ED6728B03B4', 'D9D84E5B-45F9-4C72-8265-51A945CD0049', 8, 'None')
 insert IepPlacementOption (ID, TypeID, Sequence, Text) values ('75AC7101-1F19-439D-8898-DDF6B310AA7A', 'D9D84E5B-45F9-4C72-8265-51A945CD0049', 9, 'Did not qualify')
 
+/*
 -- Disability
 insert AURORAX.MAP_IepDisabilityID values ('01', '8D0AA58F-597A-462F-B509-BB8F0B2AB593')
 insert AURORAX.MAP_IepDisabilityID values ('03', 'A1504419-19F6-434B-B4A3-1E5A69E99A9B')
@@ -486,6 +564,7 @@ insert AURORAX.MAP_IepDisabilityID values ('12', '36B1ED81-4230-480C-BFCA-E17CFD
 insert AURORAX.MAP_IepDisabilityID values ('15', 'E569D304-377A-4E82-8261-D7046B8DC294')
 insert AURORAX.MAP_IepDisabilityID values ('16', '8AFF29C4-A480-4AE2-BBDC-DDE429FFEB03')
 -- the above 4 GUIDS are maintained here.
+*/
 
 -- Service Frequency (hand-coded and will not change, so no ETL required)
 insert AURORAX.Map_ServiceFrequencyID values ('01', 'A2080478-1A03-4928-905B-ED25DEC259E6')

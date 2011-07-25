@@ -17,14 +17,15 @@ select
 	Name = src.SchoolName,
 	Number = src.SchoolCode,
 	OrgUnitId = mo.DestID,
-	IsLocalOrg = case when r.ID is null then 0 else 1 end, 
+	IsLocalOrg = CASE WHEN tgt.ID IS NULL THEN 0 ELSE tgt.IsLocalOrg END, 
 	ManuallyEntered = cast(1 as bit),
-	MinutesInstruction = cast(NULL as int), -- Defaulted for now. Should consider getting this from the customers.  Would need to be added to the data specification
+	MinutesInstruction = CASE WHEN src.MinutesPerWeek > 0 THEN src.MinutesPerWeek ELSE NULL END,
 	Street = cast(null as varchar),
 	City = cast(null as varchar),
 	State = cast(null as varchar),
 	ZipCode = cast(null as varchar),
-	PhoneNumber = cast(null as varchar)
+	PhoneNumber = cast(null as varchar),
+	DeletedDate = CASE WHEN tgt.ID IS NULL THEN GETDATE() ELSE tgt.DeletedDate END
 from AURORAX.School src JOIN
 	AURORAX.MAP_OrgUnit mo on src.DistrictRefID = mo.DistrictRefID LEFT JOIN
 	dbo.School tgt on src.SchoolCode = tgt.Number and mo.DestID = tgt.OrgUnitId LEFT JOIN
