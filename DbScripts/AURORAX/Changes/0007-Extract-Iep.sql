@@ -2,16 +2,18 @@ IF  EXISTS (SELECT 1 FROM sys.objects WHERE object_id = OBJECT_ID(N'[AURORAX].[I
 DROP TABLE [AURORAX].[IEP_LOCAL]
 GO
 
-
 CREATE TABLE [AURORAX].[IEP_LOCAL](
 IepRefID    varchar(150),
 StudentRefID    varchar(150),
-InitialConsentDate    datetime,
-InitialEvalCompleteDate    datetime,
-IEPMeetingDate    datetime,
-NextAnnualDate    datetime,
-NextTriennialDate    datetime,
-LRECode    varchar(150)
+IEPStartDate	datetime,
+IEPEndDate	datetime,
+NextReviewDate	datetime,
+InitialEvaluationDate	datetime,
+LatestEvaluationDate	datetime,
+NextEvaluationDate	datetime,
+ConsentForServicesDate	datetime,
+LRECode    varchar(150),
+MinutesPerWeek	varchar(4)
 )
 GO
 

@@ -9,7 +9,6 @@ GO
 CREATE TABLE [AURORAX].[Objective_LOCAL](  
   ObjectiveRefID	varchar(150)	not null,
   GoalRefID	varchar(150)	not null,
-  IepRefID	varchar(150)	not null,
   Sequence	int,
   ObjText	varchar(8000)
 )  

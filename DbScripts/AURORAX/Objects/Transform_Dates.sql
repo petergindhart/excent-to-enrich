@@ -8,12 +8,12 @@ CREATE VIEW AURORAX.Transform_Dates
 AS
 	SELECT
 		DestID = sec.ID,
-		NextReviewDate = i.NextAnnualDate,
-		NextEvaluationDate = i.NextTriennialDate,
-		EligibilityDate = i.IEPMeetingDate, -- should this be InitialEvalCompleteDate?  we probably need curr eval date
-		ConsentDate = i.InitialConsentDate, -- This is Initial - is that what is needed?
-		InitialEvaluationDate = i.InitialEvalCompleteDate,
-		LatestEvaluationDate = cast(NULL as datetime)
+		NextReviewDate = i.NextReviewDate,
+		NextEvaluationDate = i.NextEvaluationDate,
+		EligibilityDate = i.LatestEvaluationDate, -- ??
+		ConsentDate = i.ConsentForServicesDate, -- This is Initial.
+		InitialEvaluationDate = i.InitialEvaluationDate,
+		LatestEvaluationDate = i.LatestEvaluationDate -- ??
 	FROM
 		AURORAX.Transform_Iep iep JOIN
 		PrgSection sec ON

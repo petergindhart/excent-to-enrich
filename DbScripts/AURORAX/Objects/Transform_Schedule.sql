@@ -12,7 +12,7 @@ AS
   EndDate = cast(NULL as datetime),   
   LastOccurrence = cast(NULL as datetime),   
   IsEnabled = cast(0 as bit),   
-  FrequencyID = cast(NULL as uniqueidentifier),   
+  FrequencyID = cast(NULL as uniqueidentifier),
   FrequencyAmount = cast(0 as int),   
   WeeklyMon = cast(0 as bit),   
   WeeklyTue = cast(0 as bit),   
@@ -28,3 +28,5 @@ AS
   dbo.Schedule sched on m.DestID = sched.ID
 GO  
 --
+
+-- note to self:  Use Transform_Service instead and use the actual Frequency ID!!!

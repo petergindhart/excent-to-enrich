@@ -7,7 +7,7 @@ AS
 	SELECT
 		iep.IepRefId,
 		DestID = sec.ID,
-		MinutesInstruction = CAST(NULL AS INT)
+		MinutesInstruction = iep.MinutesPerWeek
 	FROM
 		AURORAX.Transform_Iep iep JOIN
 		PrgSection sec ON

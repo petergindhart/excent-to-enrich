@@ -5,7 +5,7 @@ GO
 CREATE VIEW AURORAX.Transform_ServiceDefID
 AS
 /*
-	This transform looks at the service table in order to exclude service definiation codes that are not used.
+	This transform looks at the service table in order to exclude service definition codes that are not used.
 	Unusual in that it uses 2 maps, a static map for the hard-coded mappings and a maintainable map.
 */
  SELECT
