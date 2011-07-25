@@ -34,7 +34,7 @@ select
 	DeliveryStatement = cast(NULL as text),
 -- ServiceSchedule
 	ServiceSchedueDestID = ssm.DestID,
-	ProviderID = cast(NULL as uniqueidentifier),  -- will require a matching view similar to Match_Students, but is complicated by how the UserProfile works
+	ProviderID = prv.UserProfileID,
 	Name = cast(NULL as varchar),
 	LocationId = loc.DestID,
 	LocationDescription = cast(NULL as varchar)
@@ -50,6 +50,34 @@ FROM
 	AURORAX.MAP_ServiceFrequencyID freq on v.ServiceFrequencyCode = freq.ServiceFrequencyCode LEFT JOIN 
  	AURORAX.MAP_ServiceProviderTitleID ttl on v.ServiceProviderTitleCode = ttl.ServiceProviderTitleCode LEFT JOIN
  	AURORAX.MAP_IepServiceCategoryID cat on v.ServiceType = cat.SubType LEFT JOIN
-	AURORAX.MAP_ScheduleID ssm on v.ServiceRefID = ssm.ServiceRefID
+	AURORAX.MAP_ScheduleID ssm on v.ServiceRefID = ssm.ServiceRefID LEFT JOIN
+	AURORAX.MAP_SpedStaffMemberView prv on v.ServiceProviderRefId = prv.SpedStaffRefID
 GO
 ---
+
+IF  EXISTS (SELECT 1 from sys.schemas s join sys.objects o on s.schema_id = o.schema_id where s.name = 'AURORAX' and o.name = 'MAP_SpedStaffMemberView')
+	DROP VIEW AURORAX.MAP_SpedStaffMemberView
+GO
+
+CREATE VIEW AURORAX.MAP_SpedStaffMemberView
+AS
+
+	SELECT
+		staff.SpedStaffRefID,
+		UserProfileID = u.ID
+	FROM
+		AURORAX.SpedStaffMember staff JOIN
+		Person p on p.EmailAddress = staff.Email JOIN
+		UserProfile u on u.ID = p.ID JOIN
+		(
+			SELECT EmailAddress
+			FROM Person
+			WHERE
+				Deleted IS NULL AND
+				TypeID = 'U'
+			GROUP BY EmailAddress
+			HAVING COUNT(*) = 1
+		) single_match ON p.EmailAddress = single_match.EmailAddress
+		
+GO
+--

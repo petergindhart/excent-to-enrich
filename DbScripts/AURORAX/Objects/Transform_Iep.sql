@@ -29,7 +29,7 @@ AS
 		IsTransitional = cast(0 as bit),  -- These will be Converted IEPs, but if they are over 14 is it considered Transitional?
 		VersionDestID = ver.DestID,
 		VersionFinalizedDate = iep.IEPStartDate,
-		IsEnded = case when iep.IEPEndDate > getdate() then 1 else 0 end,
+		IsEnded = case when iep.IEPEndDate > getdate() then 0 else 1 end,
 		Revision = cast(0 as bigint)
 	FROM
 		AURORAX.Transform_Student stu JOIN
