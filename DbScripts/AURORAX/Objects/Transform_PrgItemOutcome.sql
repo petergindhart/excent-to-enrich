@@ -12,7 +12,7 @@ AS
   Sequence = (
     select count(*)+(select max(Sequence)+1 from PrgItemOutcome where CurrentDefID = '8011D6A2-1014-454B-B83C-161CE678E3D3') 
     from AURORAX.Lookups
-    where Type = 'ExitCode' and
+    where Type = 'Exit' and
     Type = k.Type and 
     Code < k.Code),
   NextStatusID = '12086FE0-B509-4F9F-ABD0-569681C59EE2',   
@@ -22,6 +22,6 @@ AS
   AURORAX.MAP_OutcomeID m on k.Code = m.ExitReason LEFT JOIN
   dbo.PrgItemOutcome o on m.DestID = o.ID
  WHERE
-  k.Type = 'ExitCode'
+  k.Type = 'Exit'
 GO
 --
