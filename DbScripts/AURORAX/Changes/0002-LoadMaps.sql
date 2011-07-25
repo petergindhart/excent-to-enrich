@@ -114,6 +114,24 @@ GO
 -- ########  from Template DB by hand with IDs provided by client by comparing the respective descriptions
 
 -- #############################################################################
+-- IepServiceCategory Map Table
+IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'[AURORAX].[MAP_IepServiceCategoryID]') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
+	DROP TABLE [AURORAX].[MAP_IepServiceCategoryID]
+GO
+CREATE TABLE AURORAX.[MAP_IepServiceCategoryID]
+(
+	SubType varchar(20) NOT NULL,
+	DestID uniqueidentifier NOT NULL
+)
+GO
+
+ALTER TABLE AURORAX.MAP_IepServiceCategoryID ADD CONSTRAINT
+PK_MAP_IepServiceCategoryID PRIMARY KEY CLUSTERED
+(
+	SubType
+)
+
+-- #############################################################################
 -- Service Frequency
 IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'AURORAX.Map_ServiceFrequencyID') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
 	DROP TABLE AURORAX.Map_ServiceFrequencyID
@@ -157,6 +175,25 @@ PK_MAP_ServiceProviderTitleID PRIMARY KEY CLUSTERED
 )
 GO
 
+-- #############################################################################
+-- Service Location
+IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'AURORAX.MAP_PrgLocationID') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
+	DROP TABLE AURORAX.MAP_PrgLocationID
+GO
+
+CREATE TABLE AURORAX.MAP_PrgLocationID
+(
+	Code varchar(150) NOT NULL,
+	DestID uniqueidentifier NOT NULL
+)
+GO
+
+ALTER TABLE AURORAX.MAP_PrgLocationID ADD CONSTRAINT
+PK_MAP_PrgLocationID PRIMARY KEY CLUSTERED
+(
+	Code
+)
+GO
 
 -- #############################################################################
 -- Service Definition
