@@ -2,11 +2,11 @@ IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'[AURORAX].[Trans
 DROP VIEW [AURORAX].[Transform_PrgItemOutcome]  
 GO  
   
-CREATE VIEW [AURORAX].[Transform_PrgItemOutcome]  
-AS  
- SELECT   
+CREATE VIEW [AURORAX].[Transform_PrgItemOutcome]
+AS
+ SELECT
   ExitReason = k.Code,
-  m.DestID,   
+  DestID = m.DestID, -- do i need isnull?
   CurrentDefID = '8011D6A2-1014-454B-B83C-161CE678E3D3',
   Text = k.Label,   -- varchar(100)
   Sequence = (
@@ -23,5 +23,5 @@ AS
   dbo.PrgItemOutcome o on m.DestID = o.ID
  WHERE
   k.Type = 'ExitCode'
-GO  
+GO
 --

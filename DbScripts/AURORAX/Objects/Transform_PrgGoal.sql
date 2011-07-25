@@ -17,7 +17,7 @@ AS
 	Sequence < g.Sequence
 	),
   IsProbeGoal = cast(0 as bit),
-  TargetDate = cast(NULL as datetime),   
+  TargetDate = cast(NULL as datetime),
   GoalStatement = cast(g.GoalStatement as text),
   ProbeTypeID = cast(NULL as uniqueidentifier),
   NumericTarget = cast(0 as float),
@@ -28,7 +28,7 @@ AS
   IndDefID = cast(NULL as uniqueidentifier),
   IndTarget = cast(0 as float),
   ProbeScheduleID = cast(NULL as uniqueidentifier),
-  GoalAreaID = cast('504CE0ED-537F-4EA0-BD97-0349FB1A4CA8' as uniqueidentifier),   
+  GoalAreaID = cast(NULL as uniqueidentifier),
   PostSchoolAreaDefID = ps.DestID,   
   EsyID = case when g.IsEsy = 'Y' then 'B76DDCD6-B261-4D46-A98E-857B0A814A0C' else 'F7E20A86-2709-4170-9810-15B601C61B79' end
  FROM
