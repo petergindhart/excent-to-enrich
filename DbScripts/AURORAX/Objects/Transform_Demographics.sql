@@ -24,7 +24,7 @@ AS
 		AURORAX.Student s on s.StudentRefID = iep.StudentRefID LEFT JOIN
 		AURORAX.MAP_OrgUnit ds on s.ServiceDistrictRefID = ds.DistrictRefID LEFT JOIN
 		AURORAX.MAP_OrgUnit dh on s.HomeDistrictRefID = dh.DistrictRefID LEFT JOIN
-		AURORAX.MAP_SchoolView ss on s.ServiceSchoolRefID = ss.SchoolRefId LEFT JOIN
-		AURORAX.MAP_SchoolView sh on s.HomeSchoolRefID = sh.SchoolRefId
+		AURORAX.MAP_SchoolRefID ss on s.ServiceSchoolRefID = ss.SchoolRefId LEFT JOIN
+		AURORAX.MAP_SchoolRefID sh on s.HomeSchoolRefID = sh.SchoolRefId
 GO
 --

@@ -51,7 +51,7 @@ AS
   AURORAX.Student src JOIN  
   AURORAX.Transform_Ethnicity te on src.EthnicityCode = te.Code JOIN
   dbo.GradeLevel g on src.GradeLevelCode = g.Name JOIN  
-  AURORAX.MAP_SchoolView sch on src.ServiceSchoolRefID = sch.SchoolRefID LEFT JOIN  
+  AURORAX.MAP_SchoolRefID sch on src.ServiceSchoolRefID = sch.SchoolRefID LEFT JOIN  
   AURORAX.MAP_StudentRefID ms on src.StudentRefID = ms.StudentRefID LEFT JOIN  
   dbo.Student dest on src.StudentLocalID = dest.Number and src.LastName = dest.LastName
 GO

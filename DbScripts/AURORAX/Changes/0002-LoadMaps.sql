@@ -21,6 +21,24 @@
 
 -- #############################################################################
 -- Student
+IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'[AURORAX].[MAP_SchoolRefID]') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
+	DROP TABLE [AURORAX].[MAP_SchoolRefID]
+GO
+CREATE TABLE [AURORAX].[MAP_SchoolRefID]
+	(
+	SchoolRefID varchar(150) NOT NULL,
+	DestID uniqueidentifier NOT NULL
+	)  ON [PRIMARY]
+GO
+ALTER TABLE [AURORAX].[MAP_SchoolRefID] ADD CONSTRAINT
+	[PK_MAP_SchoolRefID] PRIMARY KEY CLUSTERED
+	(
+	SchoolRefID
+	) ON [PRIMARY]
+GO
+
+-- #############################################################################
+-- Student
 IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'[AURORAX].[MAP_StudentRefID]') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
 	DROP TABLE [AURORAX].[MAP_StudentRefID]
 GO
