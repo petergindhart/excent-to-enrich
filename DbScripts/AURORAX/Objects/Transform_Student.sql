@@ -1,5 +1,5 @@
 --#include Transform_School.sql
-
+--#include Transform_Ethnicity.sql
 IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'[AURORAX].[Transform_Student]') AND OBJECTPROPERTY(id, N'IsView') = 1)
 DROP VIEW [AURORAX].[Transform_Student]
 GO
@@ -11,19 +11,19 @@ AS
   DestID = isnull(dest.ID, ms.DestID), -- it seems I keep changing this.  may need to use isnull
   CurrentSchoolID = sch.DestID,  
   CurrentGradeLevelID = g.ID,  
-  EthnicityID = me.DestID,  
+  EthnicityID = te.DestID,
   GenderID = (select ID from EnumValue where Type = 'D6194389-17AC-494C-9C37-FD911DA2DD4B' and Code = src.Sex), -- will error if more than one value
   Number = src.StudentLocalID,  
   src.FirstName,  
   src.MiddleName,  
   src.LastName,  
   SSN = cast(null as varchar),  
-  DOB = src.Birthdate,  
+  DOB = src.Birthdate,
   Street = cast(null as varchar),  
-  City = cast(null as varchar),  
+  City = cast(null as varchar),
   State = cast(null as char),  
   ZipCode = cast(null as varchar),  
-  PhoneNumber = cast(null as varchar),  
+  PhoneNumber = cast(null as varchar),
   GPA = cast(0 as float),  
   x_SunsNumber = cast(null as varchar),  
   x_GradDate = cast(NULL as datetime),  
@@ -49,7 +49,7 @@ AS
   ImportPausedByID = cast(NULL as uniqueidentifier)  
  FROM -- NOTE:  DO NOT TOUCH THE RECORDS ADDED BY SIS IMPORT.  SIS RECORDS DO NEED TO BE MAPPED.  NEW RECORDS FROM SPED NEED TO BE ADDED. 
   AURORAX.Student src JOIN  
-  AURORAX.MAP_EthnicityID me on src.EthnicityCode = me.EthnicityCode JOIN  
+  AURORAX.Transform_Ethnicity te on src.EthnicityCode = te.Code JOIN
   dbo.GradeLevel g on src.GradeLevelCode = g.Name JOIN  
   AURORAX.MAP_SchoolView sch on src.ServiceSchoolRefID = sch.SchoolRefID LEFT JOIN  
   AURORAX.MAP_StudentRefID ms on src.StudentRefID = ms.StudentRefID LEFT JOIN  
