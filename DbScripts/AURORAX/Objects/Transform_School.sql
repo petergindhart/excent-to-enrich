@@ -9,8 +9,8 @@ AS
   Using ManuallyEntered = 1 filter to ensure we don't touch any records maintained by SIS imports
 
 */
-select 
-	src.SchoolRefID, 
+select
+	src.SchoolRefID,
 	src.SchoolCode,
 	DestID = isnull(tgt.ID, newid()),
 	Abbreviation = src.SchoolAbbreviation,
@@ -31,6 +31,7 @@ from AURORAX.School src JOIN
 	dbo.School tgt on src.SchoolCode = tgt.Number and mo.DestID = tgt.OrgUnitId LEFT JOIN
 	dbo.SystemSettings r on mo.DestID = r.LocalOrgRootID
 where isnull(tgt.ManuallyEntered,1) = 1
+and  isnull(tgt.Number,'') not in (select isnull(Number,'') from School group by Number having COUNT(*) > 1)
 GO
 
 
@@ -50,6 +51,7 @@ from (
 	union
 	select Number, ID
 	from dbo.School
+	where isnull(Number,'') not in (select isnull(Number,'') from School group by Number having COUNT(*) > 1)
 	) ss JOIN
 	AURORAX.School xs on ss.SchoolCode = xs.SchoolCode
 go
