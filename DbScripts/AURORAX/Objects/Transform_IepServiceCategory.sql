@@ -1,6 +1,8 @@
+/*
+
 IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'[AURORAX].[Transform_IepServiceCategory]') AND OBJECTPROPERTY(id, N'IsView') = 1)
 DROP VIEW [AURORAX].[Transform_IepServiceCategory]  
-GO  
+--GO  
   
 CREATE VIEW [AURORAX].[Transform_IepServiceCategory]  
 AS
@@ -18,5 +20,6 @@ AS
 		) l LEFT JOIN
 		AURORAX.MAP_IepServiceCategoryID m ON l.SubType = m.SubType LEFT JOIN
 		dbo.IepServiceCategory s on m.DestID = s.ID	
-GO
+--GO
 --
+*/

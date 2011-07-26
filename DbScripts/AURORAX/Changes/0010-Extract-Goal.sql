@@ -13,7 +13,10 @@ Sequence		  varchar(2),
 GoalAreaCode		  varchar(150), 
 PostSchoolAreaCode		  varchar(150), 
 IsEsy		  varchar(1), 
-GoalStatement		  varchar(8000)
+GoalStatement		  varchar(8000),
+PSEmployment		varchar(1),
+PSEducation		varchar(1),
+PSIndependent		varchar(1)
 )  
 GO  
   

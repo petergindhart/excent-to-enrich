@@ -7,7 +7,7 @@ AS
 	SELECT
 		ItemID = iep.DestID,
 		ResponsibilityID = u.PrgResponsibilityID,
-		IsPrimary = CASE WHEN team.CaseManager = 'Y' THEN 1 ELSE 0 END,
+		IsPrimary = CASE WHEN team.IsCaseManager = 'Y' THEN 1 ELSE 0 END,
 		MtgAbsent = CAST(0 AS BIT),
 		PersonID = u.ID,
 		Agency = NULL,

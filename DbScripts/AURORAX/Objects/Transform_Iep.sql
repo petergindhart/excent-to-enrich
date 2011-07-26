@@ -30,7 +30,8 @@ AS
 		VersionDestID = ver.DestID,
 		VersionFinalizedDate = iep.IEPStartDate,
 		IsEnded = case when iep.IEPEndDate > getdate() then 0 else 1 end,
-		Revision = cast(0 as bigint)
+		Revision = cast(0 as bigint),
+		iep.MinutesPerWeek
 	FROM
 		AURORAX.Transform_Student stu JOIN
 		AURORAX.IEP iep ON iep.StudentRefID = stu.StudentRefID JOIN

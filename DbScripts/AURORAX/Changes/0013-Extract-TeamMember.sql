@@ -9,7 +9,7 @@ GO
 CREATE TABLE [AURORAX].[TeamMember_LOCAL](  
   SpedStaffRefId	varchar(150)	not null,
   StudentRefId	varchar(150)	not null,
-  CaseManager	varchar(1)	not null
+  IsCaseManager	varchar(1)	not null
 )  
 GO  
   

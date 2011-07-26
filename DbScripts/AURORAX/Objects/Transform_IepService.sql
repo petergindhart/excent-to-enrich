@@ -1,3 +1,30 @@
+IF  EXISTS (SELECT 1 from sys.schemas s join sys.objects o on s.schema_id = o.schema_id where s.name = 'AURORAX' and o.name = 'MAP_SpedStaffMemberView')
+	DROP VIEW AURORAX.MAP_SpedStaffMemberView
+GO
+
+CREATE VIEW AURORAX.MAP_SpedStaffMemberView
+AS
+
+	SELECT
+		staff.SpedStaffRefID,
+		UserProfileID = u.ID
+	FROM
+		AURORAX.SpedStaffMember staff JOIN
+		Person p on p.EmailAddress = staff.Email JOIN
+		UserProfile u on u.ID = p.ID JOIN
+		(
+			SELECT EmailAddress
+			FROM Person
+			WHERE
+				Deleted IS NULL AND
+				TypeID = 'U'
+			GROUP BY EmailAddress
+			HAVING COUNT(*) = 1
+		) single_match ON p.EmailAddress = single_match.EmailAddress
+		
+GO
+--
+
 IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'[AURORAX].[Transform_IepService]') AND OBJECTPROPERTY(id, N'IsView') = 1)
 DROP VIEW [AURORAX].[Transform_IepService]
 GO
@@ -54,30 +81,3 @@ FROM
 	AURORAX.MAP_SpedStaffMemberView prv on v.ServiceProviderRefId = prv.SpedStaffRefID
 GO
 ---
-
-IF  EXISTS (SELECT 1 from sys.schemas s join sys.objects o on s.schema_id = o.schema_id where s.name = 'AURORAX' and o.name = 'MAP_SpedStaffMemberView')
-	DROP VIEW AURORAX.MAP_SpedStaffMemberView
-GO
-
-CREATE VIEW AURORAX.MAP_SpedStaffMemberView
-AS
-
-	SELECT
-		staff.SpedStaffRefID,
-		UserProfileID = u.ID
-	FROM
-		AURORAX.SpedStaffMember staff JOIN
-		Person p on p.EmailAddress = staff.Email JOIN
-		UserProfile u on u.ID = p.ID JOIN
-		(
-			SELECT EmailAddress
-			FROM Person
-			WHERE
-				Deleted IS NULL AND
-				TypeID = 'U'
-			GROUP BY EmailAddress
-			HAVING COUNT(*) = 1
-		) single_match ON p.EmailAddress = single_match.EmailAddress
-		
-GO
---

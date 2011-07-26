@@ -246,19 +246,19 @@ GO
 -- Disability
 IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'AURORAX.MAP_IepDisabilityID') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
 	DROP TABLE AURORAX.MAP_IepDisabilityID
-GO
+--GO
 CREATE TABLE AURORAX.MAP_IepDisabilityID
 	(
 	DisabilityCode nvarchar(150) NOT NULL,
 	DestID uniqueidentifier NOT NULL
 	) 
-GO
+--GO
 ALTER TABLE AURORAX.MAP_IepDisabilityID ADD CONSTRAINT
 	PK_MAP_IepDisabilityID PRIMARY KEY CLUSTERED
 	(
 	DisabilityCode
 	)
-GO
+--GO
 */
 
 -- #############################################################################
