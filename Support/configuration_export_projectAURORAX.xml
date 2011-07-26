@@ -4,7 +4,7 @@
 		ConnectionString="${connection}"
 		DeleteObsoleteRecords="false"
 		OutputFile="${outputfile}"
-		Tables="VC3ETL.ExtractDatabase[Id='${extractdatabase}'],VC3ETL.FlatFileExtractDatabase[Id='${extractdatabase}'];dbo.InformExtractDatabase[Id='${extractdatabase}'];VC3ETL.FlatFileExtractTableType,VC3ETL.ExtractTable[ExtractDatabase='${extractdatabase}'],VC3ETL.FlatFileExtractTable[Id in (select ID from VC3ETL.ExtractTable where ExtractDatabase='${extractdatabase}')],VC3ETL.LoadTable[ExtractDatabase='${extractdatabase}'],VC3ETL.LoadColumn[LoadTable in (select ID from VC3ETL.LoadTable where ExtractDatabase='${extractdatabase}')]"
+		Tables="VC3TaskScheduler.ScheduledTaskSchedule[Id = (select Schedule from VC3ETL.ExtractDatabase where ID = '${extractdatabase}')],VC3ETL.ExtractDatabase[Id='${extractdatabase}'],VC3ETL.FlatFileExtractDatabase[Id='${extractdatabase}'];dbo.InformExtractDatabase[Id='${extractdatabase}'];VC3ETL.FlatFileExtractTableType,VC3ETL.ExtractTable[ExtractDatabase='${extractdatabase}'],VC3ETL.FlatFileExtractTable[Id in (select ID from VC3ETL.ExtractTable where ExtractDatabase='${extractdatabase}')],VC3ETL.LoadTable[ExtractDatabase='${extractdatabase}'],VC3ETL.LoadColumn[LoadTable in (select ID from VC3ETL.LoadTable where ExtractDatabase='${extractdatabase}')]"
 		PreBatchSQL="set nocount on;"
 		PostBatchSQL="set nocount off;" />
 </project>

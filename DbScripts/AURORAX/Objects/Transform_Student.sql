@@ -48,7 +48,7 @@ AS
   ImportPausedDate = cast(NULL as datetime),  
   ImportPausedByID = cast(NULL as uniqueidentifier)  
  FROM -- NOTE:  DO NOT TOUCH THE RECORDS ADDED BY SIS IMPORT.  SIS RECORDS DO NEED TO BE MAPPED.  NEW RECORDS FROM SPED NEED TO BE ADDED. 
-  AURORAX.Student src JOIN  
+  AURORAX.Student src LEFT JOIN  
   AURORAX.Transform_Ethnicity te on src.EthnicityCode = te.Code JOIN
   dbo.GradeLevel g on src.GradeLevelCode = g.Name JOIN  
   AURORAX.MAP_SchoolRefID sch on src.ServiceSchoolRefID = sch.SchoolRefID LEFT JOIN  
