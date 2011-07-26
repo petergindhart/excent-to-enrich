@@ -600,8 +600,14 @@ insert AURORAX.MAP_IepDisabilityID values ('16', '8AFF29C4-A480-4AE2-BBDC-DDE429
 */
 
 -- Service Frequency (hand-coded and will not change, so no ETL required)
-insert AURORAX.Map_ServiceFrequencyID (ServiceFrequencyCode, DestID) values ('01', '05ED7F8F-D492-4377-85DB-94B36C3F9290')
-insert AURORAX.Map_ServiceFrequencyID (ServiceFrequencyCode, DestID) values ('02', '634EA996-D5FF-4A4A-B169-B8CB70DBBEC2')
+
+insert AURORAX.Map_ServiceFrequencyID (ServiceFrequencyCode, DestID) values ('01', 'A2080478-1A03-4928-905B-ED25DEC259E6')
+insert AURORAX.Map_ServiceFrequencyID (ServiceFrequencyCode, DestID) values ('02', '3D4B557B-0C2E-4A41-9410-BA331F1D20DD')
+insert AURORAX.Map_ServiceFrequencyID (ServiceFrequencyCode, DestID) values ('03', '5F3A2822-56F3-49DA-9592-F604B0F202C3')
+insert AURORAX.Map_ServiceFrequencyID (ServiceFrequencyCode, DestID) values ('AN', 'E2996A26-3DB5-42F3-907A-9F251F58AB09')
+insert AURORAX.Map_ServiceFrequencyID (ServiceFrequencyCode, DestID) values ('D', '71590A00-2C40-40FF-ABD9-E73B09AF46A1')
+insert AURORAX.Map_ServiceFrequencyID (ServiceFrequencyCode, DestID) values ('EST', 'E2996A26-3DB5-42F3-907A-9F251F58AB09')
+
 
 /*
 -- Service Def ID (static MAP)
