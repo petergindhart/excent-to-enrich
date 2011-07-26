@@ -514,6 +514,7 @@ insert AURORAX.MAP_EthnicityID values ('03', '7CA2E182-7402-4049-A547-A05912C73F
 insert AURORAX.MAP_EthnicityID values ('04', '49B39B32-FF45-49D9-B06C-A00F93B52490')
 insert AURORAX.MAP_EthnicityID values ('05', 'B6D5642A-36A4-44C7-AFAB-1B811FB4383B')
 
+/*
 -- LRE (hand-coded and will not change, so no ETL required)
 INSERT AURORAX.Map_PlacementOptionID VALUES('204', '0B2E63D7-6493-44A7-95B1-8DF327D77C38', 'E47FBA7F-8EB0-4869-89DF-9DD3456846EC')
 INSERT AURORAX.Map_PlacementOptionID VALUES('205', '2E45FDA2-0767-43D0-892D-D1BB40AFCEC1', 'E47FBA7F-8EB0-4869-89DF-9DD3456846EC')
@@ -545,6 +546,9 @@ INSERT AURORAX.Map_PlacementOptionID VALUES('DNQ', '75AC7101-1F19-439D-8898-DDF6
 insert IepPlacementOption (ID, TypeID, Sequence, Text) values ('B0091A53-FEBE-44FB-8D15-4ED6728B03B4', 'D9D84E5B-45F9-4C72-8265-51A945CD0049', 8, 'None')
 insert IepPlacementOption (ID, TypeID, Sequence, Text) values ('75AC7101-1F19-439D-8898-DDF6B310AA7A', 'D9D84E5B-45F9-4C72-8265-51A945CD0049', 9, 'Did not qualify')
 
+*/
+
+
 /*
 -- Disability
 insert AURORAX.MAP_IepDisabilityID values ('01', '8D0AA58F-597A-462F-B509-BB8F0B2AB593')
@@ -567,14 +571,10 @@ insert AURORAX.MAP_IepDisabilityID values ('16', '8AFF29C4-A480-4AE2-BBDC-DDE429
 */
 
 -- Service Frequency (hand-coded and will not change, so no ETL required)
-insert AURORAX.Map_ServiceFrequencyID values ('01', 'A2080478-1A03-4928-905B-ED25DEC259E6')
-insert AURORAX.Map_ServiceFrequencyID values ('02', '3D4B557B-0C2E-4A41-9410-BA331F1D20DD')
-insert AURORAX.Map_ServiceFrequencyID values ('03', '5F3A2822-56F3-49DA-9592-F604B0F202C3')
-insert AURORAX.MAP_ServiceFrequencyID values ('AN', 'E2996A26-3DB5-42F3-907A-9F251F58AB09')
-insert AURORAX.Map_ServiceFrequencyID values ('D', '71590A00-2C40-40FF-ABD9-E73B09AF46A1')
-insert AURORAX.MAP_ServiceFrequencyID values ('ESY', 'E2996A26-3DB5-42F3-907A-9F251F58AB09')
+insert AURORAX.Map_ServiceFrequencyID (ServiceFrequencyCode, DestID) values ('01', '05ED7F8F-D492-4377-85DB-94B36C3F9290')
+insert AURORAX.Map_ServiceFrequencyID (ServiceFrequencyCode, DestID) values ('02', '634EA996-D5FF-4A4A-B169-B8CB70DBBEC2')
 
-
+/*
 -- Service Def ID (static MAP)
 insert AURORAX.Map_ServiceDefIDstatic (ServiceDefCode, DestID) values ('SvcRelAT', '8C054380-B22F-4D2A-98DE-568498E06EAB')
 insert AURORAX.Map_ServiceDefIDstatic (ServiceDefCode, DestID) values ('SvcRelATI', '8C054380-B22F-4D2A-98DE-568498E06EAB')
@@ -599,6 +599,9 @@ insert AURORAX.Map_ServiceDefIDstatic (ServiceDefCode, DestID) values ('SvcRelSP
 
 insert AURORAX.Map_ServiceDefID (ServiceDefCode, DestID)
 select ServiceDefCode, DestID from AURORAX.Map_ServiceDefIDstatic
+
+*/
+
 
 -- Service Location (APS must have provide a list of Service Location Names, because after this ETL code was written for CO-Template, CO-APS-Template contained these values, which are exact matches for Clarity source data)
 insert AURORAX.MAP_ServiceLocationID values ('15', '6D519EB8-F273-4181-8DB2-54792ED1126F')
