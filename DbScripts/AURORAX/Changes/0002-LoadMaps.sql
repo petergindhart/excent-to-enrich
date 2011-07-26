@@ -525,6 +525,17 @@ set nocount on;
 insert AURORAX.MAP_OrgUnit (DistrictRefID, DestID) values ('73008CCD-1BFB-489C-BDFE-955AA27DDE34', '6531EF88-352D-4620-AF5D-CE34C54A9F53')
 
 
+
+-- this may be different for every district!
+insert [AURORAX].[MAP_SchoolRefID]
+select Number, ID
+from School
+	where isnull(Number,'') not in (select isnull(Number,'') from School group by Number having COUNT(*) > 1)
+
+
+
+
+
 -- Ethnicity (hand-coded and will not change, so no ETL required)
 insert AURORAX.MAP_EthnicityID values ('01', '5CCBE0AB-3D77-4E25-BD89-1DAA8EDC8236')
 insert AURORAX.MAP_EthnicityID values ('02', '33484F8E-72C5-4113-B31F-BA5E4E68DA84')
