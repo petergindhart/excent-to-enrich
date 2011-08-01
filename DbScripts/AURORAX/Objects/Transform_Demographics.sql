@@ -26,7 +26,7 @@ AS
 		--AURORAX.MAP_OrgUnit dh on s.HomeDistrictRefID = dh.DistrictRefID LEFT JOIN
 		AURORAX.MAP_SchoolRefID ss on s.ServiceSchoolRefID = ss.SchoolRefId LEFT JOIN
 		AURORAX.MAP_SchoolRefID sh on s.HomeSchoolRefID = sh.SchoolRefId LEFT JOIN
-		dbo.School dss on ss.SchoolRefID = dss.Number left join
-		dbo.School dsh on sh.SchoolRefID = dsh.Number
+		dbo.School dss on ss.SchoolRefID = dss.Number and dss.ManuallyEntered = 1 left join
+		dbo.School dsh on sh.SchoolRefID = dsh.Number and dsh.ManuallyEntered = 1
 GO
 --
