@@ -174,6 +174,29 @@ GO
 
 
 -- #############################################################################
+-- SCHEDULE Frequency
+IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'AURORAX.Map_ScheduleFrequencyID') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
+	DROP TABLE AURORAX.Map_ScheduleFrequencyID
+GO
+
+CREATE TABLE AURORAX.Map_ScheduleFrequencyID
+(
+	ServiceFrequencyCode	varchar(150) NOT NULL,
+	DestID uniqueidentifier NOT NULL
+)
+GO
+
+ALTER TABLE AURORAX.Map_ScheduleFrequencyID ADD CONSTRAINT
+PK_Map_ScheduleFrequencyID PRIMARY KEY CLUSTERED
+(
+	ServiceFrequencyCode
+)
+GO
+
+CREATE INDEX IX_Map_ScheduleFrequencyID_ServiceFrequencyCode on AURORAX.Map_ScheduleFrequencyID (ServiceFrequencyCode)
+GO
+
+-- #############################################################################
 -- Service Provider Title
 IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'AURORAX.MAP_ServiceProviderTitleID') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
 	DROP TABLE AURORAX.MAP_ServiceProviderTitleID
@@ -519,11 +542,12 @@ GO
 
 
 
+/*
+
 
 set nocount on;
 -- OrgUnit (District)
 insert AURORAX.MAP_OrgUnit (DistrictRefID, DestID) values ('73008CCD-1BFB-489C-BDFE-955AA27DDE34', '6531EF88-352D-4620-AF5D-CE34C54A9F53')
-
 
 
 -- this may be different for every district!
@@ -532,7 +556,7 @@ select Number, ID
 from School
 	where isnull(Number,'') not in (select isnull(Number,'') from School group by Number having COUNT(*) > 1)
 
-
+*/
 
 
 
