@@ -7,7 +7,7 @@ AS
 	SELECT
 		DestID = ISNULL(x.ID, NEWID()),
 		Name = isnull(x.Name, l.Label),
-		Definition = x.Definition,
+		Definition = isnull(x.Definition,''),
 		DeterminationFormTemplateID = x.DeterminationFormTemplateID,
 		StateCode = l.StateCode,
 		DeletedDate = CASE WHEN x.ID IS NULL THEN GETDATE() ELSE x.DeletedDate END
