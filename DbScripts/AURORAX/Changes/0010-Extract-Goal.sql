@@ -9,20 +9,33 @@ GO
 CREATE TABLE [AURORAX].[Goal_LOCAL](  
 GoalRefID		  varchar(150), 
 IepRefID		  varchar(150), 
-Sequence		  varchar(2), 
-GoalAreaCode		  varchar(150), 
-PostSchoolAreaCode		  varchar(150), 
-IsEsy		  varchar(1), 
+Sequence		  varchar(2),
+GAReading	varchar(1),
+GAWriting	varchar(1),
+GAMath		varchar(1),
+GAOther		varchar(1),
+GAEmotional		varchar(1),
+GAIndependent		varchar(1),
+GAHealth		varchar(1),
+GACommunication		varchar(1),
+PSInstruction 		varchar(1),
+PSCommunity		varchar(1),
+PSAdult		varchar(1),
+PSVocational	varchar(1),
+PSRelated	varchar(1),
+PSEmployment	varchar(1),
+PSDailyLiving	varchar(1),
+IsEsy		  varchar(1),
 GoalStatement		  varchar(8000),
-PSEmployment		varchar(1),
-PSEducation		varchar(1),
-PSIndependent		varchar(1)
-)  
-GO  
+
+
+
+)
+GO
   
   
 CREATE VIEW [AURORAX].[Goal]  
-AS  
+AS
  SELECT * FROM [AURORAX].[Goal_LOCAL]  
 GO
 --
