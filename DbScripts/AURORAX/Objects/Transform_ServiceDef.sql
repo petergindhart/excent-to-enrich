@@ -17,8 +17,11 @@ SELECT
 	Description = CAST(NULL AS Text),
 	DefaultLocationID = cast(NULL as uniqueidentifier),
 	StateCode = l.StateCode,
+	-- IepServiceDef
 	DefaultProviderTitleID = cast(NULL as uniqueidentifier),
 	CategoryID = mc.DestID,
+	DirectID = CAST (NULL as uniqueidentifier),
+	ExcludesID = CAST (NULL as uniqueidentifier),
 	CategoryCode = l.SubType,
 	ScheduleFreqOnly = CAST(1 as bit)
 FROM
