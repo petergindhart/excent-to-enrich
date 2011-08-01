@@ -8,7 +8,6 @@ AS
 	This view will only return rows if there is more than one OrgUnit in the OrgUnit table
 	
 */
-
 select
 	src.SchoolRefID,
 	src.SchoolCode,
@@ -16,7 +15,7 @@ select
 	Abbreviation = src.SchoolAbbreviation,
 	Name = src.SchoolName,
 	Number = src.SchoolCode,
-	OrgUnitId = mo.DestID,
+	OrgUnitId = ou.ID,
 	IsLocalOrg = 0, 
 	ManuallyEntered = cast(1 as bit),
 	MinutesInstruction = CASE WHEN src.MinutesPerWeek > 0 THEN src.MinutesPerWeek ELSE NULL END,
@@ -26,9 +25,12 @@ select
 	ZipCode = cast(null as varchar),
 	PhoneNumber = cast(null as varchar),
 	DeletedDate = GETDATE()
+-- select *
 from 
-	AURORAX.School src JOIN
-	AURORAX.MAP_OrgUnit mo on src.DistrictRefID = mo.DistrictRefID LEFT JOIN
+	AURORAX.School src LEFT JOIN 
+-- 	AURORAX.MAP_OrgUnit mo on src.DistrictRefID = mo.DistrictRefID LEFT JOIN
+	AURORAX.District d on src.DistrictRefID = d.DistrictRefID LEFT JOIN -- MAP_OrgUnit only handles external districts
+	dbo.OrgUnit ou on d.DistrictCode = ou.Number left join
 	AURORAX.MAP_SchoolRefID m on src.SchoolRefID = m.SchoolRefID -- LEFT JOIN
 -- 	School tgt on o.ID = tgt.OrgUnitID and src.SchoolCode = tgt.Number
 GO
