@@ -4,7 +4,7 @@ GO
 
 
 CREATE TABLE [AURORAX].[Service_LOCAL](  
-ServiceType    varchar(10), 
+ServiceType    varchar(20), 
 ServiceRefId    varchar(150), 
 IepRefId    varchar(150),
 ServiceDefinitionCode    varchar(150),
