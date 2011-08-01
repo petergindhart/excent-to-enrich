@@ -6,12 +6,13 @@ CREATE VIEW [AURORAX].[Transform_ServiceProviderTitle]
 AS  
  SELECT   
 	ServiceProviderCode = k.Code,
-   m.DestID,
+	DestID = isnull(t.ID, m.DestID),
 	Name = k.Label
  FROM  
   AURORAX.Lookups k LEFT JOIN
   AURORAX.MAP_ServiceProviderTitleID m on k.Code = m.ServiceProviderTitleCode LEFT JOIN
-  dbo.ServiceProviderTitle t on m.DestID = t.ID
+  dbo.ServiceProviderTitle t on -- m.DestID = t.ID
+	m.ServiceProviderTitleCode = t.Name
  WHERE
   k.Type = 'ServProv'
 GO
