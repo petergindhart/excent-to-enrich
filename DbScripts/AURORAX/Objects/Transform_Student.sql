@@ -54,5 +54,8 @@ AS
   AURORAX.MAP_SchoolRefID sch on src.ServiceSchoolRefID = sch.SchoolRefID LEFT JOIN  
   AURORAX.MAP_StudentRefID ms on src.StudentRefID = ms.StudentRefID LEFT JOIN  
   dbo.Student dest on src.StudentLocalID = dest.Number and src.LastName = dest.LastName
+ WHERE 
+  dest.IsActive = 1 -- 10721
 GO
---
+-- select count(*) from [AURORAX].[Transform_Student] -- 11091
+
