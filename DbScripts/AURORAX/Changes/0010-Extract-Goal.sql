@@ -26,10 +26,7 @@ PSRelated	varchar(1),
 PSEmployment	varchar(1),
 PSDailyLiving	varchar(1),
 IsEsy		  varchar(1),
-GoalStatement		  varchar(8000),
-
-
-
+GoalStatement		  varchar(8000)
 )
 GO
   
