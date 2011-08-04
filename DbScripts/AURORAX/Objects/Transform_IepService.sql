@@ -58,7 +58,7 @@ select
 	DirectID = case when IsDirect = 'Y' then 'A7061714-ADA3-44F7-8329-159DD4AE2ECE' else '1A8BF908-E3ED-45B0-8EEC-99CB1AD0806F' end, -- A7061714-ADA3-44F7-8329-159DD4AE2ECE	Direct, 1A8BF908-E3ED-45B0-8EEC-99CB1AD0806F	Indirect
 	ExcludesID = case when ExcludesFromGenEd = 'Y' then '493713FB-6071-42D4-B46A-1B09037C1F8B' else '235C3167-A3E6-4D1D-8AAB-0B2B57FD5160' end, -- 235C3167-A3E6-4D1D-8AAB-0B2B57FD5160	Inside, 493713FB-6071-42D4-B46A-1B09037C1F8B	Outside
 	EsyID = case when IsEsy = 'Y' then 'B76DDCD6-B261-4D46-A98E-857B0A814A0C' else 'F7E20A86-2709-4170-9810-15B601C61B79' end, -- F7E20A86-2709-4170-9810-15B601C61B79	N, B76DDCD6-B261-4D46-A98E-857B0A814A0C	Y
-	DeliveryStatement = cast(NULL as text),
+	DeliveryStatement = v.ServiceAreaText,
 -- ServiceSchedule
 	ServiceSchedueDestID = ssm.DestID,
 	ProviderID = prv.UserProfileID,
@@ -73,7 +73,7 @@ FROM
 	AURORAX.Service v on iep.IepRefId = v.IepRefId LEFT JOIN
 	AURORAX.MAP_IepServiceID m on v.ServiceRefID = m.ServiceRefID LEFT JOIN
 	AURORAX.MAP_ServiceDefID sdm on ServiceType+'|'+v.ServiceDefinitionCode = sdm.ServiceDefCode LEFT JOIN -- select * from AURORAX.MAP_ServiceDefID
-	AURORAX.MAP_ServiceLocationID loc on v.ServiceLocationCode = loc.ServiceLocationCode LEFT JOIN 
+	AURORAX.MAP_PrgLocationID loc on v.ServiceLocationCode = loc.Code LEFT JOIN 
 	AURORAX.MAP_ServiceFrequencyID freq on v.ServiceFrequencyCode = freq.ServiceFrequencyCode LEFT JOIN 
  	AURORAX.MAP_ServiceProviderTitleID ttl on v.ServiceProviderTitleCode = ttl.ServiceProviderTitleCode LEFT JOIN
  	AURORAX.MAP_IepServiceCategoryID cat on v.ServiceType = cat.SubType LEFT JOIN
