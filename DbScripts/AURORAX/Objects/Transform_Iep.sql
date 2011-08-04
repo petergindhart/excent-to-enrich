@@ -9,6 +9,8 @@ AS
 	SELECT
 		iep.StudentRefID,
 		iep.IepRefID,
+		AgeGroup = case when DATEDIFF(yy, stu.DOB, iep.IepStartDate) < 6 then 'PK' when DATEDIFF(yy, stu.DOB, iep.IepStartDate) > 5 then 'K12' End,
+		iep.LRECode,
 		mt.DestID,
 		DefID = def.ID, -- Converted IEP
 		StudentID = stu.DestID,
