@@ -9,7 +9,7 @@ AS
 		Name = k.Label,
 		Description = CAST(NULL as VARCHAR(500)),
 		MedicaidLocationID = CAST(NULL as uniqueidentifier),
-		StateCode = k.Code
+		StateCode = k.StateCode
 	FROM  
 		AURORAX.Lookups k LEFT JOIN
 		AURORAX.MAP_PrgLocationID m on k.Code = m.Code LEFT JOIN
@@ -17,4 +17,6 @@ AS
 	WHERE
 		k.Type = 'ServLoc'
 GO
---
+--select * from AURORAX.Lookups k where k.type = 'ServLoc'
+--select distinct v.ServiceLocationCode from AURORAX.Service v group by v.ServiceLocationCode order by v.ServiceLocationCode
+--select * from AURORAX.MAP_PrgLocationID
