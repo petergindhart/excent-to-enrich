@@ -29,15 +29,9 @@ AS
 	IepDisability is maintained in the Template database and exported with the Template configuration.
 		The code to update IepDisability.StateCode should be contained in file 0001a-ETLPrep_State_[StateAbbr].sql
 	The MAP table will contain only those records that are not a match on state-code.
-	Once the Mapping table and the Target table are populated with the necessary rows by VC3ETL.LoadTable_Run, those new records are no longer returned in this view result.
-		Returning rows where a StateCode match exists between Lookups and Target ensures that we don't duplicate the values in Target.
+
 	Table Aliases:  k for Lookups, s for StateCode, m for Map, t for Target
 	
-	
-	UPDATE:  
-	We can probably remove the t.ID is null from the where clause and eliminate the MapAll view.  
-	Since the tranform returns the DestID properly coalesce(s.ID, t.ID, m.DestID), 
-		with a proper DestTableFilter we will only the map table items will be updated
 */
 	SELECT
 		DisabilityCode = k.Code,
