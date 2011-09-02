@@ -40,7 +40,7 @@ AS
 
 SELECT distinct
 -- ServiceDef
-	ServiceDefCode = isnull(k.Code, convert(varchar(150), k.Label)), -- NULL codes should be taken care of when we import these lookups.  Validation tool has beenn updated to require a code.  only matters in preferences, so no worries about joining to the legacy service records
+	ServiceDefCode = isnull(k.Code, convert(varchar(150), k.Label)), -- Validation tool has beenn updated to require a code.  only matters in preferences, so no worries about joining to the legacy service records
 	ServiceCategoryCode = k.SubType,
 	DestID = coalesce(s.ID, t.ID, m.DestID), -- may not need coalesce below this line because we are only updating legacy records.
 	StateCode = coalesce(s.StateCode, t.StateCode, k.StateCode),
@@ -72,7 +72,6 @@ FROM (select 'Service' Type) x  join
 			AURORAX.Transform_IepServiceCategory c on i.CategoryID = c.DestID
 	) n on k.SubType = n.ServiceCategoryCode and -- objective : identify where a ServiceDefinition with this label already exists in Enrich database.  
 		k.Label = n.Name left join -- as currently written, if IepServiceDef.CategoryID is null, a new record will be added to ServiceDef for the proper ServiceCategory
-	-- abandonned attempt to join on Name because we now require a code for all rows.  besides, there were duplicate lables in the legacy / preferences data.
 	AURORAX.MAP_ServiceDefID m on 
 		k.SubType = m.ServiceCategoryCode and 
 		isnull(k.Code, convert(varchar(150), k.Label)) = m.ServiceDefCode LEFT JOIN
