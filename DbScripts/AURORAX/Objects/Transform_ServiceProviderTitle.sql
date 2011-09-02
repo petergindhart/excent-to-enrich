@@ -60,7 +60,7 @@ update t set
 	, DeleteKey = NULL
 	, DeleteTrans = 0
 	, UpdateTrans = 1
-	, DestTableFilter = NULL
+	, DestTableFilter = 's.DestID in (select DestID from AURORAX.MAP_ServiceProviderTitleID)'
 	, Enabled = 1
 from VC3ETL.LoadTable t where t.ID = @t
 exec VC3ETL.LoadTable_Run @t, '', 1, 0
@@ -68,11 +68,11 @@ print '
 
 select * from '+@n
 
-
 select d.*
 -- UPDATE ServiceProviderTitle SET DeletedDate=s.DeletedDate, StateCode=s.StateCode, Name=s.Name
 FROM  ServiceProviderTitle d JOIN 
 	AURORAX.Transform_ServiceProviderTitle  s ON s.DestID=d.ID
+	AND s.DestID in (select DestID from AURORAX.MAP_ServiceProviderTitleID)
 
 -- INSERT AURORAX.MAP_ServiceProviderTitleID
 SELECT ServiceProviderCode, NEWID()
