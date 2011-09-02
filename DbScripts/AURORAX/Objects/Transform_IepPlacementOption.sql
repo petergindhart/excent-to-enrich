@@ -1,5 +1,4 @@
--- 
--- ############################################################################# -- drop table AURORAX.MAP_IepPlacementTypeID -- select * from AURORAX.MAP_IepPlacementOptionID
+-- ############################################################################# 
 -- LRE Placement TYPE
 IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'AURORAX.MAP_IepPlacementTypeID') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
 BEGIN
@@ -24,7 +23,7 @@ set nocount off;
 END
 GO
 
--- ############################################################################# -- drop table AURORAX.MAP_IepPlacementOptionID -- select * from AURORAX.MAP_IepPlacementOptionID
+-- ############################################################################# 
 -- LRE Placement OPTION
 IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'AURORAX.MAP_IepPlacementOptionID') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
 BEGIN
