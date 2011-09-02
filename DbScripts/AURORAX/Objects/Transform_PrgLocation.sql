@@ -77,9 +77,9 @@ select d.*
 -- UPDATE PrgLocation SET MedicaidLocationID=s.MedicaidLocationID, Name=s.Name, StateCode=s.StateCode, Description=s.Description, DeletedDate=s.DeletedDate
 FROM  PrgLocation d JOIN 
 	AURORAX.Transform_PrgLocation  s ON s.DestID=d.ID
-	AND s.DestID in (select DestID from AURORAX.MAP_PrgLocationID) 
+	AND s.DestID in (select DestID from AURORAX.MAP_PrgLocationID)
 
--- INSERT AURORAX.MAP_PrgLocationID -- select * from AURORAX.MAP_PrgLocationID
+-- INSERT AURORAX.MAP_PrgLocationID
 SELECT ServiceLocationCode, NEWID()
 FROM AURORAX.Transform_PrgLocation s
 WHERE NOT EXISTS (SELECT * FROM PrgLocation d WHERE s.DestID=d.ID)
