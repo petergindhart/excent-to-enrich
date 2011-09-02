@@ -25,6 +25,56 @@ go
 
 /*
 
+GEO.ShowLoadTables IepGoal
+
+
+set nocount on;
+declare @n varchar(100) ; select @n = 'IepGoal'
+declare @t uniqueidentifier ; select @t = id from VC3ETL.LoadTable where ExtractDatabase = '29D14961-928D-4BEE-9025-238496D144C6' and DestTable = @n
+update t set Enabled = 1
+	, HasMapTable = 0
+	, MapTable = NULL
+	, KeyField = NULL
+	, DeleteKey = NULL
+	, DeleteTrans = 0
+	, UpdateTrans = 1
+	, DestTableFilter = NULL
+from VC3ETL.LoadTable t where t.ID = @t
+exec VC3ETL.LoadTable_Run @t, '', 1, 0
+print '
+
+select * from '+@n
+
+
+
+
+
+select d.*
+-- UPDATE IepGoal SET PostSchoolAreaDefID=s.PostSchoolAreaDefID, EsyID=s.EsyID, GoalAreaID=s.GoalAreaID
+FROM  IepGoal d JOIN 
+	AURORAX.Transform_IepGoal  s ON s.DestID=d.ID
+
+
+-- INSERT IepGoal (ID, PostSchoolAreaDefID, EsyID, GoalAreaID)
+SELECT s.DestID, s.PostSchoolAreaDefID, s.EsyID, s.GoalAreaID
+FROM AURORAX.Transform_IepGoal s
+WHERE NOT EXISTS (SELECT * FROM IepGoal d WHERE s.DestID=d.ID)
+
+
+	Msg 2627, Level 14, State 1, Line 1
+	Violation of PRIMARY KEY constraint 'PK_IepGoal'. Cannot insert duplicate key in object 'dbo.IepGoal'.
+	The statement has been terminated.
+
+
+
+
+
+select * from IepGoal
+
+
+
+
+
 select g.goalrefid, 
 	GoalAreaID = ga.ID,
 	-- psa.PostSchoolAreaDefID,
