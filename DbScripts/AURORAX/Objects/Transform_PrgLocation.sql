@@ -1,22 +1,98 @@
-IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'[AURORAX].[Transform_PrgLocation]') AND OBJECTPROPERTY(id, N'IsView') = 1)
-DROP VIEW [AURORAX].[Transform_PrgLocation]  
+-- This file may be used in all states, all districts
+-- ############################################################################# 
+-- Service Location
+IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'AURORAX.MAP_PrgLocationID') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
+BEGIN
+CREATE TABLE AURORAX.MAP_PrgLocationID
+(
+	ServiceLocationCode varchar(150) NOT NULL,
+	DestID uniqueidentifier NOT NULL
+)
+
+ALTER TABLE AURORAX.MAP_PrgLocationID ADD CONSTRAINT
+PK_MAP_PrgLocationID PRIMARY KEY CLUSTERED
+(
+	ServiceLocationCode
+)
+END
+GO
+
+
+IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'AURORAX.Transform_PrgLocation') AND OBJECTPROPERTY(id, N'IsView') = 1)
+DROP VIEW AURORAX.Transform_PrgLocation  
 GO  
   
-CREATE VIEW [AURORAX].[Transform_PrgLocation]  
+
+CREATE VIEW AURORAX.Transform_PrgLocation  
 AS  
 	SELECT   
-		m.DestID,
-		Name = k.Label,
-		Description = CAST(NULL as VARCHAR(500)),
-		MedicaidLocationID = CAST(NULL as uniqueidentifier),
-		StateCode = k.StateCode
+		ServiceLocationCode = k.Code,
+		DestID = coalesce(s.ID, n.ID, t.ID, m.DestID),
+		Name = coalesce(s.Name, n.Name, t.Name, k.Label),
+		Description = coalesce(s.Description, n.Description, t.Description),
+		MedicaidLocationID = coalesce(s.MedicaidLocationID, n.MedicaidLocationID, t.MedicaidLocationID),
+		StateCode = coalesce(s.StateCode, n.StateCode, t.StateCode, k.StateCode),
+		DeletedDate = 
+			CASE 
+				WHEN s.ID IS NOT NULL THEN NULL -- Always show in UI where there is a StateID.
+				ELSE 
+					CASE WHEN k.DisplayInUI = 'Y' THEN NULL -- User specified they want to see this in the UI.  Let them.
+					ELSE GETDATE()
+					END
+			END 
 	FROM  
 		AURORAX.Lookups k LEFT JOIN
-		AURORAX.MAP_PrgLocationID m on k.Code = m.Code LEFT JOIN
-		dbo.PrgLocation t on m.DestID = t.ID
+		dbo.PrgLocation s on isnull(k.StateCode,'kServLoc') = isnull(s.StateCode,'sServLoc') left join 
+		dbo.PrgLocation n on k.Label = n.Name left join														-- this is different
+		AURORAX.MAP_PrgLocationID m on k.Code = m.ServiceLocationCode LEFT JOIN -- select * from AURORAX.MAP_PrgLocationID
+		dbo.PrgLocation t on m.DestID = t.ID -- (m.DestID = t.ID or k.Label = t.Name)
 	WHERE
-		k.Type = 'ServLoc'
+		k.Type = 'ServLoc' 
 GO
---select * from AURORAX.Lookups k where k.type = 'ServLoc'
---select distinct v.ServiceLocationCode from AURORAX.Service v group by v.ServiceLocationCode order by v.ServiceLocationCode
---select * from AURORAX.MAP_PrgLocationID
+
+/*
+
+GEO.ShowLoadTables PrgLocation
+
+set nocount on;
+declare @n varchar(100) ; select @n = 'PrgLocation'
+declare @t uniqueidentifier ; select @t = id from VC3ETL.LoadTable where ExtractDatabase = '29D14961-928D-4BEE-9025-238496D144C6' and DestTable = @n
+update t set 
+	HasMapTable = 1, 
+	MapTable = 'AURORAX.MAP_'+@n+'ID'   -- use this update for looksups only
+	, KeyField = 'ServiceLocationCode'
+	, DeleteKey = NULL
+	, DeleteTrans = 0
+	, UpdateTrans = 1
+	, DestTableFilter = 's.DestID in (select DestID from AURORAX.MAP_'+@n+'ID)'
+	, Enabled = 1
+	from VC3ETL.LoadTable t where t.ID = @t
+exec VC3ETL.LoadTable_Run @t, '', 1, 0
+print '
+
+select * from '+@n
+
+
+select d.*
+-- UPDATE PrgLocation SET MedicaidLocationID=s.MedicaidLocationID, Name=s.Name, StateCode=s.StateCode, Description=s.Description, DeletedDate=s.DeletedDate
+FROM  PrgLocation d JOIN 
+	AURORAX.Transform_PrgLocation  s ON s.DestID=d.ID
+	AND s.DestID in (select DestID from AURORAX.MAP_PrgLocationID) 
+
+-- INSERT AURORAX.MAP_PrgLocationID -- select * from AURORAX.MAP_PrgLocationID
+SELECT ServiceLocationCode, NEWID()
+FROM AURORAX.Transform_PrgLocation s
+WHERE NOT EXISTS (SELECT * FROM PrgLocation d WHERE s.DestID=d.ID)
+
+-- INSERT PrgLocation (ID, MedicaidLocationID, Name, StateCode, Description, DeletedDate)
+SELECT s.DestID, s.MedicaidLocationID, s.Name, s.StateCode, s.Description, s.DeletedDate
+FROM AURORAX.Transform_PrgLocation s
+WHERE NOT EXISTS (SELECT * FROM PrgLocation d WHERE s.DestID=d.ID)
+
+select * from PrgLocation
+
+
+
+*/
+
+
