@@ -1,3 +1,21 @@
+-- #############################################################################
+-- Objective
+IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'AURORAX.MAP_PrgGoalObjectiveID') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
+BEGIN
+CREATE TABLE AURORAX.MAP_PrgGoalObjectiveID
+	(
+	ObjectiveRefID nvarchar(150) NOT NULL,
+	DestID uniqueidentifier NOT NULL
+	)
+
+ALTER TABLE AURORAX.MAP_PrgGoalObjectiveID ADD CONSTRAINT
+	PK_MAP_PrgGoalObjectiveID PRIMARY KEY CLUSTERED
+	(
+	ObjectiveRefID
+	)
+END
+GO
+
 IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'[AURORAX].[Transform_PrgGoalObjective]') AND OBJECTPROPERTY(id, N'IsView') = 1)
 DROP VIEW [AURORAX].[Transform_PrgGoalObjective]
 GO
@@ -26,3 +44,11 @@ AS
   dbo.PrgGoal obj on m.DestID = obj.ID
 GO
 ---
+/*
+
+
+
+
+*/
+
+
