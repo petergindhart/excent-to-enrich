@@ -1,6 +1,14 @@
 --#include Transform_PrgGoal.sql
 --#include Transform_IepGoalArea.sql
 --#include Transform_IepGoalPostSchoolArea.sql
+
+/*
+
+	This expensive query was taking over 12 minutes to run, so the logic was moved to stored procedure IepGoal_InsertAllRecordsFromLegacySped for the time being.
+	
+
+*/
+
 IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'[AURORAX].[Transform_IepGoal]') AND OBJECTPROPERTY(id, N'IsView') = 1)
 DROP VIEW [AURORAX].Transform_IepGoal
 GO
@@ -8,22 +16,234 @@ GO
 create view AURORAX.Transform_IepGoal
 as
 select 
-  DestID = pg.DestID,
-  GoalAreaID = ga.DestID,
-   PostSchoolAreaDefID = psa.PostSchoolAreaDefID,
-   pg.EsyID -- ,
+	DestID = pg.DestID,
+	GoalAreaID = ga.DestID,
+	PostSchoolAreaDefID = psa.PostSchoolAreaDefID,
+	pg.EsyID
 FROM 
 	AURORAX.Transform_PrgGoal pg JOIN
-	AURORAX.Transform_IepGoalArea ga on pg.InstanceID = ga.InstanceID LEFT JOIN 
+	AURORAX.GoalAreasPerGoalView pgga ON pg.GoalRefID = pgga.GoalRefID JOIN
+	AURORAX.Transform_IepGoalArea ga on pg.InstanceID = ga.InstanceID AND pgga.GoalAreaCode = ga.GoalAreaCode LEFT JOIN 
 	AURORAX.Transform_IepGoalPostSchoolAreaDef psa on pg.GoalRefID = psa.GoalRefID and psa.Sequence = 0 LEFT JOIN 
 	dbo.IepGoalArea tgt on ga.InstanceID = tgt.InstanceID and psa.PostSchoolAreaDefID = tgt.DefID 
 go
 
 
-
-
-
 /*
+
+
+AURORAX.IepGoal_InsertAllRecordsFromLegacySped
+
+update vc3etl.loadtable set enabled = 0, sequence = 777 where id = '7629F1BE-F9D4-4D99-9302-3009027FD50E'
+insert vc3etl.loadtable values (newid(), '29D14961-928D-4BEE-9025-238496D144C6', 30, 'AURORAX.IepGoal_InsertAllRecordsFromLegacySped', NULL, 0, NULL, NULL, NULL, 0, 0, 0, 0, 1, NULL, NULL, NULL, 0, 0, NULL, NULL)
+
+select * from vc3etl.loadtable where ID = '86A1D977-790C-4852-B574-1D305B814A17'
+
+
+GEO.ShowLoadTables
+
+update vc3etl.loadtable set enabled = 0 where ID = 'DCAA0626-5046-4B9C-93D9-F448F77DE1BD'
+
+
+select c.name, t.name+
+	case when t.name like '%char%' then '('+convert(varchar, c.prec)+')' else '' end+
+	case when c.isnullable = 0 then '	NOT NULL,' else ',' end
+from sysobjects o
+left join syscolumns c on o.id = c.id 
+left join systypes t on c.xusertype = t.xusertype
+where o.name = 'Transform_IepGoal' -- and c.name = 'sourcetbl'
+order by c.colorder
+
+
+select * from IepGoal
+
+
+
+
+Declare @Transform_PrgGoal table (
+IepRefID	varchar(150),
+GoalRefID	varchar(150) NOT NULL,
+DestID	uniqueidentifier,
+TypeID	uniqueidentifier,
+InstanceID	uniqueidentifier,
+Sequence	int,
+IsProbeGoal	bit,
+TargetDate	datetime,
+GoalStatement	text,
+ProbeTypeID	uniqueidentifier,
+NumericTarget	float,
+RubricTargetID	uniqueidentifier,
+RatioPartTarget	float,
+RatioOutOfTarget	float,
+BaselineScoreID	uniqueidentifier,
+IndDefID	uniqueidentifier,
+IndTarget	float,
+ProbeScheduleID	uniqueidentifier,
+ParentID	uniqueidentifier,
+FormInstanceID	uniqueidentifier,
+EsyID	varchar(36) NOT NULL
+)
+
+insert @Transform_PrgGoal
+select * from AURORAX.Transform_PrgGoal
+
+
+declare @GoalAreasPerGoalView table (
+IepRefID	varchar(150),
+InstanceID	uniqueidentifier NOT NULL,
+DefID	uniqueidentifier NOT NULL,
+GoalAreaCode	varchar(15) NOT NULL,
+GoalRefID	varchar(150) NOT NULL,
+GoalIndex	int
+)
+
+insert @GoalAreasPerGoalView
+select * from AURORAX.GoalAreasPerGoalView
+
+
+declare @Transform_IepGoalArea table (
+IepRefID	varchar(150),
+GoalAreaCode	varchar(15) NOT NULL,
+DestID	uniqueidentifier,
+InstanceID	uniqueidentifier NOT NULL,
+DefID	uniqueidentifier NOT NULL,
+FormInstanceID	uniqueidentifier
+)
+
+insert @Transform_IepGoalArea 
+select * from AURORAX.Transform_IepGoalArea 
+
+declare @Transform_IepGoalPostSchoolAreaDef table (
+IEPRefID	varchar(150),
+GoalRefID	varchar(150),
+PostSchoolAreaCode	varchar(13) NOT NULL,
+GoalID	uniqueidentifier,
+PostSchoolAreaDefID	uniqueidentifier NOT NULL,
+Sequence	int
+)
+
+insert @Transform_IepGoalPostSchoolAreaDef
+select * from AURORAX.Transform_IepGoalPostSchoolAreaDef
+
+
+declare @Transform_IepGoal table (
+DestID	uniqueidentifier,
+GoalAreaID	uniqueidentifier,
+PostSchoolAreaDefID	uniqueidentifier,
+EsyID	varchar(36) NOT NULL
+)
+
+insert @Transform_IepGoal 
+select 
+  DestID = pg.DestID,
+  GoalAreaID = ga.DestID,
+   PostSchoolAreaDefID = psa.PostSchoolAreaDefID,
+   pg.EsyID 
+FROM 
+	@Transform_PrgGoal pg JOIN
+	@GoalAreasPerGoalView pgga ON pg.GoalRefID = pgga.GoalRefID JOIN
+	@Transform_IepGoalArea ga on pg.InstanceID = ga.InstanceID AND pgga.GoalAreaCode = ga.GoalAreaCode LEFT JOIN 
+	@Transform_IepGoalPostSchoolAreaDef psa on pg.GoalRefID = psa.GoalRefID and psa.Sequence = 0 LEFT JOIN 
+	dbo.IepGoalArea tgt on ga.InstanceID = tgt.InstanceID and psa.PostSchoolAreaDefID = tgt.DefID 
+
+-- INSERT IepGoal (ID, PostSchoolAreaDefID, EsyID, GoalAreaID)
+SELECT s.DestID, s.PostSchoolAreaDefID, s.EsyID, s.GoalAreaID
+FROM @Transform_IepGoal s
+WHERE NOT EXISTS (SELECT * FROM IepGoal d WHERE s.DestID=d.ID)
+
+and 
+
+
+
+
+select *
+from
+	PrgItemDef d join
+	PrgItem i on i.DefID = d.ID join
+	PrgVersion v on v.ItemID = i.ID JOIN
+	PrgSection s on s.VersionID = v.ID join
+	PrgGoal pg on pg.InstanceID = s.ID left join
+	IepGoal ig on ig.ID = pg.ID
+where 
+	pg.TypeID = 'AB74929E-B03F-4A51-82CA-659CA90E291A'
+	--pg.ID = 'd918e3a6-d84d-43bb-8811-7cc5fad28eb0'
+	and ig.ID IS NULL
+
+
+
+
+select * from PrgGoal
+where ID = 'd918e3a6-d84d-43bb-8811-7cc5fad28eb0'
+
+
+select * from IepGoal
+where ID = 'd918e3a6-d84d-43bb-8811-7cc5fad28eb0'
+
+
+
+
+
+
+INSERT IepGoal (ID, PostSchoolAreaDefID, EsyID, GoalAreaID)
+SELECT s.DestID, s.PostSchoolAreaDefID, s.EsyID, s.GoalAreaID
+FROM AURORAX.Transform_IepGoal s
+WHERE NOT EXISTS (SELECT * FROM IepGoal d WHERE s.DestID=d.ID)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+select top 1 * from AURORAX.Transform_PrgGoal
+
+
+
+
+
+
+
+select count(*) tot from AURORAX.GoalAreasPerGoalView
+33688 -- 3 sec
+
+select count(*) from AURORAX.Transform_IepGoalArea
+29898 -- 3 seconds
+
+select count(*) from AURORAX.Goal
+34737
+
 
 GEO.ShowLoadTables IepGoal
 
