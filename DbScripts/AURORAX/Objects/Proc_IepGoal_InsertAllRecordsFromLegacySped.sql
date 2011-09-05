@@ -1,6 +1,6 @@
 --#include Transform_PrgGoal.sql
 --#include Transform_IepGoalArea.sql
---#include Transform_IepGoalPostSchoolArea.sql
+--#include Transform_IepGoalPostSchoolAreaDef.sql
 
 if exists (select 1 from sys.schemas s join sys.objects o on s.schema_id = o.schema_id where s.name = 'AURORAX' and o.name = 'IepGoal_InsertAllRecordsFromLegacySped')
 drop proc AURORAX.IepGoal_InsertAllRecordsFromLegacySped
