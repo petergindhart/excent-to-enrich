@@ -68,7 +68,8 @@ AS
 --   AURORAX.MAP_PostSchoolGoalAreaDefID ps on g.PostSchoolAreaCode = ps.PostSchoolAreaID LEFT JOIN
   dbo.PrgGoal pg on m.DestID = pg.ID 
  WHERE
-  i.DestID is not null
+  i.DestID is not null 
+  and g.GACommunication+g.GAEmotional+g.GAHealth+g.GAIndependent+g.GAMath+g.GAOther+g.GAReading+g.GAWriting like '%Y%'
 GO
 
 /*
