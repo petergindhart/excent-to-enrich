@@ -60,6 +60,24 @@ as
 	where  GACommunication = 'Y'
 go
 
+--create table AURORAX.GoalAreaPivotTable (
+--IepRefID varchar(150) not null,
+--GoalRefID varchar(150) not null,
+--GoalAreaCode varchar(20) not null,
+--GoalIndex int not null
+--)
+
+--alter table AURORAX.GoalAreaPivotTable 
+--	add constraint PK_AURORAX_GoalAreaPivotTable primary key (IepRefID, GoalRefID, GoalAreaCode)
+--go
+
+--alter table AURORAX.GoalAreaPivotTable 
+--	drop constraint PK_AURORAX_GoalAreaPivotTable 
+--go
+
+
+--insert AURORAX.GoalAreaPivotTable
+--select * from AURORAX.GoalAreaPivotView
 
 -- #############################################################################
 
@@ -77,21 +95,21 @@ as
 	This filter will no longer be necessary after support for multiple areas (domains) per goal is added to Enrich.
 
 */
-	select  
+	select
 		ga.IepRefID,
 		InstanceID = pgs.DestID,
 		DefID = m.DestID,
 		ga.GoalAreaCode,
 		Ga.GoalRefID,
 		ga.GoalIndex
-	from AURORAX.GoalAreaPivotView ga JOIN 
+	from AURORAX.GoalAreaPivotView ga JOIN
 		AURORAX.Transform_PrgGoals pgs on ga.IepRefID = pgs.IepRefID join -- on left join some records do not have an instanceid  -- 4E367F51-09E0-41A6-9CA1-88F0230A05D1 
 		AURORAX.MAP_GoalAreaDefID m on ga.GoalAreaCode = m.GoalAreaCode -- select * from AURORAX.MAP_GoalAreaDefID -- select * from IepGoalAreaDef order by deleteddate, sequence, Name -- select * from AURORAX.MAP_GoalAreaDefID
-	where ga.GoalIndex = (					-- Enrich does not currently support multiple domains per Goal
-		select top 1 minga.GoalIndex 
+	where ga.GoalIndex = (				-- Enrich does not currently support multiple domains per Goal
+		select top 1 minga.GoalIndex
 		from  AURORAX.GoalAreaPivotView minga
 		where ga.GoalRefID = minga.GoalRefID
-		order by ga.GoalIndex) 
+		order by ga.GoalIndex)
 go
 
 
