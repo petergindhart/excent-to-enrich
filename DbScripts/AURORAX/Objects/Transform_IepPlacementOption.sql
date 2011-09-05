@@ -17,7 +17,7 @@ CREATE INDEX IX_MAP_IepPlacementTypeID_PlacementTypeCode on AURORAX.MAP_IepPlace
 
 --  Hard-map IepPlacementType (this is the same everywhere as of 20110829
 set nocount on;
-insert AURORAX.MAP_IepPlacementTypeID values ('PK', 'E47FBA7F-8EB0-4869-89DF-9DD3456846EC')
+insert AURORAX.MAP_IepPlacementTypeID values ('PK', 'E47FBA7F-8EB0-4869-89DF-9DD3456846EC') -- is it a safe assumption that this will be consistent throughout all installations?
 insert AURORAX.MAP_IepPlacementTypeID values ('K12', 'D9D84E5B-45F9-4C72-8265-51A945CD0049')
 set nocount off;
 END
