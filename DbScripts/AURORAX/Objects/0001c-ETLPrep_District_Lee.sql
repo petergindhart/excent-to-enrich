@@ -28,7 +28,7 @@ insert @Map_ServiceFrequencyID values ('day', 'daily', '71590A00-2C40-40FF-ABD9-
 insert @Map_ServiceFrequencyID values ('week', 'weekly', 'A2080478-1A03-4928-905B-ED25DEC259E6')
 insert @Map_ServiceFrequencyID values ('month', 'monthly', '3D4B557B-0C2E-4A41-9410-BA331F1D20DD')
 insert @Map_ServiceFrequencyID values ('year', 'yearly', '5F3A2822-56F3-49DA-9592-F604B0F202C3')
-insert @Map_ServiceFrequencyID values ('unknown', 'unknown', 'C42C50ED-863B-44B8-BF68-B377C8B0FA95')
+insert @Map_ServiceFrequencyID values ('ZZZ', 'unknown', 'C42C50ED-863B-44B8-BF68-B377C8B0FA95')
 
 
 set nocount off;
@@ -44,4 +44,47 @@ from AURORAX.MAP_ServiceFrequencyID m left join
 	ServiceFrequency t on m.DestID = t.ID
 where t.ID is null
 GO
+
+
+/*
+
+
+select 
+	PlacementTypeCode = k.SubType,
+	PlacementOptionCode = isnull(k.Code, convert(varchar(150), k.Label)), 
+	StateCode = k.StateCode, -- ??
+	DestID = coalesce(s.ID, t.ID, m.DestID),
+	TypeID = coalesce(s.TypeID, t.TypeID, my.DestID),
+	Sequence = coalesce(s.Sequence, t.Sequence, 99),
+	Text = coalesce(s.Text, t.Text, k.Label),
+	MinPercentGenEd = isnull(s.MinPercentGenEd, t.MinPercentGenEd),   
+	MaxPercentGenEd = isnull(s.MaxPercentGenEd, t.MaxPercentGenEd),   
+	DeletedDate = 
+			CASE 
+				WHEN s.ID IS NOT NULL THEN NULL -- Always show in UI where there is a StateID.  Period.
+				ELSE 
+					CASE WHEN k.DisplayInUI = 'Y' THEN NULL -- User specified they want to see this in the UI.  Let them.
+					ELSE GETDATE()
+					END
+			END 
+from 
+	AURORAX.Lookups k LEFT JOIN
+	AURORAX.MAP_IepPlacementTypeID my on k.SubType = my.PlacementTypeCode LEFT JOIN 
+	dbo.IepPlacementOption s on 
+		my.DestID = s.TypeID and
+		k.StateCode = s.StateCode LEFT JOIN 
+	AURORAX.MAP_IepPlacementOptionID m on 
+		my.PlacementTypeCode = m.PlacementTypeCode and
+		isnull(k.Code, convert(varchar(150), k.label)) = m.PlacementOptionCode LEFT JOIN
+	dbo.IepPlacementOption t on m.DestID = t.ID
+where k.Type = 'LRE' and
+	k.SubType in ('PK', 'K12') 
+
+
+
+*/
+
+
+
+
 
