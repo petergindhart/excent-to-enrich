@@ -29,7 +29,8 @@ AS
   EndDate = cast(v.EndDate as datetime), 
   LastOccurrence = cast(NULL as datetime), 
   IsEnabled = cast(1 as bit), 
-  FrequencyID = '634EA996-D5FF-4A4A-B169-B8CB70DBBEC2', -- mf.DestID,  -- ScheduleFrequency only has Daily and Weekly, trying to find out why not Daily, Monthly, Quarterly, Yearly
+  -- schedule frequency is static in Enrich
+  FrequencyID = '634EA996-D5FF-4A4A-B169-B8CB70DBBEC2', 
   FrequencyAmount = cast(v.ServiceTime as int), 
   WeeklyMon = cast(0 as bit),
   WeeklyTue = cast(0 as bit),
@@ -53,7 +54,7 @@ GEO.ShowLoadTables Schedule
 set nocount on;
 declare @n varchar(100) ; select @n = 'Schedule'
 declare @t uniqueidentifier ; select @t = id from VC3ETL.LoadTable where ExtractDatabase = '29D14961-928D-4BEE-9025-238496D144C6' and DestTable = @n
-update t set Enabled = 0
+update t set Enabled = 1
 from VC3ETL.LoadTable t where t.ID = @t
 	
 	HasMapTable = 1, 
