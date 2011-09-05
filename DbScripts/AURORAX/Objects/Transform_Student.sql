@@ -17,14 +17,29 @@ ALTER TABLE AURORAX.MAP_StudentRefID ADD CONSTRAINT
 	StudentRefID
 	) 
 END
+ELSE
+BEGIN
+
+	select m.StudentRefID, LegacyData = CAST(case when s.ManuallyEntered = 1 then 1 else 0 end as Bit), m.DestID
+	into AURORAX.TEMP_MAP_StudentRefID
+	from AURORAX.MAP_StudentRefID m join
+		dbo.Student s on m.DestID = s.ID
+	
+	DROP TABLE AURORAX.MAP_StudentRefID 
+
+	select StudentRefID, LegacyData, DestID
+	into AURORAX.MAP_StudentRefID
+	from AURORAX.TEMP_MAP_StudentRefID
+	
+END
 GO
 
 
-IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'[AURORAX].[Transform_Student]') AND OBJECTPROPERTY(id, N'IsView') = 1)
-DROP VIEW [AURORAX].[Transform_Student]
+IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'AURORAX.Transform_Student') AND OBJECTPROPERTY(id, N'IsView') = 1)
+DROP VIEW AURORAX.Transform_Student
 GO
 
-CREATE VIEW [AURORAX].[Transform_Student]
+CREATE VIEW AURORAX.Transform_Student
 AS
 -- NOTE:  DO NOT TOUCH THE RECORDS ADDED BY SIS IMPORT OR MANUALLY ENTERED STUDENTS.  SIS RECORDS DO NEED TO BE MAPPED.  NEW RECORDS FROM SPED NEED TO BE ADDED. 
  SELECT
@@ -66,7 +81,7 @@ AS
   x_CSAP_A = cast(0 as bit),  
   IsHispanic = case when src.IsHispanic = 'Y' then 1 else 0 end,  
   ImportPausedDate = cast(NULL as datetime),  
-  ImportPausedByID = cast(NULL as uniqueidentifier),  -- select src.StudentLocalID
+  ImportPausedByID = cast(NULL as uniqueidentifier),
   IsActive = cast(isnull(t.IsActive,1) as bit),  
   ManuallyEntered = cast(isnull(t.ManuallyEntered,1) as bit) -- cast(case when dest.ID is null then 1 else 0 end as bit),  
  FROM 
@@ -83,6 +98,10 @@ GO
 
 
 /*
+
+select * from VC3ETL.LoadTable where ID = '0650F23E-B249-4D90-8389-36B73375B506'
+
+
 
 NOTES: 
 
