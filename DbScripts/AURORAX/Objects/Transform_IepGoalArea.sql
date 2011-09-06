@@ -1,4 +1,4 @@
-
+--#include Transform_PrgGoal.sql
 -- AURORAX.MAP_GoalAreaDefID is created and inserted in AURORAX\Objects\0001a-ETLPrep_State_FL.sql
 -- #############################################################################
 --		Iep Goal Area MAP
