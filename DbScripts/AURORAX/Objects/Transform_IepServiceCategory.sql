@@ -37,7 +37,7 @@ AS
 		GROUP BY SubType
 		) k LEFT JOIN
 		dbo.IepServiceCategory s on case k.ServiceCategoryCode when 'SpecialEd' then 'Special Education' else k.ServiceCategoryCode end = s.Name LEFT JOIN
-		AURORAX.MAP_IepServiceCategoryID m ON k.ServiceCategoryCode = m.ServiceCategoryCode LEFT JOIN
+		AURORAX.MAP_IepServiceCategoryID m ON k.ServiceCategoryCode = m.ServiceCategoryCode LEFT JOIN 
 		dbo.IepServiceCategory t on m.DestID = t.ID	
 GO
 
