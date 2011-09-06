@@ -1,7 +1,5 @@
---#include Transform_PrgIep.sql
-
-IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'[AURORAX].[Transform_PrgConsent]') AND OBJECTPROPERTY(id, N'IsView') = 1)
-DROP VIEW [AURORAX].[Transform_PrgConsent]
+IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'AURORAX.Transform_PrgConsent') AND OBJECTPROPERTY(id, N'IsView') = 1)
+DROP VIEW AURORAX.Transform_PrgConsent
 GO
 
 CREATE VIEW AURORAX.Transform_PrgConsent
