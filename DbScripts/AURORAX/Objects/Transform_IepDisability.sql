@@ -1,5 +1,3 @@
---#include Transform_PrgIep.sql
-
 -- All states, all districts
 -- #############################################################################
 -- Disability

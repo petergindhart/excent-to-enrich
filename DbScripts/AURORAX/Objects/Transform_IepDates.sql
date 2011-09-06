@@ -1,5 +1,3 @@
---#include Transform_Iep.sql
-
 IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'AURORAX.Transform_IepDates') AND OBJECTPROPERTY(id, N'IsView') = 1)
 DROP VIEW AURORAX.Transform_IepDates
 GO
