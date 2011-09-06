@@ -36,7 +36,7 @@ AS
 			CASE 
 				WHEN s.ID IS NOT NULL THEN NULL -- Always show in UI where there is a StateID.
 				ELSE 
-					CASE WHEN k.DisplayInUI = 'Y' THEN NULL -- User specified they want to see this in the UI.  Let them.
+					CASE WHEN k.DisplayInUI = 'Y' THEN NULL -- User specified they want to see this in the UI.  Let them. 
 					ELSE GETDATE()
 					END
 			END 
@@ -44,8 +44,8 @@ AS
 		AURORAX.Lookups k LEFT JOIN
 		dbo.PrgLocation s on isnull(k.StateCode,'kServLoc') = isnull(s.StateCode,'sServLoc') left join 
 		dbo.PrgLocation n on k.Label = n.Name left join														-- this is different
-		AURORAX.MAP_PrgLocationID m on k.Code = m.ServiceLocationCode LEFT JOIN -- select * from AURORAX.MAP_PrgLocationID
-		dbo.PrgLocation t on m.DestID = t.ID -- (m.DestID = t.ID or k.Label = t.Name)
+		AURORAX.MAP_PrgLocationID m on k.Code = m.ServiceLocationCode LEFT JOIN
+		dbo.PrgLocation t on m.DestID = t.ID 
 	WHERE
 		k.Type = 'ServLoc' 
 GO
