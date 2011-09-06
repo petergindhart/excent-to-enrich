@@ -25,26 +25,7 @@ go
 			i.e. 2 times Quarterly = 8 times yearly,  30 minutes per quarter = 2 hours per year or 120 minutes per year
 */
 
-IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'AURORAX.MAP_ServiceFrequencyID') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
-DROP TABLE AURORAX.MAP_ServiceFrequencyID
-GO
-
-CREATE TABLE AURORAX.MAP_ServiceFrequencyID
-(
-	ServiceFrequencyCode	varchar(150) NOT NULL,
-	ServiceFrequencyName	varchar(50) not null,
-	DestID uniqueidentifier NOT NULL
-)
-ALTER TABLE AURORAX.MAP_ServiceFrequencyID ADD CONSTRAINT
-PK_MAP_ServiceFrequencyID PRIMARY KEY CLUSTERED
-(
-	ServiceFrequencyName
-)
-CREATE INDEX IX_Map_ServiceFrequencyID_ServiceFrequencyName on AURORAX.Map_ServiceFrequencyID (ServiceFrequencyName)
-
-GO
-
-
+-- Lee County had a MAP_ServiceFrequencyID from a previouos ETL run that had bogus frequency data. delete that data and insert the good.
 declare @Map_ServiceFrequencyID table (ServiceFrequencyCode varchar(30), ServiceFrequencyName varchar(50), DestID uniqueidentifier)
 set nocount on;
 insert @Map_ServiceFrequencyID values ('day', 'daily', '71590A00-2C40-40FF-ABD9-E73B09AF46A1')
@@ -53,14 +34,17 @@ insert @Map_ServiceFrequencyID values ('month', 'monthly', '3D4B557B-0C2E-4A41-9
 insert @Map_ServiceFrequencyID values ('year', 'yearly', '5F3A2822-56F3-49DA-9592-F604B0F202C3')
 insert @Map_ServiceFrequencyID values ('ZZZ', 'unknown', 'C42C50ED-863B-44B8-BF68-B377C8B0FA95')
 
+if (select COUNT(*) from @Map_ServiceFrequencyID t join AURORAX.MAP_ServiceFrequencyID m on t.DestID = m.DestID) <> 5
+	delete AURORAX.MAP_ServiceFrequencyID
 
 set nocount off;
 insert AURORAX.MAP_ServiceFrequencyID
-select m.*
+select m.ServiceFrequencyCode, m.ServiceFrequencyName, m.DestID
 from @Map_ServiceFrequencyID m left join
 	AURORAX.MAP_ServiceFrequencyID t on m.DestID = t.DestID
 where t.DestID is null
 
+-- this is seed data, but maybe this is not the best place for this code.....
 insert ServiceFrequency (ID, Name, Sequence, WeekFactor)
 select DestID, m.ServiceFrequencyName, 99, 0
 from AURORAX.MAP_ServiceFrequencyID m left join
@@ -70,7 +54,6 @@ GO
 
 
 /*
-
 
 select 
 	PlacementTypeCode = k.SubType,
