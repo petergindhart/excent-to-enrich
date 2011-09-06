@@ -1,3 +1,7 @@
+IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'AURORAX.Transform_Demographics') AND OBJECTPROPERTY(id, N'IsView') = 1)
+DROP VIEW AURORAX.Transform_Demographics
+GO
+
 IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'AURORAX.Transform_IepDemographics') AND OBJECTPROPERTY(id, N'IsView') = 1)
 DROP VIEW AURORAX.Transform_IepDemographics
 GO

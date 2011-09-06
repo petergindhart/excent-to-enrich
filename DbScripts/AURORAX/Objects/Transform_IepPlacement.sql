@@ -1,5 +1,12 @@
 --#include Transform_IepPlacementOption.sql
 
+IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'AURORAX.Transform_LRE') AND OBJECTPROPERTY(id, N'IsView') = 1)
+	DROP VIEW AURORAX.Transform_LRE
+GO
+IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'AURORAX.Transform_LREPlacement') AND OBJECTPROPERTY(id, N'IsView') = 1)
+	DROP VIEW AURORAX.Transform_LREPlacement
+GO
+
 -- ############################################################################# 
 -- LRE Placement
 IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'AURORAX.MAP_IepPlacementID') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)

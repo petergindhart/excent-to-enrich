@@ -1,3 +1,11 @@
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'AURORAX.Transform_PrgItemOutcome') AND OBJECTPROPERTY(id, N'IsView') = 1) 
+DROP VIEW AURORAX.Transform_PrgItemOutcome
+GO 
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'AURORAX.Transform_InvolvementStatus') AND OBJECTPROPERTY(id, N'IsView') = 1) 
+DROP VIEW AURORAX.Transform_InvolvementStatus
+GO 
+
 -- #############################################################################
 -- PrgStatus -- using this for Exit code
 IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'AURORAX.MAP_PrgStatusID') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
