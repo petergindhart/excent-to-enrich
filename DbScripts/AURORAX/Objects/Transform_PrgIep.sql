@@ -1,5 +1,4 @@
---#include Transform_School.sql
---#include Transform_Ethnicity.sql
+--#include Transform_PrgInvolvement.sql
 --#include Transform_Student.sql
 
 -- #############################################################################
