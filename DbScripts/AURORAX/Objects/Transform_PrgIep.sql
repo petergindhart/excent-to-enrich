@@ -1,6 +1,10 @@
 --#include Transform_PrgInvolvement.sql
 --#include Transform_Student.sql
 
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'AURORAX.Transform_Iep') AND OBJECTPROPERTY(id, N'IsView') = 1)
+DROP VIEW AURORAX.Transform_Iep
+GO
+
 -- #############################################################################
 -- IEP
 IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'AURORAX.Map_IepRefID') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
