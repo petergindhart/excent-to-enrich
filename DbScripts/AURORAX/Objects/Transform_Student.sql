@@ -1,3 +1,4 @@
+--#include Transform_GradeLevel.sql
 --#include Transform_School.sql
 
 -- #############################################################################
@@ -17,21 +18,7 @@ ALTER TABLE AURORAX.MAP_StudentRefID ADD CONSTRAINT
 	StudentRefID
 	) 
 END
-ELSE
-BEGIN
 
-	select m.StudentRefID, LegacyData = CAST(case when s.ManuallyEntered = 1 then 1 else 0 end as Bit), m.DestID
-	into AURORAX.TEMP_MAP_StudentRefID
-	from AURORAX.MAP_StudentRefID m join
-		dbo.Student s on m.DestID = s.ID
-	
-	DROP TABLE AURORAX.MAP_StudentRefID 
-
-	select StudentRefID, LegacyData, DestID
-	into AURORAX.MAP_StudentRefID
-	from AURORAX.TEMP_MAP_StudentRefID
-	
-END
 GO
 
 
@@ -92,8 +79,6 @@ AS
   dbo.Student s on src.StudentLocalID = s.Number and s.IsActive = 1 LEFT JOIN -- identifies students in legacy data that match students in Enrich
   AURORAX.MAP_StudentRefID m on src.StudentRefID = m.StudentRefID LEFT JOIN
   dbo.Student t on m.DestID = t.ID -- exists in map table
- --WHERE
- -- t.ID is null   -- not in Enrich yet.  Do not use this where clause.  we want to see students added by SIS and Legacy Sped students at the same time
 GO
 
 

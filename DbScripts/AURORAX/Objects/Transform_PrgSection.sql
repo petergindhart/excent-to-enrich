@@ -1,4 +1,4 @@
-
+--#include Transform_PrgIep.sql
 -- ############################################################################# 
 -- Section
 IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'AURORAX.MAP_PrgSectionID') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
