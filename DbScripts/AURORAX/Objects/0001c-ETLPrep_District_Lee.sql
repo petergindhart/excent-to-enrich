@@ -53,6 +53,30 @@ where t.ID is null
 GO
 
 
+
+
+
+
+
+
+
+
+
+-- need this code to add cascade delete on FK_PrgIep_PrgItem until the build with this change makes production
+IF  EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_PrgIep_PrgItem]') AND parent_object_id = OBJECT_ID(N'[dbo].[PrgIep]'))
+ALTER TABLE [dbo].[PrgIep] DROP CONSTRAINT [FK_PrgIep_PrgItem]
+GO
+
+ALTER TABLE [dbo].[PrgIep]  WITH CHECK ADD  CONSTRAINT [FK_PrgIep_PrgItem] FOREIGN KEY([ID])
+REFERENCES [dbo].[PrgItem] ([ID])
+      ON DELETE CASCADE
+GO
+
+ALTER TABLE [dbo].[PrgIep] CHECK CONSTRAINT [FK_PrgIep_PrgItem]
+GO
+
+
+
 /*
 
 select 
