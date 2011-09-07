@@ -7,16 +7,16 @@ GO
 
 -- #############################################################################
 -- IEP
-IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'AURORAX.Map_IepRefID') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
+IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'AURORAX.MAP_IepRefID') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
 BEGIN
-CREATE TABLE AURORAX.Map_IepRefID
+CREATE TABLE AURORAX.MAP_IepRefID
 (
 	IepRefID varchar(150) NOT NULL ,
 	DestID uniqueidentifier NOT NULL
 )
 
-ALTER TABLE AURORAX.Map_IepRefID ADD CONSTRAINT
-PK_Map_IepRefID PRIMARY KEY CLUSTERED
+ALTER TABLE AURORAX.MAP_IepRefID ADD CONSTRAINT
+PK_MAP_IepRefID PRIMARY KEY CLUSTERED
 (
 	IepRefID
 )
@@ -42,11 +42,6 @@ PK_MAP_PrgVersionID PRIMARY KEY CLUSTERED
 END
 GO
 
-
-
-
-
--- drop view AURORAX.Transform_Iep
 
 IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'AURORAX.Transform_PrgIep') AND OBJECTPROPERTY(id, N'IsView') = 1)
 DROP VIEW AURORAX.Transform_PrgIep
@@ -84,7 +79,7 @@ AS
 -- other tables
 		-- StartStatus = def.StatusID, (why did this exist along with StartStatusID at the same time? -- IEP 
 -- PrgIep
-		IsTransitional = cast(0 as bit),  -- These will be Converted IEPs, but if they are over 14 is it considered Transitional?
+		IsTransitional = cast(0 as bit),
 -- PrgVersion
 		VersionDestID = ver.DestID,
 		VersionFinalizedDate = iep.IEPStartDate,
@@ -131,41 +126,34 @@ print '
 select * from '+@n
 
 
-select d.*
--- DELETE AURORAX.MAP_IepRefID
+
+DELETE AURORAX.MAP_IepRefID
 FROM AURORAX.Transform_PrgIep AS s RIGHT OUTER JOIN 
 	AURORAX.MAP_IepRefID as d ON s.DestID = d.DestID
 WHERE (s.DestID IS NULL)
 
-select d.*
--- DELETE PrgItem
+
+DELETE PrgItem
 FROM AURORAX.MAP_IepRefID AS s RIGHT OUTER JOIN 
 	PrgItem as d ON s.DestID=d.ID
 WHERE s.DestID IS NULL AND 1=1 AND  d.DefID = '8011D6A2-1014-454B-B83C-161CE678E3D3'
 
-
-select d.*
--- UPDATE PrgItem SET StudentID=s.StudentID, PlannedEndDate=s.PlannedEndDate, ItemOutcomeID=s.ItemOutcomeID, EndedDate=s.EndedDate, EndDate=s.EndDate, Revision=s.Revision, StartDate=s.StartDate, EndStatusID=s.EndStatusID, IsEnded=s.IsEnded, InvolvementID=s.InvolvementID, DefID=s.DefID, CreatedBy=s.CreatedBy, StartStatusID=s.StartStatusID, EndedBy=s.EndedBy, CreatedDate=s.CreatedDate, SchoolID=s.SchoolID, GradeLevelID=s.GradeLevelID
+UPDATE PrgItem SET StudentID=s.StudentID, PlannedEndDate=s.PlannedEndDate, ItemOutcomeID=s.ItemOutcomeID, EndedDate=s.EndedDate, EndDate=s.EndDate, Revision=s.Revision, StartDate=s.StartDate, EndStatusID=s.EndStatusID, IsEnded=s.IsEnded, InvolvementID=s.InvolvementID, DefID=s.DefID, CreatedBy=s.CreatedBy, StartStatusID=s.StartStatusID, EndedBy=s.EndedBy, CreatedDate=s.CreatedDate, SchoolID=s.SchoolID, GradeLevelID=s.GradeLevelID
 FROM  PrgItem d JOIN 
 	AURORAX.Transform_PrgIep  s ON s.DestID=d.ID
 	AND d.DefID = '8011D6A2-1014-454B-B83C-161CE678E3D3'
 
--- INSERT AURORAX.MAP_IepRefID
+INSERT AURORAX.MAP_IepRefID
 SELECT IepRefID, NEWID()
 FROM AURORAX.Transform_PrgIep s
 WHERE NOT EXISTS (SELECT * FROM PrgItem d WHERE s.DestID=d.ID)
 
--- INSERT PrgItem (ID, StudentID, PlannedEndDate, ItemOutcomeID, EndedDate, EndDate, Revision, StartDate, EndStatusID, IsEnded, InvolvementID, DefID, CreatedBy, StartStatusID, EndedBy, CreatedDate, SchoolID, GradeLevelID)
+INSERT PrgItem (ID, StudentID, PlannedEndDate, ItemOutcomeID, EndedDate, EndDate, Revision, StartDate, EndStatusID, IsEnded, InvolvementID, DefID, CreatedBy, StartStatusID, EndedBy, CreatedDate, SchoolID, GradeLevelID)
 SELECT s.DestID, s.StudentID, s.PlannedEndDate, s.ItemOutcomeID, s.EndedDate, s.EndDate, s.Revision, s.StartDate, s.EndStatusID, s.IsEnded, s.InvolvementID, s.DefID, s.CreatedBy, s.StartStatusID, s.EndedBy, s.CreatedDate, s.SchoolID, s.GradeLevelID
 FROM AURORAX.Transform_PrgIep s
 WHERE NOT EXISTS (SELECT * FROM PrgItem d WHERE s.DestID=d.ID)
 
-
 select * from PrgItem
-
-
-select * from PrgItem
-
 
 
 
@@ -234,22 +222,59 @@ print '
 
 select * from '+@n
 
-select d.*
--- UPDATE PrgVersion SET DateCreated=s.CreatedDate, ItemID=s.DestID, DateFinalized=s.VersionFinalizedDate
+begin tran testver
+UPDATE PrgVersion
+SET DateCreated=s.CreatedDate, ItemID=s.DestID, DateFinalized=s.VersionFinalizedDate
 FROM  PrgVersion d JOIN 
 	AURORAX.Transform_PrgIep  s ON s.VersionDestID=d.ID
 
--- INSERT AURORAX.MAP_PrgVersionID
+INSERT AURORAX.MAP_PrgVersionID
 SELECT IepRefID, NEWID()
 FROM AURORAX.Transform_PrgIep s
 WHERE NOT EXISTS (SELECT * FROM PrgVersion d WHERE s.VersionDestID=d.ID)
+	and s.IepRefID in (select IepRefID from AURORAX.MAP_PrgVersionID)
 
--- INSERT PrgVersion (ID, DateCreated, ItemID, DateFinalized)
+Msg 2627, Level 14, State 1, Line 7
+Violation of PRIMARY KEY constraint 'PK_MAP_PrgVersionID'. Cannot insert duplicate key in object 'AURORAX.MAP_PrgVersionID'.
+The statement has been terminated.
+
+select m.*
+from AURORAX.MAP_PrgVersionID m left join 
+	dbo.PrgVersion v on m.DestID = v.ID
+where v.ID is null
+
+
+
+
+SELECT IepRefID, count(*) tot
+FROM AURORAX.Transform_PrgIep s
+WHERE NOT EXISTS (SELECT * FROM PrgVersion d WHERE s.VersionDestID=d.ID)
+group by IepRefID
+-- 366
+
+
+
+
+INSERT PrgVersion (ID, DateCreated, ItemID, DateFinalized)
 SELECT s.VersionDestID, s.CreatedDate, s.DestID, s.VersionFinalizedDate
 FROM AURORAX.Transform_PrgIep s
 WHERE NOT EXISTS (SELECT * FROM PrgVersion d WHERE s.VersionDestID=d.ID)
 
+
+
+
+rollback tran testver
+
+
+
 select * from PrgVersion
+
+
+
+
+
+
+
 
 
 */
