@@ -11,6 +11,15 @@ BEGIN
 		into AURORAX.MAP_IepServiceCategoryID 
 		from AURORAX.TEMP_MAP_IepServiceCategoryID
 
-		DROP TABLE AURORAX.TEMP_MAP_IepServiceCategoryID')
+		DROP TABLE AURORAX.TEMP_MAP_IepServiceCategoryID
+		
+		ALTER TABLE AURORAX.MAP_IepServiceCategoryID ADD CONSTRAINT
+		PK_MAP_IepServiceCategoryID PRIMARY KEY CLUSTERED
+		(
+			ServiceCategoryCode
+		)
+		
+		ALTER TABLE AURORAX.MAP_IepServiceCategoryID ALTER COLUMN DestID uniqueidentifier NOT NULL
+		')
 END
 GO
