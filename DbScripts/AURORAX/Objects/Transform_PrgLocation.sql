@@ -24,10 +24,10 @@ GO
   
 
 CREATE VIEW AURORAX.Transform_PrgLocation  
-AS  
-	SELECT   
+AS
+	SELECT
 		ServiceLocationCode = k.Code,
-		DestID = coalesce(s.ID, n.ID, t.ID, m.DestID),
+		DestID = coalesce(n.ID, s.ID, t.ID, m.DestID),
 		Name = coalesce(s.Name, n.Name, t.Name, k.Label),
 		Description = coalesce(s.Description, n.Description, t.Description),
 		MedicaidLocationID = coalesce(s.MedicaidLocationID, n.MedicaidLocationID, t.MedicaidLocationID),
@@ -42,8 +42,12 @@ AS
 			END 
 	FROM  
 		AURORAX.Lookups k LEFT JOIN
-		dbo.PrgLocation s on isnull(k.StateCode,'kServLoc') = isnull(s.StateCode,'sServLoc') left join 
-		dbo.PrgLocation n on k.Label = n.Name left join														-- this is different
+		dbo.PrgLocation s on 
+			isnull(k.StateCode,'kServLoc') = isnull(s.StateCode,'sServLoc') and
+			s.ID = (select ID from PrgLocation where StateCode = s.StateCode and ID < s.ID) left join -- return only one record where duplicate statecodes exist in target
+		dbo.PrgLocation n on 
+			k.Label = n.Name and
+			n.ID = (select ID from PrgLocation where Name = n.Name and ID < n.ID) left join -- return only one record where duplicate names exist in target
 		AURORAX.MAP_PrgLocationID m on k.Code = m.ServiceLocationCode LEFT JOIN
 		dbo.PrgLocation t on m.DestID = t.ID 
 	WHERE
@@ -51,6 +55,10 @@ AS
 GO
 
 /*
+
+select * from aurorax.lookups where type = 'ServLoc'
+
+
 
 GEO.ShowLoadTables PrgLocation
 
@@ -63,7 +71,7 @@ update t set
 	, KeyField = 'ServiceLocationCode'
 	, DeleteKey = NULL
 	, DeleteTrans = 0
-	, UpdateTrans = 1
+	, UpdateTrans = 0
 	, DestTableFilter = 's.DestID in (select DestID from AURORAX.MAP_'+@n+'ID)'
 	, Enabled = 1
 	from VC3ETL.LoadTable t where t.ID = @t
@@ -89,10 +97,14 @@ SELECT s.DestID, s.MedicaidLocationID, s.Name, s.StateCode, s.Description, s.Del
 FROM AURORAX.Transform_PrgLocation s
 WHERE NOT EXISTS (SELECT * FROM PrgLocation d WHERE s.DestID=d.ID)
 
-select * from PrgLocation
+select * from PrgLocation where Name = 'Cafeteria'
+
+
+select * from TestOnlin_Ok2delete.dbo.PrgLocation where Name = 'Cafeteria'
 
 
 
 */
+
 
 
