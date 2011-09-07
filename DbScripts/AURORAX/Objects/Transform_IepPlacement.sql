@@ -66,10 +66,7 @@ GEO.ShowLoadTables IepPlacement
 set nocount on;
 declare @n varchar(100) ; select @n = 'IepPlacement'
 declare @t uniqueidentifier ; select @t = id from VC3ETL.LoadTable where ExtractDatabase = '29D14961-928D-4BEE-9025-238496D144C6' and DestTable = @n
-update t set enabled = 1
-from VC3ETL.LoadTable t where t.ID = @t
-
-
+update t set 
 	SourceTable = 'AURORAX.Transform_'+@n
 	, HasMapTable = 1
 	, MapTable = 'AURORAX.MAP_IepPlacementID'
@@ -86,30 +83,55 @@ print '
 select * from '+@n
 
 
-select d.*
--- DELETE AURORAX.MAP_IepPlacementID
+begin tran testPlace
+DELETE AURORAX.MAP_IepPlacementID
 FROM AURORAX.Transform_IepPlacement AS s RIGHT OUTER JOIN 
 	AURORAX.MAP_IepPlacementID as d ON s.DestID = d.DestID
 WHERE (s.DestID IS NULL)
 
-
-select d.*
--- UPDATE IepPlacement SET OptionID=s.OptionID, TypeID=s.TypeID, IsEnabled=s.IsEnabled, InstanceID=s.InstanceID, IsDecOneCount=s.IsDecOneCount
+UPDATE IepPlacement
+SET OptionID=s.OptionID, TypeID=s.TypeID, IsEnabled=s.IsEnabled, InstanceID=s.InstanceID, IsDecOneCount=s.IsDecOneCount
 FROM  IepPlacement d JOIN 
 	AURORAX.Transform_IepPlacement  s ON s.DestID=d.ID
 
--- INSERT AURORAX.MAP_IepPlacementID
+INSERT AURORAX.MAP_IepPlacementID
 SELECT IepRefID, TypeId, NEWID()
 FROM AURORAX.Transform_IepPlacement s
 WHERE NOT EXISTS (SELECT * FROM IepPlacement d WHERE s.DestID=d.ID)
 
--- INSERT IepPlacement (ID, OptionID, TypeID, IsEnabled, InstanceID, IsDecOneCount)
+Msg 2627, Level 14, State 1, Line 12
+Violation of PRIMARY KEY constraint 'PK_MAP_IepPlacement'. Cannot insert duplicate key in object 'AURORAX.MAP_IepPlacementID'.
+The statement has been terminated.
+
+
+SELECT IepRefID, TypeId, count(*)
+FROM AURORAX.Transform_IepPlacement s
+WHERE NOT EXISTS (SELECT * FROM IepPlacement d WHERE s.DestID=d.ID)
+group by IepRefID, TypeId
+having count(*) > 1
+
+select * from AURORAX.MAP_IepPlacementID where IepRefID = '0F122B76-0855-4448-874A-8BBAC4C26CA2'
+select * from AURORAX.IEP where IepRefID = '0F122B76-0855-4448-874A-8BBAC4C26CA2'
+select * from AURORAX.Transform_IepPlacement where IepRefID = '0F122B76-0855-4448-874A-8BBAC4C26CA2'
+select * from AURORAX.Transform_IepLeastRestrictiveEnvironment where IepRefID = '0F122B76-0855-4448-874A-8BBAC4C26CA2'
+
+select m.*
+from AURORAX.MAP_IepPlacementID m left join 
+	dbo.IepPlacement p on m.DestID = p.ID
+where p.ID is null
+
+
+
+
+INSERT IepPlacement (ID, OptionID, TypeID, IsEnabled, InstanceID, IsDecOneCount)
 SELECT s.DestID, s.OptionID, s.TypeID, s.IsEnabled, s.InstanceID, s.IsDecOneCount
 FROM AURORAX.Transform_IepPlacement s
 WHERE NOT EXISTS (SELECT * FROM IepPlacement d WHERE s.DestID=d.ID)
 
+rollback tran testPlace
 
 select * from IepPlacement
+
 
 
 
