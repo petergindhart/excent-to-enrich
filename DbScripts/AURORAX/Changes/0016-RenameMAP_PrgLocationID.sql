@@ -12,6 +12,13 @@ BEGIN
 		into AURORAX.MAP_PrgLocationID
 		from AURORAX.TEMP_MAP_PrgLocationID
 		
-		DROP TABLE AURORAX.TEMP_MAP_PrgLocationID')
+		DROP TABLE AURORAX.TEMP_MAP_PrgLocationID
+		
+		ALTER TABLE AURORAX.MAP_PrgLocationID ADD CONSTRAINT
+		PK_MAP_PrgLocationID PRIMARY KEY CLUSTERED
+		(
+			ServiceLocationCode
+		)
+		')
 END
 go

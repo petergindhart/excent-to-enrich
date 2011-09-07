@@ -30,6 +30,12 @@ exec ('
 		) 
 
 	CREATE INDEX IX_MAP_ServiceDefID_DestID on AURORAX.MAP_ServiceDefID (DestID)
+	
+	delete m
+	from AURORAX.MAP_ServiceDefID m left join
+		ServiceDef t on m.DestID = t.ID
+	where
+		t.ID is null
 	')
 END
 GO
