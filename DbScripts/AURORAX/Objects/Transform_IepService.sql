@@ -58,11 +58,12 @@ select
 	ProviderID = prv.UserProfileID,
 	Name = CAST(null as varchar),
 	LocationId = loc.DestID,
-	LocationDescription = loc.Name
+	LocationDescription = loc.Name -- select iep.ieprefid
 FROM
 	AURORAX.Transform_PrgIep iep JOIN
 	PrgSection sec ON
-		sec.VersionID = iep.VersionDestID AND
+		sec.ItemID = iep.DestID AND
+		iep.VersionDestID = sec.VersionID AND
 		sec.DefID = '9AC79680-7989-4CC9-8116-1CCDB1D0AE5F' JOIN --IEP Services
 	AURORAX.Service v on iep.IepRefId = v.IepRefId LEFT JOIN
 	AURORAX.MAP_ServicePlanID m on v.ServiceRefID = m.ServiceRefID LEFT JOIN
@@ -94,16 +95,14 @@ GEO.ShowLoadTables ServicePlan
 set nocount on;
 declare @n varchar(100) ; select @n = 'ServicePlan'
 declare @t uniqueidentifier ; select @t = id from VC3ETL.LoadTable where ExtractDatabase = '29D14961-928D-4BEE-9025-238496D144C6' and DestTable = @n
-update t set Enabled = 1
-from VC3ETL.LoadTable t where t.ID = @t
-
-	HasMapTable = 1, 
-	MapTable = 'AURORAX.MAP_'+@n+'ID'   -- use this update for looksups only
+update t set 
+	HasMapTable = 1
+	, MapTable = 'AURORAX.MAP_'+@n+'ID'   -- use this update for looksups only
 	, KeyField = 'ServiceRefID'
 	, DeleteKey = 'DestID'
 	, DeleteTrans = 1
 	, UpdateTrans = 0
-	, DestTableFilter = 'ID in (select ID from IepServicePlan where InstanceID in (select DestID from AURORAX.MAP_PrgSectionID))'
+	, DestTableFilter = 'ID in (select ID from IepServicePlan where InstanceID in (select DestID from AURORAX.MAP_PrgSectionID where DefID = ''9AC79680-7989-4CC9-8116-1CCDB1D0AE5F''))'
 	, Enabled = 1
 from VC3ETL.LoadTable t where t.ID = @t
 exec VC3ETL.LoadTable_Run @t, '', 1, 0
@@ -111,30 +110,32 @@ print '
 
 select * from '+@n
 
-
-select d.*
--- DELETE AURORAX.MAP_ServicePlanID
+begin tran testplan
+DELETE AURORAX.MAP_ServicePlanID
 FROM AURORAX.Transform_IepService AS s RIGHT OUTER JOIN 
 	AURORAX.MAP_ServicePlanID as d ON s.DestID = d.DestID
 WHERE (s.DestID IS NULL)
 
-select d.*
--- DELETE ServicePlan
+DELETE ServicePlan
 FROM AURORAX.MAP_ServicePlanID AS s RIGHT OUTER JOIN 
 	ServicePlan as d ON s.DestID=d.ID
-WHERE s.DestID IS NULL AND 1=1 AND  ID in (select ID from IepServicePlan where InstanceID in (select DestID from AURORAX.Map_PrgSectionID))
+WHERE s.DestID IS NULL AND 1=1 AND  ID in (select ID from IepServicePlan where InstanceID in (select DestID from AURORAX.MAP_PrgSectionID where DefID = '9AC79680-7989-4CC9-8116-1CCDB1D0AE5F'))
 
--- INSERT AURORAX.MAP_ServicePlanID
+INSERT AURORAX.MAP_ServicePlanID
 SELECT ServiceRefID, NEWID()
 FROM AURORAX.Transform_IepService s
 WHERE NOT EXISTS (SELECT * FROM ServicePlan d WHERE s.DestID=d.ID)
 
--- INSERT ServicePlan (ID, DefID, Amount, ServiceTypeID, FrequencyID, UnitID, ProviderTitleID, StudentID, EndDate, Sequence, StartDate)
+INSERT ServicePlan (ID, DefID, Amount, ServiceTypeID, FrequencyID, UnitID, ProviderTitleID, StudentID, EndDate, Sequence, StartDate)
 SELECT s.DestID, s.DefID, s.Amount, s.ServiceTypeID, s.FrequencyID, s.UnitID, s.ProviderTitleID, s.StudentID, s.EndDate, s.Sequence, s.StartDate
 FROM AURORAX.Transform_IepService s
 WHERE NOT EXISTS (SELECT * FROM ServicePlan d WHERE s.DestID=d.ID)
 
+rollback tran testplan
+
+
 select * from ServicePlan
+
 
 
 

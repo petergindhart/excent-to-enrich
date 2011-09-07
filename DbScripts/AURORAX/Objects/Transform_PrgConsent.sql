@@ -12,7 +12,7 @@ AS
 		AURORAX.Transform_PrgIep iep JOIN
 		AURORAX.MAP_PrgSectionID m on 
 			m.DefID = 'D83A4710-A69F-4310-91F8-CB5BFFB1FE4C' AND --Sped Consent Services
-			m.ItemID = iep.DestID
+			m.VersionID = iep.VersionDestID 
 GO
 --
 

@@ -12,7 +12,7 @@ AS
 		AURORAX.Transform_PrgIep iep JOIN		
 		AURORAX.MAP_PrgSectionID m on 
 			m.DefID = '9AC79680-7989-4CC9-8116-1CCDB1D0AE5F' and
-			m.ItemID = iep.DestID JOIN
+			m.VersionID = iep.VersionDestID JOIN
 		AURORAX.IEP x on iep.IepRefID = x.IepRefID
 GO
 --
