@@ -67,7 +67,7 @@ AS
 		AURORAX.Transform_PrgIep iep JOIN
 		AURORAX.MAP_PrgSectionID m on 
 			m.DefID = 'F050EF5E-3ED8-43D5-8FE7-B122502DE86A' and
-			m.ItemID = iep.DestID JOIN
+			m.VersionID = iep.VersionDestID JOIN
 		dbo.IepEligibilityDetermination ed on m.DestID = ed.ID JOIN -- Only purpose is to ensure that this record exists.  
 		AURORAX.StudentDisabilityPivot s on iep.StudentRefID = s.StudentRefID JOIN
 		AURORAX.Transform_IepDisability d on s.DisabilityCode = d.DisabilityCode left join

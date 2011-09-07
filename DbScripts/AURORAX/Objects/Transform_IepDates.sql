@@ -21,7 +21,7 @@ AS
 		AURORAX.IEP s on s.IepRefID = iep.IepRefID LEFT JOIN
 		AURORAX.MAP_PrgSectionID m on 
 			m.DefID = 'EE479921-3ECB-409A-96D7-61C8E7BA0E7B' and
-			m.ItemID = iep.DestID
+			m.VersionID = iep.VersionDestID
 GO
 --
 

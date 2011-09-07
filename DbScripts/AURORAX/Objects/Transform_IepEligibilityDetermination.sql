@@ -10,8 +10,8 @@ AS
  FROM
   AURORAX.Transform_PrgIep iep JOIN
   AURORAX.MAP_PrgSectionID s on 
-	iep.DestID = s.ItemID and 
-	s.DefID = 'F050EF5E-3ED8-43D5-8FE7-B122502DE86A'
+	s.DefID = 'F050EF5E-3ED8-43D5-8FE7-B122502DE86A' and
+	s.VersionID = iep.VersionDestID 
 GO
 
 

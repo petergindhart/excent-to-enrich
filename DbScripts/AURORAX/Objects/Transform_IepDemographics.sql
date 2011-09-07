@@ -22,7 +22,7 @@ AS
 		AURORAX.Transform_PrgIep iep LEFT JOIN
 		AURORAX.MAP_PrgSectionID m on 
 			m.DefID = '427AF47C-A2D2-47F0-8057-7040725E3D89' and
-			m.ItemID = iep.DestID LEFT JOIN
+			m.VersionID = iep.VersionDestID LEFT JOIN
 		AURORAX.Student s on s.StudentRefID = iep.StudentRefID LEFT JOIN
 		AURORAX.Transform_School ss on s.ServiceSchoolRefID = ss.SchoolRefId LEFT JOIN
 		AURORAX.Transform_School sh on s.HomeSchoolRefID = sh.SchoolRefId LEFT JOIN
