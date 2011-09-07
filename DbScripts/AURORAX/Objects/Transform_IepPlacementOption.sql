@@ -45,8 +45,6 @@ CREATE INDEX IX_MAP_IepPlacementOptionID_PlacementTypeCode_PlacementOptionCode o
 END
 GO
 
-
-
 IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'AURORAX.Transform_IepPlacementOption') AND OBJECTPROPERTY(id, N'IsView') = 1)
 	DROP VIEW AURORAX.Transform_IepPlacementOption
 GO
@@ -88,30 +86,22 @@ go
 
 /*
 
+select * from AURORAX.Lookups where Type = 'LRE' and isnumeric(isnull(statecode,'x')) = 0 order by SubType, Code
+-- select * from AURORAX.Lookups where Type = 'LRE' and isnumeric(statecode) = 1 and label is not null
 
-select * from AURORAX.Transform_IepPlacementOption
-order by statecode, PlacementTypeCode, PlacementOptionCode
-
-
-set nocount on;
-declare @n varchar(100) ; select @n = 'IepPlacementOption'
-declare @t uniqueidentifier ; select @t = id from VC3ETL.LoadTable where ExtractDatabase = '29D14961-928D-4BEE-9025-238496D144C6' and DestTable = @n
-update t set 
-	SourceTable = 'AURORAX.Transform_IepPlacementOption'	
-	, HasMapTable = 1
-	, MapTable = 'AURORAX.MAP_'+@n+'ID'   -- use this update for looksups only
-	, KeyField = 'PlacementTypeCode, PlacementOptionCode'
-	, DeleteKey = NULL
-	, DeleteTrans = 0
-	, UpdateTrans = 1
-	, DestTableFilter = 's.DestID in (select DestID from AURORAX.MAP_IepPlacementOptionID)'
-	, Enabled = 1
-	from VC3ETL.LoadTable t where t.ID = @t
-exec VC3ETL.LoadTable_Run @t, '', 1, 0
-print '
-
-select * from '+@n
-
+insert AURORAX.Lookups (Type, SubType, StateCode, Code, Label, Sequence, DisplayInUI)
+select 
+	Type = convert(varchar(20), rtrim(Type)), 
+	SubType = convert(varchar(20), rtrim(SubType)), 
+	StateCode = convert(varchar(10), rtrim(Label)), 
+	Code = convert(varchar(150), rtrim(Code)), 
+	Label = convert(varchar(254), rtrim(Code)), 
+	Sequence = convert(varchar(3), rtrim(Sequence)), 
+	DisplayInUI = convert(char(1), rtrim(DisplayInUI))
+from AURORAX.Lookups 
+where Type = 'LRE' and 
+	isnumeric(statecode) = 1 and 
+	label is not null
 
 
 select d.* 
@@ -120,7 +110,7 @@ FROM  IepPlacementOption d JOIN
 	AURORAX.Transform_IepPlacementOption  s ON s.DestID=d.ID
 	AND s.DestID in (select DestID from AURORAX.MAP_IepPlacementOptionID)
 
--- INSERT AURORAX.MAP_IepPlacementOptionID
+-- INSERT AURORAX.MAP_IepPlacementOptionID -- select * from AURORAX.MAP_IepPlacementOptionID
 SELECT PlacementTypeCode, PlacementOptionCode, NEWID()
 FROM AURORAX.Transform_IepPlacementOption s
 WHERE NOT EXISTS (SELECT * FROM IepPlacementOption d WHERE s.DestID=d.ID)
