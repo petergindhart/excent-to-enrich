@@ -10,14 +10,14 @@ BEGIN
 CREATE TABLE AURORAX.MAP_PrgSectionID
 (
 	DefID uniqueidentifier NOT NULL,
-	ItemID uniqueidentifier NOT NULL,
-	DestID uniqueidentifier
+	VersionID uniqueidentifier NULL,
+	DestID uniqueidentifier NOT NULL
 )
 
 ALTER TABLE AURORAX.MAP_PrgSectionID ADD CONSTRAINT
 PK_MAP_PrgSectionID PRIMARY KEY CLUSTERED
 (
-	DefID, ItemID
+	DefID, VersionID
 )
 END
 GO
@@ -40,7 +40,7 @@ AS
 		AURORAX.Transform_PrgIep i CROSS JOIN
 		PrgSectionDef d LEFT JOIN 
 		AURORAX.MAP_PrgSectionID s ON 
-			s.ItemId = i.DestID AND
+			s.VersionID = i.VersionDestID AND
 			s.DefID = d.ID
 		--LEFT JOIN
 		--FormInstance fi ON 
@@ -48,6 +48,7 @@ AS
 	WHERE
 		d.ID IN
 			(
+				'D83A4710-A69F-4310-91F8-CB5BFFB1FE4C', --Sped Consent Services -- non-versioned, but treating as if it were
 				'84E5A67D-CC9A-4D5B-A7B8-C04E8C3B8E0A', --IEP Goals
 				'F050EF5E-3ED8-43D5-8FE7-B122502DE86A', --Sped Eligibility Determination
 				'0CBA436F-8043-4D22-8F3D-289E057F1AAB', --IEP LRE
@@ -63,35 +64,35 @@ AS
 				order by t.Name
 				*/
 		)
-union all
-	-- non-versioned sections
-	SELECT
-		DestID = s.DestID,
-		ItemID = i.DestID,
-		DefID = d.ID,
-		VersionID = NULL,
-		FormInstanceID = cast(NULL as uniqueidentifier)
-	FROM
-		AURORAX.Transform_PrgIep i CROSS JOIN
-		PrgSectionDef d LEFT JOIN -- left join???????
-		AURORAX.MAP_PrgSectionID s ON 
-			s.ItemId = i.DestID AND
-			s.DefID = d.ID 
-		--FormInstance fi ON
-		--	s.FormInstanceID = fi.ID -- is it necessary to join to PrgItemForm ?
-	WHERE
-		d.ID IN
-			(
-				'D83A4710-A69F-4310-91F8-CB5BFFB1FE4C' --Sped Consent Services -- non-versioned, don't set the versionid, don't fail the join 
-				/*
-				-- SUPPORTED SECTION DEFINITION OPTIONS --
-				select '''' + CAST(d.ID as varchar(36)) + ''', --' + t.Name, d.ItemDefID, t.*, d.*
-				from PrgSectionType t join
-					PrgSectionDef d on d.TypeID = t.ID and d.ItemDefID = '8011D6A2-1014-454B-B83C-161CE678E3D3' -- IEP - Converted
-				where d.IsVersioned = 0
-				order by t.Name
-				*/
-		)
+--union all
+--	-- non-versioned sections
+--	SELECT
+--		DestID = s.DestID,
+--		ItemID = i.DestID,
+--		DefID = d.ID,
+--		VersionID = NULL,
+--		FormInstanceID = cast(NULL as uniqueidentifier)
+--	FROM
+--		AURORAX.Transform_PrgIep i CROSS JOIN
+--		PrgSectionDef d LEFT JOIN -- left join???????
+--		AURORAX.MAP_PrgSectionID s ON 
+--			s.ItemId = i.DestID AND
+--			s.DefID = d.ID 
+--		--FormInstance fi ON
+--		--	s.FormInstanceID = fi.ID -- is it necessary to join to PrgItemForm ?
+--	WHERE
+--		d.ID IN
+--			(
+--				'D83A4710-A69F-4310-91F8-CB5BFFB1FE4C' --Sped Consent Services -- non-versioned, don't set the versionid, don't fail the join 
+--				/*
+--				-- SUPPORTED SECTION DEFINITION OPTIONS --
+--				select '''' + CAST(d.ID as varchar(36)) + ''', --' + t.Name, d.ItemDefID, t.*, d.*
+--				from PrgSectionType t join
+--					PrgSectionDef d on d.TypeID = t.ID and d.ItemDefID = '8011D6A2-1014-454B-B83C-161CE678E3D3' -- IEP - Converted
+--				where d.IsVersioned = 0
+--				order by t.Name
+--				*/
+--		)
 GO
 -- 
 
@@ -110,14 +111,14 @@ update t set
 	SourceTable = 'AURORAX.Transform_PrgSection'
 	, HasMapTable = 1
 	, MapTable = 'AURORAX.MAP_PrgSectionID'
-	, KeyField = 'DefID, ItemID'
+	, KeyField = 'DefID, VersionID'
 -- per Pete, after I made the ItemID part of the PK for MAP:      you'll need to avoid deleting sections for subsequent revisions of your converted IEPs though, right?
 	--, DeleteKey = 'DestID'
 	--, DeleteTrans = 1
-	, DeleteKey = NULL
-	, DeleteTrans = 0
+	, DeleteKey = 'DestID'
+	, DeleteTrans = 1
 	, UpdateTrans = 1
-	, DestTableFilter = 'd.ItemID in (select DestID from AURORAX.MAP_IepRefID)'
+	, DestTableFilter = 'd.VersionID in (select DestID from AURORAX.MAP_PrgVersionID)'
 	, Enabled = 1
 from VC3ETL.LoadTable t where t.ID = @t
 exec VC3ETL.LoadTable_Run @t, '', 1, 0
@@ -125,23 +126,66 @@ print '
 
 select * from '+@n
 
+begin tran testPrgSection
+DELETE AURORAX.MAP_PrgSectionID
+FROM AURORAX.Transform_PrgSection AS s RIGHT OUTER JOIN 
+	AURORAX.MAP_PrgSectionID as d ON s.DestID = d.DestID
+WHERE (s.DestID IS NULL)
 
-select d.*
--- UPDATE PrgSection SET VersionID=s.VersionID, DefID=s.DefID, FormInstanceID=s.FormInstanceID, ItemID=s.ItemID
+DELETE PrgSection
+FROM AURORAX.MAP_PrgSectionID AS s RIGHT OUTER JOIN 
+	PrgSection as d ON s.DestID=d.ID
+WHERE s.DestID IS NULL AND 1=1 AND  d.VersionID in (select DestID from AURORAX.MAP_PrgVersionID)
+
+UPDATE PrgSection
+SET VersionID=s.VersionID, DefID=s.DefID, FormInstanceID=s.FormInstanceID, ItemID=s.ItemID
 FROM  PrgSection d JOIN 
 	AURORAX.Transform_PrgSection  s ON s.DestID=d.ID
-	AND d.ItemID in (select DestID from AURORAX.MAP_IepRefID)
+	AND d.VersionID in (select DestID from AURORAX.MAP_PrgVersionID)
 
--- INSERT AURORAX.MAP_PrgSectionID
-SELECT DefID, ItemID, NEWID()
+INSERT AURORAX.MAP_PrgSectionID
+SELECT DefID, VersionID, NEWID()
 FROM AURORAX.Transform_PrgSection s
 WHERE NOT EXISTS (SELECT * FROM PrgSection d WHERE s.DestID=d.ID)
 
--- INSERT PrgSection (ID, VersionID, DefID, FormInstanceID, ItemID)
+Msg 2627, Level 14, State 1, Line 19
+Violation of PRIMARY KEY constraint 'PK_MAP_PrgSectionID'. Cannot insert duplicate key in object 'AURORAX.MAP_PrgSectionID'.
+The statement has been terminated.
+
+
+INSERT PrgSection (ID, VersionID, DefID, FormInstanceID, ItemID)
 SELECT s.DestID, s.VersionID, s.DefID, s.FormInstanceID, s.ItemID
 FROM AURORAX.Transform_PrgSection s
 WHERE NOT EXISTS (SELECT * FROM PrgSection d WHERE s.DestID=d.ID)
 
+
+
+
+
+	SELECT DefID, VersionID, count(*) 
+	FROM AURORAX.Transform_PrgSection s
+	WHERE NOT EXISTS (SELECT * FROM PrgSection d WHERE s.DestID=d.ID)
+	group by DefID, VersionID
+	-- 0 dups
+
+	SELECT s.DefID, s.VersionID, m.*
+	FROM AURORAX.Transform_PrgSection s left join
+		AURORAX.MAP_PrgSectionID m on s.DefID = m.DefID and s.VersionID = m.VersionID
+	WHERE NOT EXISTS (SELECT * FROM PrgSection d WHERE s.DestID=d.ID)
+and m.DefID is not null
+
+select m.*
+from AURORAX.MAP_PrgSectionID m 
+left join PrgSection s on m.DestID = s.ID
+where s.ID is null
+
+
+
+
+
+rollback tran testPrgSection
+
+select * from PrgSection
 
 
 
