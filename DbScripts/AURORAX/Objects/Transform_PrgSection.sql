@@ -1,5 +1,4 @@
 --#include Transform_PrgIep.sql
-
 IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'AURORAX.Transform_Section') AND OBJECTPROPERTY(id, N'IsView') = 1)
 DROP VIEW AURORAX.Transform_Section
 GO
