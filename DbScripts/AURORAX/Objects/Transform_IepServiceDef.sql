@@ -20,7 +20,7 @@ SELECT
 	CategoryID = mc.DestID, 
 	DirectID = t.DirectID, -- Imported at individual service level, not here
 	ExcludesID = t.ExcludesID, -- Imported individual service level, not here
-	ScheduleFreqOnly = CAST(0 as bit) -- we don't know this, so assume Time required.  Pete says:  True means when user adds a service for this definition on an IEP, they will only be prompted for frequency as a unit (times, Amount = 1), not time.  This was for Florida.
+	ScheduleFreqOnly = ISNULL(t.ScheduleFreqOnly,0) -- we don't know this, so assume Time required.  Pete says:  True means when user adds a service for this definition on an IEP, they will only be prompted for frequency as a unit (times, Amount = 1), not time.  This was for Florida.
 FROM 
 	AURORAX.Transform_ServiceDef md join -- should be 100% match
 	AURORAX.Lookups k on 
