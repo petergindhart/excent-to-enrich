@@ -35,9 +35,9 @@ select
 	iep.StudentID,
 	StartDate = cast(v.BeginDate as datetime),
 	EndDate = cast(v.EndDate as datetime),
-	Amount = v.ServiceTime,
+	Amount = case v.ServiceTime when 0 then 1 else v.ServiceTime end, 
 	FrequencyId = freq.DestID,
-	UnitID = cast('347548AB-489D-47C4-BE54-63FCF3859FD7' as uniqueidentifier), -- we request this from customer in minutes
+	UnitID = case v.ServiceTime when 0 then 'B4A83345-B362-4158-AAAD-21756D40857B' else '347548AB-489D-47C4-BE54-63FCF3859FD7' end, -- we request time from customer in minutes -- select * from ServiceUnit where ID = '347548AB-489D-47C4-BE54-63FCF3859FD7'
 	ProviderTitleID = ttl.DestID,
 	Sequence = (
 		SELECT count(*)
@@ -101,7 +101,7 @@ update t set
 	, KeyField = 'ServiceRefID'
 	, DeleteKey = 'DestID'
 	, DeleteTrans = 1
-	, UpdateTrans = 0
+	, UpdateTrans = 1
 	, DestTableFilter = 'ID in (select ID from IepServicePlan where InstanceID in (select DestID from AURORAX.MAP_PrgSectionID where DefID = ''9AC79680-7989-4CC9-8116-1CCDB1D0AE5F''))'
 	, Enabled = 1
 from VC3ETL.LoadTable t where t.ID = @t
@@ -135,7 +135,6 @@ rollback tran testplan
 
 
 select * from ServicePlan
-
 
 
 
