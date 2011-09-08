@@ -17,11 +17,9 @@ PK_MAP_PrgLocationID PRIMARY KEY CLUSTERED
 END
 GO
 
-
 IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'AURORAX.Transform_PrgLocation') AND OBJECTPROPERTY(id, N'IsView') = 1)
 DROP VIEW AURORAX.Transform_PrgLocation  
 GO  
-  
 
 CREATE VIEW AURORAX.Transform_PrgLocation  
 AS
@@ -44,10 +42,10 @@ AS
 		AURORAX.Lookups k LEFT JOIN
 		dbo.PrgLocation s on 
 			isnull(k.StateCode,'kServLoc') = isnull(s.StateCode,'sServLoc') and
-			s.ID = (select ID from PrgLocation where StateCode = s.StateCode and ID < s.ID) left join -- return only one record where duplicate statecodes exist in target
+			s.ID = (select min(cast(ID as varchar(36))) from PrgLocation where StateCode = s.StateCode) left join -- return only one record where duplicate statecodes exist in target
 		dbo.PrgLocation n on 
 			k.Label = n.Name and
-			n.ID = (select ID from PrgLocation where Name = n.Name and ID < n.ID) left join -- return only one record where duplicate names exist in target
+			n.ID = (select min(cast(ID as varchar(36))) from PrgLocation where Name = n.Name) left join -- return only one record where duplicate names exist in target
 		AURORAX.MAP_PrgLocationID m on k.Code = m.ServiceLocationCode LEFT JOIN
 		dbo.PrgLocation t on m.DestID = t.ID 
 	WHERE
