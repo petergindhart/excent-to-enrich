@@ -86,6 +86,8 @@ go
 
 /*
 
+
+
 select * from AURORAX.Lookups where Type = 'LRE' and isnumeric(isnull(statecode,'x')) = 0 order by SubType, Code
 -- select * from AURORAX.Lookups where Type = 'LRE' and isnumeric(statecode) = 1 and label is not null
 
