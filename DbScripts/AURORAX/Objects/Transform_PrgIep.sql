@@ -69,8 +69,8 @@ AS
 		SchoolID = stu.CurrentSchoolID,
 		GradeLevelID = stu.CurrentGradeLevelID,
 		InvolvementID = inv.DestID,
-		StartStatusID = def.StatusID, -- Converted IEP is a soft-deleted PrgStatus record that we use by default.  Update TEMPLATE PrgItemDef.StatusID for Conveted IEP if the customer requests it
-		EndStatusID = cast(NULL as uniqueidentifier),
+		StartStatusID =  '796C212F-6003-4CD3-878D-53BEBE087E9A', -- def.StatusID, -- Converted IEP is a soft-deleted PrgStatus record that we use by default.  Update TEMPLATE PrgItemDef.StatusID for Conveted IEP if the customer requests it
+		EndStatusID = case when iep.IEPEndDate > getdate() then NULL else '12086FE0-B509-4F9F-ABD0-569681C59EE2' end, -- select * from PrgStatus where ProgramID = 'F98A8EF2-98E2-4CAC-95AF-D7D89EF7F80C' and IsExit = 1 and sequence < 99
 		PlannedEndDate = iep.IEPEndDate,
 		IsEnded = case when iep.IEPEndDate > getdate() then 0 else 1 end,
 		--LastModifiedDate,
@@ -154,6 +154,23 @@ FROM AURORAX.Transform_PrgIep s
 WHERE NOT EXISTS (SELECT * FROM PrgItem d WHERE s.DestID=d.ID)
 
 select * from PrgItem
+
+select * from AURORAX.MAP_PrgInvolvementID
+
+select * from PrgItem where InvolvementID = 'FF6A037C-93DF-418C-9FF0-EB1EB553CACB'
+
+
+declare @involvementID uniqueidentifier ; select @involvementID = 'FF6A037C-93DF-418C-9FF0-EB1EB553CACB'
+update PrgItem set StartStatusID = '796C212F-6003-4CD3-878D-53BEBE087E9A' where InvolvementID = @involvementID
+exec PrgInvolvement_RecalculateStatuses @involvementID = @involvementID
+
+update PrgItem set StartStatusID = '796C212F-6003-4CD3-878D-53BEBE087E9A' where ID = ''
+
+
+select top 10 ID, Sequence, Name, IsExit, IsEntry, DeletedDate from PrgStatus where ProgramID = 'F98A8EF2-98E2-4CAC-95AF-D7D89EF7F80C' and Name in ('IEP Completed', 'Converted IEP') order by sequence
+
+
+select * from AURORAX.Transform_PrgIep where EndStatusID is not null
 
 
 
