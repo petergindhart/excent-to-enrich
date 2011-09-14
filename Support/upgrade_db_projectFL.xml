@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<project name="Special Education Configuration">
+	<upgradedb
+		ConnectionString="${connection}"
+		IgnoreMissingModules="True"
+		ModulesDirectory="excent-to-enrich\DbScripts"
+		include="excent-to-enrich\DbScripts\dbo\Include"
+		state="FL"
+		spedstate="FL"
+		speddistrict="Lee"/>
+</project>
+<!-- paths are relative to the batch file -->
