@@ -28,7 +28,6 @@ GO
 
 CREATE VIEW LEGACYSPED.Transform_PrgSection
 AS
-	-- versioned sections -- select * from PrgSection
 	SELECT
 		s.DestID,
 		ItemID = i.DestID,
@@ -37,63 +36,13 @@ AS
 		FormInstanceID = cast(NULL as uniqueidentifier)
 	FROM
 		LEGACYSPED.Transform_PrgIep i CROSS JOIN
-		PrgSectionDef d LEFT JOIN 
+		PrgSectionDef d JOIN 
+		LEGACYSPED.ImportPrgSections p on d.ID = p.SectionDefID and p.Enabled = 1 LEFT JOIN 
 		LEGACYSPED.MAP_PrgSectionID s ON 
 			s.VersionID = i.VersionDestID AND
 			s.DefID = d.ID
-		--LEFT JOIN
-		--FormInstance fi ON 
-		--	s.FormInstanceID = fi.ID -- is it necessary to join to PrgItemForm ? -- select * from FormInstance
-	WHERE
-		d.ID IN
-			(
-				'D83A4710-A69F-4310-91F8-CB5BFFB1FE4C', --Sped Consent Services -- non-versioned, but treating as if it were
-				'84E5A67D-CC9A-4D5B-A7B8-C04E8C3B8E0A', --IEP Goals
-				'F050EF5E-3ED8-43D5-8FE7-B122502DE86A', --Sped Eligibility Determination
-				'0CBA436F-8043-4D22-8F3D-289E057F1AAB', --IEP LRE
-				'9AC79680-7989-4CC9-8116-1CCDB1D0AE5F', --IEP Services
-				'427AF47C-A2D2-47F0-8057-7040725E3D89', --IEP Demographics
-				'EE479921-3ECB-409A-96D7-61C8E7BA0E7B'  --IEP Dates
-				/*
-				-- SUPPORTED SECTION DEFINITION OPTIONS --
-				select '''' + CAST(d.ID as varchar(36)) + ''', --' + t.Name, d.ItemDefID, t.*
-				from PrgSectionType t join
-				PrgSectionDef d on d.TypeID = t.ID and d.ItemDefID = '8011D6A2-1014-454B-B83C-161CE678E3D3' -- IEP - Converted
-				where d.IsVersioned = 1
-				order by t.Name
-				*/
-		)
---union all
---	-- non-versioned sections
---	SELECT
---		DestID = s.DestID,
---		ItemID = i.DestID,
---		DefID = d.ID,
---		VersionID = NULL,
---		FormInstanceID = cast(NULL as uniqueidentifier)
---	FROM
---		LEGACYSPED.Transform_PrgIep i CROSS JOIN
---		PrgSectionDef d LEFT JOIN -- left join???????
---		LEGACYSPED.MAP_PrgSectionID s ON 
---			s.ItemId = i.DestID AND
---			s.DefID = d.ID 
---		--FormInstance fi ON
---		--	s.FormInstanceID = fi.ID -- is it necessary to join to PrgItemForm ?
---	WHERE
---		d.ID IN
---			(
---				'D83A4710-A69F-4310-91F8-CB5BFFB1FE4C' --Sped Consent Services -- non-versioned, don't set the versionid, don't fail the join 
---				/*
---				-- SUPPORTED SECTION DEFINITION OPTIONS --
---				select '''' + CAST(d.ID as varchar(36)) + ''', --' + t.Name, d.ItemDefID, t.*, d.*
---				from PrgSectionType t join
---					PrgSectionDef d on d.TypeID = t.ID and d.ItemDefID = '8011D6A2-1014-454B-B83C-161CE678E3D3' -- IEP - Converted
---				where d.IsVersioned = 0
---				order by t.Name
---				*/
---		)
 GO
--- 
+
 
 
 
