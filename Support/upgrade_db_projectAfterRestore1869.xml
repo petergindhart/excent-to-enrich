@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8" ?>
-<project name="Special Education Configuration">
-	<upgradedb
-		ConnectionString="${connection}"
-		IgnoreMissingModules="True"
-		ModulesDirectory="C:\Program Files (x86)\Excent Enrich Sandbox2\Setup\7.6.1.1869\Product\DbScripts"
-		include="C:\Program Files (x86)\Excent Enrich Sandbox2\Setup\7.6.1.1869\Product\DbScripts\dbo\Include\SpecEd"
-		state="CO" />
-</project>
