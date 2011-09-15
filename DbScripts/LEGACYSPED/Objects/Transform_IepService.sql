@@ -1,5 +1,8 @@
 --#include Transform_PrgLocation.sql
 --#include Transform_ServiceDef.sql
+--#include Transform_ServiceProviderTitle.sql
+--#include Transform_Schedule.sql
+--#include Transform_PrgItemTeamMember.sql
 
 -- ############################################################################# 
 -- ServicePlan

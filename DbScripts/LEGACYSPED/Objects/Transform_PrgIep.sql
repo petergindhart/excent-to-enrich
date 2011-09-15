@@ -1,5 +1,5 @@
---#include Transform_PrgInvolvement.sql
 --#include Transform_Student.sql
+--#include Transform_PrgInvolvement.sql
 
 IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.Transform_Iep') AND OBJECTPROPERTY(id, N'IsView') = 1)
 DROP VIEW LEGACYSPED.Transform_Iep
@@ -60,7 +60,7 @@ AS
 		DefID = def.ID, -- Converted IEP
 		StudentID = stu.DestID,
 		StartDate = iep.IEPStartDate,
-		EndDate = case when iep.IEPEndDate > getdate() then NULL else iep.IEPEndDate end, 
+		EndDate = case when iep.IEPEndDate > getdate() then NULL else iep.IEPEndDate end,
 		ItemOutcomeID = cast(NULL as uniqueidentifier),
 		CreatedDate = iep.IEPStartDate,
 		CreatedBy = 'EEE133BD-C557-47E1-AB67-EE413DD3D1AB', -- BuiltIn: Support

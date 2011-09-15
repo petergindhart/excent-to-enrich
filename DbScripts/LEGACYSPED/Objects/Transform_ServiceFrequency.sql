@@ -1,5 +1,5 @@
 /*
-
+   LEGACYSPED.MAP_ServiceFrequencyID is created in the Localization file.
 	Service Frequency needs to be set up manually per district because:
 	1. ServiceFrequency is populated with seed data when Enrich is installed
 	2. The values from legacy systems are not consistent.  They may be hand-entered in legacy systems.
@@ -25,7 +25,7 @@ END
 GO
 
 
-IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.Transform_ServiceFrequency') AND OBJECTPROPERTY(id, N'IsView') = 1) 
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.Transform_ServiceFrequency') AND OBJECTPROPERTY(id, N'IsView') = 1)
 DROP VIEW LEGACYSPED.Transform_ServiceFrequency 
 GO
 

@@ -9,7 +9,7 @@ BEGIN
 CREATE TABLE LEGACYSPED.MAP_PrgSectionID
 (
 	DefID uniqueidentifier NOT NULL,
-	VersionID uniqueidentifier NULL,
+	VersionID uniqueidentifier NOT NULL,
 	DestID uniqueidentifier NOT NULL
 )
 

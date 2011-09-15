@@ -5,8 +5,8 @@
 		IgnoreMissingModules="True"
 		ModulesDirectory="excent-to-enrich\DbScripts"
 		include="excent-to-enrich\DbScripts\dbo\Include"
-		state="FL"
-		spedstate="FL"
-		speddistrict="Lee"/>
+		state="${state}"
+		SpedStateInclude="excent-to-enrich\DbScripts\LEGACYSPED\${state}"
+		SpedDistrictInclude="excent-to-enrich\DbScripts\LEGACYSPED\${state}\${speddistrict}"/>
 </project>
 <!-- paths are relative to the batch file -->
