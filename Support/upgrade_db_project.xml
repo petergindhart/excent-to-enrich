@@ -3,8 +3,8 @@
 	<upgradedb
 		ConnectionString="${connection}"
 		IgnoreMissingModules="True"
-		ModulesDirectory="excent-to-enrich\DbScripts"
-		include="excent-to-enrich\DbScripts\dbo\Include"
+		ModulesDirectory="..\DbScripts"
+		include="georgewasnowhere"
 		state="${state}"
 		Module="LEGACYSPED"
 		SpedStateInclude="..\Localization\${state}"
