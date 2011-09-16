@@ -11,15 +11,22 @@ from dbo.OrgUnit ou join
 go
 
 
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'LEGACYSPED.ImportPrgSections') AND type in (N'U'))
+DROP TABLE LEGACYSPED.ImportPrgSections
+GO
 
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'LEGACYSPED.ImportPrgSections') AND type in (N'U'))
-BEGIN
-	CREATE TABLE LEGACYSPED.ImportPrgSections (
-	Enabled bit not null, 
-	SectionDefName varchar(100) not null, 
-	SectionDefID uniqueidentifier not null
-	)
-END
+CREATE TABLE LEGACYSPED.ImportPrgSections (
+Enabled bit not null,
+SectionDefName varchar(100) not null,
+SectionDefID uniqueidentifier not null
+)
+GO
+
+ALTER TABLE LEGACYSPED.ImportPrgSections
+	ADD CONSTRAINT PK_ImportPrgSections PRIMARY KEY CLUSTERED
+(
+	SectionDefID
+)
 GO
 
 set nocount on;
@@ -33,9 +40,10 @@ insert @importPrgSections values (1, 'Sped Eligibility Determination', 'F050EF5E
 insert @importPrgSections values (0, 'IEP Goals', '84E5A67D-CC9A-4D5B-A7B8-C04E8C3B8E0A')
 insert @importPrgSections values (1, 'Sped Consent Services', 'D83A4710-A69F-4310-91F8-CB5BFFB1FE4C')
 
-insert LEGACYSPED.ImportPrgSections 
-select t.* from @importPrgSections t left join LEGACYSPED.ImportPrgSections p on t.SectionDefID = p.SectionDefID where p.SectionDefID is null
+insert LEGACYSPED.ImportPrgSections
+select * from @importPrgSections
 go
+
 
 
 /*
