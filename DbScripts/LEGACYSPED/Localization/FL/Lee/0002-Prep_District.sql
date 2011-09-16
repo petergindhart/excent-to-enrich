@@ -1,5 +1,51 @@
 -- Florida
--- Lee County School District
+-- Lee
+
+-- OrgUnit 
+update ou set Number = '36' -- Lee County State Reporting DistrictID
+-- select ou.*
+from dbo.OrgUnit ou join 
+	dbo.SystemSettings ss on ou.ID = ss.LocalOrgRootID 
+go
+
+
+
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'LEGACYSPED.ImportPrgSections') AND type in (N'U'))
+DROP TABLE LEGACYSPED.ImportPrgSections
+GO
+
+CREATE TABLE LEGACYSPED.ImportPrgSections (
+Enabled bit not null,
+SectionDefName varchar(100) not null,
+SectionDefID uniqueidentifier not null
+)
+GO
+
+ALTER TABLE LEGACYSPED.ImportPrgSections
+	ADD CONSTRAINT PK_ImportPrgSections PRIMARY KEY CLUSTERED
+(
+	SectionDefID
+)
+GO
+
+set nocount on;
+declare @importPrgSections table (Enabled bit not null, SectionDefName varchar(100) not null, SectionDefID uniqueidentifier not null)
+-- update the Enabled column below to 0 if the section is not required for this district
+insert @importPrgSections values (1, 'IEP Services', '9AC79680-7989-4CC9-8116-1CCDB1D0AE5F')
+insert @importPrgSections values (1, 'IEP LRE', '0CBA436F-8043-4D22-8F3D-289E057F1AAB')
+insert @importPrgSections values (1, 'IEP Dates', 'EE479921-3ECB-409A-96D7-61C8E7BA0E7B')
+insert @importPrgSections values (1, 'IEP Demographics', '427AF47C-A2D2-47F0-8057-7040725E3D89')
+insert @importPrgSections values (1, 'Sped Eligibility Determination', 'F050EF5E-3ED8-43D5-8FE7-B122502DE86A')
+insert @importPrgSections values (1, 'IEP Goals', '84E5A67D-CC9A-4D5B-A7B8-C04E8C3B8E0A')
+insert @importPrgSections values (1, 'Sped Consent Services', 'D83A4710-A69F-4310-91F8-CB5BFFB1FE4C')
+
+insert LEGACYSPED.ImportPrgSections
+select * from @importPrgSections
+go
+
+
+
+
 
 /*
    LEGACYSPED.MAP_ServiceFrequencyID is created in the Localization file.
@@ -29,21 +75,6 @@ GO
 
 
 -- Map_ServiceFrequencyID is created in the Transform script.
-
-/*
-
-	In an effort to limit the number of files that needs to be touched for each new implementation of Enrich,
-	this file contains all district-specific ETL connfiguration.
-*/
-
--- OrgUnit 
-update ou set Number = '36' -- Lee County State Reporting DistrictID
--- select ou.*
-from dbo.OrgUnit ou join 
-	dbo.SystemSettings ss on ou.ID = ss.LocalOrgRootID 
-go
-
-
 
 
 /*
