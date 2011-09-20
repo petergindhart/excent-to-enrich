@@ -36,18 +36,17 @@ AS
 	SELECT
 		DisabilityCode = k.Code,
 		DestID = coalesce(s.ID, t.ID, m.DestID), -- below this line it may not be necessary to use coalesce because we are only updating legacy data (use VC3ETL.LoadTable.DestTableFilter)
-		Name = k.Label, 
+		Name = coalesce(s.name, t.name, k.Label), 
 		Definition = coalesce(s.Definition, t.Definition,''),
 		DeterminationFormTemplateID = isnull(s.DeterminationFormTemplateID, t.DeterminationFormTemplateID),
-		StateCode = k.StateCode,
+		StateCode = coalesce(s.StateCode, t.StateCode, k.StateCode),
 		DeletedDate = 
 			CASE 
-				WHEN s.ID IS NOT NULL THEN NULL -- Always show in UI where there is a StateID.  Period.
-				ELSE 
-					CASE WHEN k.DisplayInUI = 'Y' THEN NULL -- User specified they want to see this in the UI.  Let them.
-					ELSE GETDATE()
-					END
-			END -- a benefit of this is that if a Disability record is absent in a subsequent legacy data import, the record will not be deleted, but DeletedDate will be set.  Cool.
+				WHEN s.ID IS NOT NULL THEN s.DeletedDate 
+				WHEN t.ID IS NOT NULL then t.DeletedDate
+					-- CASE WHEN k.DisplayInUI = 'Y' THEN NULL -- User specified they want to see this in the UI.  Let them.
+				ELSE GETDATE() 
+			END 
 	FROM
 		LEGACYSPED.Lookups k LEFT JOIN
 		dbo.IepDisability s on isnull(k.StateCode,'kDisab') = isnull(s.StateCode,'sDisab') left join -- two NULLs does not a match make

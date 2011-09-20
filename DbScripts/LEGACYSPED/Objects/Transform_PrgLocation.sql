@@ -32,7 +32,8 @@ AS
 		StateCode = coalesce(s.StateCode, n.StateCode, t.StateCode, k.StateCode),
 		DeletedDate = 
 			CASE 
-				WHEN s.ID IS NOT NULL THEN NULL -- Always show in UI where there is a StateID.
+				WHEN s.ID IS NOT NULL THEN s.DeletedDate 
+				WHEN t.ID IS NOT NULL THEN t.DeletedDate 
 				ELSE 
 					CASE WHEN k.DisplayInUI = 'Y' THEN NULL -- User specified they want to see this in the UI.  Let them. 
 					ELSE GETDATE()

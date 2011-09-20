@@ -54,7 +54,7 @@ as
 select 
 	PlacementTypeCode = k.SubType,
 	PlacementOptionCode = isnull(k.Code, convert(varchar(150), k.Label)), 
-	StateCode = k.StateCode, -- ??
+	StateCode = coalesce(s.StateCode, t.StateCode, k.StateCode), -- ??
 	DestID = coalesce(s.ID, t.ID, m.DestID),
 	TypeID = coalesce(s.TypeID, t.TypeID, my.DestID),
 	Sequence = coalesce(s.Sequence, t.Sequence, 99),
@@ -63,7 +63,8 @@ select
 	MaxPercentGenEd = isnull(s.MaxPercentGenEd, t.MaxPercentGenEd),   
 	DeletedDate = 
 			CASE 
-				WHEN s.ID IS NOT NULL THEN NULL -- Always show in UI where there is a StateID.  Period.
+				WHEN s.ID IS NOT NULL THEN s.DeletedDate -- Always show in UI where there is a StateID.  Period.
+				WHEN t.ID IS NOT NULL THEN t.DeletedDate
 				ELSE 
 					CASE WHEN k.DisplayInUI = 'Y' THEN NULL -- User specified they want to see this in the UI.  Let them.
 					ELSE GETDATE()
@@ -122,7 +123,7 @@ SELECT s.DestID, s.DeletedDate, s.Text, s.MaxPercentGenEd, s.StateCode, s.Sequen
 FROM LEGACYSPED.Transform_IepPlacementOption s
 WHERE NOT EXISTS (SELECT * FROM IepPlacementOption d WHERE s.DestID=d.ID)
 
-select * from IepPlacementOption order by case when deleteddate is null then 1 else 0 end, StateCode
+select * from IepPlacementOption order by case when deleteddate is null then 0 else 1 end, StateCode
 
 
 

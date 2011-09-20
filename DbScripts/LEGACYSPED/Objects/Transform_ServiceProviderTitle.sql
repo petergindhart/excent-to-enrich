@@ -26,16 +26,16 @@ AS
  SELECT   
 	ServiceProviderCode = k.Code,
 	DestID = coalesce(s.ID, t.ID, m.DestID),
-	Name = k.Label,
-	StateCode = k.StateCode,
-		DeletedDate = 
-			CASE 
-				WHEN s.ID IS NOT NULL THEN NULL -- Always show in UI where there is a StateID.  Period.
-				ELSE 
-					CASE WHEN k.DisplayInUI = 'Y' THEN NULL -- User specified they want to see this in the UI.  Let them.
-					ELSE GETDATE()
-					END
-			END 
+	Name = coalesce(s.Name, t.Name, k.Label),
+	StateCode = coalesce(s.StateCode, t.StateCode, k.StateCode),
+	DeletedDate = CASE 
+		WHEN s.ID IS NOT NULL THEN s.DeletedDate 
+		WHEN t.ID IS NOT NULL THEN t.DeletedDate 
+			ELSE 
+				CASE WHEN k.DisplayInUI = 'Y' THEN NULL -- User specified they want to see this in the UI.  Let them.
+				ELSE GETDATE()
+				END
+		END 
  FROM  
   LEGACYSPED.Lookups k LEFT JOIN
   dbo.ServiceProviderTitle s on k.StateCode = s.StateCode LEFT JOIN

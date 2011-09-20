@@ -38,12 +38,13 @@ AS
   Name = convert(varchar(50), coalesce(s.Name, t.Name, k.Label)), 
   IsExit = cast(1 as bit), 
   IsEntry = cast(0 as bit), 
-  StatusStyleID = 'FA528C27-E567-4CC9-A328-FF499BB803F6', -- all the other PrgStatus rows for IEP and IsExit use this ID
+  StatusStyleID = coalesce(s.StatusStyleID, t.StatusStyleID, 'FA528C27-E567-4CC9-A328-FF499BB803F6'), -- all the other PrgStatus rows for IEP and IsExit use this ID
   StateCode = coalesce(s.StateCode, t.StateCode, k.StateCode), 
   Description = coalesce(s.Description, t.Description, k.Label), 
-		DeletedDate = 
-			CASE 
-				WHEN s.ID IS NOT NULL THEN NULL -- Always show in UI where there is a StateID.  Period.
+		-- this element is part of the config import
+		DeletedDate = CASE 
+			WHEN s.ID IS NOT NULL THEN s.DeletedDate 
+			WHEN t.ID IS NOT NULL THEN t.DeletedDate 
 				ELSE 
 					CASE WHEN k.DisplayInUI = 'Y' THEN NULL -- User specified they want to see this in the UI.  Let them.
 					ELSE GETDATE()

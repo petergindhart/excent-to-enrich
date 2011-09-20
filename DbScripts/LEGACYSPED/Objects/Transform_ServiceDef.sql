@@ -51,7 +51,8 @@ SELECT distinct
 	DefaultLocationID = coalesce(s.DefaultLocationID, t.DefaultLocationID),
 	DeletedDate = 
 			CASE 
-				WHEN s.ID IS NOT NULL THEN NULL -- Always show in UI where there is a StateID.  Period.
+				WHEN s.ID IS NOT NULL THEN s.DeletedDate
+				WHEN t.ID IS NOT NULL THEN t.DeletedDate
 				ELSE 
 					CASE WHEN k.DisplayInUI = 'Y' THEN NULL -- User specified they want to see this in the UI.  Let them.
 					ELSE GETDATE()
@@ -60,7 +61,7 @@ SELECT distinct
 FROM (select 'Service' Type) x  join 
 	LEGACYSPED.Lookups k on x.Type = k.Type LEFT JOIN -- Legacy ServiceDefs and preferred ServiceDefs provided in the same file )
 	(
-		select sd.ID, c.ServiceCategoryCode, sd.Name, sd.StateCode, sd.Description, sd.DefaultLocationID
+		select sd.ID, c.ServiceCategoryCode, sd.Name, sd.StateCode, sd.Description, sd.DefaultLocationID, sd.DeletedDate
 		from dbo.ServiceDef sd join dbo.IepServiceDef i on sd.ID = i.ID JOIN
 			LEGACYSPED.Transform_IepServiceCategory c on i.CategoryID = c.DestID 
 	) s on k.SubType = s.ServiceCategoryCode and
@@ -68,7 +69,7 @@ FROM (select 'Service' Type) x  join
 		  -- objective:  join on state code only if there is a match.
 		LEFT JOIN 
 	(
-		select distinct sd.ID, c.ServiceCategoryCode, sd.Name, sd.StateCode, Description = cast(sd.Description as varchar(max)), sd.DefaultLocationID
+		select distinct sd.ID, c.ServiceCategoryCode, sd.Name, sd.StateCode, Description = cast(sd.Description as varchar(max)), sd.DefaultLocationID, sd.DeletedDate
 		from dbo.ServiceDef sd JOIN dbo.IepServiceDef i on sd.ID = i.ID JOIN
 			LEGACYSPED.Transform_IepServiceCategory c on i.CategoryID = c.DestID
 	) n on k.SubType = n.ServiceCategoryCode and -- objective : identify where a ServiceDefinition with this label already exists in Enrich database.  

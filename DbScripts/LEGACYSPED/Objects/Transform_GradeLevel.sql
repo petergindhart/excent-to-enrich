@@ -35,13 +35,14 @@ AS
 		GradeLevelCode = k.Code,
 		DestID = coalesce(s.ID, t.ID, m.DestID), -- may not need to use coalesce below this line because we only touch legacy data
 		Name = coalesce(s.Name, t.Name, left(k.Label, 10)),
-		StateCode = k.StateCode,
+		StateCode = coalesce(s.StateCode, t.StateCode, k.StateCode),
 		Bitmask = coalesce(s.Bitmask, t.Bitmask, NULL),
 		Sequence = coalesce(s.Sequence, t.Sequence, 99),
 		-- Active = coalesce(s.Active, t.Active, 0),
 		Active = 
 			CASE 
-				WHEN s.ID IS NOT NULL THEN 1 -- Always show in UI where there is a StateID.  Period.
+				WHEN s.ID IS NOT NULL THEN s.Active -- Always show in UI where there is a StateID.  Period.
+				WHEN t.ID IS NOT NULL THEN t.Active
 				ELSE 
 					CASE WHEN k.DisplayInUI = 'Y' THEN 1 -- User specified they want to see this in the UI.  Let them.
 					ELSE 0

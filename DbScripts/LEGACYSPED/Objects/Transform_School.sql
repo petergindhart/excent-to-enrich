@@ -39,7 +39,12 @@ select
 	State = isnull(s.State, t.State),
 	ZipCode = isnull(s.ZipCode, t.ZipCode),
 	PhoneNumber = isnull(s.PhoneNumber, t.PhoneNumber),
-	DeletedDate = isnull(s.DeletedDate, t.DeletedDate) 
+	DeletedDate = 
+		case 
+			when s.id is not null then s.DeletedDate
+			when t.ID is not null then t.DeletedDate 
+			else GETDATE()
+		end
 from 
 	LEGACYSPED.School k LEFT JOIN 
 	dbo.School s on 
