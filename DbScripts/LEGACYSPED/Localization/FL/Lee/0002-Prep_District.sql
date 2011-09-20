@@ -1,6 +1,8 @@
 -- Florida
 -- Lee
 
+-- note : data model for SystemSettings table has changed (v 19)
+
 -- OrgUnit 
 update ou set Number = '36' -- Lee County State Reporting DistrictID
 -- select ou.*
