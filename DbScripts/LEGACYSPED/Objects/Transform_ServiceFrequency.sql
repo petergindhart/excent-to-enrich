@@ -37,10 +37,10 @@ AS
   DestID = coalesce(s.ID, t.ID, m.DestID),
   Name = coalesce(s.Name, t.Name, k.Label), 
   Sequence = coalesce(s.Sequence, t.sequence, 99),
-  WeekFactor = coalesce(s.WeekFactor, t.weekfactor, 0)
+  WeekFactor = coalesce(s.WeekFactor, t.weekfactor, 0) -- Pete will advise
  FROM
   LEGACYSPED.Lookups k LEFT JOIN 
-  dbo.ServiceFrequency s on 1 = 0 LEFT JOIN -- placeholder for when this is added to the database.
+  dbo.ServiceFrequency s on 1 = 0 LEFT JOIN -- placeholder for when ServiceFrequency.StageCode is added to the database.
   LEGACYSPED.MAP_ServiceFrequencyID m on k.Code = m.ServiceFrequencyCode LEFT JOIN
   dbo.ServiceFrequency t on m.DestID = t.ID
  WHERE
