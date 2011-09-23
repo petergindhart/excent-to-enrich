@@ -1,11 +1,12 @@
 --#include Transform_OrgUnit.sql
--- #############################################################################
+-- ############################################################################# 
 -- School
 IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.MAP_SchoolID') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
 BEGIN
 CREATE TABLE LEGACYSPED.MAP_SchoolID
 	(
 	SchoolRefID varchar(150) NOT NULL,
+	LegacyData bit NOT NULL,
 	DestID uniqueidentifier NOT NULL
 	)  
 
@@ -27,6 +28,7 @@ select
 	k.SchoolRefID,
 	k.SchoolCode,
 	DestID =  coalesce(s.ID, t.ID, m.DestID), -- ISNULL(isnull(s.ID, t.ID), m.DestID),
+	LegacyData = ISNULL(m.LegacyData, case when s.ID IS NULL then 1 else 0 end), -- allows updating only legacy data by adding a DestFilter in LoadTable.  Leaves real ManuallyEntered schools untouched.,
 	Abbreviation = coalesce(s.Abbreviation, t.Abbreviation, k.SchoolAbbreviation),
 	Name = coalesce(s.Name, t.Name, k.SchoolName), 
 	Number = coalesce(s.Number, t.Number, k.SchoolCode),
@@ -49,8 +51,7 @@ from
 	LEGACYSPED.School k LEFT JOIN 
 	dbo.School s on 
 		k.SchoolCode = s.Number AND
-		s.IsLocalOrg = 1 AND
-		s.ManuallyEntered = 0 LEFT JOIN 
+		s.IsLocalOrg = 1 LEFT JOIN 
 	LEGACYSPED.MAP_SchoolID m on k.SchoolRefID = m.SchoolRefID LEFT JOIN 
 	dbo.School t on m.DestID = t.ID LEFT JOIN
 	LEGACYSPED.Transform_OrgUnit mo on k.DistrictRefID = mo.DistrictRefID
