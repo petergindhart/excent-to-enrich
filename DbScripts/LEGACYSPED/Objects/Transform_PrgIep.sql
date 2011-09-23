@@ -70,9 +70,9 @@ AS
 		GradeLevelID = stu.CurrentGradeLevelID,
 		InvolvementID = inv.DestID,
 		StartStatusID =  '796C212F-6003-4CD3-878D-53BEBE087E9A', -- def.StatusID, -- Converted IEP is a soft-deleted PrgStatus record that we use by default.  Update TEMPLATE PrgItemDef.StatusID for Conveted IEP if the customer requests it
-		EndStatusID = case when iep.IEPEndDate > getdate() then NULL else '12086FE0-B509-4F9F-ABD0-569681C59EE2' end, -- select * from PrgStatus where ProgramID = 'F98A8EF2-98E2-4CAC-95AF-D7D89EF7F80C' and IsExit = 1 and sequence < 99
-		PlannedEndDate = iep.IEPEndDate,
-		IsEnded = case when iep.IEPEndDate > getdate() then 0 else 1 end,
+		EndStatusID = case when isnull(CONVERT(datetime, iep.IEPEndDate), 0) < getdate() then '12086FE0-B509-4F9F-ABD0-569681C59EE2' else NULL end, -- select * from PrgStatus where ProgramID = 'F98A8EF2-98E2-4CAC-95AF-D7D89EF7F80C' and IsExit = 1 and sequence < 99
+		PlannedEndDate = isnull(convert(datetime, iep.IEPEndDate), dateadd(yy, 1, dateadd(dd, -1, convert(datetime, iep.IEPStartDate)))),
+		IsEnded = case when isnull(CONVERT(datetime, iep.IEPEndDate), dateadd(yy, 1, dateadd(dd, -1, convert(datetime, iep.IEPStartDate)))) < getdate() then 1 else 0 end, -- dateadd(yy, 1, dateadd(dd, -1, convert(datetime, iep.IEPStartDate)))
 		--LastModifiedDate,
 		--LastModifiedByID,
 		Revision = cast(0 as bigint),
