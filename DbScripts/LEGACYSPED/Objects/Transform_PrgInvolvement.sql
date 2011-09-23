@@ -40,13 +40,6 @@ AS
 	FROM
 		LEGACYSPED.Transform_Student stu JOIN
 		LEGACYSPED.IEP iep on stu.StudentRefID = iep.StudentRefID LEFT JOIN 
-		dbo.StudentSchoolHistory sh on 
-			stu.DestID = sh.StudentID AND
-			dbo.DateRangesOverlap(iep.IEPStartDate, iep.IEPEndDate, sh.StartDate, sh.EndDate, GETDATE()) = 1 LEFT JOIN -- will be full joins once the studentschoolhistory and studentgradelevelhistory data is inserted
-		-- assumption that this was done to limit to students that have a grade level record at this time
-		-- we converted grade level to be optional for PrgItem
-		dbo.StudentGradeLevelHistory gh on
-			dbo.DateRangesOverlap(iep.IEPStartDate, iep.IEPEndDate, gh.StartDate, gh.EndDate, GETDATE()) = 1 LEFT JOIN
 		LEGACYSPED.MAP_PrgInvolvementID m on iep.StudentRefID = m.StudentRefID LEFT JOIN
 		dbo.PrgInvolvement t on m.DestID = t.ID
 	WHERE 
@@ -119,6 +112,7 @@ select * from PrgInvolvement
 select * from LEGACYSPED.MAP_PrgInvolvementID
 
 select count(*) from LEGACYSPED.Transform_PrgInvolvement 
+
 
 
 */
