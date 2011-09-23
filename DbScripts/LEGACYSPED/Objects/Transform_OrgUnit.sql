@@ -26,8 +26,6 @@ AS
 /*
 	This view depends on OrgUnit.Number (the state reporting code) being populated in the target table.  
 		Depends on an update in the District Specific file 0002c-ETLPrep_District_DistrictName.sql
-	Once the Mapping table and the Target table are populated with the necessary rows by VC3ETL.LoadTable_Run, those records are no longer returned in this view result.
-		The fact that we are returning rows where a StateCode match exists between Lookups and Target ensures that we don't duplicate these values in Target.
 	Table Aliases:  k for Source, s for StateCode, m for Map, t for Target
 
 	Caution:  If the Legacy District data and / or the Enrich OrgUnit data do not have the same StateCode, the a duplicate record for the OrgUnit will be inserted. (StateNumber is duplicated).
