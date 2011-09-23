@@ -26,8 +26,8 @@ AS
 		LEGACYSPED.Student s on s.StudentRefID = iep.StudentRefID LEFT JOIN
 		LEGACYSPED.Transform_School ss on s.ServiceSchoolRefID = ss.SchoolRefId LEFT JOIN
 		LEGACYSPED.Transform_School sh on s.HomeSchoolRefID = sh.SchoolRefId LEFT JOIN
-		dbo.School dss on ss.SchoolRefID = dss.Number /* and dss.ManuallyEntered = 1 */ left join
-		dbo.School dsh on sh.SchoolRefID = dsh.Number /* and dsh.ManuallyEntered = 1 */
+		dbo.School dss on ss.DestID = dss.ID /* and dss.ManuallyEntered = 1 */ left join
+		dbo.School dsh on sh.DestID = dsh.ID /* and dsh.ManuallyEntered = 1 */
 GO
 --
 
