@@ -10,9 +10,9 @@ AS
 		ConsentDate = CAST(iep.ConsentForServicesDate as DATETIME) -- select iep.IEPRefID
 	FROM
 		LEGACYSPED.Transform_PrgIep iep JOIN
-		LEGACYSPED.MAP_PrgSectionID m on 
+		LEGACYSPED.MAP_PrgSectionID_NonVersioned m on 
 			m.DefID = 'D83A4710-A69F-4310-91F8-CB5BFFB1FE4C' AND --Sped Consent Services
-			m.VersionID = iep.VersionDestID 
+			m.ItemID = iep.DestID
 GO
 --
 
