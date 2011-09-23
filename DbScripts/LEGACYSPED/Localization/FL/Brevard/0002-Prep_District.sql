@@ -1,7 +1,7 @@
+--#include ..\..\..\Objects\Transform_ServiceFrequency.sql
+
 -- Florida
 -- Brevard 
-
-
 
 -- OrgUnit 
 update ou set Number = '05' -- Collier County State Reporting DistrictID
@@ -12,12 +12,11 @@ go
 
 
 
--- update the school.number
--- update
-select s.*, f.*
-from LEGACYSPED.School s JOIN
-EFF.Schools f on s.SchoolCode = f.ID
-
+-- update the school.number - for Brevard
+update s set Number = f.ID
+-- select s.*, f.*
+from dbo.School s JOIN
+EFF.Schools f on s.Number = f.ID
 
 
 
@@ -55,32 +54,6 @@ select * from @importPrgSections
 go
 
 
-
-/*
-   LEGACYSPED.MAP_ServiceFrequencyID is created in the Localization file.
-	Service Frequency needs to be set up manually per district because:
-	1. ServiceFrequency is populated with seed data when Enrich is installed
-	2. The values from legacy systems are not consistent.  They may be hand-entered in legacy systems.
-	
-*/
--- ############################################################################# 
---		Service Frequency
-IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.MAP_ServiceFrequencyID') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
-BEGIN
-CREATE TABLE LEGACYSPED.MAP_ServiceFrequencyID
-(
-	ServiceFrequencyCode	varchar(150) NOT NULL,
-	ServiceFrequencyName	varchar(50) not null,
-	DestID uniqueidentifier NOT NULL
-)
-ALTER TABLE LEGACYSPED.MAP_ServiceFrequencyID ADD CONSTRAINT
-PK_MAP_ServiceFrequencyID PRIMARY KEY CLUSTERED
-(
-	ServiceFrequencyName
-)
-CREATE INDEX IX_Map_ServiceFrequencyID_ServiceFrequencyName on LEGACYSPED.Map_ServiceFrequencyID (ServiceFrequencyName)
-END
-GO
 
 
 -- Map_ServiceFrequencyID is created in the Transform script.
