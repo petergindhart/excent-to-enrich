@@ -69,7 +69,7 @@ AS
   dbo.PrgGoal pg on m.DestID = pg.ID 
  WHERE
   i.DestID is not null 
-  and g.GACommunication+g.GAEmotional+g.GAHealth+g.GAIndependent+g.GAMath+g.GAOther+g.GAReading+g.GAWriting like '%Y%'
+  and isnull(g.GACommunication,'')+isnull(g.GAEmotional,'')+isnull(g.GAHealth,'')+isnull(g.GAIndependent,'')+isnull(g.GAMath,'')+isnull(g.GAOther,'')+isnull(g.GAReading,'')+isnull(g.GAWriting,'') like '%Y%'
 GO
 
 /*
