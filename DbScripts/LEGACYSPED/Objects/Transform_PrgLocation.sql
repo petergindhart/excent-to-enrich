@@ -25,7 +25,7 @@ CREATE VIEW LEGACYSPED.Transform_PrgLocation
 AS
 	SELECT
 		ServiceLocationCode = k.Code,
-		DestID = coalesce(n.ID, s.ID, t.ID, m.DestID),
+		DestID = coalesce(s.ID, n.ID, t.ID, m.DestID), -- switched s.id and n.id to match subsequent lines on 20111025 gg
 		Name = coalesce(s.Name, n.Name, t.Name, k.Label),
 		Description = coalesce(s.Description, n.Description, t.Description),
 		MedicaidLocationID = coalesce(s.MedicaidLocationID, n.MedicaidLocationID, t.MedicaidLocationID),
