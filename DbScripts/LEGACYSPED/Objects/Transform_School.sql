@@ -33,7 +33,7 @@ select
 	Name = coalesce(s.Name, t.Name, k.SchoolName), 
 	Number = coalesce(s.Number, t.Number, k.SchoolCode),
 	OrgUnitId = mo.DestID,
-	IsLocalOrg = coalesce(s.IsLocalOrg, t.IsLocalOrg, 0), 
+	--IsLocalOrg = coalesce(s.IsLocalOrg, t.IsLocalOrg, 0), 
 	ManuallyEntered = coalesce(s.ManuallyEntered, t.ManuallyEntered, 1), 
 	MinutesInstruction = coalesce(s.MinutesInstruction, t.MinutesInstruction, CASE WHEN k.MinutesPerWeek > 0 THEN k.MinutesPerWeek ELSE NULL END),
 	Street = isnull(s.Street, t.Street),
@@ -47,15 +47,15 @@ select
 			when t.ID is not null then t.DeletedDate 
 			else GETDATE()
 		end
-from 
-	LEGACYSPED.School k LEFT JOIN 
-	dbo.School s on 
-		k.SchoolCode = s.Number AND
-		s.IsLocalOrg = 1 LEFT JOIN 
+from LEGACYSPED.School k LEFT JOIN 
+	dbo.School s on k.SchoolCode = s.Number LEFT JOIN 
+		-- AND s.IsLocalOrg = 1 
 	LEGACYSPED.MAP_SchoolID m on k.SchoolRefID = m.SchoolRefID LEFT JOIN 
 	dbo.School t on m.DestID = t.ID LEFT JOIN
 	LEGACYSPED.Transform_OrgUnit mo on k.DistrictRefID = mo.DistrictRefID
 GO
+
+-- select * from school where Number = '900'
 
 
 /*
