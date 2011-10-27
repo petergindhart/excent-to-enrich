@@ -49,15 +49,15 @@ go
 
 -- #############################################################################
 --		Goal Area Def MAP
-IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.MAP_GoalAreaDefID') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
+IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.MAP_IepGoalAreaDefID') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
 BEGIN
-CREATE TABLE LEGACYSPED.MAP_GoalAreaDefID
+CREATE TABLE LEGACYSPED.MAP_IepGoalAreaDefID
 (
 	GoalAreaCode	varchar(150) NOT NULL,
 	DestID uniqueidentifier NOT NULL
 )
 
-ALTER TABLE LEGACYSPED.MAP_GoalAreaDefID ADD CONSTRAINT
+ALTER TABLE LEGACYSPED.MAP_IepGoalAreaDefID ADD CONSTRAINT
 PK_MAP_GoalAreaDefID PRIMARY KEY CLUSTERED
 (
 	GoalAreaCode
@@ -76,8 +76,8 @@ insert @ga values ('GAIndependent', '5A3D5EE7-618B-4F70-B893-BFB0EE8754BE')
 insert @ga values ('GAHealth', '7D6B33A0-216B-4747-A827-7A4FFC80227F')
 insert @ga values ('GACommunication', '2AA2F135-2FB3-4607-B932-99F5491916DE')
 
-insert LEGACYSPED.MAP_GoalAreaDefID 
-select * from @ga where GoalAreaCode not in (select GoalAreaCode from LEGACYSPED.MAP_GoalAreaDefID)
+insert LEGACYSPED.MAP_IepGoalAreaDefID 
+select * from @ga where GoalAreaCode not in (select GoalAreaCode from LEGACYSPED.MAP_IepGoalAreaDefID)
 
 END
 GO
