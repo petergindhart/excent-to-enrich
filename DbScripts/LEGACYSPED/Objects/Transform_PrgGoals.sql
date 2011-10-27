@@ -1,3 +1,4 @@
+--#include Transform_PrgIep.sql
 IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.Transform_PrgGoals') AND OBJECTPROPERTY(id, N'IsView') = 1)
 DROP VIEW LEGACYSPED.Transform_PrgGoals
 GO
@@ -16,7 +17,7 @@ AS
 	--WHERE exists (select 1 from LEGACYSPED.Goal g where iep.IepRefID = g.IepRefID) -- 10715 (interpretation : 6 ieps do not have goals.  Do not insert a PrgGoals record for these)
 	-- Pete recommended to remove this.  Test before checking in the code (there is a PrgSection record for Goals)
 GO
--- 
+--
 /*
 
 GEO.ShowLoadTables PrgGoals
