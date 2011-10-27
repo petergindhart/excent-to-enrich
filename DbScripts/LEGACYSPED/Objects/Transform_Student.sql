@@ -35,7 +35,7 @@ AS
   LegacyData = ISNULL(m.LegacyData, case when s.ID IS NULL then 1 else 0 end), -- allows updating only legacy data by adding a DestFilter in LoadTable.  Leaves real ManuallyEntered students untouched.
   CurrentSchoolID = sch.DestID,  
   CurrentGradeLevelID = g.DestID,  
-  EthnicityID = CAST(NULL as uniqueidentifier),
+  --EthnicityID = CAST(NULL as uniqueidentifier),
   GenderID = (select ID from EnumValue where Type = 'D6194389-17AC-494C-9C37-FD911DA2DD4B' and Code = src.Sex), -- will error if more than one value
   Number = src.StudentLocalID,  
   src.FirstName,  
@@ -71,8 +71,8 @@ AS
   ImportPausedByID = cast(NULL as uniqueidentifier),
   IsActive = cast(isnull(t.IsActive,1) as bit),  
   ManuallyEntered = cast(isnull(t.ManuallyEntered,1) as bit) -- cast(case when dest.ID is null then 1 else 0 end as bit),  
- FROM 
-  LEGACYSPED.Student src LEFT JOIN
+  -- select s.isactive, t.isactive, src.*
+ FROM LEGACYSPED.Student src LEFT JOIN
   -- LEGACYSPED.Transform_Ethnicity te on src.EthnicityCode = te.Code LEFT JOIN
   LEGACYSPED.Transform_GradeLevel g on src.GradeLevelCode = g.GradeLevelCode LEFT JOIN
   LEGACYSPED.Transform_School sch on src.ServiceSchoolRefID = sch.SchoolRefID LEFT JOIN
@@ -83,6 +83,30 @@ GO
 
 
 /*
+
+
+
+select * from LEGACYSPED.MAP_StudentRefID where StudentRefID = '86BB627C-0F35-4E1F-919D-39A4233AC24C'
+
+select isactive, * from student where number =  '10400192'
+
+select * from LEGACYSPED.Transform_Student where number =  '10400192'
+
+
+
+select h.SchoolCode, COUNT(*) tot
+from LEGACYSPED.School h
+group by h.SchoolCode
+having COUNT(*) > 1
+
+
+
+select * from LEGACYSPED.Transform_School where DestID in ('FC1C9F0B-D2F8-46DC-BFCF-6808A4C87FBA', 'AD7F149B-9C91-4A58-8A7A-B2015C5C69B6')
+
+select * from legacysped.school where schoolrefid = '0FB9716F-77CC-4456-8FE7-AFB834E9FFDE'
+900
+
+
 
 select * from VC3ETL.LoadTable where ID = '0650F23E-B249-4D90-8389-36B73375B506'
 
@@ -148,6 +172,43 @@ select * from Student where ManuallyEntered = 1 -- students that really were man
 
 
 select * from LEGACYSPED.MAP_StudentRefID 
+
+
+
+
+
+begin tran stu
+INSERT LEGACYSPED.MAP_StudentRefID
+SELECT StudentRefID, LegacyData, NEWID()
+FROM LEGACYSPED.Transform_Student s
+WHERE NOT EXISTS (SELECT * FROM Student d WHERE s.DestID=d.ID)
+
+INSERT Student (ID, CurrentGradeLevelID, CurrentSchoolID, Number, MiddleName, GenderID, LastName, ManuallyEntered, DOB, IsActive, FirstName, IsHispanic)
+SELECT s.DestID, s.CurrentGradeLevelID, s.CurrentSchoolID, s.Number, s.MiddleName, s.GenderID, s.LastName, s.ManuallyEntered, s.DOB, s.IsActive, s.FirstName, s.IsHispanic
+FROM LEGACYSPED.Transform_Student s
+WHERE NOT EXISTS (SELECT * FROM Student d WHERE s.DestID=d.ID)
+
+
+SELECT StudentRefID, count(*) tot
+FROM LEGACYSPED.Transform_Student s
+WHERE NOT EXISTS (SELECT * FROM Student d WHERE s.DestID=d.ID)
+group by StudentRefID
+having count(*) > 1
+
+
+select * from LEGACYSPED.Transform_Student where studentrefid = '0A217207-CD00-49BB-A662-C5992D4125E5'
+
+
+select * from school where ID in ('FC1C9F0B-D2F8-46DC-BFCF-6808A4C87FBA', 'AD7F149B-9C91-4A58-8A7A-B2015C5C69B6')
+
+
+
+
+
+
+rollback tran stu
+
+
 
 
 
