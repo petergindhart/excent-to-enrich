@@ -1,4 +1,7 @@
 --#include Transform_PrgGoal.sql
+
+-- FLORIDA SPECIFIC
+
 -- LEGACYSPED.MAP_GoalAreaDefID is created and inserted in LEGACYSPED\Objects\0001a-ETLPrep_State_FL.sql
 -- #############################################################################
 --		Iep Goal Area MAP

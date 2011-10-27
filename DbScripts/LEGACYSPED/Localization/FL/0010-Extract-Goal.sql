@@ -1,11 +1,10 @@
-IF  EXISTS (SELECT 1 FROM sys.objects WHERE object_id = OBJECT_ID(N'LEGACYSPED.Goal_LOCAL') AND type in (N'U'))
-DROP TABLE LEGACYSPED.Goal_LOCAL  
-GO  
-  
+
 IF  EXISTS (SELECT 1 FROM sys.views WHERE object_id = OBJECT_ID(N'LEGACYSPED.Goal'))  
 DROP VIEW LEGACYSPED.Goal  
 GO  
-  
+
+IF NOT EXISTS (SELECT 1 FROM sys.objects WHERE object_id = OBJECT_ID(N'LEGACYSPED.Goal_LOCAL') AND type in (N'U'))
+BEGIN
 CREATE TABLE LEGACYSPED.Goal_LOCAL(  
 GoalRefID		  varchar(150), 
 IepRefID		  varchar(150), 
@@ -28,9 +27,9 @@ PSDailyLiving	varchar(1),
 IsEsy		  varchar(1),
 GoalStatement		  varchar(8000)
 )
+END
 GO
-  
-  
+
 CREATE VIEW LEGACYSPED.Goal  
 AS
  SELECT * FROM LEGACYSPED.Goal_LOCAL  
