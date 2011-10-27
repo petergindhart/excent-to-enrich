@@ -5,28 +5,22 @@ GO
 
 CREATE VIEW LEGACYSPED.MAP_SpedStaffMemberView
 AS
-
 	SELECT
 		staff.SpedStaffRefID,
 		UserProfileID = u.ID
-	FROM
-		LEGACYSPED.SpedStaffMember staff JOIN
-		Person p on p.EmailAddress = staff.Email JOIN
-		UserProfile u on u.ID = p.ID JOIN
-		(
-		select pd.EmailAddress
-		from Person pd
-		where pd.ID = (
-			select top 1 p1.ID
-			from Person p1
-			where p1.EmailAddress = pd.EmailAddress
-			and p1.Deleted is null
-			and p1.TypeID = 'U'
-			and p1.EmailAddress is not null
-			order by pd.ManuallyEntered
-			)
+FROM LEGACYSPED.SpedStaffMember staff JOIN
+Person p on p.EmailAddress = staff.Email JOIN
+UserProfile u on u.ID = p.ID 
+where p.ID = (
+	select max(convert(varchar(36), pd.ID))
+	from Person pd
+		where pd.EmailAddress = p.EmailAddress
+		and pd.Deleted is null
+		and pd.TypeID = 'U'
 		group by pd.EmailAddress
-		) single_match ON p.EmailAddress = single_match.EmailAddress
+		-- order by pd.ManuallyEntered
+		)
+and p.Deleted is null 
 GO
 --
 
