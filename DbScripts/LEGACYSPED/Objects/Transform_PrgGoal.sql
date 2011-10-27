@@ -62,14 +62,15 @@ AS
 -- IepGoal
   EsyID = case when g.IsEsy = 'Y' then 'B76DDCD6-B261-4D46-A98E-857B0A814A0C' else 'F7E20A86-2709-4170-9810-15B601C61B79' end -- source.    Consider getting PrgGoal.ID from PrgGoal table
  FROM
-  LEGACYSPED.Goal g LEFT JOIN -- 34737
-  LEGACYSPED.MAP_PrgGoalID m on g.GoalRefID = m.GoalRefID LEFT JOIN -- 34737
+  LEGACYSPED.Goal g JOIN
+  LEGACYSPED.GoalAreaExists e on g.GoalRefID = e.GoalRefID LEFT JOIN 
+  LEGACYSPED.MAP_PrgGoalID m on g.GoalRefID = m.GoalRefID LEFT JOIN 
   LEGACYSPED.Transform_PrgGoals i on g.IepRefID = i.IepRefID LEFT JOIN -- getting a null instance id for students that have been deleted, but goal records are imported.  bad data, but handle it here anyway.
 --   LEGACYSPED.MAP_PostSchoolGoalAreaDefID ps on g.PostSchoolAreaCode = ps.PostSchoolAreaID LEFT JOIN
   dbo.PrgGoal pg on m.DestID = pg.ID 
  WHERE
   i.DestID is not null 
-  and isnull(g.GACommunication,'')+isnull(g.GAEmotional,'')+isnull(g.GAHealth,'')+isnull(g.GAIndependent,'')+isnull(g.GAMath,'')+isnull(g.GAOther,'')+isnull(g.GAReading,'')+isnull(g.GAWriting,'') like '%Y%'
+  -- and isnull(g.GACommunication,'')+isnull(g.GAEmotional,'')+isnull(g.GAHealth,'')+isnull(g.GAIndependent,'')+isnull(g.GAMath,'')+isnull(g.GAOther,'')+isnull(g.GAReading,'')+isnull(g.GAWriting,'') like '%Y%'
 GO
 
 /*
