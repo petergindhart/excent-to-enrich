@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<project name="Special Education Configuration">
+	<upgradedb
+		ConnectionString="${connection}"
+		IgnoreMissingModules="True"
+		ModulesDirectory="..\DbScripts"
+		include="georgewasnowhere"
+		state="${state}"
+		Module="LEGACYSPED"
+		SpedStateInclude="..\Localization\${state}"
+		SpedDistrictInclude="..\Localization\${state}\${speddistrict}"/>
+</project>
+<!-- paths are relative to the batch file -->
