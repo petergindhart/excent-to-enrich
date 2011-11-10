@@ -12,7 +12,7 @@ INSERT INTO @VC3ETL_ExtractDatabase VALUES ('29d14961-928d-4bee-9025-238496d144c
 DECLARE @VC3ETL_FlatFileExtractDatabase TABLE (ID uniqueidentifier, LocalCopyPath varchar(1000))
 
 -- Insert the data to be synchronized into the temporary table
-INSERT INTO @VC3ETL_FlatFileExtractDatabase VALUES ('29d14961-928d-4bee-9025-238496d144c6', 'E:\EnrichDataFiles\FL\Lee')
+INSERT INTO @VC3ETL_FlatFileExtractDatabase VALUES ('29d14961-928d-4bee-9025-238496d144c6', 'C:\EnrichDataFiles\FL\Lee')
 
 -- Declare a temporary table to hold the data to be synchronized
 DECLARE @dbo_InformExtractDatabase TABLE (ID uniqueidentifier, LastExtractRosterYear uniqueidentifier, LastLoadRosterYear uniqueidentifier)
