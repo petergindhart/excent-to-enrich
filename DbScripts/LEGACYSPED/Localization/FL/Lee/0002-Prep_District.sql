@@ -8,8 +8,8 @@
 -- OrgUnit 
 update ou set Number = '36' -- Lee County State Reporting DistrictID
 -- select ou.*
-from dbo.OrgUnit ou join 
-	dbo.SystemSettings ss on ou.ID = ss.LocalOrgRootID 
+from (select top 1 OrgUnitID from School group by OrgUnitID order by count(*) desc) m join dbo.OrgUnit ou on m.OrgUnitID = ou.ID
+
 go
 
 
