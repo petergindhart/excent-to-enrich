@@ -69,14 +69,19 @@ AS
   IsHispanic = case when src.IsHispanic = 'Y' then 1 else 0 end,  
   ImportPausedDate = cast(NULL as datetime),  
   ImportPausedByID = cast(NULL as uniqueidentifier),
-  IsActive = cast(isnull(t.IsActive,1) as bit),  
-  ManuallyEntered = cast(isnull(t.ManuallyEntered,1) as bit) -- cast(case when dest.ID is null then 1 else 0 end as bit),  
-  -- select s.isactive, t.isactive, src.*
- FROM LEGACYSPED.Student src LEFT JOIN
-  -- LEGACYSPED.Transform_Ethnicity te on src.EthnicityCode = te.Code LEFT JOIN
+  IsActive = isnull(s.IsActive, 1),  
+  ManuallyEntered = ISNULL(m.LegacyData, case when s.ID IS NULL then 1 else 0 end) -- cast(case when dest.ID is null then 1 else 0 end as bit),  
+ FROM 
+  LEGACYSPED.Student src LEFT JOIN
   LEGACYSPED.Transform_GradeLevel g on src.GradeLevelCode = g.GradeLevelCode LEFT JOIN
   LEGACYSPED.Transform_School sch on src.ServiceSchoolRefID = sch.SchoolRefID LEFT JOIN
-  dbo.Student s on src.StudentLocalID = s.Number and s.IsActive = 1 LEFT JOIN -- identifies students in legacy data that match students in Enrich
+  dbo.Student s on src.StudentLocalID = s.Number and /* and s.IsActive = 1 -- removed 20111114 because this was adding a duplicate student.  We will leave them inactive, though */ 
+	s.ID = (
+		select top 1 a.ID 
+		from dbo.Student a 
+		where 
+			a.Number = s.Number 
+		order by a.ManuallyEntered, a.IsActive desc, a.ID) LEFT JOIN -- identifies students in legacy data that match students in Enrich
   LEGACYSPED.MAP_StudentRefID m on src.StudentRefID = m.StudentRefID LEFT JOIN
   dbo.Student t on m.DestID = t.ID -- exists in map table
 GO
@@ -84,6 +89,42 @@ GO
 
 /*
 
+select * from LEGACYSPED.Transform_Student
+where Number = '3630233009'
+
+-- 3630233009
+declare @s varchar(20) ; select @s = '3630112112'
+select * from LEGACYSPED.Student where StudentLocalID = @s -- how did I get this student twice?
+select * from Student where Number = @s -- how did I get this student twice?
+
+
+
+select Number, count(*) tot from LEGACYSPED.transform_Student group by Number having count(*) > 1
+
+select * from legacysped.transform_student where Number = '3629091503'
+
+
+select s.ID, s.Number, s.LastName, s.FirstName, s.IsActive, s.ManuallyEntered, s.*
+from (
+	select LastName, FirstName, DOB, Number
+	from Student
+	group by LastName, FirstName, DOB, Number
+	having count(*) > 2
+	) dup join
+Student s on 
+	dup.Number = s.Number and
+	dup.LastName = s.LastName and
+	dup.FirstName = s.FirstName and
+	dup.DOB = s.DOB
+where
+	s.ID = (
+		select top 1 a.ID 
+		from Student a 
+		where a.Number = dup.Number and
+		a.LastName = dup.LastName and
+		a.FirstName = dup.FirstName and
+		a.DOB = dup.DOB 
+		order by a.ManuallyEntered, a.IsActive desc, a.ID)
 
 
 select * from LEGACYSPED.MAP_StudentRefID where StudentRefID = '86BB627C-0F35-4E1F-919D-39A4233AC24C'
