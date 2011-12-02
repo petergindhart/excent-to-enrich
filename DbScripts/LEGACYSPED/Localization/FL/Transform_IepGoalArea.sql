@@ -1,4 +1,4 @@
---#include Transform_PrgGoal.sql
+--#include ..\..\Objects\Transform_PrgGoal.sql
 
 -- FLORIDA SPECIFIC
 
@@ -98,22 +98,24 @@ as
 	This filter will no longer be necessary after support for multiple areas (domains) per goal is added to Enrich.
 
 */
-	select
-		ga.IepRefID,
-		InstanceID = pgs.DestID,
-		DefID = m.DestID,
-		ga.GoalAreaCode,
-		Ga.GoalRefID,
-		ga.GoalIndex
-	from LEGACYSPED.GoalAreaPivotView ga JOIN
-		LEGACYSPED.Transform_PrgGoals pgs on ga.IepRefID = pgs.IepRefID join -- on left join some records do not have an instanceid  -- 4E367F51-09E0-41A6-9CA1-88F0230A05D1 
-		LEGACYSPED.MAP_GoalAreaDefID m on ga.GoalAreaCode = m.GoalAreaCode -- select * from LEGACYSPED.MAP_GoalAreaDefID -- select * from IepGoalAreaDef order by deleteddate, sequence, Name -- select * from LEGACYSPED.MAP_GoalAreaDefID
-	where ga.GoalIndex = (				-- Enrich does not currently support multiple domains per Goal
-		select top 1 minga.GoalIndex
-		from  LEGACYSPED.GoalAreaPivotView minga
-		where ga.GoalRefID = minga.GoalRefID
-		order by ga.GoalIndex)
-go
+-- The output of this view will be the one GoalArea selected for each Goal.
+select
+	g.IepRefID,
+	InstanceID = pgs.DestID,
+	DefID = m.DestID,
+	ga.GoalAreaCode, -- GoalAreaCode = NULL, -- 
+	g.GoalRefID,
+	GoalIndex = cast(0 as int) -- select g.*
+from LEGACYSPED.Goal g JOIN
+	LEGACYSPED.Transform_PrgGoals pgs on g.IepRefID = pgs.IepRefID join -- select * from LEGACYSPED.Transform_PrgGoals -- on left join some records do not have an instanceid  -- 4E367F51-09E0-41A6-9CA1-88F0230A05D1 
+	LEGACYSPED.GoalAreaPivotView ga on g.GoalRefID = ga.GoalRefID join
+	LEGACYSPED.MAP_IepGoalAreaDefID m on ga.GoalAreaCode = m.GoalAreaCode  -- select * from LEGACYSPED.MAP_IepGoalAreaDefID -- select * from IepGoalAreaDef order by deleteddate, sequence, Name -- select * from LEGACYSPED.MAP_GoalAreaDefID
+where ga.GoalIndex = (
+	select top 1 minga.GoalIndex
+	from  LEGACYSPED.GoalAreaPivotView minga
+	where g.GoalRefID = minga.GoalRefID
+	order by ga.GoalIndex)
+GO
 
 
 -- #############################################################################
