@@ -4,19 +4,19 @@
 
 ---- #############################################################################
 ----		Goal Area MAP
---IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.MAP_GoalAreaDefID') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
---BEGIN
---CREATE TABLE LEGACYSPED.MAP_GoalAreaDefID
---(
---	GoalAreaCode	varchar(150) NOT NULL,
---	DestID uniqueidentifier NOT NULL
---)
+IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.MAP_IepGoalAreaDefID') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
+BEGIN
+CREATE TABLE LEGACYSPED.MAP_IepGoalAreaDefID 
+(
+	GoalAreaCode	varchar(150) NOT NULL,
+	DestID uniqueidentifier NOT NULL
+)
 
---ALTER TABLE LEGACYSPED.MAP_GoalAreaDefID ADD CONSTRAINT
---PK_MAP_GoalAreaDefID PRIMARY KEY CLUSTERED
---(
---	GoalAreaCode
---)
+ALTER TABLE LEGACYSPED.MAP_IepGoalAreaDefID ADD CONSTRAINT
+PK_MAP_IepGoalAreaDefID PRIMARY KEY CLUSTERED
+(
+	GoalAreaCode
+)
 
 ---- this exist elsewhere 
 ----set nocount on;
@@ -29,32 +29,38 @@
 ----insert LEGACYSPED.MAP_GoalAreaDefID -- select * from LEGACYSPED.MAP_GoalAreaDefID 
 ----select * from @mgad where DestID not in (select DestID from LEGACYSPED.MAP_GoalAreaDefID) -- select * from IepGoalAreaDef where Sequence <> 99
 
---END
---GO
+END
+GO
 
----- #############################################################################
+-- #############################################################################
 ---- Transform
---IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.Transform_IepGoalAreaDef') AND OBJECTPROPERTY(id, N'IsView') = 1)
---DROP VIEW LEGACYSPED.Transform_IepGoalAreaDef
---GO
+IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.Transform_IepGoalAreaDef') AND OBJECTPROPERTY(id, N'IsView') = 1)
+DROP VIEW LEGACYSPED.Transform_IepGoalAreaDef
+GO
 
---CREATE VIEW LEGACYSPED.Transform_IepGoalAreaDef  --- select * from IepGoalAreaDef order by sequence, deleteddate  -- select * from LEGACYSPED.Transform_IepGoalAreaDef -- delete IepGoalAreaDef where deleteddate is not null
---AS
---SELECT
---	GoalAreaCode = k.Code,
---	m.DestID,
---	Sequence = 99,
---	Name = k.Label,
---	AllowCustomProbes = 0,
---	StateCode = cast(NULL as varchar(20)),
---	DeletedDate = GETDATE(),
---		d.ID
---FROM
---	LEGACYSPED.Lookups k LEFT JOIN -- select * from LEGACYSPED.Lookups k where k.Type = 'GoalArea' -- 8
---	LEGACYSPED.MAP_GoalAreaDefID m on k.Code = m.GoalAreaCode LEFT JOIN -- select * from LEGACYSPED.MAP_GoalAreaDefID -- 8 
---	dbo.IepGoalAreaDef d on m.DestID = d.ID -- and d.DeletedDate is null -- select * from IepGoalAreaDef -- 12  --  select * from LEGACYSPED.Lookups k join IepGoalAreaDef ga on left(k.label, 4) = left(ga.name, 4) where k.Type = 'GoalArea' 
---WHERE k.Type = 'GoalArea'
+CREATE VIEW LEGACYSPED.Transform_IepGoalAreaDef  --- select * from IepGoalAreaDef order by sequence, deleteddate  -- select * from LEGACYSPED.Transform_IepGoalAreaDef -- delete IepGoalAreaDef where deleteddate is not null
+AS
+/*
+	This view should work for both CO and FL, though FL's map table is populated in the Prep_State file
+	
+	Note:  Test FL Map table setup.  mapping table should be pre-populated, so this query should not affect mapping table for FL.
 
---GO
+*/
+SELECT
+	GoalAreaCode = k.Code,
+	DestID = coalesce(n.ID, t.ID,  m.DestID),
+	Sequence = coalesce(n.Sequence, t.Sequence, 99),
+	Name = coalesce(n.Name, t.Name, cast(k.Label as varchar(50))),
+	AllowCustomProbes = 0,
+	StateCode = cast(NULL as varchar(20)),
+	DeletedDate = coalesce(n.DeletedDate, t.DeletedDate, GETDATE())
+  FROM
+	LEGACYSPED.Lookups k LEFT JOIN
+	dbo.IepGoalAreaDef n on k.Label = n.Name left join
+	LEGACYSPED.MAP_IepGoalAreaDefID m on k.Code = m.GoalAreaCode LEFT JOIN 
+	dbo.IepGoalAreaDef t on m.DestID = t.ID 
+WHERE k.Type = 'GoalArea'
+GO
+
 --- select * from IepGoalAreaDef 
 
