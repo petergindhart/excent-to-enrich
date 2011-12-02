@@ -34,22 +34,29 @@ AS
  SELECT
   ServiceFrequencyCode = k.Code,
   ServiceFrequencyName = coalesce(s.Name, t.Name, k.Label), -- we'll pretend that we don't know what the possibilities are right now:  quarterly will be quarter
-  DestID = coalesce(s.ID, t.ID, m.DestID),
+  DestID = coalesce(s.ID, t.ID, mc.DestID, ml.DestID),
   Name = coalesce(s.Name, t.Name, k.Label), 
   Sequence = coalesce(s.Sequence, t.sequence, 99),
   WeekFactor = coalesce(s.WeekFactor, t.weekfactor, 0) -- Pete will advise
  FROM
   LEGACYSPED.Lookups k LEFT JOIN 
-  dbo.ServiceFrequency s on 1 = 0 LEFT JOIN -- placeholder for when ServiceFrequency.StageCode is added to the database.
-  LEGACYSPED.MAP_ServiceFrequencyID m on k.Code = m.ServiceFrequencyCode LEFT JOIN
-  dbo.ServiceFrequency t on m.DestID = t.ID
+  dbo.ServiceFrequency s on 1 = 0 LEFT JOIN -- placeholder for when ServiceFrequency.StateCode is added to the database.
+  LEGACYSPED.MAP_ServiceFrequencyID mc on k.Code = mc.ServiceFrequencyCode LEFT JOIN
+  LEGACYSPED.MAP_ServiceFrequencyID ml on k.Label = ml.ServiceFrequencyName LEFT JOIN
+  dbo.ServiceFrequency t on isnull(mc.DestID, ml.DestID) = t.ID 
+--  dbo.ServiceFrequency t on mc.DestID = t.ID 
  WHERE
   k.Type = 'ServFreq'
 GO
 
-
-
 /*
+
+
+select * from LEGACYSPED.Lookups where Type = 'ServFreq'
+select * from LEGACYSPED.Transform_ServiceFrequency
+select * from LEGACYSPED.MAP_ServiceFrequencyID
+
+select * from vc3etl.extractdatabase
 
 GEO.ShowLoadTables ServiceFrequency
 
@@ -84,10 +91,36 @@ WHERE NOT EXISTS (SELECT * FROM ServiceFrequency d WHERE s.DestID=d.ID)
 select * from ServiceFrequency
 
 
+Msg 2627, Level 14, State 1, Line 2
+Violation of PRIMARY KEY constraint 'PK_MAP_ServiceFrequencyID'. Cannot insert duplicate key in object 'LEGACYSPED.MAP_ServiceFrequencyID'.
+The statement has been terminated.
+
+
+select * from LEGACYSPED.MAP_ServiceFrequencyID
+
+day	daily	71590A00-2C40-40FF-ABD9-E73B09AF46A1
+month	monthly	3D4B557B-0C2E-4A41-9410-BA331F1D20DD
+quarter	quarter	A5C8B0F7-4D1E-4595-BCF5-DB62D5BBD7A8
+ZZZ	unknown	C42C50ED-863B-44B8-BF68-B377C8B0FA95
+week	weekly	A2080478-1A03-4928-905B-ED25DEC259E6
+year	yearly	5F3A2822-56F3-49DA-9592-F604B0F202C3
 
 
 
 
+begin tran servfreq
+INSERT LEGACYSPED.MAP_ServiceFrequencyID
+SELECT ServiceFrequencyCode, ServiceFrequencyName, NEWID()
+FROM LEGACYSPED.Transform_ServiceFrequency s
+WHERE NOT EXISTS (SELECT * FROM ServiceFrequency d WHERE s.DestID=d.ID)
+
+INSERT ServiceFrequency (ID, Sequence, Name, WeekFactor)
+SELECT s.DestID, s.Sequence, s.Name, s.WeekFactor
+FROM LEGACYSPED.Transform_ServiceFrequency s
+WHERE NOT EXISTS (SELECT * FROM ServiceFrequency d WHERE s.DestID=d.ID)
+
+
+rollback tran servfreq
 
 
 
