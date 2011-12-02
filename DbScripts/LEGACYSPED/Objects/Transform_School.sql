@@ -24,6 +24,7 @@ GO
 
 CREATE VIEW LEGACYSPED.Transform_School
 AS
+-- Consider whether or not to exclude records where DeleteDate is not null.  If not, we need to chnage all queries that reference School 
 select 
 	k.SchoolRefID,
 	k.SchoolCode,
@@ -48,7 +49,7 @@ select
 			else GETDATE()
 		end
 from LEGACYSPED.School k LEFT JOIN 
-	dbo.School s on k.SchoolCode = s.Number LEFT JOIN 
+	dbo.School s on k.SchoolCode = s.Number and s.DeletedDate is null LEFT JOIN -- assumes there is only one, and will insert new if any are soft-deleted
 		-- AND s.IsLocalOrg = 1 
 	LEGACYSPED.MAP_SchoolID m on k.SchoolRefID = m.SchoolRefID LEFT JOIN 
 	dbo.School t on m.DestID = t.ID LEFT JOIN
