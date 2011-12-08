@@ -46,7 +46,7 @@ select
 		case 
 			when s.id is not null then s.DeletedDate
 			when t.ID is not null then t.DeletedDate 
-			else GETDATE()
+			else GETDATE() -- Question whether it is needed or advisable to soft-delete these schools
 		end
 from LEGACYSPED.School k LEFT JOIN 
 	dbo.School s on k.SchoolCode = s.Number and s.DeletedDate is null LEFT JOIN -- assumes there is only one, and will insert new if any are soft-deleted
