@@ -385,6 +385,8 @@ INSERT INTO @VC3ETL_LoadColumn VALUES ('9ba2f5a9-f400-4e4a-a83e-fe3f04fcad43', '
 INSERT INTO @VC3ETL_LoadColumn VALUES ('387b16f6-3664-4d15-b859-fe77b56324b7', '7a51ccc5-42ed-46b1-8ecc-820a8269006f', 'EndDate', 'EndDate', 'C', 0, NULL, NULL)
 INSERT INTO @VC3ETL_LoadColumn VALUES ('19f0a5ec-717d-40e3-b5bf-ff57cf87eac0', '750cba2a-ce1f-4653-9e43-9a450eac3653', 'InstanceID', 'InstanceID', 'C', 0, NULL, NULL)
 INSERT INTO @VC3ETL_LoadColumn VALUES ('5fc480f9-5b82-413b-9018-ffa6bec69030', 'd9d1e9ff-0a17-435e-b0c1-9dcf2f77a2d5', 'DestID', 'ID', 'K', 0, NULL, NULL)
+INSERT INTO @VC3ETL_LoadColumn VALUES ('6D188710-6262-4939-A630-BC3920539908', '28b98fe4-a7ff-42be-ac0d-a05a728bbdb8', 'StateCode', 'StateCode', 'C', 0, NULL, NULL)
+INSERT INTO @VC3ETL_LoadColumn VALUES ('2B7FC61E-55B1-4391-8C6C-88779E33950C', '28b98fe4-a7ff-42be-ac0d-a05a728bbdb8', 'DeletedDate', 'DeletedDate', 'C', 0, NULL, NULL)
 
 -- Insert records in the destination tables that do not already exist
 INSERT INTO VC3ETL.ExtractDatabase SELECT Source.* FROM @VC3ETL_ExtractDatabase Source LEFT JOIN VC3ETL.ExtractDatabase Destination ON Source.ID = Destination.ID WHERE Destination.ID IS NULL
