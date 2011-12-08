@@ -68,6 +68,7 @@ set nocount on;
 insert @Map_ServiceFrequencyID values ('day', 'daily', '71590A00-2C40-40FF-ABD9-E73B09AF46A1')
 insert @Map_ServiceFrequencyID values ('week', 'weekly', 'A2080478-1A03-4928-905B-ED25DEC259E6')
 insert @Map_ServiceFrequencyID values ('month', 'monthly', '3D4B557B-0C2E-4A41-9410-BA331F1D20DD')
+insert @Map_ServiceFrequencyID values ('quarter', 'quarterly', '2E7B4BC6-A232-4DC6-B668-7FE730781209')
 insert @Map_ServiceFrequencyID values ('year', 'yearly', '5F3A2822-56F3-49DA-9592-F604B0F202C3')
 insert @Map_ServiceFrequencyID values ('ZZZ', 'unknown', 'C42C50ED-863B-44B8-BF68-B377C8B0FA95')
 
@@ -82,8 +83,10 @@ from @Map_ServiceFrequencyID m left join
 where t.DestID is null
 
 -- this is seed data, but maybe this is not the best place for this code.....
-insert ServiceFrequency (ID, Name, Sequence, WeekFactor)
-select DestID, m.ServiceFrequencyName, 99, 0
+delete ServiceFrequency where Sequence = 99 and ID not in (select distinct FrequencyID from ServicePlan)
+
+insert ServiceFrequency (ID, Name, Sequence, WeekFactor, StateCode, DeletedDate)
+select DestID, m.ServiceFrequencyName, 99, 0, NULL, GETDATE()
 from LEGACYSPED.MAP_ServiceFrequencyID m left join
 	ServiceFrequency t on m.DestID = t.ID
 where t.ID is null
