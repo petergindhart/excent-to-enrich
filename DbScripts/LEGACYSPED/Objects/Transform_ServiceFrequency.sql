@@ -37,10 +37,15 @@ AS
   DestID = coalesce(s.ID, t.ID, mc.DestID, ml.DestID),
   Name = coalesce(s.Name, t.Name, k.Label), 
   Sequence = coalesce(s.Sequence, t.sequence, 99),
-  WeekFactor = coalesce(s.WeekFactor, t.weekfactor, 0) -- Pete will advise
+  WeekFactor = coalesce(s.WeekFactor, t.weekfactor, 0), -- Pete will advise
+  StateCode = coalesce(s.StateCode, t.StateCode, k.StateCode),
+  DeletedDate = case 
+	when s.ID is not null then s.DeletedDate 
+	when t.ID is not null then t.DeletedDate 
+	else GETDATE() end
  FROM
   LEGACYSPED.Lookups k LEFT JOIN 
-  dbo.ServiceFrequency s on 1 = 0 LEFT JOIN -- placeholder for when ServiceFrequency.StateCode is added to the database.
+  dbo.ServiceFrequency s on k.StateCode = s.StateCode LEFT JOIN 
   LEGACYSPED.MAP_ServiceFrequencyID mc on k.Code = mc.ServiceFrequencyCode LEFT JOIN
   LEGACYSPED.MAP_ServiceFrequencyID ml on k.Label = ml.ServiceFrequencyName LEFT JOIN
   dbo.ServiceFrequency t on isnull(mc.DestID, ml.DestID) = t.ID 
