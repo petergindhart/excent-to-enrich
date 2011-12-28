@@ -410,6 +410,15 @@ INSERT INTO @VC3ETL_LoadColumn VALUES ('19f0a5ec-717d-40e3-b5bf-ff57cf87eac0', '
 INSERT INTO @VC3ETL_LoadColumn VALUES ('b8b0f945-e4f4-48d4-b018-ffa0dcab87f0', 'b63c39f8-a605-4988-b2fd-b905acc25e4c', 'Sequence', 'Sequence', 'C', 0, NULL, NULL)
 INSERT INTO @VC3ETL_LoadColumn VALUES ('5fc480f9-5b82-413b-9018-ffa6bec69030', 'd9d1e9ff-0a17-435e-b0c1-9dcf2f77a2d5', 'DestID', 'ID', 'K', 0, NULL, NULL)
 
+-- add manually by gg, 20111228 
+insert vc3etl.loadcolumn values ('47F061FE-B221-4F68-9108-856AF56C8542', '90DC3810-824A-4040-A223-0290453AA934', 'IsApprovalPending', 'IsApprovalPending', 'C', 0, NULL, NULL)
+insert vc3etl.loadcolumn values ('229D8F4B-8DB5-4690-8BE0-54B68EB3D399', '90DC3810-824A-4040-A223-0290453AA934', 'ApprovedDate', 'ApprovedDate', 'C', 0, NULL, NULL)
+insert vc3etl.loadcolumn values ('9B822509-88B0-48F7-954D-B17FB2B48640', '90DC3810-824A-4040-A223-0290453AA934', 'ApprovedByID', 'ApprovedByID', 'C', 0, NULL, NULL)
+insert vc3etl.loadcolumn values ('A107AFC4-6797-4D27-ABD1-CB286CFD0CA9', '24326FB7-7ED4-49FD-8831-455068906AB9', 'IsApprovalPending', 'IsApprovalPending', 'C', 0, NULL, NULL)
+insert vc3etl.loadcolumn values ('0EC67F3A-3AF7-48DA-8FDC-124F6D9A0D4D', '24326FB7-7ED4-49FD-8831-455068906AB9', 'ApprovedDate', 'ApprovedDate', 'C', 0, NULL, NULL)
+insert vc3etl.loadcolumn values ('B4228D68-C37F-4CE5-ABE9-64BD3D23E81F', '24326FB7-7ED4-49FD-8831-455068906AB9', 'ApprovedByID', 'ApprovedByID', 'C', 0, NULL, NULL)
+
+
 -- Insert records in the destination tables that do not already exist
 INSERT INTO VC3ETL.ExtractDatabase SELECT Source.* FROM @VC3ETL_ExtractDatabase Source LEFT JOIN VC3ETL.ExtractDatabase Destination ON Source.ID = Destination.ID WHERE Destination.ID IS NULL
 INSERT INTO VC3ETL.FlatFileExtractDatabase SELECT Source.* FROM @VC3ETL_FlatFileExtractDatabase Source LEFT JOIN VC3ETL.FlatFileExtractDatabase Destination ON Source.ID = Destination.ID WHERE Destination.ID IS NULL
