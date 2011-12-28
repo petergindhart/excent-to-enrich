@@ -76,6 +76,9 @@ AS
 		--LastModifiedDate,
 		--LastModifiedByID,
 		Revision = cast(0 as bigint),
+		IsApprovalPending = cast(0 as bit),
+		ApprovedDate = cast(NULL as datetime),
+		ApprovedByID = cast(NULL as uniqueidentifier),
 -- other tables
 		-- StartStatus = def.StatusID, (why did this exist along with StartStatusID at the same time? -- IEP 
 -- PrgIep
