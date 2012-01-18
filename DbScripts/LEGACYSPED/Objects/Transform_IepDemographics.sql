@@ -25,8 +25,8 @@ AS
 			m.DefID = '427AF47C-A2D2-47F0-8057-7040725E3D89' and
 			m.VersionID = iep.VersionDestID LEFT JOIN
 		LEGACYSPED.Student s on s.StudentRefID = iep.StudentRefID LEFT JOIN
-		LEGACYSPED.Transform_School ss on s.ServiceSchoolRefID = ss.SchoolRefId and ss.DeletedDate is null LEFT JOIN
-		LEGACYSPED.Transform_School sh on s.HomeSchoolRefID = sh.SchoolRefId and sh.DeletedDate is null LEFT JOIN
+		LEGACYSPED.Transform_School ss on s.ServiceSchoolRefID = ss.SchoolRefId /* and ss.DeletedDate is null */ LEFT JOIN
+		LEGACYSPED.Transform_School sh on s.HomeSchoolRefID = sh.SchoolRefId /* and sh.DeletedDate is null */ LEFT JOIN
 		dbo.School dss on ss.DestID = dss.ID /* and dss.ManuallyEntered = 1 */ left join
 		dbo.School dsh on sh.DestID = dsh.ID /* and dsh.ManuallyEntered = 1 */
 GO
