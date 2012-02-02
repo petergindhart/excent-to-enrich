@@ -54,6 +54,16 @@ from LEGACYSPED.School k LEFT JOIN
 	LEGACYSPED.MAP_SchoolID m on k.SchoolRefID = m.SchoolRefID LEFT JOIN 
 	dbo.School t on m.DestID = t.ID LEFT JOIN
 	LEGACYSPED.Transform_OrgUnit mo on k.DistrictRefID = mo.DistrictRefID
+where convert(varchar(36), s.ID) = (
+	select MIN(convert(varchar(36), smid.ID)) -- this is arbitrary because they may give us duplicate school numbers
+	from School smid 
+	where s.Number = smid.Number 
+	and cast(smid.ManuallyEntered as int) = (
+		select MIN(cast(smin.ManuallyEntered as int)) -- If there is a manually entered school with the same number, give preference to the one from SIS
+		from School smin 
+		where smid.number = smin.Number -- don't try to deal with null School.Number.  
+		)
+	)
 GO
 
 -- select * from school where Number = '900'
