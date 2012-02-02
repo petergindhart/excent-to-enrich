@@ -28,50 +28,35 @@ GO
 
 CREATE VIEW LEGACYSPED.Transform_Student
 AS
--- NOTE:  DO NOT TOUCH THE RECORDS ADDED BY SIS IMPORT OR MANUALLY ENTERED STUDENTS.  SIS RECORDS DO NEED TO BE MAPPED.  NEW RECORDS FROM SPED NEED TO BE ADDED. 
+-- NOTE:  DO NOT TOUCH THE RECORDS ADDED BY SIS IMPORT OR MANUALLY ENTERED STUDENTS.  SIS RECORDS DO NEED TO BE MAPPED.  NEW RECORDS FROM SPED NEED TO BE ADDED.
  SELECT
   src.StudentRefID,
   DestID = coalesce(s.ID, t.ID, m.DestID),
   LegacyData = ISNULL(m.LegacyData, case when s.ID IS NULL then 1 else 0 end), -- allows updating only legacy data by adding a DestFilter in LoadTable.  Leaves real ManuallyEntered students untouched.
-  CurrentSchoolID = sch.DestID,  
-  CurrentGradeLevelID = g.DestID,  
+  CurrentSchoolID = sch.DestID,
+  CurrentGradeLevelID = g.DestID,
   --EthnicityID = CAST(NULL as uniqueidentifier),
   GenderID = (select ID from EnumValue where Type = 'D6194389-17AC-494C-9C37-FD911DA2DD4B' and Code = src.Sex), -- will error if more than one value
-  Number = src.StudentLocalID,  
-  src.FirstName,  
-  src.MiddleName,  
-  src.LastName,  
+  Number = src.StudentLocalID,
+  src.FirstName,
+  src.MiddleName,
+  src.LastName,
   SSN = cast(null as varchar),
   DOB = src.Birthdate,
-  Street = cast(null as varchar),  
+  Street = cast(null as varchar),
   City = cast(null as varchar),
-  State = cast(null as char),  
-  ZipCode = cast(null as varchar),  
+  State = cast(null as char),
+  ZipCode = cast(null as varchar),
   PhoneNumber = cast(null as varchar),
-  GPA = cast(0 as float),  
-  x_SunsNumber = cast(null as varchar),  
-  x_GradDate = cast(NULL as datetime),  
-  x_ESOLExitDate = cast(NULL as datetime),  
-  x_USSchoolEntryDate = cast(NULL as datetime),  
-  x_CountryOfOrigin = cast(NULL as uniqueidentifier),  
-  x_HomeLanguage = cast(NULL as uniqueidentifier),  
-  x_Retain = cast(0 as bit),  
-  LinkedToAEPSi = cast(0 as bit),  
-  x_spedExitDate = cast(NULL as datetime),  
-  x_section504 = cast(0 as bit),  
-  x_language = cast(NULL as uniqueidentifier),  
-  x_IEP = cast(0 as bit),
-  x_giftedTalented = cast(NULL as uniqueidentifier),
-  x_englishProficiency = cast(NULL as uniqueidentifier),  
-  x_DisabilityType = cast(NULL as uniqueidentifier),  
-  x_FreeLunchID = cast(NULL as uniqueidentifier),  
-  x_CSAP_A = cast(0 as bit),  
-  IsHispanic = case when src.IsHispanic = 'Y' then 1 else 0 end,  
-  ImportPausedDate = cast(NULL as datetime),  
+  GPA = cast(0 as float),
+  x_Retain = cast(0 as bit),
+  LinkedToAEPSi = cast(0 as bit),
+  IsHispanic = case when src.IsHispanic = 'Y' then 1 else 0 end,
+  ImportPausedDate = cast(NULL as datetime),
   ImportPausedByID = cast(NULL as uniqueidentifier),
-  IsActive = isnull(s.IsActive, 1),  
-  ManuallyEntered = ISNULL(m.LegacyData, case when s.ID IS NULL then 1 else 0 end) -- cast(case when dest.ID is null then 1 else 0 end as bit),  
- FROM 
+  IsActive = isnull(s.IsActive, 1),
+  ManuallyEntered = ISNULL(m.LegacyData, case when s.ID IS NULL then 1 else 0 end) -- cast(case when dest.ID is null then 1 else 0 end as bit),
+ FROM
   LEGACYSPED.Student src LEFT JOIN
   LEGACYSPED.Transform_GradeLevel g on src.GradeLevelCode = g.GradeLevelCode LEFT JOIN
   LEGACYSPED.Transform_School sch on src.ServiceSchoolRefID = sch.SchoolRefID LEFT JOIN
@@ -79,7 +64,7 @@ AS
 	s.ID = (
 		select top 1 a.ID 
 		from dbo.Student a 
-		where 
+		where
 			a.Number = s.Number 
 		order by a.ManuallyEntered, a.IsActive desc, a.ID) LEFT JOIN -- identifies students in legacy data that match students in Enrich
   LEGACYSPED.MAP_StudentRefID m on src.StudentRefID = m.StudentRefID LEFT JOIN
