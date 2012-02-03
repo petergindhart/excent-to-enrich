@@ -105,12 +105,12 @@ as
 		g.IepRefID,
 		InstanceID = pgs.DestID,
 		DefID = m.DestID,
-		g.GoalAreaCode,
+		GoalAreaCode = isnull(g.GoalAreaCode, 'ZZZ'),
 		g.GoalRefID,
 		GoalIndex = cast(0 as int) -- select g.*
 	from LEGACYSPED.Goal g JOIN
 		LEGACYSPED.Transform_PrgGoals pgs on g.IepRefID = pgs.IepRefID join -- on left join some records do not have an instanceid  -- 4E367F51-09E0-41A6-9CA1-88F0230A05D1 
-		LEGACYSPED.MAP_IepGoalAreaDefID m on g.GoalAreaCode = m.GoalAreaCode -- select * from LEGACYSPED.MAP_GoalAreaDefID -- select * from IepGoalAreaDef order by deleteddate, sequence, Name -- select * from LEGACYSPED.MAP_GoalAreaDefID
+		LEGACYSPED.MAP_IepGoalAreaDefID m on isnull(g.GoalAreaCode,'ZZZ') = m.GoalAreaCode -- select * from LEGACYSPED.MAP_GoalAreaDefID -- select * from IepGoalAreaDef order by deleteddate, sequence, Name -- select * from LEGACYSPED.MAP_GoalAreaDefID
 	--where ga.GoalIndex = (				
 	--	select top 1 minga.GoalIndex
 	--	from  LEGACYSPED.GoalAreaPivotView minga
