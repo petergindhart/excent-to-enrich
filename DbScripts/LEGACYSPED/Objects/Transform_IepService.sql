@@ -75,7 +75,9 @@ FROM
 		v.ServiceDefinitionCode = sdm.ServiceDefCode LEFT JOIN
 	LEGACYSPED.Transform_PrgLocation loc on v.ServiceLocationCode = loc.ServiceLocationCode LEFT JOIN 
 	LEGACYSPED.MAP_ServiceFrequencyID freq on isnull(v.ServiceFrequencyCode, 'ZZZ') = freq.ServiceFrequencyCode LEFT JOIN 
- 	LEGACYSPED.MAP_ServiceProviderTitleID ttl on v.ServiceProviderTitleCode = ttl.ServiceProviderTitleCode LEFT JOIN
+ 	LEGACYSPED.Transform_ServiceProviderTitle ttl on v.ServiceProviderTitleCode = ttl.ServiceProviderCode and
+ 		cast(case when ttl.DeletedDate is null then 0 else 1 end as Int) = (
+ 			select min(cast(case when ttlt.DeletedDate is null then 0 else 1 end as Int)) from ServiceProviderTitle ttlt where ttl.Name = ttlt.Name) LEFT JOIN
  	LEGACYSPED.Transform_IepServiceCategory cat on v.ServiceType = cat.ServiceCategoryCode LEFT JOIN
 	LEGACYSPED.MAP_ScheduleID ssm on v.ServiceRefID = ssm.ServiceRefID LEFT JOIN
 	LEGACYSPED.MAP_SpedStaffMemberView prv on v.ServiceProviderRefId = prv.SpedStaffRefID
@@ -127,12 +129,20 @@ WHERE s.DestID IS NULL AND 1=1 AND  ID in (select ID from IepServicePlan where I
 INSERT LEGACYSPED.MAP_ServicePlanID
 SELECT ServiceRefID, NEWID()
 FROM LEGACYSPED.Transform_IepService s
-WHERE NOT EXISTS (SELECT * FROM ServicePlan d WHERE s.DestID=d.ID)
+WHERE NOT EXISTS (SELECT * FROM ServicePlan d WHERE s.DestID=d.ID) -- (10216 row(s) affected)
+
 
 INSERT ServicePlan (ID, DefID, Amount, ServiceTypeID, FrequencyID, UnitID, ProviderTitleID, StudentID, EndDate, Sequence, StartDate)
 SELECT s.DestID, s.DefID, s.Amount, s.ServiceTypeID, s.FrequencyID, s.UnitID, s.ProviderTitleID, s.StudentID, s.EndDate, s.Sequence, s.StartDate
 FROM LEGACYSPED.Transform_IepService s
 WHERE NOT EXISTS (SELECT * FROM ServicePlan d WHERE s.DestID=d.ID)
+
+Msg 547, Level 16, State 0, Line 2
+The INSERT statement conflicted with the FOREIGN KEY constraint "FK_ServicePlan#ProviderTitle#Plans". The conflict occurred in database "Enrich_DC5_CO_Poudre", table "dbo.ServiceProviderTitle", column 'ID'.
+The statement has been terminated.
+
+select * from ServiceProviderTitle order by deleteddate
+
 
 rollback tran testplan
 
