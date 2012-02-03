@@ -23,13 +23,14 @@ GO
 
 CREATE VIEW LEGACYSPED.Transform_ServiceProviderTitle  
 AS  
- SELECT   
+ SELECT distinct
 	ServiceProviderCode = k.Code,
-	DestID = coalesce(s.ID, t.ID, m.DestID),
-	Name = coalesce(s.Name, t.Name, k.Label),
-	StateCode = coalesce(s.StateCode, t.StateCode, k.StateCode),
+	DestID = coalesce(s.ID, n.ID, t.ID, m.DestID),
+	Name = coalesce(s.Name, n.Name, t.Name, k.Label),
+	StateCode = coalesce(s.StateCode, n.StateCode, t.StateCode, k.StateCode),
 	DeletedDate = CASE 
 		WHEN s.ID IS NOT NULL THEN s.DeletedDate 
+		WHEN n.ID IS NOT NULL THEN n.DeletedDate
 		WHEN t.ID IS NOT NULL THEN t.DeletedDate 
 			ELSE 
 				CASE WHEN k.DisplayInUI = 'Y' THEN NULL -- User specified they want to see this in the UI.  Let them.
@@ -39,6 +40,7 @@ AS
  FROM  
   LEGACYSPED.Lookups k LEFT JOIN
   dbo.ServiceProviderTitle s on k.StateCode = s.StateCode LEFT JOIN
+  dbo.ServiceProviderTitle n on k.Label = n.Name LEFT JOIN
   LEGACYSPED.MAP_ServiceProviderTitleID m on k.Code = m.ServiceProviderTitleCode LEFT JOIN
   dbo.ServiceProviderTitle t on m.ServiceProviderTitleCode = t.Name
  WHERE
@@ -85,6 +87,11 @@ FROM LEGACYSPED.Transform_ServiceProviderTitle s
 WHERE NOT EXISTS (SELECT * FROM ServiceProviderTitle d WHERE s.DestID=d.ID)
 
 select * from ServiceProviderTitle
+
+
+delete ServiceProviderTitle where DeletedDate is not null
+delete LEGACYSPED.MAP_ServiceProviderTitleID
+
 
 
 
