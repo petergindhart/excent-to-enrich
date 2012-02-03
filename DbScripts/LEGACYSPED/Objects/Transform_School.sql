@@ -49,21 +49,21 @@ select
 			else GETDATE() -- Question whether it is needed or advisable to soft-delete these schools
 		end
 from LEGACYSPED.School k LEFT JOIN 
-	dbo.School s on k.SchoolCode = s.Number and s.DeletedDate is null LEFT JOIN -- assumes there is only one, and will insert new if any are soft-deleted
+	dbo.School s on k.SchoolCode = s.Number and s.DeletedDate is null and -- assumes there is only one, and will insert new if any are soft-deleted
 		-- AND s.IsLocalOrg = 1 
+	convert(varchar(36), s.ID) = ( -- we're doing this in the ON clause as opposed to the WHERE clause to get schools that don't come from SIS (Poudre "Expelled School")
+		select MIN(convert(varchar(36), smid.ID))
+		from dbo.School smid 
+		where s.Number = smid.Number 
+		and cast(smid.ManuallyEntered as int) = (
+			select MIN(cast(smin.ManuallyEntered as int))
+			from dbo.School smin 
+			where smid.number = smin.Number -- don't try to deal with null numbers.  how about real dups?
+			)
+		) LEFT JOIN
 	LEGACYSPED.MAP_SchoolID m on k.SchoolRefID = m.SchoolRefID LEFT JOIN 
 	dbo.School t on m.DestID = t.ID LEFT JOIN
 	LEGACYSPED.Transform_OrgUnit mo on k.DistrictRefID = mo.DistrictRefID
-where convert(varchar(36), s.ID) = (
-	select MIN(convert(varchar(36), smid.ID)) -- this is arbitrary because they may give us duplicate school numbers
-	from dbo.School smid 
-	where s.Number = smid.Number 
-	and cast(smid.ManuallyEntered as int) = (
-		select MIN(cast(smin.ManuallyEntered as int)) -- If there is a manually entered school with the same number, give preference to the one from SIS
-		from dbo.School smin 
-		where smid.number = smin.Number -- don't try to deal with null School.Number.  
-		)
-	)
 GO
 
 -- select * from school where Number = '900'
