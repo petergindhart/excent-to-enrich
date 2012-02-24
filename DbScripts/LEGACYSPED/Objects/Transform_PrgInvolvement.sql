@@ -34,12 +34,14 @@ AS
 		ProgramID = 'F98A8EF2-98E2-4CAC-95AF-D7D89EF7F80C',   -- Special Education
 		VariantID = '6DD95EA1-A265-4E04-8EE9-78AE04B5DB9A',   -- Special Education
 		StartDate = min(iep.IEPStartDate),   -- school start for this IEP period
-		EndDate = NULL,
+		EndDate = min(case when stu.SpecialEdStatus = 'I' then iep.IEPEndDate else NULL end),
+-- 		EndDate = NULL,
 			--case when max(iep.IEPEndDate) > getdate() then NULL else max(iep.IEPEndDate) end,   -- school end for this IEP period.  MAX so we don't have to add to group by :-)
-		IsManuallyEnded = cast(0 as bit)
+		IsManuallyEnded = min(cast(case when stu.SpecialEdStatus = 'I' then 1 else 0 end as tinyint))
 	FROM
-		LEGACYSPED.Transform_Student stu JOIN
+		LEGACYSPED.Transform_Student stu JOIN 
 		LEGACYSPED.IEP iep on stu.StudentRefID = iep.StudentRefID LEFT JOIN 
+		dbo.PrgInvolvement x on stu.DestID = x.StudentID and x.ProgramID = 'F98A8EF2-98E2-4CAC-95AF-D7D89EF7F80C' left join 
 		LEGACYSPED.MAP_PrgInvolvementID m on iep.StudentRefID = m.StudentRefID LEFT JOIN
 		dbo.PrgInvolvement t on m.DestID = t.ID
 	WHERE 
