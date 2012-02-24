@@ -403,6 +403,13 @@ insert @VC3ETL_LoadColumn values ('A107AFC4-6797-4D27-ABD1-CB286CFD0CA9', '24326
 insert @VC3ETL_LoadColumn values ('0EC67F3A-3AF7-48DA-8FDC-124F6D9A0D4D', '24326FB7-7ED4-49FD-8831-455068906AB9', 'ApprovedDate', 'ApprovedDate', 'C', 0, NULL, NULL)
 insert @VC3ETL_LoadColumn values ('B4228D68-C37F-4CE5-ABE9-64BD3D23E81F', '24326FB7-7ED4-49FD-8831-455068906AB9', 'ApprovedByID', 'ApprovedByID', 'C', 0, NULL, NULL)
 
+-- refactor 
+delete Destination
+from VC3ETL.LoadTable lt join
+VC3ETL.LoadColumn Destination on lt.ID = Destination.LoadTable left join
+@VC3ETL_LoadColumn Source on Destination.ID = Source.ID
+where lt.ExtractDatabase = '29D14961-928D-4BEE-9025-238496D144C6' and
+Source.ID is null
 -- Insert records in the destination tables that do not already exist
 INSERT INTO VC3ETL.ExtractDatabase SELECT Source.* FROM @VC3ETL_ExtractDatabase Source LEFT JOIN VC3ETL.ExtractDatabase Destination ON Source.ID = Destination.ID WHERE Destination.ID IS NULL
 INSERT INTO VC3ETL.FlatFileExtractDatabase SELECT Source.* FROM @VC3ETL_FlatFileExtractDatabase Source LEFT JOIN VC3ETL.FlatFileExtractDatabase Destination ON Source.ID = Destination.ID WHERE Destination.ID IS NULL
