@@ -61,26 +61,27 @@ AS
 		StudentID = stu.DestID,
 		StartDate = iep.IEPStartDate,
 		-- EndDate = case when iep.IEPEndDate > getdate() then NULL else iep.IEPEndDate end,
-		EndDate = NULL,
-		ItemOutcomeID = cast(NULL as uniqueidentifier),
+		EndDate = case when stu.SpecialEdStatus = 'I' then iep.IEPEndDate else NULL end,
+		ItemOutcomeID = item.ItemOutcomeID,
 		CreatedDate = iep.IEPStartDate,
 		CreatedBy = 'EEE133BD-C557-47E1-AB67-EE413DD3D1AB', -- BuiltIn: Support
-		EndedDate = cast(NULL as datetime),
-		EndedBy = cast(NULL as uniqueidentifier),
+		EndedDate = cast(case when stu.SpecialEdStatus = 'I' then iep.IEPEndDate else NULL end as datetime), -- cast(item.EndedDate as datetime),
+		EndedBy = cast(item.EndedBy as uniqueidentifier),
 		SchoolID = stu.CurrentSchoolID,
 		GradeLevelID = stu.CurrentGradeLevelID,
 		InvolvementID = inv.DestID,
 		StartStatusID =  '796C212F-6003-4CD3-878D-53BEBE087E9A', -- def.StatusID, -- Converted IEP is a soft-deleted PrgStatus record that we use by default.  Update TEMPLATE PrgItemDef.StatusID for Conveted IEP if the customer requests it
-		EndStatusID = case when isnull(CONVERT(datetime, iep.IEPEndDate), 0) < getdate() then '12086FE0-B509-4F9F-ABD0-569681C59EE2' else NULL end, -- select * from PrgStatus where ProgramID = 'F98A8EF2-98E2-4CAC-95AF-D7D89EF7F80C' and IsExit = 1 and sequence < 99
+		EndStatusID = case when (isnull(CONVERT(datetime, iep.IEPEndDate), 0) < getdate() and stu.SpecialEdStatus = 'I') then '12086FE0-B509-4F9F-ABD0-569681C59EE2' else NULL end, -- select * from PrgStatus where ProgramID = 'F98A8EF2-98E2-4CAC-95AF-D7D89EF7F80C' and IsExit = 1 and sequence < 99
 		PlannedEndDate = isnull(convert(datetime, iep.IEPEndDate), dateadd(yy, 1, dateadd(dd, -1, convert(datetime, iep.IEPStartDate)))),
 		-- IsEnded = case when isnull(CONVERT(datetime, iep.IEPEndDate), dateadd(yy, 1, dateadd(dd, -1, convert(datetime, iep.IEPStartDate)))) < getdate() then 1 else 0 end, -- dateadd(yy, 1, dateadd(dd, -1, convert(datetime, iep.IEPStartDate)))
-		IsEnded = 0,
+		IsEnded = cast(case when stu.SpecialEdStatus = 'I' then 1 else 0 end as Bit),
+--		IsEnded = 0,
 		--LastModifiedDate,
 		--LastModifiedByID,
-		Revision = cast(0 as bigint),
-		IsApprovalPending = cast(0 as bit),
-		ApprovedDate = cast(NULL as datetime),
-		ApprovedByID = cast(NULL as uniqueidentifier),
+		Revision = cast(item.Revision as bigint),
+		IsApprovalPending = cast(item.IsApprovalPending as bit),
+		ApprovedDate = cast(item.ApprovedDate as datetime),
+		ApprovedByID = cast(item.ApprovedByID as uniqueidentifier),
 -- other tables
 		-- StartStatus = def.StatusID, (why did this exist along with StartStatusID at the same time? -- IEP 
 -- PrgIep
@@ -91,12 +92,13 @@ AS
 		iep.MinutesPerWeek,
 		iep.ConsentForServicesDate
 	FROM
-		LEGACYSPED.Transform_Student stu JOIN
+		LEGACYSPED.Transform_Student stu JOIN 
 		LEGACYSPED.IEP iep ON iep.StudentRefID = stu.StudentRefID JOIN
-		PrgItemDef def ON def.ID = '8011D6A2-1014-454B-B83C-161CE678E3D3' JOIN -- Converted IEP -- select * from PrgItemDef where ID = '8011D6A2-1014-454B-B83C-161CE678E3D3'
+		dbo.PrgItemDef def ON def.ID = '8011D6A2-1014-454B-B83C-161CE678E3D3' JOIN -- Converted IEP -- select * from PrgItemDef where ID = '8011D6A2-1014-454B-B83C-161CE678E3D3'
 		LEGACYSPED.MAP_PrgInvolvementID inv ON iep.StudentRefID = inv.StudentRefID LEFT JOIN
 		LEGACYSPED.MAP_IepRefID mt ON iep.IepRefID = mt.IepRefID LEFT JOIN
-		LEGACYSPED.MAP_PrgVersionID ver ON iep.IepRefID = ver.IepRefID -- when we insert PrgItem we don't need this yet.  
+		LEGACYSPED.MAP_PrgVersionID ver ON iep.IepRefID = ver.IepRefID LEFT JOIN -- when we insert PrgItem we don't need this yet.  
+		dbo.PrgItem item ON mt.DestID = item.ID 
 GO
 ---
 
