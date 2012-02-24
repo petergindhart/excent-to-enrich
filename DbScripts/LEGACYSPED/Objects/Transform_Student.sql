@@ -33,6 +33,7 @@ AS
   src.StudentRefID,
   DestID = coalesce(s.ID, t.ID, m.DestID),
   LegacyData = ISNULL(m.LegacyData, case when s.ID IS NULL then 1 else 0 end), -- allows updating only legacy data by adding a DestFilter in LoadTable.  Leaves real ManuallyEntered students untouched.
+  src.SpecialEdStatus,
   CurrentSchoolID = sch.DestID,
   CurrentGradeLevelID = g.DestID,
   --EthnicityID = CAST(NULL as uniqueidentifier),
