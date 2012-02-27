@@ -29,7 +29,9 @@ CREATE VIEW LEGACYSPED.Transform_PrgInvolvement
 AS
 	SELECT
 		StudentRefID = stu.StudentRefID, --  stu.StudentID will change to stu.StudentRefID when the data based the new spec arrives.
-		DestID = isnull(t.ID, m.DestID),
+		-- DestID = isnull(t.ID, m.DestID),
+		-- DestID = t.ID, -- did not work
+		DestID = coalesce(x.ID, t.ID, m.DestID),
 		StudentID = stu.DestID,
 		ProgramID = 'F98A8EF2-98E2-4CAC-95AF-D7D89EF7F80C',   -- Special Education
 		VariantID = '6DD95EA1-A265-4E04-8EE9-78AE04B5DB9A',   -- Special Education
@@ -46,9 +48,13 @@ AS
 		dbo.PrgInvolvement t on m.DestID = t.ID
 	WHERE 
 		iep.IEPStartDate is not null
-	GROUP BY stu.StudentRefID, isnull(t.ID, m.DestID), stu.DestID
+	-- GROUP BY stu.StudentRefID, isnull(t.ID, m.DestID), stu.DestID
+	GROUP BY stu.StudentRefID, coalesce(x.ID, t.ID, m.DestID), stu.DestID
 GO
--- 
+--
+
+
+ 
 /*
 
 
