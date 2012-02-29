@@ -1,5 +1,6 @@
 -- If and when a specific disabilities file is imported from APS, we will use this file for the LOCAL table definition.
--- Until then, the disability information is in the IEP_Data.csv file
+-- Until then, the disability information is in the Student.csv file
+
 IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.StudentDisability') AND OBJECTPROPERTY(id, N'IsUserView') = 1)
 	DROP VIEW LEGACYSPED.StudentDisability
 GO
@@ -15,4 +16,3 @@ from LEGACYSPED.Student s JOIN
 	LEGACYSPED.IEP i on s.StudentRefId = i.StudentRefId
 where Disability2Code is not null
 GO
-
