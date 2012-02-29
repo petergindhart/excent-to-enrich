@@ -49,6 +49,11 @@ go
 
 -- #############################################################################
 --		Goal Area Def MAP
+
+IF EXISTS (SELECT * FROM sys.objects WHERE Name ='LEGACYSPED.MAP_IepGoalAreaDefID' and type = 'U')
+drop table LEGACYSPED.MAP_GoalAreaDefID
+GO
+
 IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.MAP_IepGoalAreaDefID') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
 BEGIN
 CREATE TABLE LEGACYSPED.MAP_IepGoalAreaDefID
@@ -58,7 +63,7 @@ CREATE TABLE LEGACYSPED.MAP_IepGoalAreaDefID
 )
 
 ALTER TABLE LEGACYSPED.MAP_IepGoalAreaDefID ADD CONSTRAINT
-PK_MAP_GoalAreaDefID PRIMARY KEY CLUSTERED
+PK_MAP_IepGoalAreaDefID PRIMARY KEY CLUSTERED
 (
 	GoalAreaCode
 )
