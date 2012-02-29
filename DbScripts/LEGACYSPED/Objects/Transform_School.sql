@@ -1,6 +1,13 @@
 --#include Transform_OrgUnit.sql
 -- ############################################################################# 
 -- School
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.MAP_SchoolID') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
+begin
+	IF NOT EXISTS (SELECT * FROM sys.schemas s join sys.objects o on s.schema_id = o.schema_id join sys.columns c on o.object_id = c.object_id WHERE s.name = 'LEGACYSPED' and o.name = 'MAP_SchoolID' and c.name = 'LegacyData') 
+	drop table LEGACYSPED.MAP_SchoolID
+end
+
 IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.MAP_SchoolID') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
 BEGIN
 CREATE TABLE LEGACYSPED.MAP_SchoolID
@@ -65,6 +72,7 @@ from LEGACYSPED.School k LEFT JOIN
 	dbo.School t on m.DestID = t.ID LEFT JOIN
 	LEGACYSPED.Transform_OrgUnit mo on k.DistrictRefID = mo.DistrictRefID
 GO
+
 
 -- select * from school where Number = '900'
 
