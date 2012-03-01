@@ -6,7 +6,8 @@ CREATE VIEW LEGACYSPED.Transform_IepEligibilityDetermination
 AS  
  SELECT   
   DestID = s.DestID,
-  DateDetermined = iep.StartDate
+  DateDetermined = iep.StartDate,
+  NoneSuspected = cast(0 as Bit)
  FROM
   LEGACYSPED.Transform_PrgIep iep JOIN
   LEGACYSPED.MAP_PrgSectionID s on 
