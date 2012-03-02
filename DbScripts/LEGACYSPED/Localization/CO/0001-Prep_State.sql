@@ -42,7 +42,7 @@ go
 -- #############################################################################
 --		Goal Area Def MAP
 
-IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.MAP_IepGoalAreaDefID') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
+IF EXISTS (SELECT * FROM sys.objects WHERE Name = 'LEGACYSPED.MAP_IepGoalAreaDefID')
 drop table LEGACYSPED.MAP_GoalAreaDefID
 GO
 
