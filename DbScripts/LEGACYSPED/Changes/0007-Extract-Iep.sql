@@ -6,6 +6,7 @@ GO
 CREATE TABLE LEGACYSPED.IEP_LOCAL(
 IepRefID	varchar(150),
 StudentRefID	varchar(150),
+IEPMeetDate	varchar(10),
 IEPStartDate	varchar(10),
 IEPEndDate	varchar(10),
 NextReviewDate	varchar(10),
