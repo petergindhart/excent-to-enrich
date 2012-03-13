@@ -3,13 +3,14 @@ DROP VIEW LEGACYSPED.Transform_IepEligibilityDetermination
 GO  
   
 CREATE VIEW LEGACYSPED.Transform_IepEligibilityDetermination  
-AS  
+AS
  SELECT   
   DestID = s.DestID,
-  DateDetermined = iep.StartDate,
+  DateDetermined = i.LatestEvaluationDate,
   NoneSuspected = cast(0 as Bit)
  FROM
   LEGACYSPED.Transform_PrgIep iep JOIN
+  LEGACYSPED.IEP i on iep.IepRefID = i.IepRefID LEFT JOIN
   LEGACYSPED.MAP_PrgSectionID s on 
 	s.DefID = 'F050EF5E-3ED8-43D5-8FE7-B122502DE86A' and
 	s.VersionID = iep.VersionDestID 
