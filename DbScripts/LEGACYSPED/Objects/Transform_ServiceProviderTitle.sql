@@ -24,24 +24,24 @@ GO
 CREATE VIEW LEGACYSPED.Transform_ServiceProviderTitle  
 AS  
  SELECT distinct
-	ServiceProviderCode = k.Code,
+	ServiceProviderCode = k.LegacySpedCode,
 	DestID = coalesce(s.ID, n.ID, t.ID, m.DestID),
-	Name = coalesce(s.Name, n.Name, t.Name, k.Label),
+	Name = coalesce(s.Name, n.Name, t.Name, k.EnrichLabel),
 	StateCode = coalesce(s.StateCode, n.StateCode, t.StateCode, k.StateCode),
 	DeletedDate = CASE 
 		WHEN s.ID IS NOT NULL THEN s.DeletedDate 
 		WHEN n.ID IS NOT NULL THEN n.DeletedDate
 		WHEN t.ID IS NOT NULL THEN t.DeletedDate 
 			ELSE 
-				CASE WHEN k.DisplayInUI = 'Y' THEN NULL -- User specified they want to see this in the UI.  Let them.
-				ELSE GETDATE()
+				--CASE WHEN k.DisplayInUI = 'Y' THEN NULL -- User specified they want to see this in the UI.  Let them.
+				--ELSE GETDATE()
 				END
 		END 
  FROM  
-  LEGACYSPED.Lookups k LEFT JOIN
+  LEGACYSPED.SelectLists k LEFT JOIN
   dbo.ServiceProviderTitle s on k.StateCode = s.StateCode LEFT JOIN
-  dbo.ServiceProviderTitle n on k.Label = n.Name LEFT JOIN
-  LEGACYSPED.MAP_ServiceProviderTitleID m on k.Code = m.ServiceProviderTitleCode LEFT JOIN
+  dbo.ServiceProviderTitle n on k.EnrichLabel = n.Name LEFT JOIN
+  LEGACYSPED.MAP_ServiceProviderTitleID m on k.LegacySpedCode = m.ServiceProviderTitleCode LEFT JOIN
   dbo.ServiceProviderTitle t on m.ServiceProviderTitleCode = t.Name
  WHERE
   k.Type = 'ServProv'

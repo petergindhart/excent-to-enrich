@@ -6,10 +6,10 @@ GO
 CREATE VIEW LEGACYSPED.MAP_SpedStaffMemberView
 AS
 	SELECT
-		staff.SpedStaffRefID,
-		UserProfileID = u.ID
+		staff.StaffEmail, -- changed SpedStaffRefID to StaffEmail
+		UserProfileID = u.ID 
 FROM LEGACYSPED.SpedStaffMember staff JOIN
-Person p on p.EmailAddress = staff.Email JOIN
+Person p on p.EmailAddress = staff.StaffEmail JOIN
 UserProfile u on u.ID = p.ID 
 where p.ID = (
 	select max(convert(varchar(36), pd.ID))
@@ -41,7 +41,7 @@ AS
 	FROM
 		LEGACYSPED.Transform_PrgIep iep JOIN
 		LEGACYSPED.TeamMember team on team.StudentRefId = iep.StudentRefID JOIN
-		LEGACYSPED.MAP_SpedStaffMemberView staff on staff.SpedStaffRefID = team.SpedStaffRefId JOIN
+		LEGACYSPED.MAP_SpedStaffMemberView staff on staff.StaffEmail = team.StaffEmail JOIN
 		UserProfile u on u.ID = staff.UserProfileID
 GO
 --

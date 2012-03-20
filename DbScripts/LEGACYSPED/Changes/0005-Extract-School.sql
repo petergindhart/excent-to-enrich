@@ -8,10 +8,10 @@ GO
 CREATE TABLE LEGACYSPED.School_LOCAL(
 SchoolRefID    varchar(150),
 SchoolCode    varchar(10),
-SchoolAbbreviation    varchar(10),
 SchoolName    varchar(255),
 DistrictRefID    varchar(150),
 MinutesPerWeek	varchar(4)
+
 )
 GO
 

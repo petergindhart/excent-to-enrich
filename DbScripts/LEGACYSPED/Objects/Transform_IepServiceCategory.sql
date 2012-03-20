@@ -32,12 +32,12 @@ AS
 	FROM
 		(
 		SELECT ServiceCategoryCode = SubType
-		FROM LEGACYSPED.Lookups
+		FROM LEGACYSPED.SelectLists
 		WHERE Type = 'Service'
 		GROUP BY SubType
 		) k LEFT JOIN
-		dbo.IepServiceCategory s on case k.ServiceCategoryCode when 'SpecialEd' then 'Special Education' else k.ServiceCategoryCode end = s.Name LEFT JOIN
-		LEGACYSPED.MAP_IepServiceCategoryID m ON k.ServiceCategoryCode = m.ServiceCategoryCode LEFT JOIN 
+		dbo.IepServiceCategory s on case k.ServiceCategoryCode when 'SpecialEd' then 'Special Education' else k.ServiceCategoryCode end = s.Name 
+		LEFT JOIN LEGACYSPED.MAP_IepServiceCategoryID m ON k.ServiceCategoryCode = m.ServiceCategoryCode LEFT JOIN 
 		dbo.IepServiceCategory t on m.DestID = t.ID	
 GO
 

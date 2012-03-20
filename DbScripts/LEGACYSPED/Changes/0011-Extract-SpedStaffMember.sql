@@ -5,21 +5,24 @@ GO
 IF  EXISTS (SELECT 1 FROM sys.views WHERE object_id = OBJECT_ID(N'LEGACYSPED.SpedStaffMember'))  
 DROP VIEW LEGACYSPED.SpedStaffMember  
 GO  
-  
+/*********************************
+*The data on this tab serves 2 purposes:  
+* 1) lists Service Providers that are referenced on the Services tab and 
+* 2) lists Team Members from the TeamMembers tab.  The EnrichRole is only required .
+**********************************/
 CREATE TABLE LEGACYSPED.SpedStaffMember_LOCAL(  
-SpedStaffRefID		  varchar(150), 
-SpedStaffLocalID		  varchar(20), 
-Lastname		  varchar(50), 
-Firstname		  varchar(50), 
-Email		  varchar(75), 
-SISStaffRefID		  varchar(150), 
-LDAPUsername		  varchar(200), 
-MedicaidCert		  varchar(1), 
-CertificationDate		  datetime, 
-SSN		  varchar(11)
+StaffEmail		varchar(150)
+Lastname		varchar(50), 
+Firstname		varchar(50), 
+EnrichRole 		varchar(50) 
+
 )  
 GO  
-  
+/*  
+EnrichRole: 
+Staff Member's role in Enrich.  The value in this field must match exactly one of the User Roles in Enrich. 
+This field is required if not using network authentication and Excent is adding user accounts.
+*/
   
 CREATE VIEW LEGACYSPED.SpedStaffMember  
 AS  
