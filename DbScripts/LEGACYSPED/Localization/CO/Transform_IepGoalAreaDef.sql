@@ -33,17 +33,17 @@ AS
 
 */
 SELECT
-	GoalAreaCode = k.Code,
+	GoalAreaCode = k.LegacySpedCode,
 	DestID = coalesce(n.ID, t.ID,  m.DestID),
 	Sequence = coalesce(n.Sequence, t.Sequence, 99),
-	Name = coalesce(n.Name, t.Name, cast(k.Label as varchar(50))),
+	Name = coalesce(n.Name, t.Name, cast(k.EnrichLabel as varchar(50))),
 	AllowCustomProbes = 0,
 	StateCode = cast(NULL as varchar(20)),
 	DeletedDate = coalesce(n.DeletedDate, t.DeletedDate, GETDATE())
   FROM
-	LEGACYSPED.Lookups k LEFT JOIN
-	dbo.IepGoalAreaDef n on k.Label = n.Name left join
-	LEGACYSPED.MAP_IepGoalAreaDefID m on k.Code = m.GoalAreaCode LEFT JOIN 
+	LEGACYSPED.SelectLists k LEFT JOIN
+	dbo.IepGoalAreaDef n on k.EnrichLabel = n.Name left join
+	LEGACYSPED.MAP_IepGoalAreaDefID m on k.LegacySpedCode = m.GoalAreaCode LEFT JOIN 
 	dbo.IepGoalAreaDef t on m.DestID = t.ID 
 WHERE k.Type = 'GoalArea'
 GO

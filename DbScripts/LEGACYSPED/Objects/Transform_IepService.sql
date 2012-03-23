@@ -80,7 +80,7 @@ FROM
  			select min(cast(case when ttlt.DeletedDate is null then 0 else 1 end as Int)) from ServiceProviderTitle ttlt where ttl.Name = ttlt.Name) LEFT JOIN
  	LEGACYSPED.Transform_IepServiceCategory cat on v.ServiceType = cat.ServiceCategoryCode LEFT JOIN
 	LEGACYSPED.MAP_ScheduleID ssm on v.ServiceRefID = ssm.ServiceRefID LEFT JOIN
-	LEGACYSPED.MAP_SpedStaffMemberView prv on v.ServiceProviderRefId = prv.SpedStaffRefID
+	LEGACYSPED.MAP_SpedStaffMemberView prv on v.StaffEmail = prv.StaffEmail
 GO
 ---
 

@@ -6,7 +6,7 @@
 -- note : data model for SystemSettings table has changed (v 19)
 
 -- OrgUnit
-update ou set Number = '1550' -- Aurora Public Schools State Reporting DistrictID
+update ou set Number = '1550' -- Poudre State Reporting DistrictID
 -- select ou.*
 from (select top 1 OrgUnitID from School group by OrgUnitID order by count(*) desc) m join dbo.OrgUnit ou on m.OrgUnitID = ou.ID
 go

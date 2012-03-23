@@ -53,32 +53,32 @@ create view LEGACYSPED.Transform_IepPlacementOption
 as
 select 
 	PlacementTypeCode = k.SubType,
-	PlacementOptionCode = isnull(k.Code, convert(varchar(150), k.Label)), 
+	PlacementOptionCode = isnull(k.LegacySpedCode, convert(varchar(150), k.EnrichLabel)), 
 	StateCode = coalesce(s.StateCode, t.StateCode, k.StateCode), -- ??
 	DestID = coalesce(s.ID, t.ID, m.DestID),
 	TypeID = coalesce(s.TypeID, t.TypeID, my.DestID),
 	Sequence = coalesce(s.Sequence, t.Sequence, 99),
-	Text = coalesce(s.Text, t.Text, k.Label),
+	Text = coalesce(s.Text, t.Text, k.EnrichLabel),
 	MinPercentGenEd = isnull(s.MinPercentGenEd, t.MinPercentGenEd),   
 	MaxPercentGenEd = isnull(s.MaxPercentGenEd, t.MaxPercentGenEd),   
 	DeletedDate = 
 			CASE 
 				WHEN s.ID IS NOT NULL THEN s.DeletedDate -- Always show in UI where there is a StateID.  Period.
 				WHEN t.ID IS NOT NULL THEN t.DeletedDate
-				ELSE 
-					CASE WHEN k.DisplayInUI = 'Y' THEN NULL -- User specified they want to see this in the UI.  Let them.
-					ELSE GETDATE()
-					END
+				--ELSE 
+					--CASE WHEN k.DisplayInUI = 'Y' THEN NULL -- User specified they want to see this in the UI.  Let them.
+					ELSE GETDATE() -- We have removed the DisplayInUI in the new Dataspec 20120319.
+					--END
 			END 
 from 
-	LEGACYSPED.Lookups k LEFT JOIN
+	LEGACYSPED.SelectLists k LEFT JOIN
 	LEGACYSPED.MAP_IepPlacementTypeID my on k.SubType = my.PlacementTypeCode LEFT JOIN 
 	dbo.IepPlacementOption s on 
 		my.DestID = s.TypeID and
 		k.StateCode = s.StateCode LEFT JOIN 
 	LEGACYSPED.MAP_IepPlacementOptionID m on 
 		my.PlacementTypeCode = m.PlacementTypeCode and
-		isnull(k.Code, convert(varchar(150), k.label)) = m.PlacementOptionCode LEFT JOIN
+		isnull(k.LegacySpedCode, convert(varchar(150), k.Enrichlabel)) = m.PlacementOptionCode LEFT JOIN
 	dbo.IepPlacementOption t on m.DestID = t.ID
 where k.Type = 'LRE' and
 	k.SubType in ('PK', 'K12') 
@@ -89,10 +89,10 @@ go
 
 
 
-select * from LEGACYSPED.Lookups where Type = 'LRE' and isnumeric(isnull(statecode,'x')) = 0 order by SubType, Code
--- select * from LEGACYSPED.Lookups where Type = 'LRE' and isnumeric(statecode) = 1 and label is not null
+select * from LEGACYSPED.SelectLists where Type = 'LRE' and isnumeric(isnull(statecode,'x')) = 0 order by SubType, Code
+-- select * from LEGACYSPED.SelectLists where Type = 'LRE' and isnumeric(statecode) = 1 and label is not null
 
-insert LEGACYSPED.Lookups (Type, SubType, StateCode, Code, Label, Sequence, DisplayInUI)
+insert LEGACYSPED.SelectLists (Type, SubType, StateCode, Code, Label, Sequence, DisplayInUI)
 select 
 	Type = convert(varchar(20), rtrim(Type)), 
 	SubType = convert(varchar(20), rtrim(SubType)), 
@@ -101,7 +101,7 @@ select
 	Label = convert(varchar(254), rtrim(Code)), 
 	Sequence = convert(varchar(3), rtrim(Sequence)), 
 	DisplayInUI = convert(char(1), rtrim(DisplayInUI))
-from LEGACYSPED.Lookups 
+from LEGACYSPED.SelectLists 
 where Type = 'LRE' and 
 	isnumeric(statecode) = 1 and 
 	label is not null

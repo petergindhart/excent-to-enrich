@@ -30,13 +30,13 @@ AS
 		The code to update IepDisability.StateCode should be contained in file 0001a-ETLPrep_State_StateAbbr.sql
 	The MAP table will contain only those records that are not a match on state-code.
 
-	Table Aliases:  k for Lookups, s for StateCode, m for Map, t for Target
+	Table Aliases:  k for SelectLists, s for StateCode, m for Map, t for Target
 	
 */
 	SELECT
-		DisabilityCode = k.Code,
+		DisabilityCode = k.LegacySpedCode,
 		DestID = coalesce(s.ID, t.ID, m.DestID), -- below this line it may not be necessary to use coalesce because we are only updating legacy data (use VC3ETL.LoadTable.DestTableFilter)
-		Name = coalesce(s.name, t.name, k.Label), 
+		Name = coalesce(s.name, t.name, k.EnrichLabel), 
 		Definition = coalesce(s.Definition, t.Definition,''),
 		DeterminationFormTemplateID = isnull(s.DeterminationFormTemplateID, t.DeterminationFormTemplateID),
 		StateCode = coalesce(s.StateCode, t.StateCode, k.StateCode),
@@ -48,9 +48,9 @@ AS
 				ELSE GETDATE() 
 			END 
 	FROM
-		LEGACYSPED.Lookups k LEFT JOIN
+		LEGACYSPED.SelectLists k LEFT JOIN
 		dbo.IepDisability s on isnull(k.StateCode,'kDisab') = isnull(s.StateCode,'sDisab') left join -- two NULLs does not a match make
-		LEGACYSPED.MAP_IepDisabilityID m on k.Code = m.DisabilityCode left join
+		LEGACYSPED.MAP_IepDisabilityID m on k.LegacySpedCode = m.DisabilityCode left join
 		dbo.IepDisability t on m.DestID = t.ID 
 	WHERE
 		k.Type = 'Disab' 

@@ -27,14 +27,14 @@ AS
 /*
 	This view depends on GradeLevel.StateCode (the state reporting code) being populated in the target table.  
 		The code to populate GradeLevel.StateCode should be contained in file 0001a-ETLPrep_State_StateAbbr.sql
-		The fact that we are returning rows where a StateCode match exists between Lookups and Target ensures that we don't duplicate these values in Target.
-	Table Aliases:  k for Lookups, s for StateCode, m for Map, t for Target
+		The fact that we are returning rows where a StateCode match exists between SelectLists and Target ensures that we don't duplicate these values in Target.
+	Table Aliases:  k for SelectLists, s for StateCode, m for Map, t for Target
 	
 */
 	SELECT
-		GradeLevelCode = k.Code,
+		GradeLevelCode = k.LegacySpedCode,
 		DestID = coalesce(s.ID, t.ID, m.DestID), -- may not need to use coalesce below this line because we only touch legacy data
-		Name = coalesce(s.Name, t.Name, left(k.Label, 10)),
+		Name = coalesce(s.Name, t.Name, left(k.EnrichLabel, 10)),
 		StateCode = coalesce(s.StateCode, t.StateCode, k.StateCode),
 		Bitmask = coalesce(s.Bitmask, t.Bitmask, NULL),
 		Sequence = coalesce(s.Sequence, t.Sequence, 99),
@@ -43,15 +43,15 @@ AS
 			CASE 
 				WHEN s.ID IS NOT NULL THEN s.Active -- Always show in UI where there is a StateID.  Period.
 				WHEN t.ID IS NOT NULL THEN t.Active
-				ELSE 
-					CASE WHEN k.DisplayInUI = 'Y' THEN 1 -- User specified they want to see this in the UI.  Let them.
-					ELSE 0
-					END
+				--ELSE 
+					--CASE WHEN k.DisplayInUI = 'Y' THEN 1  --User specified they want to see this in the UI.  Let them.
+					--ELSE 0
+					--END
 			END -- a benefit of this is that if a Disability record is absent in a subsequent legacy data import, the record will not be deleted, but Active will be set to 0.  Cool.
 	FROM
-		LEGACYSPED.Lookups k LEFT JOIN
+		LEGACYSPED.SelectLists k LEFT JOIN
 		GradeLevel s on isnull(k.StateCode, 'kGradeLevel') = isnull(s.StateCode, 'tGradeLevel') LEFT JOIN 
-		LEGACYSPED.MAP_GradeLevelID m on k.Code = m.GradeLevelCode LEFT JOIN
+		LEGACYSPED.MAP_GradeLevelID m on k.LegacySpedCode = m.GradeLevelCode LEFT JOIN
 		GradeLevel t on m.DestID = t.ID
 	WHERE
 		k.Type = 'Grade' 

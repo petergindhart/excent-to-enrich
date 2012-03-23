@@ -20,16 +20,16 @@ IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.Trans
 DROP VIEW LEGACYSPED.Transform_Ethnicity
 GO
 
--- should we update the statecode column of the enum value table and then join statecode to statecode?  in this case EnumValue.Code = LEGACYSPED.Lookups.StateCode so we're doing the Q&D
+-- should we update the statecode column of the enum value table and then join statecode to statecode?  in this case EnumValue.Code = LEGACYSPED.SelectLists.StateCode so we're doing the Q&D
 create view LEGACYSPED.Transform_Ethnicity
 as
 SELECT
-	l.Code,
+	l.LegacySpedCode,
 	l.StateCode,
 	DestID = ISNULL(x.ID, NEWID()),
-	Name = l.Label
+	Name = l.EnrichLabel
 FROM
-	LEGACYSPED.Lookups l LEFT JOIN
+	LEGACYSPED.SelectLists l LEFT JOIN
 	EnumValue x on l.StateCode = x.Code -- this will not work for all states.  need a different approach.
 WHERE l.Type = 'Ethnic' AND
 	x.Type = (select t.ID from EnumType t where t.Type = 'ETH')

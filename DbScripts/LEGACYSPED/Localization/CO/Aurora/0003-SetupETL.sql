@@ -33,8 +33,9 @@ INSERT INTO @VC3ETL_FlatFileExtractTableType VALUES ('W', 'Comma Delimitted File
 DECLARE @VC3ETL_ExtractTable TABLE (ID uniqueidentifier, ExtractDatabase uniqueidentifier, SourceTable varchar(100), DestSchema varchar(50), DestTable varchar(50), PrimaryKey varchar(100), Indexes varchar(200), LastSuccessfulCount int, CurrentCount int, Filter varchar(1000), Enabled bit, IgnoreMissing bit, Columns varchar(4000))
 
 -- Insert the data to be synchronized into the temporary table
-INSERT INTO @VC3ETL_ExtractTable VALUES ('a59fc278-5868-4ddf-9d17-1161d0f7c27a', '29d14961-928d-4bee-9025-238496d144c6', 'TeamMember', 'LEGACYSPED', 'TeamMember', 'SpedStaffRefId,StudentRefID,IsCaseManager', NULL, 0, 0, NULL, 1, 1, NULL)
-INSERT INTO @VC3ETL_ExtractTable VALUES ('cc06f529-7204-4f10-8d24-233c7c7ced7c', '29d14961-928d-4bee-9025-238496d144c6', 'Lookups', 'LEGACYSPED', 'Lookups', NULL, 'Type,SubType,Code', 0, 0, NULL, 1, 0, NULL)
+INSERT INTO @VC3ETL_ExtractTable VALUES ('a59fc278-5868-4ddf-9d17-1161d0f7c27a', '29d14961-928d-4bee-9025-238496d144c6', 'TeamMember', 'LEGACYSPED', 'TeamMember', 'StaffEmail,StudentRefID,IsCaseManager', NULL, 0, 0, NULL, 1, 1, NULL)
+-- Modified  Lookups insert statment to SelectLists which is updated in new Spec 2011/03/19
+INSERT INTO @VC3ETL_ExtractTable VALUES ('cc06f529-7204-4f10-8d24-233c7c7ced7c', '29d14961-928d-4bee-9025-238496d144c6', 'SelectLists', 'LEGACYSPED', 'SelectLists', NULL, 'Type,SubType,LegacySpedCode', 0, 0, NULL, 1, 0, NULL)
 INSERT INTO @VC3ETL_ExtractTable VALUES ('a1d1b44e-a980-4c57-8177-75ed07e2f580', '29d14961-928d-4bee-9025-238496d144c6', 'Service', 'LEGACYSPED', 'Service', 'ServiceRefID', NULL, 0, 0, NULL, 1, 1, NULL)
 INSERT INTO @VC3ETL_ExtractTable VALUES ('3fe28281-6ee4-493f-bd51-9079263a5267', '29d14961-928d-4bee-9025-238496d144c6', 'SpedStaffMember', 'LEGACYSPED', 'SpedStaffMember', 'SpedStaffRefID', NULL, 0, 0, NULL, 1, 1, NULL)
 INSERT INTO @VC3ETL_ExtractTable VALUES ('30550eb3-7cbe-41c8-b0bb-963c35cc642e', '29d14961-928d-4bee-9025-238496d144c6', 'Objective', 'LEGACYSPED', 'Objective', 'ObjectiveRefID', NULL, 0, 0, NULL, 1, 1, NULL)
@@ -43,13 +44,16 @@ INSERT INTO @VC3ETL_ExtractTable VALUES ('8fd21336-34b3-49d1-92f6-c34ad1237616',
 INSERT INTO @VC3ETL_ExtractTable VALUES ('26a6cfd0-1c65-4ea8-b2af-c885902bf52e', '29d14961-928d-4bee-9025-238496d144c6', 'Goal', 'LEGACYSPED', 'Goal', 'GoalRefID', NULL, 0, 0, NULL, 1, 1, NULL)
 INSERT INTO @VC3ETL_ExtractTable VALUES ('de9b9021-0540-440a-8d4e-ef7e763f084a', '29d14961-928d-4bee-9025-238496d144c6', 'District', 'LEGACYSPED', 'District', 'DistrictRefID', NULL, 0, 0, NULL, 1, 0, NULL)
 INSERT INTO @VC3ETL_ExtractTable VALUES ('b5000a4a-e3d0-44c0-b476-fcc37787cd89', '29d14961-928d-4bee-9025-238496d144c6', 'School', 'LEGACYSPED', 'School', 'SchoolRefID', NULL, 0, 0, NULL, 1, 0, NULL)
+-- Added new insert statment for StaffSchool file which is  updated in new Spec 2011/03/19
+INSERT INTO @VC3ETL_ExtractTable VALUES ('89452896-6AC8-442E-AF02-EC6879368B2C', '29d14961-928d-4bee-9025-238496d144c6', 'StaffSchool', 'LEGACYSPED', 'StaffSchool', 'StaffEmail', NULL, 0, 0, NULL, 1, 1, NULL)
 
 -- Declare a temporary table to hold the data to be synchronized
 DECLARE @VC3ETL_FlatFileExtractTable TABLE (ID uniqueidentifier, Type char(1), FileName varchar(50))
 
 -- Insert the data to be synchronized into the temporary table
 INSERT INTO @VC3ETL_FlatFileExtractTable VALUES ('a59fc278-5868-4ddf-9d17-1161d0f7c27a', 'P', 'TeamMember.csv')
-INSERT INTO @VC3ETL_FlatFileExtractTable VALUES ('cc06f529-7204-4f10-8d24-233c7c7ced7c', 'P', 'Lookups.csv')
+-- Modified  Lookups insert statment to SelectLists which is updated in new Spec 2011/03/19
+INSERT INTO @VC3ETL_FlatFileExtractTable VALUES ('cc06f529-7204-4f10-8d24-233c7c7ced7c', 'P', 'SelectLists.csv')
 INSERT INTO @VC3ETL_FlatFileExtractTable VALUES ('a1d1b44e-a980-4c57-8177-75ed07e2f580', 'P', 'Service.csv')
 INSERT INTO @VC3ETL_FlatFileExtractTable VALUES ('3fe28281-6ee4-493f-bd51-9079263a5267', 'P', 'SpedStaffMember.csv')
 INSERT INTO @VC3ETL_FlatFileExtractTable VALUES ('30550eb3-7cbe-41c8-b0bb-963c35cc642e', 'P', 'Objective.csv')
@@ -58,6 +62,8 @@ INSERT INTO @VC3ETL_FlatFileExtractTable VALUES ('8fd21336-34b3-49d1-92f6-c34ad1
 INSERT INTO @VC3ETL_FlatFileExtractTable VALUES ('26a6cfd0-1c65-4ea8-b2af-c885902bf52e', 'P', 'Goal.csv')
 INSERT INTO @VC3ETL_FlatFileExtractTable VALUES ('de9b9021-0540-440a-8d4e-ef7e763f084a', 'P', 'District.csv')
 INSERT INTO @VC3ETL_FlatFileExtractTable VALUES ('b5000a4a-e3d0-44c0-b476-fcc37787cd89', 'P', 'School.csv')
+-- Added new insert statment for StaffSchool file which is  updated in new Spec 2011/03/19
+INSERT INTO @VC3ETL_FlatFileExtractTable VALUES ('070D6BC4-7623-49B2-ADD4-EA2AC6060860', 'P', 'StaffSchool.csv')
 
 -- Declare a temporary table to hold the data to be synchronized
 DECLARE @VC3ETL_LoadTable TABLE (ID uniqueidentifier, ExtractDatabase uniqueidentifier, Sequence int, SourceTable varchar(100), DestTable varchar(100), HasMapTable bit, MapTable varchar(100), KeyField varchar(250), DeleteKey varchar(50), ImportType int, DeleteTrans bit, UpdateTrans bit, InsertTrans bit, Enabled bit, SourceTableFilter varchar(1000), DestTableFilter varchar(1000), PurgeCondition varchar(1000), KeepMappingAfterDelete bit, StartNewTransaction bit, LastLoadDate datetime, MapTableMapID varchar(250))
