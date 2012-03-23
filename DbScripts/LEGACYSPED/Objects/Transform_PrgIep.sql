@@ -105,7 +105,7 @@ select stu.SpecialEdStatus,
 		LEGACYSPED.Transform_Student stu JOIN 
 		LEGACYSPED.IEP iep ON iep.StudentRefID = stu.StudentRefID JOIN
 		dbo.PrgItemDef def ON def.ID = '8011D6A2-1014-454B-B83C-161CE678E3D3' JOIN -- Converted IEP 
-		LEGACYSPED.MAP_PrgInvolvementID inv ON iep.StudentRefID = inv.StudentRefID LEFT JOIN
+		LEGACYSPED.Transform_PrgInvolvement inv ON iep.StudentRefID = inv.StudentRefID LEFT JOIN
 		LEGACYSPED.MAP_IepRefID mt ON iep.IepRefID = mt.IepRefID LEFT JOIN
 		LEGACYSPED.MAP_PrgVersionID ver ON iep.IepRefID = ver.IepRefID LEFT JOIN -- when we insert PrgItem we don't need this yet.  
 		dbo.PrgItem item ON mt.DestID = item.ID 
