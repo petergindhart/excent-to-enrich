@@ -28,7 +28,7 @@ GO
 CREATE VIEW LEGACYSPED.Transform_PrgInvolvement
 AS
 	SELECT
-		StudentRefID = stu.StudentRefID, 
+		StudentRefID = stu.StudentRefID,
 		DestID = coalesce(x.ID, t.ID, m.DestID),
 		StudentID = stu.DestID,
 		ProgramID = 'F98A8EF2-98E2-4CAC-95AF-D7D89EF7F80C',   -- Special Education
@@ -46,7 +46,8 @@ AS
 		dbo.PrgInvolvement t on 
 			(stu.DestID = t.StudentID and 
 			t.ProgramID = 'F98A8EF2-98E2-4CAC-95AF-D7D89EF7F80C' and
-			dbo.DateRangesOverlap (iep.IEPStartDate, iep.IEPEndDate, t.StartDate, t.EndDate, null) = 1)
+		--	dbo.DateRangesOverlap (iep.IEPStartDate, iep.IEPEndDate, t.StartDate, t.EndDate, null) = 1)
+			dbo.DateInRange( iep.IEPStartDate, t.StartDate, t.EndDate ) = 1)
 	WHERE 
 		iep.IEPStartDate is not null
 		/*			-- TEST to see invalid current data alongside output of this transform (add columns to select list and group by)
@@ -60,8 +61,8 @@ AS
 GO
 --
 
+-- select * from LEGACYSPED.MAP_PrgInvolvementID delete
 
- 
 /*
 
 
