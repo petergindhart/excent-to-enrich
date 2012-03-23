@@ -54,10 +54,10 @@ SELECT distinct
 			CASE 
 				WHEN s.ID IS NOT NULL THEN s.DeletedDate
 				WHEN t.ID IS NOT NULL THEN t.DeletedDate
-				ELSE 
+				---\ELSE 
 					--CASE WHEN k.DisplayInUI = 'Y' THEN NULL -- User specified they want to see this in the UI.  Let them.
-					--ELSE GETDATE()
-					END
+					ELSE GETDATE()
+					--END
 			END -- select k.* 
 FROM (select 'Service' Type) x  join 
 	LEGACYSPED.SelectLists k on x.Type = k.Type LEFT JOIN -- Legacy ServiceDefs and preferred ServiceDefs provided in the same file )

@@ -20,7 +20,7 @@ IsESY    varchar(1),
 ServiceTime    varchar(4), 
 ServiceFrequencyCode    varchar(150),
 ServiceProviderSSN    varchar(11), 
-StaffEmial varchar(150),
+StaffEmail varchar(150),
 ServiceAreaText    varchar(254)
 )
 GO

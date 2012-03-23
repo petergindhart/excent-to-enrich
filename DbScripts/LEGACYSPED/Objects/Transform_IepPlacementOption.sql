@@ -65,10 +65,10 @@ select
 			CASE 
 				WHEN s.ID IS NOT NULL THEN s.DeletedDate -- Always show in UI where there is a StateID.  Period.
 				WHEN t.ID IS NOT NULL THEN t.DeletedDate
-				ELSE 
+				--ELSE 
 					--CASE WHEN k.DisplayInUI = 'Y' THEN NULL -- User specified they want to see this in the UI.  Let them.
-					--ELSE GETDATE() - We have removed the DisplayInUI in the new Dataspec 20120319.
-					END
+					ELSE GETDATE() -- We have removed the DisplayInUI in the new Dataspec 20120319.
+					--END
 			END 
 from 
 	LEGACYSPED.SelectLists k LEFT JOIN

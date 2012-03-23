@@ -11,7 +11,7 @@ GO
 * 2) lists Team Members from the TeamMembers tab.  The EnrichRole is only required .
 **********************************/
 CREATE TABLE LEGACYSPED.SpedStaffMember_LOCAL(  
-StaffEmail		varchar(150)
+StaffEmail		varchar(150),
 Lastname		varchar(50), 
 Firstname		varchar(50), 
 EnrichRole 		varchar(50) 

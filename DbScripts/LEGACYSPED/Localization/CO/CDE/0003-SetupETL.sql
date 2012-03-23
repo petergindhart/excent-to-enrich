@@ -12,7 +12,7 @@ INSERT INTO @VC3ETL_ExtractDatabase VALUES ('29d14961-928d-4bee-9025-238496d144c
 DECLARE @VC3ETL_FlatFileExtractDatabase TABLE (ID uniqueidentifier, LocalCopyPath varchar(1000))
 
 -- Insert the data to be synchronized into the temporary table
-INSERT INTO @VC3ETL_FlatFileExtractDatabase VALUES ('29d14961-928d-4bee-9025-238496d144c6', 'E:\EnrichDataFilesforDCB3\CDE Fake Student Data Files')
+INSERT INTO @VC3ETL_FlatFileExtractDatabase VALUES ('29d14961-928d-4bee-9025-238496d144c6', 'E:\EnrichDataFilesforDCB3\CDEFakeStudentDataFiles\')
 
 -- Declare a temporary table to hold the data to be synchronized
 DECLARE @dbo_InformExtractDatabase TABLE (ID uniqueidentifier, LastExtractRosterYear uniqueidentifier, LastLoadRosterYear uniqueidentifier)
@@ -36,15 +36,16 @@ DECLARE @VC3ETL_ExtractTable TABLE (ID uniqueidentifier, ExtractDatabase uniquei
 INSERT INTO @VC3ETL_ExtractTable VALUES ('a59fc278-5868-4ddf-9d17-1161d0f7c27a', '29d14961-928d-4bee-9025-238496d144c6', 'TeamMember', 'LEGACYSPED', 'TeamMember', 'StaffEmail,StudentRefID,IsCaseManager', NULL, 0, 0, NULL, 1, 1, NULL, NULL)
 INSERT INTO @VC3ETL_ExtractTable VALUES ('cc06f529-7204-4f10-8d24-233c7c7ced7c', '29d14961-928d-4bee-9025-238496d144c6', 'SelectLists', 'LEGACYSPED', 'SelectLists', NULL, 'Type,SubType,LegacySpedCode', 0, 0, NULL, 1, 0, NULL, NULL)
 INSERT INTO @VC3ETL_ExtractTable VALUES ('a1d1b44e-a980-4c57-8177-75ed07e2f580', '29d14961-928d-4bee-9025-238496d144c6', 'Service', 'LEGACYSPED', 'Service', 'ServiceRefID', NULL, 0, 0, NULL, 1, 1, NULL, NULL)
-INSERT INTO @VC3ETL_ExtractTable VALUES ('3fe28281-6ee4-493f-bd51-9079263a5267', '29d14961-928d-4bee-9025-238496d144c6', 'SpedStaffMember', 'LEGACYSPED', 'SpedStaffMember', 'SpedStaffRefID', NULL, 0, 0, NULL, 1, 1, NULL, NULL)
+INSERT INTO @VC3ETL_ExtractTable VALUES ('3fe28281-6ee4-493f-bd51-9079263a5267', '29d14961-928d-4bee-9025-238496d144c6', 'SpedStaffMember', 'LEGACYSPED', 'SpedStaffMember', 'StaffEmail', NULL, 0, 0, NULL, 1, 1, NULL, NULL)
 INSERT INTO @VC3ETL_ExtractTable VALUES ('30550eb3-7cbe-41c8-b0bb-963c35cc642e', '29d14961-928d-4bee-9025-238496d144c6', 'Objective', 'LEGACYSPED', 'Objective', 'ObjectiveRefID', NULL, 0, 0, NULL, 1, 1, NULL, NULL)
 INSERT INTO @VC3ETL_ExtractTable VALUES ('9e012470-d7c2-4f41-83e4-b2657a4e991a', '29d14961-928d-4bee-9025-238496d144c6', 'IEP', 'LEGACYSPED', 'IEP', 'IepRefID', NULL, 0, 0, NULL, 1, 0, NULL, NULL)
 INSERT INTO @VC3ETL_ExtractTable VALUES ('8fd21336-34b3-49d1-92f6-c34ad1237616', '29d14961-928d-4bee-9025-238496d144c6', 'Student', 'LEGACYSPED', 'Student', 'StudentRefID', NULL, 0, 0, NULL, 1, 0, NULL, NULL)
 INSERT INTO @VC3ETL_ExtractTable VALUES ('26a6cfd0-1c65-4ea8-b2af-c885902bf52e', '29d14961-928d-4bee-9025-238496d144c6', 'Goal', 'LEGACYSPED', 'Goal', 'GoalRefID', NULL, 0, 0, NULL, 1, 1, NULL, NULL)
 INSERT INTO @VC3ETL_ExtractTable VALUES ('89452896-6ac8-442e-af02-ec6879368b2c', '29d14961-928d-4bee-9025-238496d144c6', 'StaffSchool', 'LEGACYSPED', 'StaffSchool', 'StaffEmail', NULL, 0, 0, NULL, 1, 1, NULL, NULL)
-INSERT INTO @VC3ETL_ExtractTable VALUES ('de9b9021-0540-440a-8d4e-ef7e763f084a', '29d14961-928d-4bee-9025-238496d144c6', 'District', 'LEGACYSPED', 'District', 'DistrictRefID', NULL, 0, 0, NULL, 1, 0, NULL, NULL)
-INSERT INTO @VC3ETL_ExtractTable VALUES ('b5000a4a-e3d0-44c0-b476-fcc37787cd89', '29d14961-928d-4bee-9025-238496d144c6', 'School', 'LEGACYSPED', 'School', 'SchoolRefID', NULL, 0, 0, NULL, 1, 0, NULL, NULL)
+INSERT INTO @VC3ETL_ExtractTable VALUES ('de9b9021-0540-440a-8d4e-ef7e763f084a', '29d14961-928d-4bee-9025-238496d144c6', 'District', 'LEGACYSPED', 'District', 'DistrictCode', NULL, 0, 0, NULL, 1, 0, NULL, NULL)
+INSERT INTO @VC3ETL_ExtractTable VALUES ('b5000a4a-e3d0-44c0-b476-fcc37787cd89', '29d14961-928d-4bee-9025-238496d144c6', 'School', 'LEGACYSPED', 'School', 'SchoolCode', NULL, 0, 0, NULL, 1, 0, NULL, NULL)
 
+ 
 -- Declare a temporary table to hold the data to be synchronized
 DECLARE @VC3ETL_FlatFileExtractTable TABLE (ID uniqueidentifier, Type char(1), FileName varchar(50))
 
@@ -71,7 +72,7 @@ INSERT INTO @VC3ETL_LoadTable VALUES ('86a1d977-790c-4852-b574-1d305b814a17', '2
 INSERT INTO @VC3ETL_LoadTable VALUES ('cf569976-7a7d-4de8-8bd8-26e0563e0751', '29d14961-928d-4bee-9025-238496d144c6', 10, 'LEGACYSPED.Transform_PrgSection', 'PrgSection', 1, 'LEGACYSPED.MAP_PrgSectionID_NonVersioned', 'DefID, ItemID', 'DestID', 1, 0, 1, 1, 1, 'VersionID IS NULL', 'd.VersionID IS NULL AND d.ItemID in (select DestID from LEGACYSPED.MAP_IepRefID)', '1=1', 0, 0, '10/27/2011 7:23:33 AM', NULL, NULL)
 INSERT INTO @VC3ETL_LoadTable VALUES ('78d7c5c4-dc7b-4443-bd00-297742cf435b', '29d14961-928d-4bee-9025-238496d144c6', 27, 'LEGACYSPED.Transform_PrgGoals', 'PrgGoals', 0, NULL, NULL, NULL, 1, 0, 1, 1, 1, NULL, NULL, NULL, 0, 0, '10/27/2011 7:23:33 AM', NULL, NULL)
 INSERT INTO @VC3ETL_LoadTable VALUES ('7629f1be-f9d4-4d99-9302-3009027fd50e', '29d14961-928d-4bee-9025-238496d144c6', 777, 'LEGACYSPED.Transform_IepGoal', 'IepGoal', 0, NULL, NULL, NULL, 1, 0, 1, 1, 0, NULL, NULL, NULL, 0, 0, NULL, NULL, NULL)
-INSERT INTO @VC3ETL_LoadTable VALUES ('aad80f07-6023-4753-af26-309ff6bf845c', '29d14961-928d-4bee-9025-238496d144c6', 0, 'LEGACYSPED.Transform_OrgUnit', 'OrgUnit', 1, 'LEGACYSPED.MAP_OrgUnitID', 'DistrictRefID', NULL, 1, 0, 1, 1, 1, NULL, 'ID not in (select top 1 OrgUnitID from School group by OrgUnitID order by COUNT(*) desc)', NULL, 0, 0, '10/27/2011 7:23:33 AM', NULL, NULL)
+INSERT INTO @VC3ETL_LoadTable VALUES ('aad80f07-6023-4753-af26-309ff6bf845c', '29d14961-928d-4bee-9025-238496d144c6', 0, 'LEGACYSPED.Transform_OrgUnit', 'OrgUnit', 1, 'LEGACYSPED.MAP_OrgUnitID', 'DistrictCode', NULL, 1, 0, 1, 1, 1, NULL, 'ID not in (select top 1 OrgUnitID from School group by OrgUnitID order by COUNT(*) desc)', NULL, 0, 0, '10/27/2011 7:23:33 AM', NULL, NULL)
 INSERT INTO @VC3ETL_LoadTable VALUES ('0650f23e-b249-4d90-8389-36b73375b506', '29d14961-928d-4bee-9025-238496d144c6', 5, 'LEGACYSPED.Transform_Student', 'Student', 1, 'LEGACYSPED.MAP_StudentRefID', 'StudentRefID, LegacyData', 'DestID', 1, 1, 1, 1, 1, NULL, 's.LegacyData = 1', NULL, 0, 0, '10/27/2011 7:23:33 AM', NULL, NULL)
 INSERT INTO @VC3ETL_LoadTable VALUES ('7dc04117-bfed-4d7b-afde-3adc11f8858a', '29d14961-928d-4bee-9025-238496d144c6', 15, 'LEGACYSPED.Transform_IepLeastRestrictiveEnvironment', 'IepLeastRestrictiveEnvironment', 0, NULL, NULL, NULL, 1, 0, 1, 1, 1, NULL, NULL, NULL, 0, 0, '10/27/2011 7:23:33 AM', NULL, NULL)
 INSERT INTO @VC3ETL_LoadTable VALUES ('24326fb7-7ed4-49fd-8831-455068906ab9', '29d14961-928d-4bee-9025-238496d144c6', 9, 'LEGACYSPED.Transform_PrgIep', 'PrgVersion', 1, 'LEGACYSPED.MAP_PrgVersionID', 'IepRefID', NULL, 1, 0, 1, 1, 1, NULL, NULL, NULL, 0, 0, '10/27/2011 7:23:33 AM', NULL, NULL)
@@ -99,7 +100,7 @@ INSERT INTO @VC3ETL_LoadTable VALUES ('db70b7cf-811f-4372-b116-cc2a2cb2e1ca', '2
 INSERT INTO @VC3ETL_LoadTable VALUES ('9fdb23c0-6833-49ed-b72c-d8e35cbe4bf0', '29d14961-928d-4bee-9025-238496d144c6', 777, 'LEGACYSPED.Transform_PrgItemOutcome', 'PrgItemOutcome', 1, 'LEGACYSPED.MAP_OutcomeID', 'ExitReason', 'DestID', 1, 1, 0, 1, 0, NULL, NULL, NULL, 0, 0, NULL, NULL, NULL)
 INSERT INTO @VC3ETL_LoadTable VALUES ('13503b5b-45bf-4cb3-9843-de028cf0dd55', '29d14961-928d-4bee-9025-238496d144c6', 6, 'LEGACYSPED.Transform_PrgInvolvement', 'PrgInvolvement', 1, 'LEGACYSPED.MAP_PrgInvolvementID', 'StudentRefID', 'DestID', 1, 1, 1, 1, 1, NULL, NULL, NULL, 0, 0, '10/27/2011 7:23:33 AM', NULL, NULL)
 INSERT INTO @VC3ETL_LoadTable VALUES ('d3e7d208-362c-43ba-8903-ded80eefa8e7', '29d14961-928d-4bee-9025-238496d144c6', 29, 'LEGACYSPED.Transform_IepGoalArea', 'IepGoalArea', 1, 'LEGACYSPED.MAP_IepGoalArea', 'InstanceID, DefID', 'DestID', 1, 0, 0, 1, 1, NULL, NULL, NULL, 0, 0, '10/27/2011 7:23:33 AM', NULL, NULL)
-INSERT INTO @VC3ETL_LoadTable VALUES ('6bb2a9ad-fa9b-47ef-93fa-e4a9e99e0005', '29d14961-928d-4bee-9025-238496d144c6', 1, 'LEGACYSPED.Transform_School', 'School', 1, 'LEGACYSPED.MAP_SchoolID', 'SchoolRefID, LegacyData', NULL, 1, 0, 1, 1, 1, NULL, 's.LegacyData = 1', NULL, 0, 0, '10/27/2011 7:23:33 AM', NULL, NULL)
+INSERT INTO @VC3ETL_LoadTable VALUES ('6bb2a9ad-fa9b-47ef-93fa-e4a9e99e0005', '29d14961-928d-4bee-9025-238496d144c6', 1, 'LEGACYSPED.Transform_School', 'School', 1, 'LEGACYSPED.MAP_SchoolID', 'SchoolCode, LegacyData', NULL, 1, 0, 1, 1, 1, NULL, 's.LegacyData = 1', NULL, 0, 0, '10/27/2011 7:23:33 AM', NULL, NULL)
 INSERT INTO @VC3ETL_LoadTable VALUES ('1d683708-d043-4ce3-8427-e5e9ad0d6256', '29d14961-928d-4bee-9025-238496d144c6', 32, 'LEGACYSPED.Transform_PrgGoalObjective', 'PrgGoal', 1, 'LEGACYSPED.MAP_PrgGoalObjectiveID', 'ObjectiveRefID', 'DestID', 1, 1, 1, 1, 1, NULL, 'd.ParentID in (SELECT DestID from LEGACYSPED.Transform_PrgGoal)', NULL, 0, 0, '10/27/2011 7:23:33 AM', NULL, NULL)
 INSERT INTO @VC3ETL_LoadTable VALUES ('bed8e644-368f-4ae7-81d7-e7ffbdbfa9b6', '29d14961-928d-4bee-9025-238496d144c6', 10, 'LEGACYSPED.Transform_PrgSection', 'PrgSection', 1, 'LEGACYSPED.MAP_PrgSectionID', 'DefID, VersionID', 'DestID', 1, 0, 1, 1, 1, 'VersionID IS NOT NULL', 'd.VersionID in (select DestID from LEGACYSPED.MAP_PrgVersionID)', '1=1', 0, 0, '10/27/2011 7:23:33 AM', NULL, NULL)
 INSERT INTO @VC3ETL_LoadTable VALUES ('015973b8-d4ac-40df-b4ff-e8cbd787b8e8', '29d14961-928d-4bee-9025-238496d144c6', 25, 'LEGACYSPED.Transform_ServiceSchedule', 'ServiceSchedule', 0, NULL, NULL, NULL, 1, 0, 1, 1, 1, NULL, NULL, NULL, 0, 0, '10/27/2011 7:23:33 AM', NULL, NULL)
@@ -402,14 +403,6 @@ INSERT INTO @VC3ETL_LoadColumn VALUES ('387b16f6-3664-4d15-b859-fe77b56324b7', '
 INSERT INTO @VC3ETL_LoadColumn VALUES ('19f0a5ec-717d-40e3-b5bf-ff57cf87eac0', '750cba2a-ce1f-4653-9e43-9a450eac3653', 'InstanceID', 'InstanceID', 'C', 0, NULL, NULL, NULL)
 INSERT INTO @VC3ETL_LoadColumn VALUES ('b8b0f945-e4f4-48d4-b018-ffa0dcab87f0', 'b63c39f8-a605-4988-b2fd-b905acc25e4c', 'Sequence', 'Sequence', 'C', 0, NULL, NULL, NULL)
 INSERT INTO @VC3ETL_LoadColumn VALUES ('5fc480f9-5b82-413b-9018-ffa6bec69030', 'd9d1e9ff-0a17-435e-b0c1-9dcf2f77a2d5', 'DestID', 'ID', 'K', 0, NULL, NULL, NULL)
-
--- refactor 
-delete Destination
-from VC3ETL.LoadTable lt join
-VC3ETL.LoadColumn Destination on lt.ID = Destination.LoadTable left join
-@VC3ETL_LoadColumn Source on Destination.ID = Source.ID
-where lt.ExtractDatabase = '29D14961-928D-4BEE-9025-238496D144C6' and
-Source.ID is null
 
 -- Insert records in the destination tables that do not already exist
 INSERT INTO VC3ETL.ExtractDatabase SELECT Source.* FROM @VC3ETL_ExtractDatabase Source LEFT JOIN VC3ETL.ExtractDatabase Destination ON Source.ID = Destination.ID WHERE Destination.ID IS NULL

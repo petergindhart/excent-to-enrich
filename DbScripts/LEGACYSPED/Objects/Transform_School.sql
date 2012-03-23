@@ -12,7 +12,7 @@ IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.MA
 BEGIN
 CREATE TABLE LEGACYSPED.MAP_SchoolID
 	(
-	SchoolRefID varchar(150) NOT NULL,
+	SchoolCode varchar(150) NOT NULL,
 	LegacyData bit NOT NULL,
 	DestID uniqueidentifier NOT NULL
 	)  
@@ -20,7 +20,7 @@ CREATE TABLE LEGACYSPED.MAP_SchoolID
 ALTER TABLE LEGACYSPED.MAP_SchoolID ADD CONSTRAINT
 	PK_MAP_SchoolID PRIMARY KEY CLUSTERED
 	(
-	SchoolRefID
+	SchoolCode
 	) 
 END
 GO
@@ -33,11 +33,11 @@ CREATE VIEW LEGACYSPED.Transform_School
 AS
 -- Consider whether or not to exclude records where DeleteDate is not null.  If not, we need to chnage all queries that reference School 
 select 
-	k.SchoolRefID,
 	k.SchoolCode,
 	DestID =  coalesce(s.ID, t.ID, m.DestID), -- ISNULL(isnull(s.ID, t.ID), m.DestID),
 	LegacyData = ISNULL(m.LegacyData, case when s.ID IS NULL then 1 else 0 end), -- allows updating only legacy data by adding a DestFilter in LoadTable.  Leaves real ManuallyEntered schools untouched.,
-	--Abbreviation = coalesce(s.Abbreviation, t.Abbreviation, k.SchoolAbbreviation),
+	Abbreviation = NULL,
+	--coalesce(s.Abbreviation, t.Abbreviation, k.SchoolAbbreviation),
 	Name = coalesce(s.Name, t.Name, k.SchoolName), 
 	Number = coalesce(s.Number, t.Number, k.SchoolCode),
 	OrgUnitId = mo.DestID,
@@ -68,10 +68,11 @@ from LEGACYSPED.School k LEFT JOIN
 			where smid.number = smin.Number -- don't try to deal with null numbers.  how about real dups?
 			)
 		) LEFT JOIN
-	LEGACYSPED.MAP_SchoolID m on k.SchoolRefID = m.SchoolRefID LEFT JOIN 
+	LEGACYSPED.MAP_SchoolID m on k.SchoolCode = m.SchoolCode LEFT JOIN 
 	dbo.School t on m.DestID = t.ID LEFT JOIN
-	LEGACYSPED.Transform_OrgUnit mo on k.DistrictRefID = mo.DistrictRefID
+	LEGACYSPED.Transform_OrgUnit mo on k.DistrictCode = mo.DistrictCode
 GO
+
 
 
 -- select * from school where Number = '900'

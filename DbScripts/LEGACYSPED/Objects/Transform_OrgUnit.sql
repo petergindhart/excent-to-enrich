@@ -5,14 +5,14 @@ IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.MA
 BEGIN
 CREATE TABLE LEGACYSPED.MAP_OrgUnitID
 	(
-	DistrictRefID nvarchar(150) NOT NULL,
+	DistrictCode nvarchar(150) NOT NULL,
 	DestID uniqueidentifier NOT NULL
 	)
 
 ALTER TABLE LEGACYSPED.MAP_OrgUnitID ADD CONSTRAINT
 	PK_MAP_OrgUnitID PRIMARY KEY CLUSTERED
 	(
-	DistrictRefID
+	DistrictCode
 	)
 END
 GO
@@ -37,7 +37,7 @@ How to handle hierarchical OrgUnits, like AUs or Coops?
 */
 
 select 
-  k.DistrictRefID,
+  k.DistrictCode,
   DestID = isnull(isnull(s.ID, t.id), m.DestID), -- below this line may not require coalesce.  only legacy data will be updated, not SIS data.  Think about AU.
   TypeID = '420A9663-FFE8-4FF1-B405-1DB1D42B6F8A',
   Name = coalesce(s.Name, t.Name, k.DistrictName),
@@ -51,7 +51,7 @@ select
   Sequence = isnull(s.Sequence, t.Sequence)
 from LEGACYSPED.District k left join 
 	dbo.OrgUnit s on k.DistrictCode = s.Number left join -- DistrictCode and Number are synonymous with StateCode
-	LEGACYSPED.MAP_OrgUnitID m on k.DistrictRefID = m.DistrictRefID left join 
+	LEGACYSPED.MAP_OrgUnitID m on k.DistrictCode = m.DistrictCode left join 
 	dbo.OrgUnit t on m.DestID = t.ID
 GO
 -- 
