@@ -2,6 +2,11 @@
 
 set blank=-
 
+if %1==DC1 (
+  set state=CO
+  set speddistrict=Aurora
+  goto :end
+)
 if %1==DC2 (
   set state=FL
   set speddistrict=Brevard
