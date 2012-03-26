@@ -37,7 +37,7 @@ AS
   CurrentSchoolID = sch.DestID,
   CurrentGradeLevelID = g.DestID,
   --EthnicityID = CAST(NULL as uniqueidentifier),
-  GenderID = (select ID from EnumValue where Type = 'D6194389-17AC-494C-9C37-FD911DA2DD4B' and Code = src.Sex), -- will error if more than one value
+  GenderID = (select ID from EnumValue where Type = 'D6194389-17AC-494C-9C37-FD911DA2DD4B' and Code = src.Gender), -- will error if more than one value
   Number = src.StudentLocalID,
   src.FirstName,
   src.MiddleName,
@@ -60,7 +60,7 @@ AS
  FROM
   LEGACYSPED.Student src LEFT JOIN
   LEGACYSPED.Transform_GradeLevel g on src.GradeLevelCode = g.GradeLevelCode LEFT JOIN
-  LEGACYSPED.Transform_School sch on src.ServiceSchoolRefID = sch.SchoolRefID LEFT JOIN
+  LEGACYSPED.Transform_School sch on src.ServiceSchoolCode = sch.SchoolCode LEFT JOIN
   dbo.Student s on src.StudentLocalID = s.Number and /* and s.IsActive = 1 -- removed 20111114 because this was adding a duplicate student.  We will leave them inactive, though */ 
 	s.ID = (
 		select top 1 a.ID 

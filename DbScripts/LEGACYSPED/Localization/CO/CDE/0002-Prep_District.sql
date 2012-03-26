@@ -6,7 +6,7 @@
 -- note : data model for SystemSettings table has changed (v 19)
 
 -- OrgUnit
-update ou set Number = '1550' -- Aurora Public Schools State Reporting DistrictID
+update ou set Number = 'D123' 
 -- select ou.*
 from (select top 1 OrgUnitID from School group by OrgUnitID order by count(*) desc) m join dbo.OrgUnit ou on m.OrgUnitID = ou.ID
 go
@@ -66,6 +66,11 @@ insert @Map_ServiceFrequencyID values ('03', 'monthly', '3D4B557B-0C2E-4A41-9410
 insert @Map_ServiceFrequencyID values ('01', 'daily', '71590A00-2C40-40FF-ABD9-E73B09AF46A1')
 insert @Map_ServiceFrequencyID values ('02', 'weekly', 'A2080478-1A03-4928-905B-ED25DEC259E6')
 insert @Map_ServiceFrequencyID values ('', 'yearly', '5F3A2822-56F3-49DA-9592-F604B0F202C3')
+insert @Map_ServiceFrequencyID values('AN', 'As Needed', '69439D9D-B6C1-4B7A-9CAC-C69810ADFD31')
+insert @Map_ServiceFrequencyID values('ESY', 'As Needed for ESY', '836D1E97-CE4D-4FD5-9D0A-148924AC007B')
+
+
+
 
 if (select COUNT(*) from @Map_ServiceFrequencyID t join LEGACYSPED.MAP_ServiceFrequencyID m on t.DestID = m.DestID) <> 5
 	delete LEGACYSPED.MAP_ServiceFrequencyID

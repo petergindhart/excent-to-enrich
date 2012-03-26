@@ -24,9 +24,9 @@ GO
 CREATE VIEW LEGACYSPED.Transform_PrgLocation  
 AS
 	SELECT
-		ServiceLocationCode = k.Code,
+		ServiceLocationCode = k.LegacySpedCode,
 		DestID = coalesce(s.ID, n.ID, t.ID, m.DestID), -- switched s.id and n.id to match subsequent lines on 20111025 gg
-		Name = coalesce(s.Name, n.Name, t.Name, k.Label),
+		Name = coalesce(s.Name, n.Name, t.Name, k.EnrichLabel),
 		Description = coalesce(s.Description, n.Description, t.Description),
 		MedicaidLocationID = coalesce(s.MedicaidLocationID, n.MedicaidLocationID, t.MedicaidLocationID),
 		StateCode = coalesce(s.StateCode, n.StateCode, t.StateCode, k.StateCode),
@@ -34,20 +34,20 @@ AS
 			CASE 
 				WHEN s.ID IS NOT NULL THEN s.DeletedDate 
 				WHEN t.ID IS NOT NULL THEN t.DeletedDate 
-				ELSE 
-					CASE WHEN k.DisplayInUI = 'Y' THEN NULL -- User specified they want to see this in the UI.  Let them. 
+				--ELSE 
+					--CASE WHEN k.DisplayInUI = 'Y' THEN NULL -- User specified they want to see this in the UI.  Let them. 
 					ELSE GETDATE()
-					END
+					--END
 			END 
 	FROM  
-		LEGACYSPED.Lookups k LEFT JOIN
+		LEGACYSPED.SelectLists k LEFT JOIN
 		dbo.PrgLocation s on 
 			isnull(k.StateCode,'kServLoc') = isnull(s.StateCode,'sServLoc') and
 			s.ID = (select min(cast(ID as varchar(36))) from PrgLocation where StateCode = s.StateCode) left join -- return only one record where duplicate statecodes exist in target
 		dbo.PrgLocation n on 
-			k.Label = n.Name and
+			k.EnrichLabel = n.Name and
 			n.ID = (select min(cast(ID as varchar(36))) from PrgLocation where Name = n.Name) left join -- return only one record where duplicate names exist in target
-		LEGACYSPED.MAP_PrgLocationID m on k.Code = m.ServiceLocationCode LEFT JOIN
+		LEGACYSPED.MAP_PrgLocationID m on k.LegacySpedCode = m.ServiceLocationCode LEFT JOIN
 		dbo.PrgLocation t on m.DestID = t.ID 
 	WHERE
 		k.Type = 'ServLoc' 
@@ -55,7 +55,7 @@ GO
 
 /*
 
-select * from LEGACYSPED.lookups where type = 'ServLoc'
+select * from LEGACYSPED.SelectLists where type = 'ServLoc'
 
 
 

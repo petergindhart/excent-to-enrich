@@ -28,41 +28,33 @@ GO
 CREATE VIEW LEGACYSPED.Transform_PrgInvolvement
 AS
 	SELECT
-		StudentRefID = stu.StudentRefID,
+		StudentRefID = stu.StudentRefID, --  stu.StudentID will change to stu.StudentRefID when the data based the new spec arrives.
+		-- DestID = isnull(t.ID, m.DestID),
+		-- DestID = t.ID, -- did not work
 		DestID = coalesce(x.ID, t.ID, m.DestID),
 		StudentID = stu.DestID,
 		ProgramID = 'F98A8EF2-98E2-4CAC-95AF-D7D89EF7F80C',   -- Special Education
 		VariantID = '6DD95EA1-A265-4E04-8EE9-78AE04B5DB9A',   -- Special Education
 		StartDate = min(iep.IEPStartDate),   -- school start for this IEP period
 		EndDate = min(case when stu.SpecialEdStatus = 'I' then iep.IEPEndDate else NULL end),
-		EndStatusID = min(case when stu.SpecialEdStatus = 'I' then '12086FE0-B509-4F9F-ABD0-569681C59EE2' else NULL end),
+-- 		EndDate = NULL,
+			--case when max(iep.IEPEndDate) > getdate() then NULL else max(iep.IEPEndDate) end,   -- school end for this IEP period.  MAX so we don't have to add to group by :-)
 		IsManuallyEnded = min(cast(case when stu.SpecialEdStatus = 'I' then 1 else 0 end as tinyint))
 	FROM
 		LEGACYSPED.Transform_Student stu JOIN 
 		LEGACYSPED.IEP iep on stu.StudentRefID = iep.StudentRefID LEFT JOIN 
 		dbo.PrgInvolvement x on stu.DestID = x.StudentID and x.ProgramID = 'F98A8EF2-98E2-4CAC-95AF-D7D89EF7F80C' left join 
 		LEGACYSPED.MAP_PrgInvolvementID m on iep.StudentRefID = m.StudentRefID LEFT JOIN
-		-- identify students that already have a sped invovlement that will overlap with this involvement
-		dbo.PrgInvolvement t on 
-			(stu.DestID = t.StudentID and 
-			t.ProgramID = 'F98A8EF2-98E2-4CAC-95AF-D7D89EF7F80C' and
-		--	dbo.DateRangesOverlap (iep.IEPStartDate, iep.IEPEndDate, t.StartDate, t.EndDate, null) = 1)
-			dbo.DateInRange( iep.IEPStartDate, t.StartDate, t.EndDate ) = 1)
+		dbo.PrgInvolvement t on m.DestID = t.ID
 	WHERE 
 		iep.IEPStartDate is not null
-		/*			-- TEST to see invalid current data alongside output of this transform (add columns to select list and group by)
-		and not (
-		(t.EndDate is null and t.EndStatus is null and t.IsManuallyEnded = 0) 
-		or
-		(t.EndDate is not null and t.EndStatus is not null)
-		)
-		*/
+	-- GROUP BY stu.StudentRefID, isnull(t.ID, m.DestID), stu.DestID
 	GROUP BY stu.StudentRefID, coalesce(x.ID, t.ID, m.DestID), stu.DestID
 GO
 --
 
--- select * from LEGACYSPED.MAP_PrgInvolvementID delete
 
+ 
 /*
 
 

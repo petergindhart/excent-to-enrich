@@ -7,7 +7,7 @@ DROP VIEW LEGACYSPED.TeamMember
 GO  
   
 CREATE TABLE LEGACYSPED.TeamMember_LOCAL(  
-  SpedStaffRefId	varchar(150)	not null,
+   StaffEmail	varchar(150)	not null,
   StudentRefId	varchar(150)	not null,
   IsCaseManager	varchar(1)	not null
 )  
@@ -18,4 +18,3 @@ CREATE VIEW LEGACYSPED.TeamMember
 AS  
  SELECT * FROM LEGACYSPED.TeamMember_LOCAL  
 GO
---

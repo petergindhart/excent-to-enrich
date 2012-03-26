@@ -31,29 +31,29 @@ GO
 CREATE VIEW LEGACYSPED.Transform_PrgStatus 
 AS 
  SELECT 
-  PrgStatusCode = isnull(k.Code, convert(varchar(150), k.Label)), -- Validation tool now ensures the existance of Code.  new values (prefs) use first 150 chars of Label as code.
+  PrgStatusCode = isnull(k.LegacySpedCode, convert(varchar(150), k.EnrichLabel)), -- Validation tool now ensures the existance of Code.  new values (prefs) use first 150 chars of Label as code.
   DestID = coalesce(s.ID, t.ID, m.DestID), -- may not need to coalesce below this line.
   ProgramID = 'F98A8EF2-98E2-4CAC-95AF-D7D89EF7F80C', 
   Sequence = coalesce(s.Sequence, t.Sequence, 99), 
-  Name = convert(varchar(50), coalesce(s.Name, t.Name, k.Label)), 
+  Name = convert(varchar(50), coalesce(s.Name, t.Name, k.EnrichLabel)), 
   IsExit = cast(1 as bit), 
   IsEntry = cast(0 as bit), 
   StatusStyleID = coalesce(s.StatusStyleID, t.StatusStyleID, 'FA528C27-E567-4CC9-A328-FF499BB803F6'), -- all the other PrgStatus rows for IEP and IsExit use this ID
   StateCode = coalesce(s.StateCode, t.StateCode, k.StateCode), 
-  Description = coalesce(s.Description, t.Description, k.Label), 
+  Description = coalesce(s.Description, t.Description, k.EnrichLabel), 
 		-- this element is part of the config import
 		DeletedDate = CASE 
 			WHEN s.ID IS NOT NULL THEN s.DeletedDate 
 			WHEN t.ID IS NOT NULL THEN t.DeletedDate 
-				ELSE 
-					CASE WHEN k.DisplayInUI = 'Y' THEN NULL -- User specified they want to see this in the UI.  Let them.
+				--ELSE 
+					--CASE WHEN k.DisplayInUI = 'Y' THEN NULL -- User specified they want to see this in the UI.  Let them.
 					ELSE GETDATE()
-					END
+					--END
 			END 
  FROM 
-  LEGACYSPED.Lookups k LEFT JOIN
+  LEGACYSPED.SelectLists k LEFT JOIN
   dbo.PrgStatus s on k.StateCode = s.StateCode left join
-  LEGACYSPED.MAP_PrgStatusID m on isnull(k.Code, convert(varchar(150), k.Label)) = m.PrgStatusCode left join
+  LEGACYSPED.MAP_PrgStatusID m on isnull(k.LegacySpedCode, convert(varchar(150), k.EnrichLabel)) = m.PrgStatusCode left join
   dbo.PrgStatus t on m.DestID = t.ID
  WHERE
   k.Type = 'Exit' 

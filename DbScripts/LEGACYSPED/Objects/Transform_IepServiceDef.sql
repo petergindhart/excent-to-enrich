@@ -11,7 +11,7 @@ AS
 
 SELECT
 -- ServiceDef
-	ServiceDefCode = isnull(k.Code, convert(varchar(150), k.Label)),
+	ServiceDefCode = isnull(k.LegacySpedCode, convert(varchar(150), k.EnrichLabel)),
 	ServiceCategoryCode = k.SubType,
 	md.DestID,
 -- IepServiceDef
@@ -23,9 +23,9 @@ SELECT
 	ScheduleFreqOnly = ISNULL(t.ScheduleFreqOnly,0) -- we don't know this, so assume Time required.  Pete says:  True means when user adds a service for this definition on an IEP, they will only be prompted for frequency as a unit (times, Amount = 1), not time.  This was for Florida.
 FROM 
 	LEGACYSPED.Transform_ServiceDef md join -- should be 100% match
-	LEGACYSPED.Lookups k on 
+	LEGACYSPED.SelectLists k on 
 		md.ServiceCategoryCode = k.SubType and 
-		md.ServiceDefCode = isnull(k.Code, convert(varchar(150), k.Label)) LEFT JOIN 
+		md.ServiceDefCode = isnull(k.LegacySpedCode, convert(varchar(150), k.EnrichLabel)) LEFT JOIN 
 	LEGACYSPED.Transform_IepServiceCategory mc on md.ServiceCategoryCode = mc.ServiceCategoryCode LEFT JOIN
 	dbo.IepServiceDef t on md.DestID = t.ID 
 WHERE 

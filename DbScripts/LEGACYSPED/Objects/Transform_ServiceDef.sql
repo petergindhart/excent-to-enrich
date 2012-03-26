@@ -35,31 +35,32 @@ AS
 	This should show in the UI:
 		1. State reporting values (required)
 		2. Customer preferred lookups
-		3. LEGACYSPED.Lookups.DisplayInUI indicates which legacy lookups to display in UI
+		3. LEGACYSPED.
+		.DisplayInUI indicates which legacy lookups to display in UI
 
 */
 
 SELECT distinct
 -- ServiceDef
-	ServiceDefCode = isnull(k.Code, convert(varchar(150), k.Label)), -- Validation tool has beenn updated to require a code.  only matters in preferences, so no worries about joining to the legacy service records
+	ServiceDefCode = isnull(k.LegacySpedCode, convert(varchar(150), k.EnrichLabel)), -- Validation tool has beenn updated to require a code.  only matters in preferences, so no worries about joining to the legacy service records
 	ServiceCategoryCode = k.SubType,
 	DestID = coalesce(s.ID, t.ID, m.DestID), -- may not need coalesce below this line because we are only updating legacy records.
 	StateCode = coalesce(s.StateCode, t.StateCode, k.StateCode),
 	TypeID = 'D3945E9D-AA0E-4555-BCB2-F8CA95CC7784', -- IEP
-	Name = coalesce(s.Name, t.Name, k.Label),
+	Name = coalesce(s.Name, t.Name, k.EnrichLabel),
 	Description = cast(coalesce(s.Description, t.Description) as varchar(max)),
 	DefaultLocationID = coalesce(s.DefaultLocationID, t.DefaultLocationID),
 	DeletedDate = 
 			CASE 
 				WHEN s.ID IS NOT NULL THEN s.DeletedDate
 				WHEN t.ID IS NOT NULL THEN t.DeletedDate
-				ELSE 
-					CASE WHEN k.DisplayInUI = 'Y' THEN NULL -- User specified they want to see this in the UI.  Let them.
+				---\ELSE 
+					--CASE WHEN k.DisplayInUI = 'Y' THEN NULL -- User specified they want to see this in the UI.  Let them.
 					ELSE GETDATE()
-					END
+					--END
 			END -- select k.* 
 FROM (select 'Service' Type) x  join 
-	LEGACYSPED.Lookups k on x.Type = k.Type LEFT JOIN -- Legacy ServiceDefs and preferred ServiceDefs provided in the same file )
+	LEGACYSPED.SelectLists k on x.Type = k.Type LEFT JOIN -- Legacy ServiceDefs and preferred ServiceDefs provided in the same file )
 	(
 		select sd.ID, c.ServiceCategoryCode, sd.Name, sd.StateCode, sd.Description, sd.DefaultLocationID, sd.DeletedDate
 		from dbo.ServiceDef sd join dbo.IepServiceDef i on sd.ID = i.ID JOIN
@@ -73,10 +74,10 @@ FROM (select 'Service' Type) x  join
 		from dbo.ServiceDef sd JOIN dbo.IepServiceDef i on sd.ID = i.ID JOIN
 			LEGACYSPED.Transform_IepServiceCategory c on i.CategoryID = c.DestID
 	) n on k.SubType = n.ServiceCategoryCode and -- objective : identify where a ServiceDefinition with this label already exists in Enrich database.  
-		k.Label = n.Name left join -- as currently written, if IepServiceDef.CategoryID is null, a new record will be added to ServiceDef for the proper ServiceCategory
+		k.EnrichLabel = n.Name left join -- as currently written, if IepServiceDef.CategoryID is null, a new record will be added to ServiceDef for the proper ServiceCategory
 	LEGACYSPED.MAP_ServiceDefID m on 
 		k.SubType = m.ServiceCategoryCode and 
-		isnull(k.Code, convert(varchar(150), k.Label)) = m.ServiceDefCode LEFT JOIN
+		isnull(k.LegacySpedCode, convert(varchar(150), k.EnrichLabel)) = m.ServiceDefCode LEFT JOIN
 	dbo.ServiceDef t on m.DestID = t.ID 
 WHERE 
 	k.Type = 'Service' 
