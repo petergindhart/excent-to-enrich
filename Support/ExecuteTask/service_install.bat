@@ -1,7 +1,7 @@
 echo off
-set exepath=C:\GIT\excent-to-enrich\Support\ExecuteTask\
-set svc="C:\inetpub\Sites\Enrich\Excent Enrich DC7 FL Lee\TasksService\TestViewTasksService.exe"
-set name="VC3 TestView Scheduled Tasks (DC7FLLee)"
+set exepath="C:\Documents and Settings\muralik\My Documents\GIT\Excent\Support\ExecuteTask\"
+set svc="E:\Inetpub\Sites\EnrichDCB3\TasksService\TestViewTasksService.exe"
+set name="VC3 Scheduled Tasks (EnrichDCB3)"
 
 %exepath%\ExecuteTask.exe installservice ServiceExe=%svc% ServiceName=%name%
 
