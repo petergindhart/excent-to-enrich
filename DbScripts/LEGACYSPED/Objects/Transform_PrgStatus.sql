@@ -63,6 +63,10 @@ GO
 /*
 
 
+This is a test comment to see how GitHub (Git Gui) behaves, since there is currently an error related to an unimportant file when I try to fetch remote and merge.
+
+
+
 select * from PrgStatus where ProgramID = 'F98A8EF2-98E2-4CAC-95AF-D7D89EF7F80C' and IsExit = 1  order by sequence
 
 
