@@ -8,7 +8,7 @@ CREATE TABLE LEGACYSPED.SelectLists_LOCAL(
 Type	varchar(20),
 SubType	varchar(20),
 EnrichID varchar(150), -- Newly included column to map with the target table
-StateCode	varchar(10),
+StateCode	varchar(20),
 LegacySpedCode	varchar(150),
 EnrichLabel	varchar(254)
 --Sequence	varchar(3),
