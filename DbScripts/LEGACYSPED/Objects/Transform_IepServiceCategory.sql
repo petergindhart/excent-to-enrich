@@ -25,26 +25,38 @@ CREATE VIEW LEGACYSPED.Transform_IepServiceCategory
 AS
 	SELECT
 		k.ServiceCategoryCode,
-		DestID = coalesce(s.ID, t.ID, m.DestID),
-		Name = coalesce(s.Name, t.Name, case k.ServiceCategoryCode when 'SpecialEd' then 'Special Education' else k.ServiceCategoryCode end), -- It is important to get t where it exists because we are updating the target table and we don't want to change t where t already existed
-		Sequence = coalesce(s.Sequence, t.Sequence, 99),
+		DestID = t.ID,
+		Name = coalesce(t.Name, case k.ServiceCategoryCode when 'SpecialEd' then 'Special Education' else k.ServiceCategoryCode end), -- It is important to get t where it exists because we are updating the target table and we don't want to change t where t already existed
+		Sequence = coalesce(t.Sequence, 99),
 		DeletedDate = CAST(null as datetime)
 	FROM
 		(
 		SELECT ServiceCategoryCode = SubType
 		FROM LEGACYSPED.SelectLists
 		WHERE Type = 'Service'
+		and SubType is not null
 		GROUP BY SubType
 		) k LEFT JOIN
-		dbo.IepServiceCategory s on case k.ServiceCategoryCode when 'SpecialEd' then 'Special Education' else k.ServiceCategoryCode end = s.Name 
-		LEFT JOIN LEGACYSPED.MAP_IepServiceCategoryID m ON k.ServiceCategoryCode = m.ServiceCategoryCode LEFT JOIN 
-		dbo.IepServiceCategory t on m.DestID = t.ID	
+		dbo.IepServiceCategory t on case k.ServiceCategoryCode when 'SpecialEd' then 'Special Education' else k.ServiceCategoryCode end = t.Name 
 GO
 
--- ServiceDefCode
+
+
 
 
 /*
+sp_helptext 'LEGACYSPED.Transform_IepServiceCategory'
+
+select distinct subtype  from LEGACYSPED.SelectLists where type = 'Service'
+select * from LEGACYSPED.SelectLists where subtype = 'Support'
+
+
+
+
+select distinct servicetype from LEGACYSPED.service
+
+
+select * from LEGACYSPED.Transform_IepServiceCategory  
 
 GEO.ShowLoadTables IepServiceCategory
 
