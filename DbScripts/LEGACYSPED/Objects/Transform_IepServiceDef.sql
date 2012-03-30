@@ -12,7 +12,7 @@ AS
 SELECT
 -- ServiceDef
 	ServiceDefCode = isnull(k.LegacySpedCode, convert(varchar(150), k.EnrichLabel)),
-	ServiceCategoryCode = k.SubType,
+	ServiceCategoryCode = isnull(k.SubType, mc.ServiceCategoryCode)
 	md.DestID,
 -- IepServiceDef
 	ServiceCategoryID = mc.DestID,

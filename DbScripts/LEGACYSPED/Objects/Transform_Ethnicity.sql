@@ -24,16 +24,17 @@ GO
 create view LEGACYSPED.Transform_Ethnicity
 as
 SELECT
-	l.LegacySpedCode,
-	l.StateCode,
-	DestID = ISNULL(x.ID, NEWID()),
+	LegacySpedCode = ISNULL(l.LegacySpedCode,x.Code),
+	StateCode = ISNUll( x.StateCode, l.StateCode),
+	DestID = coalesce(x.ID, l.EnrichID, NEWID()),
 	Name = l.EnrichLabel
 FROM
 	LEGACYSPED.SelectLists l LEFT JOIN
-	EnumValue x on l.StateCode = x.Code -- this will not work for all states.  need a different approach.
+	EnumValue x on l.LegacySpedCode = x.Code -- this will not work for all states.  need a different approach.
 WHERE l.Type = 'Ethnic' AND
 	x.Type = (select t.ID from EnumType t where t.Type = 'ETH')
 GO
+
 --
 
 /*

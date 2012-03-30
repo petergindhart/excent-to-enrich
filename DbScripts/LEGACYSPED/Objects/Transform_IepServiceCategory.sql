@@ -31,8 +31,8 @@ AS
 		DeletedDate = CAST(null as datetime)
 	FROM
 		(
-		SELECT ServiceCategoryCode = SubType
-		FROM LEGACYSPED.SelectLists
+		SELECT Distinct ServiceCategoryCode = SubType
+		FROM LEGACYSPED.SelectLists 
 		WHERE Type = 'Service'
 		GROUP BY SubType
 		) k LEFT JOIN

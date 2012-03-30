@@ -50,7 +50,7 @@ GO
 CREATE VIEW LEGACYSPED.Transform_PrgIep
 AS
 	SELECT
--- expose legacy data
+-- expose legacy data 
 		iep.StudentRefID,
 		iep.IepRefID,
 		AgeGroup = case when DATEDIFF(yy, stu.DOB, iep.IepStartDate) < 6 then 'PK' when DATEDIFF(yy, stu.DOB, iep.IepStartDate) > 5 then 'K12' End,
@@ -62,16 +62,18 @@ AS
 		StartDate = iep.IEPStartDate,
 		-- EndDate = case when iep.IEPEndDate > getdate() then NULL else iep.IEPEndDate end,
 		EndDate = case when stu.SpecialEdStatus = 'I' then iep.IEPEndDate else NULL end,
-		ItemOutcomeID = item.ItemOutcomeID,
+		ItemOutcomeID = case when stu.SpecialEdStatus = 'I' then '5ADC11E8-227D-4142-91BA-637E68FDBE70' else NULL end, -- item.ItemOutcomeID,
 		CreatedDate = iep.IEPStartDate,
 		CreatedBy = 'EEE133BD-C557-47E1-AB67-EE413DD3D1AB', -- BuiltIn: Support
-		EndedDate = cast(case when stu.SpecialEdStatus = 'I' then iep.IEPEndDate else NULL end as datetime), -- cast(item.EndedDate as datetime),
+		EndedDate = cast(case when stu.SpecialEdStatus = 'I' then iep.IEPEndDate else NULL end as datetime),
+-- some records have been ended appropriately
 		EndedBy = cast(item.EndedBy as uniqueidentifier),
 		SchoolID = stu.CurrentSchoolID,
 		GradeLevelID = stu.CurrentGradeLevelID,
 		InvolvementID = inv.DestID,
 		StartStatusID =  '796C212F-6003-4CD3-878D-53BEBE087E9A', -- def.StatusID, -- Converted IEP is a soft-deleted PrgStatus record that we use by default.  Update TEMPLATE PrgItemDef.StatusID for Conveted IEP if the customer requests it
-		--EndStatusID = case when (isnull(CONVERT(datetime, iep.IEPEndDate), 0) < getdate() and stu.SpecialEdStatus = 'I') then '12086FE0-B509-4F9F-ABD0-569681C59EE2' else NULL end, -- select * from PrgStatus where ProgramID = 'F98A8EF2-98E2-4CAC-95AF-D7D89EF7F80C' and IsExit = 1 and sequence < 99
+		-- EndStatusID = case when (isnull(CONVERT(datetime, iep.IEPEndDate), 0) < getdate() and stu.SpecialEdStatus = 'I') then '12086FE0-B509-4F9F-ABD0-569681C59EE2' else NULL end,
+		EndStatusID = case when stu.SpecialEdStatus = 'I' then '12086FE0-B509-4F9F-ABD0-569681C59EE2' else NULL end,
 		PlannedEndDate = isnull(convert(datetime, iep.IEPEndDate), dateadd(yy, 1, dateadd(dd, -1, convert(datetime, iep.IEPStartDate)))),
 		-- IsEnded = case when isnull(CONVERT(datetime, iep.IEPEndDate), dateadd(yy, 1, dateadd(dd, -1, convert(datetime, iep.IEPStartDate)))) < getdate() then 1 else 0 end, -- dateadd(yy, 1, dateadd(dd, -1, convert(datetime, iep.IEPStartDate)))
 		IsEnded = cast(case when stu.SpecialEdStatus = 'I' then 1 else 0 end as Bit),
@@ -90,15 +92,41 @@ AS
 		VersionDestID = ver.DestID,
 		VersionFinalizedDate = iep.IEPStartDate,
 		iep.MinutesPerWeek,
-		iep.ConsentForServicesDate
+		iep.ConsentForServicesDate 
+/*					TEST changes to select list side-by-side with current records with invalid state
+select stu.SpecialEdStatus,
+	IsEnded = cast(case when stu.SpecialEdStatus = 'I' then 1 else 0 end as Bit),
+	ItemOutcomeID = case when stu.SpecialEdStatus = 'I' then '5ADC11E8-227D-4142-91BA-637E68FDBE70' else NULL end,
+	EndStatusID = case when stu.SpecialEdStatus = 'I' then '12086FE0-B509-4F9F-ABD0-569681C59EE2' else NULL end,
+	EndDate = case when stu.SpecialEdStatus = 'I' then iep.IEPEndDate else NULL end,
+		div = '*******',
+	item.IsEnded, item.ItemOutcomeID, item.EndStatusID, item.EndDate */
 	FROM
 		LEGACYSPED.Transform_Student stu JOIN 
 		LEGACYSPED.IEP iep ON iep.StudentRefID = stu.StudentRefID JOIN
 		dbo.PrgItemDef def ON def.ID = '8011D6A2-1014-454B-B83C-161CE678E3D3' JOIN -- Converted IEP 
-		LEGACYSPED.MAP_PrgInvolvementID inv ON iep.StudentRefID = inv.StudentRefID LEFT JOIN
+		LEGACYSPED.Transform_PrgInvolvement inv ON iep.StudentRefID = inv.StudentRefID LEFT JOIN
 		LEGACYSPED.MAP_IepRefID mt ON iep.IepRefID = mt.IepRefID LEFT JOIN
 		LEGACYSPED.MAP_PrgVersionID ver ON iep.IepRefID = ver.IepRefID LEFT JOIN -- when we insert PrgItem we don't need this yet.  
 		dbo.PrgItem item ON mt.DestID = item.ID 
+/*					TEST changes to select list side-by-side with current records with invalid state
+WHERE not  (
+	(item.IsEnded = 0 and item.ItemOutcomeID is null and item.EndStatusID is null and item.EndDate is null)
+	or
+	(item.IsEnded = 1 and item.ItemOutcomeID is null and item.EndStatusID is null and item.EndDate is not null)
+	or
+	(item.IsEnded = 1 and item.ItemOutcomeID is not null and item.EndStatusID is null and item.EndDate is not null)
+	or
+	(item.IsEnded = 1 and item.ItemOutcomeID is not null and item.EndStatusID is not null and item.EndDate is not null)
+	)
+order by 
+	item.IsEnded,
+	case when item.ItemOutcomeID IS NULL then 0 else 1 end, 
+	case when item.EndStatusID IS NULL then 0 else 1 end, 
+	case when item.EndDate IS NULL then 0 else 1 end
+*/
+
+
 GO
 ---
 

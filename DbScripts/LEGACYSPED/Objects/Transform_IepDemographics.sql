@@ -11,14 +11,10 @@ AS
 	SELECT
 		iep.StudentRefID,
 		DestID = m.DestID,
-		PrimaryLanguageID = cast(NULL as uniqueidentifier),
-		PrimaryLanguageHomeID = cast(NULL as uniqueidentifier),
 		ServiceDistrictID = dss.OrgUnitID,
 		ServiceSchoolID = ss.DestID,
 		HomeDistrictID = dsh.OrgUnitID,
-		HomeSchoolID = sh.DestID,
-		InterpreterNeededID = cast(NULL as uniqueidentifier),
-		LimittedEnglishProficiencyID = cast(NULL as uniqueidentifier) 
+		HomeSchoolID = sh.DestID
 	FROM
 		LEGACYSPED.Transform_PrgIep iep LEFT JOIN
 		LEGACYSPED.MAP_PrgSectionID m on 
