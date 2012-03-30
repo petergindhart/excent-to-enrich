@@ -5,7 +5,7 @@ IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.MA
 BEGIN
 CREATE TABLE LEGACYSPED.MAP_ServiceDefID
 (
-	ServiceCategoryCode  varchar(20) not null,
+	ServiceCategoryCode  varchar(20) null,
 	ServiceDefCode	varchar(150) NOT NULL,
 	DestID uniqueidentifier NOT NULL
 )
@@ -13,10 +13,14 @@ CREATE TABLE LEGACYSPED.MAP_ServiceDefID
 ALTER TABLE LEGACYSPED.MAP_ServiceDefID ADD CONSTRAINT
 PK_Map_ServiceDefID PRIMARY KEY CLUSTERED
 (
-	ServiceCategoryCode, ServiceDefCode
+	-- ServiceCategoryCode, ServiceDefCode -- could not create a PK on a nullable column, and apparently it is possible to not associate a service with category
+	DestID
 )
 
 CREATE INDEX IX_MAP_ServiceDefID_ServiceCategoryCode_ServiceDefCode on LEGACYSPED.MAP_ServiceDefID (ServiceCategoryCode, ServiceDefCode)
+
+alter table LEGACYSPED.MAP_ServiceDefID ADD CONSTRAINT UQ_MAP_ServiceDefID_ServiceCategoryCode_ServiceDefCode unique clustered (ServiceCategoryCode, ServiceDefCode)
+
 END
 GO
 
@@ -29,62 +33,45 @@ CREATE VIEW LEGACYSPED.Transform_ServiceDef
 AS
 /*
 	ServiceDef and IepServiceDef are no longer included in the Config Export (they cannot be since this data is different from district to district)
-	Customer is given the opportunity to provide a list of preferred values for this element.  (LEGACYSPED.Lookups Type = Service, DisplayInUI = Y.  
-	AUROAX.Lookups.Code should never be blank.  For new ServiceDef (customer pref), use first 150 characters of Label as a code.
-	
-	This should show in the UI:
-		1. State reporting values (required)
-		2. Customer preferred lookups
-		3. LEGACYSPED.
-		.DisplayInUI indicates which legacy lookups to display in UI
+	Customer is given the opportunity to provide a list of preferred values for this element.  (LEGACYSPED.SelectLists)
+	LegacySpedCode may be blank if the customer does not have a value that corresponds to an out-of-the-box Enrich value.  
+
+	This view was written to accommodate the scenario where a customer already has desired Service Definitions in their target database.  
+	Care must be taken to prepare the SelectLists file, so that the appropriate IDs exist in that file.
+
+	1. Map table has been wiped out before the clean import
+	2. ServiceDef table records that were not del-flagged have been left in place
+	3. There may be no way to match up legacy service with services in enrich.  best effort at most.
 
 */
 
-SELECT distinct
--- ServiceDef
-	ServiceDefCode = isnull(k.LegacySpedCode, convert(varchar(150), k.EnrichLabel)), -- Validation tool has beenn updated to require a code.  only matters in preferences, so no worries about joining to the legacy service records
+select 
+	ServiceDefCode = k.LegacySpedCode,
 	ServiceCategoryCode = k.SubType,
-	DestID = coalesce(s.ID, t.ID, m.DestID), -- may not need coalesce below this line because we are only updating legacy records.
-	StateCode = coalesce(s.StateCode, t.StateCode, k.StateCode),
-	TypeID = 'D3945E9D-AA0E-4555-BCB2-F8CA95CC7784', -- IEP
-	Name = coalesce(s.Name, t.Name, k.EnrichLabel),
-	Description = cast(coalesce(s.Description, t.Description) as varchar(max)),
-	DefaultLocationID = coalesce(s.DefaultLocationID, t.DefaultLocationID),
-	DeletedDate = 
-			CASE 
-				WHEN s.ID IS NOT NULL THEN s.DeletedDate
-				WHEN t.ID IS NOT NULL THEN t.DeletedDate
-				---\ELSE 
-					--CASE WHEN k.DisplayInUI = 'Y' THEN NULL -- User specified they want to see this in the UI.  Let them.
-					ELSE GETDATE()
-					--END
-			END -- select k.* 
-FROM (select 'Service' Type) x  join 
-	LEGACYSPED.SelectLists k on x.Type = k.Type LEFT JOIN -- Legacy ServiceDefs and preferred ServiceDefs provided in the same file )
-	(
-		select sd.ID, c.ServiceCategoryCode, sd.Name, sd.StateCode, sd.Description, sd.DefaultLocationID, sd.DeletedDate
-		from dbo.ServiceDef sd join dbo.IepServiceDef i on sd.ID = i.ID JOIN
-			LEGACYSPED.Transform_IepServiceCategory c on i.CategoryID = c.DestID 
-	) s on k.SubType = s.ServiceCategoryCode and
-		isnull(k.StateCode, 'kService') = isnull(s.StateCode, 'sService')
-		  -- objective:  join on state code only if there is a match.
-		LEFT JOIN 
-	(
-		select distinct sd.ID, c.ServiceCategoryCode, sd.Name, sd.StateCode, Description = cast(sd.Description as varchar(max)), sd.DefaultLocationID, sd.DeletedDate
-		from dbo.ServiceDef sd JOIN dbo.IepServiceDef i on sd.ID = i.ID JOIN
-			LEGACYSPED.Transform_IepServiceCategory c on i.CategoryID = c.DestID
-	) n on k.SubType = n.ServiceCategoryCode and -- objective : identify where a ServiceDefinition with this label already exists in Enrich database.  
-		k.EnrichLabel = n.Name left join -- as currently written, if IepServiceDef.CategoryID is null, a new record will be added to ServiceDef for the proper ServiceCategory
-	LEGACYSPED.MAP_ServiceDefID m on 
-		k.SubType = m.ServiceCategoryCode and 
-		isnull(k.LegacySpedCode, convert(varchar(150), k.EnrichLabel)) = m.ServiceDefCode LEFT JOIN
-	dbo.ServiceDef t on m.DestID = t.ID 
-WHERE 
-	k.Type = 'Service' 
+	DestID = coalesce(k.EnrichID, s.ServiceDefID, m.DestID), -- give this some thought
+	--sdDestID = s.ServiceDefID,
+	--slDestID = k.EnrichID,
+	--mDestID = m.DestID,
+	--tDestID = t.DestID,
+	StateCode = k.StateCode,
+	TypeID = 'D3945E9D-AA0E-4555-BCB2-F8CA95CC7784',
+	Name = isnull(s.ServiceDefName, k.EnrichLabel),
+	Description = s.Description,
+	DefaultLocationID = s.DefaultLocationID,
+	DeletedDate = case when coalesce(k.EnrichID, s.ServiceDefID, m.DestID) is null then getdate() else s.DeletedDate end
+from LEGACYSPED.SelectLists k left join
+(select ServiceDefID = sd.ID, ServiceDefName = sd.Name, sd.DeletedDate, ServiceCategoryName = isc.Name, sd.Description, sd.DefaultLocationID from dbo.ServiceDef sd join dbo.IepServiceDef isd on sd.ID = isd.ID join dbo.IepServiceCategory isc on isd.CategoryID = isc.ID) s on s.ServiceDefName = k.EnrichLabel and isnull(s.ServiceCategoryName,'') = case isnull(k.SubType,'') when 'SpecialEd' then 'Special Education' else isnull(k.SubType,'') end  left join 
+LEGACYSPED.MAP_ServiceDefID m on k.LegacySpedCode = m.ServiceDefCode and isnull(k.SubType,'') = isnull(m.ServiceCategoryCode,'') left join 
+dbo.ServiceDef t on m.DestID = t.ID
+where k.Type = 'Service'
+and k.LegacySpedCode is not null
 GO
 --
 
 /*
+
+
+select * from LEGACYSPED.Transform_ServiceDef where ServiceCategoryCode is null
 
 
 GEO.ShowLoadTables ServiceDef
