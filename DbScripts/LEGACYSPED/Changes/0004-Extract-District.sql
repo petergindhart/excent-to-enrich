@@ -4,7 +4,6 @@ DROP TABLE LEGACYSPED.District_LOCAL
 GO
 
 CREATE TABLE LEGACYSPED.District_LOCAL(
-DistrictRefID    varchar(150),
 DistrictCode    varchar(10),
 DistrictName    varchar(255)
 )
