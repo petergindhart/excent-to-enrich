@@ -32,9 +32,9 @@ AS
 		WHEN s.ID IS NOT NULL THEN s.DeletedDate 
 		WHEN n.ID IS NOT NULL THEN n.DeletedDate
 		WHEN t.ID IS NOT NULL THEN t.DeletedDate 
-			--ELSE 
+		ELSE  NULL
 				--CASE WHEN k.DisplayInUI = 'Y' THEN NULL -- User specified they want to see this in the UI.  Let them.
-				ELSE GETDATE()
+				--ELSE GETDATE()
 				--END
 		END 
  FROM  
