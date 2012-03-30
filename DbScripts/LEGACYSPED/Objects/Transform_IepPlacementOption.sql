@@ -67,7 +67,8 @@ select
 	Text = isnull(t.Text, k.EnrichLabel), -- t columns will be null until the map table is populated
 	MinPercentGenEd = t.MinPercentGenEd,   -- t columns will be null until the map table is populated
 	MaxPercentGenEd = t.MaxPercentGenEd,   -- t columns will be null until the map table is populated
-	DeletedDate = cast(case when k.EnrichID is null then getdate() else NULL end as datetime)		-- depends on when we want to hide from the UI
+	DeletedDate = cast(case when k.EnrichID is null then getdate() else NULL end as datetime)	
+	-- depends on when we want to hide from the UI
 
 from 
 	LEGACYSPED.SelectLists k LEFT JOIN

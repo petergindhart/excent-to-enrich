@@ -50,15 +50,7 @@ SELECT distinct
 	Name = coalesce(s.Name, t.Name, k.EnrichLabel),
 	Description = cast(coalesce(s.Description, t.Description) as varchar(max)),
 	DefaultLocationID = coalesce(s.DefaultLocationID, t.DefaultLocationID),
-	DeletedDate = 
-			CASE 
-				WHEN s.ID IS NOT NULL THEN s.DeletedDate
-				WHEN t.ID IS NOT NULL THEN t.DeletedDate
-				---\ELSE 
-					--CASE WHEN k.DisplayInUI = 'Y' THEN NULL -- User specified they want to see this in the UI.  Let them.
-					ELSE GETDATE()
-					--END
-			END -- select k.* 
+	DeletedDate = cast(case when k.EnrichID is null then getdate() else NULL end as datetime)
 FROM (select 'Service' Type) x  join 
 	LEGACYSPED.SelectLists k on x.Type = k.Type LEFT JOIN -- Legacy ServiceDefs and preferred ServiceDefs provided in the same file )
 	(
@@ -82,6 +74,7 @@ FROM (select 'Service' Type) x  join
 WHERE 
 	k.Type = 'Service' 
 GO
+
 --
 
 /*

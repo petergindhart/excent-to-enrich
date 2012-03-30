@@ -43,7 +43,6 @@ AS
 			CASE 
 				WHEN s.ID IS NOT NULL THEN s.Active -- Always show in UI where there is a StateID.  Period.
 				WHEN t.ID IS NOT NULL THEN t.Active
-			
 			END -- a benefit of this is that if a Disability record is absent in a subsequent legacy data import, the record will not be deleted, but Active will be set to 0.  Cool.
 	FROM
 		LEGACYSPED.SelectLists k LEFT JOIN
