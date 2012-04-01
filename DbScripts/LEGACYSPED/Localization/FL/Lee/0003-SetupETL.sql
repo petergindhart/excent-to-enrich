@@ -145,6 +145,7 @@ INSERT INTO @VC3ETL_LoadColumn VALUES ('74b0d617-34ac-43a7-ba2f-14b1af0a8a55', '
 INSERT INTO @VC3ETL_LoadColumn VALUES ('cedddf96-aa46-4df5-a26d-14df6d4b943e', '07a951d2-f745-41a2-bfdb-74f6f4e73390', 'IsTransitional', 'IsTransitional', 'C', 0, NULL, NULL, NULL)
 INSERT INTO @VC3ETL_LoadColumn VALUES ('d474e720-6ebd-4bc6-8033-14eac44c847a', 'db70b7cf-811f-4372-b116-cc2a2cb2e1ca', 'Sequence', 'Sequence', 'C', 0, NULL, NULL, NULL)
 INSERT INTO @VC3ETL_LoadColumn VALUES ('6743156a-763e-4dea-bc25-14ee1172be07', '27e7669a-bc10-40a7-be54-6c66b37722ab', 'DateDetermined', 'DateDetermined', 'C', 0, NULL, NULL, NULL)
+INSERT INTO @VC3ETL_LoadColumn VALUES ('c5ec6535-4df2-4b7a-abb6-36e830e8d65c', '27e7669a-bc10-40a7-be54-6c66b37722ab', 'NoneSuspected', 'NoneSuspected', 'C', 0, NULL, NULL, NULL)
 INSERT INTO @VC3ETL_LoadColumn VALUES ('a955ed63-ad41-4aef-af28-1517d8324814', '51df9a0a-bdf5-42d4-8858-f7b7ed98af56', 'MinPercentGenEd', 'MinPercentGenEd', 'C', 0, NULL, NULL, NULL)
 INSERT INTO @VC3ETL_LoadColumn VALUES ('aa19fdcd-0114-449f-bda7-156747c7ddb7', '9ef8de14-d683-4653-969e-831eb33d5ce6', 'Sequence', 'Sequence', 'C', 0, NULL, NULL, NULL)
 INSERT INTO @VC3ETL_LoadColumn VALUES ('c310ce68-9a87-4078-909b-1728b7a5c734', '0ec64939-dec1-4d0f-bc24-5767bcc85507', 'BaselineScoreID', 'BaselineScoreID', 'C', 0, NULL, NULL, NULL)
@@ -180,7 +181,6 @@ INSERT INTO @VC3ETL_LoadColumn VALUES ('3400b64e-d62a-4a68-bc8e-33abc7255c3a', '
 INSERT INTO @VC3ETL_LoadColumn VALUES ('86053192-aea2-459b-a657-341d0e60baaa', '28b98fe4-a7ff-42be-ac0d-a05a728bbdb8', 'Sequence', 'Sequence', 'C', 0, NULL, NULL, NULL)
 INSERT INTO @VC3ETL_LoadColumn VALUES ('0c87ec1c-1046-4437-b2e0-351765df95c7', '9fdb23c0-6833-49ed-b72c-d8e35cbe4bf0', 'NextStatusID', 'NextStatusID', 'C', 0, NULL, NULL, NULL)
 INSERT INTO @VC3ETL_LoadColumn VALUES ('02bebcf6-a899-4987-8b85-3595b40953a1', 'df0eeded-72fc-4b7b-978d-c0002b7661b8', 'DestID', 'ID', 'K', 0, NULL, NULL, NULL)
-INSERT INTO @VC3ETL_LoadColumn VALUES ('469b977a-e956-4f87-8574-372266817ed6', 'df0eeded-72fc-4b7b-978d-c0002b7661b8', 'PrimaryLanguageHomeID', 'PrimaryLanguageHomeID', 'C', 0, NULL, NULL, NULL)
 INSERT INTO @VC3ETL_LoadColumn VALUES ('68be021a-93e0-4094-bf79-37858780b30e', '0650f23e-b249-4d90-8389-36b73375b506', 'ManuallyEntered', 'ManuallyEntered', 'C', 0, NULL, NULL, NULL)
 INSERT INTO @VC3ETL_LoadColumn VALUES ('6a60298d-8857-42c9-be47-3786672f5ff4', 'db70b7cf-811f-4372-b116-cc2a2cb2e1ca', 'DeletedDate', 'DeletedDate', 'C', 0, NULL, NULL, NULL)
 INSERT INTO @VC3ETL_LoadColumn VALUES ('67c1fba0-195b-4c29-9972-38a835be2312', 'bf8fe220-458f-4e1b-965c-750cfd698730', 'DestID', 'ID', 'K', 0, NULL, NULL, NULL)
@@ -222,7 +222,6 @@ INSERT INTO @VC3ETL_LoadColumn VALUES ('1f7e6aa6-d560-4687-9384-593e3d3c8624', '
 INSERT INTO @VC3ETL_LoadColumn VALUES ('4f1ad757-1ec6-4aa3-9990-5abcc5524a6e', '90dc3810-824a-4040-a223-0290453aa934', 'InvolvementID', 'InvolvementID', 'C', 0, NULL, NULL, NULL)
 INSERT INTO @VC3ETL_LoadColumn VALUES ('6c4cc18c-2bdc-4228-b4dc-5b860aaec059', '0ec64939-dec1-4d0f-bc24-5767bcc85507', 'GoalStatement', 'GoalStatement', 'C', 0, NULL, NULL, NULL)
 INSERT INTO @VC3ETL_LoadColumn VALUES ('f8d19ff5-efbf-4bba-82e5-5c9801d2a299', 'd9d1e9ff-0a17-435e-b0c1-9dcf2f77a2d5', 'ScheduleFreqOnly', 'ScheduleFreqOnly', 'C', 0, NULL, NULL, NULL)
-INSERT INTO @VC3ETL_LoadColumn VALUES ('ada5930e-b2ef-433a-9487-5d02676fdb07', 'df0eeded-72fc-4b7b-978d-c0002b7661b8', 'PrimaryLanguageID', 'PrimaryLanguageID', 'C', 0, NULL, NULL, NULL)
 INSERT INTO @VC3ETL_LoadColumn VALUES ('2ffec273-7871-405e-b1fe-5d1481222a0e', 'b64e6a41-3491-4092-8b0d-906069419ea8', 'StateCode', 'StateCode', 'C', 0, NULL, NULL, NULL)
 INSERT INTO @VC3ETL_LoadColumn VALUES ('3ae131a0-12b4-4686-a0df-5e2bef35d838', 'd9d1e9ff-0a17-435e-b0c1-9dcf2f77a2d5', 'DirectID', 'DirectID', 'C', 0, NULL, NULL, NULL)
 INSERT INTO @VC3ETL_LoadColumn VALUES ('93c7841e-6947-41a8-a0e2-5e9a404d77ce', '0650f23e-b249-4d90-8389-36b73375b506', 'IsHispanic', 'IsHispanic', 'C', 0, NULL, NULL, NULL)
@@ -253,7 +252,6 @@ INSERT INTO @VC3ETL_LoadColumn VALUES ('dca26da5-f85a-47d0-b290-7189de7244c0', '
 INSERT INTO @VC3ETL_LoadColumn VALUES ('26b261dc-e84f-4803-a4f8-71a78b8e31aa', 'df20c067-6c1f-4116-accc-96b9d781bf9a', '(0)', 'Active', 'C', 0, NULL, NULL, NULL)
 INSERT INTO @VC3ETL_LoadColumn VALUES ('f1583473-6635-43c7-b002-72e11302a119', '24326fb7-7ed4-49fd-8831-455068906ab9', 'VersionDestID', 'ID', 'K', 0, NULL, NULL, NULL)
 INSERT INTO @VC3ETL_LoadColumn VALUES ('d804afb1-d0ff-4b3c-98b4-755921503a17', '40e2bf15-0ad8-4d9c-a1a3-8819ad5eca79', 'NextEvaluationDate', 'NextEvaluationDate', 'C', 0, NULL, NULL, NULL)
-INSERT INTO @VC3ETL_LoadColumn VALUES ('7a044d16-525c-4f7c-9094-75dee25b40b6', 'df0eeded-72fc-4b7b-978d-c0002b7661b8', 'InterpreterNeededID', 'InterpreterNeededID', 'C', 0, NULL, NULL, NULL)
 INSERT INTO @VC3ETL_LoadColumn VALUES ('44987b37-56d7-4612-a95f-7641ee2c67ee', 'd3e7d208-362c-43ba-8903-ded80eefa8e7', 'DestID', 'ID', 'K', 0, NULL, NULL, NULL)
 INSERT INTO @VC3ETL_LoadColumn VALUES ('04688704-4c18-4d41-b7aa-766aaafac108', '534be8de-46d8-4108-bd9f-f3937893f2e5', 'Name', 'Name', 'C', 0, NULL, NULL, NULL)
 INSERT INTO @VC3ETL_LoadColumn VALUES ('3a7f9511-53cd-4370-9820-78180445ef79', '750cba2a-ce1f-4653-9e43-9a450eac3653', 'DeliveryStatement', 'DeliveryStatement', 'C', 0, NULL, NULL, NULL)
@@ -375,7 +373,6 @@ INSERT INTO @VC3ETL_LoadColumn VALUES ('dafdbcaf-ebe8-4f49-a7ac-e97b3ded59a7', '
 INSERT INTO @VC3ETL_LoadColumn VALUES ('e50ccd91-9653-45e1-931b-ea0a8535ac61', 'aad80f07-6023-4753-af26-309ff6bf845c', 'Street', 'Street', 'C', 0, NULL, NULL, NULL)
 INSERT INTO @VC3ETL_LoadColumn VALUES ('c174a684-ad45-4805-83e2-ea8f6d324615', '40e2bf15-0ad8-4d9c-a1a3-8819ad5eca79', 'DestID', 'ID', 'K', 0, NULL, NULL, NULL)
 INSERT INTO @VC3ETL_LoadColumn VALUES ('f879c713-e39c-4ac3-af58-eb5abf5acf36', 'b63c39f8-a605-4988-b2fd-b905acc25e4c', 'DestID', 'ID', 'K', 0, NULL, NULL, NULL)
-INSERT INTO @VC3ETL_LoadColumn VALUES ('727e5aff-900c-4d8f-a1fd-ebbb2abc1b8d', 'df0eeded-72fc-4b7b-978d-c0002b7661b8', 'LimittedEnglishProficiencyID', 'LimittedEnglishProficiencyID', 'C', 0, NULL, NULL, NULL)
 INSERT INTO @VC3ETL_LoadColumn VALUES ('3393fb20-49ec-4b9b-b0c0-ec8eb585e108', '0cff91d7-4e85-46d7-aaf2-75a217aa7edd', 'WeeklyFri', 'WeeklyFri', 'C', 0, NULL, NULL, NULL)
 INSERT INTO @VC3ETL_LoadColumn VALUES ('4e177e98-c402-43d9-be6c-ecbc563f0656', '562c44e5-1e09-440c-b8eb-61c41aca4a19', 'TypeID', 'TypeID', 'C', 0, NULL, NULL, NULL)
 INSERT INTO @VC3ETL_LoadColumn VALUES ('27a0fc21-d2b7-4447-9ae8-ecd3f70eb82d', '13503b5b-45bf-4cb3-9843-de028cf0dd55', 'ProgramID', 'ProgramID', 'C', 0, NULL, NULL, NULL)
@@ -403,6 +400,15 @@ INSERT INTO @VC3ETL_LoadColumn VALUES ('387b16f6-3664-4d15-b859-fe77b56324b7', '
 INSERT INTO @VC3ETL_LoadColumn VALUES ('19f0a5ec-717d-40e3-b5bf-ff57cf87eac0', '750cba2a-ce1f-4653-9e43-9a450eac3653', 'InstanceID', 'InstanceID', 'C', 0, NULL, NULL, NULL)
 INSERT INTO @VC3ETL_LoadColumn VALUES ('b8b0f945-e4f4-48d4-b018-ffa0dcab87f0', 'b63c39f8-a605-4988-b2fd-b905acc25e4c', 'Sequence', 'Sequence', 'C', 0, NULL, NULL, NULL)
 INSERT INTO @VC3ETL_LoadColumn VALUES ('5fc480f9-5b82-413b-9018-ffa6bec69030', 'd9d1e9ff-0a17-435e-b0c1-9dcf2f77a2d5', 'DestID', 'ID', 'K', 0, NULL, NULL, NULL)
+
+
+-- refactor 
+delete Destination
+from VC3ETL.LoadTable lt join
+VC3ETL.LoadColumn Destination on lt.ID = Destination.LoadTable left join
+@VC3ETL_LoadColumn Source on Destination.ID = Source.ID
+where lt.ExtractDatabase = '29D14961-928D-4BEE-9025-238496D144C6' and
+Source.ID is null
 
 -- Insert records in the destination tables that do not already exist
 INSERT INTO VC3ETL.ExtractDatabase SELECT Source.* FROM @VC3ETL_ExtractDatabase Source LEFT JOIN VC3ETL.ExtractDatabase Destination ON Source.ID = Destination.ID WHERE Destination.ID IS NULL
