@@ -61,7 +61,7 @@ select
 	ProviderID = prv.UserProfileID,
 	Name = CAST(null as varchar),
 	LocationId = loc.DestID,
-	LocationDescription = loc.Name -- select iep.ieprefid
+	LocationDescription = loc.Name 
 FROM
 	LEGACYSPED.Transform_PrgIep iep JOIN
 	PrgSection sec ON
@@ -72,129 +72,15 @@ FROM
 	LEGACYSPED.MAP_ServicePlanID m on v.ServiceRefID = m.ServiceRefID LEFT JOIN
 	LEGACYSPED.Transform_ServiceDef sdm on 
 		v.ServiceType = sdm.ServiceCategoryCode AND
-		v.ServiceDefinitionCode = sdm.ServiceDefCode LEFT JOIN
+		v.ServiceDefinitionCode = isnull(sdm.ServiceDefCode, 'ZZZ') LEFT JOIN
 	LEGACYSPED.Transform_PrgLocation loc on v.ServiceLocationCode = loc.ServiceLocationCode LEFT JOIN 
 	LEGACYSPED.MAP_ServiceFrequencyID freq on isnull(v.ServiceFrequencyCode, 'ZZZ') = freq.ServiceFrequencyCode LEFT JOIN 
  	LEGACYSPED.Transform_ServiceProviderTitle ttl on v.ServiceProviderTitleCode = ttl.ServiceProviderCode and
  		cast(case when ttl.DeletedDate is null then 0 else 1 end as Int) = (
  			select min(cast(case when ttlt.DeletedDate is null then 0 else 1 end as Int)) from ServiceProviderTitle ttlt where ttl.Name = ttlt.Name) LEFT JOIN
- 	LEGACYSPED.Transform_IepServiceCategory cat on v.ServiceType = cat.ServiceCategoryCode LEFT JOIN
+ 	LEGACYSPED.Transform_IepServiceCategory cat on cat.ServiceCategoryCode = v.ServiceType  LEFT JOIN
 	LEGACYSPED.MAP_ScheduleID ssm on v.ServiceRefID = ssm.ServiceRefID LEFT JOIN
 	LEGACYSPED.MAP_SpedStaffMemberView prv on v.StaffEmail = prv.StaffEmail
+where sdm.DestID is null
 GO
----
-
-
-
-
-/*
-
--- ==================================================================================================================== 
--- =================================================== ServicePlan  =================================================== 
--- ==================================================================================================================== 
-
-
-
-GEO.ShowLoadTables ServicePlan
-
-set nocount on;
-declare @n varchar(100) ; select @n = 'ServicePlan'
-declare @t uniqueidentifier ; select @t = id from VC3ETL.LoadTable where ExtractDatabase = '29D14961-928D-4BEE-9025-238496D144C6' and DestTable = @n
-update t set 
-	HasMapTable = 1
-	, MapTable = 'LEGACYSPED.MAP_'+@n+'ID'   -- use this update for looksups only
-	, KeyField = 'ServiceRefID'
-	, DeleteKey = 'DestID'
-	, DeleteTrans = 1
-	, UpdateTrans = 1
-	, DestTableFilter = 'ID in (select ID from IepServicePlan where InstanceID in (select DestID from LEGACYSPED.MAP_PrgSectionID where DefID = ''9AC79680-7989-4CC9-8116-1CCDB1D0AE5F''))'
-	, Enabled = 1
-from VC3ETL.LoadTable t where t.ID = @t
-exec VC3ETL.LoadTable_Run @t, '', 1, 0
-print '
-
-select * from '+@n
-
-begin tran testplan
-DELETE LEGACYSPED.MAP_ServicePlanID
-FROM LEGACYSPED.Transform_IepService AS s RIGHT OUTER JOIN 
-	LEGACYSPED.MAP_ServicePlanID as d ON s.DestID = d.DestID
-WHERE (s.DestID IS NULL)
-
-DELETE ServicePlan
-FROM LEGACYSPED.MAP_ServicePlanID AS s RIGHT OUTER JOIN 
-	ServicePlan as d ON s.DestID=d.ID
-WHERE s.DestID IS NULL AND 1=1 AND  ID in (select ID from IepServicePlan where InstanceID in (select DestID from LEGACYSPED.MAP_PrgSectionID where DefID = '9AC79680-7989-4CC9-8116-1CCDB1D0AE5F'))
-
-INSERT LEGACYSPED.MAP_ServicePlanID
-SELECT ServiceRefID, NEWID()
-FROM LEGACYSPED.Transform_IepService s
-WHERE NOT EXISTS (SELECT * FROM ServicePlan d WHERE s.DestID=d.ID) -- (10216 row(s) affected)
-
-
-INSERT ServicePlan (ID, DefID, Amount, ServiceTypeID, FrequencyID, UnitID, ProviderTitleID, StudentID, EndDate, Sequence, StartDate)
-SELECT s.DestID, s.DefID, s.Amount, s.ServiceTypeID, s.FrequencyID, s.UnitID, s.ProviderTitleID, s.StudentID, s.EndDate, s.Sequence, s.StartDate
-FROM LEGACYSPED.Transform_IepService s
-WHERE NOT EXISTS (SELECT * FROM ServicePlan d WHERE s.DestID=d.ID)
-
-Msg 547, Level 16, State 0, Line 2
-The INSERT statement conflicted with the FOREIGN KEY constraint "FK_ServicePlan#ProviderTitle#Plans". The conflict occurred in database "Enrich_DC5_CO_Poudre", table "dbo.ServiceProviderTitle", column 'ID'.
-The statement has been terminated.
-
-select * from ServiceProviderTitle order by deleteddate
-
-
-rollback tran testplan
-
-
-select * from ServicePlan
-
-
-
--- ==================================================================================================================== 
--- ================================================= IepServicePlan  ================================================== 
--- ==================================================================================================================== 
-
-
-
-GEO.ShowLoadTables IepServicePlan
-
-set nocount on;
-declare @n varchar(100) ; select @n = 'IepServicePlan'
-declare @t uniqueidentifier ; select @t = id from VC3ETL.LoadTable where ExtractDatabase = '29D14961-928D-4BEE-9025-238496D144C6' and DestTable = @n
-update t set Enabled = 1
-from VC3ETL.LoadTable t where t.ID = @t
-
-	HasMapTable = 0, 
-	MapTable = NULL
-	, KeyField = NULL
-	, DeleteKey = NULL
-	, DeleteTrans = 0
-	, UpdateTrans = 1
-	, DestTableFilter = NULL
-	, Enabled = 1
-from VC3ETL.LoadTable t where t.ID = @t
-exec VC3ETL.LoadTable_Run @t, '', 1, 0
-print '
-
-select * from '+@n
-
-
-select d.*
--- UPDATE IepServicePlan SET ExcludesID=s.ExcludesID, InstanceID=s.InstanceID, EsyID=s.EsyID, CategoryID=s.CategoryID, DirectID=s.DirectID, DeliveryStatement=s.DeliveryStatement
-FROM  IepServicePlan d JOIN 
-	LEGACYSPED.Transform_IepService  s ON s.DestID=d.ID
-
--- INSERT IepServicePlan (ID, ExcludesID, InstanceID, EsyID, CategoryID, DirectID, DeliveryStatement)
-SELECT s.DestID, s.ExcludesID, s.InstanceID, s.EsyID, s.CategoryID, s.DirectID, s.DeliveryStatement
-FROM LEGACYSPED.Transform_IepService s
-WHERE NOT EXISTS (SELECT * FROM IepServicePlan d WHERE s.DestID=d.ID)
-
-select * from IepServicePlan
-
-
-
-
-*/
-
-
+--- 
