@@ -66,15 +66,6 @@ go
 -- 17045
 
 
-select * from LEGACYSPED.PostSchoolAreaPivotView
-select * from LEGACYSPED.Transform_PrgGoal
-
-select Distinct v.PostSchoolAreaCode from LEGACYSPED.PostSchoolAreaPivotView v join LEGACYSPED.MAP_PostSchoolAreaDefID m 
-	on v.PostSchoolAreaCode = m.PostSchoolAreaCode
-	-- 7 out of 7
-
-
-
 
 
 
