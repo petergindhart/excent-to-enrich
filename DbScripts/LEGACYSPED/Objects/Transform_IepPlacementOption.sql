@@ -58,8 +58,8 @@ create view LEGACYSPED.Transform_IepPlacementOption
 as
 select 
 	PlacementTypeCode = k.SubType, 
-	TypeID = my.DestID,
 	PlacementOptionCode = k.LegacySpedCode, 
+	TypeID = my.DestID,
 	DestID = isnull(k.EnrichID, mo.DestID), 
 	StateCode = isnull(t.StateCode, k.StateCode),
 	Sequence = isnull(t.Sequence,99), -- t columns will be null until the map table is populated
@@ -70,7 +70,7 @@ select
 from 
 	LEGACYSPED.SelectLists k LEFT JOIN
 	LEGACYSPED.MAP_IepPlacementTypeID my on k.SubType = my.PlacementTypeCode left join
-	LEGACYSPED.MAP_IepPlacementOptionID mo on my.PlacementTypeCode = mo.PlacementTypeCode and k.LegacySpedCode = mo.PlacementOptionCode LEFT JOIN 
+	LEGACYSPED.MAP_IepPlacementOptionID mo on k.SubType = mo.PlacementTypeCode and k.LegacySpedCode = mo.PlacementOptionCode LEFT JOIN 
 -- 	dbo.IepPlacementOption t on isnull(k.EnrichID, mo.DestID) = t.ID
 	dbo.IepPlacementOption t on k.EnrichID = t.ID
 where k.Type = 'LRE' and
@@ -79,11 +79,13 @@ and LegacySpedCode is not null -- if the legacy sped code is null, there is noth
 go
 
 
--- set transaction isolation level read uncommitted
-
 /*
 
-select * from iepplacementoption
+select * from LEGACYSPED.MAP_IepPlacementOptionID
+
+select * from LEGACYSPED.SelectLists where Type = 'LRE' and EnrichID is null
+
+select * from LEGACYSPED.Transform_IepPlacementOption
 
 
 
@@ -120,58 +122,5 @@ order by SubType, case when EnrichID is null then 1 else 0 end, EnrichLabel
 */
 
 
-
-
-
-
-
-
-
-
-
-/*
-
-
-
-select * from LEGACYSPED.SelectLists where Type = 'LRE' and isnumeric(isnull(statecode,'x')) = 0 order by SubType, Code
--- select * from LEGACYSPED.SelectLists where Type = 'LRE' and isnumeric(statecode) = 1 and label is not null
-
-insert LEGACYSPED.SelectLists (Type, SubType, StateCode, Code, Label, Sequence, DisplayInUI)
-select 
-	Type = convert(varchar(20), rtrim(Type)), 
-	SubType = convert(varchar(20), rtrim(SubType)), 
-	StateCode = convert(varchar(10), rtrim(Label)), 
-	Code = convert(varchar(150), rtrim(Code)), 
-	Label = convert(varchar(254), rtrim(Code)), 
-	Sequence = convert(varchar(3), rtrim(Sequence)), 
-	DisplayInUI = convert(char(1), rtrim(DisplayInUI))
-from LEGACYSPED.SelectLists 
-where Type = 'LRE' and 
-	isnumeric(statecode) = 1 and 
-	label is not null
-
-
-select d.* 
--- UPDATE IepPlacementOption SET DeletedDate=s.DeletedDate, Text=s.Text, MaxPercentGenEd=s.MaxPercentGenEd, StateCode=s.StateCode, Sequence=s.Sequence, TypeID=s.TypeID, MinPercentGenEd=s.MinPercentGenEd
-FROM  IepPlacementOption d JOIN 
-	LEGACYSPED.Transform_IepPlacementOption  s ON s.DestID=d.ID
-	AND s.DestID in (select DestID from LEGACYSPED.MAP_IepPlacementOptionID)
-
--- INSERT LEGACYSPED.MAP_IepPlacementOptionID -- select * from LEGACYSPED.MAP_IepPlacementOptionID
-SELECT PlacementTypeCode, PlacementOptionCode, NEWID()
-FROM LEGACYSPED.Transform_IepPlacementOption s
-WHERE NOT EXISTS (SELECT * FROM IepPlacementOption d WHERE s.DestID=d.ID)
-
--- INSERT IepPlacementOption (ID, DeletedDate, Text, MaxPercentGenEd, StateCode, Sequence, TypeID, MinPercentGenEd)
-SELECT s.DestID, s.DeletedDate, s.Text, s.MaxPercentGenEd, s.StateCode, s.Sequence, s.TypeID, s.MinPercentGenEd
-FROM LEGACYSPED.Transform_IepPlacementOption s
-WHERE NOT EXISTS (SELECT * FROM IepPlacementOption d WHERE s.DestID=d.ID)
-
-select * from IepPlacementOption order by case when deleteddate is null then 0 else 1 end, StateCode
-
-
-
-
-*/
 
 

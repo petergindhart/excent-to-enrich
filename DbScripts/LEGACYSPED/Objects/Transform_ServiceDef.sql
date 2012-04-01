@@ -46,79 +46,49 @@ AS
 */
 
 select 
-	ServiceDefCode = k.LegacySpedCode,
 	ServiceCategoryCode = k.SubType,
-	DestID = coalesce(k.EnrichID, s.ServiceDefID, m.DestID), -- give this some thought
-	--sdDestID = s.ServiceDefID,
-	--slDestID = k.EnrichID,
-	--mDestID = m.DestID,
-	--tDestID = t.DestID,
-	StateCode = k.StateCode,
+	ServiceDefCode = k.LegacySpedCode,
+	DestID = coalesce(i.ID, n.ID, t.ID, m.DestID), -- give this some thought
+	StateCode = coalesce(i.StateCode, n.StateCode, t.StateCode),
 	TypeID = 'D3945E9D-AA0E-4555-BCB2-F8CA95CC7784',
-	Name = isnull(s.ServiceDefName, k.EnrichLabel),
-	Description = s.Description,
-	DefaultLocationID = s.DefaultLocationID,
-	DeletedDate = case when coalesce(k.EnrichID, s.ServiceDefID, m.DestID) is null then getdate() else s.DeletedDate end
-from LEGACYSPED.SelectLists k left join
-(select ServiceDefID = sd.ID, ServiceDefName = sd.Name, sd.DeletedDate, ServiceCategoryName = isc.Name, sd.Description, sd.DefaultLocationID from dbo.ServiceDef sd join dbo.IepServiceDef isd on sd.ID = isd.ID join dbo.IepServiceCategory isc on isd.CategoryID = isc.ID) s on s.ServiceDefName = k.EnrichLabel and isnull(s.ServiceCategoryName,'') = case isnull(k.SubType,'') when 'SpecialEd' then 'Special Education' else isnull(k.SubType,'') end  left join 
-LEGACYSPED.MAP_ServiceDefID m on k.LegacySpedCode = m.ServiceDefCode and isnull(k.SubType,'') = isnull(m.ServiceCategoryCode,'') left join 
-dbo.ServiceDef t on m.DestID = t.ID
+	Name = coalesce(i.Name, n.ServiceDefName, t.Name, k.EnrichLabel),
+	Description = coalesce(i.Description, n.Description, t.Description), 
+	DefaultLocationID = coalesce(i.DefaultLocationID, n.DefaultLocationID, t.DefaultLocationID), 
+	DeletedDate = case when k.EnrichID is not null then NULL when coalesce(i.ID, n.ID, t.ID) is null then getdate() else coalesce(i.DeletedDate, n.DeletedDate, t.DeletedDate) end
+from LEGACYSPED.SelectLists k left join 
+	dbo.ServiceDef i on k.EnrichID = i.ID left join (
+	select sd.ID, ServiceDefName = sd.Name, sd.StateCode, sd.DeletedDate, ServiceCategoryName = isc.Name, sd.Description, sd.DefaultLocationID 
+	from dbo.ServiceDef sd join 
+		dbo.IepServiceDef isd on sd.ID = isd.ID left join 
+		dbo.IepServiceCategory isc on isd.CategoryID = isc.ID
+	) n on n.ServiceDefName = k.EnrichLabel and isnull(n.ServiceCategoryName,'') = case isnull(k.SubType,'') when 'SpecialEd' then 'Special Education' else isnull(k.SubType,'') end  left join 
+	LEGACYSPED.MAP_ServiceDefID m on k.LegacySpedCode = m.ServiceDefCode and isnull(k.SubType,'') = isnull(m.ServiceCategoryCode,'') left join 
+	dbo.ServiceDef t on m.DestID = t.ID
 where k.Type = 'Service'
-and k.LegacySpedCode is not null
+	and k.LegacySpedCode is not null -- there is nothing to do if this is null
 GO
 --
 
 /*
 
-
-select * from LEGACYSPED.Transform_ServiceDef where ServiceCategoryCode is null
-
-
-GEO.ShowLoadTables ServiceDef
-
-set nocount on;
-declare @n varchar(100) ; select @n = 'ServiceDef'
-declare @t uniqueidentifier ; select @t = id from VC3ETL.LoadTable where ExtractDatabase = '29D14961-928D-4BEE-9025-238496D144C6' and DestTable = @n
-update t set 
-	HasMapTable = 1, 
-	MapTable = 'LEGACYSPED.MAP_'+@n+'ID'   -- use this update for looksups only
-	, KeyField = 'ServiceCategoryCode, ServiceDefCode'
-	, DeleteKey = NULL
-	, DeleteTrans = 0
-	, UpdateTrans = 1
-	, DestTableFilter = 's.DestID in (select DestID from LEGACYSPED.MAP_ServiceDefID)'
-	, Enabled = 1
-	from VC3ETL.LoadTable t where t.ID = @t
-exec VC3ETL.LoadTable_Run @t, '', 1, 0
-print '
-
-select * from '+@n
+select * from LEGACYSPED.SelectLists where Type = 'Service' -- 254
+order by EnrichLabel
 
 
 
-select d.*
--- UPDATE ServiceDef SET DeletedDate=s.DeletedDate, Name=s.Name, TypeID=s.TypeID, Description=s.Description, DefaultLocationID=s.DefaultLocationID, StateCode=s.StateCode
-FROM  ServiceDef d JOIN 
-	LEGACYSPED.Transform_ServiceDef  s ON s.DestID=d.ID
-	AND s.DestID in (select DestID from LEGACYSPED.MAP_ServiceDefID)
 
--- INSERT LEGACYSPED.MAP_ServiceDefID
-SELECT ServiceCategoryCode, ServiceDefCode, NEWID()
-FROM LEGACYSPED.Transform_ServiceDef s
-WHERE NOT EXISTS (SELECT * FROM ServiceDef d WHERE s.DestID=d.ID)
+select * 
+from LEGACYSPED.SelectLists sl left join
+(select d.ID, ServiceDef = d.Name, i.CategoryID, CategoryName = c.Name, d.DeletedDate from dbo.ServiceDef d join iepservicedef i on d.id = i.id left join iepservicecategory c on i.categoryid = c.ID  ) sd on sl.EnrichLabel = sd.ServiceDef -- 14 no category
+where sl.Type = 'Service' 
+and not ((sl.SubType = 'Related' and sl.LegacySpedCode in ('Speech/Language Therapy', 'Psychological Services')) or (sd.CategoryName = 'Related' and sd.ServiceDef in ('Speech/Language Therapy', 'Psychological Services')))
+order by CategoryName, ServiceDef
 
--- INSERT ServiceDef (ID, DeletedDate, Name, TypeID, Description, DefaultLocationID, StateCode)
-SELECT s.DestID, s.DeletedDate, s.Name, s.TypeID, s.Description, s.DefaultLocationID, s.StateCode
-FROM LEGACYSPED.Transform_ServiceDef s
-WHERE NOT EXISTS (SELECT * FROM ServiceDef d WHERE s.DestID=d.ID)
 
-select * from ServiceDef
-
+select * from 
 
 
 */
-
-
 
 
 

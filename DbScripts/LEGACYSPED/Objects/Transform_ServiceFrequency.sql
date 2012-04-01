@@ -33,107 +33,20 @@ CREATE VIEW LEGACYSPED.Transform_ServiceFrequency
 AS 
  SELECT
   ServiceFrequencyCode = k.LegacySpedCode,
-  ServiceFrequencyName = coalesce(s.Name, t.Name, k.EnrichLabel), -- we'll pretend that we don't know what the possibilities are right now:  quarterly will be quarter
-  DestID = coalesce(s.ID, t.ID, mc.DestID, ml.DestID),
-  Name = coalesce(s.Name, t.Name, k.EnrichLabel), 
-  Sequence = coalesce(s.Sequence, t.sequence, 99),
-  WeekFactor = coalesce(s.WeekFactor, t.weekfactor, 0), -- Pete will advise
-  StateCode = coalesce(s.StateCode, t.StateCode, k.StateCode),
-  DeletedDate = case 
-	when s.ID is not null then s.DeletedDate 
-	when t.ID is not null then t.DeletedDate 
-	else GETDATE() end
+  ServiceFrequencyName = coalesce(i.Name, n.Name, t.Name, k.EnrichLabel),
+  DestID = coalesce(i.ID, n.ID, t.ID, m.DestID),
+  Name = coalesce(i.Name, n.Name, t.Name, k.EnrichLabel), 
+  Sequence = coalesce(i.Sequence, n.Sequence, t.sequence, 99),
+  WeekFactor = coalesce(i.WeekFactor, n.WeekFactor, t.weekfactor, 0), -- Pete will advise
+  StateCode = coalesce(i.StateCode, n.StateCode, t.StateCode),
+  DeletedDate = case when k.EnrichID is not null then NULL when coalesce(i.ID, n.ID, t.ID) is null then getdate() else coalesce(i.DeletedDate, n.DeletedDate, t.DeletedDate) end
  FROM
   LEGACYSPED.SelectLists k LEFT JOIN 
-  dbo.ServiceFrequency s on k.StateCode = s.StateCode LEFT JOIN 
-  LEGACYSPED.MAP_ServiceFrequencyID mc on k.LegacySpedCode = mc.ServiceFrequencyCode LEFT JOIN
-  LEGACYSPED.MAP_ServiceFrequencyID ml on k.EnrichLabel = ml.ServiceFrequencyName LEFT JOIN
-  dbo.ServiceFrequency t on isnull(mc.DestID, ml.DestID) = t.ID 
---  dbo.ServiceFrequency t on mc.DestID = t.ID 
+  dbo.ServiceFrequency i on k.EnrichID = i.ID left join
+  dbo.ServiceFrequency n on k.EnrichLabel = n.Name left join
+  LEGACYSPED.MAP_ServiceFrequencyID m on k.LegacySpedCode = m.ServiceFrequencyCode LEFT JOIN
+  dbo.ServiceFrequency t on m.DestID = t.ID 
  WHERE
   k.Type = 'ServFreq'
 GO
-
-/*
-
-
-select * from LEGACYSPED.SelectLists where Type = 'ServFreq'
-select * from LEGACYSPED.Transform_ServiceFrequency
-select * from LEGACYSPED.MAP_ServiceFrequencyID
-
-select * from vc3etl.extractdatabase
-
-GEO.ShowLoadTables ServiceFrequency
-
-set nocount on;
-declare @n varchar(100) ; select @n = 'ServiceFrequency'
-declare @t uniqueidentifier ; select @t = id from VC3ETL.LoadTable where ExtractDatabase = '29D14961-928D-4BEE-9025-238496D144C6' and DestTable = @n
-update t set 
-	HasMapTable = 1, 
-	MapTable = 'LEGACYSPED.MAP_'+@n+'ID'   -- use this update for looksups only
-	, KeyField = 'ServiceFrequencyCode, ServiceFrequencyName'
-	, DeleteKey = NULL
-	, DeleteTrans = 0
-	, UpdateTrans = 0
-	, DestTableFilter = NULL -- 's.DestID in (select DestID from LEGACYSPED.MAP_ServiceFrequencyID where s.sequence = 99)'
-	, Enabled = 1
-	from VC3ETL.LoadTable t where t.ID = @t
-exec VC3ETL.LoadTable_Run @t, '', 1, 0
-print '
-
-select * from '+@n
-
--- INSERT LEGACYSPED.MAP_ServiceFrequencyID
-SELECT ServiceFrequencyCode, ServiceFrequencyName, NEWID()
-FROM LEGACYSPED.Transform_ServiceFrequency s
-WHERE NOT EXISTS (SELECT * FROM ServiceFrequency d WHERE s.DestID=d.ID)
-
--- INSERT ServiceFrequency (ID, Sequence, Name, WeekFactor)
-SELECT s.DestID, s.Sequence, s.Name, s.WeekFactor
-FROM LEGACYSPED.Transform_ServiceFrequency s
-WHERE NOT EXISTS (SELECT * FROM ServiceFrequency d WHERE s.DestID=d.ID)
-
-select * from ServiceFrequency
-
-
-Msg 2627, Level 14, State 1, Line 2
-Violation of PRIMARY KEY constraint 'PK_MAP_ServiceFrequencyID'. Cannot insert duplicate key in object 'LEGACYSPED.MAP_ServiceFrequencyID'.
-The statement has been terminated.
-
-
-select * from LEGACYSPED.MAP_ServiceFrequencyID
-
-day	daily	71590A00-2C40-40FF-ABD9-E73B09AF46A1
-month	monthly	3D4B557B-0C2E-4A41-9410-BA331F1D20DD
-quarter	quarter	A5C8B0F7-4D1E-4595-BCF5-DB62D5BBD7A8
-ZZZ	unknown	C42C50ED-863B-44B8-BF68-B377C8B0FA95
-week	weekly	A2080478-1A03-4928-905B-ED25DEC259E6
-year	yearly	5F3A2822-56F3-49DA-9592-F604B0F202C3
-
-
-
-
-begin tran servfreq
-INSERT LEGACYSPED.MAP_ServiceFrequencyID
-SELECT ServiceFrequencyCode, ServiceFrequencyName, NEWID()
-FROM LEGACYSPED.Transform_ServiceFrequency s
-WHERE NOT EXISTS (SELECT * FROM ServiceFrequency d WHERE s.DestID=d.ID)
-
-INSERT ServiceFrequency (ID, Sequence, Name, WeekFactor)
-SELECT s.DestID, s.Sequence, s.Name, s.WeekFactor
-FROM LEGACYSPED.Transform_ServiceFrequency s
-WHERE NOT EXISTS (SELECT * FROM ServiceFrequency d WHERE s.DestID=d.ID)
-
-
-rollback tran servfreq
-
-
-
-*/
-
-
-
-
-
-
-
+-- last line

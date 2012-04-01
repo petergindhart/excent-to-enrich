@@ -33,73 +33,20 @@ AS
 */
 	SELECT
 		GradeLevelCode = k.LegacySpedCode,
-		DestID = coalesce(s.ID, t.ID, m.DestID), -- may not need to use coalesce below this line because we only touch legacy data
-		Name = coalesce(s.Name, t.Name, left(k.EnrichLabel, 10)),
-		StateCode = coalesce(s.StateCode, t.StateCode, k.StateCode),
-		Bitmask = coalesce(s.Bitmask, t.Bitmask, NULL),
-		Sequence = coalesce(s.Sequence, t.Sequence, 99),
-		-- Active = coalesce(s.Active, t.Active, 0),
-		Active = 
-			CASE 
-				WHEN s.ID IS NOT NULL THEN s.Active -- Always show in UI where there is a StateID.  Period.
-				WHEN t.ID IS NOT NULL THEN t.Active
-				--ELSE 
-					--CASE WHEN k.DisplayInUI = 'Y' THEN 1  --User specified they want to see this in the UI.  Let them.
-					--ELSE 0
-					--END
-			END -- a benefit of this is that if a Disability record is absent in a subsequent legacy data import, the record will not be deleted, but Active will be set to 0.  Cool.
+		DestID = coalesce(i.ID, n.ID, t.ID, m.DestID), 
+		Name = coalesce(i.Name, n.Name, t.Name, left(k.EnrichLabel, 10)),
+		StateCode = coalesce(i.StateCode, n.StateCode, t.StateCode),
+		Bitmask = coalesce(i.Bitmask, n.Bitmask, t.Bitmask),
+		Sequence = coalesce(i.Sequence, t.Sequence, 99),
+		Active  = case when k.EnrichID is not null then 1 when coalesce(i.ID, n.ID, t.ID) is null then 0 else coalesce(i.Active, n.Active, t.Active) end
 	FROM
 		LEGACYSPED.SelectLists k LEFT JOIN
-		GradeLevel s on isnull(k.StateCode, 'kGradeLevel') = isnull(s.StateCode, 'tGradeLevel') LEFT JOIN 
+		GradeLevel i on k.EnrichID = i.ID LEFT JOIN 
+		GradeLevel n on k.EnrichLabel = n.Name LEFT JOIN 
 		LEGACYSPED.MAP_GradeLevelID m on k.LegacySpedCode = m.GradeLevelCode LEFT JOIN
 		GradeLevel t on m.DestID = t.ID
 	WHERE
 		k.Type = 'Grade' 
 GO
 
-
-/*
-
-
-GEO.ShowLoadTables GradeLevel
-
-
-set nocount on;
-declare @n varchar(100) ; select @n = 'GradeLevel'
-declare @t uniqueidentifier ; select @t = id from VC3ETL.LoadTable where ExtractDatabase = '29D14961-928D-4BEE-9025-238496D144C6' and DestTable = @n
-update t set 
-	HasMapTable = 1, 
-	MapTable = 'LEGACYSPED.MAP_'+@n+'ID'   -- use this update for looksups only
-	, KeyField = 'GradeLevelCode'
-	, DeleteKey = NULL
-	, DeleteTrans = 0
-	, UpdateTrans = 1
-	, DestTableFilter = 's.DestID in (select DestID from LEGACYSPED.MAP_GradeLevelID)'
-	, Enabled = 1
-	from VC3ETL.LoadTable t where t.ID = @t
-exec VC3ETL.LoadTable_Run @t, '', 1, 0
-print '
-
-select * from '+@n
-
-select d.*
--- UPDATE GradeLevel SET Active=(0), BitMask=(NULL), Sequence=(99), Name=s.Name
-FROM  GradeLevel d JOIN 
-	LEGACYSPED.Transform_GradeLevel  s ON s.DestID=d.ID
-	AND s.DestID in (select DestID from LEGACYSPED.MAP_GradeLevelID)
-
--- INSERT LEGACYSPED.MAP_GradeLevelID
-SELECT GradeLevelCode, NEWID()
-FROM LEGACYSPED.Transform_GradeLevel s
-WHERE NOT EXISTS (SELECT * FROM GradeLevel d WHERE s.DestID=d.ID)
-
--- INSERT GradeLevel (ID, Active, BitMask, Sequence, Name)
-SELECT s.DestID, (0), (NULL), (99), s.Name
-FROM LEGACYSPED.Transform_GradeLevel s
-WHERE NOT EXISTS (SELECT * FROM GradeLevel d WHERE s.DestID=d.ID)
-
-select * from GradeLevel
-
-
-*/
 
