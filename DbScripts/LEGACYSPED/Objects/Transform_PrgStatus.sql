@@ -35,7 +35,7 @@ AS
   DestID = coalesce(i.ID, n.ID, t.ID, m.DestID),
   ProgramID = 'F98A8EF2-98E2-4CAC-95AF-D7D89EF7F80C', 
   Sequence = coalesce(i.Sequence, n.Sequence, t.Sequence, 99), 
-  Name = coalesce(i.Name, n.Name, t.Name, left(k.EnrichLabel)), 
+  Name = coalesce(i.Name, n.Name, t.Name, left(k.EnrichLabel, 50)), 
   IsExit = cast(1 as bit), 
   IsEntry = cast(0 as bit), 
   StatusStyleID = coalesce(i.StatusStyleID, n.StatusStyleID, t.StatusStyleID, 'FA528C27-E567-4CC9-A328-FF499BB803F6'), 
