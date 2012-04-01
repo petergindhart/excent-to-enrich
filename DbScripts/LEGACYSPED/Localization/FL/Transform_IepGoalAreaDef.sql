@@ -53,10 +53,6 @@ SELECT
 WHERE k.Type = 'GoalArea'
 GO
 
--- This is set in 0003-SetupETL.sql, but let's just make sure that this doesn't get turned back on somehow!  After all, we sometimes copy that ETL from district to district, state to state.
--- This file is under FL Localization, so this won't affect other states.
-update VC3ETL.LoadTable set UpdateTrans = 0 where ID = 'B63C39F8-A605-4988-B2FD-B905ACC25E4C'
-go
 
 
 
