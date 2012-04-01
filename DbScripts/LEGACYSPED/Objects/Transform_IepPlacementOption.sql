@@ -79,48 +79,4 @@ and LegacySpedCode is not null -- if the legacy sped code is null, there is noth
 go
 
 
-/*
-
-select * from LEGACYSPED.MAP_IepPlacementOptionID
-
-select * from LEGACYSPED.SelectLists where Type = 'LRE' and EnrichID is null
-
-select * from LEGACYSPED.Transform_IepPlacementOption
-
-
-
-
-exists EnrichID LegacySpedCode
-
-
--- Show the map in the transform.
-select *
-from LEGACYSPED.SelectLists 
-where Type = 'LRE'
-and EnrichID is not null and LegacySpedCode is not null
-order by SubType, case when EnrichID is null then 1 else 0 end, EnrichLabel
-
-
--- add these as soft-deleted records.  we're giving the customer the state-codes
-select *
-from LEGACYSPED.SelectLists 
-where Type = 'LRE'
-and EnrichID is null and LegacySpedCode is not null
-order by SubType, case when EnrichID is null then 1 else 0 end, EnrichLabel
-
-
--- nothing to do here.  there is an EnrichID, but no legacy data needs it.
-select *
-from LEGACYSPED.SelectLists 
-where Type = 'LRE'
-and EnrichID is not null and LegacySpedCode is null
-order by SubType, case when EnrichID is null then 1 else 0 end, EnrichLabel
-
-
-
-
-*/
-
-
-
 
