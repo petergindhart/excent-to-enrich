@@ -32,6 +32,7 @@ INSERT INTO @VC3ETL_FlatFileExtractTableType VALUES ('W', 'Comma Delimitted File
 -- Declare a temporary table to hold the data to be synchronized
 DECLARE @VC3ETL_ExtractTable TABLE (ID uniqueidentifier, ExtractDatabase uniqueidentifier, SourceTable varchar(100), DestSchema varchar(50), DestTable varchar(50), PrimaryKey varchar(100), Indexes varchar(200), LastSuccessfulCount int, CurrentCount int, Filter varchar(1000), Enabled bit, IgnoreMissing bit, Columns varchar(4000), Comments varchar(1000))
 
+
 -- Insert the data to be synchronized into the temporary table
 INSERT INTO @VC3ETL_ExtractTable VALUES ('a59fc278-5868-4ddf-9d17-1161d0f7c27a', '29d14961-928d-4bee-9025-238496d144c6', 'TeamMember', 'LEGACYSPED', 'TeamMember', 'StaffEmail,StudentRefID,IsCaseManager', NULL, 0, 0, NULL, 1, 1, NULL, NULL)
 INSERT INTO @VC3ETL_ExtractTable VALUES ('cc06f529-7204-4f10-8d24-233c7c7ced7c', '29d14961-928d-4bee-9025-238496d144c6', 'SelectLists', 'LEGACYSPED', 'SelectLists', NULL, 'Type,SubType,LegacySpedCode', 0, 0, NULL, 1, 0, NULL, NULL)
