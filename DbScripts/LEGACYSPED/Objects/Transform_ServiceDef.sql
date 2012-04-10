@@ -19,7 +19,7 @@ PK_Map_ServiceDefID PRIMARY KEY CLUSTERED
 
 CREATE INDEX IX_MAP_ServiceDefID_ServiceCategoryCode_ServiceDefCode on LEGACYSPED.MAP_ServiceDefID (ServiceCategoryCode, ServiceDefCode)
 
-alter table LEGACYSPED.MAP_ServiceDefID ADD CONSTRAINT UQ_MAP_ServiceDefID_ServiceCategoryCode_ServiceDefCode unique clustered (ServiceCategoryCode, ServiceDefCode)
+alter table LEGACYSPED.MAP_ServiceDefID ADD CONSTRAINT UQ_MAP_ServiceDefID_ServiceCategoryCode_ServiceDefCode unique nonclustered (ServiceCategoryCode, ServiceDefCode)
 
 END
 GO
