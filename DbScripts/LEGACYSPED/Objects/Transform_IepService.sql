@@ -81,6 +81,5 @@ FROM
  	LEGACYSPED.Transform_IepServiceCategory cat on cat.ServiceCategoryCode = v.ServiceType  LEFT JOIN
 	LEGACYSPED.MAP_ScheduleID ssm on v.ServiceRefID = ssm.ServiceRefID LEFT JOIN
 	LEGACYSPED.MAP_SpedStaffMemberView prv on v.StaffEmail = prv.StaffEmail
-where sdm.DestID is null
 GO
 --- 
