@@ -37,7 +37,7 @@ goto :exit
 
 :end
 set connection="server=.;uid=%1_%state%_%speddistrict%_User;pwd=vc3go!!;database=Enrich_%1_%state%_%speddistrict%;Application Name=%1_%state%_%speddistrict%"
-set outputfile="C:\GIT\ConfigUpdates\%state%\%speddistrict%\ConfigExport_%1_%state%_%speddistrict%.sql"
+set outputfile="E:\GIT\ConfigUpdates\%state%\%speddistrict%\ConfigExport_%1_%state%_%speddistrict%.sql"
 
 echo %blank%
 rem echo Config Export %state% %speddistrict%

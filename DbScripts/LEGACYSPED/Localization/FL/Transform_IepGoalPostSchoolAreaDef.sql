@@ -51,17 +51,19 @@ as
 		ps.GoalRefID,
 		ps.PostSchoolAreaCode,
 		GoalID = pg.DestID,
-		--DestID = NEWID(),
 		PostSchoolAreaDefID = m.DestID,
 		Sequence = (select COUNT(*) from LEGACYSPED.PostSchoolAreaPivotView where GoalRefID = ps.GoalRefID and PostSchoolAreaCode < ps.PostSchoolAreaCode)
 	from LEGACYSPED.PostSchoolAreaPivotView ps JOIN 
 	LEGACYSPED.Transform_PrgGoal pg on ps.GoalRefID = pg.GoalRefID join 
 	LEGACYSPED.MAP_PostSchoolAreaDefID m on ps.PostSchoolAreaCode = m.PostSchoolAreaCode left join
-	dbo.IepGoalPostSchoolAreaDef tgt on pg.DestID = tgt.GoalID and m.DestID = tgt.PostSchoolAreaDefID
+	dbo.IepGoalPostSchoolAreaDef t on 
+		pg.DestID = t.GoalID and 
+		m.DestID = t.PostSchoolAreaDefID
 	where 
-		tgt.GoalID is null
+		t.GoalID is null
 -- order by ps.GoalRefID, Sequence
 go
+-- 17045
 
 
 

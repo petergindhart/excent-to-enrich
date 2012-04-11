@@ -37,7 +37,7 @@ AS
   CurrentSchoolID = sch.DestID,
   CurrentGradeLevelID = g.DestID,
   --EthnicityID = CAST(NULL as uniqueidentifier),
-  GenderID = (select ID from EnumValue where Type = 'D6194389-17AC-494C-9C37-FD911DA2DD4B' and Code = src.Gender), -- will error if more than one value
+  GenderID = (select TOP 1 ID from EnumValue where Type = 'D6194389-17AC-494C-9C37-FD911DA2DD4B' and Code = src.Gender), -- will error if more than one value
   Number = src.StudentLocalID,
   src.FirstName,
   src.MiddleName,

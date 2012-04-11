@@ -23,88 +23,44 @@ GO
 
 CREATE VIEW LEGACYSPED.Transform_PrgLocation  
 AS
-	SELECT
+
+	select 
 		ServiceLocationCode = k.LegacySpedCode,
-		DestID = coalesce(s.ID, n.ID, t.ID, m.DestID), -- switched s.id and n.id to match subsequent lines on 20111025 gg
-		Name = coalesce(s.Name, n.Name, t.Name, k.EnrichLabel),
-		Description = coalesce(s.Description, n.Description, t.Description),
-		MedicaidLocationID = coalesce(s.MedicaidLocationID, n.MedicaidLocationID, t.MedicaidLocationID),
-		StateCode = coalesce(s.StateCode, n.StateCode, t.StateCode, k.StateCode),
-		DeletedDate = 
-			CASE 
-				WHEN s.ID IS NOT NULL THEN s.DeletedDate 
-				WHEN t.ID IS NOT NULL THEN t.DeletedDate 
-				ELSE 
-				Null
-					--CASE WHEN k.DisplayInUI = 'Y' THEN NULL -- User specified they want to see this in the UI.  Let them. 
-					--ELSE GETDATE()
-					--END
-			END 
-	FROM  
-		LEGACYSPED.SelectLists k LEFT JOIN
-		dbo.PrgLocation s on 
-			isnull(k.StateCode,'kServLoc') = isnull(s.StateCode,'sServLoc') and
-			s.ID = (select min(cast(ID as varchar(36))) from PrgLocation where StateCode = s.StateCode) left join -- return only one record where duplicate statecodes exist in target
-		dbo.PrgLocation n on 
-			k.EnrichLabel = n.Name and
-			n.ID = (select min(cast(ID as varchar(36))) from PrgLocation where Name = n.Name) left join -- return only one record where duplicate names exist in target
-		LEGACYSPED.MAP_PrgLocationID m on k.LegacySpedCode = m.ServiceLocationCode LEFT JOIN
+		DestID = coalesce(i.ID, n.ID, t.ID, m.DestID),
+		Name = coalesce(i.Name, n.Name, t.Name, k.EnrichLabel), 
+		Description = isnull(i.Description, t.Description),
+		MedicaidLocationID = coalesce(i.MedicaidLocationID, n.MedicaidLocationID, t.MedicaidLocationID),
+		StateCode = coalesce(i.StateCode, n.StateCode, t.StateCode),
+		DeletedDate = case when k.EnrichID is not null then NULL when coalesce(i.ID, n.ID, t.ID) is null then getdate() else coalesce(i.DeletedDate, n.DeletedDate, t.DeletedDate) end
+	from LEGACYSPED.SelectLists k left join
+		dbo.PrgLocation i on k.EnrichID = i.ID left join 
+		dbo.PrgLocation n on k.EnrichLabel = n.Name left join 
+		LEGACYSPED.MAP_PrgLocationID m on k.LegacySpedCode = m.ServiceLocationCode left join  
 		dbo.PrgLocation t on m.DestID = t.ID 
-	WHERE
-		k.Type = 'ServLoc' 
+	where k.Type = 'ServLoc'
 GO
-
 /*
+	The current SelectList handling strategy is to supply the customer with the defaults for any given state.  
+		The defaults will always include state reporting elements.
+		The file provided to the customer contains the Enrich ID.
+		The customer provides Excent with the Legacy ID that maps to the Enrich ID.
+	Assumptions
+		All codes provided in addition to the Enrich default codes must be hidden from the UI (we can un-hide them later)
+			Any codes not in the default set that have not been hidden from the UI have been requested by the customer to display in the UI.
+		When Go-Live data conversion arrives, we will re-create the "SelectLists" file using the data NON-SOFT-DELETED data in the customer's database to produce the file
+			This will be merged with new codes from the customer's legacy database
+	Will rethink this strategy later.			
 
-select * from LEGACYSPED.SelectLists where type = 'ServLoc'
-
-
-
-GEO.ShowLoadTables PrgLocation
-
-set nocount on;
-declare @n varchar(100) ; select @n = 'PrgLocation'
-declare @t uniqueidentifier ; select @t = id from VC3ETL.LoadTable where ExtractDatabase = '29D14961-928D-4BEE-9025-238496D144C6' and DestTable = @n
-update t set 
-	HasMapTable = 1, 
-	MapTable = 'LEGACYSPED.MAP_'+@n+'ID'   -- use this update for looksups only
-	, KeyField = 'ServiceLocationCode'
-	, DeleteKey = NULL
-	, DeleteTrans = 0
-	, UpdateTrans = 0
-	, DestTableFilter = 's.DestID in (select DestID from LEGACYSPED.MAP_'+@n+'ID)'
-	, Enabled = 1
-	from VC3ETL.LoadTable t where t.ID = @t
-exec VC3ETL.LoadTable_Run @t, '', 1, 0
-print '
-
-select * from '+@n
-
-
-select d.*
--- UPDATE PrgLocation SET MedicaidLocationID=s.MedicaidLocationID, Name=s.Name, StateCode=s.StateCode, Description=s.Description, DeletedDate=s.DeletedDate
-FROM  PrgLocation d JOIN 
-	LEGACYSPED.Transform_PrgLocation  s ON s.DestID=d.ID
-	AND s.DestID in (select DestID from LEGACYSPED.MAP_PrgLocationID)
-
--- INSERT LEGACYSPED.MAP_PrgLocationID
-SELECT ServiceLocationCode, NEWID()
-FROM LEGACYSPED.Transform_PrgLocation s
-WHERE NOT EXISTS (SELECT * FROM PrgLocation d WHERE s.DestID=d.ID)
-
--- INSERT PrgLocation (ID, MedicaidLocationID, Name, StateCode, Description, DeletedDate)
-SELECT s.DestID, s.MedicaidLocationID, s.Name, s.StateCode, s.Description, s.DeletedDate
-FROM LEGACYSPED.Transform_PrgLocation s
-WHERE NOT EXISTS (SELECT * FROM PrgLocation d WHERE s.DestID=d.ID)
-
-select * from PrgLocation where Name = 'Cafeteria'
-
-
-select * from TestOnlin_Ok2delete.dbo.PrgLocation where Name = 'Cafeteria'
-
-
+	Scenarios and their significance:
+		1.  SelectLists.EnrichID and SelectLists.LegacySpedCode exist
+			A match to the Enrich value was found in the legacy data
+		2.  SelectLists.EnrichID exists but there is no corresponding SelectLists.LegacySpedCode
+			There was no match for the Enrich value found in the legacy data
+		3.  SelectLists.EnrichID exists but there is a SelectLists.LegacySpedCode
+			Customer's data includes a value that does not yet exist in Enrich.
+	
+	Will consider re-instating the DisplayInUI field for the SelectLists file		
 
 */
-
-
-
+	
+-- last line

@@ -49,9 +49,6 @@ go
 
 
 
-
-
-
 -- Map_ServiceFrequencyID is created in the Transform script.
 
 
@@ -93,122 +90,45 @@ where t.ID is null
 GO
 
 
--- need this code to add cascade delete on FK_PrgIep_PrgItem until the build with this change makes production
-IF  EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'dbo.FK_PrgIep_PrgItem') AND parent_object_id = OBJECT_ID(N'dbo.PrgIep'))
-ALTER TABLE dbo.PrgIep DROP CONSTRAINT FK_PrgIep_PrgItem
-GO
+if exists (select 1 from sys.schemas s join sys.objects o on s.schema_id = o.schema_id where s.name = 'LEGACYSPED' and o.name = 'PrgItemOutcome_EndIEP')
+drop table LEGACYSPED.PrgItemOutcome_EndIEP
+go
 
-ALTER TABLE dbo.PrgIep  WITH CHECK ADD  CONSTRAINT FK_PrgIep_PrgItem FOREIGN KEY(ID)
-REFERENCES dbo.PrgItem (ID)
-      ON DELETE CASCADE
-GO
+create table LEGACYSPED.PrgItemOutcome_EndIEP (
+PrgItemOutcomeID uniqueidentifier not null
+)
 
-ALTER TABLE dbo.PrgIep CHECK CONSTRAINT FK_PrgIep_PrgItem
-GO
+insert LEGACYSPED.PrgItemOutcome_EndIEP values ('62CD92CE-E0C9-40EC-B648-EB92A7F78331')
+go
 
+/*			 To find the appropriate PrgItemOutcome, see the following
 
-IF  EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'dbo.FK_PrgMatrixOfServices#InitiatingIep#') AND parent_object_id = OBJECT_ID(N'dbo.PrgMatrixOfServices'))
-ALTER TABLE dbo.PrgMatrixOfServices DROP CONSTRAINT FK_PrgMatrixOfServices#InitiatingIep#
-GO
-
-ALTER TABLE dbo.PrgMatrixOfServices  WITH CHECK ADD  CONSTRAINT FK_PrgMatrixOfServices#InitiatingIep# FOREIGN KEY(InitiatingIepID)
-REFERENCES dbo.PrgIep (ID)
-	ON DELETE CASCADE
-GO
-
-ALTER TABLE dbo.PrgMatrixOfServices CHECK CONSTRAINT FK_PrgMatrixOfServices#InitiatingIep#
-GO
+select * from PrgItemOutcome where CurrentDefID = '8011D6A2-1014-454B-B83C-161CE678E3D3' and Text like 'IEP%' and DeletedDate is null
 
 
--- drop objects no longer needed
+Noted PrgItemOutcome IDs to date (20120330)
 
--- Florida
--- Lee County School District
+62CD92CE-E0C9-40EC-B648-EB92A7F78331 	Lee county School District, Florida
+62CD92CE-E0C9-40EC-B648-EB92A7F78331	Collier
+0BA96EE2-EF98-4B5F-BBD4-BD407F12405F	Brevard
+0B54D171-8307-4352-94CB-C092D7CF8D23	Polk
 
--- All MAP tables have been moved to the transform script files.  This file contains drop table statements for MAP tables that are no longer used.
-
--- #############################################################################
--- ServiceDef
-IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'AURORAX.Map_ServiceDefIDstatic') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
-	DROP TABLE AURORAX.Map_ServiceDefIDstatic
-GO
--- no longer used
-
--- #############################################################################
--- ExitReason
-IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'AURORAX.MAP_OutcomeID') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
-	DROP TABLE AURORAX.MAP_OutcomeID
-GO
--- we are using PrgStatus
-
--- #############################################################################
--- Service Location
-IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'AURORAX.MAP_ServiceLocationIDstatic') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
-	DROP TABLE AURORAX.MAP_ServiceLocationIDstatic
-GO
--- no longer used
-
--- #############################################################################
--- Service Location
-IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'AURORAX.MAP_ServiceLocationID') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
-	DROP TABLE AURORAX.MAP_ServiceLocationID
-GO
--- we are using PrgLocation
+-- 5ADC11E8-227D-4142-91BA-637E68FDBE70	all Colorado districts
+B52A60EA-848D-4FFB-8CA1-27FD41765167	Aurora Public Schools -- but on APS Template it is B52A60EA-848D-4FFB-8CA1-27FD41765167
+84AFA8B4-DB0A-4E3C-A62F-44A2513A471B	CO Template
+84AFA8B4-DB0A-4E3C-A62F-44A2513A471B	Weld4
+84AFA8B4-DB0A-4E3C-A62F-44A2513A471B	Weld6
 
 
--- #############################################################################
--- School
-IF  EXISTS (SELECT 1 from sys.schemas s join sys.objects o on s.schema_id = o.schema_id where s.name = 'AURORAX' and o.name = 'MAP_SchoolView')
-	DROP VIEW AURORAX.MAP_SchoolView
-GO
--- no longer used
 
--- #############################################################################
--- ServiceDefID
-IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'AURORAX.Transform_ServiceDefID') AND OBJECTPROPERTY(id, N'IsView') = 1)
-DROP VIEW AURORAX.Transform_ServiceDefID
-GO
--- renamed this transform
+select * from PrgItemOutcome where CurrentDefID = '8011D6A2-1014-454B-B83C-161CE678E3D3' and Text like 'IEP%' and DeletedDate is null
 
+select * from PrgItemOutcome where ID = '5ADC11E8-227D-4142-91BA-637E68FDBE70'
+select * from PrgItemOutcome where ID = 'B52A60EA-848D-4FFB-8CA1-27FD41765167'
 
-/*
-
-select 
-	PlacementTypeCode = k.SubType,
-	PlacementOptionCode = isnull(k.Code, convert(varchar(150), k.Label)), 
-	StateCode = k.StateCode, -- ??
-	DestID = coalesce(s.ID, t.ID, m.DestID),
-	TypeID = coalesce(s.TypeID, t.TypeID, my.DestID),
-	Sequence = coalesce(s.Sequence, t.Sequence, 99),
-	Text = coalesce(s.Text, t.Text, k.Label),
-	MinPercentGenEd = isnull(s.MinPercentGenEd, t.MinPercentGenEd),   
-	MaxPercentGenEd = isnull(s.MaxPercentGenEd, t.MaxPercentGenEd),   
-	DeletedDate = 
-			CASE 
-				WHEN s.ID IS NOT NULL THEN NULL -- Always show in UI where there is a StateID.  Period.
-				ELSE 
-					CASE WHEN k.DisplayInUI = 'Y' THEN NULL -- User specified they want to see this in the UI.  Let them.
-					ELSE GETDATE()
-					END
-			END 
-from 
-	LEGACYSPED.Lookups k LEFT JOIN
-	LEGACYSPED.MAP_IepPlacementTypeID my on k.SubType = my.PlacementTypeCode LEFT JOIN 
-	dbo.IepPlacementOption s on 
-		my.DestID = s.TypeID and
-		k.StateCode = s.StateCode LEFT JOIN 
-	LEGACYSPED.MAP_IepPlacementOptionID m on 
-		my.PlacementTypeCode = m.PlacementTypeCode and
-		isnull(k.Code, convert(varchar(150), k.label)) = m.PlacementOptionCode LEFT JOIN
-	dbo.IepPlacementOption t on m.DestID = t.ID
-where k.Type = 'LRE' and
-	k.SubType in ('PK', 'K12') 
 
 
 
 */
-
-
-
 
 

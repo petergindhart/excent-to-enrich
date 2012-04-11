@@ -62,7 +62,7 @@ AS
 		StartDate = iep.IEPStartDate,
 		-- EndDate = case when iep.IEPEndDate > getdate() then NULL else iep.IEPEndDate end,
 		EndDate = case when stu.SpecialEdStatus = 'I' then iep.IEPEndDate else NULL end,
-		ItemOutcomeID = case when stu.SpecialEdStatus = 'I' then '5ADC11E8-227D-4142-91BA-637E68FDBE70' else NULL end, -- item.ItemOutcomeID,
+		ItemOutcomeID = case when stu.SpecialEdStatus = 'I' then (select PrgItemOutcomeID from LEGACYSPED.PrgItemOutcome_EndIEP) else NULL end, -- FL = 0B54D171-8307-4352-94CB-C092D7CF8D23 , CO = 5ADC11E8-227D-4142-91BA-637E68FDBE70 -- select * from PrgItemOutcome where Text = 'IEP Ended'
 		CreatedDate = iep.IEPStartDate,
 		CreatedBy = 'EEE133BD-C557-47E1-AB67-EE413DD3D1AB', -- BuiltIn: Support
 		EndedDate = cast(case when stu.SpecialEdStatus = 'I' then iep.IEPEndDate else NULL end as datetime),
@@ -109,6 +109,8 @@ select stu.SpecialEdStatus,
 		LEGACYSPED.MAP_IepRefID mt ON iep.IepRefID = mt.IepRefID LEFT JOIN
 		LEGACYSPED.MAP_PrgVersionID ver ON iep.IepRefID = ver.IepRefID LEFT JOIN -- when we insert PrgItem we don't need this yet.  
 		dbo.PrgItem item ON mt.DestID = item.ID 
+		
+		
 /*					TEST changes to select list side-by-side with current records with invalid state
 WHERE not  (
 	(item.IsEnded = 0 and item.ItemOutcomeID is null and item.EndStatusID is null and item.EndDate is null)

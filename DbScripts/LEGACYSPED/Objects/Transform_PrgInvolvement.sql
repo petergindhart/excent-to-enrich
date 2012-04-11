@@ -63,7 +63,22 @@ GO
 
 -- select * from LEGACYSPED.MAP_PrgInvolvementID delete
 
+
+
 /*
+
+
+
+-- set transaction isolation level read committed
+
+
+
+delete from LEGACYSPED.MAP_PrgInvolvementID 
+
+
+
+
+
 
 
 Import strategy:  

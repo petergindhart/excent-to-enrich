@@ -18,17 +18,6 @@ PK_MAP_IepGoalAreaDefID PRIMARY KEY CLUSTERED
 	GoalAreaCode
 )
 
----- this exist elsewhere 
-----set nocount on;
-----declare @mgad table (Name varchar(20), DestID uniqueidentifier)
-----insert @mgad values ('GACommunication', '51C976DF-DC56-4F89-BCA1-E9AB6A01FBE7')
-----insert @mgad values ('GAMath', '0E95D360-5CBE-4ECA-820F-CC25864D70D8')
-----insert @mgad values ('GAReading', '504CE0ED-537F-4EA0-BD97-0349FB1A4CA8')
-----insert @mgad values ('GAWriting', '37EA0554-EC3F-4B95-AAD7-A52DECC7377C')
-----set nocount off;
-----insert LEGACYSPED.MAP_GoalAreaDefID -- select * from LEGACYSPED.MAP_GoalAreaDefID 
-----select * from @mgad where DestID not in (select DestID from LEGACYSPED.MAP_GoalAreaDefID) -- select * from IepGoalAreaDef where Sequence <> 99
-
 END
 GO
 
@@ -43,24 +32,31 @@ AS
 /*
 	This view should work for both CO and FL, though FL's map table is populated in the Prep_State file
 	
-	Note:  Test FL Map table setup.  mapping table should be pre-populated, so this query should not affect mapping table for FL.
+	Note:  Florida's LoadTable record for IepGoalAreaDef should set UpdateTrans = NULL
 
 */
 SELECT
-	GoalAreaCode = k.Code,
-	DestID = coalesce(n.ID, t.ID,  m.DestID),
-	Sequence = coalesce(n.Sequence, t.Sequence, 99),
-	Name = coalesce(n.Name, t.Name, cast(k.Label as varchar(50))),
-	AllowCustomProbes = 0,
-	StateCode = cast(NULL as varchar(20)),
-	DeletedDate = coalesce(n.DeletedDate, t.DeletedDate, GETDATE())
+	GoalAreaCode = k.LegacySpedCode,
+	DestID = coalesce(i.ID, n.ID, t.ID,  m.DestID),
+	Sequence = coalesce(i.Sequence, n.Sequence, t.Sequence, 99),
+	Name = coalesce(i.Name, n.Name, t.Name, cast(k.EnrichLabel as varchar(50))),
+	AllowCustomProbes = cast(0 as bit),
+	StateCode = coalesce(i.StateCode, n.StateCode, t.StateCode),
+	-- note that some districts in FL have soft-deleted 3 of 4 goal areas and we don't want to un-soft-delete them.  turn off UPDATE flag in the load table record.
+	DeletedDate = case when k.EnrichID is not null then NULL when coalesce(i.ID, n.ID, t.ID) is null then getdate() else coalesce(i.DeletedDate, n.DeletedDate, t.DeletedDate) end
   FROM
-	LEGACYSPED.Lookups k LEFT JOIN
-	dbo.IepGoalAreaDef n on k.Label = n.Name left join
-	LEGACYSPED.MAP_IepGoalAreaDefID m on k.Code = m.GoalAreaCode LEFT JOIN 
+	LEGACYSPED.SelectLists k LEFT JOIN
+	dbo.IepGoalAreaDef i on k.EnrichID = i.ID left join
+	dbo.IepGoalAreaDef n on k.EnrichLabel = n.Name left join
+	LEGACYSPED.MAP_IepGoalAreaDefID m on k.LegacySpedCode = m.GoalAreaCode LEFT JOIN 
 	dbo.IepGoalAreaDef t on m.DestID = t.ID 
 WHERE k.Type = 'GoalArea'
 GO
 
---- select * from IepGoalAreaDef 
+
+
+
+--insert IepGoalAreaDef values ('DA0ECBD3-9E20-4031-8F8F-631D3FB4118C', 1, 'Curriculum and Learning/Writing', 0, NULL, '2011-09-29 00:00:00.000')
+--insert IepGoalAreaDef values ('F6C49490-FA7B-4188-A24A-D98797484D38', 2, 'Curriculum and Learning/Math', 0, NULL, '2011-09-29 00:00:00.000')
+--insert IepGoalAreaDef values ('489C84EA-BD0D-4F56-9C79-89FB089E2511', 3, 'Curriculum and Learning/Other', 0, NULL, '2011-09-29 00:00:00.000')
 

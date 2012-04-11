@@ -69,7 +69,7 @@ PK_MAP_IepGoalAreaDefID PRIMARY KEY CLUSTERED
 )
 
 -- Should these be exported with the configuration?
--- these IDs are exported with Enrich configuration for Florida.  This should be in the State config file
+-- these IDs used to be exported with Enrich configuration for Florida.  This should be in the State config file
 declare @ga table (GoalAreaCode varchar(20), DestID uniqueidentifier)
 set nocount on;
 insert @ga values ('GAReading', '35B32108-174B-4F7F-9B5A-B5AF106F06BC')
@@ -106,6 +106,8 @@ PK_MAP_PostSchoolAreaDefID PRIMARY KEY CLUSTERED
 create index IX_LEGACYSPED_MAP_PostSchoolAreaDefID_DestID on LEGACYSPED.MAP_PostSchoolAreaDefID (DestID)
 
 -- thse IDs are exported with Enrich configuration for Florida.  This should be in the State config file
+END
+
 set nocount on;
 declare @psa table (PostSchoolAreaCode varchar(20), DestID uniqueidentifier)
 insert @psa values ('PSAdult', '57D9D83C-FB23-4712-8744-960A11BF6110')
@@ -118,7 +120,7 @@ insert @psa values ('PSVocational', 'DBB7D8F5-DA73-4F1A-948D-6EF17D93D0D8')
 
 insert LEGACYSPED.MAP_PostSchoolAreaDefID
 select * from @psa where PostSchoolAreaCode not in (select PostSchoolAreaCode from LEGACYSPED.MAP_PostSchoolAreaDefID)
-END
+
 GO
 
 -- last line
