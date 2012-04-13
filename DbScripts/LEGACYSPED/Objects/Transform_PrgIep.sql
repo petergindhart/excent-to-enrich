@@ -114,12 +114,12 @@ from
 	LEGACYSPED.MAP_PrgInvolvementID inv on stu.StudentRefID = inv.StudentRefID left join 
 	LEGACYSPED.MAP_PrgVersionID ver on iep.IepRefID = ver.IepRefID left join 
 -- potentially exists, if so we decide how to act on it.  if touched, leave it alone and don't import this one.  if untouched, replace it.
-	dbo.PrgItem exist on stu.DestID = exist.StudentID and exist.DefID = '8011D6A2-1014-454B-B83C-161CE678E3D3' left join 
+	dbo.PrgItem exist on stu.DestID = exist.StudentID and exist.DefID = '8011D6A2-1014-454B-B83C-161CE678E3D3' left join -- there is an existing Converted Data Item
 	LEGACYSPED.MAP_IepRefID prevm on exist.ID = prevm.DestID left join 
 -- target table
 	LEGACYSPED.MAP_IepRefID newm on iep.IepRefID = newm.IepRefID left join 
 	dbo.PrgItem t on newm.DestID = t.ID
- WHERE not isnull(exist.IsEnded,0) = 1 
+ WHERE not isnull(exist.IsEnded,0) = 1 -- if exists and is ended, do not re-import or update
 		
 		
 /*					TEST changes to select list side-by-side with current records with invalid state
