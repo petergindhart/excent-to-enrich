@@ -47,7 +47,7 @@ SELECT
   FROM
 	LEGACYSPED.SelectLists k LEFT JOIN
 	dbo.IepGoalAreaDef i on k.EnrichID = i.ID left join
-	dbo.IepGoalAreaDef n on k.EnrichLabel = n.Name left join
+	dbo.IepGoalAreaDef n on k.EnrichLabel = n.Name and n.DeletedDate is null left join -- only match on the name if not soft-deleted?
 	LEGACYSPED.MAP_IepGoalAreaDefID m on k.LegacySpedCode = m.GoalAreaCode LEFT JOIN 
 	dbo.IepGoalAreaDef t on m.DestID = t.ID 
 WHERE k.Type = 'GoalArea'
