@@ -45,7 +45,7 @@ AS
 				WHEN s.ID IS NOT NULL THEN s.DeletedDate 
 				WHEN t.ID IS NOT NULL then t.DeletedDate
 					-- CASE WHEN k.DisplayInUI = 'Y' THEN NULL -- User specified they want to see this in the UI.  Let them.
-				ELSE GETDATE() 
+				ELSE NULL
 			END 
 	FROM
 		LEGACYSPED.SelectLists k LEFT JOIN

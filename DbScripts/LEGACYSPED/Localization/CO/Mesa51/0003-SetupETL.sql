@@ -12,7 +12,7 @@ INSERT INTO @VC3ETL_ExtractDatabase VALUES ('29d14961-928d-4bee-9025-238496d144c
 DECLARE @VC3ETL_FlatFileExtractDatabase TABLE (ID uniqueidentifier, LocalCopyPath varchar(1000))
 
 -- Insert the data to be synchronized into the temporary table
-INSERT INTO @VC3ETL_FlatFileExtractDatabase VALUES ('29d14961-928d-4bee-9025-238496d144c6', 'E:\DataFlesDCB3')
+INSERT INTO @VC3ETL_FlatFileExtractDatabase VALUES ('29d14961-928d-4bee-9025-238496d144c6', 'E:\DatafilesM51')
 
 -- Declare a temporary table to hold the data to be synchronized
 DECLARE @dbo_InformExtractDatabase TABLE (ID uniqueidentifier, LastExtractRosterYear uniqueidentifier, LastLoadRosterYear uniqueidentifier)
@@ -110,7 +110,8 @@ INSERT INTO @VC3ETL_LoadTable VALUES ('8cf3ee0f-0a3b-4c16-8489-f43c011e94b1', '2
 INSERT INTO @VC3ETL_LoadTable VALUES ('dcaa0626-5046-4b9c-93d9-f448f77de1bd', '29d14961-928d-4bee-9025-238496d144c6', 31, 'LEGACYSPED.IepGoal_InsertAllRecordsFromLegacySped', NULL, 0, NULL, NULL, NULL, 4, 0, 0, 0, 1, NULL, NULL, NULL, 0, 0, '10/27/2011 7:23:33 AM', NULL, NULL)
 INSERT INTO @VC3ETL_LoadTable VALUES ('51df9a0a-bdf5-42d4-8858-f7b7ed98af56', '29d14961-928d-4bee-9025-238496d144c6', 2, 'LEGACYSPED.Transform_IepPlacementOption', 'IepPlacementOption', 1, 'LEGACYSPED.MAP_IepPlacementOptionID', 'PlacementTypeCode, PlacementOptionCode', NULL, 1, 0, 1, 1, 1, NULL, 's.DestID in (select DestID from LEGACYSPED.MAP_IepPlacementOptionID)', NULL, 0, 0, '10/27/2011 7:23:33 AM', NULL, NULL)
 INSERT INTO @VC3ETL_LoadTable VALUES ('b471f9b9-b781-4646-9788-f7fcb0390eb2', '29d14961-928d-4bee-9025-238496d144c6', 2, 'LEGACYSPED.Transform_PrgStatus', 'PrgStatus', 1, 'LEGACYSPED.MAP_PrgStatusID', 'PrgStatusCode', NULL, 1, 0, 1, 1, 1, NULL, 's.DestID in (select DestID from LEGACYSPED.MAP_PrgStatusID)', NULL, 0, 0, '10/27/2011 7:23:33 AM', NULL, NULL)
-INSERT INTO @VC3ETL_LoadTable VALUES ('065F5565-3B3F-49E6-AAF8-96D458F2B324', '29d14961-928d-4bee-9025-238496d144c6', x, 'LEGACYSPED.Transform_StaffSchool', 'UserProfileSchool', 0, NULL, 'TeacherID,SchoolID', NULL, 1, 0, 1, 1, 1, NULL, NULL, NULL, 0, 0, '10/27/2011 7:23:33 AM', NULL, NULL)
+
+INSERT INTO @VC3ETL_LoadTable VALUES ('065F5565-3B3F-49E6-AAF8-96D458F2B324', '29d14961-928d-4bee-9025-238496d144c6', 2, 'LEGACYSPED.Transform_StaffSchool', 'UserProfileSchool', 0, NULL, 'TeacherID,SchoolID', NULL, 1, 0, 1, 1, 1, NULL, NULL, NULL, 0, 0, '10/27/2011 7:23:33 AM', NULL, NULL)
 
 -- Declare a temporary table to hold the data to be synchronized
 DECLARE @VC3ETL_LoadColumn TABLE (ID uniqueidentifier, LoadTable uniqueidentifier, SourceColumn varchar(500), DestColumn varchar(500), ColumnType char(1), UpdateOnDelete bit, DeletedValue varchar(500), NullValue varchar(500), Comments varchar(1000))
