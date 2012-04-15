@@ -5,7 +5,7 @@ IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.MA
 BEGIN
 CREATE TABLE LEGACYSPED.MAP_ServiceDefID
 (
-	ServiceCategoryCode  varchar(20) NOT null,
+	ServiceCategoryCode  varchar(20) null,
 	ServiceDefCode	varchar(150) NOT NULL,
 	DestID uniqueidentifier NOT NULL
 )
@@ -15,18 +15,11 @@ PK_Map_ServiceDefID PRIMARY KEY CLUSTERED
 (
 	-- ServiceCategoryCode, ServiceDefCode -- could not create a PK on a nullable column, and apparently it is possible to not associate a service with category
 	DestID
-	, ServiceCategoryCode
 )
 
 CREATE INDEX IX_MAP_ServiceDefID_ServiceCategoryCode_ServiceDefCode on LEGACYSPED.MAP_ServiceDefID (ServiceCategoryCode, ServiceDefCode)
 
-
-ALTER TABLE LEGACYSPED.MAP_ServiceDefID ADD CONSTRAINT 
-UQ_MAP_ServiceDefID_ServiceCategoryCode_ServiceDefCode UNIQUE NONCLUSTERED 
-(
- ServiceDefCode
-)
-
+alter table LEGACYSPED.MAP_ServiceDefID ADD CONSTRAINT UQ_MAP_ServiceDefID_ServiceCategoryCode_ServiceDefCode unique nonclustered (ServiceCategoryCode, ServiceDefCode)
 
 END
 GO
@@ -74,7 +67,6 @@ from LEGACYSPED.SelectLists k left join
 where k.Type = 'Service'
 	and k.LegacySpedCode is not null -- there is nothing to do if this is null
 GO
-
 --
 
 /*
