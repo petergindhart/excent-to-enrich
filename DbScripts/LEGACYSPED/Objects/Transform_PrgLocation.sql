@@ -23,22 +23,6 @@ GO
 
 CREATE VIEW LEGACYSPED.Transform_PrgLocation  
 AS
-
-	select 
-		ServiceLocationCode = k.LegacySpedCode,
-		DestID = coalesce(i.ID, n.ID, t.ID, m.DestID),
-		Name = coalesce(i.Name, n.Name, t.Name, k.EnrichLabel), 
-		Description = isnull(i.Description, t.Description),
-		MedicaidLocationID = coalesce(i.MedicaidLocationID, n.MedicaidLocationID, t.MedicaidLocationID),
-		StateCode = coalesce(i.StateCode, n.StateCode, t.StateCode),
-		DeletedDate = case when k.EnrichID is not null then NULL when coalesce(i.ID, n.ID, t.ID) is null then getdate() else coalesce(i.DeletedDate, n.DeletedDate, t.DeletedDate) end
-	from LEGACYSPED.SelectLists k left join
-		dbo.PrgLocation i on k.EnrichID = i.ID left join 
-		dbo.PrgLocation n on k.EnrichLabel = n.Name left join 
-		LEGACYSPED.MAP_PrgLocationID m on k.LegacySpedCode = m.ServiceLocationCode left join  
-		dbo.PrgLocation t on m.DestID = t.ID 
-	where k.Type = 'ServLoc'
-GO
 /*
 	The current SelectList handling strategy is to supply the customer with the defaults for any given state.  
 		The defaults will always include state reporting elements.
@@ -62,5 +46,21 @@ GO
 	Will consider re-instating the DisplayInUI field for the SelectLists file		
 
 */
+	select 
+		ServiceLocationCode = k.LegacySpedCode,
+		DestID = coalesce(i.ID, n.ID, t.ID, m.DestID),
+		Name = coalesce(i.Name, n.Name, t.Name, k.EnrichLabel), 
+		Description = isnull(i.Description, t.Description),
+		MedicaidLocationID = coalesce(i.MedicaidLocationID, n.MedicaidLocationID, t.MedicaidLocationID),
+		StateCode = coalesce(i.StateCode, n.StateCode, t.StateCode),
+		DeletedDate = case when k.EnrichID is not null then NULL when coalesce(i.ID, n.ID, t.ID) is null then getdate() else coalesce(i.DeletedDate, n.DeletedDate, t.DeletedDate) end
+	from LEGACYSPED.SelectLists k left join
+		dbo.PrgLocation i on k.EnrichID = i.ID left join 
+		dbo.PrgLocation n on k.EnrichLabel = n.Name left join 
+		LEGACYSPED.MAP_PrgLocationID m on k.LegacySpedCode = m.ServiceLocationCode left join  
+		dbo.PrgLocation t on m.DestID = t.ID 
+	where k.Type = 'ServLoc'
+GO
+
 	
 -- last line
