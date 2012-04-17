@@ -85,7 +85,7 @@ select
 	StartDate = iep.IEPStartDate,
 	EndDate = case when stu.SpecialEdStatus = 'I' then iep.IEPEndDate else NULL end,
 	ItemOutcomeID = case when stu.SpecialEdStatus = 'I' then (select PrgItemOutcomeID from LEGACYSPED.PrgItemOutcome_EndIEP) else NULL end, 
-	CreatedDate = iep.IEPStartDate,
+	CreatedDate = '1/1/1970',
 	CreatedBy = 'EEE133BD-C557-47E1-AB67-EE413DD3D1AB', -- BuiltIn: Support
 	EndedDate = cast(case when stu.SpecialEdStatus = 'I' then iep.IEPEndDate else NULL end as datetime),
 	EndedBy = cast(t.EndedBy as uniqueidentifier),
