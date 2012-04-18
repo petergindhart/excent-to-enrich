@@ -1,5 +1,5 @@
-set modulesdirectory="C:\inetpub\Sites\Enrich\Excent Enrich DC7 FL Lee\Setup\7.20.2.2820\Product\DbScripts"
-set connection="server=.;uid=DC7_FL_Lee_User;pwd=vc3go!!;database=Enrich_DC7_FL_Lee"
+set modulesdirectory="E:\Inetpub\Sites\EnrichCOUPB\Setup\7.24.2.3249\Product\DbScripts"
+set connection="server=10.0.1.31;uid=enrich_db_user;pwd=dsdar@2012;database=Enrich_COUPB"
 
 ExecuteTask\ExecuteTask.exe upgradedb modulesdirectory=%modulesdirectory% connectionstring=%connection% ignoremissingmodules=true
 
