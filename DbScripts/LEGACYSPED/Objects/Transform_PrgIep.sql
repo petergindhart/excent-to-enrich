@@ -77,7 +77,7 @@ select
 	iep.LRECode,
 	--DestID = isnull(exist.id, newm.DestID), -- logic :  If it exists and we return the row (see where clause) delete old and insert new (relies on cascading deletes!!!!!).  If not exists, need to insert it.
 		-- note:  change approach.  See DeleteDestID and DestID
-	DeleteDestID = case when (exist.IsEnded = 0 and iep.IepRefID <> prevm.IepRefID) then exist.ID end,
+	--DeleteDestID = case when (exist.IsEnded = 0 and iep.IepRefID <> prevm.IepRefID) then exist.ID end,
 	-- PrgItem
 	DefID = '8011D6A2-1014-454B-B83C-161CE678E3D3', -- Converted IEP
 	StudentID = stu.DestID,

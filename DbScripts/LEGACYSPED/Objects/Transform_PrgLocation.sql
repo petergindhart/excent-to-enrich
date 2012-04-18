@@ -26,7 +26,7 @@ AS
 
 	select 
 		ServiceLocationCode = k.LegacySpedCode,
-		DestID = coalesce(i.ID, n.ID, t.ID, m.DestID),
+		DestID = coalesce(i.ID, n.ID, t.ID, m.DestID,k.EnrichID),
 		Name = coalesce(i.Name, n.Name, t.Name, k.EnrichLabel), 
 		Description = isnull(i.Description, t.Description),
 		MedicaidLocationID = coalesce(i.MedicaidLocationID, n.MedicaidLocationID, t.MedicaidLocationID),

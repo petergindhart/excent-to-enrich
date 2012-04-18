@@ -59,7 +59,7 @@ AS
   ManuallyEntered = ISNULL(m.LegacyData, case when s.ID IS NULL then 1 else 0 end) -- cast(case when dest.ID is null then 1 else 0 end as bit),
  FROM
   LEGACYSPED.Student src LEFT JOIN
-  LEGACYSPED.Transform_GradeLevel g on src.GradeLevelCode = g.GradeLevelCode LEFT JOIN
+  LEGACYSPED.Transform_GradeLevel g on src.GradeLevelCode = g.GradeLevelCode RIGHT JOIN -- Because students details who are studying in thee schools which are resides under this Districts only
   LEGACYSPED.Transform_School sch on src.ServiceSchoolCode = sch.SchoolCode LEFT JOIN
   dbo.Student s on src.StudentLocalID = s.Number and /* and s.IsActive = 1 -- removed 20111114 because this was adding a duplicate student.  We will leave them inactive, though */ 
 	s.ID = (

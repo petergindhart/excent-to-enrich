@@ -25,7 +25,7 @@ CREATE VIEW LEGACYSPED.Transform_ServiceProviderTitle
 AS  
  SELECT distinct
 	ServiceProviderCode = k.LegacySpedCode,
-	DestID = coalesce(i.ID, n.ID, t.ID, m.DestID),
+	DestID = coalesce(i.ID, n.ID, t.ID, m.DestID, K.EnrichID),
 	Name = coalesce(i.Name, n.Name, t.Name, k.EnrichLabel),
 	StateCode = coalesce(i.StateCode, n.StateCode, t.StateCode),
 	DeletedDate = case when k.EnrichID is not null then NULL when coalesce(i.ID, n.ID, t.ID) is null then getdate() else coalesce(i.DeletedDate, n.DeletedDate, t.DeletedDate) end
