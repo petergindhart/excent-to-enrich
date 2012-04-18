@@ -24,6 +24,7 @@ GO
 CREATE VIEW LEGACYSPED.Transform_PrgLocation  
 AS
 
+
 	select 
 		ServiceLocationCode = k.LegacySpedCode,
 		DestID = coalesce(i.ID, n.ID, t.ID, m.DestID,k.EnrichID),
@@ -39,6 +40,7 @@ AS
 		dbo.PrgLocation t on m.DestID = t.ID 
 	where k.Type = 'ServLoc'
 GO
+
 /*
 	The current SelectList handling strategy is to supply the customer with the defaults for any given state.  
 		The defaults will always include state reporting elements.
@@ -62,5 +64,6 @@ GO
 	Will consider re-instating the DisplayInUI field for the SelectLists file		
 
 */
+
 	
 -- last line

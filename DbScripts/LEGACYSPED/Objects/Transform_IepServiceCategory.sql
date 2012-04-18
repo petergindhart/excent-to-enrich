@@ -31,13 +31,13 @@ AS
 		DeletedDate = CAST(null as datetime)
 	FROM
 		(
-		SELECT Distinct ServiceCategoryCode = SubType
+		SELECT ServiceCategoryCode = SubType
 		FROM LEGACYSPED.SelectLists 
 		WHERE Type = 'Service'
 		and SubType is not null
 		GROUP BY SubType
 		) k LEFT JOIN
-		dbo.IepServiceCategory t on case k.ServiceCategoryCode when 'S' then 'Special Education' else 'Related' end = t.Name 
+		dbo.IepServiceCategory t on case k.ServiceCategoryCode when 'SpecialEd' then 'Special Education' else k.ServiceCategoryCode end = t.Name 
 GO
 
 

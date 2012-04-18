@@ -8,7 +8,7 @@ AS
 	SELECT
 		iep.IepRefId,
 		DestID = sec.ID,
-		ReportFrequencyID = cast(NULL as uniqueidentifier)
+		ReportFrequencyID = 'A3FF9417-0899-42BE-8090-D1855D50612F'
 	FROM
 	LEGACYSPED.Transform_PrgIep iep JOIN -- 10721
 	PrgSection sec ON
