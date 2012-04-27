@@ -24,7 +24,7 @@ GO
 CREATE VIEW LEGACYSPED.Transform_ServiceProviderTitle  
 AS  
  SELECT distinct
-	ServiceProviderCode = k.LegacySpedCode,
+	ServiceProviderCode = isnull(k.LegacySpedCode, k.EnrichLabel),
 	DestID = coalesce(i.ID, n.ID, t.ID, m.DestID),
 	Name = coalesce(i.Name, n.Name, t.Name, k.EnrichLabel),
 	StateCode = coalesce(i.StateCode, n.StateCode, t.StateCode),
