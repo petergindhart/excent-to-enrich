@@ -46,7 +46,7 @@ AS
 */
 
 select 
-	ServiceCategoryCode = k.SubType,
+	ServiceCategoryCode = isnull(k.SubType, 'Related'),
 	ServiceDefCode = k.LegacySpedCode,
 	DestID = coalesce(i.ID, n.ID, t.ID, m.DestID), -- give this some thought
 	StateCode = coalesce(i.StateCode, n.StateCode, t.StateCode),
@@ -73,8 +73,49 @@ GO
 
 select * from LEGACYSPED.SelectLists where Type = 'Service' -- 254
 order by EnrichLabel
+select * from LEGACYSPED.Transform_ServiceDef where ServiceDefCode = 'OT6'
+
+select k.*
+from (
+	select Type, LegacySpedCode
+	from LEGACYSPED.SelectLists 
+	where Type = 'Service'
+	and LegacySpedCode is not null
+	group by Type, LegacySpedCode
+	having count(*) > 1
+	) dup 
+join LEGACYSPED.SelectLists k on dup.Type = k.Type and dup.LegacySpedCode = k.LegacySpedCode 
+order by k.LegacySpedCode, k.SubType
+
+delete k
+-- update k set SubType = 'Related' 
+-- select k.*
+from (
+	select Type, LegacySpedCode
+	from LEGACYSPED.SelectLists 
+	where Type = 'Service'
+	and LegacySpedCode is not null
+	and LegacySpedCode in ('AA', 'C-SpLg', 'C-SpLg', 'OT6', 'PT2')
+	group by Type, LegacySpedCode
+	having count(*) > 1
+	) dup 
+join LEGACYSPED.SelectLists k on dup.Type = k.Type and dup.LegacySpedCode = k.LegacySpedCode 
+where k.EnrichID is null
 
 
+select k.*
+from (
+	select Type, LegacySpedCode = isnull(LegacySpedCode,'')
+	from LEGACYSPED.SelectLists 
+	where Type = 'Service'
+	and LegacySpedCode is null
+	group by Type, isnull(LegacySpedCode,'')
+	having count(*) > 1
+	) dup 
+join LEGACYSPED.SelectLists k on dup.Type = k.Type and dup.LegacySpedCode = isnull(k.LegacySpedCode,'')
+order by k.LegacySpedCode, k.SubType
+
+select * from ServiceDef where Name = 'Consultation'
 
 
 select * 
