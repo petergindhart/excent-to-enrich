@@ -14,42 +14,65 @@ as
 */
 set nocount on; -- set nocount off;
 
-begin tran 
+delete m from LEGACYSPED.MAP_PrgInvolvementID m left join dbo.PrgInvolvement i on m.DestID = i.ID where i.ID is null ; print 'deleted MAP_PrgInvolvementID: '+convert(varchar(10), @@rowcount)
 
-DELETE LEGACYSPED.MAP_IepRefID
-FROM LEGACYSPED.Transform_PrgIep AS s RIGHT OUTER JOIN 
-	LEGACYSPED.MAP_IepRefID as d ON s.DestID = d.DestID
-WHERE (s.DestID IS NULL)
+declare @item table (ItemID uniqueidentifier)
+insert @item
+select item.ID
+from LEGACYSPED.MAP_IEPStudentRefID mi left join
+LEGACYSPED.IEP iep on mi.IEPRefID = iep.IEPRefID left join
+PrgItem item on mi.DestID = item.ID left join  -- now determine if the Items that are not in the incoming dataset have been touched 
+PrgVersion v on item.ID = v.ItemID 
+where iep.IEPRefID is null 
+	and item.IsEnded = 0
+	and item.Revision = 0
+	and item.IsApprovalPending = 0 
+	and v.IsApprovalPending = 0 -- I don't know how this would be incremented for a converted iep, but...
 
-UPDATE STATISTICS LEGACYSPED.MAP_IepRefID
+-- do not touch items associated with ended milestones 
+delete d from @item d join PrgSection s on d.ItemID = s.ItemID join PrgMilestone ms on s.ID = ms.EndingSectionID
 
-delete msp -- select msp.*
-FROM dbo.PrgItem i join 
-	dbo.PrgSection s on i.ID = s.ItemID left join 
-	dbo.IepServicePlan isp on s.ID = isp.InstanceID left join 
-	LEGACYSPED.MAP_ServicePlanID msp on isp.ID = msp.DestID left join
-	LEGACYSPED.MAP_IepRefID AS m on i.ID = m.DestID 
-WHERE m.DestID IS NULL AND 1=1 AND i.DefID = '8011D6A2-1014-454B-B83C-161CE678E3D3'
-and msp.DestID is not null
+-- from Pete
+declare @services table (ID uniqueidentifier) 
+insert @services 
+select isp.ID from @item item join PrgSection sec on item.ItemID = sec.ItemID join IepServicePlan isp on sec.ID = isp.InstanceID
 
-delete isp -- select isp.*
-FROM dbo.PrgItem i join 
-	dbo.PrgSection s on i.ID = s.ItemID left join 
-	dbo.IepServicePlan isp on s.ID = isp.InstanceID left join 
-	LEGACYSPED.MAP_IepRefID AS m on i.ID = m.DestID 
-WHERE m.DestID IS NULL AND 1=1 AND i.DefID = '8011D6A2-1014-454B-B83C-161CE678E3D3'
-and isp.ID is not null
+delete IepServicePlan where ID in (select ID from @services) ; print 'deleted IepServicePlan: '+convert(varchar(10), @@rowcount)
+delete ServicePlan where ID in (select ID from @services) ; print 'deleted ServicePlan: '+convert(varchar(10), @@rowcount)
+-- from Pete
 
-UPDATE STATISTICS dbo.IepServicePlan
+delete item from @item d join PrgItem item on d.ItemID = item.ID ; print 'deleted PrgItem: '+convert(varchar(10), @@rowcount)
 
-DELETE PrgItem
-FROM LEGACYSPED.MAP_IepRefID AS s RIGHT OUTER JOIN 
-	PrgItem as d ON s.DestID=d.ID
-WHERE s.DestID IS NULL AND 1=1 AND  d.DefID = '8011D6A2-1014-454B-B83C-161CE678E3D3'
+-- while this could be performed without a table variable, we are using one to simplify the query
+declare @inv table (StudentRefID varchar(150), InvolvementID uniqueidentifier, ItemID uniqueidentifier, InvolvementInUse bit)
+insert @inv
+select minv.StudentRefID, InvolvementID = minv.DestID, ItemID = item.ID,
+	InvolvementInUse = cast(isnull((select distinct 1 from PrgItem xi where xi.StudentID = inv.StudentID), 0) as bit)
+from LEGACYSPED.MAP_PrgInvolvementID minv join 
+PrgInvolvement inv on minv.DestID = inv.ID left join 
+PrgItem item on inv.StudentID = item.StudentID and item.DefID = '8011D6A2-1014-454B-B83C-161CE678E3D3' left join 
+LEGACYSPED.Student stu on minv.StudentRefID = stu.StudentRefID 
+where stu.StudentRefID is null
+order by case when item.ID is null then 0 else 1 end desc, involvementinuse desc
 
-UPDATE STATISTICS dbo.PrgItem
+delete i from @inv inv join PrgInvolvement i on inv.InvolvementID = i.ID where inv.InvolvementInUse = 0 ; print 'deleted PrgInvolvement: '+convert(varchar(10), @@rowcount)
 
-commit tran -- rollback tran
+-- delete MAP records that don't exist in the target.  clean sweep may delete previous orphans also
+delete m from @inv inv join LEGACYSPED.MAP_PrgInvolvementID m on inv.InvolvementID = m.DestID where inv.InvolvementInUse = 0 ; print 'deleted MAP_PrgInvolvementID: '+convert(varchar(10), @@rowcount)
+delete m from LEGACYSPED.MAP_PrgSectionID_NonVersioned m left join PrgSection s on m.DestID = s.ID left join PrgItem i on m.ItemID = i.ID where s.ID is null and i.ID is null ; print 'deleted MAP_PrgSectionID_NonVersioned: '+convert(varchar(10), @@rowcount)
+delete m from LEGACYSPED.MAP_PrgSectionID m left join PrgSection s on m.DestID = s.ID left join PrgVersion v on m.VersionID = v.ID where s.ID is null and v.ID is null ; print 'deleted MAP_PrgSectionID: '+convert(varchar(10), @@rowcount)
+delete m from LEGACYSPED.MAP_PrgVersionID m left join PrgVersion x on m.DestID = x.ID where x.ID is null ; print 'deleted MAP_PrgVersionID: '+convert(varchar(10), @@rowcount)
+delete m from LEGACYSPED.MAP_IEPStudentRefID m left join PrgItem x on m.DestID = x.ID where x.ID is null ; print 'deleted MAP_IEPStudentRefID: '+convert(varchar(10), @@rowcount)
+delete m from LEGACYSPED.MAP_IepPlacementID m left join IepPlacement x on m.DestID = x.ID where x.ID is null ; print 'deleted MAP_IepPlacementID: '+convert(varchar(10), @@rowcount)
+delete m from LEGACYSPED.MAP_IepDisabilityEligibilityID m left join IepDisabilityEligibility x on m.DestID = x.ID where x.ID is null ; print 'deleted MAP_IepDisabilityEligibilityID: '+convert(varchar(10), @@rowcount)
+delete m from LEGACYSPED.MAP_ScheduleID m left join Schedule x on m.DestID = x.ID where x.ID is null ; print 'deleted MAP_ScheduleID: '+convert(varchar(10), @@rowcount)
+delete m from LEGACYSPED.MAP_ServicePlanID m left join ServicePlan x on m.DestID = x.ID where x.ID is null ; print 'deleted MAP_ServicePlanID: '+convert(varchar(10), @@rowcount)
+delete m from LEGACYSPED.MAP_IepGoalAreaDefID m left join IepGoalAreaDef x on m.DestID = x.ID where x.ID is null ; print 'deleted MAP_IepGoalAreaDefID: '+convert(varchar(10), @@rowcount)
+delete m from LEGACYSPED.MAP_IepGoalAreaDefID m left join IepGoalAreaDef x on m.DestID = x.ID where x.ID is null ; print 'deleted MAP_IepGoalAreaDefID: '+convert(varchar(10), @@rowcount)
+delete m from LEGACYSPED.MAP_IepGoalArea m left join IepGoalArea x on m.DestID = x.ID where x.ID is null ; print 'deleted MAP_IepGoalArea: '+convert(varchar(10), @@rowcount)
+delete m from LEGACYSPED.MAP_PrgGoalID m left join PrgGoal x on m.DestID = x.ID where x.ID is null ; print 'deleted MAP_PrgGoalID: '+convert(varchar(10), @@rowcount)
+delete m from LEGACYSPED.MAP_PrgGoalObjectiveID m left join PrgGoal x on m.DestID = x.ID where x.ID is null ; print 'deleted MAP_PrgGoalObjectiveID: '+convert(varchar(10), @@rowcount)
+
 go
 
 
