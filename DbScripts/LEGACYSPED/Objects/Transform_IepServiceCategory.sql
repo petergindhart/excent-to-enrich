@@ -26,7 +26,7 @@ AS
 	SELECT
 		k.ServiceCategoryCode,
 		DestID = t.ID,
-		Name = coalesce(t.Name, case k.ServiceCategoryCode when 's' then 'Special Education' else 'Related' end), -- It is important to get t where it exists because we are updating the target table and we don't want to change t where t already existed
+		Name = coalesce(t.Name, case k.ServiceCategoryCode when 'SpecialEd' then 'Special Education' else k.ServiceCategoryCode end), -- It is important to get t where it exists because we are updating the target table and we don't want to change t where t already existed
 		Sequence = coalesce(t.Sequence, 99),
 		DeletedDate = CAST(null as datetime)
 	FROM
