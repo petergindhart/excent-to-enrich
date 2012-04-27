@@ -61,7 +61,7 @@ select
 	ProviderID = prv.UserProfileID,
 	Name = CAST(null as varchar),
 	LocationId = loc.DestID,
-	LocationDescription = loc.Name 
+	LocationDescription = loc.Name -- select v.ServiceRefID, iep.VersionDestID, m.*, sec.VersionID, sdm.*
 FROM
 	LEGACYSPED.Transform_PrgIep iep JOIN
 	PrgSection sec ON
@@ -69,17 +69,19 @@ FROM
 		iep.VersionDestID = sec.VersionID AND
 		sec.DefID = '9AC79680-7989-4CC9-8116-1CCDB1D0AE5F' JOIN --IEP Services
 	LEGACYSPED.Service v on iep.IepRefId = v.IepRefId LEFT JOIN
-	LEGACYSPED.MAP_ServicePlanID m on v.ServiceRefID = m.ServiceRefID LEFT JOIN
+	LEGACYSPED.MAP_ServicePlanID m on v.ServiceRefID = m.ServiceRefID LEFT JOIN -- select * from LEGACYSPED.MAP_ServicePlanID where servicerefid = 119844
 	LEGACYSPED.Transform_ServiceDef sdm on 
-		v.ServiceType = sdm.ServiceCategoryCode AND
+		v.ServiceType = isnull(sdm.ServiceCategoryCode,'') AND
 		v.ServiceDefinitionCode = isnull(sdm.ServiceDefCode, 'ZZZ') LEFT JOIN
 	LEGACYSPED.Transform_PrgLocation loc on v.ServiceLocationCode = loc.ServiceLocationCode LEFT JOIN 
 	LEGACYSPED.MAP_ServiceFrequencyID freq on isnull(v.ServiceFrequencyCode, 'ZZZ') = freq.ServiceFrequencyCode LEFT JOIN 
  	LEGACYSPED.Transform_ServiceProviderTitle ttl on v.ServiceProviderTitleCode = ttl.ServiceProviderCode and
  		cast(case when ttl.DeletedDate is null then 0 else 1 end as Int) = (
  			select min(cast(case when ttlt.DeletedDate is null then 0 else 1 end as Int)) from ServiceProviderTitle ttlt where ttl.Name = ttlt.Name) LEFT JOIN
- 	LEGACYSPED.Transform_IepServiceCategory cat on cat.ServiceCategoryCode = v.ServiceType  LEFT JOIN
+ 	LEGACYSPED.Transform_IepServiceCategory cat on isnull(cat.ServiceCategoryCode,'x') = isnull(v.ServiceType,'y') LEFT JOIN
 	LEGACYSPED.MAP_ScheduleID ssm on v.ServiceRefID = ssm.ServiceRefID LEFT JOIN
-	LEGACYSPED.MAP_SpedStaffMemberView prv on v.StaffEmail = prv.StaffEmail
+	LEGACYSPED.MAP_SpedStaffMemberView prv on isnull(v.StaffEmail,'') = prv.StaffEmail
+where v.ServiceRefId = 305734
 GO
 --- 
+
