@@ -9,9 +9,11 @@
 update ou set Number = '36' -- Lee County State Reporting DistrictID
 -- select ou.*
 from (select top 1 OrgUnitID from School group by OrgUnitID order by count(*) desc) m join dbo.OrgUnit ou on m.OrgUnitID = ou.ID
-
 go
 
+-- update FlatFileExtractDatabase table with the Flat File path.
+update VC3ETL.FlatFileExtractDatabase  set LocalCopyPath = 'E:\EnrichDataFiles\FL\Lee' where ID = '29D14961-928D-4BEE-9025-238496D144C6'
+go
 
 
 IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'LEGACYSPED.ImportPrgSections') AND type in (N'U'))
