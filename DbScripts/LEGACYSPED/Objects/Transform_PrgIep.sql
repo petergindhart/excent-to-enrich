@@ -124,19 +124,47 @@ as
 			Any value > 0 indicates that the previously imported item has been somehow modified since it was imported
 		
 */
-select distinct a.IepRefID, a.StudentRefID, ExistingItemID = mi.DestID, ExistingVersionID = mv.DestID, -- a student may have multiple NC Items.  dstinct the easy way.
-	Incoming = case when newiep.IepRefID is null then 0 else 1 end,
-	IsEnded = isnull(item.IsEnded,0), Revision = isnull(item.Revision,0),
-	NCItem = case when ncitem.ID is null then 0 else 1 end,
-	Touched = cast(isnull(item.IsEnded,0) as int)+isnull(item.Revision,0)+case when ncitem.ID is null then 0 else 1 end
-from (select IEPRefID, StudentRefID from LEGACYSPED.MAP_IEPStudentRefID union select IEPRefID, StudentRefID from LEGACYSPED.IEP ) a left join
-LEGACYSPED.MAP_IEPStudentRefID mi on a.IepRefID = mi.IepRefID left join
-LEGACYSPED.MAP_PrgVersionID mv on a.IepRefID = mv.IepRefID left join 
-dbo.PrgItem item on mi.DestID = item.ID left join 
-LEGACYSPED.IEP newiep on a.IepRefID = newiep.IepRefID left join -- incoming
-dbo.PrgItem ncitem on item.StudentID = ncitem.StudentID and ncitem.DefID in (select top 1 d.ID from PrgItemDef d where d.Name like '%IEP%' and d.ID <> '8011D6A2-1014-454B-B83C-161CE678E3D3' and ncitem.DefID = d.ID) and ncitem.IsEnded = 0
--- order by Incoming, item.IsEnded desc, item.Revision desc, NCItem desc
-go
+
+select s.StudentRefID, 
+	StudentID = coalesce(xt.StudentID, xi.StudentID, nc.StudentID),
+	ExistingInvolvementID = isnull(xinv.DestID, nc.InvolvementID),
+	ExistingIEPRefID = xm.IepRefID, 
+	ExistingItemID = isnull(xm.DestID, nc.ItemID),
+	--ExistingConvertedItemID = xm.DestID, 
+	--ExistingNonConvertedItemID = nc.ItemID,
+	ExistingVersionID = isnull(xv.DestID, ncxv.ID),
+	--ExistingConvertedVersionID = xv.DestID, 
+	--ExistingNonConvertedVersionID = ncxv.ID,
+	IncomingIEPRefID = inc.IepRefID,
+	ExistingInvolvementIsEnded = isnull(case when xi.EndDate is null then 0 else 1 end, case when ncxi.EndDate is null then 0 else 1 end),
+	--ExistingConvertedInvolvementIsEnded = case when xi.EndDate is null then 0 else 1 end,
+	--ExistingNonConvertedInvolvementIsEnded = case when ncxi.EndDate is null then 0 else 1 end,
+	ExistingItemIsEnded = case when xi.EndDate is null then 0 else 1 end, -- replaces IsEnded in the previous version of this view -- converted and non-converted -------------------------------- to do
+	NonConvertedIEPExists = case when nc.ItemID is null then 0 else 1 end, 
+		Incoming = case when inc.IepRefID is null then 0 else 1 end, -- could be simply deduced by queries using this view, but we'll bring referencing queries up to date later
+-- 		Revision = isnull(xt.Revision, 0), -- don't need the non-converted revision because we're not touching it anyway
+--		NCItem = case when nc.ItemID is null then 0 else 1 end,
+		Touched = cast(isnull(xt.IsEnded,0) as int)+isnull(xt.Revision,0)+case when nc.ItemID is null then 0 else 1 end -- could be 2 different items.  Want this ??????????
+-- select *
+from (select StudentRefID from LEGACYSPED.MAP_IEPStudentRefID union select StudentRefID from LEGACYSPED.IEP ) s left join 
+LEGACYSPED.MAP_IEPStudentRefID xm on s.StudentRefID = xm.StudentRefID left join -- existing converted iep ItemID 
+LEGACYSPED.IEP inc on s.StudentRefID = inc.StudentRefID left join -- incoming 
+LEGACYSPED.MAP_PrgVersionID xv on xm.IepRefID = xv.IepRefID left join -- existing converted version
+LEGACYSPED.MAP_PrgVersionID iv on inc.IepRefID = iv.IepRefID left join -- 
+LEGACYSPED.MAP_PrgInvolvementID xinv on s.StudentRefID = xinv.StudentRefID left join ( -- we are assuming (for now) that there will be a maximum of one non-converted iep -- realistically we may see more
+	select s.StudentRefID, i.StudentID, ItemID = i.ID, i.InvolvementID 
+	from PrgItem i join LEGACYSPED.Transform_Student s on i.StudentID = s.DestID -- from 1578 to 1338.  where are the 240?  it does not matter, because we are not importing them!
+	where i.ID = (
+		select max(convert(varchar(36), i2.ID))
+		from (select i3.ID, i3.StudentID from PrgItem i3 join PrgItemDef d3 on i3.DefID = d3.ID join PrgInvolvement v3 on i3.InvolvementID = v3.ID where d3.TypeID = 'A5990B5E-AFAD-4EF0-9CCA-DC3685296870' and i3.DefID <> '8011D6A2-1014-454B-B83C-161CE678E3D3' and v3.EndDate is null) i2 
+			where i.StudentID = i2.StudentID) -- 1331
+			) nc on s.StudentRefID = nc.StudentRefID left join 
+PrgVersion ncxv on nc.ItemID = ncxv.ItemID left join -- existing non-converted version
+PrgInvolvement xi on xinv.DestID = xi.ID left join -- existing involvement (converted)
+PrgInvolvement ncxi on nc.InvolvementID = ncxi.ID left join -- existing involvement (non-converted)
+PrgItem xt on xm.DestID = xt.ID -- left join
+-- PrgItem xtnc on nc.ItemID = xtnc.ID
+GO
 
 
 IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.Transform_PrgIep') AND OBJECTPROPERTY(id, N'IsView') = 1)
@@ -147,13 +175,11 @@ CREATE VIEW LEGACYSPED.Transform_PrgIep
 AS
 select 
 	ev.StudentRefID, 
-	ev.IepRefID,
+	ev.ExistingIEPRefID, --- is this supposed to be Existing or Incoming? this is currently coming from the MAP (existing before import).   this should be correct. it will be null for new iEPs, which will trigger an insert
 	DestID = ev.ExistingItemID,
 	DoNotTouch = ev.Touched, -- 0 is touchable
-	AgeGroup = case when DATEDIFF(yy, stu.DOB, iep.IepStartDate) < 6 then 'PK' when DATEDIFF(yy, stu.DOB, iep.IepStartDate) > 5 then 'K12' End,
-	iep.LRECode,
 -- PrgItem
-	-- notice:  if data previously imported and should not be touched, we need to derive t data where prev imp rec has been touched -- set transaction isolation level read uncommitted
+	-- notice:  if data previously imported and should not be touched, we need to derive t data where prev imp rec has been touched
 	-- better idea:  expose Touched to be used in the source table filter
 	DefID = '8011D6A2-1014-454B-B83C-161CE678E3D3', -- Converted IEP
 	StudentID = stu.DestID,
@@ -167,7 +193,7 @@ select
 	EndedBy = cast(t.EndedBy as uniqueidentifier),
 	SchoolID = cast(stu.CurrentSchoolID as uniqueidentifier),
 	GradeLevelID = cast(stu.CurrentGradeLevelID as uniqueidentifier),
-	InvolvementID = isnull(minv.DestID, allinv.ID), 
+	InvolvementID = isnull(minv.DestID, ev.ExistingInvolvementID), 
 	StartStatusID =  cast('796C212F-6003-4CD3-878D-53BEBE087E9A' as uniqueidentifier), 
 	EndStatusID = cast(case when stu.SpecialEdStatus = 'I' then '12086FE0-B509-4F9F-ABD0-569681C59EE2' else NULL end as uniqueidentifier),
 	PlannedEndDate = isnull(convert(datetime, iep.IEPEndDate), dateadd(yy, 1, dateadd(dd, -1, convert(datetime, iep.IEPStartDate)))),
@@ -185,31 +211,56 @@ select
 	AgeGroup = case when DATEDIFF(yy, stu.DOB, iep.IepStartDate) < 6 then 'PK' when DATEDIFF(yy, stu.DOB, iep.IepStartDate) > 5 then 'K12' End,
 	iep.LRECode,
 	iep.MinutesPerWeek,
-	iep.ConsentForServicesDate -- select *
-from LEGACYSPED.EvaluateIncomingItems ev join -- select * from LEGACYSPED.EvaluateIncomingItems -- 11903
-	LEGACYSPED.Transform_Student stu on ev.StudentRefID = stu.StudentRefID join -- select * from LEGACYSPED.Transform_Student -- 11902
-	LEGACYSPED.IEP iep on ev.IepRefID = iep.IepRefID left join 
+	iep.ConsentForServicesDate 
+from LEGACYSPED.EvaluateIncomingItems ev left join 
+	LEGACYSPED.Transform_Student stu on ev.StudentRefID = stu.StudentRefID left join 
+	LEGACYSPED.IEP iep on ev.IncomingIEPRefID = iep.IepRefID left join -------------------------------------------------------------------------------- do we need to the Existing IEPRefID or the Incoming IEPRefID ?
 	dbo.PrgItem t on ev.ExistingItemID = t.ID left join
-	(select distinct ID, StudentID 
-		from PrgInvolvement v
-		where v.ProgramID = 'F98A8EF2-98E2-4CAC-95AF-D7D89EF7F80C' and 
-			v.EndDate is null and
-			v.ID = (
-				select min(convert(varchar(36), p.ID)) 
-				from PrgInvolvement p 
-				where p.ProgramID = 'F98A8EF2-98E2-4CAC-95AF-D7D89EF7F80C' and
-					p.StudentID = v.StudentID
-				)
-	
-	) allinv on stu.DestID = allinv.StudentID left join
 	LEGACYSPED.MAP_PrgInvolvementID minv on ev.StudentRefID = minv.StudentRefID left join
 	dbo.PrgInvolvement inv on minv.DestID = inv.ID
+go
+--
+
+
+/*
+
+now getting this from the Evaluate view
+	--(select distinct ID, StudentID 
+	--	from PrgInvolvement v
+	--	where v.ProgramID = 'F98A8EF2-98E2-4CAC-95AF-D7D89EF7F80C' and 
+	--		v.EndDate is null and
+	--		v.ID = (
+	--			select min(convert(varchar(36), p.ID)) 
+	--			from PrgInvolvement p 
+	--			where p.ProgramID = 'F98A8EF2-98E2-4CAC-95AF-D7D89EF7F80C' and
+	--				p.StudentID = v.StudentID
+	--			)
+	
+	--) allinv on stu.DestID = allinv.StudentID left join
+	
+
+-- used in testing because this Lee student would have had a 2nd involvement created
 where
 	stu.DestID = '70BAB93D-380F-4016-B589-149FBAAE38A1' -- studentid
 	-- 01DE4791-4A02-4DB5-8250-7CFC86401906
 
 
-/*
+
+select * from LEGACYSPED.Student where StudentRefID = '9F03C47A-297A-47E3-B3A6-02F4A8B57163'
+
+
+
+-- do these students have incoming ieps that are diff from prev?
+
+FB90A0E8-C5A1-4434-8D72-58C0ACE18ACC	2936FE35-8290-4602-BCED-424118893CF3
+BDDAF781-28CA-4DF5-B029-8E77BCA49D76	79079B58-AE56-4463-8684-913CB4CFB846
+
+select * from LEGACYSPED.IEP where StudentRefID in (
+'FB90A0E8-C5A1-4434-8D72-58C0ACE18ACC',
+'BDDAF781-28CA-4DF5-B029-8E77BCA49D76') ----------------- NO!
+
+
+
 
 
 this student has 2 involvements 
@@ -309,10 +360,6 @@ order by
 	case when item.EndStatusID IS NULL then 0 else 1 end, 
 	case when item.EndDate IS NULL then 0 else 1 end
 */
-
-
-GO
----
 
 
 
