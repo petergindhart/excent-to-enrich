@@ -1,0 +1,2 @@
+--#include {SpedDistrictInclude}\0002-Prep_District.sql
+-- above task is to update the data file location column, which was populated with bogus data in the SetupETL file.
