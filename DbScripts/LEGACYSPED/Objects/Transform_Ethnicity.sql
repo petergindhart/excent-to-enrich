@@ -36,13 +36,3 @@ WHERE l.Type = 'Ethnic' AND
 GO
 
 --
-
-/*
-
-GEO.ShowLoadTables
-
-
-
-
-*/
-
