@@ -47,7 +47,7 @@ AS
 
 */
 	select 
-		ServiceLocationCode = k.LegacySpedCode,
+		ServiceLocationCode = isnull(k.LegacySpedCode, convert(varchar(150), k.EnrichLabel)),
 		DestID = coalesce(i.ID, n.ID, t.ID, m.DestID),
 		Name = coalesce(i.Name, n.Name, t.Name, k.EnrichLabel), 
 		Description = isnull(i.Description, t.Description),
