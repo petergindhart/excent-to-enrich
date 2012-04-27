@@ -67,14 +67,13 @@ AS
 	FROM
 		LEGACYSPED.Transform_PrgIep iep JOIN
 		LEGACYSPED.MAP_PrgSectionID m on 
-			m.DefID = 'F050EF5E-3ED8-43D5-8FE7-B122502DE86A' and
-			m.VersionID = iep.VersionDestID JOIN
+			iep.VersionDestID  = m.VersionID and
+			m.DefID = 'F050EF5E-3ED8-43D5-8FE7-B122502DE86A' JOIN
 		dbo.IepEligibilityDetermination ed on m.DestID = ed.ID JOIN -- Only purpose is to ensure that this record exists.  
 		LEGACYSPED.StudentDisabilityPivot s on iep.StudentRefID = s.StudentRefID JOIN
 		LEGACYSPED.Transform_IepDisability d on s.DisabilityCode = d.DisabilityCode left join
 		LEGACYSPED.MAP_IepDisabilityEligibilityID me on 
 			iep.IepRefID = me.IepRefID and
 			d.DestID = me.DisabilityID
-
 GO
 --
