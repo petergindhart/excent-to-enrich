@@ -44,7 +44,6 @@ AS
 		IsDecOneCount = case when p.TypeID = t.ID then 1 else 0 End -- select t.ID TypeID
 	FROM dbo.IepPlacementType t CROSS JOIN
 		LEGACYSPED.Transform_PrgIep iep JOIN 
-		LEGACYSPED.Student s on iep.StudentRefID = s.StudentRefID JOIN
 		LEGACYSPED.Transform_IepLeastRestrictiveEnvironment lre ON iep.IepRefID = lre.IepRefId LEFT JOIN 
 		LEGACYSPED.Transform_IepPlacementOption p on 
 			iep.AgeGroup = p.PlacementTypeCode AND
