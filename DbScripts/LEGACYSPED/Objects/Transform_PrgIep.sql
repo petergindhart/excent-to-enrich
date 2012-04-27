@@ -150,7 +150,9 @@ select
 	ev.IepRefID,
 	DestID = ev.ExistingItemID,
 	DoNotTouch = ev.Touched, -- 0 is touchable
--- PrgItem
+	AgeGroup = case when DATEDIFF(yy, stu.DOB, iep.IepStartDate) < 6 then 'PK' when DATEDIFF(yy, stu.DOB, iep.IepStartDate) > 5 then 'K12' End,
+	iep.LRECode,
+	-- PrgItem
 	-- notice:  if data previously imported and should not be touched, we need to derive t data where prev imp rec has been touched -- set transaction isolation level read uncommitted
 	-- better idea:  expose Touched to be used in the source table filter
 	DefID = '8011D6A2-1014-454B-B83C-161CE678E3D3', -- Converted IEP

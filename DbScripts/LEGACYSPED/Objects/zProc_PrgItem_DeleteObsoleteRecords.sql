@@ -1,4 +1,3 @@
-
 if exists (select 1 from sys.schemas s join sys.objects o on s.schema_id = o.schema_id where s.name = 'LEGACYSPED' and o.name = 'PrgItem_DeleteObsoleteRecords')
 drop proc LEGACYSPED.PrgItem_DeleteObsoleteRecords
 go

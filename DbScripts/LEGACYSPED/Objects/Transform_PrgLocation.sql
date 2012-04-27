@@ -46,6 +46,7 @@ AS
 	Will consider re-instating the DisplayInUI field for the SelectLists file		
 
 */
+
 	select 
 		ServiceLocationCode = isnull(k.LegacySpedCode, convert(varchar(150), k.EnrichLabel)),
 		DestID = coalesce(i.ID, n.ID, t.ID, m.DestID),
@@ -61,6 +62,4 @@ AS
 		dbo.PrgLocation t on m.DestID = t.ID 
 	where k.Type = 'ServLoc'
 GO
-
-	
 -- last line

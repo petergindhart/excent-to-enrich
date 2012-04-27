@@ -1,6 +1,6 @@
 echo off
-set svc="E:\Inetpub\Sites\EnrichDCB3\TasksService\TestViewTasksService.exe"
-set name="VC3 Scheduled Tasks (DCB3)"
+set svc="E:\Inetpub\Sites\EnrichCOUPB\TasksService\TestViewTasksService.exe"
+set name="VC3 Scheduled Tasks (DCB6COUPB)"
 
 net stop %name%
 
