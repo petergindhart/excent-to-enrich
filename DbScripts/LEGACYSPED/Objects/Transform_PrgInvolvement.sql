@@ -19,58 +19,76 @@ PK_MAP_PrgInvolvementID PRIMARY KEY CLUSTERED
 )
 END
 GO
-
 -- 
+
+-- cheating.  this is created in Transform_PrgIep.sql, but that object depends on Transform_PrgInvolvement.  
+if exists (select 1 from sys.schemas s join sys.objects o on s.schema_id = o.schema_id where s.name = 'LEGACYSPED' and o.name = 'EvaluateIncomingItems')
+drop view LEGACYSPED.EvaluateIncomingItems
+go
+
+create view LEGACYSPED.EvaluateIncomingItems
+as
+-- this is just a shell so the following transform view will compile without error.
+select 
+	StudentRefID = cast(NULL as varchar(150)), 
+	StudentID = cast(NULL as uniqueidentifier),
+	ExistingInvolvementID = cast(NULL as uniqueidentifier),
+	ExistingIEPRefID = cast(NULL as varchar(150)),
+	ExistingItemID = cast(NULL as uniqueidentifier),
+	ExistingVersionID = cast(NULL as uniqueidentifier),
+	IncomingIEPRefID = cast(NULL as uniqueidentifier),
+	ExistingInvolvementIsEnded = cast(0 as Bit),
+	ExistingItemIsEnded = cast(0 as Bit),
+	NonConvertedIEPExists = cast(0 as Bit),
+	Incoming = cast(0 as Bit),
+	Touched = cast(0 as Bit)
+go
+
 IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.Transform_PrgInvolvement') AND OBJECTPROPERTY(id, N'IsView') = 1)
 DROP VIEW LEGACYSPED.Transform_PrgInvolvement
 GO
 
 CREATE VIEW LEGACYSPED.Transform_PrgInvolvement
 AS
+--------------------------- remember that the group by was removed here
 	SELECT
 		StudentRefID = stu.StudentRefID,
-		DestID = max(isnull(
-						isnull(
-							convert(varchar(36), x.ID), 
-							convert(varchar(36), t.ID)
-							), 
-							convert(varchar(36), m.DestID)
-						)
-					),
+		DestID = coalesce(x.ID, t.ID, m.DestID, ev.ExistingInvolvementID),
 		StudentID = stu.DestID,
 		ProgramID = 'F98A8EF2-98E2-4CAC-95AF-D7D89EF7F80C',   -- Special Education
 		VariantID = '6DD95EA1-A265-4E04-8EE9-78AE04B5DB9A',   -- Special Education
-		StartDate = min(iep.IEPStartDate),   -- school start for this IEP period
-		EndDate = min(isnull(t.EndDate, case when stu.SpecialEdStatus = 'I' then iep.IEPEndDate else NULL end)),
-		EndStatusID = min(case when stu.SpecialEdStatus = 'I' then '12086FE0-B509-4F9F-ABD0-569681C59EE2' else NULL end),
-		IsManuallyEnded = min(cast(case when stu.SpecialEdStatus = 'I' then 1 else 0 end as tinyint)),
-		Touched = min(isnull(cast(t.IsManuallyEnded as int),0))
+		StartDate = iep.IEPStartDate,   -- school start for this IEP period
+		EndDate = isnull(t.EndDate, 
+			case when stu.SpecialEdStatus = 'I' then 
+				case when iep.IEPEndDate > getdate() then NULL else iep.IEPEndDate end 
+				else
+				case when t.EndDate > getdate() then NULL else t.EndDate end
+			end),
+		EndStatusID = case when stu.SpecialEdStatus = 'I' then '12086FE0-B509-4F9F-ABD0-569681C59EE2' else t.EndStatus end,
+		IsManuallyEnded = cast(case when stu.SpecialEdStatus = 'I' then 1 else isnull(t.IsManuallyEnded,0) end as tinyint),
+		Touched = isnull(cast(t.IsManuallyEnded as int),0) -- select ev.StudentRefID
+		,
+		stu.SpecialEdStatus
 	FROM
-		LEGACYSPED.Transform_Student stu JOIN 
+		LEGACYSPED.EvaluateIncomingItems ev join 
+		LEGACYSPED.Transform_Student stu on ev.StudentRefID = stu.StudentRefID JOIN 
 		LEGACYSPED.IEP iep on stu.StudentRefID = iep.StudentRefID LEFT JOIN 
 		dbo.PrgInvolvement x on stu.DestID = x.StudentID and x.ProgramID = 'F98A8EF2-98E2-4CAC-95AF-D7D89EF7F80C' and dbo.DateInRange( iep.IEPStartDate, x.StartDate, x.EndDate ) = 1 left join 
 		LEGACYSPED.MAP_PrgInvolvementID m on iep.StudentRefID = m.StudentRefID LEFT JOIN
 		-- identify students that already have a sped invovlement that will overlap with this involvement
 		dbo.PrgInvolvement t on m.DestID = t.ID
-			--(stu.DestID = t.StudentID and 
-			--t.ProgramID = 'F98A8EF2-98E2-4CAC-95AF-D7D89EF7F80C' 
-			--and
-		--	dbo.DateRangesOverlap (iep.IEPStartDate, iep.IEPEndDate, t.StartDate, t.EndDate, null) = 1)
-		-- 	dbo.DateInRange( iep.IEPStartDate, t.StartDate, t.EndDate ) = 1)
 	WHERE 
 		iep.IEPStartDate is not null 
-	GROUP BY stu.StudentRefID, stu.DestID
+--and 
+--iep.StudentRefID in ('BDDAF781-28CA-4DF5-B029-8E77BCA49D76', 'FB90A0E8-C5A1-4434-8D72-58C0ACE18ACC')
+-- before removing group by, 12077
+-- after removing group by, 12132
+
+-- 	GROUP BY stu.StudentRefID, stu.DestID,coalesce(x.ID, t.ID, m.DestID, ev.ExistingInvolvementID)
 GO
 --
 
 -- set transaction isolation level read uncommitted
-
-
--- select * from legacysped.transform_prginvolvement where studentrefid = '84689AAE-F4B1-4EA5-8732-0C95DE51EBB5'
-
-
-
-
 
 --select mstu.StudentRefID, mDestID = min(coalesce(convert(varchar(36), mx.ID), convert(varchar(36), mt.ID), convert(varchar(36), mm.DestID)))
 --from LEGACYSPED.Transform_Student mstu join 
