@@ -16,9 +16,15 @@ ALTER TABLE LEGACYSPED.MAP_PrgGoalID ADD CONSTRAINT
 	)
 CREATE INDEX IX_LEGACYSPED_MAP_PrgGoalID_DestID on LEGACYSPED.MAP_PrgGoalID (DestID)
 END
+
+if not exists (select 1 from sys.indexes where name = 'IX_LEGACYSPED_Goal_LOCAL_IEPRefID')
+CREATE NONCLUSTERED INDEX  IX_LEGACYSPED_Goal_LOCAL_IEPRefID ON [LEGACYSPED].[Goal_LOCAL] ([IepRefID]) INCLUDE ([GoalRefID])
+
+-- belongs in a different file
+if not exists (select 1 from sys.indexes where name = 'IX_GeorgeTest_IepGoalArea_DefID_InstanceID')
+CREATE NONCLUSTERED INDEX IX_GeorgeTest_IepGoalArea_DefID_InstanceID ON [dbo].[IepGoalArea] ([DefID],[InstanceID])
+
 GO
-
-
 
 
 -- #############################################################################
@@ -35,7 +41,7 @@ AS
 -- Source
   g.IepRefID,
   g.GoalRefID,
--- PrgGoal -- select * from PrgGoal
+-- PrgGoal 
   DestID = m.DestID,
   TypeID = cast('AB74929E-B03F-4A51-82CA-659CA90E291A'  as uniqueidentifier), -- IEP goal as opposed to an Objective (both stored in same table)
   InstanceID = i.DestID,
@@ -72,4 +78,3 @@ AS
   i.DestID is not null 
   -- and isnull(g.GACommunication,'')+isnull(g.GAEmotional,'')+isnull(g.GAHealth,'')+isnull(g.GAIndependent,'')+isnull(g.GAMath,'')+isnull(g.GAOther,'')+isnull(g.GAReading,'')+isnull(g.GAWriting,'') like '%Y%'
 GO
-
