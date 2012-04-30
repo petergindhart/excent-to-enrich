@@ -1,4 +1,3 @@
-
 IF  EXISTS (SELECT 1 from sys.schemas s join sys.objects o on s.schema_id = o.schema_id where s.name = 'LEGACYSPED' and o.name = 'MAP_SpedStaffMemberView')
 	DROP VIEW LEGACYSPED.MAP_SpedStaffMemberView
 GO
@@ -31,7 +30,7 @@ GO
 CREATE VIEW LEGACYSPED.Transform_PrgItemTeamMember
 AS
 	SELECT
-		ItemID = iep.DestID,
+		ItemID = i.ExistingConvertedItemID,
 		ResponsibilityID = u.PrgResponsibilityID,
 		IsPrimary = CASE WHEN team.IsCaseManager = 'Y' THEN 1 ELSE 0 END,
 		MtgAbsent = CAST(0 AS BIT),
@@ -39,8 +38,8 @@ AS
 		Agency = NULL,
 		ExcusalFormId = CAST(NULL as uniqueidentifier)
 	FROM
-		LEGACYSPED.Transform_PrgIep iep JOIN
-		LEGACYSPED.TeamMember team on team.StudentRefId = iep.StudentRefID JOIN
+		LEGACYSPED.EvaluateIncomingItems i JOIN
+		LEGACYSPED.TeamMember team on team.StudentRefId = i.StudentRefID JOIN
 		LEGACYSPED.MAP_SpedStaffMemberView staff on staff.StaffEmail = team.StaffEmail JOIN
 		UserProfile u on u.ID = staff.UserProfileID
 GO
