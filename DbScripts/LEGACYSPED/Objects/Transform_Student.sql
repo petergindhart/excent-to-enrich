@@ -30,7 +30,7 @@ AS
 -- NOTE:  DO NOT TOUCH THE RECORDS ADDED BY SIS IMPORT OR MANUALLY ENTERED STUDENTS.  SIS RECORDS DO NEED TO BE MAPPED.  NEW RECORDS FROM SPED NEED TO BE ADDED.
  SELECT
   src.StudentRefID,
-  DestID = coalesce(s.ID, t.ID, m.DestID),
+  DestID = isnull(s.ID, m.DestID),
   LegacyData = ISNULL(m.LegacyData, case when s.ID IS NULL then 1 else 0 end), -- allows updating only legacy data by adding a DestFilter in LoadTable.  Leaves real ManuallyEntered students untouched.
   src.SpecialEdStatus,
   CurrentSchoolID = sch.DestID,
@@ -55,7 +55,8 @@ AS
   ImportPausedDate = cast(NULL as datetime),
   ImportPausedByID = cast(NULL as uniqueidentifier),
   IsActive = isnull(s.IsActive, 1),
-  ManuallyEntered = ISNULL(m.LegacyData, case when s.ID IS NULL then 1 else 0 end) -- cast(case when dest.ID is null then 1 else 0 end as bit),
+  ManuallyEntered = ISNULL(m.LegacyData, case when s.ID IS NULL then 1 else 0 end), -- cast(case when dest.ID is null then 1 else 0 end as bit),
+  Touched = isnull(cast(i.IsEnded as int)+i.Revision+ case when i.StudentID is not null then 1 else 0 end, 0)
  FROM
   LEGACYSPED.IEP iep join -- this file is to ensure a 1:1 relationship on imported students and IEPs (some IEPs may have failed vailidation, which would make the count less than students)
   LEGACYSPED.Student src on iep.StudentRefID = src.StudentRefID LEFT JOIN
@@ -69,7 +70,17 @@ AS
 			a.Number = s.Number 
 		order by a.ManuallyEntered, a.IsActive desc, a.ID) LEFT JOIN -- identifies students in legacy data that match students in Enrich
   LEGACYSPED.MAP_StudentRefID m on src.StudentRefID = m.StudentRefID LEFT JOIN
-  dbo.Student t on m.DestID = t.ID -- exists in map table
+  dbo.Student t on m.DestID = t.ID left join 
+  PrgItem i on isnull(s.ID, m.DestID) = i.StudentID and i.DefID = '8011D6A2-1014-454B-B83C-161CE678E3D3' left join 
+	( 
+	select s.StudentRefID, i.StudentID, ItemID = i.ID, i.InvolvementID, i.IsEnded, i.Revision
+	from PrgItem i join (select StudentID = b.ID, a.StudentRefID from LEGACYSPED.Student a join dbo.Student b on a.StudentLocalID = b.Number) s on i.StudentID = s.StudentID -- if items are eliminated by join to Transform_Student not to worry, because we are not importing them anyway
+	where i.ID = (
+		select max(convert(varchar(36), i2.ID)) -- we are arbitrarily selecting only one of the non-converted items of type "IEP", because we just need to know if one exists
+		from (select i3.ID, i3.StudentID from PrgItem i3 join PrgItemDef d3 on i3.DefID = d3.ID join PrgInvolvement v3 on i3.InvolvementID = v3.ID where d3.TypeID = 'A5990B5E-AFAD-4EF0-9CCA-DC3685296870' and i3.DefID <> '8011D6A2-1014-454B-B83C-161CE678E3D3' and v3.EndDate is null) i2 -- TypeID = IEP, non-converted
+			where i.StudentID = i2.StudentID) 
+			) xni on src.StudentRefID = xni.StudentRefID
 GO
 
 
+-- set transaction isolation level read uncommitted
