@@ -1,12 +1,31 @@
 --#include {SpedStateInclude}\0010-Extract-Goal.sql
 --#include {SpedStateInclude}\GoalAreaExists.sql
 --#include {SpedStateInclude}\0001-Prep_State.sql
-
 --#include {SpedStateInclude}\Transform_IepGoalAreaDef.sql
---#include {SpedStateInclude}\Transform_IepGoalArea.sql
 --#include {SpedStateInclude}\Transform_IepGoalPostSchoolAreaDef.sql
-
+--#include Transform_ServiceFrequency.sql
 --#include {SpedDistrictInclude}\0002-Prep_District.sql
+--#include Transform_OrgUnit.sql
+--#include Transform_School.sql
+--#include Transform_GradeLevel.sql
+--#include Transform_Student.sql
+--#include EvaluateIncomingItems.sql
+--#include Transform_PrgInvolvement.sql
+--#include Transform_PrgIep.sql
+--#include Transform_PrgSection.sql
+--#include Transform_PrgGoals.sql
+--#include Transform_PrgGoal.sql
+--#include {SpedStateInclude}\Transform_IepGoalArea.sql
+--#include Transform_IepPlacementOption.sql
+--#include Transform_IepLeastRestrictiveEnvironment.sql
+--#include Transform_IepPlacement.sql
+--#include Transform_PrgLocation.sql
+--#include Transform_IepServiceCategory.sql
+--#include Transform_ServiceDef.sql
+--#include Transform_ServiceProviderTitle.sql
+--#include Transform_Schedule.sql
+--#include Transform_IepService.sql
+--#include Transform_PrgItemTeamMember.sql
 
 -- these columns were removed from the database after the original ETL code was written.  Since the config update does not delete, we'll delete them here.
 delete VC3ETL.LoadColumn where ID = '732EE249-76FA-474E-B32B-8F3C2D8981E0'
