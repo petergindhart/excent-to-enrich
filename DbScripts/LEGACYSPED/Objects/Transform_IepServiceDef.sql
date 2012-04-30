@@ -1,5 +1,3 @@
---#include Transform_IepServiceCategory.sql
-
 -- LEGACYSPED.Transform_IepServiceDef should use the same logic as LEGACYSPED.Transform_ServiceDef
 
 IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.Transform_IepServiceDef') AND OBJECTPROPERTY(id, N'IsView') = 1)

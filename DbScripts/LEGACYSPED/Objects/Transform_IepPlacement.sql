@@ -1,5 +1,3 @@
---#include Transform_IepPlacementOption.sql
-
 IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.Transform_LRE') AND OBJECTPROPERTY(id, N'IsView') = 1)
 	DROP VIEW LEGACYSPED.Transform_LRE
 GO

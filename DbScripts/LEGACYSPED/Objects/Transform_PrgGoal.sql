@@ -1,4 +1,3 @@
---#include Transform_PrgGoals.sql
 -- #############################################################################
 -- Goal
 IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.MAP_PrgGoalID') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)

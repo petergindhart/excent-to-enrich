@@ -1,5 +1,3 @@
---#include Transform_IepDisability.sql
-
 -- ############################################################################# 
 -- IepDisabilityEligibility
 IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.MAP_IepDisabilityEligibilityID') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)

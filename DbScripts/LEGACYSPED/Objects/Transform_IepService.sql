@@ -1,9 +1,3 @@
---#include Transform_PrgLocation.sql
---#include Transform_ServiceDef.sql
---#include Transform_ServiceProviderTitle.sql
---#include Transform_Schedule.sql
---#include Transform_PrgItemTeamMember.sql
-
 -- ############################################################################# 
 -- ServicePlan
 IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.MAP_ServicePlanID') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
