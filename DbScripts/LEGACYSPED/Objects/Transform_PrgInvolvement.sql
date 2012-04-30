@@ -1,48 +1,6 @@
-IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.Transform_Involvement') AND OBJECTPROPERTY(id, N'IsView') = 1)
-DROP VIEW LEGACYSPED.Transform_Involvement
-GO
-
 -- #############################################################################
--- Involvement
-IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.MAP_PrgInvolvementID') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
-BEGIN
-CREATE TABLE LEGACYSPED.MAP_PrgInvolvementID
-(
-	StudentRefID varchar(150) NOT NULL ,
-	DestID uniqueidentifier NOT NULL
-)
+-- Note:  Separated PrgInvolvement MAP table code from Transform_PrgInvolvement files because EvaluateIncomingItems depends on this MAP, and Transform_PrgInvolvement depends on EvaluateIncomingItems
 
-ALTER TABLE LEGACYSPED.Map_PrgInvolvementID ADD CONSTRAINT
-PK_MAP_PrgInvolvementID PRIMARY KEY CLUSTERED
-(
-	StudentRefID
-)
-END
-GO
--- 
-
--- cheating.  this is created in Transform_PrgIep.sql, but that object depends on Transform_PrgInvolvement.  
-if exists (select 1 from sys.schemas s join sys.objects o on s.schema_id = o.schema_id where s.name = 'LEGACYSPED' and o.name = 'EvaluateIncomingItems')
-drop view LEGACYSPED.EvaluateIncomingItems
-go
-
-create view LEGACYSPED.EvaluateIncomingItems
-as
--- this is just a shell so the following transform view will compile without error.
-select 
-	StudentRefID = cast(NULL as varchar(150)), 
-	StudentID = cast(NULL as uniqueidentifier),
-	ExistingInvolvementID = cast(NULL as uniqueidentifier),
-	ExistingIEPRefID = cast(NULL as varchar(150)),
-	ExistingItemID = cast(NULL as uniqueidentifier),
-	ExistingVersionID = cast(NULL as uniqueidentifier),
-	IncomingIEPRefID = cast(NULL as uniqueidentifier),
-	ExistingInvolvementIsEnded = cast(0 as Bit),
-	ExistingItemIsEnded = cast(0 as Bit),
-	NonConvertedIEPExists = cast(0 as Bit),
-	Incoming = cast(0 as Bit),
-	Touched = cast(0 as Bit)
-go
 
 IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.Transform_PrgInvolvement') AND OBJECTPROPERTY(id, N'IsView') = 1)
 DROP VIEW LEGACYSPED.Transform_PrgInvolvement
