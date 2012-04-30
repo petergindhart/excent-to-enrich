@@ -196,7 +196,7 @@ order
 
 */
 
-select 
+select distinct -- we are seeing 
 -- Student
 	s.StudentRefID, -- need a row for every student 
 	StudentID = coalesce(xci.StudentID, xp.StudentID, xni.StudentID),
@@ -258,4 +258,6 @@ from
 --	left join
 ---- INCOMING converted IEP version (map populated during import, of course)
 --	LEGACYSPED.MAP_PrgVersionID gcv on gci.IepRefID = gcv.IepRefID ----------- was not using this, so removed from view
-go
+go 
+
+-- set transaction isolation level read uncommitted
