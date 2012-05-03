@@ -1,4 +1,4 @@
--- ############################################################################# 
+-- #############################################################################
 -- ServicePlan
 IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.MAP_ServicePlanID') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
 BEGIN
@@ -15,8 +15,8 @@ ALTER TABLE LEGACYSPED.MAP_ServicePlanID ADD CONSTRAINT
 	)
 END
 
-if not exists (select 1 from sys.indexes where name = 'IX_GeorgeTest_Person_TypeID_Deleted_EmailAddress')
-CREATE NONCLUSTERED INDEX IX_GeorgeTest_Person_TypeID_Deleted_EmailAddress ON [dbo].[Person] ([TypeID],[Deleted],[EmailAddress])
+if not exists (select 1 from sys.indexes where name = 'IX_LEGACYSPED_Person_TypeID_Deleted_EmailAddress')
+CREATE NONCLUSTERED INDEX IX_LEGACYSPED_Person_TypeID_Deleted_EmailAddress ON [dbo].[Person] ([TypeID],[Deleted],[EmailAddress])
 
 if not exists (select 1 from sys.indexes where name = 'IX_LEGACYSPED_Service_LOCAL_IepRefID')
 CREATE NONCLUSTERED INDEX IX_LEGACYSPED_Service_LOCAL_IepRefID ON [LEGACYSPED].[Service_LOCAL] ([IepRefId]) INCLUDE ([ServiceType],[ServiceRefId],[ServiceDefinitionCode],[ServiceLocationCode],[ServiceProviderTitleCode],[ServiceFrequencyCode],[StaffEmail])

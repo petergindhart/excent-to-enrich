@@ -20,8 +20,8 @@ if not exists (select 1 from sys.indexes where name = 'IX_LEGACYSPED_Goal_LOCAL_
 CREATE NONCLUSTERED INDEX  IX_LEGACYSPED_Goal_LOCAL_IEPRefID ON [LEGACYSPED].[Goal_LOCAL] ([IepRefID]) INCLUDE ([GoalRefID])
 
 -- belongs in a different file
-if not exists (select 1 from sys.indexes where name = 'IX_GeorgeTest_IepGoalArea_DefID_InstanceID')
-CREATE NONCLUSTERED INDEX IX_GeorgeTest_IepGoalArea_DefID_InstanceID ON [dbo].[IepGoalArea] ([DefID],[InstanceID])
+if not exists (select 1 from sys.indexes where name = 'IX_LEGACYSPED_IepGoalArea_DefID_InstanceID')
+CREATE NONCLUSTERED INDEX IX_LEGACYSPED_IepGoalArea_DefID_InstanceID ON [dbo].[IepGoalArea] ([DefID],[InstanceID])
 
 GO
 
