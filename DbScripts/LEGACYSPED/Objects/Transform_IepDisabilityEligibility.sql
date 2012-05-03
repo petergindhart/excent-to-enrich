@@ -72,7 +72,8 @@ AS
 		s.Sequence,
 		IsEligibileID = 'B76DDCD6-B261-4D46-A98E-857B0A814A0C', -- Only Eligible disabilities provided  
 		FormInstanceID = cast(NULL as uniqueidentifier), 
-		PrimaryOrSecondaryID = case when s.Sequence = 1 then 'AF6825FF-336C-42CE-AF57-CD095CD0DD2C' else '51619296-9938-4977-8B5F-A6E0FAEE4294' end -- snatched PrimaryOrSecondaryID values from Lee Template.  Consistent everywhere?
+		PrimaryOrSecondaryID = case when s.Sequence = 1 then 'AF6825FF-336C-42CE-AF57-CD095CD0DD2C' else '51619296-9938-4977-8B5F-A6E0FAEE4294' end, -- snatched PrimaryOrSecondaryID values from Lee Template.  Consistent everywhere?
+		iep.DoNotTouch
 	FROM
 		LEGACYSPED.Transform_PrgIep iep JOIN
 		LEGACYSPED.MAP_PrgSectionID m on 

@@ -7,7 +7,8 @@ AS
 	SELECT
 		DestID = m.DestID,
 		ConsentGrantedID = CASE WHEN iep.ConsentForServicesDate IS NOT NULL THEN CAST('B76DDCD6-B261-4D46-A98E-857B0A814A0C' AS uniqueidentifier) ELSE NULL END,
-		ConsentDate = CAST(isnull(iep.ConsentForServicesDate, iep.StartDate) as DATETIME) -- select iep.IEPRefID
+		ConsentDate = CAST(isnull(iep.ConsentForServicesDate, iep.StartDate) as DATETIME), -- select iep.IEPRefID
+		iep.DoNotTouch
 	FROM
 		LEGACYSPED.Transform_PrgIep iep JOIN
 		LEGACYSPED.MAP_PrgSectionID_NonVersioned m on 

@@ -15,7 +15,8 @@ AS
 		NextReviewDate = CASE WHEN ISDATE(iep.NextReviewDate) = 1 THEN iep.NextReviewDate ELSE NULL END,
 		NextEvaluationDate = CASE WHEN ISDATE(iep.NextEvaluationDate) = 1 THEN iep.NextEvaluationDate ELSE NULL END,
 		InitialEvaluationDate = CASE WHEN ISDATE(iep.InitialEvaluationDate) = 1 THEN iep.InitialEvaluationDate ELSE NULL END,
-		LatestEvaluationDate = CASE WHEN ISDATE(iep.LatestEvaluationDate) = 1 THEN iep.LatestEvaluationDate ELSE NULL END
+		LatestEvaluationDate = CASE WHEN ISDATE(iep.LatestEvaluationDate) = 1 THEN iep.LatestEvaluationDate ELSE NULL END,
+		i.DoNotTouch
 	FROM
 		LEGACYSPED.Transform_PrgIep i LEFT JOIN
 		LEGACYSPED.IEP iep on i.IepRefID = iep.IepRefID LEFT JOIN

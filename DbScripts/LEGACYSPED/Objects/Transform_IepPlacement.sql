@@ -42,7 +42,8 @@ AS
 		TypeID = pt.ID,
 		OptionID = case when po.TypeID = pt.ID then po.DestID else NULL End,
 		IsEnabled = case when po.TypeID = pt.ID then 1 else 0 End,
-		IsDecOneCount = case when po.TypeID = pt.ID then 1 else 0 End
+		IsDecOneCount = case when po.TypeID = pt.ID then 1 else 0 End,
+		lre.DoNotTouch
 	FROM dbo.IepPlacementType pt CROSS JOIN
 		LEGACYSPED.Transform_IepLeastRestrictiveEnvironment lre LEFT JOIN -- attempting to address a performance issue when treating nulls in queries referencing this view
 		LEGACYSPED.Transform_IepPlacementOption po on 

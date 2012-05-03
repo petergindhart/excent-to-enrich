@@ -14,7 +14,8 @@ AS
 		ServiceDistrictID = dss.OrgUnitID,
 		ServiceSchoolID = ss.DestID,
 		HomeDistrictID = dsh.OrgUnitID,
-		HomeSchoolID = sh.DestID
+		HomeSchoolID = sh.DestID,
+		iep.DoNotTouch
 	FROM
 		LEGACYSPED.Transform_PrgIep iep LEFT JOIN
 		LEGACYSPED.MAP_PrgSectionID m on 

@@ -7,7 +7,8 @@ AS
 	SELECT
 		IEP.IepRefId,
 		m.DestID,
-		DeliveryStatement = x.ServiceDeliveryStatement -- since Transform_IepServices is use in a lot of operations, leave the text field out of the transform for speed
+		DeliveryStatement = x.ServiceDeliveryStatement, -- since Transform_IepServices is use in a lot of operations, leave the text field out of the transform for speed
+		iep.DoNotTouch
 	FROM
 		LEGACYSPED.Transform_PrgIep iep JOIN		
 		LEGACYSPED.MAP_PrgSectionID m on 

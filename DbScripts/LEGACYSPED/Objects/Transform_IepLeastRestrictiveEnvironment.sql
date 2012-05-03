@@ -9,7 +9,8 @@ AS
 		iep.AgeGroup,
 		iep.LRECode,
 		DestID = sec.ID,
-		MinutesInstruction = iep.MinutesPerWeek
+		MinutesInstruction = iep.MinutesPerWeek,
+		iep.DoNotTouch
 	FROM
 		LEGACYSPED.Transform_PrgIep iep JOIN
 		PrgSection sec ON
