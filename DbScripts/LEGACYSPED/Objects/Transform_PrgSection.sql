@@ -26,12 +26,8 @@ CREATE NONCLUSTERED INDEX IX_LEGACYSPED_MAP_PrgSectionID_DestID ON [LEGACYSPED].
 if not exists (select 1 from sys.indexes where name = 'IX_LEGACYSPED_MAP_PrgSectionID_DefID_DestID')
 CREATE NONCLUSTERED INDEX  IX_LEGACYSPED_MAP_PrgSectionID_DefID_DestID ON [LEGACYSPED].[MAP_PrgSectionID] ([DefID],[DestID])
 
-if not exists (select 1 from sys.indexes where name = 'IX_GeorgeTest_PrgSection_DefID')
-CREATE NONCLUSTERED INDEX  IX_GeorgeTest_PrgSection_DefID ON [dbo].[PrgSection] ([DefID]) INCLUDE ([VersionID])
-
-if not exists (select 1 from sys.indexes where name = 'IX_GeorgeTest_PrgSection_DefID_VersionID')
-CREATE NONCLUSTERED INDEX  IX_GeorgeTest_PrgSection_DefID_VersionID ON [dbo].[PrgSection] ([DefID],[VersionID])
-
+if not exists (select 1 from sys.indexes where name = 'IX_LEGACYSPED_PrgSection_DefID')
+CREATE NONCLUSTERED INDEX  IX_LEGACYSPED_PrgSection_DefID ON [dbo].[PrgSection] ([DefID]) INCLUDE ([VersionID])
 
 GO
 
@@ -72,7 +68,8 @@ AS
 		ItemID = i.DestID,
 		DefID = d.ID,
 		VersionID = CASE WHEN t.CanVersion = 1 THEN i.VersionDestID ELSE CAST(NULL as uniqueidentifier) END,
-		FormInstanceID = cast(NULL as uniqueidentifier)
+		FormInstanceID = cast(NULL as uniqueidentifier),
+		i.DoNotTouch
 	FROM
 		LEGACYSPED.Transform_PrgIep i CROSS JOIN
 		PrgSectionDef d JOIN
