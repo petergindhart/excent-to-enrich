@@ -1,3 +1,13 @@
+-- #############################################################################
+-- IEP_LOCAL
+if not exists (select 1 from sys.indexes where name = 'IX_LEGACYSPED_IEP_LOCAL_StudentRefID')
+CREATE NONCLUSTERED INDEX IX_LEGACYSPED_IEP_LOCAL_StudentRefID ON [LEGACYSPED].[IEP_LOCAL] ([StudentRefID])
+go
+
+if not exists (select 1 from sys.indexes where name = 'IX_LEGACYSPED_IEP_LOCAL_IEPStartDate_StudentRefID')
+CREATE NONCLUSTERED INDEX IX_LEGACYSPED_IEP_LOCAL_IEPStartDate_StudentRefID ON [LEGACYSPED].[IEP_LOCAL] ([IEPStartDate]) INCLUDE ([StudentRefID])
+GO
+
 IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.Transform_Iep') AND OBJECTPROPERTY(id, N'IsView') = 1)
 DROP VIEW LEGACYSPED.Transform_Iep
 GO
@@ -122,23 +132,10 @@ PK_MAP_PrgInvolvementID PRIMARY KEY CLUSTERED
 	StudentRefID
 )
 END
+if not exists (select 1 from sys.indexes where name = 'IX_LEGACYSPED_MAP_PrgInvolvementID_DestID')
+CREATE NONCLUSTERED INDEX IX_LEGACYSPED_MAP_PrgInvolvementID_DestID ON LEGACYSPED.MAP_PrgInvolvementID (DestID)
 GO
 -- 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 if exists (select 1 from sys.schemas s join sys.objects o on s.schema_id = o.schema_id where s.name = 'LEGACYSPED' and o.name = 'EvaluateIncomingItems')
@@ -201,7 +198,7 @@ select distinct -- we are seeing
 	s.StudentRefID, -- need a row for every student 
 	StudentID = coalesce(xci.StudentID, xp.StudentID, xni.StudentID),
 -- Involvement
-	ExistingInvolvementID = isnull(xcpm.DestID, xp.ID), -- if no inv created through ETL, get the inv created through the UI
+	ExistingInvolvementID = isnull(xcpm.DestID, xp.ID), -- if no inv created through ETL, get the inv created through the UI.  DO NOT display the xpe.ID here.  We need it to fail if no active involvement.
 --	ExistingInvolvementIsEnded = isnull(case when xp.EndDate is null then 0 else 1 end, case when xp.EndDate is null then 0 else 1 end), -- (may not need this since we can ignore ended involvements).  don't want to resurrect one!
 	InvolvementStartDate = case when xp.StartDate > gci.IEPStartDate then gci.IEPStartDate else xp.StartDate end, -- reset to start date of IEP if inv start is after IEP start.  to use in Transform_PrgInvolvement
 	InvolvementEndDate = cast(case when ts.SpecialEdStatus = 'I' then gci.IEPEndDate else case when xp.EndDate > getdate() then NULL else xp.EndDate end end as datetime), -- reset to NULL if inv.EndDate is future.  This will be used in Transform_PrgInvolvement
@@ -213,15 +210,25 @@ select distinct -- we are seeing
 -- Exsting Non-Converted
 	ExistingNonConvertedItemID = xni.ItemID, ExistingNonConvertedVersionID = xnv.ID, ExistingNonConvertedItemIsEnded = xni.IsEnded, NonConvertedIEPExists = case when xni.ItemID is null then 0 else 1 end, 
 -- if touched, we do nothing with the item (no update, no delete)
-	Touched = cast(isnull(xci.IsEnded,0) as int)+isnull(xci.Revision,0)  -- + case when xni.ItemID is null then 0 else 1 end -- could be 2 different items.  Want this ??????????  no.  this causes incoming ieps not to be imported where a non-converted item exists
+	Touched = cast(isnull(xci.IsEnded,0) as int)+isnull(xci.Revision,0)+case when (xp.ID is null and xpe.ID is not null) then 1 else 0 end  -- + case when xni.ItemID is null then 0 else 1 end -- could be 2 different items.  Want this ??????????  no.  this causes incoming ieps not to be imported where a non-converted item exists
 from 
 -- All students, existing and incoming -- select ts.DestID, count(*) tot from 
 	(select StudentRefID from LEGACYSPED.MAP_IEPStudentRefID union select StudentRefID from LEGACYSPED.IEP ) s left join -- 12084
 	LEGACYSPED.Transform_Student ts on s.StudentRefID = ts.StudentRefID left join -- does not include those students that were imported previously, but not in new data set
 
--- EXISTING INVOLVEMENT.  either created through ETL or UI.  consider isnull(xcmp.DestID, xp.ID).  check for involvement date range
+-- EXISTING INVOLVEMENT (ACTIVE).  either created through ETL or UI.  consider isnull(xcmp.DestID, xp.ID).  check for involvement date range
 	PrgInvolvement xp on ts.DestID = xp.StudentID and 
 		isnull(xp.EndDate, DATEADD(DAY, DATEDIFF(DAY, 0, getdate()), 1)) > DATEADD(DAY, DATEDIFF(DAY, 0, getdate()), 0) left join  -- if involvement ended today, we don't need this record
+
+-- EXISTING INVOLVEMENT (ENDED).  either created through ETL or UI.  consider isnull(xcmp.DestID, xp.ID).  check for involvement date range
+	PrgInvolvement xpe on ts.DestID = xpe.StudentID and
+		xpe.EndDate is not null and
+		xpe.ID = (
+			select top 1 xpemax.id -- this is an arbitrary 
+			from PrgInvolvement xpemax 
+			where xpe.StudentID = xpemax.StudentID
+			and xpemax.EndDate is not null
+			) left join  -- we want to know if the student had an involvement before, in case all involvements are ended.
 
 -- EXISTING Converted involvement. --------------------- change of thought:  look at all involvements.  see which ones were created through ETL by checking MAP.  
 	LEGACYSPED.MAP_PrgInvolvementID xcpm on xp.ID = xcpm.DestID left join  -- order by xcpm.StudentRefID, xp.ID, ts.DestID -- determine if from legacy or created through UI
