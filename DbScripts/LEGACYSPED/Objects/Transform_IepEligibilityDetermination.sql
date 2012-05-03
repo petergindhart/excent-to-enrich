@@ -8,7 +8,8 @@ SELECT
 	IEPRefID = iep.ExistingIEPRefID,
 	DestID = s.DestID,
 	DateDetermined = i.LatestEvaluationDate,
-	NoneSuspected = cast(0 as Bit)
+	NoneSuspected = cast(0 as Bit),
+	iep.Touched
 FROM
 	LEGACYSPED.EvaluateIncomingItems iep JOIN 
 	LEGACYSPED.IEP i on iep.ExistingIEPRefID = i.IepRefID LEFT JOIN
