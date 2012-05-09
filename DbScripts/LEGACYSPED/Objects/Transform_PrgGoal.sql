@@ -74,6 +74,7 @@ AS
 --   LEGACYSPED.MAP_PostSchoolGoalAreaDefID ps on g.PostSchoolAreaCode = ps.PostSchoolAreaID LEFT JOIN
   dbo.PrgGoal pg on m.DestID = pg.ID 
  WHERE
-  i.DestID is not null 
+  i.DestID is not null and
+  i.DoNotTouch = 0
   -- and isnull(g.GACommunication,'')+isnull(g.GAEmotional,'')+isnull(g.GAHealth,'')+isnull(g.GAIndependent,'')+isnull(g.GAMath,'')+isnull(g.GAOther,'')+isnull(g.GAReading,'')+isnull(g.GAWriting,'') like '%Y%'
 GO
