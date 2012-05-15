@@ -1,15 +1,12 @@
---#include ..\..\..\Objects\Transform_ServiceFrequency.sql
 
 -- Florida
 -- Polk
 
--- note : data model for SystemSettings table has changed (v 19)
-
 -- OrgUnit 
-update ou set Number = '53' -- Lee County State Reporting DistrictID
+update ou set Number = '53' -- Polk
 -- select ou.*
-from dbo.OrgUnit ou join 
-	dbo.SystemSettings ss on ou.ID = ss.LocalOrgRootID 
+-- select ou.*
+from (select top 1 OrgUnitID from School group by OrgUnitID order by count(*) desc) m join dbo.OrgUnit ou on m.OrgUnitID = ou.ID
 go
 
 
