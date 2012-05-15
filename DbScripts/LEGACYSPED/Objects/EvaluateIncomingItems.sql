@@ -54,12 +54,15 @@ PK_MAP_IEPStudentRefID PRIMARY KEY CLUSTERED
 -- after the first upgrade_db where this new map is implemented, the old map data will be present
 -- however, after the new source files are imported, and thus LEGACYSPED.IEP is populated with new data, the query below will return new rows that have not been inserted.
 -- but the script to insert the new map should only be run once ever, when the table is first created.
-insert LEGACYSPED.MAP_IEPStudentRefID
-select distinct m.IepRefID, s.StudentRefID, m.DestID
-from LEGACYSPED.MAP_IepRefID m join --  we could have just used the transform, but using the MAP facilitates excluding NULLs
-LEGACYSPED.Transform_PrgIep s on m.IepRefID = s.IepRefID left join  -- since this map table already exists, this is okay.
-LEGACYSPED.MAP_IEPStudentRefID t on m.IepRefID = t.IepRefID
-where t.IepRefID is null 
+if exists (select 1 from sys.schemas s join sys.objects o on s.schema_id = o.schema_id where s.name = 'LEGACYSPED' and o.name = 'Transform_PrgIep')
+begin
+	insert LEGACYSPED.MAP_IEPStudentRefID
+	select distinct m.IepRefID, s.StudentRefID, m.DestID
+	from LEGACYSPED.MAP_IepRefID m join --  we could have just used the transform, but using the MAP facilitates excluding NULLs
+	LEGACYSPED.Transform_PrgIep s on m.IepRefID = s.IepRefID left join  -- since this map table already exists, this is okay.
+	LEGACYSPED.MAP_IEPStudentRefID t on m.IepRefID = t.IepRefID
+	where t.IepRefID is null 
+end
 -- this was NULL during testing because we have already deleted some superfluous records from the map tables.  will need to test this after restore
 
 -- consider dropping MAP_IepRefID here.  There will be issues with existing views if this does not happen in the correct order.
