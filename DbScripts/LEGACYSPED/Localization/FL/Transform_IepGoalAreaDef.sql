@@ -43,7 +43,8 @@ SELECT
 	AllowCustomProbes = cast(0 as bit),
 	StateCode = coalesce(i.StateCode, n.StateCode, t.StateCode),
 	-- note that some districts in FL have soft-deleted 3 of 4 goal areas and we don't want to un-soft-delete them.  turn off UPDATE flag in the load table record.
-	DeletedDate = case when k.EnrichID is not null then NULL when coalesce(i.ID, n.ID, t.ID) is null then getdate() else coalesce(i.DeletedDate, n.DeletedDate, t.DeletedDate) end
+	DeletedDate = case when k.EnrichID is not null then NULL when coalesce(i.ID, n.ID, t.ID) is null then getdate() else coalesce(i.DeletedDate, n.DeletedDate, t.DeletedDate) end,
+	RequireGoal = cast(1 as bit)
   FROM
 	LEGACYSPED.SelectLists k LEFT JOIN
 	dbo.IepGoalAreaDef i on k.EnrichID = i.ID left join

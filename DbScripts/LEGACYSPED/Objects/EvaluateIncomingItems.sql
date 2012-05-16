@@ -213,7 +213,8 @@ select distinct -- we are seeing
 -- Exsting Non-Converted
 	ExistingNonConvertedItemID = xni.ItemID, ExistingNonConvertedVersionID = xnv.ID, ExistingNonConvertedItemIsEnded = xni.IsEnded, NonConvertedIEPExists = case when xni.ItemID is null then 0 else 1 end, 
 -- if touched, we do nothing with the item (no update, no delete)
-	Touched = cast(isnull(xci.IsEnded,0) as int)+isnull(xci.Revision,0)+case when (xp.ID is null and xpe.ID is not null) then 1 else 0 end  -- + case when xni.ItemID is null then 0 else 1 end -- could be 2 different items.  Want this ??????????  no.  this causes incoming ieps not to be imported where a non-converted item exists
+	-- Touched = cast(isnull(xci.IsEnded,0) as int)+isnull(xci.Revision,0)+case when (xp.ID is null and xpe.ID is not null) then 1 else 0 end  -- + case when xni.ItemID is null then 0 else 1 end -- could be 2 different items.  Want this ??????????  no.  this causes incoming ieps not to be imported where a non-converted item exists
+	Touched = cast(case when ts.SpecialEdStatus='A' then isnull(xci.IsEnded,0) else 0 end as int)+isnull(xci.Revision,0)+case when (xp.ID is null and (ts.SpecialEdStatus='A' and xpe.ID is not null)) then 1 else 0 end  -- + case when xni.ItemID is null then 0 else 1 end -- could be 2 different items.  Want this ??????????  no.  this causes incoming ieps not to be imported where a non-converted item exists
 from 
 -- All students, existing and incoming -- select ts.DestID, count(*) tot from 
 	(select StudentRefID from LEGACYSPED.MAP_IEPStudentRefID union select StudentRefID from LEGACYSPED.IEP ) s left join -- 12084

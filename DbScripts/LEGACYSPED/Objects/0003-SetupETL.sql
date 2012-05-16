@@ -11,7 +11,7 @@ INSERT INTO @VC3ETL_ExtractDatabase VALUES ('29d14961-928d-4bee-9025-238496d144c
 DECLARE @VC3ETL_FlatFileExtractDatabase TABLE (ID uniqueidentifier, LocalCopyPath varchar(1000))
 
 -- Insert the data to be synchronized into the temporary table
-INSERT INTO @VC3ETL_FlatFileExtractDatabase VALUES ('29d14961-928d-4bee-9025-238496d144c6', 'E:\EnrichDataFiles\FL\Lee')
+INSERT INTO @VC3ETL_FlatFileExtractDatabase VALUES ('29d14961-928d-4bee-9025-238496d144c6', 'E:\EnrichDataFiles\FL\Polk')
 
 -- Declare a temporary table to hold the data to be synchronized
 DECLARE @dbo_InformExtractDatabase TABLE (ID uniqueidentifier, LastExtractRosterYear uniqueidentifier, LastLoadRosterYear uniqueidentifier)
@@ -403,6 +403,7 @@ INSERT INTO @VC3ETL_LoadColumn VALUES ('387b16f6-3664-4d15-b859-fe77b56324b7', '
 INSERT INTO @VC3ETL_LoadColumn VALUES ('19f0a5ec-717d-40e3-b5bf-ff57cf87eac0', '750cba2a-ce1f-4653-9e43-9a450eac3653', 'InstanceID', 'InstanceID', 'C', 0, NULL, NULL, NULL)
 INSERT INTO @VC3ETL_LoadColumn VALUES ('b8b0f945-e4f4-48d4-b018-ffa0dcab87f0', 'b63c39f8-a605-4988-b2fd-b905acc25e4c', 'Sequence', 'Sequence', 'C', 0, NULL, NULL, NULL)
 INSERT INTO @VC3ETL_LoadColumn VALUES ('5fc480f9-5b82-413b-9018-ffa6bec69030', 'd9d1e9ff-0a17-435e-b0c1-9dcf2f77a2d5', 'DestID', 'ID', 'K', 0, NULL, NULL, NULL)
+INSERT INTO @VC3ETL_LoadColumn VALUES ('96C352DA-FFC9-4BE1-9F40-D49DB2163C12', 'b63c39f8-a605-4988-b2fd-b905acc25e4c', 'RequireGoal', 'RequireGoal', 'C', 0, NULL, NULL, NULL)
 
 -- refactor 
 delete Destination
