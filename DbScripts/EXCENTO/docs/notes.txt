@@ -1,0 +1,17 @@
+***************ExcentOnline PDF Project***********************
+
+#  ExcentOnlineFL and Enrich_DCB1_FL_Lee databases are running in Gibraltar server.
+
+
+#  ExcentOnlineData.IEPArchiveDocTbl will be the source table for PDF documents.
+
+
+We need to write SQL joins by using LEGACYSPED.IEP_Local data, use LEGACYSPED.IEP.IEPRefID and ExcentOnlineData.IEPCompleteTbl.dbo.SeqNum.  
+We may need to join from ExcentOnlineData.IEPCompleteTbl to ExcentOnlineData.IEPArchiveDocTbl, via ICIEPArchive.  
+We may need to include IEPCompleteTbl.RecNum or ICIEPArchive.RecNum to join to IEPArchiveDocTbl.RecNum.
+
+#  Following are the destination tables to be updated while importing the pdf documents.
+	
+	FileData -  Consist of PDF documents files.
+	Attachment - Having the relation between PDF file and IEP Student.
+
