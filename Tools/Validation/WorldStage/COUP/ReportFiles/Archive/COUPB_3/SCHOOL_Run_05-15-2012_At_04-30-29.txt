@@ -1,0 +1,15 @@
+Field List: SchoolCode|SchoolName|DistrictCode|MinutesPerWeek
+____________________________________________________________________________________________________
+
+Line Number: 14
+Line Text: 0000|Placed/Facility|3010|2000
+Error Message: The record with the same ID was already imported. The filter criteria was: E_SCHOOLCODE='0000'.
+Error Type: Data Integrity
+____________________________________________________________________________________________________
+
+Line Number: 15
+Line Text: 0000|Placed/Facility|1030|2000
+Error Message: The record with the same ID was already imported. The filter criteria was: E_SCHOOLCODE='0000'.
+Error Type: Data Integrity
+____________________________________________________________________________________________________
+

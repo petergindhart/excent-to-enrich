@@ -1,0 +1,111 @@
+Field List: StudentRefID|StudentLocalID|StudentStateID|Firstname|Middlename|Lastname|Birthdate|Gender|MedicaidNumber|GradeLevelCode|ServiceDistrictCode|ServiceSchoolCode|HomeDistrictCode|HomeSchoolCode|IsHispanic|IsAmericanIndian|IsAsian|IsBlackAfricanAmerican|IsHawaiianPacIslander|IsWhite|Disability1Code|Disability2Code|Disability3Code|Disability4Code|Disability5Code|Disability6Code|Disability7Code|Disability8Code|Disability9Code|ESYElig|ExitDate|ExitCode|SpecialEdStatus
+____________________________________________________________________________________________________
+
+Line Number: 53
+Line Text: 2863366825|0000000000|2863366825|Seth|Joseph|Valentin|12/09/2000|M||040|9045|0000|3020|0000|||||||13||||||||||||A
+Error Message: E_DISTRICTCODE field value: '9045' does not exists in DISTRICT table.
+Error Type: Data Integrity
+____________________________________________________________________________________________________
+
+Line Number: 64
+Line Text: 3357887637|0000000000|3357887637|Jody Kevin|Timothy|Romero|06/09/1998|M||080|9045|0000|3020|0000|||||||03||||||||||||A
+Error Message: E_DISTRICTCODE field value: '9045' does not exists in DISTRICT table.
+Error Type: Data Integrity
+____________________________________________________________________________________________________
+
+Line Number: 101
+Line Text: 5171619845|0000000000|5171619845|Jordan|Rex|Jamison|11/28/1995|M||100|0000|0000|3020|0000|||||||03||||||||||||A
+Error Message: E_DISTRICTCODE field value: '0000' does not exists in DISTRICT table.
+Error Type: Data Integrity
+____________________________________________________________________________________________________
+
+Line Number: 103
+Line Text: 5267346546|0000000000|5267346546|Timothy|White|Kottwitz|01/20/1996|M||100|0000|0000|3020|0000|||||||03||||||||||||A
+Error Message: E_DISTRICTCODE field value: '0000' does not exists in DISTRICT table.
+Error Type: Data Integrity
+____________________________________________________________________________________________________
+
+Line Number: 115
+Line Text: 5669014309|0000000000|5669014309|Nathaniel|J|Yarger|02/20/1991|M||120|0000|0000|3020|0000|||||||01||||||||||||A
+Error Message: E_DISTRICTCODE field value: '0000' does not exists in DISTRICT table.
+Error Type: Data Integrity
+____________________________________________________________________________________________________
+
+Line Number: 139
+Line Text: 6483279751|0000000000|6483279751|Chad|Lee|Sterry|10/02/2003|M||020|0000|0000|3020|0000|||||||03||||||||||||A
+Error Message: E_DISTRICTCODE field value: '0000' does not exists in DISTRICT table.
+Error Type: Data Integrity
+____________________________________________________________________________________________________
+
+Line Number: 184
+Line Text: 8691462855|0000000000|8691462855|Jesse|Michael|Sohn|12/04/1992|M||120|0000|0000|3020|0000|||||||03||||||||||||A
+Error Message: E_DISTRICTCODE field value: '0000' does not exists in DISTRICT table.
+Error Type: Data Integrity
+____________________________________________________________________________________________________
+
+Line Number: 194
+Line Text: 9074350041|0000000000|9074350041|Travis|Ray|Puetz|08/28/1997|M||080|0000|0000|3020|0000|||||||07||||||||||||A
+Error Message: E_DISTRICTCODE field value: '0000' does not exists in DISTRICT table.
+Error Type: Data Integrity
+____________________________________________________________________________________________________
+
+Line Number: 234
+Line Text: 5866531857|0000000000|5866531857|Brett|Thomas|Friestuhler|07/02/1997|M||080|0000|0000|3010|0000|||||||03||||||||||||A
+Error Message: E_DISTRICTCODE field value: '0000' does not exists in DISTRICT table.
+Error Type: Data Integrity
+____________________________________________________________________________________________________
+
+Line Number: 261
+Line Text: 2543987696|0000000000|2543987696|Justin|Lee|White|05/02/1994|M||120|0000|0000|3010|0000|||||||13||||||||||||A
+Error Message: E_DISTRICTCODE field value: '0000' does not exists in DISTRICT table.
+Error Type: Data Integrity
+____________________________________________________________________________________________________
+
+Line Number: 380
+Line Text: 5682088289|0000000000|5682088289|Phillip|Joseph|West|11/27/1994|M||110|0000|0000|1030|0000|||||||03||||||||||||A
+Error Message: E_DISTRICTCODE field value: '0000' does not exists in DISTRICT table.
+Error Type: Data Integrity
+____________________________________________________________________________________________________
+
+Line Number: 381
+Line Text: 2585878172|0000000000|2585878172|Kyler|Brandon|Vandever|04/28/1997|M||070|0000|0000|1030|0000|||||||03||||||||||||A
+Error Message: E_DISTRICTCODE field value: '0000' does not exists in DISTRICT table.
+Error Type: Data Integrity
+____________________________________________________________________________________________________
+
+Line Number: 382
+Line Text: 9215405207|0000000000|9215405207|Joshua|Alan|Bartrum|03/21/1995|M||110|0000|0000|1030|0000|||||||03||||||||||||A
+Error Message: E_DISTRICTCODE field value: '0000' does not exists in DISTRICT table.
+Error Type: Data Integrity
+____________________________________________________________________________________________________
+
+Line Number: 383
+Line Text: 4341346949|0000000000|4341346949|Collin|Lane|Dabney|10/21/1996|M||080|0000|0000|1030|0000|||||||03||||||||||||A
+Error Message: E_DISTRICTCODE field value: '0000' does not exists in DISTRICT table.
+Error Type: Data Integrity
+____________________________________________________________________________________________________
+
+Line Number: 384
+Line Text: 4651728332|0000000000|4651728332|Amanda|Jo|Corp|12/04/1995|F||100|0000|0000|1030|0000|||||||03||||||||||||A
+Error Message: E_DISTRICTCODE field value: '0000' does not exists in DISTRICT table.
+Error Type: Data Integrity
+____________________________________________________________________________________________________
+
+Line Number: 385
+Line Text: 9531826006|0000000000|9531826006|Karina|Louise|Bird|06/19/1995|F||110|0000|0000|1030|0000|||||||03||||||||||||A
+Error Message: E_DISTRICTCODE field value: '0000' does not exists in DISTRICT table.
+Error Type: Data Integrity
+____________________________________________________________________________________________________
+
+Line Number: 386
+Line Text: 3297091583|0000000000|3297091583|Tanyel|N|Gonzales-Marshall|04/06/1995|F||100|0000|0000|1030|0000|||||||03||||||||||||A
+Error Message: E_DISTRICTCODE field value: '0000' does not exists in DISTRICT table.
+Error Type: Data Integrity
+____________________________________________________________________________________________________
+
+Line Number: 387
+Line Text: 3704955289|0000000000|3704955289|Gabrielle|Leah Lyn|Anderson|12/24/1999|F||060|0000|0000|1030|0000|||||||03||||||||||||A
+Error Message: E_DISTRICTCODE field value: '0000' does not exists in DISTRICT table.
+Error Type: Data Integrity
+____________________________________________________________________________________________________
+
