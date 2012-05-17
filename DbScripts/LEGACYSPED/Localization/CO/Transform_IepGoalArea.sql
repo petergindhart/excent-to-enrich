@@ -1,4 +1,3 @@
---#include ..\..\Objects\Transform_PrgGoal.sql
 -- COLORADO VERSION
 
 -- LEGACYSPED.MAP_GoalAreaDefID is created and inserted in LEGACYSPED\Objects\0001a-ETLPrep_State_FL.sql
