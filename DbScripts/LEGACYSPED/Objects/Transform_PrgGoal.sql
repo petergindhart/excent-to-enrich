@@ -65,7 +65,8 @@ AS
   ParentID = CAST(NULL as uniqueidentifier),
   FormInstanceID = CAST(NULL as uniqueidentifier),
 -- IepGoal
-  EsyID = case when g.IsEsy = 'Y' then 'B76DDCD6-B261-4D46-A98E-857B0A814A0C' else 'F7E20A86-2709-4170-9810-15B601C61B79' end -- source.    Consider getting PrgGoal.ID from PrgGoal table
+  EsyID = case when g.IsEsy = 'Y' then 'B76DDCD6-B261-4D46-A98E-857B0A814A0C' else 'F7E20A86-2709-4170-9810-15B601C61B79' end, -- source.    Consider getting PrgGoal.ID from PrgGoal table
+  i.DoNotTouch
  FROM
   LEGACYSPED.Goal g JOIN
   LEGACYSPED.GoalAreaExists e on g.GoalRefID = e.GoalRefID LEFT JOIN 
@@ -74,7 +75,8 @@ AS
 --   LEGACYSPED.MAP_PostSchoolGoalAreaDefID ps on g.PostSchoolAreaCode = ps.PostSchoolAreaID LEFT JOIN
   dbo.PrgGoal pg on m.DestID = pg.ID 
  WHERE
-  i.DestID is not null and
-  i.DoNotTouch = 0
+  i.DestID is not null 
+--AND
+--  i.DoNotTouch = 0
   -- and isnull(g.GACommunication,'')+isnull(g.GAEmotional,'')+isnull(g.GAHealth,'')+isnull(g.GAIndependent,'')+isnull(g.GAMath,'')+isnull(g.GAOther,'')+isnull(g.GAReading,'')+isnull(g.GAWriting,'') like '%Y%'
 GO
