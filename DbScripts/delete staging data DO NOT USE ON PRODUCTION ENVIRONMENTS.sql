@@ -176,6 +176,8 @@ delete x from PrgActivitySchedule x join IntvTool y on y.ID = x.ToolID join PrgI
 
 delete x from IntvTool x join PrgItem y on y.ID = x.InterventionID where y.StudentID not in (select isnull(StudentID, @zg) from @SaveStudents) ; print 'PrgActivitySchedule : ' + convert(varchar(10), @@rowcount)
 
+-- moved this commented line here because there was an FK error on InitiatingIepID.  Not sure why it was commented out previously
+delete x from PrgMatrixOfServices x join PrgItem i on x.ID = i.ID where i.StudentID not in (select isnull(StudentID, @zg) from @SaveStudents) ; print 'PrgMatrixOfServices : ' + convert(varchar(10), @@rowcount)
 -- moved prgitem here because other deletion queries depend on it
 delete x from PrgItem x where x.StudentID not in (select isnull(StudentID, @zg) from @SaveStudents) ; print 'PrgItem : ' + convert(varchar(10), @@rowcount)
 delete x from PrgInvolvement x where x.StudentID not in (select isnull(StudentID, @zg) from @SaveStudents) ; print 'PrgInvolvement : ' + convert(varchar(10), @@rowcount)
@@ -365,9 +367,9 @@ and c.Id is null
 
 
 
-delete dbo.IepGoalAreaDef where DeletedDate is not null
-
-
+-- break the association between the mosratingdef and iepgoalareas that will be deleted.  is this okay?
+update dbo.MosRatingDef set IepGoalAreaDefID = NULL where IepGoalAreaDefID in (select ID from dbo.IepGoalAreaDef where DeletedDate is not null ) -- is this okay?
+delete dbo.IepGoalAreaDef where DeletedDate is not null -- 
 
 
 
@@ -687,65 +689,66 @@ UPDATE SystemSettings SET SecurityRebuiltDate = NULL
 /*
 
 Delete Guardian ID from MAP table : 0
-Attachment : 8
-PrgDocument : 279
-IepDisabilityEligibility : 11162
-IepGoal : 23948
-IepGoalArea : 20481
-IepJustification : 131
+Attachment : 0
+PrgDocument : 0
+IepDisabilityEligibility : 0
+IepGoal : 0
+IepGoalArea : 0
+IepJustification : 0
 IepPostSchoolArea : 0
-IepSpecialFactor : 393
-IepTestAccom : 128
+IepSpecialFactor : 0
+IepTestAccom : 0
 IntvGoal : 0
-PrgActivity : 73
+PrgActivity : 0
 PrgActivitySchedule : 0
-Attachment : 32217
+Attachment : 0
 PrgInterventionSubVariant : 0
-PrgItemRel : 77
-PrgItemTeamMember : 382
-PrgMilestone : 11333
+PrgItemRel : 0
+PrgItemTeamMember : 0
+PrgMilestone : 0
 PrgActivityBatch : 0
 MedicaidExtractIssue : 0
 ServiceDeliveryStudent : 0
 ServicePlanDiagnosisCode : 0
-IepServicePlan : 84219
-ServicePlan : 84219
-PrgSection : 65384
-IepDisability : 13
-IepPlacementOption : 35
-ServiceSchedule : 91320
+IepServicePlan : 0
+ServicePlan : 0
+PrgSection : 0
+IepDisability : 0
+IepPlacementOption : 0
+ServiceSchedule : 18481
 ServiceSchedule (for PrgLocation) : 0
-Schedule : 91477
-PrgLocation : 25
+Schedule : 18535
+PrgLocation : 1
 ServiceFrequency : 0
 ServiceProviderTitle : 0
-IepServiceDef : 232
-UserProfileServiceDefPermission : 17
-ServiceDef : 232
+IepServiceDef : 2
+UserProfileServiceDefPermission : 0
+ServiceDef : 2
 Schedule : 0
 MedicaidCertification : 0
 ServiceDelivery : 0
-PrgVersionIntent : 58
-PrgItemIntent : 161
-ProbeScore : 36
-ProbeTime : 36
+PrgVersionIntent : 0
+PrgItemIntent : 0
+ProbeScore : 0
+ProbeTime : 0
 PrgGoalProgress : 0
 FormInstanceBatch : 0
 FormInstanceBatchRule : 0
-FormInstanceInterval : 960
+FormInstanceInterval : 0
 StudentFormInstanceBatch : 0
 PrgSection : 0
-FormInstance : 960
+FormInstance : 0
 PrgActivitySchedule : 0
 PrgActivitySchedule : 0
 PrgActivitySchedule : 0
-PrgItem : 9370
-PrgInvolvement : 9200
-PrgStatus : 25
+PrgMatrixOfServices : 0
+PrgItem : 0
+PrgInvolvement : 0
+PrgStatus : 14
 ProbeTypeSchool : 0
 School : 0
-ProbeTypeSchool : 0
-School : 0
+ProbeTypeSchool : 12
+School : 5
 StudentRecordException : 0
 StudentTeacherClassRoster : 0
 StudentRosterYear : 0
@@ -758,34 +761,10 @@ StudentGroupStudent by Number : 0
 Student by Number : 0
 StudentGroupStudent by Last, First, DOB : 0
 Student by Last, First, DOB : 0
-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX DELETING LEGACYSPED XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-LEGACYSPED.MAP_IepRefID : 10138
-LEGACYSPED.MAP_OrgUnitID : 0
-dbo.Student (manually entered) : 0
-LEGACYSPED.MAP_StudentRefID : 970
-LEGACYSPED.MAP_PrgVersionID : 10138
-LEGACYSPED.MAP_PrgGoalID : 25727
-LEGACYSPED.MAP_IepPlacementID : 20276
-LEGACYSPED.MAP_ServiceProviderTitleID : 0
-LEGACYSPED.MAP_ScheduleID : 91151
-LEGACYSPED.MAP_ServicePlanID : 91151
-LEGACYSPED.MAP_IepDisabilityEligibilityID  : 12274
-LEGACYSPED.MAP_PrgLocationID : 19
-LEGACYSPED.MAP_IepDisabilityID : 10
-LEGACYSPED.MAP_GradeLevelID : 3
-LEGACYSPED.MAP_ServiceFrequencyID : 0
-LEGACYSPED.MAP_IepServiceCategoryID : 0
-LEGACYSPED.MAP_PrgInvolvementID : 10138
-LEGACYSPED.MAP_IepGoalArea : 22068
-LEGACYSPED.MAP_SchoolID : 0
-LEGACYSPED.MAP_PrgGoalObjectiveID : 8761
-LEGACYSPED.MAP_PrgSectionID : 60828
-LEGACYSPED.MAP_ServiceDefID : 230
-LEGACYSPED.MAP_IepPlacementOptionID : 16
-LEGACYSPED.MAP_PrgStatusID : 25
-
-
-
+Msg 547, Level 16, State 0, Line 370
+The DELETE statement conflicted with the REFERENCE constraint "FK_MosRatingDef#IepGoalAreaDef#". The conflict occurred in database "Enrich_DC5_CO_Poudre", table "dbo.MosRatingDef", column 'IepGoalAreaDefID'.
+Msg 3902, Level 16, State 1, Line 7
+The COMMIT TRANSACTION request has no corresponding BEGIN TRANSACTION.
 
 
 

@@ -1,5 +1,3 @@
---#include ..\..\..\Objects\Transform_ServiceFrequency.sql
-
 -- Colorado
 -- Poudre
 
