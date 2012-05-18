@@ -5,13 +5,44 @@
 
 #  ExcentOnlineData.IEPArchiveDocTbl will be the source table for PDF documents.
 
-
-We need to write SQL joins by using LEGACYSPED.IEP_Local data, use LEGACYSPED.IEP.IEPRefID and ExcentOnlineData.IEPCompleteTbl.dbo.SeqNum.  
-We may need to join from ExcentOnlineData.IEPCompleteTbl to ExcentOnlineData.IEPArchiveDocTbl, via ICIEPArchive.  
-We may need to include IEPCompleteTbl.RecNum or ICIEPArchive.RecNum to join to IEPArchiveDocTbl.RecNum.
+	We need to write SQL joins by using LEGACYSPED.IEP_Local data, use LEGACYSPED.IEP.IEPRefID and ExcentOnlineData.IEPCompleteTbl.dbo.SeqNum.  
+	We may need to join from ExcentOnlineData.IEPCompleteTbl to ExcentOnlineData.IEPArchiveDocTbl, via ICIEPArchive.  
+	We may need to include IEPCompleteTbl.RecNum or ICIEPArchive.RecNum to join to IEPArchiveDocTbl.RecNum.
 
 #  Following are the destination tables to be updated while importing the pdf documents.
 	
 	FileData -  Consist of PDF documents files.
 	Attachment - Having the relation between PDF file and IEP Student.
 
+#  FileData table Description
+
+	ID : UniqueID (Auto Generated)   	
+	Original Name : File Name
+	Recieved Date : Uploaded Date
+	MimeType : 'application/pdf'
+	Content : From EO PDF Image File
+	IsTemp  : Defatult to 0
+
+#  Attachment Table Description
+
+	ID : UniqueID (Auto Generated)
+	Student ID : REFERENCES [dbo].[Student] ([ID]) ( We can use GStudent ID From IEPCompleteTbl)
+	ItemId : REFERENCES [dbo].[PrgItem] ([ID])
+	VersionID : REFERENCES [dbo].[PrgVersion] ([ID])
+	FileID : REFERENCES [dbo].[FileData] ([ID])
+	Label : Desription about file.
+	Uploaded User ID : REFERENCES [dbo].[UserProfile] ([ID])
+
+	These values can be retrieve from LEGACYSPED.Transform_PrgIEP as follows
+		
+		IEPRefID = IEPCompleteTbl.IEPSeqNum
+		IEPCompleteTbl.RecNum = IEPArchiveDocTbl.RecNum
+		PrgItem = LEGACYSPED.Transform_PrgIEP.DestID
+		Version = LEGACYSPED.Transform_PrgIEP.VersionDestID
+		UploadedUser = LEGACYSPED.Transform_PrgIEP.CreatedBy
+
+# Retrieve PDF Doc data based on Following JOINs
+
+	1.  LEGACYSPED.IEP.IEPRefID and ExcentOnlineData.IEPCompleteTbl.dbo.SeqNum Also Student ID
+
+	2.  ExcentOnlineData.IEPCompleteTbl to ExcentOnlineData.IEPArchiveDocTbl, via ICIEPArchive.
