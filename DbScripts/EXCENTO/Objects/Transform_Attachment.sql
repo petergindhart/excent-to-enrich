@@ -1,5 +1,5 @@
 -- #############################################################################
--- This table will associate the Attachment with IepRefID & FileDataID.  IepRefId will be the primary Key.
+-- This table will associate the Attachment with IepRefID.  IepRefId will be the primary Key.
 
 IF  NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'EXCENTO.MAP_AttachmentID') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
 
@@ -7,7 +7,6 @@ BEGIN
 CREATE TABLE EXCENTO.MAP_AttachmentID
 	(
 	IepRefID varchar(150) NOT NULL,
-	FileDataID uniqueidentifier NOT NULL,
 	DestID uniqueidentifier NOT NULL
 	) 
 
@@ -37,15 +36,15 @@ SELECT
 	,TranPrgIEP.StudentID
 	,TranPrgIEP.DestID AS ItemID
     ,TranPrgIEP.VersionDestID AS VersionID
-    ,FileID = null
+    ,FileID = MapFile.DestID
     ,Label = 'EO PDF Report'
     ,TranPrgIEP.CreatedBy AS UploadedUserID
     
 FROM LEGACYSPED.Transform_PrgIep TranPrgIEP
 	JOIN LEGACYSPED.IEP IEP
 		ON TranPrgIEP.IEPRefID = IEP.IepRefID AND TranPrgIEP.StudentRefID = IEP.StudentRefID
---	JOIN ExcentO.MAP_FileDataID MapFile 
---		ON MapFile.IepRefID = IEP.IepRefID
+	JOIN ExcentO.MAP_FileDataID MapFile 
+		ON MapFile.IepRefID = IEP.IepRefID
 
 GO
 
