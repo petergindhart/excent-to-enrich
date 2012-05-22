@@ -1,8 +1,0 @@
-Field List: DISTRICTCODE|DISTRICTNAME
-____________________________________________________________________________________________________
-
-Import was successfull.
-
-Please send this file to EXCENT® for further processing.
-____________________________________________________________________________________________________
-
