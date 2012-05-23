@@ -6,7 +6,7 @@ DECLARE @VC3ETL_ExtractDatabase TABLE (ID uniqueidentifier, Type uniqueidentifie
 -- Insert the data to be synchronized into the temporary table
 INSERT INTO @VC3ETL_ExtractDatabase VALUES ( '9756E9BB-8B6B-44E4-9C4E-B3F8E6A6CD16', 'ACBEF25A-A8EB-465B-97D8-9738F07C3023', 
 'CBE6E716-95F0-44BC-837C-BBC4FD59506C', NULL, NULL, 'SPEDDoc', 'DCB1_FL_LEE', 'vc3go!!', NULL, 0, NULL, NULL, NULL, 
-'[{BrandName}] {SisDatabase} import completed', 'Successfully imported {SisDatabase} data into {BrandName}.  {SisDatabase} data in {BrandName} is now current as of {SnapshotDate}.', NULL, '[{BrandName}] {SisDatabase} import failed', 'There was a problem importing {SisDatabase} data into {BrandName}:  {ErrorMessage}', 1, '_NEW', '_LOCAL', NULL, NULL, 'SPED Documents(PDF)', 0)
+'[{BrandName}] {SisDatabase} import completed', 'Successfully imported {SisDatabase} data into {BrandName}.  {SisDatabase} data in {BrandName} is now current as of {SnapshotDate}.', NULL, '[{BrandName}] {SisDatabase} import failed', 'There was a problem importing {SisDatabase} data into {BrandName}:  {ErrorMessage}', 1, '_NEW', '_LOCAL', NULL, NULL, 'SPED Documents(PDF)', 1)
 
 
 -- Declare a temporary table to hold the data to be synchronized
@@ -32,7 +32,7 @@ DECLARE @VC3ETL_LoadColumn TABLE (ID uniqueidentifier, LoadTable uniqueidentifie
 -- Insert the data to be synchronized into the temporary table
 
 --Insert the records represent each column in FileData Table
-INSERT INTO @VC3ETL_LoadColumn VALUES ('7935E441-4DAD-4C72-8E75-5D8F7414F928', '3C48A2E0-DB9B-4D74-83FD-BD1272D78B81', 'DestID', 'ID', 'C', 0, NULL, NULL, NULL)
+INSERT INTO @VC3ETL_LoadColumn VALUES ('7935E441-4DAD-4C72-8E75-5D8F7414F928', '3C48A2E0-DB9B-4D74-83FD-BD1272D78B81', 'DestID', 'ID', 'K', 0, NULL, NULL, NULL)
 INSERT INTO @VC3ETL_LoadColumn VALUES ('7E943201-DB4D-4564-9196-1CE796C2A202', '3C48A2E0-DB9B-4D74-83FD-BD1272D78B81', 'OriginalName', 'OriginalName', 'C', 0, NULL, NULL, NULL)
 INSERT INTO @VC3ETL_LoadColumn VALUES ('67A6267D-705F-4D66-8714-81E5A727C09E', '3C48A2E0-DB9B-4D74-83FD-BD1272D78B81', 'ReceivedDate', 'ReceivedDate', 'C', 0, NULL, NULL, NULL)
 INSERT INTO @VC3ETL_LoadColumn VALUES ('1777F73F-868A-4A95-9B66-A5BBE37B4BF8', '3C48A2E0-DB9B-4D74-83FD-BD1272D78B81', 'MimeType', 'MimeType', 'C', 0, NULL, NULL, NULL)
@@ -40,7 +40,7 @@ INSERT INTO @VC3ETL_LoadColumn VALUES ('9788C924-837C-4B72-89D0-70E21BE42562', '
 INSERT INTO @VC3ETL_LoadColumn VALUES ('A3426A15-853C-4BAB-BBD5-2B5813A17CB1', '3C48A2E0-DB9B-4D74-83FD-BD1272D78B81', 'isTemporary', 'isTemporary', 'C', 0, NULL, NULL, NULL)
 
 --Insert the records represent each column in FileData Table
-INSERT INTO @VC3ETL_LoadColumn VALUES ('697A8CE2-2A2F-4B27-8793-DE62C89977F5', '9D044143-DC30-4F5D-BB56-43116DD2F2D2', 'DestID', 'ID', 'C', 0, NULL, NULL, NULL)
+INSERT INTO @VC3ETL_LoadColumn VALUES ('697A8CE2-2A2F-4B27-8793-DE62C89977F5', '9D044143-DC30-4F5D-BB56-43116DD2F2D2', 'DestID', 'ID', 'K', 0, NULL, NULL, NULL)
 INSERT INTO @VC3ETL_LoadColumn VALUES ('D370300D-22E7-4089-B355-C8D77FE605A2', '9D044143-DC30-4F5D-BB56-43116DD2F2D2', 'StudentID', 'StudentID', 'C', 0, NULL, NULL, NULL)
 INSERT INTO @VC3ETL_LoadColumn VALUES ('691A7C4B-EFB9-4D45-A953-7860BBE75562', '9D044143-DC30-4F5D-BB56-43116DD2F2D2', 'ItemID', 'ItemID', 'C', 0, NULL, NULL, NULL)
 INSERT INTO @VC3ETL_LoadColumn VALUES ('0FC6D3B4-E3E1-4AB6-9CDE-E1FF235223A0', '9D044143-DC30-4F5D-BB56-43116DD2F2D2', 'VersionID', 'VersionID', 'C', 0, NULL, NULL, NULL)
