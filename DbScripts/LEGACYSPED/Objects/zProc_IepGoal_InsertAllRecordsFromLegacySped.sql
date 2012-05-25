@@ -35,6 +35,7 @@ ProbeScheduleID	uniqueidentifier,
 ParentID	uniqueidentifier,
 FormInstanceID	uniqueidentifier,
 EsyID	varchar(36) NOT NULL,
+DoNotTouch int not null,
 	primary key (IepRefID, GoalRefID)
 )
 
