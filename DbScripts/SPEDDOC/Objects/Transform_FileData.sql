@@ -29,7 +29,7 @@ AS
 /*
 	This view will select PDF document from SPEDDOC.IEPDoc table by joining LEGACYSPED.IEP table on IepRefID.
 */
-SELECT TOP 100
+SELECT 
 	IEPDoc.IepRefID as IepRefID,
 	DestID = coalesce(FData.ID, MFData.DestID, NEWID()),
 	OriginalName = 'IEP PDF Document'

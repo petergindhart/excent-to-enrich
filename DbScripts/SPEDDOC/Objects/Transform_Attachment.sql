@@ -32,8 +32,7 @@ AS
 	Here we are joining LEGACYSPED.IEP table with LEGACYSPED.Transform_PrgIep & SPEDDOC.MAP_FileDataID tables.
 */
 
-
-SELECT TOP 100
+SELECT 
 	IEPDoc.IepRefId
 	,DestID = coalesce(Attach.ID, MAttachment.DestID, NEWID())
 	,TranPrgIEP.StudentID
@@ -57,5 +56,7 @@ FROM  SPEDDOC.IEPDoc IEPDoc
 		
 	LEFT JOIN dbo.Attachment Attach
 		ON Attach.ID = MAttachment.DestID
-	ORDER BY FileID DESC
+		
+		Where TranPrgIEP.StudentID is not null
+	
 	 
