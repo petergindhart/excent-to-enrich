@@ -30,17 +30,19 @@ AS
 	This view will select PDF document from SPEDDOC.IEPDoc table by joining LEGACYSPED.IEP table on IepRefID.
 */
 SELECT 
-	LEGSIEP.IepRefID as IepRefID,
-	DestID = null,
+	IEPPDF.IepRefID as IepRefID,
+	DestID = coalesce(FData.ID, MFData.DestID),
 	OriginalName = 'IEP PDF Document'
 	,ReceivedDate = GETDATE()
 	,'application/pdf' as MimeType
-	,Content 
+	,IEPPDF.Content 
 	,isTemporary = 0
 FROM SPEDDOC.IEPDoc IEPPDF 
-	JOIN LEGACYSPED.IEP as LEGSIEP
+	LEFT JOIN LEGACYSPED.IEP as LEGSIEP
 		ON LEGSIEP.IepRefID  = IEPPDF.IEPRefID
-		
+	LEFT JOIN SPEDDOC.MAP_FileDataID as MFData
+		ON MFData.IepRefID = IEPPDF.IepRefID
+	LEFT JOIN dbo.FileData FData ON FData.ID = MFData.DestID
 
 /*
 IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'SPEDDOC.Transform_FileData') AND OBJECTPROPERTY(id, N'IsView') = 1)

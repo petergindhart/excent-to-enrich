@@ -31,20 +31,26 @@ AS
 */
 
 SELECT 
-	IEP.IepRefId
-	,DestID = null
+	IEPPDF.IepRefId
+	,DestID = coalesce(Attach.ID, MAttachment.DestID)
 	,TranPrgIEP.StudentID
 	,TranPrgIEP.DestID AS ItemID
     ,TranPrgIEP.VersionDestID AS VersionID
     ,FileID = MapFile.DestID
     ,Label = 'IEP PDF Report'
-    ,TranPrgIEP.CreatedBy AS UploadedUserID
+    ,TranPrgIEP.CreatedBy AS UploadUserID
     
-FROM LEGACYSPED.Transform_PrgIep TranPrgIEP
-	JOIN LEGACYSPED.IEP IEP
+FROM  SPEDDOC.IEPDoc IEPPDF 
+    LEFT JOIN LEGACYSPED.Transform_PrgIep TranPrgIEP
+		ON IEPPDF.IepRefID = TranPrgIEP.IepRefID
+	LEFT JOIN LEGACYSPED.IEP IEP
 		ON TranPrgIEP.IEPRefID = IEP.IepRefID AND TranPrgIEP.StudentRefID = IEP.StudentRefID
-	JOIN SPEDDOC.MAP_FileDataID MapFile 
+	LEFT JOIN SPEDDOC.MAP_FileDataID MapFile 
 		ON MapFile.IepRefID = IEP.IepRefID
+	LEFT JOIN  SPEDDOC.MAP_AttachmentID MAttachment
+		ON MAttachment.IepRefID = IEPPDF.IepRefID
+	LEFT JOIN dbo.Attachment Attach
+		ON Attach.ID = MAttachment.DestID
 
 GO
 
