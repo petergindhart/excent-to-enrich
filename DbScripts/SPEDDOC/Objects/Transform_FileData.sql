@@ -47,7 +47,7 @@ FROM SPEDDOC.IEPDoc IEPPDF
 /*
 IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'SPEDDOC.Transform_FileData') AND OBJECTPROPERTY(id, N'IsView') = 1)
 DROP VIEW SPEDDOC.Transform_FileData
-GO
+--GO
 
 CREATE VIEW EXCENTO.Transform_FileData 
 AS
@@ -71,5 +71,5 @@ FROM ExcentOnlineFL.dbo.IEPArchiveDocTbl as EOIEArcDoc
 	JOIN Enrich_DCB1_FL_Lee.LEGACYSPED.IEP as LEGSIEP
 		ON LEGSIEP.IepRefID = EOIEPCompl.IEPSeqNum AND LEGSIEP.StudentRefID = EOIEPCompl.GStudentID
 
-GO
+--GO
 */		

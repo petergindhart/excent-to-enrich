@@ -1,3 +1,5 @@
+--#include Transform_FileData.sql
+
 -- #############################################################################
 -- This table will associate the Attachment with IepRefID.  IepRefId will be the primary Key.
 

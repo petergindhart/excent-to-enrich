@@ -8,4 +8,5 @@ exec VC3Deployment.CreateSchema 'SPEDDOC'
 exec VC3Deployment.AddModule 'SPEDDOC'
 exec VC3Deployment.AddModuleDependency @uses='SPEDDOC', @usedBy='dbo'
 exec VC3Deployment.AddModuleDependency @uses='SPEDDOC', @usedBy='VC3ETL'
+exec VC3Deployment.AddModuleDependency @uses='SPEDDOC', @usedBy='LEGACYSPED'
 --
