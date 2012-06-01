@@ -1,0 +1,33 @@
+Field List: STUDENTREFID|STUDENTLOCALID|STUDENTSTATEID|FIRSTNAME|MIDDLENAME|LASTNAME|BIRTHDATE|GENDER|MEDICAIDNUMBER|GRADELEVELCODE|SERVICEDISTRICTCODE|SERVICESCHOOLCODE|HOMEDISTRICTCODE|HOMESCHOOLCODE|ISHISPANIC|ISAMERICANINDIAN|ISASIAN|ISBLACKAFRICANAMERICAN|ISHAWAIIANPACISLANDER|ISWHITE|DISABILITY1CODE|DISABILITY2CODE|DISABILITY3CODE|DISABILITY4CODE|DISABILITY5CODE|DISABILITY6CODE|DISABILITY7CODE|DISABILITY8CODE|DISABILITY9CODE|ESYELIG|ESYTBDDATE|EXITDATE|EXITCODE|SPECIALEDSTATUS
+____________________________________________________________________________________________________
+
+Line Number: 107
+Line Text: 85842|85842|2562482276|Anna|Bella|Bailey|03/05/2004|01|Y990069|02|2000|8846|2000|8846|N|N|N|N|N|Y||20||||||||N||||A
+Error Message: DISABILITY1CODE field is required and cannot be blank.
+Error Type: Formatting
+____________________________________________________________________________________________________
+
+Line Number: 759
+Line Text: 82231|82231|4145029709|Brianna|Marie|Fowler|04/03/1998|01||08|2000|0361|2000|568|N|N|N|N|N|Y|04|20||||||||N||||A
+Error Message: E_SCHOOLCODE field value: '568' does not exists in SCHOOL table.
+Error Type: Data Integrity
+____________________________________________________________________________________________________
+
+Line Number: 1879
+Line Text: 89097|89097|7010668022|Colter|Ray|Pope|04/15/2005|02||01|2000|3262|2000|3262|N|N|N|N|N|Y||20||||||||N||||A
+Error Message: DISABILITY1CODE field is required and cannot be blank.
+Error Type: Formatting
+____________________________________________________________________________________________________
+
+Line Number: 1883
+Line Text: PORTER|PORTER|PORTER|Cameron|J.|Porter|01/15/1997|02||09||1111|1111||N|N|N|N|N|Y|03|20||||||||N||||A
+Error Message: SERVICEDISTRICTCODE field is required and cannot be blank.
+Error Type: Formatting
+____________________________________________________________________________________________________
+
+Line Number: 2433
+Line Text: 61316|61316|3708513149|Joey|Lloyd|Vallejos|07/28/1995|02||11|2000||2000|1450|N|Y|N|N|N|N|03|20||||||||N||||A
+Error Message: SERVICESCHOOLCODE field is required and cannot be blank.
+Error Type: Formatting
+____________________________________________________________________________________________________
+
