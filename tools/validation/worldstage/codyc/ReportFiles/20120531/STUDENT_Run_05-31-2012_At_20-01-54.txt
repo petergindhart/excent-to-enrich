@@ -1,0 +1,453 @@
+Field List: STUDENTREFID|STUDENTLOCALID|STUDENTSTATEID|FIRSTNAME|MIDDLENAME|LASTNAME|BIRTHDATE|GENDER|MEDICAIDNUMBER|GRADELEVELCODE|SERVICEDISTRICTCODE|SERVICESCHOOLCODE|HOMEDISTRICTCODE|HOMESCHOOLCODE|ISHISPANIC|ISAMERICANINDIAN|ISASIAN|ISBLACKAFRICANAMERICAN|ISHAWAIIANPACISLANDER|ISWHITE|DISABILITY1CODE|DISABILITY2CODE|DISABILITY3CODE|DISABILITY4CODE|DISABILITY5CODE|DISABILITY6CODE|DISABILITY7CODE|DISABILITY8CODE|DISABILITY9CODE|ESYELIG|ESYTBDDATE|EXITDATE|EXITCODE|SPECIALEDSTATUS
+____________________________________________________________________________________________________
+
+Line Number: 6
+Line Text: 51417|51417|2351979587|TREVOR|JERMAINE|GRADY|09/28/1994|02|Y262352|120|66080|21|0880|21|N|N|N|Y|N|N|03|||||||||N||||A
+Error Message: E_DISTRICTCODE field value: '0880' does not exists in DISTRICT table.
+Error Type: Data Integrity
+____________________________________________________________________________________________________
+
+Line Number: 8
+Line Text: 125904|125904|2743158531|RYAN|DUTCH|BAKER|12/21/1992|02|S463959|120|66080|21|0870|21|N|N|N|N|N|Y|03|||||||||N||||A
+Error Message: E_DISTRICTCODE field value: '0870' does not exists in DISTRICT table.
+Error Type: Data Integrity
+____________________________________________________________________________________________________
+
+Line Number: 9
+Line Text: 130209|130209|3787327339|DAMON|EMILIO|WILCOX|05/21/1993|02|S949296|120|66080|26|0880|26|Y|N|N|N|N|Y|01|||||||||N||||A
+Error Message: E_DISTRICTCODE field value: '0880' does not exists in DISTRICT table.
+Error Type: Data Integrity
+____________________________________________________________________________________________________
+
+Line Number: 11
+Line Text: 146064|146064|4464364113|CREAIME|A|BIGLOW|02/27/1995|02|U849096|110|66080|28|0180|28|N|N|N|Y|N|N|03|||||||||N||||A
+Error Message: E_DISTRICTCODE field value: '0180' does not exists in DISTRICT table.
+Error Type: Data Integrity
+____________________________________________________________________________________________________
+
+Line Number: 12
+Line Text: 146064|146064|4464364113|CREAIME|A|BIGLOW|02/27/1995|02|U849096|110|66080|21|0180|21|N|N|N|Y|N|N|03|||||||||N||||A
+Error Message: The record with the same ID was already imported. The filter criteria was: E_STUDENTREFID='146064'.
+Error Type: Data Integrity
+____________________________________________________________________________________________________
+
+Line Number: 15
+Line Text: 148433|148433||CHRISTOPHER|RICHARD|CUNNINGHAM|05/27/1995|02|V123541|110|66080|27|2000|27|N|N|N|Y|N|N|01|||||||||N||||A
+Error Message: STUDENTSTATEID field is required and cannot be blank.
+Error Type: Formatting
+____________________________________________________________________________________________________
+
+Line Number: 16
+Line Text: 149109|149109|2508699679|DAVID|JOHN|DEBATTISTA|07/04/1995|02|V206247|110|66080|27|0870|27|N|N|N|N|N|Y|03|07||||||||N||||A
+Error Message: E_DISTRICTCODE field value: '0870' does not exists in DISTRICT table.
+Error Type: Data Integrity
+____________________________________________________________________________________________________
+
+Line Number: 18
+Line Text: 156360|156360|7248279128|DARR|ONEIL|ANDERSON|05/12/1996|02|W059546|100|66080|26|0060|26|N|N|N|N|N|Y|03|||||||||N||||A
+Error Message: E_DISTRICTCODE field value: '0060' does not exists in DISTRICT table.
+Error Type: Data Integrity
+____________________________________________________________________________________________________
+
+Line Number: 21
+Line Text: 169422|169422|4784946197|AARON||CURTIS|05/26/1994|02|Y423583|120|66080|21|0130|21|N|N|N|N|N|Y|03|||||||||N||||A
+Error Message: E_DISTRICTCODE field value: '0130' does not exists in DISTRICT table.
+Error Type: Data Integrity
+____________________________________________________________________________________________________
+
+Line Number: 22
+Line Text: 212213|212213|5383316226|MARQUAL|DAVON|SAWYER|11/05/1992|02|S353853|120|66080|24|0980|24|N|N|N|Y|N|N|01|||||||||N||||A
+Error Message: E_DISTRICTCODE field value: '0980' does not exists in DISTRICT table.
+Error Type: Data Integrity
+____________________________________________________________________________________________________
+
+Line Number: 23
+Line Text: 213505|213505||MATTHEW|TRAVIS|SIMPSON|12/12/1992|02|S506823|120|66080|28|1010|28|N|N|N|N|N|Y|03|||||||||N||||A
+Error Message: STUDENTSTATEID field is required and cannot be blank.
+Error Type: Formatting
+____________________________________________________________________________________________________
+
+Line Number: 25
+Line Text: 225541|225541|5260206529|NOBLE|TERRENCE|KENDRICK|04/21/1994|02|U000849|120|66080|21|0880|21|N|N|N|Y|N|N|03|||||||||N||||A
+Error Message: E_DISTRICTCODE field value: '0880' does not exists in DISTRICT table.
+Error Type: Data Integrity
+____________________________________________________________________________________________________
+
+Line Number: 30
+Line Text: 236108|236108|628984544|TENIEL|PHLAVAOUSD|ELLIS|05/11/1995|02|V277412|110|66080|21|0130|21|N|N|N|Y|N|N|03|||||||||N||||A
+Error Message: E_DISTRICTCODE field value: '0130' does not exists in DISTRICT table.
+Error Type: Data Integrity
+____________________________________________________________________________________________________
+
+Line Number: 31
+Line Text: 236180|236180|1805538016|MARCUS|ANTHONY|DOUCETT|04/18/1995|02|V287262|110|66080|26|0180|26|N|N|N|Y|N|N|03|||||||||N||||A
+Error Message: E_DISTRICTCODE field value: '0180' does not exists in DISTRICT table.
+Error Type: Data Integrity
+____________________________________________________________________________________________________
+
+Line Number: 34
+Line Text: 247292|247292|2328894656|SEAN|JOSHUA|MANTZ|11/17/1994|02|W559073|120|66080|24|0980|24|N|N|N|Y|N|N|03|07||||||||N||||A
+Error Message: E_DISTRICTCODE field value: '0980' does not exists in DISTRICT table.
+Error Type: Data Integrity
+____________________________________________________________________________________________________
+
+Line Number: 37
+Line Text: 255746|255746|8572447402|STRYKER|JOHN|WOLF|05/21/1995|02|Y026682|110|66080|21|0140|21|N|N|N|N|N|Y|07|||||||||N||||A
+Error Message: E_DISTRICTCODE field value: '0140' does not exists in DISTRICT table.
+Error Type: Data Integrity
+____________________________________________________________________________________________________
+
+Line Number: 38
+Line Text: 263565|263565|5518730327|JEREMIAH|JOSEP|PEPPER|11/09/1995|02|Y170998|110|66080|21|0060|21|N|N|N|N|N|Y|03|||||||||N||||A
+Error Message: E_DISTRICTCODE field value: '0060' does not exists in DISTRICT table.
+Error Type: Data Integrity
+____________________________________________________________________________________________________
+
+Line Number: 39
+Line Text: 282959|282959|3409958636|JORDAN|WILLIAM|MAYFIELD|03/19/1994|02|Y205342|120|66080|21|0880|21|N|N|N|Y|N|N|03|||||||||N||||A
+Error Message: E_DISTRICTCODE field value: '0880' does not exists in DISTRICT table.
+Error Type: Data Integrity
+____________________________________________________________________________________________________
+
+Line Number: 40
+Line Text: 295186|295186|7809315683|ODEN|RYANAVERY|ENGELHARDT|02/07/1996|02|Y417327|100|66080|27|0220|27|N|N|N|N|N|Y|07|03||||||||N||||A
+Error Message: E_DISTRICTCODE field value: '0220' does not exists in DISTRICT table.
+Error Type: Data Integrity
+____________________________________________________________________________________________________
+
+Line Number: 43
+Line Text: 359303|359303|9909618487|CLEOTHA|ANNE|NICHOLAS|03/05/1993|01|S714633|120|66080|28|0480|28|N|N|Y|Y|N|N|03|||||||||N||||A
+Error Message: E_DISTRICTCODE field value: '0480' does not exists in DISTRICT table.
+Error Type: Data Integrity
+____________________________________________________________________________________________________
+
+Line Number: 44
+Line Text: 359858|359858|2146428156|SERGIO|JOAQUIN|YEE|03/18/1993|02|S775139|120|66080|21|0880|21|Y|N|Y|N|N|Y|03|04||||||||N||||A
+Error Message: E_DISTRICTCODE field value: '0880' does not exists in DISTRICT table.
+Error Type: Data Integrity
+____________________________________________________________________________________________________
+
+Line Number: 45
+Line Text: 364059|364059|3799190991|ANGEL|DEAN|ARMIJO|05/14/1993|02|T262226|120|66080|21|0880|21|Y|N|N|N|N|Y|04|04|03|08||||||N||||A
+Error Message: E_DISTRICTCODE field value: '0880' does not exists in DISTRICT table.
+Error Type: Data Integrity
+____________________________________________________________________________________________________
+
+Line Number: 46
+Line Text: 364374|364374|3471809687|KENNETH|LEE|ABRAM|09/01/1993|02|T300604|120|66080|21|0880|21|N|N|N|Y|N|N|01|||||||||N||||A
+Error Message: E_DISTRICTCODE field value: '0880' does not exists in DISTRICT table.
+Error Type: Data Integrity
+____________________________________________________________________________________________________
+
+Line Number: 48
+Line Text: 367068|367068|8608150203|LARRY|DAVID|LUCERO|03/27/1993|02|T649844|120|66080|21|0880|21|Y|N|N|N|N|Y|04|||||||||N||||A
+Error Message: E_DISTRICTCODE field value: '0880' does not exists in DISTRICT table.
+Error Type: Data Integrity
+____________________________________________________________________________________________________
+
+Line Number: 49
+Line Text: 367239|367239||MARIO|JESUS|MARQUEZ|12/27/1993|02|T677118|120|66080|16|0030|16|Y|N|N|N|N|Y|04|||||||||N||||A
+Error Message: STUDENTSTATEID field is required and cannot be blank.
+Error Type: Formatting
+____________________________________________________________________________________________________
+
+Line Number: 50
+Line Text: 370290|370290||COREY||TIPTON|05/13/1994|02|U037536|120|66080|27|2000|27|N|N|N|N|N|Y|07|||||||||N||||A
+Error Message: STUDENTSTATEID field is required and cannot be blank.
+Error Type: Formatting
+____________________________________________________________________________________________________
+
+Line Number: 51
+Line Text: 375841|375841|1722882385|CRAVAUGHN|LACRAE|MALOY|01/14/1995|02|U738562|110|66080|21|0880|21|N|N|N|Y|N|N|04|03||||||||N||||A
+Error Message: E_DISTRICTCODE field value: '0880' does not exists in DISTRICT table.
+Error Type: Data Integrity
+____________________________________________________________________________________________________
+
+Line Number: 52
+Line Text: 376034|376034|6007751576|QUINCY|JOSHUA|WHEELER|01/16/1995|02|U765516|110|66080|21|0880|21|N|N|N|Y|N|N|03|||||||||N||||A
+Error Message: E_DISTRICTCODE field value: '0880' does not exists in DISTRICT table.
+Error Type: Data Integrity
+____________________________________________________________________________________________________
+
+Line Number: 53
+Line Text: 376335|376335||DASHAE|EUGENE|ARMSTRONG|12/28/1994|02|U805692|110|66080|26|0880|26|N|N|N|Y|N|N|03|||||||||N||||A
+Error Message: STUDENTSTATEID field is required and cannot be blank.
+Error Type: Formatting
+____________________________________________________________________________________________________
+
+Line Number: 54
+Line Text: 376680|376680|1629772684|TYREE|DARRELL|BOWEN|02/16/1995|02|U845078|110|66080|26|0880|26|N|N|N|Y|N|N|03|||||||||N||||A
+Error Message: E_DISTRICTCODE field value: '0880' does not exists in DISTRICT table.
+Error Type: Data Integrity
+____________________________________________________________________________________________________
+
+Line Number: 57
+Line Text: 387173|387173|3649483964|TYLER|C|PADILLA|06/23/1996|02|W164700|100|66080|26|0880|26|Y|N|N|N|N|Y|03|||||||||N||||A
+Error Message: E_DISTRICTCODE field value: '0880' does not exists in DISTRICT table.
+Error Type: Data Integrity
+____________________________________________________________________________________________________
+
+Line Number: 58
+Line Text: 388477|388477|5353293269|DARICK|J|DENSLOW|05/11/1994|02|W331168|120|66080|16|0470|16|N|N|N|N|N|Y|03|||||||||N||||A
+Error Message: E_DISTRICTCODE field value: '0470' does not exists in DISTRICT table.
+Error Type: Data Integrity
+____________________________________________________________________________________________________
+
+Line Number: 60
+Line Text: 390034|390034|3042815906|JULIAN||CRESPIN|12/26/1993|02|W528656|120|66080|21|0480|21|Y|N|N|N|N|Y|03|||||||||N||||A
+Error Message: E_DISTRICTCODE field value: '0480' does not exists in DISTRICT table.
+Error Type: Data Integrity
+____________________________________________________________________________________________________
+
+Line Number: 62
+Line Text: 392710|392710|3076266958|MARQUISE|DEANTHONY|RICHARDSON|02/24/1997|02|W858848|090|66080|26|0880|26|N|N|N|Y|N|N|03|||||||||N||||A
+Error Message: E_DISTRICTCODE field value: '0880' does not exists in DISTRICT table.
+Error Type: Data Integrity
+____________________________________________________________________________________________________
+
+Line Number: 63
+Line Text: 395528|395528|3499147022|DEVON|DRIZZT|HOWARD|07/29/1997|02|X273724|090|66080|26|0880|26|Y|N|N|N|N|Y|03|||||||||N||||A
+Error Message: E_DISTRICTCODE field value: '0880' does not exists in DISTRICT table.
+Error Type: Data Integrity
+____________________________________________________________________________________________________
+
+Line Number: 64
+Line Text: 1541793|1541793|8916871501|ZACHARY|TERRELL|RICE|03/15/1994|02|T837316|120|66080|21|0880|21|N|N|N|Y|N|N|03|07||||||||N||||A
+Error Message: E_DISTRICTCODE field value: '0880' does not exists in DISTRICT table.
+Error Type: Data Integrity
+____________________________________________________________________________________________________
+
+Line Number: 65
+Line Text: 1543833|1543833|1690837625|RICARDO|ANTONIO|TERRONES|04/18/1995|02|V234751|110|66080|21|0880|21|Y|N|N|N|N|Y|03|||||||||N||||A
+Error Message: E_DISTRICTCODE field value: '0880' does not exists in DISTRICT table.
+Error Type: Data Integrity
+____________________________________________________________________________________________________
+
+Line Number: 67
+Line Text: 1558855|1558855|5453469813|TYLER|DAVID|PITT|09/28/1995|02|Y568402|110|66080|21|0180|21|N|N|N|N|N|Y|03|||||||||N||||A
+Error Message: E_DISTRICTCODE field value: '0180' does not exists in DISTRICT table.
+Error Type: Data Integrity
+____________________________________________________________________________________________________
+
+Line Number: 68
+Line Text: 1561333|1561333|6807254538|VANIA|IBETH|BAUER|05/27/1996|01|W235252|100|66080|26|0880|26|Y|N|N|N|N|Y|03|||||||||N||||A
+Error Message: E_DISTRICTCODE field value: '0880' does not exists in DISTRICT table.
+Error Type: Data Integrity
+____________________________________________________________________________________________________
+
+Line Number: 78
+Line Text: 1711648|1711648|3495786847|QUAYSHAWN|TYRELL|PERKINS|02/03/1997|02|W785421|090|66080|26|0880|26|N|N|N|Y|N|N|03|||||||||N||||A
+Error Message: E_DISTRICTCODE field value: '0880' does not exists in DISTRICT table.
+Error Type: Data Integrity
+____________________________________________________________________________________________________
+
+Line Number: 80
+Line Text: 1729685|1729685|7083732834|CHRISTOPHER|DOMINIC|DIAZ|04/09/1996|02|V950869|100|66080|26|0880|26|Y|N|N|N|N|Y|03|||||||||N||||A
+Error Message: E_DISTRICTCODE field value: '0880' does not exists in DISTRICT table.
+Error Type: Data Integrity
+____________________________________________________________________________________________________
+
+Line Number: 85
+Line Text: 1750320|1750320|2506163284|MATTHEW||MORENO|04/09/1998|02|Y584076|080|66080|26|0880|26|Y|N|N|Y|N|N|03|||||||||N||||A
+Error Message: E_DISTRICTCODE field value: '0880' does not exists in DISTRICT table.
+Error Type: Data Integrity
+____________________________________________________________________________________________________
+
+Line Number: 86
+Line Text: 1751906|1751906|2419545073|RICHARD||FORD|10/15/1993|02|Y828934|120|66080|21|0030|21|Y|N|N|N|N|Y|03|||||||||N||||A
+Error Message: E_DISTRICTCODE field value: '0030' does not exists in DISTRICT table.
+Error Type: Data Integrity
+____________________________________________________________________________________________________
+
+Line Number: 87
+Line Text: 1755527|1755527|9384391983|JAMES|EDGAR|LEWIS|09/18/1991|02|Y098309|120|66080|21|0130|21|N|N|N|Y|N|N|04|07||||||||N||||A
+Error Message: E_DISTRICTCODE field value: '0130' does not exists in DISTRICT table.
+Error Type: Data Integrity
+____________________________________________________________________________________________________
+
+Line Number: 88
+Line Text: 1769500|1769500|7077529144|NATHAN|P|RICO|12/06/1994|02|U610860|110|66080|21|0880|21|Y|N|N|N|N|Y|04|08||||||||N||||A
+Error Message: E_DISTRICTCODE field value: '0880' does not exists in DISTRICT table.
+Error Type: Data Integrity
+____________________________________________________________________________________________________
+
+Line Number: 89
+Line Text: 1770910|1770910|2330858553|MATTHEW|STEPHEN|CHADWICK|01/01/1995|02|Y340425|110|66080|21|0990|21|N|N|N|N|N|Y|04|||||||||N||||A
+Error Message: E_DISTRICTCODE field value: '0990' does not exists in DISTRICT table.
+Error Type: Data Integrity
+____________________________________________________________________________________________________
+
+Line Number: 90
+Line Text: 1774734|1774734|2799730866|TYLER|C|ASBERRY|05/30/1993|02|S953371|120|66080|21|0880|21|N|N|N|Y|N|N|04|||||||||N||||A
+Error Message: E_DISTRICTCODE field value: '0880' does not exists in DISTRICT table.
+Error Type: Data Integrity
+____________________________________________________________________________________________________
+
+Line Number: 93
+Line Text: 1800766|1800766|6136169889|ETHAN|PATRICK|SOBEC|06/01/1997|02|Y888006|090|66080|26|0880|26|N|N|N|N|N|Y|03|07||||||||N||||A
+Error Message: E_DISTRICTCODE field value: '0880' does not exists in DISTRICT table.
+Error Type: Data Integrity
+____________________________________________________________________________________________________
+
+Line Number: 94
+Line Text: 1846620|1846620|5677295623|VINCENT|DRAKKAR|APODACA|05/26/1995|02|V110894|110|66080|21|0880|21|Y|N|N|N|N|Y|03|||||||||N||||A
+Error Message: E_DISTRICTCODE field value: '0880' does not exists in DISTRICT table.
+Error Type: Data Integrity
+____________________________________________________________________________________________________
+
+Line Number: 95
+Line Text: 1854731|1854731|4201097967|ADONNIS|TORREAN|RUCKER|05/14/1996|02|W051592|100|66080|26|0880|26|N|N|N|Y|N|N|03|||||||||N||||A
+Error Message: E_DISTRICTCODE field value: '0880' does not exists in DISTRICT table.
+Error Type: Data Integrity
+____________________________________________________________________________________________________
+
+Line Number: 97
+Line Text: 1907048|1907048|4557161407|DEVIN|JAMESTHOMAS|LUJAN|09/02/1992|02|W317761|120|66080|26|0880|26|Y|N|N|N|N|Y|04|||||||||N||||A
+Error Message: E_DISTRICTCODE field value: '0880' does not exists in DISTRICT table.
+Error Type: Data Integrity
+____________________________________________________________________________________________________
+
+Line Number: 98
+Line Text: 1907049|1907049|8268807081|NICHOLAS|C|LUJAN|03/14/1994|02|W144892|120|66080|21|0880|21|Y|N|N|N|N|Y|03|||||||||N||||A
+Error Message: E_DISTRICTCODE field value: '0880' does not exists in DISTRICT table.
+Error Type: Data Integrity
+____________________________________________________________________________________________________
+
+Line Number: 101
+Line Text: 1925306|1925306|5546245256|BRANDON|ALLEN|EVERS|10/21/1993|02|T424545|120|66080|27|0220|27|N|N|N|N|N|Y|03|||||||||N||||A
+Error Message: E_DISTRICTCODE field value: '0220' does not exists in DISTRICT table.
+Error Type: Data Integrity
+____________________________________________________________________________________________________
+
+Line Number: 102
+Line Text: 1936008|1936008|4041805183|CHANCE|MANNING|WELCH|12/02/1993|02|T822904|120|66080|21|0180|21|N|N|N|N|N|Y|03|||||||||N||||A
+Error Message: E_DISTRICTCODE field value: '0180' does not exists in DISTRICT table.
+Error Type: Data Integrity
+____________________________________________________________________________________________________
+
+Line Number: 103
+Line Text: 1947352|1947352|8932980114|ZACHARY|CURTIS|OLIVER|05/26/1997|02|G115371|090|66080|26|0900|26|N|N|N|N|N|Y|03|||||||||N||||A
+Error Message: E_DISTRICTCODE field value: '0900' does not exists in DISTRICT table.
+Error Type: Data Integrity
+____________________________________________________________________________________________________
+
+Line Number: 104
+Line Text: 1949810|1949810|4701948185|J|PATRICK|KRANZ|04/04/1994|02|T921516|120|66080|24|0990|24|N|N|N|N|N|Y|03|||||||||N||||A
+Error Message: E_DISTRICTCODE field value: '0990' does not exists in DISTRICT table.
+Error Type: Data Integrity
+____________________________________________________________________________________________________
+
+Line Number: 105
+Line Text: 1954311|1954311|5387170204|BENARD|KEITH|REED|11/20/1994|02|U743166|120|66080|21|0880|21|N|N|N|Y|N|N|03|||||||||N||||A
+Error Message: E_DISTRICTCODE field value: '0880' does not exists in DISTRICT table.
+Error Type: Data Integrity
+____________________________________________________________________________________________________
+
+Line Number: 107
+Line Text: 1975356|1975356|6394973317|KYMIR|ABDUL|WILLIAMSON|12/29/1996|02|G118722|090|66080|24|0980|24|N|N|N|Y|N|N|03|07||||||||N||||A
+Error Message: E_DISTRICTCODE field value: '0980' does not exists in DISTRICT table.
+Error Type: Data Integrity
+____________________________________________________________________________________________________
+
+Line Number: 110
+Line Text: 2001501|2001501|6724959384|ADRIAN|ERIC|ROMERO|12/11/1993|02|T677399|120|66080|21|0880|21|Y|N|N|N|N|Y|03|||||||||N||||A
+Error Message: E_DISTRICTCODE field value: '0880' does not exists in DISTRICT table.
+Error Type: Data Integrity
+____________________________________________________________________________________________________
+
+Line Number: 111
+Line Text: 2017276|2017276|4390494579|DAVID|KHELDAR|JOHNSON|11/30/1994|02|G207648|120|66080|21|0900|21|N|N|N|N|N|Y|03|||||||||N||||A
+Error Message: E_DISTRICTCODE field value: '0900' does not exists in DISTRICT table.
+Error Type: Data Integrity
+____________________________________________________________________________________________________
+
+Line Number: 112
+Line Text: 2047610|2047610|9890191274|MONYINDI|INDIYOUN|MALUAL|12/01/1994|02|G172506|120|66080|26|0130|26|N|N|N|Y|N|N|03|||||||||N||||A
+Error Message: E_DISTRICTCODE field value: '0130' does not exists in DISTRICT table.
+Error Type: Data Integrity
+____________________________________________________________________________________________________
+
+Line Number: 115
+Line Text: 2051073|2051073||AARON||DIX|07/13/1991|02|Y643580|120|66080|16|0900|16|N|N|N|N|N|Y|07|||||||||N||||A
+Error Message: STUDENTSTATEID field is required and cannot be blank.
+Error Type: Formatting
+____________________________________________________________________________________________________
+
+Line Number: 117
+Line Text: 2078316|2078316|4016600963|RONALD|DALE|BLACKWELL|06/11/1995|02|G001408|110|66080|16|0030|16|N|N|N|N|N|Y|03|||||||||N||||A
+Error Message: E_DISTRICTCODE field value: '0030' does not exists in DISTRICT table.
+Error Type: Data Integrity
+____________________________________________________________________________________________________
+
+Line Number: 118
+Line Text: 2099896|2099896|2296719619|ALEXANDER|COTTON|HAYES|04/03/1993|02|S842178|120|66080|24|0980|24|N|N|N|N|N|Y|03|||||||||N||||A
+Error Message: E_DISTRICTCODE field value: '0980' does not exists in DISTRICT table.
+Error Type: Data Integrity
+____________________________________________________________________________________________________
+
+Line Number: 119
+Line Text: 2115916|2115916|4030491308|NATHANIEL||VARGAS|07/06/1993|02|G347624|120|66080|21|0180|21|Y|N|N|N|N|Y|03|||||||||N||||A
+Error Message: E_DISTRICTCODE field value: '0180' does not exists in DISTRICT table.
+Error Type: Data Integrity
+____________________________________________________________________________________________________
+
+Line Number: 120
+Line Text: 2129930|2129930|1656324695|ALEJANDRO||GARCIA|10/15/1994|02|Y301807|120|66080|21|0880|21|Y|N|N|N|N|Y|04|07||||||||N||||A
+Error Message: E_DISTRICTCODE field value: '0880' does not exists in DISTRICT table.
+Error Type: Data Integrity
+____________________________________________________________________________________________________
+
+Line Number: 121
+Line Text: 2142478|2142478|9403968272|JULIO||LOPEZ|11/07/1993|02|T652244|120|66080|21|0880|21|Y|N|N|N|N|Y|04|||||||||N||||A
+Error Message: E_DISTRICTCODE field value: '0880' does not exists in DISTRICT table.
+Error Type: Data Integrity
+____________________________________________________________________________________________________
+
+Line Number: 124
+Line Text: 2177656|2177656|2992816671|BRANDON|MICHAEL|SHUPE|01/15/1994|02|Y379731|120|66080|21|0900|21|Y|N|N|N|N|Y|03|||||||||N||||A
+Error Message: E_DISTRICTCODE field value: '0900' does not exists in DISTRICT table.
+Error Type: Data Integrity
+____________________________________________________________________________________________________
+
+Line Number: 131
+Line Text: 2290904|2290904|6657439414|OSCAR|LUIS|SOSADOMINGUEZ|08/28/1994|02|Y597803|120|66080|21|0180|21|Y|N|N|N|N|Y|03|||||||||N||||A
+Error Message: E_DISTRICTCODE field value: '0180' does not exists in DISTRICT table.
+Error Type: Data Integrity
+____________________________________________________________________________________________________
+
+Line Number: 132
+Line Text: 2295735|2295735|9769451976|ANTHONY|LUCAS|REED|04/17/1994|02|G734184|120|66080|21|0990|21|N|N|N|N|N|Y|04|||||||||N||||A
+Error Message: E_DISTRICTCODE field value: '0990' does not exists in DISTRICT table.
+Error Type: Data Integrity
+____________________________________________________________________________________________________
+
+Line Number: 133
+Line Text: 2299121|2299121|4740646164|DAMARIS|JASON|ORDAZ|11/05/1994|02|V541544|120|66080|21|0180|21|Y|N|N|Y|N|N|03|||||||||N||||A
+Error Message: E_DISTRICTCODE field value: '0180' does not exists in DISTRICT table.
+Error Type: Data Integrity
+____________________________________________________________________________________________________
+
+Line Number: 134
+Line Text: 2322111|2322111||JESUS|M|CARREON|11/21/1995|02|V572242|110|66080|26|1550|26|Y|N|N|N|N|Y|04|||||||||N||||A
+Error Message: STUDENTSTATEID field is required and cannot be blank.
+Error Type: Formatting
+____________________________________________________________________________________________________
+
+Line Number: 139
+Line Text: 2408786|2408786|4362350345|RICARDO|MOISES|ROSAS|02/16/1996|02|G769258|100|66080|26|0900|26|Y|N|N|N|N|Y|03|||||||||N||||A
+Error Message: E_DISTRICTCODE field value: '0900' does not exists in DISTRICT table.
+Error Type: Data Integrity
+____________________________________________________________________________________________________
+
+Line Number: 145
+Line Text: 2513511|2513511|9397001185|DWAYNE|ANTHONY|JONES|07/11/1993|02|T146056|120|66080|21|0130|21|N|N|N|Y|N|N|04|||||||||N||||A
+Error Message: E_DISTRICTCODE field value: '0130' does not exists in DISTRICT table.
+Error Type: Data Integrity
+____________________________________________________________________________________________________
+
+Line Number: 146
+Line Text: 2552423|2552423||HOPE||BURKETT|07/15/1994|01|G981026|120|66080|28|1010|28|N|N|N|N|N|Y|04|||||||||N||||A
+Error Message: STUDENTSTATEID field is required and cannot be blank.
+Error Type: Formatting
+____________________________________________________________________________________________________
+

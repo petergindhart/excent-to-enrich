@@ -33,21 +33,30 @@ AS
 */
 
 SELECT 
-	IEP.IepRefId
-	,DestID = null
+	IEPDoc.IepRefId
+	,DestID = coalesce(Attach.ID, MAttachment.DestID, NEWID())
 	,TranPrgIEP.StudentID
 	,TranPrgIEP.DestID AS ItemID
     ,TranPrgIEP.VersionDestID AS VersionID
     ,FileID = MapFile.DestID
     ,Label = 'IEP PDF Report'
-    ,TranPrgIEP.CreatedBy AS UploadedUserID
+    ,UploadUserID = ISNULL(TranPrgIEP.CreatedBy, 'EEE133BD-C557-47E1-AB67-EE413DD3D1AB')
     
-FROM LEGACYSPED.Transform_PrgIep TranPrgIEP
-	JOIN LEGACYSPED.IEP IEP
-		ON TranPrgIEP.IEPRefID = IEP.IepRefID AND TranPrgIEP.StudentRefID = IEP.StudentRefID
-	JOIN SPEDDOC.MAP_FileDataID MapFile 
-		ON MapFile.IepRefID = IEP.IepRefID
-
-GO
-
-
+FROM  SPEDDOC.IEPDoc IEPDoc 
+	 JOIN LEGACYSPED.IEP IEP 
+		ON IEP.IepRefID = IEPDoc.IEPRefID AND IEP.StudentRefID = IEPDoc.StudentRefID
+     JOIN LEGACYSPED.Transform_PrgIep TranPrgIEP
+		ON IEPDoc.IepRefID = TranPrgIEP.IepRefID AND IEPDoc.StudentRefID = TranPrgIEP.StudentRefID
+	
+	LEFT JOIN SPEDDOC.Transform_FileData MapFile 
+		ON MapFile.IepRefID = IEPDoc.IepRefID
+		
+	LEFT JOIN  SPEDDOC.MAP_AttachmentID MAttachment
+		ON MAttachment.IepRefID = IEPDoc.IepRefID
+		
+	LEFT JOIN dbo.Attachment Attach
+		ON Attach.ID = MAttachment.DestID
+		
+		Where TranPrgIEP.StudentID is not null
+	
+	 

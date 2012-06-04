@@ -1,0 +1,51 @@
+Field List: STUDENTREFID|STUDENTLOCALID|STUDENTSTATEID|FIRSTNAME|MIDDLENAME|LASTNAME|BIRTHDATE|GENDER|MEDICAIDNUMBER|GRADELEVELCODE|SERVICEDISTRICTCODE|SERVICESCHOOLCODE|HOMEDISTRICTCODE|HOMESCHOOLCODE|ISHISPANIC|ISAMERICANINDIAN|ISASIAN|ISBLACKAFRICANAMERICAN|ISHAWAIIANPACISLANDER|ISWHITE|DISABILITY1CODE|DISABILITY2CODE|DISABILITY3CODE|DISABILITY4CODE|DISABILITY5CODE|DISABILITY6CODE|DISABILITY7CODE|DISABILITY8CODE|DISABILITY9CODE|ESYELIG|ESYTBDDATE|EXITDATE|EXITCODE|SPECIALEDSTATUS
+____________________________________________________________________________________________________
+
+Line Number: 12
+Line Text: 146064|146064|4464364113|CREAIME|A|BIGLOW|02/27/1995|02|U849096|110|66080|21|0180|21|N|N|N|Y|N|N|03|||||||||N||||A
+Error Message: The record with the same ID was already imported. The filter criteria was: E_STUDENTREFID='146064'.
+Error Type: Data Integrity
+____________________________________________________________________________________________________
+
+Line Number: 15
+Line Text: 148433|148433||CHRISTOPHER|RICHARD|CUNNINGHAM|05/27/1995|02|V123541|110|66080|27|2000|27|N|N|N|Y|N|N|01|||||||||N||||A
+Error Message: STUDENTSTATEID field is required and cannot be blank.
+Error Type: Formatting
+____________________________________________________________________________________________________
+
+Line Number: 23
+Line Text: 213505|213505||MATTHEW|TRAVIS|SIMPSON|12/12/1992|02|S506823|120|66080|28|1010|28|N|N|N|N|N|Y|03|||||||||N||||A
+Error Message: STUDENTSTATEID field is required and cannot be blank.
+Error Type: Formatting
+____________________________________________________________________________________________________
+
+Line Number: 49
+Line Text: 367239|367239||MARIO|JESUS|MARQUEZ|12/27/1993|02|T677118|120|66080|16|0030|16|Y|N|N|N|N|Y|04|||||||||N||||A
+Error Message: STUDENTSTATEID field is required and cannot be blank.
+Error Type: Formatting
+____________________________________________________________________________________________________
+
+Line Number: 50
+Line Text: 370290|370290||COREY||TIPTON|05/13/1994|02|U037536|120|66080|27|2000|27|N|N|N|N|N|Y|07|||||||||N||||A
+Error Message: STUDENTSTATEID field is required and cannot be blank.
+Error Type: Formatting
+____________________________________________________________________________________________________
+
+Line Number: 53
+Line Text: 376335|376335||DASHAE|EUGENE|ARMSTRONG|12/28/1994|02|U805692|110|66080|26|0880|26|N|N|N|Y|N|N|03|||||||||N||||A
+Error Message: STUDENTSTATEID field is required and cannot be blank.
+Error Type: Formatting
+____________________________________________________________________________________________________
+
+Line Number: 115
+Line Text: 2051073|2051073||AARON||DIX|07/13/1991|02|Y643580|120|66080|16|0900|16|N|N|N|N|N|Y|07|||||||||N||||A
+Error Message: STUDENTSTATEID field is required and cannot be blank.
+Error Type: Formatting
+____________________________________________________________________________________________________
+
+Line Number: 134
+Line Text: 2322111|2322111||JESUS|M|CARREON|11/21/1995|02|V572242|110|66080|26|1550|26|Y|N|N|N|N|Y|04|||||||||N||||A
+Error Message: STUDENTSTATEID field is required and cannot be blank.
+Error Type: Formatting
+____________________________________________________________________________________________________
+

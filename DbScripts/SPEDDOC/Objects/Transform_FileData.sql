@@ -30,44 +30,20 @@ AS
 	This view will select PDF document from SPEDDOC.IEPDoc table by joining LEGACYSPED.IEP table on IepRefID.
 */
 SELECT 
-	LEGSIEP.IepRefID as IepRefID,
-	DestID = null,
+	IEPDoc.IepRefID as IepRefID,
+	DestID = coalesce(FData.ID, MFData.DestID, NEWID()),
 	OriginalName = 'IEP PDF Document'
 	,ReceivedDate = GETDATE()
 	,'application/pdf' as MimeType
-	,Content 
+	,IEPDoc.Content 
 	,isTemporary = 0
-FROM SPEDDOC.IEPDoc IEPPDF 
+FROM 
+	SPEDDOC.IEPDoc IEPDoc 
+	
 	JOIN LEGACYSPED.IEP as LEGSIEP
-		ON LEGSIEP.IepRefID  = IEPPDF.IEPRefID
+		ON LEGSIEP.IepRefID  = IEPDoc.IEPRefID AND IEPDoc.StudentRefID = LEGSIEP.StudentRefID
+	
+	LEFT JOIN SPEDDOC.MAP_FileDataID as MFData
+		ON MFData.IepRefID = IEPDoc.IepRefID
 		
-
-/*
-IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'SPEDDOC.Transform_FileData') AND OBJECTPROPERTY(id, N'IsView') = 1)
-DROP VIEW SPEDDOC.Transform_FileData
---GO
-
-CREATE VIEW EXCENTO.Transform_FileData 
-AS
-
---	This view will select PDF document from ExcentOnlineFL.dbo.IEPArchiveDocTbl table.
---	Here we are joining ExcentOnlineFL.dbo.IEPArchiveDocTbl with Enrich_DCB1_FL_Lee.LEGACYSPED.IEP via 
---	ExcentOnlineFL.dbo.IEPCompleteTbl.	
-
-
-SELECT 
-	LEGSIEP.IepRefID,
-	DestID = null,
-	OriginalName = 'IEP PDF Document'
-	,ReceivedDate = GETDATE()
-	,MimeType = DocType 
-	,Content = PDFImage 
-	,isTemporary = 0
-FROM ExcentOnlineFL.dbo.IEPArchiveDocTbl as EOIEArcDoc
-	JOIN IEPCompleteTbl as EOIEPCompl
-		ON EOIEPCompl.RecNum = EOIEArcDoc.RecNum AND EOIEArcDoc.GStudentID = EOIEPCompl.GStudentID
-	JOIN Enrich_DCB1_FL_Lee.LEGACYSPED.IEP as LEGSIEP
-		ON LEGSIEP.IepRefID = EOIEPCompl.IEPSeqNum AND LEGSIEP.StudentRefID = EOIEPCompl.GStudentID
-
---GO
-*/		
+	LEFT JOIN dbo.FileData FData ON FData.ID = MFData.DestID
