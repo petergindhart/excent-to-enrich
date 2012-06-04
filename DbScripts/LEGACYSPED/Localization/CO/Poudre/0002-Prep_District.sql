@@ -63,7 +63,15 @@ insert @Map_ServiceFrequencyID values ('ZZZ', 'Not specified', 'C42C50ED-863B-44
 insert @Map_ServiceFrequencyID values ('03', 'monthly', '3D4B557B-0C2E-4A41-9410-BA331F1D20DD')
 insert @Map_ServiceFrequencyID values ('01', 'daily', '71590A00-2C40-40FF-ABD9-E73B09AF46A1')
 insert @Map_ServiceFrequencyID values ('02', 'weekly', 'A2080478-1A03-4928-905B-ED25DEC259E6')
-insert @Map_ServiceFrequencyID values ('', 'yearly', '5F3A2822-56F3-49DA-9592-F604B0F202C3')
+insert @Map_ServiceFrequencyID values ('As needed', 'As needed', '69439D9D-B6C1-4B7A-9CAC-C69810ADFD31')
+insert @Map_ServiceFrequencyID values ('As needed for ESY', 'As needed for ESY', '836D1E97-CE4D-4FD5-9D0A-148924AC007B')
+insert @Map_ServiceFrequencyID values ('only once', 'only once', 'E2996A26-3DB5-42F3-907A-9F251F58AB09')
+insert @Map_ServiceFrequencyID values ('yearly', 'yearly', '5F3A2822-56F3-49DA-9592-F604B0F202C3')
+
+
+--select 'insert @Map_ServiceFrequencyID values ('''+isnull(LegacySpedCode, EnrichLabel)+''', '''+EnrichLabel+''', '''+convert(varchar(36), EnrichID)+''')' from LEGACYSPED.SelectLists where Type = 'ServFreq' and EnrichID is not null
+--select * from ServiceFrequency order by Sequence
+
 
 if (select COUNT(*) from @Map_ServiceFrequencyID t join LEGACYSPED.MAP_ServiceFrequencyID m on t.DestID = m.DestID) <> 5
 	delete LEGACYSPED.MAP_ServiceFrequencyID
