@@ -34,6 +34,7 @@ Disability7Code    varchar(150),
 Disability8Code    varchar(150),
 Disability9Code    varchar(150),
 EsyElig	varchar(1),
+EsyTBDDate varchar(10),
 ExitDate datetime,
 ExitCode varchar(150),
 SpecialEdStatus char(1)
