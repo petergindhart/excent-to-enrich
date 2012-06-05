@@ -1,0 +1,8 @@
+Field List: StaffEmail|Firstname|Lastname|EnrichRole
+____________________________________________________________________________________________________
+
+Import was successfull.
+
+Please send this file to EXCENT® for further processing.
+____________________________________________________________________________________________________
+
