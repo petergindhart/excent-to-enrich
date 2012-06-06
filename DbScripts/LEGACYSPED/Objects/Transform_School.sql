@@ -35,6 +35,7 @@ AS
 -- Consider whether or not to exclude records where DeleteDate is not null.  If not, we need to chnage all queries that reference School 
 select 
 	k.SchoolCode,
+	k.DistrictCode,
 	DestID =  coalesce(s.ID, t.ID, m.DestID), -- ISNULL(isnull(s.ID, t.ID), m.DestID),
 	LegacyData = ISNULL(m.LegacyData, case when s.ID IS NULL then 1 else 0 end), -- allows updating only legacy data by adding a DestFilter in LoadTable.  Leaves real ManuallyEntered schools untouched.,
 	Abbreviation = NULL,
