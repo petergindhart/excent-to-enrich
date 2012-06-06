@@ -33,8 +33,8 @@ AS
 
 */
 SELECT
-	GoalAreaCode = k.LegacySpedCode,
-	DestID = coalesce(i.ID, n.ID, t.ID,  m.DestID),
+	GoalAreaCode = isnull(k.LegacySpedCode, left(k.EnrichLabel, 150)),
+	DestID = coalesce(i.ID, n.ID, t.ID,  m.DestID, k.EnrichID),
 	Sequence = coalesce(i.Sequence, n.Sequence, t.Sequence, 99),
 	Name = coalesce(i.Name, n.Name, t.Name, cast(k.EnrichLabel as varchar(50))),
 	AllowCustomProbes = cast(0 as bit),
