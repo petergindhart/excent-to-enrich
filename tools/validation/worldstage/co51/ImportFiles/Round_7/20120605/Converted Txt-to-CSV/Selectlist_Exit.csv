@@ -1,0 +1,24 @@
+Type                ,Enrichid                                ,Legacy,Enrichlabel                                                                
+Exit                ,2477C14E-7939-46D6-99E4-43F6E35701A4    ,13    ,Completed with other diploma                                               
+Exit                ,4878A47C-1AAA-4697-BE30-42106F214E7D    ,02    ,Death                                                                      
+Exit                ,E8959582-644B-4AAC-B3FF-0580B1BE158F    ,08    ,Discontinued schooling/dropped out                                         
+Exit                ,59BBBBE9-BF7C-44E0-B9FB-0E376A26E0B8    ,09    ,Expulsion                                                                  
+Exit                ,977D0FE7-B5EA-4656-B193-5B0BF784EDCC    ,14    ,GED from district administered program                                     
+Exit                ,E6DB43DE-03DF-4C27-A61B-6B1277102B73    ,15    ,GED from non-district administered program                                 
+Exit                ,825305B4-0600-4098-8B17-381499942419    ,10    ,GED Transfer                                                               
+Exit                ,3A7DEAC1-7A66-42D6-B452-3A0529DA133D    ,11    ,Graduated with regular diploma                                             
+Exit                ,                                        ,12    ,Graduated with regular diploma by meeting IEP requirements                 
+Exit                ,                                        ,21    ,"Initial Referral, evaluated, found not eligible                            "
+Exit                ,                                        ,26    ,"Initial Referral, found eligible, parent refused services                  "
+Exit                ,A24AEA49-735D-425F-B803-168769054306    ,20    ,Parental withdrawl from Special Education                                  
+Exit                ,BF898F66-AD71-451F-AD11-3639155A431F    ,01    ,Reached maximum age for services                                           
+Exit                ,                                        ,22    ,Reason not known                                                           
+Exit                ,                                        ,23    ,Student was never in sped                                                  
+Exit                ,BB19EFF0-AF1F-4F8A-A8F2-EC11F2A56711    ,07    ,Transfer to a facility operated by the CO Dept of Corrections              
+Exit                ,DFBE9247-8EBC-447B-87C2-A8FAEB37A96D    ,05    ,Transfer to a non-public school (without IEP/ISP)                          
+Exit                ,3C35632F-8323-4CB7-8585-B7D3D4586152    ,06    ,Transfer to home-based education (home schooling)                          
+Exit                ,                                        ,25    ,Transfer to ISP (Individual Service Plan)                                  
+Exit                ,                                        ,24    ,Transfer to Residential Treatment Center                                   
+Exit                ,05F914D8-2A29-489A-82ED-A7506341A83F    ,04    ,Transferred out of state                                                   
+Exit                ,                                        ,19    ,Transferred to another district in-state                                   
+Exit                ,C2DF5F3F-D0EE-4493-BBA7-6D8327EA36D8    ,3     ,Transferred to regular education (staffed out of sped)                     

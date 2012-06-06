@@ -1,0 +1,78 @@
+SchoolCode,SchoolName,DistrictCode,MinutesPerWeek
+0001  ,Dual Immersion Academy                                                     ,2000  ,1800   
+0002  ,18-21 Transition Program                                                   ,2000  ,1800   
+0003  ,The Opportunity Center Program                                             ,2000  ,1800   
+0005  ,Elementary Alternative Program                                             ,2000  ,1800   
+005   ,Independence Academy                                                       ,2000  ,1800   
+01    ,Kid's Campus                                                               ,2000  ,1800   
+02    ,Kiddin' Around                                                             ,2000  ,1800   
+0262  ,Appleton Elementary School                                                 ,2000  ,1800   
+0361  ,Fruita 8/9 School                                                          ,2000  ,1800   
+0362  ,Rim Rock Elementary School                                                 ,2000  ,1800   
+0363  ,Pear Park Elementary School                                                ,2000  ,1800   
+04    ,Serendipity                                                                ,2000  ,1800   
+05    ,Discovery Kids                                                             ,2000  ,1800   
+06    ,Montesorri                                                                 ,2000  ,1800   
+07    ,Migrant Head Start                                                         ,2000  ,1800   
+08    ,Fruita Head Start                                                          ,2000  ,1800   
+09    ,Riverside Head Start                                                       ,2000  ,1800   
+0900  ,Bookcliff Middle School                                                    ,2000  ,1800   
+10    ,Orchard Mesa Head Start                                                    ,2000  ,1800   
+1046  ,Broadway Elementary School                                                 ,2000  ,1800   
+11    ,Bookcliff Head Start                                                       ,2000  ,1800   
+1111  ,Hilltop Youth Services                                                     ,1111  ,1800   
+12    ,Glendam Head Start                                                         ,2000  ,1800   
+13    ,Palisade Head Start                                                        ,2000  ,1800   
+1450  ,Central High School                                                        ,2000  ,1800   
+15    ,Tope Autism Program                                                        ,2000  ,1800   
+1520  ,Chatfield Elementary School                                                ,2000  ,1800   
+16    ,Grand Mesa Head Start                                                      ,2000  ,1800   
+1619  ,Chipeta Elementary School                                                  ,2000  ,1800   
+1686  ,Clifton Elementary School                                                  ,2000  ,1800   
+17    ,Winters Head Start                                                         ,2000  ,1800   
+2122  ,DeBeque Elementary School                                                  ,1980  ,1800   
+2126  ,DeBeque Undiv High School                                                  ,1980  ,1800   
+2224  ,Dos Rios Elementary School                                                 ,2000  ,1800   
+2392  ,East Middle School                                                         ,2000  ,1800   
+2724  ,New Emerson School at Columbus                                             ,2000  ,1800   
+3244  ,Fruita Middle School                                                       ,2000  ,1800   
+3262  ,Fruitvale Elementary School                                                ,2000  ,1800   
+3350  ,Gateway School                                                             ,2000  ,1800   
+3570  ,Grand Junction High School                                                 ,2000  ,1800   
+3582  ,Grand Mesa High School                                                     ,1990  ,1800   
+3584  ,Grand Mesa Middle School                                                   ,2000  ,1800   
+3604  ,Grande River Virtual Academy                                               ,2000  ,1800   
+3825  ,Hawthorne Building                                                         ,2000  ,1800   
+4084  ,Lincoln Park Cottage Preschool                                             ,2000  ,1800   
+49    ,Unassigned School (Debeque)                                                ,1980  ,0      
+50    ,Unassigned School (Plateau Valley)                                         ,1990  ,0      
+51    ,Unassigned School                                                          ,2000  ,0      
+5210  ,Lincoln Orchard Mesa Elementary School                                     ,2000  ,1800   
+5244  ,Loma Elementary School                                                     ,2000  ,1800   
+5842  ,Mesa View Elementary School                                                ,2000  ,1800   
+595   ,Vision                                                                     ,2000  ,1800   
+6055  ,Career Center Preschool                                                    ,2000  ,1800   
+6070  ,Fruita Monument High School                                                ,2000  ,1800   
+6166  ,Mt Garfield Middle School                                                  ,2000  ,1800   
+6264  ,Nisley Elementary School                                                   ,2000  ,1800   
+6472  ,Career Center                                                              ,2000  ,1800   
+6554  ,Orchard Avenue Elementary School                                           ,2000  ,1800   
+6562  ,Orchard Mesa Middle School                                                 ,2000  ,1800   
+6666  ,Palisade High School                                                       ,2000  ,1800   
+7024  ,Plateau Valley Elementary School                                           ,1990  ,1950   
+7028  ,Plateau Valley Middle School                                               ,1990  ,2275   
+7032  ,Plateau Valley High School                                                 ,1990  ,2275   
+7110  ,Pomona Elementary School                                                   ,2000  ,1800   
+7236  ,R-5 High School                                                            ,2000  ,1800   
+7281  ,Redlands Middle School                                                     ,2000  ,1800   
+7467  ,Rocky Mountain Elementary School                                           ,2000  ,1800   
+7699  ,School Without Walls                                                       ,2000  ,1800   
+7832  ,Shelledy Elementary School                                                 ,2000  ,1800   
+8462  ,Taylor Elementary School                                                   ,2000  ,1800   
+8846  ,Thunder Mountain Elementary School                                         ,2000  ,1800   
+8876  ,Tope Elementary School                                                     ,2000  ,1800   
+9034  ,"Valley School (Including East, UTEC)                                       ",2000  ,1800   
+9406  ,West Middle School                                                         ,2000  ,1800   
+9434  ,Scenic Elementary School                                                   ,2000  ,1800   
+9673  ,Wingate Elementary School                                                  ,2000  ,1800   
+999   ,District Office                                                            ,2000  ,1800   
