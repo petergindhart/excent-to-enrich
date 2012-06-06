@@ -31,7 +31,7 @@ GO
 CREATE VIEW LEGACYSPED.Transform_PrgStatus 
 AS 
  SELECT 
-  PrgStatusCode = k.LegacySpedCode, 
+  PrgStatusCode = isnull(k.LegacySpedCode, left(k.EnrichLabel, 150)), 
   DestID = coalesce(i.ID, n.ID, t.ID, m.DestID),
   ProgramID = 'F98A8EF2-98E2-4CAC-95AF-D7D89EF7F80C', 
   Sequence = coalesce(i.Sequence, n.Sequence, t.Sequence, 99), 
