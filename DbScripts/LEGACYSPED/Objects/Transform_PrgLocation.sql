@@ -49,7 +49,7 @@ AS
 
 	select 
 		ServiceLocationCode = isnull(k.LegacySpedCode, convert(varchar(150), k.EnrichLabel)),
-		DestID = coalesce(i.ID, n.ID, t.ID, m.DestID),
+		DestID = coalesce(i.ID, n.ID, t.ID, m.DestID, k.EnrichID), -- we see instances where the assumed-to-exist EnrichID did not exist in the target database (Poudre).
 		Name = coalesce(i.Name, n.Name, t.Name, k.EnrichLabel), 
 		Description = isnull(i.Description, t.Description),
 		MedicaidLocationID = coalesce(i.MedicaidLocationID, n.MedicaidLocationID, t.MedicaidLocationID),

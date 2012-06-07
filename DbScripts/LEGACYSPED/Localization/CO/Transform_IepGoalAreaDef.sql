@@ -33,16 +33,18 @@ AS
 
 */
 SELECT
-	GoalAreaCode = k.LegacySpedCode,
-	DestID = coalesce(n.ID, t.ID,  m.DestID),
-	Sequence = coalesce(n.Sequence, t.Sequence, 99),
-	Name = coalesce(n.Name, t.Name, cast(k.EnrichLabel as varchar(50))),
-	AllowCustomProbes = 0,
-	StateCode = cast(NULL as varchar(20)),
-	DeletedDate = coalesce(n.DeletedDate, t.DeletedDate, GETDATE())
+	GoalAreaCode = isnull(k.LegacySpedCode, left(k.EnrichLabel, 150)),
+	DestID = coalesce(i.ID, n.ID, t.ID,  m.DestID, k.EnrichID),
+	Sequence = coalesce(i.Sequence, n.Sequence, t.Sequence, 99),
+	Name = coalesce(i.Name, n.Name, t.Name, cast(k.EnrichLabel as varchar(50))),
+	AllowCustomProbes = cast(0 as bit),
+	StateCode = coalesce(i.StateCode, n.StateCode, t.StateCode),
+	DeletedDate = case when k.EnrichID is not null then NULL when coalesce(i.ID, n.ID, t.ID) is null then getdate() else coalesce(i.DeletedDate, n.DeletedDate, t.DeletedDate) end,
+	RequireGoal = cast(1 as bit)
   FROM
 	LEGACYSPED.SelectLists k LEFT JOIN
-	dbo.IepGoalAreaDef n on k.EnrichLabel = n.Name left join
+	dbo.IepGoalAreaDef i on k.EnrichID = i.ID left join
+	dbo.IepGoalAreaDef n on k.EnrichLabel = n.Name and n.DeletedDate is null left join -- only match on the name if not soft-deleted?
 	LEGACYSPED.MAP_IepGoalAreaDefID m on k.LegacySpedCode = m.GoalAreaCode LEFT JOIN 
 	dbo.IepGoalAreaDef t on m.DestID = t.ID 
 WHERE k.Type = 'GoalArea'

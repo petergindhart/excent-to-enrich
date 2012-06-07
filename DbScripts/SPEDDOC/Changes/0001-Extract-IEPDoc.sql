@@ -4,7 +4,7 @@ GO
  
 CREATE TABLE SPEDDOC.IEPDoc_LOCAL(	
 	StudentRefID uniqueidentifier NOT NULL,
-	IEPRefID bigint NOT NULL,
+	IEPRefID varchar(150) NOT NULL, -- need to be able to use this schema for districts whose IEPRefID might be other than numeric
 	DocType nvarchar(15) NULL,
 	Content image NULL
 )
