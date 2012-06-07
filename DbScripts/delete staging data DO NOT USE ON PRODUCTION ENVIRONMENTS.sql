@@ -30,7 +30,13 @@ delete T_FL_Alt where StudentID in (select DestID from LEGACYSPED.MAP_StudentRef
 delete StudentRosterYear where StudentID in (select DestID from LEGACYSPED.MAP_StudentRefID)
 delete StudentClassRosterHistory where StudentID in (select DestID from LEGACYSPED.MAP_StudentRefID)
 delete StudentGradeLevelHistory where StudentID in (select DestID from LEGACYSPED.MAP_StudentRefID)
+delete T_CSAP where StudentID in (select DestID from LEGACYSPED.MAP_StudentRefID)
+delete T_COGAT where StudentID in (select DestID from LEGACYSPED.MAP_StudentRefID)
+delete T_CELA where StudentID in (select DestID from LEGACYSPED.MAP_StudentRefID)
+delete StudentGroupStudent where StudentID in (select DestID from LEGACYSPED.MAP_StudentRefID)
+delete T_ACT where StudentID in (select DestID from LEGACYSPED.MAP_StudentRefID)
 delete Student where ID in (select DestID from LEGACYSPED.MAP_StudentRefID)
+
 
 declare @zg uniqueidentifier ; select @zg = '00000000-0000-0000-0000-000000000000'
 
@@ -92,12 +98,16 @@ delete x from Schedule x where ID not in (select ID from ServiceSchedule) ; prin
 
 delete PrgLocation where DeletedDate is not null ; print 'PrgLocation : ' + convert(varchar(10), @@rowcount) -- is there any benefit in attempting to delete Legacy data?
 delete ServiceFrequency where DeletedDate is not null  /* Sequence = 99 */ ; print 'ServiceFrequency : ' + convert(varchar(10), @@rowcount) -- is there any benefit in attempting to delete Legacy data?
+
+update IepServiceDef set DefaultProviderTitleID = NULL where DefaultProviderTitleID in (select ID from ServiceProviderTitle t where t.DeletedDate is not null and t.ID not in (select distinct p.ProviderTitleID from UserProfile p where p.ProviderTitleID is not null) )
 delete t from ServiceProviderTitle t where t.DeletedDate is not null and t.ID not in (select distinct p.ProviderTitleID from UserProfile p where p.ProviderTitleID is not null) ; print 'ServiceProviderTitle : ' + convert(varchar(10), @@rowcount) -- is there any benefit in attempting to delete Legacy data?
 
 --delete s from Student s join LEGACYSPED.MAP_StudentRefID m on m.DestID = s.ID where m.LegacyData = 1 ; print 'Student : ' + convert(varchar(10), @@rowcount) -- s.ManuallyEntered = 1 -- is there any benefit in attempting to delete Legacy data?
 
 delete x from ServiceDef sd join IepServiceDef x on sd.ID = x.ID where sd.DeletedDate is not null ; print 'IepServiceDef : ' + convert(varchar(10), @@rowcount) 
 delete x from ServiceDef sd join UserProfileServiceDefPermission x on sd.ID = x.ServiceDefID where sd.DeletedDate is not null ; print 'UserProfileServiceDefPermission : ' + convert(varchar(10), @@rowcount) 
+delete ServiceDefDiagnosisCode where ServiceDefID in (select ID from ServiceDef where DeletedDate is not null )
+delete ServiceDefProcedure where ServiceDefID in (select ID from ServiceDef where DeletedDate is not null )
 delete ServiceDef where DeletedDate is not null ; print 'ServiceDef : ' + convert(varchar(10), @@rowcount) 
 
 /*
@@ -620,38 +630,6 @@ from VC3TaskScheduler.ScheduledTask t
 where TaskTypeID = 'F03A0C51-7294-4B57-AFB7-AFF136E4025F' -- order by starttime desc
 and StartTime is null
 
--- select * from VC3TaskScheduler.ScheduledTaskSchedule s where s.TaskTypeID = 'F03A0C51-7294-4B57-AFB7-AFF136E4025F'
-
-
---drop view LEGACYSPED.District
---drop view LEGACYSPED.School
---if exists (select 1 from sys.schemas s join sys.objects o on s.schema_id = o.schema_id and s.name = 'LEGACYSPED' and o.name = 'Lookups')
---drop view LEGACYSPED.Lookups
---drop view LEGACYSPED.Student
---drop view LEGACYSPED.IEP
---drop view LEGACYSPED.Objective
---drop view LEGACYSPED.Goal
---drop view LEGACYSPED.Service
---drop view LEGACYSPED.TeamMember
---drop view LEGACYSPED.SpedStaffMember
-
-
---drop table LEGACYSPED.District_LOCAL
---drop table LEGACYSPED.School_LOCAL
---if exists (select 1 from sys.schemas s join sys.objects o on s.schema_id = o.schema_id and s.name = 'LEGACYSPED' and o.name = 'Lookups_LOCAL')
---drop table LEGACYSPED.Lookups_LOCAL
---drop table LEGACYSPED.Student_LOCAL
---drop table LEGACYSPED.IEP_LOCAL
---drop table LEGACYSPED.Objective_LOCAL
---drop table LEGACYSPED.Goal_LOCAL
---drop table LEGACYSPED.Service_LOCAL
---drop table LEGACYSPED.TeamMember_LOCAL
---drop table LEGACYSPED.SpedStaffMember_LOCAL
-
---drop table LEGACYSPED.MAP_OrgUnitID
---drop table LEGACYSPED.MAP_SchoolID
---drop view LEGACYSPED.MAP_SpedStaffMemberView
-
 
 declare @o varchar(100), @ut char(1), @n varchar(5), @q varchar(max); select @n = '
 '
@@ -682,94 +660,6 @@ where Module = 'LEGACYSPED'
 	and scriptnumber > 0
 	
 UPDATE SystemSettings SET SecurityRebuiltDate = NULL
-
-
-
-
-/*
-
-Delete Guardian ID from MAP table : 0
-Attachment : 0
-PrgDocument : 0
-IepDisabilityEligibility : 0
-IepGoal : 0
-IepGoalArea : 0
-IepJustification : 0
-IepPostSchoolArea : 0
-IepSpecialFactor : 0
-IepTestAccom : 0
-IntvGoal : 0
-PrgActivity : 0
-PrgActivitySchedule : 0
-Attachment : 0
-PrgInterventionSubVariant : 0
-PrgItemRel : 0
-PrgItemTeamMember : 0
-PrgMilestone : 0
-PrgActivityBatch : 0
-MedicaidExtractIssue : 0
-ServiceDeliveryStudent : 0
-ServicePlanDiagnosisCode : 0
-IepServicePlan : 0
-ServicePlan : 0
-PrgSection : 0
-IepDisability : 0
-IepPlacementOption : 0
-ServiceSchedule : 18481
-ServiceSchedule (for PrgLocation) : 0
-Schedule : 18535
-PrgLocation : 1
-ServiceFrequency : 0
-ServiceProviderTitle : 0
-IepServiceDef : 2
-UserProfileServiceDefPermission : 0
-ServiceDef : 2
-Schedule : 0
-MedicaidCertification : 0
-ServiceDelivery : 0
-PrgVersionIntent : 0
-PrgItemIntent : 0
-ProbeScore : 0
-ProbeTime : 0
-PrgGoalProgress : 0
-FormInstanceBatch : 0
-FormInstanceBatchRule : 0
-FormInstanceInterval : 0
-StudentFormInstanceBatch : 0
-PrgSection : 0
-FormInstance : 0
-PrgActivitySchedule : 0
-PrgActivitySchedule : 0
-PrgActivitySchedule : 0
-PrgMatrixOfServices : 0
-PrgItem : 0
-PrgInvolvement : 0
-PrgStatus : 14
-ProbeTypeSchool : 0
-School : 0
-ProbeTypeSchool : 12
-School : 5
-StudentRecordException : 0
-StudentTeacherClassRoster : 0
-StudentRosterYear : 0
-TranscriptCourse : 0
-DisciplineIncident : 0
-StudentClassRosterHistory : 0
-StudentGradeLevelHistory : 0
-StudentSchoolHistory : 0
-StudentGroupStudent by Number : 0
-Student by Number : 0
-StudentGroupStudent by Last, First, DOB : 0
-Student by Last, First, DOB : 0
-Msg 547, Level 16, State 0, Line 370
-The DELETE statement conflicted with the REFERENCE constraint "FK_MosRatingDef#IepGoalAreaDef#". The conflict occurred in database "Enrich_DC5_CO_Poudre", table "dbo.MosRatingDef", column 'IepGoalAreaDefID'.
-Msg 3902, Level 16, State 1, Line 7
-The COMMIT TRANSACTION request has no corresponding BEGIN TRANSACTION.
-
-
-
-
-*/
 
 
 
