@@ -11,7 +11,7 @@ INSERT INTO @VC3ETL_ExtractDatabase VALUES ('29d14961-928d-4bee-9025-238496d144c
 DECLARE @VC3ETL_FlatFileExtractDatabase TABLE (ID uniqueidentifier, LocalCopyPath varchar(1000))
 
 -- Insert the data to be synchronized into the temporary table
-INSERT INTO @VC3ETL_FlatFileExtractDatabase VALUES ('29d14961-928d-4bee-9025-238496d144c6', 'E:\EnrichDataFiles\FL\Polk')
+INSERT INTO @VC3ETL_FlatFileExtractDatabase VALUES ('29d14961-928d-4bee-9025-238496d144c6', 'E:\DataFiles\COUPB')
 
 -- Declare a temporary table to hold the data to be synchronized
 DECLARE @dbo_InformExtractDatabase TABLE (ID uniqueidentifier, LastExtractRosterYear uniqueidentifier, LastLoadRosterYear uniqueidentifier)
@@ -42,7 +42,7 @@ INSERT INTO @VC3ETL_ExtractTable VALUES ('8fd21336-34b3-49d1-92f6-c34ad1237616',
 INSERT INTO @VC3ETL_ExtractTable VALUES ('26a6cfd0-1c65-4ea8-b2af-c885902bf52e', '29d14961-928d-4bee-9025-238496d144c6', 'Goal', 'LEGACYSPED', 'Goal', 'GoalRefID', NULL, 0, 0, NULL, 1, 1, NULL, NULL)
 INSERT INTO @VC3ETL_ExtractTable VALUES ('89452896-6ac8-442e-af02-ec6879368b2c', '29d14961-928d-4bee-9025-238496d144c6', 'StaffSchool', 'LEGACYSPED', 'StaffSchool', 'StaffEmail', NULL, 0, 0, NULL, 1, 1, NULL, NULL)
 INSERT INTO @VC3ETL_ExtractTable VALUES ('de9b9021-0540-440a-8d4e-ef7e763f084a', '29d14961-928d-4bee-9025-238496d144c6', 'District', 'LEGACYSPED', 'District', 'DistrictCode', NULL, 0, 0, NULL, 1, 0, NULL, NULL)
-INSERT INTO @VC3ETL_ExtractTable VALUES ('b5000a4a-e3d0-44c0-b476-fcc37787cd89', '29d14961-928d-4bee-9025-238496d144c6', 'School', 'LEGACYSPED', 'School', 'SchoolCode', NULL, 0, 0, NULL, 1, 0, NULL, NULL)
+INSERT INTO @VC3ETL_ExtractTable VALUES ('b5000a4a-e3d0-44c0-b476-fcc37787cd89', '29d14961-928d-4bee-9025-238496d144c6', 'School', 'LEGACYSPED', 'School', 'SchoolCode,DistrictCode', NULL, 0, 0, NULL, 1, 0, NULL, NULL)
 
 -- Declare a temporary table to hold the data to be synchronized
 DECLARE @VC3ETL_FlatFileExtractTable TABLE (ID uniqueidentifier, Type char(1), FileName varchar(50))

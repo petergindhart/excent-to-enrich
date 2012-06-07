@@ -1,4 +1,4 @@
-set svc="VC3 Scheduled Tasks (DC3)"
-set exe="E:\Sites\Enrich\Excent Enrich DC3 FL Polk\TasksService\TestViewTasksService.exe"
+set svc="VC3 Scheduled Tasks (DCB7)"
+set exe="E:\Inetpub\Sites\Enrich_DCB7_CODYC\TasksService\TestViewTasksService.exe"
 
 ExecuteTask\ExecuteTask.exe installservice ServiceExe=%exe% ServiceName=%svc%

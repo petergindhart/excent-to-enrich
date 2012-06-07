@@ -4,8 +4,8 @@
 		ConnectionString="${connection}"
 		IgnoreMissingModules="True"
 		ModulesDirectory="..\DbScripts"
-		include="georgewasnowhere"
-		state="${state}"
+	
+	
 		Module="LEGACYSPED"
 		SpedStateInclude="..\Localization\${state}"
 		SpedDistrictInclude="..\Localization\${state}\${speddistrict}"/>
