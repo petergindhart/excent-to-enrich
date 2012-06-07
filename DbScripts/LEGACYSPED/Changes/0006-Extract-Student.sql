@@ -11,7 +11,7 @@ Firstname    varchar(50),
 MiddleName    varchar(50), 
 LastName    varchar(50),
 Birthdate    datetime, 
-Gender    varchar(1), --changed column name sex to Gender
+Gender    varchar(4), --changed column name sex to Gender
 GradeLevelCode    varchar(150),
 ServiceDistrictCode    varchar(10),
 ServiceSchoolCode    varchar(10),
