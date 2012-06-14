@@ -17,10 +17,11 @@ set xact_abort on
 --select x.* from FormInstanceInterval x join PrgItemForm pif on x.InstanceId = pif.ID join PrgItem i on pif.ItemID = i.ID 
 
 
--- select * from student where lastname = 'student'
+-- select * from student where lastname = 'student' -- select * from LEGACYSPED.MAP_StudentRefID
 
 -- delete manually entered students from previous LEGACYSPED imports
 delete ServicePlan where StudentID in (select DestID from LEGACYSPED.MAP_StudentRefID)
+delete Attachment where VersionID in (select VersionID from PrgItem where StudentID in (select DestID from LEGACYSPED.MAP_StudentRefID))
 delete PrgItem where StudentID in (select DestID from LEGACYSPED.MAP_StudentRefID)
 delete PrgInvolvement where StudentID in (select DestID from LEGACYSPED.MAP_StudentRefID)
 delete PrgVersionIntent where ItemIntentId in (select ID from PrgItemIntent where StudentID in (select DestID from LEGACYSPED.MAP_StudentRefID))
@@ -35,6 +36,9 @@ delete T_COGAT where StudentID in (select DestID from LEGACYSPED.MAP_StudentRefI
 delete T_CELA where StudentID in (select DestID from LEGACYSPED.MAP_StudentRefID)
 delete StudentGroupStudent where StudentID in (select DestID from LEGACYSPED.MAP_StudentRefID)
 delete T_ACT where StudentID in (select DestID from LEGACYSPED.MAP_StudentRefID)
+
+
+
 delete Student where ID in (select DestID from LEGACYSPED.MAP_StudentRefID)
 
 
@@ -594,7 +598,7 @@ declare D cursor for
 select 'truncate table '+s.name+'.'+o.name 
 from sys.schemas s join
 sys.objects o on s.schema_id = o.schema_id
-where s.name in ('LEGACYSPED')
+where s.name in ('LEGACYSPED', 'SPEDDOC')
 and o.type in ('U') 
 order by s.name, case o.Type when 'P' then 0 when 'V' then 1 when 'U' then 2 end
 
@@ -610,7 +614,6 @@ fetch D into @d
 end 
 close D
 deallocate D
-
 
 
 end
@@ -653,12 +656,48 @@ close O
 deallocate O
 
 
+/* 
+declare @o varchar(100), @ut char(1), @n varchar(5), @q varchar(max); select @n = '
+'*/
+
+-- speddoc
+declare O cursor for 
+select o.name, o.type from sys.schemas s join sys.objects o on s.schema_id = o.schema_id where s.name = 'SPEDDOC' and o.type in ('U', 'V') order by o.type desc, o.name
+
+open O
+fetch O into @o, @ut
+
+while @@fetch_status = 0
+begin
+
+set @q = 'if exists (select 1 from sys.schemas s join sys.objects o on s.schema_id = o.schema_id where s.name = ''SPEDDOC'' and o.name = '''+@o+''')
+drop '+case when @ut = 'V' then 'view ' else 'table ' end+ 'SPEDDOC.'+ @o+@n+@n
+
+exec (@q)
+
+fetch O into @o, @ut
+end
+close O
+deallocate O
+
+
+
+
+
 delete v
 -- select * 
 from VC3Deployment.Version v
 where Module = 'LEGACYSPED' 
 	and scriptnumber > 0
-	
+
+
+
+delete v
+-- select * 
+from VC3Deployment.Version v
+where Module = 'SPEDDOC' 
+	and scriptnumber > 0
+
 UPDATE SystemSettings SET SecurityRebuiltDate = NULL
 
 
