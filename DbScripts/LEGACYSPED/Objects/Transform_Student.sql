@@ -88,7 +88,3 @@ AS
 			where i.StudentID = i2.StudentID) 
 			) xni on src.StudentRefID = xni.StudentRefID
 GO
-
-
--- set transaction isolation level read uncommitted
-select * from Student where ID = 'D09DA2BA-F9C9-418F-A798-0745CC469352'
