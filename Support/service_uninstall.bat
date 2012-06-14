@@ -1,1 +1,1 @@
-ExecuteTask\ExecuteTask.exe uninstallservice ServiceExe="E:\Sites\Enrich\Excent Enrich DC2 FL Brevard\TasksService" ServiceName="VC3 TestView Scheduled Tasks (DC2FLBrevaard)"
+ExecuteTask\ExecuteTask.exe uninstallservice ServiceExe="E:\Inetpub\Sites\Enrich_DCB7_CODYC\TasksService" ServiceName="VC3 TestView Scheduled Tasks (sandbox)"

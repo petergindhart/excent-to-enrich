@@ -28,7 +28,7 @@ select
 	SchoolID = isnull(stu.CurrentSchoolID, t.SchoolID),
 	GradeLevelID = isnull(stu.CurrentGradeLevelID, t.GradeLevelID),
 	InvolvementID = isnull(minv.DestID, ev.ExistingInvolvementID), 
-	StartStatusID =  cast('796C212F-6003-4CD3-878D-53BEBE087E9A' as uniqueidentifier), 
+	StartStatusID =  cast('64736B6C-4C2C-4CE0-BED1-3EA7D825B2D6' as uniqueidentifier), --- Eligible
 	EndStatusID = cast(case when stu.SpecialEdStatus = 'I' then '12086FE0-B509-4F9F-ABD0-569681C59EE2' else NULL end as uniqueidentifier),
 	PlannedEndDate = isnull(convert(datetime, iep.IEPEndDate), dateadd(yy, 1, dateadd(dd, -1, convert(datetime, iep.IEPStartDate)))),
 	IsEnded = cast(case when stu.SpecialEdStatus = 'I' then 1 else 0 end as Bit),

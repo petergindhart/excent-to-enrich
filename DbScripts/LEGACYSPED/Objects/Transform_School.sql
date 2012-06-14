@@ -8,12 +8,13 @@ begin
 	drop table LEGACYSPED.MAP_SchoolID
 end
 
-IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.MAP_SchoolID') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.MAP_SchoolID') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
+DROP TABLE LEGACYSPED.MAP_SchoolID
 BEGIN
 CREATE TABLE LEGACYSPED.MAP_SchoolID
 	(
 	SchoolCode varchar(150) NOT NULL,
-	DistrictCode varchar(150) not null,
+	DistrictCode varchar(150) NOT NULL,
 	LegacyData bit NOT NULL,
 	DestID uniqueidentifier NOT NULL
 	)  
@@ -21,7 +22,7 @@ CREATE TABLE LEGACYSPED.MAP_SchoolID
 ALTER TABLE LEGACYSPED.MAP_SchoolID ADD CONSTRAINT
 	PK_MAP_SchoolID PRIMARY KEY CLUSTERED
 	(
-	SchoolCode, DistrictCode
+	SchoolCode,DistrictCode
 	) 
 END
 GO
@@ -36,7 +37,7 @@ AS
 select 
 	k.SchoolCode,
 	k.DistrictCode,
-	DestID =  coalesce(s.ID, t.ID, m.DestID), -- ISNULL(isnull(s.ID, t.ID), m.DestID),
+	DestID =  coalesce(s.ID, t.ID, m.DestID,NEWID()), -- ISNULL(isnull(s.ID, t.ID), m.DestID),
 	LegacyData = ISNULL(m.LegacyData, case when s.ID IS NULL then 1 else 0 end), -- allows updating only legacy data by adding a DestFilter in LoadTable.  Leaves real ManuallyEntered schools untouched.,
 	Abbreviation = NULL,
 	--coalesce(s.Abbreviation, t.Abbreviation, k.SchoolAbbreviation),
@@ -58,8 +59,7 @@ select
 			else GETDATE() -- Question whether it is needed or advisable to soft-delete these schools
 		end
 from LEGACYSPED.School k LEFT JOIN 
-	LEGACYSPED.Transform_OrgUnit ou on k.DistrictCode = ou.DistrictCode left join
-	dbo.School s on k.SchoolCode = s.Number and s.DeletedDate is null and s.OrgUnitID = ou.DestID and -- assumes there is only one, and will insert new if any are soft-deleted
+	dbo.School s on k.SchoolCode = s.Number and s.DeletedDate is null and -- assumes there is only one, and will insert new if any are soft-deleted
 		-- AND s.IsLocalOrg = 1 
 	convert(varchar(36), s.ID) = ( -- we're doing this in the ON clause as opposed to the WHERE clause to get schools that don't come from SIS (Poudre "Expelled School")
 		select MIN(convert(varchar(36), smid.ID))
@@ -71,7 +71,7 @@ from LEGACYSPED.School k LEFT JOIN
 			where smid.number = smin.Number -- don't try to deal with null numbers.  how about real dups?
 			)
 		) LEFT JOIN
-	LEGACYSPED.MAP_SchoolID m on k.SchoolCode = m.SchoolCode LEFT JOIN 
+	LEGACYSPED.MAP_SchoolID m on k.SchoolCode = m.SchoolCode and k.DistrictCode = m.DistrictCode  LEFT JOIN 
 	dbo.School t on m.DestID = t.ID LEFT JOIN
 	LEGACYSPED.Transform_OrgUnit mo on k.DistrictCode = mo.DistrictCode
 GO
