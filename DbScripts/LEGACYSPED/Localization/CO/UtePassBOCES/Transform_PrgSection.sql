@@ -1,0 +1,89 @@
+
+IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.Transform_Section') AND OBJECTPROPERTY(id, N'IsView') = 1)
+DROP VIEW LEGACYSPED.Transform_Section
+GO
+-- ############################################################################# 
+-- Section
+IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.MAP_PrgSectionID') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
+BEGIN
+CREATE TABLE LEGACYSPED.MAP_PrgSectionID
+(
+	DefID uniqueidentifier NOT NULL,
+	VersionID uniqueidentifier NOT NULL,
+	DestID uniqueidentifier NOT NULL
+)
+
+ALTER TABLE LEGACYSPED.MAP_PrgSectionID ADD CONSTRAINT
+PK_MAP_PrgSectionID PRIMARY KEY CLUSTERED
+(
+	DefID, VersionID
+)
+END
+
+if not exists (select 1 from sys.indexes where name = 'IX_LEGACYSPED_MAP_PrgSectionID_DestID')
+CREATE NONCLUSTERED INDEX IX_LEGACYSPED_MAP_PrgSectionID_DestID ON [LEGACYSPED].[MAP_PrgSectionID] ([DestID])
+
+if not exists (select 1 from sys.indexes where name = 'IX_LEGACYSPED_MAP_PrgSectionID_DefID_DestID')
+CREATE NONCLUSTERED INDEX  IX_LEGACYSPED_MAP_PrgSectionID_DefID_DestID ON [LEGACYSPED].[MAP_PrgSectionID] ([DefID],[DestID])
+
+if not exists (select 1 from sys.indexes where name = 'IX_LEGACYSPED_PrgSection_DefID')
+CREATE NONCLUSTERED INDEX  IX_LEGACYSPED_PrgSection_DefID ON [dbo].[PrgSection] ([DefID]) INCLUDE ([VersionID])
+
+GO
+
+-- ############################################################################# 
+-- Section
+IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.MAP_PrgSectionID_NonVersioned') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
+BEGIN
+CREATE TABLE LEGACYSPED.MAP_PrgSectionID_NonVersioned
+(
+	DefID uniqueidentifier NOT NULL,
+	ItemID uniqueidentifier NOT NULL,
+	DestID uniqueidentifier NOT NULL
+)
+
+ALTER TABLE LEGACYSPED.MAP_PrgSectionID_NonVersioned ADD CONSTRAINT
+PK_MAP_PrgSectionID_NonVersioned PRIMARY KEY CLUSTERED
+(
+	DefID, ItemID
+)
+END
+
+if not exists (select 1 from sys.indexes where name = 'IX_LEGACYSPED_MAP_PrgSectionID_NonVersioned_DestID')
+create nonclustered index  IX_LEGACYSPED_MAP_PrgSectionID_NonVersioned_DestID on LEGACYSPED.MAP_PrgSectionID_NonVersioned (DestID)
+
+if not exists (select 1 from sys.indexes where name = 'IX_LEGACYSPED_IEP_LOCAL_StudentRefID')
+CREATE NONCLUSTERED INDEX  IX_LEGACYSPED_IEP_LOCAL_StudentRefID ON [LEGACYSPED].[IEP_LOCAL] ([StudentRefID])
+
+GO
+
+IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.Transform_PrgSection') AND OBJECTPROPERTY(id, N'IsView') = 1)
+DROP VIEW LEGACYSPED.Transform_PrgSection
+GO
+
+CREATE VIEW LEGACYSPED.Transform_PrgSection  
+AS
+
+SELECT
+		DestID = case when t.CanVersion = 1 then s.DestID else nvm.DestID end, -- when versioned, use the version map, when non-versioned use that map
+		ItemID = ISNULL(i.DestID,nvm.ItemID),
+		DefID = Coalesce(d.ID,s.DefID,nvm.DefID),
+		VersionID = CASE WHEN t.CanVersion = 1 THEN i.VersionDestID ELSE CAST(NULL as uniqueidentifier) END,
+		FormInstanceID = cast(NULL as uniqueidentifier),
+		HeaderFormInstanceID = cast(NULL as uniqueidentifier),
+		i.DoNotTouch
+	FROM
+		LEGACYSPED.Transform_PrgIep i CROSS JOIN
+		PrgSectionDef d JOIN
+		PrgSectionType t on d.TypeID = t.ID JOIN
+		LEGACYSPED.ImportPrgSections p on d.ID = p.SectionDefID and p.Enabled = 1 LEFT JOIN
+		LEGACYSPED.MAP_PrgSectionID s ON
+			isnull(s.VersionID,'00000000-0000-0000-0000-000000000000') = isnull(i.VersionDestID,'FFFFFFFF-FFFF-FFFF-FFFF-FFFFFFFFFFFF') AND
+			s.DefID = d.ID LEFT JOIN
+		LEGACYSPED.MAP_PrgSectionID_NonVersioned nvm ON
+			nvm.ItemID = i.DestID AND
+			nvm.DefID = d.ID
+GO
+
+--84588, 28 seconds
+-- after indexes :  4 seconds
