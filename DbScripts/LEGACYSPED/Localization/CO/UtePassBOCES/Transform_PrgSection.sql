@@ -65,7 +65,7 @@ CREATE VIEW LEGACYSPED.Transform_PrgSection
 AS
 
 SELECT
-		DestID = case when t.CanVersion = 1 then ISNULL(s.DestID,NEWID()) else ISNULL(nvm.DestID,NEWID()) end, -- when versioned, use the version map, when non-versioned use that map
+		DestID = case when t.CanVersion = 1 then s.DestID else nvm.DestID end, -- when versioned, use the version map, when non-versioned use that map
 		ItemID = ISNULL(i.DestID,nvm.ItemID),
 		DefID = Coalesce(d.ID,s.DefID,nvm.DefID),
 		VersionID = CASE WHEN t.CanVersion = 1 THEN i.VersionDestID ELSE CAST(NULL as uniqueidentifier) END,

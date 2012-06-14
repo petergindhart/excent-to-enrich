@@ -9,8 +9,8 @@ CREATE VIEW LEGACYSPED.Transform_PrgInvolvement
 AS
 SELECT
 		StudentRefID = stu.StudentRefID,
-		DestID = coalesce(x.ID, t.ID, m.DestID, ev.ExistingInvolvementID,NEWID()),
-		StudentID = dstu.ID,
+		DestID = coalesce(x.ID, t.ID, m.DestID, ev.ExistingInvolvementID),
+		StudentID = stu.DestID,
 		ProgramID = 'F98A8EF2-98E2-4CAC-95AF-D7D89EF7F80C',   -- Special Education
 		VariantID = '6DD95EA1-A265-4E04-8EE9-78AE04B5DB9A',   -- Special Education
 		StartDate = iep.IEPStartDate,   -- school start for this IEP period

@@ -8,7 +8,7 @@ CREATE VIEW LEGACYSPED.Transform_IepDemographics
 AS
 	SELECT
 		iep.StudentRefID,
-		DestID = ISNULL(m.DestID,prgsec.ID),
+		DestID = m.DestID,
 		ServiceDistrictID = COALESCE(dss.OrgUnitID, ss.OrgUnitID,sh.OrgUnitId),
 		ServiceSchoolID = ISNULL(ss.DestID,sh.DestID),
 		HomeDistrictID = COALESCE(dsh.OrgUnitID, sh.OrgUnitID,ss.OrgUnitID),
@@ -19,10 +19,9 @@ AS
 		LEGACYSPED.MAP_PrgSectionID m on 
 			m.DefID = '427AF47C-A2D2-47F0-8057-7040725E3D89' and
 			m.VersionID = iep.VersionDestID LEFT JOIN
-		dbo.PrgSection prgsec ON prgsec.DefID = '427AF47C-A2D2-47F0-8057-7040725E3D89' and prgsec.VersionID = iep.VersionDestID left join  
 		LEGACYSPED.Student s on s.StudentRefID = iep.StudentRefID LEFT JOIN
 		LEGACYSPED.Transform_School ss on s.ServiceSchoolCode = ss.SchoolCode and s.ServiceDistrictCode = ss.DistrictCode /* and ss.DeletedDate is null */ LEFT JOIN
-		LEGACYSPED.Transform_School sh on s.HomeSchoolCode = sh.SchoolCode and s.HomeDistrictCode = ss.DistrictCode/* and sh.DeletedDate is null */ LEFT JOIN
+		LEGACYSPED.Transform_School sh on s.HomeSchoolCode = sh.SchoolCode and s.HomeDistrictCode = sh.DistrictCode/* and sh.DeletedDate is null */ LEFT JOIN
 		dbo.School dss on ss.DestID = dss.ID /* and dss.ManuallyEntered = 1 */ left join
 		dbo.School dsh on sh.DestID = dsh.ID /* and dsh.ManuallyEntered = 1 */
 

@@ -10,7 +10,7 @@ AS
 select 
 	ev.StudentRefID, 
 	IEPRefID = ev.IncomingIEPRefID, 
-	DestID = COALESCE(ev.ExistingConvertedItemID,MIep.DestID, NEWID()),
+	DestID = COALESCE(ev.ExistingConvertedItemID,MIep.DestID),
 	DoNotTouch = ev.Touched, -- 0 is touchable
 -- PrgItem
 	-- notice:  if data previously imported and should not be touched, we need to derive t data where prev imp rec has been touched

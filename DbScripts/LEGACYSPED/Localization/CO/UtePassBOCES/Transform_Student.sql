@@ -30,7 +30,7 @@ AS
 -- NOTE:  DO NOT TOUCH THE RECORDS ADDED BY SIS IMPORT OR MANUALLY ENTERED STUDENTS.  SIS RECORDS DO NEED TO BE MAPPED.  NEW RECORDS FROM SPED NEED TO BE ADDED.
  SELECT
   src.StudentRefID,
-  DestID = Coalesce(s.ID, m.DestID,NewID()),
+  DestID = Coalesce(s.ID, m.DestID),
   LegacyData = ISNULL(m.LegacyData, case when s.ID IS NULL then 1 else 0 end), -- allows updating only legacy data by adding a DestFilter in LoadTable.  Leaves real ManuallyEntered students untouched.
   src.SpecialEdStatus,
   CurrentSchoolID = sch.DestID,
