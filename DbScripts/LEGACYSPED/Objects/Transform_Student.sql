@@ -26,11 +26,11 @@ DROP VIEW LEGACYSPED.Transform_Student
 GO
 
 CREATE VIEW LEGACYSPED.Transform_Student
-AS
+AS 
 -- NOTE:  DO NOT TOUCH THE RECORDS ADDED BY SIS IMPORT OR MANUALLY ENTERED STUDENTS.  SIS RECORDS DO NEED TO BE MAPPED.  NEW RECORDS FROM SPED NEED TO BE ADDED.
  SELECT
   src.StudentRefID,
-  DestID = coalesce(sst.ID, sloc.ID, m.DestID),
+  DestID = coalesce(sst.ID, sloc.ID, snam.ID, m.DestID),
   LegacyData = ISNULL(m.LegacyData, case when isnull(sst.ID, sloc.ID) IS NULL then 1 else 0 end), -- allows updating only legacy data by adding a DestFilter in LoadTable.  Leaves real ManuallyEntered students untouched.
   src.SpecialEdStatus,
   CurrentSchoolID = sch.DestID,
@@ -62,20 +62,40 @@ AS
   LEGACYSPED.Student src on iep.StudentRefID = src.StudentRefID LEFT JOIN
   LEGACYSPED.Transform_GradeLevel g on src.GradeLevelCode = g.GradeLevelCode LEFT JOIN
   LEGACYSPED.Transform_School sch on src.ServiceSchoolCode = sch.SchoolCode and src.ServiceDistrictCode = sch.DistrictCode LEFT JOIN
+
+  -- match on StateID if possible
   dbo.Student sst on src.StudentStateID = sst.x_SASID and
 	sst.ID = (
 		select top 1 a.ID 
 		from dbo.Student a 
 		where
-			a.x_SASID = sst.x_SASID 
+			isnull(a.x_SASID,'x') = isnull(sst.x_SASID,'y')
 		order by a.ManuallyEntered, a.IsActive desc, a.ID) LEFT JOIN -- identifies students in legacy data that match students in Enrich
-  dbo.Student sloc on src.StudentLocalID = sloc.Number and /* and s.IsActive = 1 -- removed 20111114 because this was adding a duplicate student.  We will leave them inactive, though */ 
+
+  -- match on Local ID if State ID not available
+  dbo.Student sloc on src.StudentLocalID = sloc.Number and 
 	sloc.ID = (
 		select top 1 a.ID 
 		from dbo.Student a 
 		where
 			a.Number = sloc.Number 
 		order by a.ManuallyEntered, a.IsActive desc, a.ID) LEFT JOIN -- identifies students in legacy data that match students in Enrich
+
+  -- match on firstname, lastname, dob and Gender if Local ID not available
+  dbo.Student snam on 
+	src.Firstname = snam.FirstName and 
+	src.LastName = snam.LastName and 
+	src.Birthdate = snam.DOB and
+	-- and src.Gender = snam.GenderID
+	snam.ID = (
+		select top 1 a.ID -- this may prevent duplicates, but may not prevent bad matches
+		from dbo.Student a 
+		where
+			a.Firstname = snam.FirstName and 
+			a.LastName = snam.LastName and 
+			a.DOB = snam.DOB 
+		order by a.ManuallyEntered, a.IsActive desc, a.ID) LEFT JOIN -- identifies students in legacy data that match students in Enrich
+
   LEGACYSPED.MAP_StudentRefID m on src.StudentRefID = m.StudentRefID LEFT JOIN
   dbo.Student t on m.DestID = t.ID left join 
   PrgItem i on coalesce(sst.ID, sloc.ID, m.DestID) = i.StudentID and i.DefID = '8011D6A2-1014-454B-B83C-161CE678E3D3' left join 
@@ -88,3 +108,4 @@ AS
 			where i.StudentID = i2.StudentID) 
 			) xni on src.StudentRefID = xni.StudentRefID
 GO
+
