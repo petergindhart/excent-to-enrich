@@ -17,10 +17,13 @@ set xact_abort on
 --select x.* from FormInstanceInterval x join PrgItemForm pif on x.InstanceId = pif.ID join PrgItem i on pif.ItemID = i.ID 
 
 
--- select * from student where lastname = 'student'
+-- select * from student where lastname = 'student' -- select * from LEGACYSPED.MAP_StudentRefID
 
 -- delete manually entered students from previous LEGACYSPED imports
+if exists (select 1 from sys.objects where name = 'LEGACYSPED.MAP_StudentRefID')
+begin
 delete ServicePlan where StudentID in (select DestID from LEGACYSPED.MAP_StudentRefID)
+delete Attachment where VersionID in (select VersionID from PrgItem where StudentID in (select DestID from LEGACYSPED.MAP_StudentRefID))
 delete PrgItem where StudentID in (select DestID from LEGACYSPED.MAP_StudentRefID)
 delete PrgInvolvement where StudentID in (select DestID from LEGACYSPED.MAP_StudentRefID)
 delete PrgVersionIntent where ItemIntentId in (select ID from PrgItemIntent where StudentID in (select DestID from LEGACYSPED.MAP_StudentRefID))
@@ -35,7 +38,9 @@ delete T_COGAT where StudentID in (select DestID from LEGACYSPED.MAP_StudentRefI
 delete T_CELA where StudentID in (select DestID from LEGACYSPED.MAP_StudentRefID)
 delete StudentGroupStudent where StudentID in (select DestID from LEGACYSPED.MAP_StudentRefID)
 delete T_ACT where StudentID in (select DestID from LEGACYSPED.MAP_StudentRefID)
+
 delete Student where ID in (select DestID from LEGACYSPED.MAP_StudentRefID)
+end
 
 
 declare @zg uniqueidentifier ; select @zg = '00000000-0000-0000-0000-000000000000'
@@ -239,25 +244,108 @@ from (select Number from School where deleteddate is not null ) n
 join School h on n.Number = h.Number and h.ManuallyEntered = 1 
 join ProbeTypeSchool pts on h.ID = pts.SchoolID ; print 'ProbeTypeSchool : ' + convert(varchar(10), @@rowcount) 
 
-delete x
--- select *
+
+-- NEW - only necessary sometimes
+
+declare @delschstudents table (StudentID uniqueidentifier not null, SchoolNumber varchar(20) not null)
+insert @delschstudents
+select x.ID, n.Number
 from (select Number from School where deleteddate is not null) n
 join School h on n.Number = h.Number and h.ManuallyEntered = 1 join
 Student x on h.ID = x.CurrentSchoolID and x.ManuallyEntered = 1
 
+delete x 
+-- select ManStud = s.ManuallyEntered, x.*
+from @delschstudents n
+join School h on n.SchoolNumber = h.Number and h.ManuallyEntered = 1 join
+Student s on h.ID = s.CurrentSchoolID and s.ManuallyEntered = 1 join 
+LEGACYSPED.MAP_StudentRefID m on s.ID = m.DestID join
+StudentRosterYear x on s.ID = x.StudentId
 
-delete h
--- select h.*
-from (select Number from School where deleteddate is not null) n
-join School h on n.Number = h.Number and h.ManuallyEntered = 1 and h.ID not in (select SchoolID from dbo.T_FCAT_ReadingAndMath) ; print 'School : ' + convert(varchar(10), @@rowcount)
+delete x 
+-- select ManStud = s.ManuallyEntered, x.*
+from @delschstudents n
+join School h on n.SchoolNumber = h.Number and h.ManuallyEntered = 1 join
+Student s on h.ID = s.CurrentSchoolID and s.ManuallyEntered = 1 join 
+LEGACYSPED.MAP_StudentRefID m on s.ID = m.DestID join
+StudentGradeLevelHistory x on s.ID = x.StudentId
+
+
+delete x 
+-- select ManStud = s.ManuallyEntered, x.*
+from @delschstudents n
+join School h on n.SchoolNumber = h.Number and h.ManuallyEntered = 1 join
+Student s on h.ID = s.CurrentSchoolID and s.ManuallyEntered = 1 join 
+LEGACYSPED.MAP_StudentRefID m on s.ID = m.DestID join
+StudentSchoolHistory x on s.ID = x.StudentId
+
+delete x 
+-- select ManStud = s.ManuallyEntered, x.*
+from @delschstudents n
+join School h on n.SchoolNumber = h.Number and h.ManuallyEntered = 1 join
+Student s on h.ID = s.CurrentSchoolID and s.ManuallyEntered = 1 join 
+LEGACYSPED.MAP_StudentRefID m on s.ID = m.DestID join
+StudentTeacherClassRoster x on s.ID = x.StudentId
+
+delete x 
+-- select ManStud = s.ManuallyEntered, x.*
+from @delschstudents n
+join School h on n.SchoolNumber = h.Number and h.ManuallyEntered = 1 join
+Student s on h.ID = s.CurrentSchoolID and s.ManuallyEntered = 1 join 
+LEGACYSPED.MAP_StudentRefID m on s.ID = m.DestID join
+TranscriptCourse x on s.ID = x.StudentId
+
+delete x 
+-- select ManStud = s.ManuallyEntered, x.*
+from @delschstudents n
+join School h on n.SchoolNumber = h.Number and h.ManuallyEntered = 1 join
+Student s on h.ID = s.CurrentSchoolID and s.ManuallyEntered = 1 join 
+LEGACYSPED.MAP_StudentRefID m on s.ID = m.DestID join
+StudentClassRosterHistory x on s.ID = x.StudentId
+
+delete x 
+-- select ManStud = s.ManuallyEntered, x.*
+from @delschstudents n
+join School h on n.SchoolNumber = h.Number and h.ManuallyEntered = 1 join
+Student s on h.ID = s.CurrentSchoolID and s.ManuallyEntered = 1 join 
+LEGACYSPED.MAP_StudentRefID m on s.ID = m.DestID join
+StudentGroupStudent x on s.ID = x.StudentId
+
+
+	delete x
+	-- select x.*
+	from @delschstudents n
+	join School h on n.SchoolNumber = h.Number and h.ManuallyEntered = 1 join
+	Student x on h.ID = x.CurrentSchoolID and x.ManuallyEntered = 1
+
+
+-- delete the MAP table records where manually added student records were merged with SIS student records
+delete m
+--- select m.* 
+from LEGACYSPED.MAP_StudentRefID m
+where m.DestID not in (select id from Student where ManuallyEntered = 1)
+
+
+
+
+--Msg 547, Level 16, State 0, Line 247
+--The DELETE statement conflicted with the REFERENCE constraint "FK_StudentRosterYearInformation#Student#StudentRosterYearInformations". The conflict occurred in database "Enrich_DC5_CO_Poudre", table "dbo.StudentRosterYear", column 'StudentId'.
+
+
+					delete h
+					-- select h.*
+					from (select Number from School where deleteddate is not null) n
+					join School h on n.Number = h.Number and h.ManuallyEntered = 1 and h.ID not in (select SchoolID from dbo.T_FCAT_ReadingAndMath) ; print 'School : ' + convert(varchar(10), @@rowcount)
+
+--Msg 547, Level 16, State 0, Line 253
+--The DELETE statement conflicted with the REFERENCE constraint "FK_Student#CurrentSchool#Students". The conflict occurred in database "Enrich_DC5_CO_Poudre", table "dbo.Student", column 'CurrentSchoolID'.
+
 
 /*
 
 Msg 547, Level 16, State 0, Line 222
 The DELETE statement conflicted with the REFERENCE constraint "FK_T_FCAT_ReadingAndMath_SchoolID". 
 	The conflict occurred in database "Enrich_DC3_FL_Polk", table "dbo.T_FCAT_ReadingAndMath", column 'SchoolID'.
-Msg 3902, Level 16, State 1, Line 7
-The COMMIT TRANSACTION request has no corresponding BEGIN TRANSACTION.
 
 */
 
@@ -443,7 +531,8 @@ print 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX DELETING LEGACYSPED XXXXXXXXXX
 
 
 
-
+if exists (select 1 from sys.objects where name = 'LEGACYSPED.MAP_IepRefID')
+begin
 delete x -- select *
 from LEGACYSPED.MAP_IepRefID x -- map
 where DestID not in (select ID from PrgItem) -- destination
@@ -588,13 +677,16 @@ drop view LEGACYSPED.Lookups
 drop table LEGACYSPED.Lookups_LOCAL
 end
 
+end
+
+
 -- truncate all of the legacysped tables
 declare @d varchar(254) 
 declare D cursor for 
 select 'truncate table '+s.name+'.'+o.name 
 from sys.schemas s join
 sys.objects o on s.schema_id = o.schema_id
-where s.name in ('LEGACYSPED')
+where s.name in ('LEGACYSPED', 'SPEDDOC')
 and o.type in ('U') 
 order by s.name, case o.Type when 'P' then 0 when 'V' then 1 when 'U' then 2 end
 
@@ -610,7 +702,6 @@ fetch D into @d
 end 
 close D
 deallocate D
-
 
 
 end
@@ -653,12 +744,48 @@ close O
 deallocate O
 
 
+/* 
+declare @o varchar(100), @ut char(1), @n varchar(5), @q varchar(max); select @n = '
+'*/
+
+-- speddoc
+declare O cursor for 
+select o.name, o.type from sys.schemas s join sys.objects o on s.schema_id = o.schema_id where s.name = 'SPEDDOC' and o.type in ('U', 'V') order by o.type desc, o.name
+
+open O
+fetch O into @o, @ut
+
+while @@fetch_status = 0
+begin
+
+set @q = 'if exists (select 1 from sys.schemas s join sys.objects o on s.schema_id = o.schema_id where s.name = ''SPEDDOC'' and o.name = '''+@o+''')
+drop '+case when @ut = 'V' then 'view ' else 'table ' end+ 'SPEDDOC.'+ @o+@n+@n
+
+exec (@q)
+
+fetch O into @o, @ut
+end
+close O
+deallocate O
+
+
+
+
+
 delete v
 -- select * 
 from VC3Deployment.Version v
 where Module = 'LEGACYSPED' 
 	and scriptnumber > 0
-	
+
+
+
+delete v
+-- select * 
+from VC3Deployment.Version v
+where Module = 'SPEDDOC' 
+	and scriptnumber > 0
+
 UPDATE SystemSettings SET SecurityRebuiltDate = NULL
 
 
