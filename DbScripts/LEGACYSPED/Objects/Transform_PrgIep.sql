@@ -42,7 +42,10 @@ select
 	VersionDestID = ev.ExistingConvertedVersionID,	--------------- what did this used to be?
 	VersionFinalizedDate = iep.IEPStartDate, -- expose the version finalized date in the ev view
 -- Additional Elements
-	AgeGroup = case when DATEDIFF(yy, stu.DOB, iep.IepStartDate) < 6 then 'PK' when DATEDIFF(yy, stu.DOB, iep.IepStartDate) > 5 then 'K12' End, 
+	AgeGroup = case 
+		when (select DistrictState from SystemSettings) = 'CO' then case when iep.LRECode between '200' and '299' then 'PK' when iep.LRECode between '300' and '399' then 'K12' else '' end 
+		else case when DATEDIFF(yy, stu.DOB, iep.IepStartDate) < 6 then 'PK' when DATEDIFF(yy, stu.DOB, iep.IepStartDate) > 5 then 'K12' End
+		end, 
 	iep.LRECode,
 	iep.MinutesPerWeek,
 	iep.ConsentForServicesDate 
