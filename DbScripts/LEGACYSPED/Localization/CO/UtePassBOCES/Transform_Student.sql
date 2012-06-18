@@ -56,7 +56,7 @@ AS
   ImportPausedByID = cast(NULL as uniqueidentifier),
   IsActive = isnull(s.IsActive, 1),
   ManuallyEntered = ISNULL(m.LegacyData, case when s.ID IS NULL then 1 else 0 end) -- cast(case when dest.ID is null then 1 else 0 end as bit),
-  --Touched = isnull(cast(i.IsEnded as int)+i.Revision+ case when i.StudentID is not null then 1 else 0 end, 0)
+  Touched = isnull(cast(i.IsEnded as int)+i.Revision+ case when i.StudentID is not null then 1 else 0 end, 0)
  FROM
   LEGACYSPED.IEP iep join -- this file is to ensure a 1:1 relationship on imported students and IEPs (some IEPs may have failed vailidation, which would make the count less than students)
   LEGACYSPED.Student src on iep.StudentRefID = src.StudentRefID LEFT JOIN
