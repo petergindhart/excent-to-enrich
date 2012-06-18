@@ -51,7 +51,7 @@ from LEGACYSPED.EvaluateIncomingItems ev left join
 	LEGACYSPED.IEP iep on ev.IncomingIEPRefID = iep.IepRefID left join -------------------------------------------------------------------------------- do we need to the Existing IEPRefID or the Incoming IEPRefID ?
 	dbo.PrgItem t on ev.ExistingConvertedItemID = t.ID left join
 	LEGACYSPED.MAP_PrgInvolvementID minv on ev.StudentRefID = minv.StudentRefID lEFT JOIN
-    LEGACYSPED.MAP_IepRefID MIep ON  iep.IepRefID = MIep.IepRefID LEFT JOIN 
+    LEGACYSPED.MAP_IepStudentRefID MIep ON  iep.IepRefID = MIep.IepRefID LEFT JOIN 
 	LEGACYSPED.MAP_PrgVersionID MPrg ON iep.IepRefID = MPrg.IepRefID
 		
 	
