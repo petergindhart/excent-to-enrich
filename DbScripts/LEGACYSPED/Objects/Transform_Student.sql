@@ -31,7 +31,7 @@ AS
  SELECT
   src.StudentRefID,
   DestID = coalesce(sst.ID, sloc.ID, snam.ID, m.DestID),
-  LegacyData = ISNULL(m.LegacyData, case when coalesce(sst.ID, sloc.ID, snam.ID, m.DestID) IS NULL then 1 else 0 end), -- allows updating only legacy data by adding a DestFilter in LoadTable.  Leaves real ManuallyEntered students untouched.
+  LegacyData = ISNULL(m.LegacyData, case when coalesce(sst.ID, sloc.ID, snam.ID) IS NULL then 1 else 0 end), -- allows updating only legacy data by adding a DestFilter in LoadTable.  Leaves real ManuallyEntered students untouched.
   src.SpecialEdStatus,
   CurrentSchoolID = sch.DestID,
   CurrentGradeLevelID = g.DestID,
