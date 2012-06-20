@@ -245,79 +245,77 @@ join School h on n.Number = h.Number and h.ManuallyEntered = 1
 join ProbeTypeSchool pts on h.ID = pts.SchoolID ; print 'ProbeTypeSchool : ' + convert(varchar(10), @@rowcount) 
 
 
--- NEW - only necessary sometimes
-
-declare @delschstudents table (StudentID uniqueidentifier not null, SchoolNumber varchar(20) not null)
-insert @delschstudents
-select x.ID, n.Number
-from (select Number from School where deleteddate is not null) n
-join School h on n.Number = h.Number and h.ManuallyEntered = 1 join
-Student x on h.ID = x.CurrentSchoolID and x.ManuallyEntered = 1
+-- NEW - only necessary sometimes.   It may be necessary to exclude records that should be preserved.  
+declare @delstudents table (StudentID uniqueidentifier not null)
+insert @delstudents
+select x.ID
+from Student x 
+where x.ManuallyEntered = 1
 
 delete x 
 -- select ManStud = s.ManuallyEntered, x.*
-from @delschstudents n
-join School h on n.SchoolNumber = h.Number and h.ManuallyEntered = 1 join
-Student s on h.ID = s.CurrentSchoolID and s.ManuallyEntered = 1 join 
-LEGACYSPED.MAP_StudentRefID m on s.ID = m.DestID join
-StudentRosterYear x on s.ID = x.StudentId
+from @delstudents n join 
+StudentRosterYear x on n.StudentID = x.StudentId
 
 delete x 
 -- select ManStud = s.ManuallyEntered, x.*
-from @delschstudents n
-join School h on n.SchoolNumber = h.Number and h.ManuallyEntered = 1 join
-Student s on h.ID = s.CurrentSchoolID and s.ManuallyEntered = 1 join 
-LEGACYSPED.MAP_StudentRefID m on s.ID = m.DestID join
-StudentGradeLevelHistory x on s.ID = x.StudentId
-
+from @delstudents n join
+StudentGradeLevelHistory x on n.StudentID = x.StudentId
 
 delete x 
 -- select ManStud = s.ManuallyEntered, x.*
-from @delschstudents n
-join School h on n.SchoolNumber = h.Number and h.ManuallyEntered = 1 join
-Student s on h.ID = s.CurrentSchoolID and s.ManuallyEntered = 1 join 
-LEGACYSPED.MAP_StudentRefID m on s.ID = m.DestID join
-StudentSchoolHistory x on s.ID = x.StudentId
+from @delstudents n join
+StudentSchoolHistory x on n.StudentID = x.StudentId
 
 delete x 
 -- select ManStud = s.ManuallyEntered, x.*
-from @delschstudents n
-join School h on n.SchoolNumber = h.Number and h.ManuallyEntered = 1 join
-Student s on h.ID = s.CurrentSchoolID and s.ManuallyEntered = 1 join 
-LEGACYSPED.MAP_StudentRefID m on s.ID = m.DestID join
-StudentTeacherClassRoster x on s.ID = x.StudentId
+from @delstudents n join
+StudentTeacherClassRoster x on n.StudentID = x.StudentId
 
 delete x 
 -- select ManStud = s.ManuallyEntered, x.*
-from @delschstudents n
-join School h on n.SchoolNumber = h.Number and h.ManuallyEntered = 1 join
-Student s on h.ID = s.CurrentSchoolID and s.ManuallyEntered = 1 join 
-LEGACYSPED.MAP_StudentRefID m on s.ID = m.DestID join
-TranscriptCourse x on s.ID = x.StudentId
+from @delstudents n join
+TranscriptCourse x on n.StudentID = x.StudentId
 
 delete x 
 -- select ManStud = s.ManuallyEntered, x.*
-from @delschstudents n
-join School h on n.SchoolNumber = h.Number and h.ManuallyEntered = 1 join
-Student s on h.ID = s.CurrentSchoolID and s.ManuallyEntered = 1 join 
-LEGACYSPED.MAP_StudentRefID m on s.ID = m.DestID join
-StudentClassRosterHistory x on s.ID = x.StudentId
+from @delstudents n join
+StudentClassRosterHistory x on n.StudentID = x.StudentId
 
 delete x 
 -- select ManStud = s.ManuallyEntered, x.*
-from @delschstudents n
-join School h on n.SchoolNumber = h.Number and h.ManuallyEntered = 1 join
-Student s on h.ID = s.CurrentSchoolID and s.ManuallyEntered = 1 join 
-LEGACYSPED.MAP_StudentRefID m on s.ID = m.DestID join
-StudentGroupStudent x on s.ID = x.StudentId
+from @delstudents n join
+StudentGroupStudent x on n.StudentID = x.StudentId
 
+delete x 
+-- select ManStud = s.ManuallyEntered, x.*
+from @delstudents n join
+T_CSAP x on n.StudentID = x.StudentId
+
+delete x 
+-- select ManStud = s.ManuallyEntered, x.*
+from @delstudents n join
+T_COGAT x on n.StudentID = x.StudentId
+
+delete x 
+-- select ManStud = s.ManuallyEntered, x.*
+from @delstudents n join
+StudentRecordException x on n.StudentID = x.Student2ID
+
+delete x 
+-- select ManStud = s.ManuallyEntered, x.*
+from @delstudents n join
+T_ACT x on n.StudentID = x.StudentID
+
+delete x 
+-- select ManStud = s.ManuallyEntered, x.*
+from @delstudents n join
+T_CELA x on n.StudentID = x.StudentID
 
 	delete x
 	-- select x.*
-	from @delschstudents n
-	join School h on n.SchoolNumber = h.Number and h.ManuallyEntered = 1 join
-	Student x on h.ID = x.CurrentSchoolID and x.ManuallyEntered = 1
-
+	from @delstudents n join
+	Student x on n.StudentID = x.ID
 
 -- delete the MAP table records where manually added student records were merged with SIS student records
 delete m
@@ -326,6 +324,9 @@ from LEGACYSPED.MAP_StudentRefID m
 where m.DestID not in (select id from Student where ManuallyEntered = 1)
 
 
+delete x
+from School x 
+where x.ManuallyEntered = 1
 
 
 --Msg 547, Level 16, State 0, Line 247
@@ -513,9 +514,6 @@ go
 --drop schema LEGACYSPED
 --go
 
-
-commit tran
---rollback tran
 
 -- select * from PrgSection
 -- select * from IEPDisability
@@ -770,8 +768,6 @@ deallocate O
 
 
 
-
-
 delete v
 -- select * 
 from VC3Deployment.Version v
@@ -789,4 +785,19 @@ where Module = 'SPEDDOC'
 UPDATE SystemSettings SET SecurityRebuiltDate = NULL
 
 
+-- Poudre unneeded DistrictID
+delete d
+-- select d.*, k.*
+from UserProfileOrgUnit d 
+where d.OrgUnitID = '0A2D598F-A05D-4553-8772-314449FAAF73' -- Poudre School District - test
+
+if exists (select 1 from OrgUnit where ID = '0A2D598F-A05D-4553-8772-314449FAAF73')
+begin
+	update s set OID = '6531EF88-352D-4620-AF5D-CE34C54A9F53' from Student s where s.OID = '0A2D598F-A05D-4553-8772-314449FAAF73'
+	delete UserProfileOrgUnit where OrgUnitID = '0A2D598F-A05D-4553-8772-314449FAAF73'
+	delete OrgUnit where ID = '0A2D598F-A05D-4553-8772-314449FAAF73' 
+end
+
+commit tran
+--rollback tran
 
