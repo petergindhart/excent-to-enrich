@@ -64,13 +64,13 @@ AS
   LEGACYSPED.Transform_School sch on src.ServiceSchoolCode = sch.SchoolCode and src.ServiceDistrictCode = sch.DistrictCode LEFT JOIN
 
   -- match on StateID if possible
-  dbo.Student sst on src.StudentStateID = sst.x_SASID and
-	sst.ID = (
-		select top 1 a.ID 
-		from dbo.Student a 
-		where
-			isnull(a.x_SASID,'x') = isnull(sst.x_SASID,'y')
-		order by a.ManuallyEntered, a.IsActive desc, a.ID) LEFT JOIN -- identifies students in legacy data that match students in Enrich
+ LEGACYSPED.StudentwithSSID sst on src.StudentStateID = sst.StudentStateID and
+ sst.ID = (
+  select top 1 a.ID 
+  from LEGACYSPED.StudentwithSSID a 
+  where
+   isnull(a.StudentStateID,'x') = isnull(sst.StudentStateID,'y')
+  order by a.ManuallyEntered, a.IsActive desc, a.ID) LEFT JOIN -- identifies students in legacy data that match students in Enrich
 
   -- match on Local ID if State ID not available
   dbo.Student sloc on src.StudentLocalID = sloc.Number and 
