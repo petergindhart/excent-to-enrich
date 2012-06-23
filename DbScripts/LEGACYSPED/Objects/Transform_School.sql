@@ -37,7 +37,7 @@ AS
 select 
 	k.SchoolCode,
 	k.DistrictCode,
-	DestID =  coalesce(s.ID, t.ID, m.DestID,NEWID()), -- ISNULL(isnull(s.ID, t.ID), m.DestID),
+	DestID =  coalesce(s.ID, t.ID, m.DestID), -- ISNULL(isnull(s.ID, t.ID), m.DestID),
 	LegacyData = ISNULL(m.LegacyData, case when s.ID IS NULL then 1 else 0 end), -- allows updating only legacy data by adding a DestFilter in LoadTable.  Leaves real ManuallyEntered schools untouched.,
 	Abbreviation = NULL,
 	--coalesce(s.Abbreviation, t.Abbreviation, k.SchoolAbbreviation),

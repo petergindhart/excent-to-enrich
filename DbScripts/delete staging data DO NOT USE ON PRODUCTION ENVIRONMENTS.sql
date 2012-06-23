@@ -312,17 +312,22 @@ delete x
 from @delstudents n join
 T_CELA x on n.StudentID = x.StudentID
 
+delete x 
+-- select ManStud = s.ManuallyEntered, x.*
+from @delstudents n join
+DisciplineIncident x on n.StudentID = x.StudentID
+
+
 	delete x
 	-- select x.*
 	from @delstudents n join
 	Student x on n.StudentID = x.ID
 
--- delete the MAP table records where manually added student records were merged with SIS student records
-delete m
---- select m.* 
-from LEGACYSPED.MAP_StudentRefID m
-where m.DestID not in (select id from Student where ManuallyEntered = 1)
-
+delete x
+-- select x.*
+from ProbeTypeSchool x join 
+School s on x.SchoolID = s.ID
+where s.ManuallyEntered = 1
 
 delete x
 from School x 
@@ -331,7 +336,6 @@ where x.ManuallyEntered = 1
 
 --Msg 547, Level 16, State 0, Line 247
 --The DELETE statement conflicted with the REFERENCE constraint "FK_StudentRosterYearInformation#Student#StudentRosterYearInformations". The conflict occurred in database "Enrich_DC5_CO_Poudre", table "dbo.StudentRosterYear", column 'StudentId'.
-
 
 					delete h
 					-- select h.*

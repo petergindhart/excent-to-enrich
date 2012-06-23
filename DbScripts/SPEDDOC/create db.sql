@@ -15,8 +15,8 @@ SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[IEPDoc](
 	[StudentRefID] [uniqueidentifier] NOT NULL,
-	[IEPRefID] [bigint] NOT NULL,
-	[DocType] [nvarchar](15) NULL,
+	[IEPRefID] [varchar](150) NOT NULL,
+	[DocType] [varchar](15) NULL,
 	[Content] [image] NULL
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
