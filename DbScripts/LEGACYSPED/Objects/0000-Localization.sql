@@ -4,6 +4,7 @@
 --#include {SpedStateInclude}\Transform_IepGoalAreaDef.sql
 --#include Transform_ServiceFrequency.sql
 --#include {SpedDistrictInclude}\0002-Prep_District.sql
+--#include {SpedStateInclude}\StudentView.sql
 --#include Transform_OrgUnit.sql
 --#include Transform_School.sql
 --#include Transform_GradeLevel.sql

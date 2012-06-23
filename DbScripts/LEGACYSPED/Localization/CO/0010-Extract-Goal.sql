@@ -8,7 +8,7 @@ BEGIN
 CREATE TABLE LEGACYSPED.Goal_LOCAL(  
 GoalRefID		  varchar(150), 
 IepRefID		  varchar(150), 
-Sequence		  varchar(2),
+Sequence		  varchar(3),
 GoalAreaCode		varchar(150),
 PSEducation	varchar(1),
 PSEmployment	varchar(1),
