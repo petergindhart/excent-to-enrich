@@ -47,14 +47,8 @@ insert @GradeLevel (ID, Name, Active, BitMask, Sequence, StateCode) values ('808
 insert @GradeLevel (ID, Name, Active, BitMask, Sequence, StateCode) values ('EA727CED-8A2C-4434-974A-6D8D924D95C6', '11', 1, 4096, 12, '110') 
 insert @GradeLevel (ID, Name, Active, BitMask, Sequence, StateCode) values ('0D7B8529-62C7-4F25-B78F-2A4724BD7990', '12', 1, 8192, 13, '120') 
 
-select * from GradeLevel g order by g.Active desc, g.Sequence, g.BitMask, g.stateCode, g.Name
-select * from @GradeLevel g order by g.Active desc, g.Sequence, g.BitMask, g.stateCode, g.Name
-
----- delete test
-select g.*, t.StateCode
-from GradeLevel g left join
-@GradeLevel t on g.ID = t.ID 
-where t.ID is null
+--select * from GradeLevel g order by g.Active desc, g.Sequence, g.BitMask, g.stateCode, g.Name
+--select * from @GradeLevel g order by g.Active desc, g.Sequence, g.BitMask, g.stateCode, g.Name
 
 ---- insert test
 select t.ID, t.Name, t.Active, t.BitMask, t.Sequence, t.StateCode
@@ -62,6 +56,12 @@ from GradeLevel g right join
 @GradeLevel t on g.ID = t.ID 
 where g.ID is null
 order by g.Active desc, g.Sequence, g.BitMask, g.stateCode, g.Name
+
+---- delete test
+select g.*, t.StateCode
+from GradeLevel g left join
+@GradeLevel t on g.ID = t.ID 
+where t.ID is null
 
 
 -- update state code
@@ -80,8 +80,8 @@ where g.ID is null
 order by g.Active desc, g.Sequence, g.BitMask, g.stateCode, g.Name
 
 
---D90C08C8-683F-4C2B-9D1F-769D904CD060	PK
 --10B6907F-2675-4610-983E-B460338569BE	00
+
 declare @MAP_GradeLevel table (KeepID uniqueidentifier, TossID uniqueidentifier)
 
 -- populate a mapping that to update FK related records of GradeLevvel records that will be deleted   
