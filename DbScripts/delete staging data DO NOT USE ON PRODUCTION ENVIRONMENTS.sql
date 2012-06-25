@@ -197,7 +197,7 @@ delete x from PrgMatrixOfServices x join PrgItem i on x.ID = i.ID where i.Studen
 delete x from PrgItem x where x.StudentID not in (select isnull(StudentID, @zg) from @SaveStudents) ; print 'PrgItem : ' + convert(varchar(10), @@rowcount)
 delete x from PrgInvolvement x where x.StudentID not in (select isnull(StudentID, @zg) from @SaveStudents) ; print 'PrgInvolvement : ' + convert(varchar(10), @@rowcount)
 
-delete PrgStatus where DeletedDate is not null and Sequence = 99 and IsExit = 1 ; print 'PrgStatus : ' + convert(varchar(10), @@rowcount) 
+delete PrgStatus where IsExit = 1 and ProgramID = 'F98A8EF2-98E2-4CAC-95AF-D7D89EF7F80C' and (DeletedDate is not null or Sequence = 99) ; print 'PrgStatus : ' + convert(varchar(10), @@rowcount) 
 
 
 -- select * from MosRatingDef m 
