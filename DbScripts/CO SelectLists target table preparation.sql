@@ -26,6 +26,11 @@ insert @EnumValue values ('80034B85-658B-497E-8793-E2382CB6AF51', 'CBB84AE3-A547
 insert @EnumValue values ('E97F2925-C985-4C26-BC60-1F0B42C1719D', 'CBB84AE3-A547-4E81-82D2-060AA3A50535', 'Race: Two or more races', '07', 1, 6, '07')
 
 
+update ev 
+set IsActive = 0
+from EnumValue ev 
+where Type = 'CBB84AE3-A547-4E81-82D2-060AA3A50535'
+and ID not in (select ID from @EnumValue)
 
 
 
@@ -310,6 +315,4 @@ Insert PrgStatus: 18
 
 
 
-
-
-
+--select * from EnumValue where Type = (Select ID from EnumType where Type = 'ETH') order by StateCode, Code
