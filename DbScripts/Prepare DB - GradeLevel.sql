@@ -23,7 +23,7 @@
 	with the ID that is to be kept.
 
    ============================================	IMPORTANT! ============================================ */
-
+Begin tran fixgrad
 
 
 set nocount on;
@@ -49,6 +49,7 @@ insert @GradeLevel (ID, Name, Active, BitMask, Sequence, StateCode) values ('0D7
 
 --select * from GradeLevel g order by g.Active desc, g.Sequence, g.BitMask, g.stateCode, g.Name
 --select * from @GradeLevel g order by g.Active desc, g.Sequence, g.BitMask, g.stateCode, g.Name
+
 
 ---- insert test
 select t.ID, t.Name, t.Active, t.BitMask, t.Sequence, t.StateCode
@@ -161,13 +162,28 @@ StudentGradeLevelHistory
 TestScoreGoalValue
 
 */
+--Make Active = 0 for unneeded data
+UPDATE g
+SET Active = 0
+from GradeLevel g 
+where g.ID not in ( select ID from @GradeLevel)
+--left join
+--@GradeLevel t on g.ID = t.ID 
+--where t.ID is null
 
--- delete unneeded
-delete g
--- select g.*, t.StateCode
-from GradeLevel g left join
-@GradeLevel t on g.ID = t.ID 
-where t.ID is null
+
+
+
+---- delete unneeded
+--delete g
+---- select g.*, t.StateCode
+--from GradeLevel g left join
+--@GradeLevel t on g.ID = t.ID 
+--where t.ID is null
+
+commit tran fixgrad
+
+--Rollback tran fixgrad
 
 
 /*
