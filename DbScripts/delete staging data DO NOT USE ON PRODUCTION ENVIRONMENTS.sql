@@ -91,7 +91,7 @@ delete x from ServicePlan x where x.StudentID not in (select isnull(StudentID, @
 delete x from PrgSection x join PrgItem i on x.ItemID = i.ID where i.StudentID not in (select isnull(StudentID, @zg) from @SaveStudents) ; print 'PrgSection : ' + convert(varchar(10), @@rowcount)
 
 delete x from IepDisability x where deleteddate is not null  ; print 'IepDisability : ' + convert(varchar(10), @@rowcount) -- maintained by config import
-delete x from IepPlacementOption x where DeletedDate is not null  ; print 'IepPlacementOption : ' + convert(varchar(10), @@rowcount)-- maintained by config import
+delete x from IepPlacementOption x where DeletedDate is not null or Sequence = 99  ; print 'IepPlacementOption : ' + convert(varchar(10), @@rowcount)-- maintained by config import
 
 
 -- set nocount off;
@@ -115,38 +115,6 @@ delete ServiceDefDiagnosisCode where ServiceDefID in (select ID from ServiceDef 
 delete ServiceDefProcedure where ServiceDefID in (select ID from ServiceDef where DeletedDate is not null )
 delete ServiceDef where DeletedDate is not null ; print 'ServiceDef : ' + convert(varchar(10), @@rowcount) 
 
-/*
-
-
-Msg 547, Level 16, State 0, Line 80
-The DELETE statement conflicted with the REFERENCE constraint "FK_UserProfile#ServiceProviderTitle#Users". 
-	The conflict occurred in database "Enrich_DC3_FL_Polk", table "dbo.UserProfile", column 'ProviderTitleID'.
-
-
-
-Msg 547, Level 16, State 0, Line 72
-The DELETE statement conflicted with the REFERENCE constraint "FK_ServiceSchedule#Location#ServiceSchedules". The conflict occurred in database "Enrich_DC7_FL_Lee", table "dbo.ServiceSchedule", column 'LocationID'.
-Msg 3902, Level 16, State 1, Line 7
-The COMMIT TRANSACTION request has no corresponding BEGIN TRANSACTION.
-
-select * from serviceschedule
-
-
-Msg 547, Level 16, State 0, Line 79
-The DELETE statement conflicted with the REFERENCE constraint "FK_IepServiceDef_ServiceDef". The conflict occurred in database "Enrich_DC7_FL_Lee", table "dbo.IepServiceDef", column 'ID'.
-Msg 3902, Level 16, State 1, Line 7
-The COMMIT TRANSACTION request has no corresponding BEGIN TRANSACTION.
-
-Msg 547, Level 16, State 0, Line 80
-The DELETE statement conflicted with the REFERENCE constraint "FK_UserProfileServiceDefPermission#ServiceDef#". The conflict occurred in database "Enrich_DC7_FL_Lee", table "dbo.UserProfileServiceDefPermission", column 'ServiceDefID'.
-Msg 3902, Level 16, State 1, Line 7
-The COMMIT TRANSACTION request has no corresponding BEGIN TRANSACTION.
-
-select * from UserProfileServiceDefPermission
-
-
-
-*/
 
 -- moved PrgInvolvement
 -- delete PrgItemTeamMember ; print 'PrgItemTeamMember : ' + convert(varchar(10), @@rowcount) -- ?.												Duplicate
@@ -317,6 +285,10 @@ delete x
 from @delstudents n join
 DisciplineIncident x on n.StudentID = x.StudentID
 
+delete x 
+-- select ManStud = s.ManuallyEntered, x.*
+from @delstudents n join
+ReportCardScore x on n.StudentID = x.Student
 
 	delete x
 	-- select x.*
