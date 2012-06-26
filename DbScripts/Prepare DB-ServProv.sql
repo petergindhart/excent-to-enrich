@@ -1,14 +1,18 @@
-
+begin tran fixspt
 /* ============================================	IMPORTANT! ============================================
 	
-	Before using this script you must update the section below to populate the @MAP_ServiceProviderTitle table
-	with the KeepID and the TossID.   
+	This script is designed to ensure that the values in the CO Select Lists Template file are pre-populated 
+	in the Enrich database for any given CO distrcit before data conversion is run.
 	
+	Before using this script you must update the section below to populate the @MAP_ServiceProviderTitle table
+	with the KeepID and the TossID.
 	
 	The cursor query looks for all of the FK relationships for GradeLevel.ID and updates the ID that is to be deleted
 	with the ID that is to be kept.
 
-   ============================================	IMPORTANT! ============================================ */set nocount on;
+   ============================================	IMPORTANT! ============================================ */
+
+set nocount on;
 declare @ServiceProviderTitle table (ID uniqueidentifier, Name varchar(75), StateCode varchar(20))
 
 insert @ServiceProviderTitle(ID , Name, StateCode )  values ('D2130FB0-1E2A-4827-B1D0-92BC49E94A22','Adapted PE Teacher','')
@@ -28,6 +32,10 @@ insert @ServiceProviderTitle(ID , Name, StateCode )  values ('5D0EB909-4245-40EE
 insert @ServiceProviderTitle(ID , Name, StateCode )  values ('12E058BB-7407-4CC9-AB5A-15ED8BACE440','Teacher of Deaf/Hard of Hearing','')
 insert @ServiceProviderTitle(ID , Name, StateCode )  values ('B4464F73-BEF2-4D84-88E4-23EB8D0CAE7D','Teacher of the Blind/Visually Impaired','')
 
+select * from ServiceProviderTitle order by Name
+select * from @ServiceProviderTitle order by Name
+
+
 ---- insert test
 select t.ID, t.Name, t.StateCode
 from ServiceProviderTitle g right join
@@ -35,16 +43,19 @@ from ServiceProviderTitle g right join
 where g.ID is null
 order by  g.Name
 
+
 ---- delete test
-select g.*, t.StateCode
+select g.*
 from ServiceProviderTitle g left join
 @ServiceProviderTitle t on g.ID = t.ID 
 where t.ID is null
+ 
 
-update g set StateCode = t.StateCode
- --select g.*, t.StateCode
-from ServiceProviderTitle g left join
-@ServiceProviderTitle t on g.ID = t.ID 
+
+--update g set StateCode = t.StateCode -- service provider title in CO does not have a state code
+-- --select g.*, t.StateCode
+--from ServiceProviderTitle g left join
+--@ServiceProviderTitle t on g.ID = t.ID 
 
 insert ServiceProviderTitle (ID,Name,StateCode) 
 select t.ID, t.Name,  t.StateCode
@@ -60,8 +71,8 @@ declare @MAP_ServiceProviderTitle table (KeepID uniqueidentifier, TossID uniquei
 -- 1. un-comment the rows required to map for updating FK related tables.  
 -- 2. Add the ID that needs to be deleted in the Empty quotes of the Values insert
 
---insert @MAP_ServiceProviderTitle  values ('D2130FB0-1E2A-4827-B1D0-92BC49E94A22','')
---insert @MAP_ServiceProviderTitle  values ('7F0EABB5-286D-473C-BFC2-79A2658D9879','')
+--insert @MAP_ServiceProviderTitle  values ('D2130FB0-1E2A-4827-B1D0-92BC49E94A22','') -- Adapted PE Teacher
+--insert @MAP_ServiceProviderTitle  values ('7F0EABB5-286D-473C-BFC2-79A2658D9879','') -- 
 --insert @MAP_ServiceProviderTitle  values ('56460F78-90AB-485A-B829-0C78B0332BA8','')
 --insert @MAP_ServiceProviderTitle  values ('0CDE139C-787F-4E30-9A74-E6535C85EDB0','')
 --insert @MAP_ServiceProviderTitle  values ('149F36E1-DF2D-4CD3-BA4B-96D58C52012A','')
@@ -70,12 +81,18 @@ declare @MAP_ServiceProviderTitle table (KeepID uniqueidentifier, TossID uniquei
 --insert @MAP_ServiceProviderTitle  values ('0FB24F63-7A71-42A7-ABCA-1B9E58093194','')
 --insert @MAP_ServiceProviderTitle  values ('74DF6273-69EA-4CA3-AD38-510A457BAA25','')
 --insert @MAP_ServiceProviderTitle  values ('839A1D38-EB55-474F-BF97-297FE372F866','')
---insert @MAP_ServiceProviderTitle values ('A3471353-6064-4C5C-9E24-8FDE3E05B084','')
+--insert @MAP_ServiceProviderTitle  values ('A3471353-6064-4C5C-9E24-8FDE3E05B084','')
 --insert @MAP_ServiceProviderTitle  values ('0E23822F-678E-4532-A28A-B42BA569C617','')
---insert @MAP_ServiceProviderTitle values ('7F0195EC-B20A-443E-B13B-8DD0139FF115','')
+--insert @MAP_ServiceProviderTitle  values ('7F0195EC-B20A-443E-B13B-8DD0139FF115','')
 --insert @MAP_ServiceProviderTitle  values ('5D0EB909-4245-40EE-94EA-11F7E9F0A42E','')
 --insert @MAP_ServiceProviderTitle  values ('12E058BB-7407-4CC9-AB5A-15ED8BACE440','')
---insert @MAP_ServiceProviderTitle values ('B4464F73-BEF2-4D84-88E4-23EB8D0CAE7D','')
+--insert @MAP_ServiceProviderTitle  values ('B4464F73-BEF2-4D84-88E4-23EB8D0CAE7D','')
+
+
+---- delete test
+select g.*
+from ServiceProviderTitle g left join
+@MAP_ServiceProviderTitle t on g.ID = t.TossID 
 
 
 -- list all tables with FK on GradeLevel and update them 
@@ -128,9 +145,10 @@ deallocate I
 -- delete unneeded
 delete g
 from ServiceProviderTitle g left join
-@ServiceProviderTitle t on g.ID = t.ID 
-where t.ID is null
+@MAP_ServiceProviderTitle t on g.ID = t.TossID 
 
+
+commit tran fixspt
 
 
 
