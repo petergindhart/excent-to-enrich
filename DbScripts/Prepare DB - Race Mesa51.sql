@@ -98,14 +98,18 @@ set @g = @gold
 	close OC
 	deallocate OC
 
-print ''
+-- print ''
 
 fetch G into @gold, @gnew
 end
 close G
 deallocate G
 
+update EnumValue set IsActive = 0 where Type = 'CBB84AE3-A547-4E81-82D2-060AA3A50535' and ID not in (select ID from @Race)
+
 commit tran FixRace
+
+select * from EnumValue where Type = 'CBB84AE3-A547-4E81-82D2-060AA3A50535' and IsActive = 1
 
 
 
