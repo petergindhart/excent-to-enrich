@@ -19,21 +19,21 @@ insert @IepPlacementOption (ID, TypeID, Sequence, Text, StateCode) values ('91EF
 insert @IepPlacementOption (ID, TypeID, Sequence, Text, StateCode) values ('84DAF081-F700-4F57-99DA-A2A983FDE919', 'D9D84E5B-45F9-4C72-8265-51A945CD0049', 8, 'Correctional facilities (including short-term detention)', '307')
 
 
-select * from IepPlacementOption
-select * from @IepPlacementOption
+--select * from IepPlacementOption
+--select * from @IepPlacementOption
 
 
----- insert test
-select t.ID, t.TypeID, t.Sequence, t.Text, t.StateCode
-from IepPlacementOption x right join
-@IepPlacementOption t on x.ID = t.ID 
-where x.ID is null order by x.Text
+------ insert test
+--select t.ID, t.TypeID, t.Sequence, t.Text, t.StateCode
+--from IepPlacementOption x right join
+--@IepPlacementOption t on x.ID = t.ID 
+--where x.ID is null order by x.Text
 
----- delete test
-select x.*
-from IepPlacementOption x left join
-@IepPlacementOption t on x.ID = t.ID 
-where t.ID is null order by x.Text
+------ delete test
+--select x.*
+--from IepPlacementOption x left join
+--@IepPlacementOption t on x.ID = t.ID 
+--where t.ID is null order by x.Text
 
 
 
@@ -50,9 +50,11 @@ delete x
 -- select x.*
 from IepPlacementOption x left join
 @IepPlacementOption t on x.ID = t.ID 
-where t.ID is null order by x.Text
+where t.ID is null
 
 
 
 commit tran fixLRE
+
+--select * from IepPlacementOption
 
