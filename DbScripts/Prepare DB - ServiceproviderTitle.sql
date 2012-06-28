@@ -1,4 +1,3 @@
-begin tran fixspt
 /* ============================================	IMPORTANT! ============================================
 	
 	This script is designed to ensure that the values in the CO Select Lists Template file are pre-populated 
@@ -32,8 +31,9 @@ insert @ServiceProviderTitle(ID , Name, StateCode )  values ('5D0EB909-4245-40EE
 insert @ServiceProviderTitle(ID , Name, StateCode )  values ('12E058BB-7407-4CC9-AB5A-15ED8BACE440','Teacher of Deaf/Hard of Hearing',NULL)
 insert @ServiceProviderTitle(ID , Name, StateCode )  values ('B4464F73-BEF2-4D84-88E4-23EB8D0CAE7D','Teacher of the Blind/Visually Impaired',NULL)
 
-select * from ServiceProviderTitle order by Name
-select * from @ServiceProviderTitle order by Name
+
+begin tran fixspt
+
 
 declare @RelaSchema varchar(100), @RelaTable varchar(100), @RelaColumn varchar(100), @ID varchar(50)
 
@@ -82,21 +82,23 @@ close D
 deallocate D
 
 
+
+
+select t.ID, t.Name,  t.StateCode
+from ServiceProviderTitle g right join
+@ServiceProviderTitle t on g.ID = t.ID 
+where g.ID is null
+order by  g.Name
+
+
+
 --delete g
 select g.*
 from ServiceProviderTitle g left join
 @ServiceProviderTitle t on g.ID = t.ID 
 where t.ID is null or g.DeletedDate is not null
 
-
-
----- insert test
-select t.ID, t.Name, t.StateCode
-from ServiceProviderTitle g right join
-@ServiceProviderTitle t on g.ID = t.ID 
-where g.ID is null
-order by  g.Name
- 
+select * from ServiceProviderTitle 
 
 
 update g set StateCode = t.StateCode,
@@ -106,12 +108,16 @@ update g set StateCode = t.StateCode,
 from ServiceProviderTitle g  join
 @ServiceProviderTitle t on g.ID = t.ID 
 
+
 insert ServiceProviderTitle (ID,Name,StateCode) 
 select t.ID, t.Name,  t.StateCode
 from ServiceProviderTitle g right join
 @ServiceProviderTitle t on g.ID = t.ID 
 where g.ID is null
 order by  g.Name
+
+
+
 
 declare @MAP_ServiceProviderTitle table (KeepID uniqueidentifier, TossID uniqueidentifier)
 
@@ -120,22 +126,23 @@ declare @MAP_ServiceProviderTitle table (KeepID uniqueidentifier, TossID uniquei
 -- 1. un-comment the rows required to map for updating FK related tables.  
 -- 2. Add the ID that needs to be deleted in the Empty quotes of the Values insert
 
---insert @MAP_ServiceProviderTitle  values ('D2130FB0-1E2A-4827-B1D0-92BC49E94A22','') -- Adapted PE Teacher
---insert @MAP_ServiceProviderTitle  values ('7F0EABB5-286D-473C-BFC2-79A2658D9879','') -- Audiologist
---insert @MAP_ServiceProviderTitle  values ('56460F78-90AB-485A-B829-0C78B0332BA8','')
---insert @MAP_ServiceProviderTitle  values ('0CDE139C-787F-4E30-9A74-E6535C85EDB0','')
---insert @MAP_ServiceProviderTitle  values ('149F36E1-DF2D-4CD3-BA4B-96D58C52012A','')
---insert @MAP_ServiceProviderTitle  values ('385ABF0C-567E-44B0-9684-AFB27B5AE5B9','')
---insert @MAP_ServiceProviderTitle  values ('6F563A7A-EBCA-4438-8819-F4266600F5E0','')
---insert @MAP_ServiceProviderTitle  values ('0FB24F63-7A71-42A7-ABCA-1B9E58093194','')
---insert @MAP_ServiceProviderTitle  values ('74DF6273-69EA-4CA3-AD38-510A457BAA25','')
---insert @MAP_ServiceProviderTitle  values ('839A1D38-EB55-474F-BF97-297FE372F866','')
---insert @MAP_ServiceProviderTitle  values ('A3471353-6064-4C5C-9E24-8FDE3E05B084','')
---insert @MAP_ServiceProviderTitle  values ('0E23822F-678E-4532-A28A-B42BA569C617','')
---insert @MAP_ServiceProviderTitle  values ('7F0195EC-B20A-443E-B13B-8DD0139FF115','')
---insert @MAP_ServiceProviderTitle  values ('5D0EB909-4245-40EE-94EA-11F7E9F0A42E','')
---insert @MAP_ServiceProviderTitle  values ('12E058BB-7407-4CC9-AB5A-15ED8BACE440','')
---insert @MAP_ServiceProviderTitle  values ('B4464F73-BEF2-4D84-88E4-23EB8D0CAE7D','')
+--insert @MAP_ServiceProviderTitle values ('D2130FB0-1E2A-4827-B1D0-92BC49E94A22','') -- 'Adapted PE Teacher',NULL)
+--insert @MAP_ServiceProviderTitle values ('7F0EABB5-286D-473C-BFC2-79A2658D9879','') -- 'Audiologist',NULL)
+--insert @MAP_ServiceProviderTitle values ('56460F78-90AB-485A-B829-0C78B0332BA8','') -- 'Counselor',NULL)
+--insert @MAP_ServiceProviderTitle values ('0CDE139C-787F-4E30-9A74-E6535C85EDB0','') -- 'Early Childhood Special Educator',NULL)
+--insert @MAP_ServiceProviderTitle values ('149F36E1-DF2D-4CD3-BA4B-96D58C52012A','') -- 'Educational Interpreter',NULL)
+--insert @MAP_ServiceProviderTitle values ('385ABF0C-567E-44B0-9684-AFB27B5AE5B9','') -- 'Licensed Practical Nurse',NULL)
+--insert @MAP_ServiceProviderTitle values ('6F563A7A-EBCA-4438-8819-F4266600F5E0','') -- 'Occupational Therapist',NULL)
+--insert @MAP_ServiceProviderTitle values ('0FB24F63-7A71-42A7-ABCA-1B9E58093194','') -- 'Orientation & Mobility Specialist',NULL)
+--insert @MAP_ServiceProviderTitle values ('74DF6273-69EA-4CA3-AD38-510A457BAA25','') -- 'Physical Therapist',NULL)
+--insert @MAP_ServiceProviderTitle values ('839A1D38-EB55-474F-BF97-297FE372F866','') -- 'Registered Nurse',NULL)
+--insert @MAP_ServiceProviderTitle values ('A3471353-6064-4C5C-9E24-8FDE3E05B084','') -- 'School Psychologist',NULL)
+--insert @MAP_ServiceProviderTitle values ('0E23822F-678E-4532-A28A-B42BA569C617','') -- 'Social Worker',NULL)
+--insert @MAP_ServiceProviderTitle values ('7F0195EC-B20A-443E-B13B-8DD0139FF115','') -- 'Special Education Teacher',NULL)
+--insert @MAP_ServiceProviderTitle values ('5D0EB909-4245-40EE-94EA-11F7E9F0A42E','') -- 'Speech Language Pathologist',NULL)
+--insert @MAP_ServiceProviderTitle values ('12E058BB-7407-4CC9-AB5A-15ED8BACE440','') -- 'Teacher of Deaf/Hard of Hearing',NULL)
+--insert @MAP_ServiceProviderTitle values ('B4464F73-BEF2-4D84-88E4-23EB8D0CAE7D','') -- 'Teacher of the Blind/Visually Impaired',NULL)
+
 
 
 ---- delete test
@@ -199,24 +206,11 @@ where t.ID is null
 
 
 commit tran fixspt
---Rollback tran fixspt
+-- Rollback tran fixspt
+
+
+
 
 
 --select * from ServiceProviderTitle where deleteddate is  null order by Name  
 
---D2130FB0-1E2A-4827-B1D0-92BC49E94A22			Adapted PE Teacher
---7F0EABB5-286D-473C-BFC2-79A2658D9879			Audiologist
---56460F78-90AB-485A-B829-0C78B0332BA8			Counselor
---0CDE139C-787F-4E30-9A74-E6535C85EDB0			Early Childhood Special Educator
---149F36E1-DF2D-4CD3-BA4B-96D58C52012A			Educational Interpreter
---385ABF0C-567E-44B0-9684-AFB27B5AE5B9			Licensed Practical Nurse
---6F563A7A-EBCA-4438-8819-F4266600F5E0			Occupational Therapist
---0FB24F63-7A71-42A7-ABCA-1B9E58093194			Orientation & Mobility Specialist
---74DF6273-69EA-4CA3-AD38-510A457BAA25			Physical Therapist
---839A1D38-EB55-474F-BF97-297FE372F866			Registered Nurse
---A3471353-6064-4C5C-9E24-8FDE3E05B084			School Psychologist
---0E23822F-678E-4532-A28A-B42BA569C617			Social Worker
---7F0195EC-B20A-443E-B13B-8DD0139FF115			Special Education Teacher
---5D0EB909-4245-40EE-94EA-11F7E9F0A42E			Speech Language Pathologist
---12E058BB-7407-4CC9-AB5A-15ED8BACE440			Teacher of Deaf/Hard of Hearing
---B4464F73-BEF2-4D84-88E4-23EB8D0CAE7D			Teacher of the Blind/Visually Impaired
