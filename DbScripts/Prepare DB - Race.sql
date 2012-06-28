@@ -101,7 +101,10 @@ update EnumValue set IsActive = 0 where Type = 'CBB84AE3-A547-4E81-82D2-060AA3A5
 
 
 commit tran FixRace
+--rollback tran FixRace
 
 
 
 --SELECT * from EnumValue where Type = 'CBB84AE3-A547-4E81-82D2-060AA3A50535' and IsActive = 1
+
+
