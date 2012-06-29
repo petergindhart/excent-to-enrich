@@ -1,3 +1,8 @@
+
+begin tran fixservdef
+
+
+
 set nocount on;
 
 declare @ServiceDef table (ID uniqueidentifier, CategoryID uniqueidentifier, Name varchar(100), Description text, DefaultLocationID uniqueidentifier, MinutesPerUnit int) 
@@ -20,32 +25,32 @@ insert @ServiceDef (ID, CategoryID, Name) values ('42176279-A1A0-4699-B01B-187FD
 insert @ServiceDef (ID, CategoryID, Name) values ('E2819193-5118-4DC9-8433-6F35851C14FC', '4570E6F2-2691-4BB1-9BBB-A62AC3BEECB7', 'Instruction-Direct Outside Gen Ed Class')
 insert @ServiceDef (ID, CategoryID, Name) values ('9DE4CBF9-BD8D-490C-8E1B-34F5E73DEF11', '4570E6F2-2691-4BB1-9BBB-A62AC3BEECB7', 'Specialized Instruction')
 insert @ServiceDef (ID, CategoryID, Name) values ('BF859DEF-67A2-4285-A871-E80315AF3BD5', '4570E6F2-2691-4BB1-9BBB-A62AC3BEECB7', 'Speech/Language Services')
+insert @ServiceDef (ID, CategoryID, Name) values ('52AD0E2D-3A97-499A-95F4-5B4BB02912DF', '4570E6F2-2691-4BB1-9BBB-A62AC3BEECB7', 'Adapted Physical Education')
+insert @ServiceDef (ID, CategoryID, Name) values ('61D1B5E8-C054-4EA8-B9CB-F61EBDB1F629', '4570E6F2-2691-4BB1-9BBB-A62AC3BEECB7', 'Consultation')
 
 
 update x set Description = sd.Description, DefaultLocationID = sd.DefaultLocationID, MinutesPerUnit = sd.MinutesPerUnit
 from @ServiceDef x join 
 ServiceDef sd on x.Name = sd.Name
 
+--select * from @ServiceDef order by Name
 
 --select * from ServiceDef order by Name
 --select ID, 'D3945E9D-AA0E-4555-BCB2-F8CA95CC7784', Name from @ServiceDef order by Name
 
------- insert test
---select t.ID, TypeID = 'D3945E9D-AA0E-4555-BCB2-F8CA95CC7784', t.Name, t.Description, t.DefaultLocationID, t.MinutesPerUnit
---from ServiceDef x right join
---@ServiceDef t on x.ID = t.ID 
---where x.ID is null order by x.Name
+---- insert test
+select t.ID, TypeID = 'D3945E9D-AA0E-4555-BCB2-F8CA95CC7784', t.Name, t.Description, t.DefaultLocationID, t.MinutesPerUnit
+from ServiceDef x right join
+@ServiceDef t on x.ID = t.ID 
+where x.ID is null order by x.Name
 
--------- delete test		-- we will not be deleting services that were entered manually by the customer.
---select x.*
---from ServiceDef x join
---@ServiceDef t on x.Name = t.Name left join
---@ServiceDef d on x.ID = d.ID 
---where d.ID is null
---order by x.Name
-
-begin tran fixservdef
-
+------ delete test		-- we will not be deleting services that were entered manually by the customer.
+select x.*
+from ServiceDef x join
+@ServiceDef t on x.Name = t.Name left join
+@ServiceDef d on x.ID = d.ID 
+where d.ID is null
+order by x.Name
 
 
 insert ServiceDef (ID, TypeID, Name, Description, DefaultLocationID, MinutesPerUnit)
@@ -97,6 +102,11 @@ insert @MAP_ServiceDef values ('42176279-A1A0-4699-B01B-187FD0FF07E2', '4B3948BD
 insert @MAP_ServiceDef values ('E2819193-5118-4DC9-8433-6F35851C14FC', '95D0A92D-784A-447C-B94B-AF407ABAA3E5') -- 'Instruction-Direct Outside Gen Ed Class')
 insert @MAP_ServiceDef values ('9DE4CBF9-BD8D-490C-8E1B-34F5E73DEF11', 'FF3E14C1-6482-46DC-BB4E-08E2BFA39B85') -- 'Specialized Instruction')
 --insert @MAP_ServiceDef values ('BF859DEF-67A2-4285-A871-E80315AF3BD5', '') -- 'Speech/Language Services')
+insert @MAP_ServiceDef values ('52AD0E2D-3A97-499A-95F4-5B4BB02912DF', '5D70A02F-F9E9-40BD-B30C-9144E419882A') -- 'Adapted Physical Education')
+insert @MAP_ServiceDef values ('61D1B5E8-C054-4EA8-B9CB-F61EBDB1F629', '54AD7B8C-D44B-45C2-9C80-7BBF87579AB4') -- 'Consultation')
+
+--5D70A02F-F9E9-40BD-B30C-9144E419882A	Adapted Physical Education
+--54AD7B8C-D44B-45C2-9C80-7BBF87579AB4	Consultation
 
 --BA58A524-BF79-4527-90C1-C3A3A487AD7B	Audiology Services
 --B111C18D-AA0C-4982-9CFE-4E9C3F75611A	Counseling
@@ -110,6 +120,9 @@ insert @MAP_ServiceDef values ('9DE4CBF9-BD8D-490C-8E1B-34F5E73DEF11', 'FF3E14C1
 --315884B0-8B78-46F0-8423-E06FDD41319C	Instruction-Co-Teach
 --4B3948BD-70BF-4684-B93E-F2B29772FBCF	Instruction-Direct In Gen Ed Class
 --95D0A92D-784A-447C-B94B-AF407ABAA3E5	Instruction-Direct Outside Gen Ed Class
+
+--52AD0E2D-3A97-499A-95F4-5B4BB02912DF	Adapted Physical Education
+--61D1B5E8-C054-4EA8-B9CB-F61EBDB1F629	Consultation
 
 
 -- list all tables with FK on GradeLevel and update them 
