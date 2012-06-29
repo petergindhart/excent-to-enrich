@@ -199,9 +199,8 @@ deallocate I
 -- delete unneeded
 delete x
 -- select g.*, t.StateCode
-from IepDisability x left join
-@IepDisability t on x.ID = t.ID 
-where t.ID is null
+from IepDisability x join
+@MAP_IepDisability t on x.ID = t.TossID 
 
 commit tran FixDisab
 
