@@ -1,4 +1,4 @@
-begin tran FixRace
+begin tran FixGender
 
 declare @s varchar(150), @o varchar(150), @c varchar(150), @TossID varchar(36), @KeepID varchar(36), @g varchar(36) ; -- select @g = '4A3CAFC3-9431-4845-8AD9-167E30E47DDA'
 
@@ -97,8 +97,8 @@ deallocate G
 update EnumValue set IsActive = 0 where Type = 'D6194389-17AC-494C-9C37-FD911DA2DD4B' and ID not in (select ID from @Gender)
 
 
-commit tran FixRace
--- rollback tran FixRace
+commit tran FixGender
+-- rollback tran FixGender
 
 
 
