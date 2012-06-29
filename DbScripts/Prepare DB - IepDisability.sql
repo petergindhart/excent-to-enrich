@@ -106,8 +106,8 @@ from IepDisability x left join
 @IepDisability t on x.ID = t.ID 
 
 -- insert missing.  This has to be done before updating the records to be deleted and before deleting.
-insert IepDisability (ID, Name, Definition, DeterminationFormTemplateID, StateCode)
-select t.ID, t.Name, t.Definition, t.DeterminationFormTemplateID, t.StateCode
+insert IepDisability (ID, Name, Definition, DeterminationFormTemplateID, StateCode, IsOutOfState)
+select t.ID, t.Name, t.Definition, t.DeterminationFormTemplateID, t.StateCode, 0
 from IepDisability x right join
 @IepDisability t on x.ID = t.ID 
 where x.ID is null
