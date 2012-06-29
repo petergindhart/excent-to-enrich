@@ -434,12 +434,13 @@ delete g
 from GradeLevel g left join 
 Student s on g.ID = s.CurrentGradeLevelID left join
 IepStandard t on g.ID = t.MinGradeID left join 
-ContentAreaRequirement c on g.ID = c.MinGradeID 
+ContentAreaRequirement c on g.ID = c.MinGradeID left join
+StudentGradeLevelHistory h on g.ID = h.GradeLevelID
 where Active = 0
 and s.ID is null
 and t.ID is null
 and c.Id is null
-
+and h.GradeLevelID is null
 
 
 -- break the association between the mosratingdef and iepgoalareas that will be deleted.  is this okay?
