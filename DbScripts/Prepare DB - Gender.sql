@@ -97,7 +97,7 @@ deallocate G
 update EnumValue set IsActive = 0 where Type = 'D6194389-17AC-494C-9C37-FD911DA2DD4B' and ID not in (select ID from @Gender)
 
 
--- commit tran FixRace
+commit tran FixRace
 -- rollback tran FixRace
 
 
