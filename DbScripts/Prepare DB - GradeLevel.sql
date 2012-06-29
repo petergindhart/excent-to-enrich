@@ -68,9 +68,10 @@ Begin tran fixgrad
 
 
 -- update state code
-update g set StateCode = t.StateCode
+update g set StateCode = t.StateCode,
+			 Active = t.Active	
 -- select g.*, t.StateCode
-from GradeLevel g left join
+from GradeLevel g  join
 @GradeLevel t on g.ID = t.ID 
 
 -- 7269BD32-C052-455B-B3E3-FF5BCB199679	00
