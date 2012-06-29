@@ -50,6 +50,10 @@ from IepGoalAreaDef g right join
 where g.ID is null
 order by  g.Name
 
+update g set Name = t.Name
+--select g.*, t.StateCode
+from IepGoalAreaDef g  join
+@IepGoalAreaDef t on g.ID = t.ID 
 declare @MAP_IepGoalAreaDef table (KeepID uniqueidentifier, TossID uniqueidentifier)
 
 -- populate a mapping that to update FK related records of GradeLevvel records that will be deleted   
