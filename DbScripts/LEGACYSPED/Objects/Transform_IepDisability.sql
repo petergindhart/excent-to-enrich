@@ -46,7 +46,8 @@ AS
 				WHEN t.ID IS NOT NULL then t.DeletedDate
 					-- CASE WHEN k.DisplayInUI = 'Y' THEN NULL -- User specified they want to see this in the UI.  Let them.
 				ELSE NULL
-			END 
+			END,
+		IsOutOfState = cast(0 as bit)
 	FROM
 		LEGACYSPED.SelectLists k LEFT JOIN
 		dbo.IepDisability s on isnull(k.StateCode,'kDisab') = isnull(s.StateCode,'sDisab') left join -- two NULLs does not a match make
