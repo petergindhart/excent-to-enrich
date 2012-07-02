@@ -6,10 +6,39 @@
 -- note : data model for SystemSettings table has changed (v 19)
 
 -- OrgUnit
-update ou set Number = '9165' 
+--update ou set Number = '9165' 
 -- select ou.*
-from (select top 1 OrgUnitID from School group by OrgUnitID order by count(*) desc) m join dbo.OrgUnit ou on m.OrgUnitID = ou.ID
-go
+--from (select top 1 OrgUnitID from School group by OrgUnitID order by count(*) desc) m join dbo.OrgUnit ou on m.OrgUnitID = ou.ID
+--go
+--UPDATE OrgUnit
+--SET Number = '3020'
+--Where ID = '1A7AE897-99F4-4C22-B529-6EB36A763DC4'
+--1A7AE897-99F4-4C22-B529-6EB36A763DC4	420A9663-FFE8-4FF1-B405-1DB1D42B6F8A	Woodland Park
+--8558AD16-FEF6-4008-8BEA-B3A19BF8B6A9	420A9663-FFE8-4FF1-B405-1DB1D42B6F8A	Manitou Springs
+--6F22BFFC-728F-4304-8FDC-CDD151A946AB	420A9663-FFE8-4FF1-B405-1DB1D42B6F8A	Cripple Creek
+--6531EF88-352D-4620-AF5D-CE34C54A9F53	420A9663-FFE8-4FF1-B405-1DB1D42B6F8A	UTE Pass BOCES
+--select * from Orgunittype where ID = '420A9663-FFE8-4FF1-B405-1DB1D42B6F8A'
+
+UPDATE OrgUnit
+SET Number = '3020' --, ParentID = '6531EF88-352D-4620-AF5D-CE34C54A9F53'
+Where ID = '1A7AE897-99F4-4C22-B529-6EB36A763DC4'
+
+UPDATE OrgUnit
+SET Number = '1030'  --, ParentID = '6531EF88-352D-4620-AF5D-CE34C54A9F53'
+Where ID = '8558AD16-FEF6-4008-8BEA-B3A19BF8B6A9'
+
+UPDATE OrgUnit
+SET Number = '3010'  --, ParentID = '6531EF88-352D-4620-AF5D-CE34C54A9F53'
+Where ID = '6F22BFFC-728F-4304-8FDC-CDD151A946AB'
+
+UPDATE OrgUnit
+SET Number = '9165'
+Where ID = '6531EF88-352D-4620-AF5D-CE34C54A9F53'
+
+
+
+
+
 
 
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'LEGACYSPED.ImportPrgSections') AND type in (N'U'))
@@ -31,12 +60,12 @@ GO
 set nocount on;
 declare @importPrgSections table (Enabled bit not null, SectionDefName varchar(100) not null, SectionDefID uniqueidentifier not null)
 -- update the Enabled column below to 0 if the section is not required for this district
-insert @importPrgSections values (0, 'IEP Services', '9AC79680-7989-4CC9-8116-1CCDB1D0AE5F')
+insert @importPrgSections values (1, 'IEP Services', '9AC79680-7989-4CC9-8116-1CCDB1D0AE5F')
 insert @importPrgSections values (1, 'IEP LRE', '0CBA436F-8043-4D22-8F3D-289E057F1AAB')
 insert @importPrgSections values (1, 'IEP Dates', 'EE479921-3ECB-409A-96D7-61C8E7BA0E7B')
 insert @importPrgSections values (1, 'IEP Demographics', '427AF47C-A2D2-47F0-8057-7040725E3D89')
 insert @importPrgSections values (1, 'Sped Eligibility Determination', 'F050EF5E-3ED8-43D5-8FE7-B122502DE86A')
-insert @importPrgSections values (0, 'IEP Goals', '84E5A67D-CC9A-4D5B-A7B8-C04E8C3B8E0A')
+insert @importPrgSections values (1, 'IEP Goals', '84E5A67D-CC9A-4D5B-A7B8-C04E8C3B8E0A')
 insert @importPrgSections values (1, 'Sped Consent Services', 'D83A4710-A69F-4310-91F8-CB5BFFB1FE4C')
 
 insert LEGACYSPED.ImportPrgSections
