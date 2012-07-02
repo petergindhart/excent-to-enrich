@@ -100,21 +100,23 @@ insert @MAP_ServiceDef values ('42176279-A1A0-4699-B01B-187FD0FF07E2', 'BBDF5676
 insert @MAP_ServiceDef values ('E2819193-5118-4DC9-8433-6F35851C14FC', 'C8EB885A-441B-4610-8BE9-54CF4C6307BE') -- 'Instruction-Direct Outside Gen Ed Class')
 insert @MAP_ServiceDef values ('9DE4CBF9-BD8D-490C-8E1B-34F5E73DEF11', 'E55D00A1-B6EE-4E8D-B660-7FA2E62E23B5') -- 'Specialized Instruction')
 --insert @MAP_ServiceDef values ('BF859DEF-67A2-4285-A871-E80315AF3BD5', '') -- 'Speech/Language Services')
-insert @MAP_ServiceDef values ('52AD0E2D-3A97-499A-95F4-5B4BB02912DF', '5D70A02F-F9E9-40BD-B30C-9144E419882A') -- 'Adapted Physical Education')
-insert @MAP_ServiceDef values ('61D1B5E8-C054-4EA8-B9CB-F61EBDB1F629', '54AD7B8C-D44B-45C2-9C80-7BBF87579AB4') -- 'Consultation')
+insert @MAP_ServiceDef values ('52AD0E2D-3A97-499A-95F4-5B4BB02912DF', '56BE259A-442E-4AE5-8C62-B2646396C41B') -- 'Adapted Physical Education')
+insert @MAP_ServiceDef values ('61D1B5E8-C054-4EA8-B9CB-F61EBDB1F629', '1FCF0267-3F7C-456D-9357-871E7F19989C') -- 'Consultation')
 
---BA58A524-BF79-4527-90C1-C3A3A487AD7B	Audiology Services
---B111C18D-AA0C-4982-9CFE-4E9C3F75611A	Counseling
---FB6F9141-CE06-4B61-AA29-A14FED8C1CCC	Interpreting Services
---B6AC6BB7-E6D3-4C45-AA93-438B015DB2B2	Orientation & Mobility Services
---4161C328-1AAE-41E1-9CA8-3699031912FF	Parent Counseling and Training
---AF88E635-7B1C-4F95-B43D-847AA466C669	Personal Care Services
---FF3E14C1-6482-46DC-BB4E-08E2BFA39B85	Specialized Instruction
-
---89BEE326-69D3-4ECF-9C1F-A117D4293F38	Indirect
---315884B0-8B78-46F0-8423-E06FDD41319C	Instruction-Co-Teach
---4B3948BD-70BF-4684-B93E-F2B29772FBCF	Instruction-Direct In Gen Ed Class
---95D0A92D-784A-447C-B94B-AF407ABAA3E5	Instruction-Direct Outside Gen Ed Class
+----ID	                                    Name
+--56BE259A-442E-4AE5-8C62-B2646396C41B		Adapted Physical Education
+--C32014DE-83B5-4483-9C31-F36D2F8B8CB6		Audiology Services
+--1FCF0267-3F7C-456D-9357-871E7F19989C		Consultation
+--5F2E559E-C526-483B-8B90-F87098AEF850		Counseling
+--AE7FE6D6-A255-4447-B997-7E983E38DAE2		Indirect
+--0DD0E82F-B0BA-4127-8222-2B464EA9776D		Instruction-Co-Teach
+--BBDF5676-67E4-45A9-93F2-810DB3A8869C		Instruction-Direct In Gen Ed Class
+--C8EB885A-441B-4610-8BE9-54CF4C6307BE		Instruction-Direct Outside Gen Ed Class
+--AC1FB37B-F2F5-400F-B92D-620699738866		Interpreting Services
+--79A25B56-A711-4332-90A8-F251C09714F7		Orientation & Mobility Services
+--BA935F0B-3930-469C-B51E-ACFE58751D21		Parent Counseling and Training
+--CA7B7A9D-E1DD-4481-A6A0-448216492517		Personal Care Services
+--E55D00A1-B6EE-4E8D-B660-7FA2E62E23B5		Specialized Instructiond Class
 
 
 -- list all tables with FK on GradeLevel and update them 
@@ -166,7 +168,6 @@ delete x
 -- select g.*, t.StateCode
 from ServiceDef x join
 @MAP_ServiceDef t on x.ID = t.TossID 
-
 
 commit tran fixservdef
 --rollback tran fixservdef
