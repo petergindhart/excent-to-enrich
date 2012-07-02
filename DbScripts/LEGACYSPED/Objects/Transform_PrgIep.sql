@@ -41,6 +41,7 @@ select
 -- PrgVersion
 	VersionDestID = ev.ExistingConvertedVersionID,	--------------- what did this used to be?
 	VersionFinalizedDate = iep.IEPStartDate, -- expose the version finalized date in the ev view
+	CreatedByID = 'EEE133BD-C557-47E1-AB67-EE413DD3D1AB', -- select * from UserProfile where username like '%Support%'
 -- Additional Elements
 	AgeGroup = case 
 		when (select DistrictState from SystemSettings) = 'CO' then case when iep.LRECode between '200' and '299' then 'PK' when iep.LRECode between '300' and '399' then 'K12' else '' end 
