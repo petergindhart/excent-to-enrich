@@ -46,7 +46,7 @@ AS
 
 select 
 	ServiceCategoryCode = isnull(k.SubType, 'Related'),
-	ServiceDefCode = k.LegacySpedCode,
+	ServiceDefCode = isnull(k.LegacySpedCode, convert(varchar(150), k.EnrichLabel)),
 	DestID = coalesce(i.ID, n.ID, t.ID, m.DestID), -- give this some thought
 	StateCode = coalesce(i.StateCode, n.StateCode, t.StateCode),
 	TypeID = 'D3945E9D-AA0E-4555-BCB2-F8CA95CC7784',
@@ -64,7 +64,7 @@ from LEGACYSPED.SelectLists k left join
 	LEGACYSPED.MAP_ServiceDefID m on k.LegacySpedCode = m.ServiceDefCode and isnull(k.SubType,'Related') = isnull(m.ServiceCategoryCode,'') left join 
 	dbo.ServiceDef t on m.DestID = t.ID
 where k.Type = 'Service'
-	and k.LegacySpedCode is not null -- there is nothing to do if this is null
+	--and k.LegacySpedCode is not null -- there is nothing to do if this is null
 GO
 --
 
