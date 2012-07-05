@@ -40,7 +40,8 @@ AS
   IsProbeGoal = cast(0 as bit),
   TargetDate = g.TargetDate,
   GoalStatement = cast(o.ObjText as text),
-  ParentID = g.DestID
+  ParentID = g.DestID,
+  CrossVersionGoalID =( select top 1 ID from PrgCrossVersionGoal)
  FROM
   LEGACYSPED.Transform_PrgGoal g JOIN
   LEGACYSPED.Objective o on g.GoalRefID = o.GoalRefID LEFT JOIN
