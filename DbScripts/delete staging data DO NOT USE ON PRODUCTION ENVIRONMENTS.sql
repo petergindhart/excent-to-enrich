@@ -53,9 +53,15 @@ insert @SaveStudents (StudentID, OldNumber, OldFirstname, OldLastname, NewNumber
 -- delete sample student guardians from the mapping table
 delete m from EFF.Map_StudentGuardianID m join EFF.StudentGuardians g on m.ID = g.GuardianID join @SaveStudents s on g.StudentID = s.OldNumber ; print 'Delete Guardian ID from MAP table : ' + convert(varchar(10), @@rowcount)
 
-select * from @SaveStudents -- test it
+--select * from @SaveStudents -- test it
 
-delete x from Attachment x left join PrgItem i on x.ItemID = i.ID where x.StudentID not in (select isnull(StudentID, @zg) from @SaveStudents) and i.StudentID not in (select isnull(StudentID, @zg) from @SaveStudents) ; print 'Attachment : ' + convert(varchar(10), @@rowcount)
+delete x from Attachment x left join PrgItem i on x.ItemID = i.ID where x.StudentID not in (
+	select isnull(y.StudentID, @zg) 
+	from @SaveStudents y
+	union 
+	select isnull(z.StudentID, @zg) 
+	from @SaveStudents z join PrgItem on z.StudentID = i.StudentID) ; print 'Attachment : ' + convert(varchar(10), @@rowcount)
+
 delete x from PrgDocument x join PrgItem i on x.ItemID = i.ID where i.StudentID not in (select isnull(StudentID, @zg) from @SaveStudents) ; print 'PrgDocument : ' + convert(varchar(10), @@rowcount)
 
 delete x from IepDisabilityEligibility x join PrgSection ps on x.InstanceID = ps.ID join PrgItem i on ps.ItemID = i.ID  where i.StudentID not in (select isnull(StudentID, @zg) from @SaveStudents) ; print 'IepDisabilityEligibility : ' + convert(varchar(10), @@rowcount)
@@ -74,7 +80,7 @@ delete x from PrgActivitySchedule x join PrgItem i on x.ItemId = i.ID where i.St
 delete x from PrgGoal x join PrgSection ps on x.InstanceID = ps.ID join PrgItem i on ps.ItemId = i.ID where i.StudentID not in (select isnull(StudentID, @zg) from @SaveStudents) ; print 'PrgGoal : ' + convert(varchar(10), @@rowcount)
 delete x from PrgInterventionSubVariant x join PrgItem i on x.InterventionID = i.ID where i.StudentID not in (select isnull(StudentID, @zg) from @SaveStudents) ; print 'PrgInterventionSubVariant : ' + convert(varchar(10), @@rowcount)
 
-delete x from PrgCrossVersionGoal x where ID not in (select CrossVersionGoalID from PrgGoal) ; print PrgCrossVersionGoal' : ' + convert(varchar(10), @@rowcount)
+delete x from PrgCrossVersionGoal x where ID not in (select CrossVersionGoalID from PrgGoal) ; print 'PrgCrossVersionGoal : ' + convert(varchar(10), @@rowcount)
 
 delete x from PrgItemRel x join PrgItem i on x.InitiatingItemID = i.ID where i.StudentID not in (select isnull(StudentID, @zg) from @SaveStudents) ; print 'PrgItemRel : ' + convert(varchar(10), @@rowcount)
 delete x from PrgItemTeamMember x join PrgItem i on x.ItemID = i.ID where i.StudentID not in (select isnull(StudentID, @zg) from @SaveStudents)  ; print 'PrgItemTeamMember : ' + convert(varchar(10), @@rowcount)
