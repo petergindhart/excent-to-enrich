@@ -114,6 +114,7 @@ INSERT INTO @VC3ETL_LoadTable VALUES ('8cf3ee0f-0a3b-4c16-8489-f43c011e94b1', '2
 INSERT INTO @VC3ETL_LoadTable VALUES ('dcaa0626-5046-4b9c-93d9-f448f77de1bd', '29d14961-928d-4bee-9025-238496d144c6', 33, 'LEGACYSPED.IepGoal_InsertAllRecordsFromLegacySped', NULL, 0, NULL, NULL, NULL, 4, 0, 0, 0, 1, NULL, NULL, NULL, 0, 0, '1/1/1970 12:00:00 AM', NULL, NULL)
 INSERT INTO @VC3ETL_LoadTable VALUES ('51df9a0a-bdf5-42d4-8858-f7b7ed98af56', '29d14961-928d-4bee-9025-238496d144c6', 2, 'LEGACYSPED.Transform_IepPlacementOption', 'IepPlacementOption', 1, 'LEGACYSPED.MAP_IepPlacementOptionID', 'PlacementTypeCode, PlacementOptionCode', NULL, 1, 0, 1, 1, 1, NULL, 's.DestID in (select DestID from LEGACYSPED.MAP_IepPlacementOptionID)', NULL, 0, 0, '1/1/1970 12:00:00 AM', NULL, NULL)
 INSERT INTO @VC3ETL_LoadTable VALUES ('b471f9b9-b781-4646-9788-f7fcb0390eb2', '29d14961-928d-4bee-9025-238496d144c6', 2, 'LEGACYSPED.Transform_PrgStatus', 'PrgStatus', 1, 'LEGACYSPED.MAP_PrgStatusID', 'PrgStatusCode', NULL, 1, 0, 1, 1, 1, NULL, 's.DestID in (select DestID from LEGACYSPED.MAP_PrgStatusID)', NULL, 0, 0, '1/1/1970 12:00:00 AM', NULL, NULL)
+INSERT INTO @VC3ETL_LoadTable VALUES ('5A82CC4C-1687-4DAC-87C9-BB90830E055F', '29d14961-928d-4bee-9025-238496d144c6', 35, 'LEGACYSPED.Transform_PrgGoal', 'PrgCrossVersionGoal', 1, 'LEGACYSPED.MAP_PrgGoalID', 'GoalRefID', 'CrossVersionGoalID', 1, 0, 1, 1, 1, NULL, NULL, NULL, 0, 0, '1/1/1970 12:00:00 AM', NULL, NULL)
 
 -- Declare a temporary table to hold the data to be synchronized
 DECLARE @VC3ETL_LoadColumn TABLE (ID uniqueidentifier, LoadTable uniqueidentifier, SourceColumn varchar(500), DestColumn varchar(500), ColumnType char(1), UpdateOnDelete bit, DeletedValue varchar(500), NullValue varchar(500), Comments varchar(1000))
@@ -415,7 +416,7 @@ INSERT INTO @VC3ETL_LoadColumn VALUES ('55E00304-7E7B-4343-B8AA-9B907173C7B5', '
 --Version .3552 db PrgGoal
 INSERT INTO @VC3ETL_LoadColumn VALUES ('50FDE12F-C2E8-4E66-A698-ACF948F3DCFC', '0ec64939-dec1-4d0f-bc24-5767bcc85507', 'CrossVersionGoalID', 'CrossVersionGoalID', 'C', 0, NULL, NULL, NULL)
 INSERT INTO @VC3ETL_LoadColumn VALUES ('F6A44A63-6C57-490E-8695-0F036DE0E669', '1D683708-D043-4CE3-8427-E5E9AD0D6256', 'CrossVersionGoalID', 'CrossVersionGoalID', 'C', 0, NULL, NULL, NULL)
-
+INSERT INTO @VC3ETL_LoadColumn VALUES ('FD6C8AAE-B395-4588-8A89-AA87234C6F5A', '5A82CC4C-1687-4DAC-87C9-BB90830E055F', 'CrossVersionGoalID', 'ID', 'K', 0, NULL, NULL, NULL)
 
 -- refactor 
 delete Destination
