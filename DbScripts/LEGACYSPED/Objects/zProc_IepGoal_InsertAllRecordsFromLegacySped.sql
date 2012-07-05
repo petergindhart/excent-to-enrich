@@ -36,6 +36,7 @@ ParentID	uniqueidentifier,
 FormInstanceID	uniqueidentifier,
 EsyID	varchar(36) NOT NULL,
 DoNotTouch int not null,
+CrossVersionGoalID uniqueidentifier,
 	primary key (IepRefID, GoalRefID)
 )
 
