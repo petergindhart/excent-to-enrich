@@ -1,5 +1,5 @@
 set nocount on;
-
+Begin tran fixservdef
 declare @ServiceDef table (ID uniqueidentifier, CategoryID uniqueidentifier, Name varchar(100), Description text, DefaultLocationID uniqueidentifier, MinutesPerUnit int) 
 
 insert @ServiceDef (ID, CategoryID, Name) values ('8C054380-B22F-4D2A-98DE-568498E06EAB', '4CA5DB1F-2CAC-4DDC-B856-B4B8BFE88BDD', 'Assistive Technology Services')
@@ -85,7 +85,7 @@ insert @MAP_ServiceDef values ('6C1EA4EC-C0F0-4C7D-99F2-7AFBB2DBB68C', 'BA58A524
 insert @MAP_ServiceDef values ('94C0C353-6595-4A7E-873E-CE77A52474FA', 'B111C18D-AA0C-4982-9CFE-4E9C3F75611A') -- 'Counseling')
 insert @MAP_ServiceDef values ('E3A7E8E5-72C4-4871-8381-E081EC81D1D6', 'FB6F9141-CE06-4B61-AA29-A14FED8C1CCC') -- 'Interpreting Services')
 --insert @MAP_ServiceDef values ('B874A136-2F0E-4955-AA1E-1F0D45F263FB', '') -- 'Occupational Therapy')
-insert @MAP_ServiceDef values ('CABB2C1E-BC93-4D52-9E2D-AF52A259AD17', 'B6AC6BB7-E6D3-4C45-AA93-438B015DB2B2') -- 'Orientation & Mobility Services')
+insert @MAP_ServiceDef values ('CABB2C1E-BC93-4D52-9E2D-AF52A259AD17', '2A5019F5-A314-4053-B038-9A0D2A3AEB5E') -- 'Orientation & Mobility Services')
 insert @MAP_ServiceDef values ('AA695BB6-947F-44A8-8AB3-43E1B01B6877', '4161C328-1AAE-41E1-9CA8-3699031912FF') -- 'Parent Counseling and Training')
 insert @MAP_ServiceDef values ('829EA69A-629D-4883-B2A1-446E3ED2872D', 'AF88E635-7B1C-4F95-B43D-847AA466C669') -- 'Personal Care Services')
 --insert @MAP_ServiceDef values ('73107912-4959-4137-910B-B17E52076074', '') -- 'Physical Therapy')
@@ -172,6 +172,7 @@ from ServiceDef x join
 
 
 commit tran fixservdef
+--rollback tran fixservdef
 
 
 
