@@ -68,7 +68,7 @@ AS
 -- IepGoal
   EsyID = case when g.IsEsy = 'Y' then 'B76DDCD6-B261-4D46-A98E-857B0A814A0C' else 'F7E20A86-2709-4170-9810-15B601C61B79' end, -- source.    Consider getting PrgGoal.ID from PrgGoal table
   i.DoNotTouch,
-  CrossVersionGoalID = m.CrossVersionGoalID
+  CrossVersionGoalID = isnull(m.CrossVersionGoalID, NEWID())
  FROM
   LEGACYSPED.Goal g JOIN
   LEGACYSPED.GoalAreaExists e on g.GoalRefID = e.GoalRefID LEFT JOIN 
