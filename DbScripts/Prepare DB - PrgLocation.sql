@@ -131,7 +131,7 @@ commit tran FixLocation
 --where t.ID is null order by x.Name
 
 -- View the final result.  Compare to the SelectLists template 
---select * from PrgLocation d order by d.Name
+-- select * from PrgLocation d order by d.Name
 
 
 
