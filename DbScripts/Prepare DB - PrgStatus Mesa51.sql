@@ -1,4 +1,7 @@
 
+
+begin tran FixPrgStatus
+
 set nocount on;
 
 declare @PrgStatus table (ID uniqueidentifier, ProgramID uniqueidentifier, Sequence int, Name varchar(50), IsExit bit, IsEntry bit,  StatusStyleID uniqueidentifier, StateCode varchar(20), Description text)
@@ -45,8 +48,6 @@ where t.ID is null and g.ProgramID = 'F98A8EF2-98E2-4CAC-95AF-D7D89EF7F80C' and 
 and g.Sequence not between 5 and 9
 order by g.DeletedDate desc, g.Sequence, g.stateCode, g.Name
 
-
-begin tran FixPrgStatus
 
 declare @RelSchema varchar(100), @RelTable varchar(100), @RelColumn varchar(100), @KeepID varchar(50), @TossID varchar(50), @toss varchar(50);
 
