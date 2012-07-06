@@ -3,16 +3,16 @@
 -- #############################################################################
 -- This table will associate the Attachment with IepRefID.  IepRefId will be the primary Key.
 
-IF  NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'SPEDDOC.MAP_AttachmentID') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
+IF  NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'SPEDDOC.MAP_AttachmentID_IEP') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
 
 BEGIN 
-CREATE TABLE SPEDDOC.MAP_AttachmentID
+CREATE TABLE SPEDDOC.MAP_AttachmentID_IEP
 	(
 	IepRefID varchar(150) NOT NULL,
 	DestID uniqueidentifier NOT NULL
 	) 
 
-ALTER TABLE SPEDDOC.MAP_AttachmentID ADD CONSTRAINT
+ALTER TABLE SPEDDOC.MAP_AttachmentID_IEP ADD CONSTRAINT
 	PK_MAP_AttachmentID PRIMARY KEY CLUSTERED
 	(
 	IepRefID
@@ -21,11 +21,11 @@ END
 GO
 
 
-IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'SPEDDOC.Transform_Attachment') AND OBJECTPROPERTY(id, N'IsView') = 1)
-DROP VIEW SPEDDOC.Transform_Attachment
+IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'SPEDDOC.Transform_Attachment_IEP') AND OBJECTPROPERTY(id, N'IsView') = 1)
+DROP VIEW SPEDDOC.Transform_Attachment_IEP
 GO
 
-CREATE VIEW SPEDDOC.Transform_Attachment 
+CREATE VIEW SPEDDOC.Transform_Attachment_IEP
 AS
 /*
 	This view is used to retrieve data needed for Attachment table.  
@@ -51,7 +51,7 @@ FROM  SPEDDOC.IEPDoc IEPDoc
 	LEFT JOIN SPEDDOC.Transform_FileData MapFile 
 		ON MapFile.IepRefID = IEPDoc.IepRefID
 		
-	LEFT JOIN  SPEDDOC.MAP_AttachmentID MAttachment
+	LEFT JOIN  SPEDDOC.MAP_AttachmentID_IEP MAttachment
 		ON MAttachment.IepRefID = IEPDoc.IepRefID
 		
 	LEFT JOIN dbo.Attachment Attach
