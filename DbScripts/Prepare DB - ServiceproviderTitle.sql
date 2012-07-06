@@ -11,6 +11,8 @@
 
    ============================================	IMPORTANT! ============================================ */
 
+begin tran fixspt
+
 set nocount on;
 declare @ServiceProviderTitle table (ID uniqueidentifier, Name varchar(75), StateCode varchar(20))
 
@@ -31,8 +33,17 @@ insert @ServiceProviderTitle(ID , Name, StateCode )  values ('5D0EB909-4245-40EE
 insert @ServiceProviderTitle(ID , Name, StateCode )  values ('12E058BB-7407-4CC9-AB5A-15ED8BACE440','Teacher of Deaf/Hard of Hearing',NULL)
 insert @ServiceProviderTitle(ID , Name, StateCode )  values ('B4464F73-BEF2-4D84-88E4-23EB8D0CAE7D','Teacher of the Blind/Visually Impaired',NULL)
 
+---- insert test
+select t.*
+from ServiceProviderTitle x right join
+@ServiceProviderTitle t on x.ID = t.ID 
+where x.ID is null order by x.Name
 
-begin tran fixspt
+---- delete test
+select x.*
+from ServiceProviderTitle x left join
+@ServiceProviderTitle t on x.ID = t.ID 
+where t.ID is null order by x.Name
 
 
 declare @RelaSchema varchar(100), @RelaTable varchar(100), @RelaColumn varchar(100), @ID varchar(50)
