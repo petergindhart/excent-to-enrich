@@ -1,11 +1,12 @@
 -- #############################################################################
 -- Goal
 IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.MAP_PrgGoalID') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
-BEGIN
+BEGIN -- drop TABLE LEGACYSPED.MAP_PrgGoalID
 CREATE TABLE LEGACYSPED.MAP_PrgGoalID
 	(
 	GoalRefID nvarchar(150) NOT NULL,
-	DestID uniqueidentifier NOT NULL
+	DestID uniqueidentifier NOT NULL,
+	CrossVersionGoalID uniqueidentifier NOT NULL
 	)
 
 ALTER TABLE LEGACYSPED.MAP_PrgGoalID ADD CONSTRAINT
@@ -66,7 +67,8 @@ AS
   FormInstanceID = CAST(NULL as uniqueidentifier),
 -- IepGoal
   EsyID = case when g.IsEsy = 'Y' then 'B76DDCD6-B261-4D46-A98E-857B0A814A0C' else 'F7E20A86-2709-4170-9810-15B601C61B79' end, -- source.    Consider getting PrgGoal.ID from PrgGoal table
-  i.DoNotTouch
+  i.DoNotTouch,
+  CrossVersionGoalID = isnull(m.CrossVersionGoalID, NEWID())
  FROM
   LEGACYSPED.Goal g JOIN
   LEGACYSPED.GoalAreaExists e on g.GoalRefID = e.GoalRefID LEFT JOIN 

@@ -53,9 +53,15 @@ insert @SaveStudents (StudentID, OldNumber, OldFirstname, OldLastname, NewNumber
 -- delete sample student guardians from the mapping table
 delete m from EFF.Map_StudentGuardianID m join EFF.StudentGuardians g on m.ID = g.GuardianID join @SaveStudents s on g.StudentID = s.OldNumber ; print 'Delete Guardian ID from MAP table : ' + convert(varchar(10), @@rowcount)
 
-select * from @SaveStudents -- test it
+--select * from @SaveStudents -- test it
 
-delete x from Attachment x left join PrgItem i on x.ItemID = i.ID where x.StudentID not in (select isnull(StudentID, @zg) from @SaveStudents) and i.StudentID not in (select isnull(StudentID, @zg) from @SaveStudents) ; print 'Attachment : ' + convert(varchar(10), @@rowcount)
+delete x from Attachment x left join PrgItem i on x.ItemID = i.ID where x.StudentID not in (
+	select isnull(y.StudentID, @zg) 
+	from @SaveStudents y
+	union 
+	select isnull(z.StudentID, @zg) 
+	from @SaveStudents z join PrgItem on z.StudentID = i.StudentID) ; print 'Attachment : ' + convert(varchar(10), @@rowcount)
+
 delete x from PrgDocument x join PrgItem i on x.ItemID = i.ID where i.StudentID not in (select isnull(StudentID, @zg) from @SaveStudents) ; print 'PrgDocument : ' + convert(varchar(10), @@rowcount)
 
 delete x from IepDisabilityEligibility x join PrgSection ps on x.InstanceID = ps.ID join PrgItem i on ps.ItemID = i.ID  where i.StudentID not in (select isnull(StudentID, @zg) from @SaveStudents) ; print 'IepDisabilityEligibility : ' + convert(varchar(10), @@rowcount)
@@ -71,8 +77,10 @@ delete x from IntvGoal x join PrgItem i on x.InterventionID = i.ID where i.Stude
 -- delete x from MosRelatedService x join PrgMatrixOfServices pms on x.MatrixOfServicesID = pms.ID join PrgItem i on pms.ID = i.ID where i.StudentID not in (select isnull(StudentID, @zg) from @SaveStudents) ; print 'MosRelatedService : ' + convert(varchar(10), @@rowcount)
 delete x from PrgActivity x join PrgItem i on x.ID = i.ID where i.StudentID not in (select isnull(StudentID, @zg) from @SaveStudents) ; print 'PrgActivity : ' + convert(varchar(10), @@rowcount)
 delete x from PrgActivitySchedule x join PrgItem i on x.ItemId = i.ID where i.StudentID not in (select isnull(StudentID, @zg) from @SaveStudents) ; print 'PrgActivitySchedule : ' + convert(varchar(10), @@rowcount)
-delete x from PrgGoal x join PrgSection ps on x.InstanceID = ps.ID join PrgItem i on ps.ItemId = i.ID where i.StudentID not in (select isnull(StudentID, @zg) from @SaveStudents) ; print 'Attachment : ' + convert(varchar(10), @@rowcount)
+delete x from PrgGoal x join PrgSection ps on x.InstanceID = ps.ID join PrgItem i on ps.ItemId = i.ID where i.StudentID not in (select isnull(StudentID, @zg) from @SaveStudents) ; print 'PrgGoal : ' + convert(varchar(10), @@rowcount)
 delete x from PrgInterventionSubVariant x join PrgItem i on x.InterventionID = i.ID where i.StudentID not in (select isnull(StudentID, @zg) from @SaveStudents) ; print 'PrgInterventionSubVariant : ' + convert(varchar(10), @@rowcount)
+
+delete x from PrgCrossVersionGoal x where ID not in (select CrossVersionGoalID from PrgGoal) ; print 'PrgCrossVersionGoal : ' + convert(varchar(10), @@rowcount)
 
 delete x from PrgItemRel x join PrgItem i on x.InitiatingItemID = i.ID where i.StudentID not in (select isnull(StudentID, @zg) from @SaveStudents) ; print 'PrgItemRel : ' + convert(varchar(10), @@rowcount)
 delete x from PrgItemTeamMember x join PrgItem i on x.ItemID = i.ID where i.StudentID not in (select isnull(StudentID, @zg) from @SaveStudents)  ; print 'PrgItemTeamMember : ' + convert(varchar(10), @@rowcount)
@@ -434,12 +442,13 @@ delete g
 from GradeLevel g left join 
 Student s on g.ID = s.CurrentGradeLevelID left join
 IepStandard t on g.ID = t.MinGradeID left join 
-ContentAreaRequirement c on g.ID = c.MinGradeID 
+ContentAreaRequirement c on g.ID = c.MinGradeID left join
+StudentGradeLevelHistory h on g.ID = h.GradeLevelID
 where Active = 0
 and s.ID is null
 and t.ID is null
 and c.Id is null
-
+and h.GradeLevelID is null
 
 
 -- break the association between the mosratingdef and iepgoalareas that will be deleted.  is this okay?

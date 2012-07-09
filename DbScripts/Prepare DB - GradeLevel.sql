@@ -68,9 +68,10 @@ Begin tran fixgrad
 
 
 -- update state code
-update g set StateCode = t.StateCode
+update g set StateCode = t.StateCode,
+			 Active = t.Active	
 -- select g.*, t.StateCode
-from GradeLevel g left join
+from GradeLevel g  join
 @GradeLevel t on g.ID = t.ID 
 
 -- 7269BD32-C052-455B-B3E3-FF5BCB199679	00
@@ -101,8 +102,10 @@ declare @MAP_GradeLevel table (KeepID uniqueidentifier, TossID uniqueidentifier)
 -- 2. Add the ID that needs to be deleted in the Empty quotes of the Values insert
 --insert @MAP_GradeLevel values ('C808C991-CA93-4F51-AF41-A8BA494AC10F', '') --  '') --  'Infant', 1, 0, 0, '002') 
 --insert @MAP_GradeLevel values ('4B0ED575-7C9A-451D-A8E6-2D9F22F31349', '') --  'Half Day K', 1, 0, 0, '006') 
---insert @MAP_GradeLevel values ('6061CD90-8BEC-4389-A140-CF645A5D47FE', '') --  'Pre-K', 1, 1, 0, '004') 
+insert @MAP_GradeLevel values ('6061CD90-8BEC-4389-A140-CF645A5D47FE', 'E4C4E846-B85F-4AB5-871B-A8976EE25A69') --  'Pre-K', 1, 1, 0, '004') 
+insert @MAP_GradeLevel values ('6061CD90-8BEC-4389-A140-CF645A5D47FE', 'D90C08C8-683F-4C2B-9D1F-769D904CD060') --  'Pre-K', 1, 1, 0, '004') 
 insert @MAP_GradeLevel values ('7269BD32-C052-455B-B3E3-FF5BCB199679', '10B6907F-2675-4610-983E-B460338569BE') --  '00', 1, 2, 0, '007') 
+insert @MAP_GradeLevel values ('7269BD32-C052-455B-B3E3-FF5BCB199679', 'AA2D13F2-ABFF-4245-8B48-EA13EE264B70') --  '00', 1, 2, 0, '007') 
 --insert @MAP_GradeLevel values ('07975B7A-8A1A-47AE-A71F-7ED97BA9D48B', '') --  '01', 1, 4, 2, '010') 
 --insert @MAP_GradeLevel values ('DDC4180A-64FC-49BD-AC11-DAA185059885', '') --  '02', 1, 8, 3, '020') 
 --insert @MAP_GradeLevel values ('D3C1BD80-0D32-4317-BAB8-CAF196D19350', '') --  '03', 1, 16, 4, '030') 
@@ -148,6 +151,7 @@ begin
 	where SCHEMA_NAME(o.SCHEMA_ID) = 'dbo' 
 		and OBJECT_NAME (f.referenced_object_id) = 'GradeLevel' 
 		and COL_NAME(fc.referenced_object_id,fc.referenced_column_id) = 'ID'
+		and OBJECT_NAME(f.parent_object_id) <> 'StudentGradeLevelHistory'
 	order by SchemaName, TableName, ColumnName
 
 	open R
@@ -157,30 +161,50 @@ begin
 	begin
 
  	exec ('update t set '+@relcolumn+' = '''+@KeepID+''' from '+@relschema+'.'+@reltable+' t where t.'+@relcolumn+' = '''+@TossID+'''' )
-
+	--print 'update t set '+@relcolumn+' = '''+@KeepID+''' from '+@relschema+'.'+@reltable+' t where t.'+@relcolumn+' = '''+@TossID+'''' 
 	fetch R into @relschema, @RelTable, @relcolumn
 	end
 	close R
 	deallocate R
+
+exec ('
+update ts set GradeLevelID = '''+@KeepID+'''
+-- select ts.*, kp.GradeLevelID
+from dbo.StudentGradeLevelHistory ts 
+left join dbo.StudentGradeLevelHistory kp on kp.StudentID = ts.StudentID and kp.StartDate = ts.StartDate and kp.GradeLevelID = '''+@KeepID+'''
+where ts.GradeLevelID = '''+@TossID+'''
+and kp.GradeLevelID is null
+
+delete ts 
+-- select ts.*, kp.GradeLevelID
+from dbo.StudentGradeLevelHistory ts 
+where ts.GradeLevelID = '''+@TossID+'''
+
+')
 
 fetch I into @KeepID, @TossID
 end
 close I
 deallocate I
 
+/* 
+set nocount off;
+update ts set GradeLevelID = '6061CD90-8BEC-4389-A140-CF645A5D47FE'
+-- select ts.*, kp.GradeLevelID
+from dbo.StudentGradeLevelHistory ts 
+left join dbo.StudentGradeLevelHistory kp on kp.StudentID = ts.StudentID and kp.StartDate = ts.StartDate and kp.GradeLevelID = '6061CD90-8BEC-4389-A140-CF645A5D47FE'
+where ts.GradeLevelID = 'D90C08C8-683F-4C2B-9D1F-769D904CD060'
+and kp.GradeLevelID is null
 
-/* -- these tables from Ute Pass BOCES database were successfully updated during testing, permitting the deletion of the uneeded records from GradeLevel
+delete ts 
+-- select ts.*, kp.GradeLevelID
+from dbo.StudentGradeLevelHistory ts 
+where ts.GradeLevelID = 'D90C08C8-683F-4C2B-9D1F-769D904CD060'
 
-ClassRoster
-ContentAreaRequirement
-GradeGoal
-Student
-StudentGradeLevelHistory
-TestScoreGoalValue
 
 */
 
----- delete unneeded
+ --delete unneeded
 delete g
 -- select g.*, t.StateCode
 from GradeLevel g join
@@ -190,26 +214,10 @@ commit tran fixgrad
 
 --Rollback tran fixgrad
 
+--select * from StudentGradeLevelHistory where GradeLevelID = 'D90C08C8-683F-4C2B-9D1F-769D904CD060'
 
-/*
-select * from GradeLevel g order by g.Active desc, g.Sequence, g.BitMask, g.stateCode, g.Name
+--select * from GradeLevel order by bitmask
 
-6061CD90-8BEC-4389-A140-CF645A5D47FE	PK	1	1		0	PK
-7269BD32-C052-455B-B3E3-FF5BCB199679	K	0	2		0	KG
-07975B7A-8A1A-47AE-A71F-7ED97BA9D48B	01	1	4		2	01
-DDC4180A-64FC-49BD-AC11-DAA185059885	02	1	8		3	02
-D3C1BD80-0D32-4317-BAB8-CAF196D19350	03	1	16		4	03
-BE4F651A-D5B5-4B05-8237-9FD33E4D2B68	04	1	32		5	04
-5A021B34-D33B-43B5-BD8A-40446AC2E972	05	1	64		6	05
-92B484A3-2DBD-4952-9519-03B848AE1215	06	1	128		7	06
-81FEC824-DB83-4C5D-91A5-2DFE72DE93EC	07	1	256		8	07
-245F48A7-6927-4EFA-A3F2-AF30463C9B4D	08	1	512		9	08
-FA02DAC4-AE22-4370-8BE3-10C3F2D92CB3	09	1	1024	10	09
-8085537C-8EA9-4801-8EC8-A8BDA7E61DB6	10	1	2048	11	10
-EA727CED-8A2C-4434-974A-6D8D924D95C6	11	1	4096	12	11
-0D7B8529-62C7-4F25-B78F-2A4724BD7990	12	1	8192	13	12
-
-*/
 
 
 

@@ -5,19 +5,22 @@ BEGIN TRAN
 DECLARE @VC3ETL_ExtractDatabase TABLE (ID uniqueidentifier, Type uniqueidentifier, DatabaseType uniqueidentifier, Server varchar(64), DatabaseOwner varchar(64), DatabaseName varchar(128), Username varchar(32), Password varchar(32), LinkedServer varchar(100), IsLinkedServerManaged bit, LastExtractDate datetime, LastLoadDate datetime, SucceededEmail varchar(500), SucceededSubject text, SucceededMessage text, FailedEmail varchar(500), FailedSubject text, FailedMessage text, RetainSnapshot bit, DestTableTempSuffix varchar(30), DestTableFinalSuffix varchar(30), FileGroup varchar(64), Schedule uniqueidentifier, Name varchar(100), Enabled bit)
 
 -- Insert the data to be synchronized into the temporary table
-INSERT INTO @VC3ETL_ExtractDatabase VALUES ('29d14961-928d-4bee-9025-238496d144c6', '84d37f9e-a389-4e56-812f-7378401f3347', '58ba0c59-5087-4f38-b00b-f3480c93064b', NULL, NULL, NULL, NULL, NULL, NULL, 0, '1/1/1970 12:00:00 AM', '1/1/1970 12:00:00 AM', NULL, '{BrandName} {SisDatabase} import completed', 'Successfully imported {SnapshotRosterYear} {SisDatabase} data into {BrandName}.  {SisDatabase} data in {BrandName} is now current as of {SnapshotDate}.      Next Scheduled Import Time: {NextImportTime}', NULL, NULL, '{BrandName} {SisDatabase} import failed', 1, '_NEW', '_LOCAL', NULL, 'b588bec0-05e5-4891-8cf3-1d4fedee9edc', 'Special Ed Data', 1)
+INSERT INTO @VC3ETL_ExtractDatabase VALUES ('29d14961-928d-4bee-9025-238496d144c6', '049884C0-518A-4C24-8772-CDA3AEEEFE0D', '58ba0c59-5087-4f38-b00b-f3480c93064b', NULL, NULL, NULL, NULL, NULL, NULL, 0, '1/1/1970 12:00:00 AM', '1/1/1970 12:00:00 AM', NULL, '{BrandName} {SisDatabase} import completed', 'Successfully imported {SnapshotRosterYear} {SisDatabase} data into {BrandName}.  {SisDatabase} data in {BrandName} is now current as of {SnapshotDate}.      Next Scheduled Import Time: {NextImportTime}', NULL, NULL, '{BrandName} {SisDatabase} import failed', 1, '_NEW', '_LOCAL', NULL, 'b588bec0-05e5-4891-8cf3-1d4fedee9edc', 'Special Ed Data', 1)
 
 -- Declare a temporary table to hold the data to be synchronized
 DECLARE @VC3ETL_FlatFileExtractDatabase TABLE (ID uniqueidentifier, LocalCopyPath varchar(1000))
 
 -- Insert the data to be synchronized into the temporary table
-INSERT INTO @VC3ETL_FlatFileExtractDatabase VALUES ('29d14961-928d-4bee-9025-238496d144c6', 'E:\DataFiles\COUPB')
+INSERT INTO @VC3ETL_FlatFileExtractDatabase VALUES ('29d14961-928d-4bee-9025-238496d144c6', 'E:\DataFiles\CODYC')
 
 -- Declare a temporary table to hold the data to be synchronized
-DECLARE @dbo_InformExtractDatabase TABLE (ID uniqueidentifier, LastExtractRosterYear uniqueidentifier, LastLoadRosterYear uniqueidentifier)
+--DECLARE @dbo_InformExtractDatabase TABLE (ID uniqueidentifier, LastExtractRosterYear uniqueidentifier, LastLoadRosterYear uniqueidentifier)
 
 -- Insert the data to be synchronized into the temporary table
-INSERT INTO @dbo_InformExtractDatabase VALUES ('29d14961-928d-4bee-9025-238496d144c6', NULL, NULL)
+--INSERT INTO @dbo_InformExtractDatabase VALUES ('29d14961-928d-4bee-9025-238496d144c6', NULL, NULL)
+
+declare @dbo_EnrichFileFormatExtractDatabase table (ID uniqueidentifier, OrgUnitID uniqueidentifier)
+insert @dbo_EnrichFileFormatExtractDatabase (ID, OrgUnitID) values ('29D14961-928D-4BEE-9025-238496D144C6', '6531EF88-352D-4620-AF5D-CE34C54A9F53')
 
 -- Declare a temporary table to hold the data to be synchronized
 DECLARE @VC3ETL_FlatFileExtractTableType TABLE (ID char(1), Name varchar(50), TextQualifier char(1), ColumnDelimiter char(1))
@@ -76,7 +79,7 @@ INSERT INTO @VC3ETL_LoadTable VALUES ('7dc04117-bfed-4d7b-afde-3adc11f8858a', '2
 INSERT INTO @VC3ETL_LoadTable VALUES ('24326fb7-7ed4-49fd-8831-455068906ab9', '29d14961-928d-4bee-9025-238496d144c6', 10, 'LEGACYSPED.Transform_PrgIep', 'PrgVersion', 1, 'LEGACYSPED.MAP_PrgVersionID', 'IepRefID', NULL, 1, 0, 1, 1, 1, 'DoNotTouch = 0', NULL, NULL, 0, 0, '1/1/1970 12:00:00 AM', NULL, NULL)
 INSERT INTO @VC3ETL_LoadTable VALUES ('1427c99a-db2e-409b-adf0-51e2689ad311', '29d14961-928d-4bee-9025-238496d144c6', 6, 'LEGACYSPED.Transform_StudentSchoolAndGrade', 'StudentGradeLevelHistory', 0, NULL, NULL, NULL, 1, 0, 0, 1, 1, 'ManuallyEntered = 1 and GradeLevelHistoryExists = 0', NULL, NULL, 0, 0, '1/1/1970 12:00:00 AM', NULL, NULL)
 INSERT INTO @VC3ETL_LoadTable VALUES ('a50621c2-b0ca-4eec-b77d-54777d6b0508', '29d14961-928d-4bee-9025-238496d144c6', 777, 'LEGACYSPED.Transform_PrgInvolvementStatus', 'PrgInvolvementStatus', 0, NULL, NULL, NULL, 2, 1, 0, 1, 0, 'InvolvementID not in (select InvolvementID from PrgInvolvementStatus)', 'InvolvementID not in (select ID from PrgInvolvement)', NULL, 0, 0, '1/1/1970 12:00:00 AM', NULL, NULL)
-INSERT INTO @VC3ETL_LoadTable VALUES ('0ec64939-dec1-4d0f-bc24-5767bcc85507', '29d14961-928d-4bee-9025-238496d144c6', 32, 'LEGACYSPED.Transform_PrgGoal', 'PrgGoal', 1, 'LEGACYSPED.MAP_PrgGoalID', 'GoalRefID', 'DestID', 1, 0, 1, 1, 1, NULL, NULL, NULL, 0, 0, '1/1/1970 12:00:00 AM', NULL, NULL)
+INSERT INTO @VC3ETL_LoadTable VALUES ('0ec64939-dec1-4d0f-bc24-5767bcc85507', '29d14961-928d-4bee-9025-238496d144c6', 32, 'LEGACYSPED.Transform_PrgGoal', 'PrgGoal', 0, NULL, 'GoalRefID', 'DestID', 1, 0, 1, 1, 1, NULL, NULL, NULL, 0, 0, '1/1/1970 12:00:00 AM', NULL, NULL)
 INSERT INTO @VC3ETL_LoadTable VALUES ('562c44e5-1e09-440c-b8eb-61c41aca4a19', '29d14961-928d-4bee-9025-238496d144c6', 18, 'LEGACYSPED.Transform_IepPlacement', 'IepPlacement', 1, 'LEGACYSPED.MAP_IepPlacementID', 'IepRefID, TypeId', 'DestID', 1, 0, 1, 1, 1, 'DoNotTouch = 0', NULL, NULL, 0, 0, '1/1/1970 12:00:00 AM', NULL, NULL)
 INSERT INTO @VC3ETL_LoadTable VALUES ('27e7669a-bc10-40a7-be54-6c66b37722ab', '29d14961-928d-4bee-9025-238496d144c6', 19, 'LEGACYSPED.Transform_IepEligibilityDetermination', 'IepEligibilityDetermination', 0, NULL, NULL, NULL, 1, 0, 1, 1, 1, 'Touched = 0', NULL, NULL, 0, 0, '1/1/1970 12:00:00 AM', NULL, NULL)
 INSERT INTO @VC3ETL_LoadTable VALUES ('e18b4c88-951d-4558-9b6a-7388af354449', '29d14961-928d-4bee-9025-238496d144c6', 15, 'LEGACYSPED.Transform_PrgItemTeamMember', 'PrgItemTeamMember', 0, NULL, NULL, NULL, 2, 1, 0, 1, 1, NULL, 'ItemID in (select DestID from LEGACYSPED.MAP_IEPStudentRefID)', NULL, 0, 0, '1/1/1970 12:00:00 AM', NULL, NULL)
@@ -111,6 +114,7 @@ INSERT INTO @VC3ETL_LoadTable VALUES ('8cf3ee0f-0a3b-4c16-8489-f43c011e94b1', '2
 INSERT INTO @VC3ETL_LoadTable VALUES ('dcaa0626-5046-4b9c-93d9-f448f77de1bd', '29d14961-928d-4bee-9025-238496d144c6', 33, 'LEGACYSPED.IepGoal_InsertAllRecordsFromLegacySped', NULL, 0, NULL, NULL, NULL, 4, 0, 0, 0, 1, NULL, NULL, NULL, 0, 0, '1/1/1970 12:00:00 AM', NULL, NULL)
 INSERT INTO @VC3ETL_LoadTable VALUES ('51df9a0a-bdf5-42d4-8858-f7b7ed98af56', '29d14961-928d-4bee-9025-238496d144c6', 2, 'LEGACYSPED.Transform_IepPlacementOption', 'IepPlacementOption', 1, 'LEGACYSPED.MAP_IepPlacementOptionID', 'PlacementTypeCode, PlacementOptionCode', NULL, 1, 0, 1, 1, 1, NULL, 's.DestID in (select DestID from LEGACYSPED.MAP_IepPlacementOptionID)', NULL, 0, 0, '1/1/1970 12:00:00 AM', NULL, NULL)
 INSERT INTO @VC3ETL_LoadTable VALUES ('b471f9b9-b781-4646-9788-f7fcb0390eb2', '29d14961-928d-4bee-9025-238496d144c6', 2, 'LEGACYSPED.Transform_PrgStatus', 'PrgStatus', 1, 'LEGACYSPED.MAP_PrgStatusID', 'PrgStatusCode', NULL, 1, 0, 1, 1, 1, NULL, 's.DestID in (select DestID from LEGACYSPED.MAP_PrgStatusID)', NULL, 0, 0, '1/1/1970 12:00:00 AM', NULL, NULL)
+INSERT INTO @VC3ETL_LoadTable VALUES ('5A82CC4C-1687-4DAC-87C9-BB90830E055F', '29d14961-928d-4bee-9025-238496d144c6', 31, 'LEGACYSPED.Transform_PrgGoal', 'PrgCrossVersionGoal', 1, 'LEGACYSPED.MAP_PrgGoalID', 'GoalRefID, CrossVersionGoalID', NULL, 1, 0, 1, 1, 1, NULL, NULL, NULL, 0, 0, '1/1/1970 12:00:00 AM', NULL, NULL)
 
 -- Declare a temporary table to hold the data to be synchronized
 DECLARE @VC3ETL_LoadColumn TABLE (ID uniqueidentifier, LoadTable uniqueidentifier, SourceColumn varchar(500), DestColumn varchar(500), ColumnType char(1), UpdateOnDelete bit, DeletedValue varchar(500), NullValue varchar(500), Comments varchar(1000))
@@ -407,7 +411,12 @@ INSERT INTO @VC3ETL_LoadColumn VALUES ('96C352DA-FFC9-4BE1-9F40-D49DB2163C12', '
 -- This is a NULLable column that we are not populating in data convesion.  Please indicate what made it necessary to add these columns.
 -- INSERT INTO @VC3ETL_LoadColumn VALUES ('DF2D53C3-7804-4FA8-B3DA-ED87BE8271DC', 'cf569976-7a7d-4de8-8bd8-26e0563e0751', 'HeaderFormInstanceID', 'HeaderFormInstanceID', 'C', 0, NULL, NULL, NULL)
 -- INSERT INTO @VC3ETL_LoadColumn VALUES ('58756CF3-02D6-4328-BBFE-20D556DA7C4A', 'BED8E644-368F-4AE7-81D7-E7FFBDBFA9B6', 'HeaderFormInstanceID', 'HeaderFormInstanceID', 'C', 0, NULL, NULL, NULL)
-
+INSERT INTO @VC3ETL_LoadColumn VALUES ('33675BF2-CE26-4007-9B42-82D375CFE905', 'c258b587-87b6-40fa-83db-946c55d48482', 'IsOutOfState', 'IsOutOfState', 'C', 0, NULL, NULL, NULL)
+INSERT INTO @VC3ETL_LoadColumn VALUES ('55E00304-7E7B-4343-B8AA-9B907173C7B5', '24326fb7-7ed4-49fd-8831-455068906ab9', 'CreatedByID', 'CreatedByID', 'C', 0, NULL, NULL, NULL)
+--Version .3552 db PrgGoal
+INSERT INTO @VC3ETL_LoadColumn VALUES ('50FDE12F-C2E8-4E66-A698-ACF948F3DCFC', '0ec64939-dec1-4d0f-bc24-5767bcc85507', 'CrossVersionGoalID', 'CrossVersionGoalID', 'C', 0, NULL, NULL, NULL)
+INSERT INTO @VC3ETL_LoadColumn VALUES ('F6A44A63-6C57-490E-8695-0F036DE0E669', '1D683708-D043-4CE3-8427-E5E9AD0D6256', 'CrossVersionGoalID', 'CrossVersionGoalID', 'C', 0, NULL, NULL, NULL)
+INSERT INTO @VC3ETL_LoadColumn VALUES ('FD6C8AAE-B395-4588-8A89-AA87234C6F5A', '5A82CC4C-1687-4DAC-87C9-BB90830E055F', 'CrossVersionGoalID', 'ID', 'K', 0, NULL, NULL, NULL)
 
 -- refactor 
 delete Destination
@@ -420,22 +429,22 @@ Source.ID is null
 -- Insert records in the destination tables that do not already exist
 INSERT INTO VC3ETL.ExtractDatabase SELECT Source.* FROM @VC3ETL_ExtractDatabase Source LEFT JOIN VC3ETL.ExtractDatabase Destination ON Source.ID = Destination.ID WHERE Destination.ID IS NULL
 INSERT INTO VC3ETL.FlatFileExtractDatabase SELECT Source.* FROM @VC3ETL_FlatFileExtractDatabase Source LEFT JOIN VC3ETL.FlatFileExtractDatabase Destination ON Source.ID = Destination.ID WHERE Destination.ID IS NULL
-INSERT INTO dbo.InformExtractDatabase SELECT Source.* FROM @dbo_InformExtractDatabase Source LEFT JOIN dbo.InformExtractDatabase Destination ON Source.ID = Destination.ID WHERE Destination.ID IS NULL
 INSERT INTO VC3ETL.FlatFileExtractTableType SELECT Source.* FROM @VC3ETL_FlatFileExtractTableType Source LEFT JOIN VC3ETL.FlatFileExtractTableType Destination ON Source.ID = Destination.ID WHERE Destination.ID IS NULL
 INSERT INTO VC3ETL.ExtractTable SELECT Source.* FROM @VC3ETL_ExtractTable Source LEFT JOIN VC3ETL.ExtractTable Destination ON Source.ID = Destination.ID WHERE Destination.ID IS NULL
 INSERT INTO VC3ETL.FlatFileExtractTable SELECT Source.* FROM @VC3ETL_FlatFileExtractTable Source LEFT JOIN VC3ETL.FlatFileExtractTable Destination ON Source.ID = Destination.ID WHERE Destination.ID IS NULL
 INSERT INTO VC3ETL.LoadTable SELECT Source.* FROM @VC3ETL_LoadTable Source LEFT JOIN VC3ETL.LoadTable Destination ON Source.ID = Destination.ID WHERE Destination.ID IS NULL
 INSERT INTO VC3ETL.LoadColumn SELECT Source.* FROM @VC3ETL_LoadColumn Source LEFT JOIN VC3ETL.LoadColumn Destination ON Source.ID = Destination.ID WHERE Destination.ID IS NULL
+insert into dbo.EnrichFileFormatExtractDatabase (ID, OrgUnitID) select source.* from @dbo_EnrichFileFormatExtractDatabase source left join dbo.EnrichFileFormatExtractDatabase destination on source.ID = destination.ID where destination.ID is null
 
 -- Update records in the destination table that already exist
 UPDATE Destination SET Destination.Type = Source.Type, Destination.DatabaseType = Source.DatabaseType, Destination.Server = Source.Server, Destination.DatabaseOwner = Source.DatabaseOwner, Destination.DatabaseName = Source.DatabaseName, Destination.Username = Source.Username, Destination.Password = Source.Password, Destination.LinkedServer = Source.LinkedServer, Destination.IsLinkedServerManaged = Source.IsLinkedServerManaged, Destination.LastExtractDate = Source.LastExtractDate, Destination.LastLoadDate = Source.LastLoadDate, Destination.SucceededEmail = Source.SucceededEmail, Destination.SucceededSubject = Source.SucceededSubject, Destination.SucceededMessage = Source.SucceededMessage, Destination.FailedEmail = Source.FailedEmail, Destination.FailedSubject = Source.FailedSubject, Destination.FailedMessage = Source.FailedMessage, Destination.RetainSnapshot = Source.RetainSnapshot, Destination.DestTableTempSuffix = Source.DestTableTempSuffix, Destination.DestTableFinalSuffix = Source.DestTableFinalSuffix, Destination.FileGroup = Source.FileGroup, Destination.Schedule = Source.Schedule, Destination.Name = Source.Name, Destination.Enabled = Source.Enabled FROM @VC3ETL_ExtractDatabase Source JOIN VC3ETL.ExtractDatabase Destination ON Source.ID = Destination.ID
 UPDATE Destination SET Destination.LocalCopyPath = Source.LocalCopyPath FROM @VC3ETL_FlatFileExtractDatabase Source JOIN VC3ETL.FlatFileExtractDatabase Destination ON Source.ID = Destination.ID
-UPDATE Destination SET Destination.LastExtractRosterYear = Source.LastExtractRosterYear, Destination.LastLoadRosterYear = Source.LastLoadRosterYear FROM @dbo_InformExtractDatabase Source JOIN dbo.InformExtractDatabase Destination ON Source.ID = Destination.ID
 UPDATE Destination SET Destination.Name = Source.Name, Destination.TextQualifier = Source.TextQualifier, Destination.ColumnDelimiter = Source.ColumnDelimiter FROM @VC3ETL_FlatFileExtractTableType Source JOIN VC3ETL.FlatFileExtractTableType Destination ON Source.ID = Destination.ID
 UPDATE Destination SET Destination.ExtractDatabase = Source.ExtractDatabase, Destination.SourceTable = Source.SourceTable, Destination.DestSchema = Source.DestSchema, Destination.DestTable = Source.DestTable, Destination.PrimaryKey = Source.PrimaryKey, Destination.Indexes = Source.Indexes, Destination.LastSuccessfulCount = Source.LastSuccessfulCount, Destination.CurrentCount = Source.CurrentCount, Destination.Filter = Source.Filter, Destination.Enabled = Source.Enabled, Destination.IgnoreMissing = Source.IgnoreMissing, Destination.Columns = Source.Columns, Destination.Comments = Source.Comments FROM @VC3ETL_ExtractTable Source JOIN VC3ETL.ExtractTable Destination ON Source.ID = Destination.ID
 UPDATE Destination SET Destination.Type = Source.Type, Destination.FileName = Source.FileName FROM @VC3ETL_FlatFileExtractTable Source JOIN VC3ETL.FlatFileExtractTable Destination ON Source.ID = Destination.ID
 UPDATE Destination SET Destination.ExtractDatabase = Source.ExtractDatabase, Destination.Sequence = Source.Sequence, Destination.SourceTable = Source.SourceTable, Destination.DestTable = Source.DestTable, Destination.HasMapTable = Source.HasMapTable, Destination.MapTable = Source.MapTable, Destination.KeyField = Source.KeyField, Destination.DeleteKey = Source.DeleteKey, Destination.ImportType = Source.ImportType, Destination.DeleteTrans = Source.DeleteTrans, Destination.UpdateTrans = Source.UpdateTrans, Destination.InsertTrans = Source.InsertTrans, Destination.Enabled = Source.Enabled, Destination.SourceTableFilter = Source.SourceTableFilter, Destination.DestTableFilter = Source.DestTableFilter, Destination.PurgeCondition = Source.PurgeCondition, Destination.KeepMappingAfterDelete = Source.KeepMappingAfterDelete, Destination.StartNewTransaction = Source.StartNewTransaction, Destination.LastLoadDate = Source.LastLoadDate, Destination.MapTableMapID = Source.MapTableMapID, Destination.Comments = Source.Comments FROM @VC3ETL_LoadTable Source JOIN VC3ETL.LoadTable Destination ON Source.ID = Destination.ID
 UPDATE Destination SET Destination.LoadTable = Source.LoadTable, Destination.SourceColumn = Source.SourceColumn, Destination.DestColumn = Source.DestColumn, Destination.ColumnType = Source.ColumnType, Destination.UpdateOnDelete = Source.UpdateOnDelete, Destination.DeletedValue = Source.DeletedValue, Destination.NullValue = Source.NullValue, Destination.Comments = Source.Comments FROM @VC3ETL_LoadColumn Source JOIN VC3ETL.LoadColumn Destination ON Source.ID = Destination.ID
+--insert into dbo.EnrichFileFormatExtractDatabase (ID, OrgUnitID) select source.* from @dbo_EnrichFileFormatExtractDatabase source left join dbo.EnrichFileFormatExtractDatabase destination on source.ID = destination.ID where destination.ID is null
 
 set nocount off;
 

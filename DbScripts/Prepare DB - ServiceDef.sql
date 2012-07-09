@@ -1,3 +1,5 @@
+Begin tran fixservdef
+
 set nocount on;
 
 declare @ServiceDef table (ID uniqueidentifier, CategoryID uniqueidentifier, Name varchar(100), Description text, DefaultLocationID uniqueidentifier, MinutesPerUnit int) 
@@ -20,12 +22,15 @@ insert @ServiceDef (ID, CategoryID, Name) values ('42176279-A1A0-4699-B01B-187FD
 insert @ServiceDef (ID, CategoryID, Name) values ('E2819193-5118-4DC9-8433-6F35851C14FC', '4570E6F2-2691-4BB1-9BBB-A62AC3BEECB7', 'Instruction-Direct Outside Gen Ed Class')
 insert @ServiceDef (ID, CategoryID, Name) values ('9DE4CBF9-BD8D-490C-8E1B-34F5E73DEF11', '4570E6F2-2691-4BB1-9BBB-A62AC3BEECB7', 'Specialized Instruction')
 insert @ServiceDef (ID, CategoryID, Name) values ('BF859DEF-67A2-4285-A871-E80315AF3BD5', '4570E6F2-2691-4BB1-9BBB-A62AC3BEECB7', 'Speech/Language Services')
+insert @ServiceDef (ID, CategoryID, Name) values ('52AD0E2D-3A97-499A-95F4-5B4BB02912DF', '4570E6F2-2691-4BB1-9BBB-A62AC3BEECB7', 'Adapted Physical Education')
+insert @ServiceDef (ID, CategoryID, Name) values ('61D1B5E8-C054-4EA8-B9CB-F61EBDB1F629', '4570E6F2-2691-4BB1-9BBB-A62AC3BEECB7', 'Consultation')
 
 
 update x set Description = sd.Description, DefaultLocationID = sd.DefaultLocationID, MinutesPerUnit = sd.MinutesPerUnit
 from @ServiceDef x join 
 ServiceDef sd on x.Name = sd.Name
 
+--select * from @ServiceDef order by Name
 
 --select * from ServiceDef order by Name
 --select ID, 'D3945E9D-AA0E-4555-BCB2-F8CA95CC7784', Name from @ServiceDef order by Name
@@ -44,7 +49,6 @@ from ServiceDef x join
 where d.ID is null
 order by x.Name
 
-begin tran fixservdef
 
 
 
@@ -73,6 +77,7 @@ declare @MAP_ServiceDef table (KeepID uniqueidentifier, TossID uniqueidentifier)
    ============================================================================= NOTE ============================================================================= */
 
 
+declare @RelSchema varchar(100), @RelTable varchar(100), @RelColumn varchar(100), @KeepID varchar(50), @TossID varchar(50), @toss varchar(50);
 -- populate MAP
 -- this needs to be done by visual inspection because IepDisability names can vary widely
 --insert @MAP_ServiceDef values ('BBB4773F-4A8A-49E5-A0D4-952D2A0D1F18', 'B9AAA2A4-A395-4BF2-B5C1-6AF98CCEA676') -- 'Autism Spectrum Disorders'
@@ -82,7 +87,7 @@ insert @MAP_ServiceDef values ('6C1EA4EC-C0F0-4C7D-99F2-7AFBB2DBB68C', 'BA58A524
 insert @MAP_ServiceDef values ('94C0C353-6595-4A7E-873E-CE77A52474FA', 'B111C18D-AA0C-4982-9CFE-4E9C3F75611A') -- 'Counseling')
 insert @MAP_ServiceDef values ('E3A7E8E5-72C4-4871-8381-E081EC81D1D6', 'FB6F9141-CE06-4B61-AA29-A14FED8C1CCC') -- 'Interpreting Services')
 --insert @MAP_ServiceDef values ('B874A136-2F0E-4955-AA1E-1F0D45F263FB', '') -- 'Occupational Therapy')
-insert @MAP_ServiceDef values ('CABB2C1E-BC93-4D52-9E2D-AF52A259AD17', 'B6AC6BB7-E6D3-4C45-AA93-438B015DB2B2') -- 'Orientation & Mobility Services')
+insert @MAP_ServiceDef values ('CABB2C1E-BC93-4D52-9E2D-AF52A259AD17', '2A5019F5-A314-4053-B038-9A0D2A3AEB5E') -- 'Orientation & Mobility Services')
 insert @MAP_ServiceDef values ('AA695BB6-947F-44A8-8AB3-43E1B01B6877', '4161C328-1AAE-41E1-9CA8-3699031912FF') -- 'Parent Counseling and Training')
 insert @MAP_ServiceDef values ('829EA69A-629D-4883-B2A1-446E3ED2872D', 'AF88E635-7B1C-4F95-B43D-847AA466C669') -- 'Personal Care Services')
 --insert @MAP_ServiceDef values ('73107912-4959-4137-910B-B17E52076074', '') -- 'Physical Therapy')
@@ -95,6 +100,11 @@ insert @MAP_ServiceDef values ('42176279-A1A0-4699-B01B-187FD0FF07E2', '4B3948BD
 insert @MAP_ServiceDef values ('E2819193-5118-4DC9-8433-6F35851C14FC', '95D0A92D-784A-447C-B94B-AF407ABAA3E5') -- 'Instruction-Direct Outside Gen Ed Class')
 insert @MAP_ServiceDef values ('9DE4CBF9-BD8D-490C-8E1B-34F5E73DEF11', 'FF3E14C1-6482-46DC-BB4E-08E2BFA39B85') -- 'Specialized Instruction')
 --insert @MAP_ServiceDef values ('BF859DEF-67A2-4285-A871-E80315AF3BD5', '') -- 'Speech/Language Services')
+insert @MAP_ServiceDef values ('52AD0E2D-3A97-499A-95F4-5B4BB02912DF', '5D70A02F-F9E9-40BD-B30C-9144E419882A') -- 'Adapted Physical Education')
+insert @MAP_ServiceDef values ('61D1B5E8-C054-4EA8-B9CB-F61EBDB1F629', '54AD7B8C-D44B-45C2-9C80-7BBF87579AB4') -- 'Consultation')
+
+--5D70A02F-F9E9-40BD-B30C-9144E419882A	Adapted Physical Education
+--54AD7B8C-D44B-45C2-9C80-7BBF87579AB4	Consultation
 
 --BA58A524-BF79-4527-90C1-C3A3A487AD7B	Audiology Services
 --B111C18D-AA0C-4982-9CFE-4E9C3F75611A	Counseling
@@ -109,6 +119,8 @@ insert @MAP_ServiceDef values ('9DE4CBF9-BD8D-490C-8E1B-34F5E73DEF11', 'FF3E14C1
 --4B3948BD-70BF-4684-B93E-F2B29772FBCF	Instruction-Direct In Gen Ed Class
 --95D0A92D-784A-447C-B94B-AF407ABAA3E5	Instruction-Direct Outside Gen Ed Class
 
+--52AD0E2D-3A97-499A-95F4-5B4BB02912DF	Adapted Physical Education
+--61D1B5E8-C054-4EA8-B9CB-F61EBDB1F629	Consultation
 
 -- list all tables with FK on GradeLevel and update them 
 
@@ -161,7 +173,8 @@ from ServiceDef x join
 @MAP_ServiceDef t on x.ID = t.TossID 
 
 
-rollback tran fixservdef
+commit tran fixservdef
+--rollback tran fixservdef
 
 
 

@@ -31,13 +31,14 @@ AS
 	Table Aliases:  k for SelectLists, s for StateCode, m for Map, t for Target
 	
 */
-	SELECT
+	
+SELECT
 		GradeLevelCode = k.LegacySpedCode,
 		DestID = coalesce(i.ID, n.ID, t.ID, m.DestID), 
 		Name = coalesce(i.Name, n.Name, t.Name, left(k.EnrichLabel, 10)),
-		StateCode = coalesce(i.StateCode, n.StateCode, t.StateCode),
+		StateCode = coalesce(i.StateCode, n.StateCode, t.StateCode,k.StateCode),
 		Bitmask = coalesce(i.Bitmask, n.Bitmask, t.Bitmask),
-		Sequence = coalesce(i.Sequence, t.Sequence, 99),
+		Sequence = coalesce(i.Sequence,n.Sequence, t.Sequence, 99),
 		Active  = case when k.EnrichID is not null then 1 when coalesce(i.ID, n.ID, t.ID) is null then 0 else coalesce(i.Active, n.Active, t.Active) end
 	FROM
 		LEGACYSPED.SelectLists k LEFT JOIN
@@ -46,7 +47,7 @@ AS
 		LEGACYSPED.MAP_GradeLevelID m on k.LegacySpedCode = m.GradeLevelCode LEFT JOIN
 		GradeLevel t on m.DestID = t.ID
 	WHERE
-		k.Type = 'Grade' 
+		k.Type = 'Grade'  
 GO
 
 
