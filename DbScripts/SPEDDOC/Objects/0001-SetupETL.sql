@@ -4,7 +4,7 @@ BEGIN TRAN
 DECLARE @VC3ETL_ExtractDatabase TABLE (ID uniqueidentifier, Type uniqueidentifier, DatabaseType uniqueidentifier, Server varchar(64), DatabaseOwner varchar(64), DatabaseName varchar(128), Username varchar(32), Password varchar(32), LinkedServer varchar(100), IsLinkedServerManaged bit, LastExtractDate datetime, LastLoadDate datetime, SucceededEmail varchar(500), SucceededSubject text, SucceededMessage text, FailedEmail varchar(500), FailedSubject text, FailedMessage text, RetainSnapshot bit, DestTableTempSuffix varchar(30), DestTableFinalSuffix varchar(30), FileGroup varchar(64), Schedule uniqueidentifier, Name varchar(100), Enabled bit)
 
 -- Insert the data to be synchronized into the temporary table
-INSERT INTO @VC3ETL_ExtractDatabase VALUES ( '9756E9BB-8B6B-44E4-9C4E-B3F8E6A6CD16', 'ACBEF25A-A8EB-465B-97D8-9738F07C3023', 'CBE6E716-95F0-44BC-837C-BBC4FD59506C', NULL, NULL, 'SpedDoc', 'IEPDoc', 'vc3go!!', NULL, 0, NULL, NULL, NULL, '[{BrandName}] {SisDatabase} import completed', 'Successfully imported {SisDatabase} data into {BrandName}.  {SisDatabase} data in {BrandName} is now current as of {SnapshotDate}.', NULL, '[{BrandName}] {SisDatabase} import failed', 'There was a problem importing {SisDatabase} data into {BrandName}:  {ErrorMessage}', 1, '_NEW', '_LOCAL', NULL, NULL, 'Special Education Documents', 1)
+INSERT INTO @VC3ETL_ExtractDatabase VALUES ( '9756E9BB-8B6B-44E4-9C4E-B3F8E6A6CD16', 'ACBEF25A-A8EB-465B-97D8-9738F07C3023', 'CBE6E716-95F0-44BC-837C-BBC4FD59506C', NULL, NULL, 'SpedDoc', 'speddoc_user', 'vc3go!!', NULL, 0, NULL, NULL, NULL, '[{BrandName}] {SisDatabase} import completed', 'Successfully imported {SisDatabase} data into {BrandName}.  {SisDatabase} data in {BrandName} is now current as of {SnapshotDate}.', NULL, '[{BrandName}] {SisDatabase} import failed', 'There was a problem importing {SisDatabase} data into {BrandName}:  {ErrorMessage}', 1, '_NEW', '_LOCAL', NULL, NULL, 'Special Education Documents', 1)
 
 -- Declare a temporary table to hold the data to be synchronized
 DECLARE @VC3ETL_ExtractTable TABLE (ID uniqueidentifier, ExtractDatabase uniqueidentifier, SourceTable varchar(100), DestSchema varchar(50), DestTable varchar(50), PrimaryKey varchar(100), Indexes varchar(200), LastSuccessfulCount int, CurrentCount int, Filter varchar(1000), Enabled bit, IgnoreMissing bit, Columns varchar(4000), Comments varchar(1000))
@@ -18,11 +18,11 @@ INSERT INTO @VC3ETL_ExtractTable VALUES ('BBA5D6EE-7693-44E8-B239-115EF0D88EAF',
 DECLARE @VC3ETL_LoadTable TABLE (ID uniqueidentifier, ExtractDatabase uniqueidentifier, Sequence int, SourceTable varchar(100), DestTable varchar(100), HasMapTable bit, MapTable varchar(100), KeyField varchar(250), DeleteKey varchar(50), ImportType int, DeleteTrans bit, UpdateTrans bit, InsertTrans bit, Enabled bit, SourceTableFilter varchar(1000), DestTableFilter varchar(1000), PurgeCondition varchar(1000), KeepMappingAfterDelete bit, StartNewTransaction bit, LastLoadDate datetime, MapTableMapID varchar(250), Comments varchar(1000))
 
 -- Insert the data to be synchronized into the temporary table
-INSERT INTO @VC3ETL_LoadTable VALUES ('3C48A2E0-DB9B-4D74-83FD-BD1272D78B81', '9756E9BB-8B6B-44E4-9C4E-B3F8E6A6CD16', 0, 'SPEDDOC.Transform_FileData_IEP', 'FileData', 1, 'SPEDDOC.MAP_FileDataID_IEP', 'IepRefID', NULL, 1, 0, 1, 1, 1, null, 's.DestID in (select DestID from SPEDDOC.MAP_FileDataID)', NULL, 0, 0, '2012-05-04 12:17:45.093', NULL, NULL)
-INSERT INTO @VC3ETL_LoadTable VALUES ('9D044143-DC30-4F5D-BB56-43116DD2F2D2', '9756E9BB-8B6B-44E4-9C4E-B3F8E6A6CD16', 1, 'SPEDDOC.Transform_Attachment_IEP', 'Attachment', 1, 'SPEDDOC.MAP_AttachmentID_IEP', 'IepRefID', NULL, 1, 0, 1, 1, 1, null, 's.DestID in (select DestID from SPEDDOC.MAP_AttachmentID)', NULL, 0, 0, '2012-05-04 12:17:45.093', NULL, NULL)
+INSERT INTO @VC3ETL_LoadTable VALUES ('3C48A2E0-DB9B-4D74-83FD-BD1272D78B81', '9756E9BB-8B6B-44E4-9C4E-B3F8E6A6CD16', 0, 'SPEDDOC.Transform_FileData_IEP', 'FileData', 1, 'SPEDDOC.MAP_FileDataID_IEP', 'IepRefID', NULL, 1, 0, 1, 1, 1, null, 's.DestID in (select DestID from SPEDDOC.MAP_FileDataID_IEP)', NULL, 0, 0, '2012-05-04 12:17:45.093', NULL, NULL)
+INSERT INTO @VC3ETL_LoadTable VALUES ('9D044143-DC30-4F5D-BB56-43116DD2F2D2', '9756E9BB-8B6B-44E4-9C4E-B3F8E6A6CD16', 1, 'SPEDDOC.Transform_Attachment_IEP', 'Attachment', 1, 'SPEDDOC.MAP_AttachmentID_IEP', 'IepRefID', NULL, 1, 0, 1, 1, 1, null, 's.DestID in (select DestID from SPEDDOC.MAP_AttachmentID_IEP)', NULL, 0, 0, '2012-05-04 12:17:45.093', NULL, NULL)
 --Tables for BIP Doc
-INSERT INTO @VC3ETL_LoadTable VALUES ('03848FC2-A905-401D-8DE6-C0C27C79E99E', '9756E9BB-8B6B-44E4-9C4E-B3F8E6A6CD16', 0, 'SPEDDOC.Transform_FileData_BIP', 'FileData', 1, 'SPEDDOC.MAP_FileDataID_BIP', 'IepRefID', NULL, 1, 0, 1, 1, 1, null, 's.DestID in (select DestID from SPEDDOC.MAP_FileDataID_BIP)', NULL, 0, 0, '2012-05-04 12:17:45.093', NULL, NULL)
-INSERT INTO @VC3ETL_LoadTable VALUES ('E9D3CD02-30AF-4444-BFAE-C1E05808AC24', '9756E9BB-8B6B-44E4-9C4E-B3F8E6A6CD16', 1, 'SPEDDOC.Transform_Attachment_IEP', 'Attachment', 1, 'SPEDDOC.MAP_AttachmentID_BIP', 'IepRefID', NULL, 1, 0, 1, 1, 1, null, 's.DestID in (select DestID from SPEDDOC.MAP_AttachmentID_BIP)', NULL, 0, 0, '2012-05-04 12:17:45.093', NULL, NULL)
+INSERT INTO @VC3ETL_LoadTable VALUES ('03848FC2-A905-401D-8DE6-C0C27C79E99E', '9756E9BB-8B6B-44E4-9C4E-B3F8E6A6CD16', 2, 'SPEDDOC.Transform_FileData_BIP', 'FileData', 1, 'SPEDDOC.MAP_FileDataID_BIP', 'IepRefID', NULL, 1, 0, 1, 1, 1, null, 's.DestID in (select DestID from SPEDDOC.MAP_FileDataID_BIP)', NULL, 0, 0, '2012-05-04 12:17:45.093', NULL, NULL)
+INSERT INTO @VC3ETL_LoadTable VALUES ('E9D3CD02-30AF-4444-BFAE-C1E05808AC24', '9756E9BB-8B6B-44E4-9C4E-B3F8E6A6CD16', 3, 'SPEDDOC.Transform_Attachment_IEP', 'Attachment', 1, 'SPEDDOC.MAP_AttachmentID_BIP', 'IepRefID', NULL, 1, 0, 1, 1, 1, null, 's.DestID in (select DestID from SPEDDOC.MAP_AttachmentID_BIP)', NULL, 0, 0, '2012-05-04 12:17:45.093', NULL, NULL)
 
 -- Declare a temporary table to hold the data to be synchronized    
 DECLARE @VC3ETL_LoadColumn TABLE (ID uniqueidentifier, LoadTable uniqueidentifier, SourceColumn varchar(500), DestColumn varchar(500), ColumnType char(1), UpdateOnDelete bit, DeletedValue varchar(500), NullValue varchar(500), Comments varchar(1000))
@@ -44,7 +44,7 @@ INSERT INTO @VC3ETL_LoadColumn VALUES ('D5D4F4A5-DED2-4E50-A971-41A778C7641B', '
 INSERT INTO @VC3ETL_LoadColumn VALUES ('6E647552-DE0B-428E-8693-254A61DD2B42', '9D044143-DC30-4F5D-BB56-43116DD2F2D2', 'UploadUserID', 'UploadUserID', 'C', 0, NULL, NULL, NULL)
 INSERT INTO @VC3ETL_LoadColumn VALUES ('53053677-B7C0-46AD-9EF4-5A9CD7185CB9', '9D044143-DC30-4F5D-BB56-43116DD2F2D2', 'FileID', 'FileID', 'C', 0, NULL, NULL, NULL)
 
---Insert the records represent each column in FileData Table
+--Insert the records represent each column in FileData Table for BIP
 INSERT INTO @VC3ETL_LoadColumn VALUES ('12C2C64A-FB78-442B-82CE-DD695D2F35D1', '03848FC2-A905-401D-8DE6-C0C27C79E99E', 'DestID', 'ID', 'K', 0, NULL, NULL, NULL)
 INSERT INTO @VC3ETL_LoadColumn VALUES ('AE6766DC-AEA6-4271-AA8D-EC9470EF8FE4', '03848FC2-A905-401D-8DE6-C0C27C79E99E', 'OriginalName', 'OriginalName', 'C', 0, NULL, NULL, NULL)
 INSERT INTO @VC3ETL_LoadColumn VALUES ('4EFA2EBC-13C6-4C7E-B54D-48A4E1103199', '03848FC2-A905-401D-8DE6-C0C27C79E99E', 'ReceivedDate', 'ReceivedDate', 'C', 0, NULL, NULL, NULL)
@@ -52,7 +52,7 @@ INSERT INTO @VC3ETL_LoadColumn VALUES ('BD8CD857-6B70-445B-BF94-674093370EBC', '
 INSERT INTO @VC3ETL_LoadColumn VALUES ('7C326383-3406-48C4-850C-D0530F4A487D', '03848FC2-A905-401D-8DE6-C0C27C79E99E', 'Content', 'Content', 'C', 0, NULL, NULL, NULL)
 INSERT INTO @VC3ETL_LoadColumn VALUES ('2B892D5B-12E3-4E21-AAF7-B5C563B3EC06', '03848FC2-A905-401D-8DE6-C0C27C79E99E', 'isTemporary', 'isTemporary', 'C', 0, NULL, NULL, NULL)
 
---Insert the records represent each column in Attachment Table
+--Insert the records represent each column in Attachment Table for BIP
 INSERT INTO @VC3ETL_LoadColumn VALUES ('047BEB51-F380-45E0-8991-30D7E4B4E703', 'E9D3CD02-30AF-4444-BFAE-C1E05808AC24', 'DestID', 'ID', 'K', 0, NULL, NULL, NULL)
 INSERT INTO @VC3ETL_LoadColumn VALUES ('09E6DD39-756A-44F1-8DC6-A5A0E6FCFFE7', 'E9D3CD02-30AF-4444-BFAE-C1E05808AC24', 'StudentID', 'StudentID', 'C', 0, NULL, NULL, NULL)
 INSERT INTO @VC3ETL_LoadColumn VALUES ('0C5EB712-CAC8-467D-B813-42A2FA1F5BF0', 'E9D3CD02-30AF-4444-BFAE-C1E05808AC24', 'ItemID', 'ItemID', 'C', 0, NULL, NULL, NULL)
