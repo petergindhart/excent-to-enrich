@@ -57,7 +57,6 @@ GO
 create view LEGACYSPED.Transform_IepPlacementOption
 as
 select 
-
 	PlacementTypeCode = k.SubType, 
 	PlacementOptionCode = k.LegacySpedCode, 
 	TypeID = my.DestID,
@@ -69,7 +68,6 @@ select
 	MaxPercentGenEd = t.MaxPercentGenEd,   -- t columns will be null until the map table is populated
 	DeletedDate = cast(case when k.EnrichID is null then getdate() else NULL end as datetime)	
 	-- depends on when we want to hide from the UI
-
 from 
 	LEGACYSPED.SelectLists k LEFT JOIN
 	LEGACYSPED.MAP_IepPlacementTypeID my on k.SubType = my.PlacementTypeCode left join
@@ -81,5 +79,5 @@ where k.Type = 'LRE' and
 and LegacySpedCode is not null -- if the legacy sped code is null, there is nothing to do.  
 go
 
-
+-- select * from IepPlacementOption
 
