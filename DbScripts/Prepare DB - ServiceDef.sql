@@ -58,6 +58,12 @@ from ServiceDef x right join
 @ServiceDef t on x.ID = t.ID 
 where x.ID is null order by x.Name
 
+insert IepServiceDef (ID, ScheduleFreqOnly) 
+select s.ID, 0
+from @ServiceDef s left join
+IepServiceDef t on s.ID = t.ID
+where t.ID is null
+
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
