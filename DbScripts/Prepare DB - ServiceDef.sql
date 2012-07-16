@@ -172,6 +172,12 @@ delete x
 from ServiceDef x join
 @MAP_ServiceDef t on x.ID = t.TossID 
 
+insert IepServiceDef (ID, ScheduleFreqOnly) 
+select s.ID, 0
+from @ServiceDef s left join
+IepServiceDef t on s.ID = t.ID
+where t.ID is null
+
 
 commit tran fixservdef
 --rollback tran fixservdef
