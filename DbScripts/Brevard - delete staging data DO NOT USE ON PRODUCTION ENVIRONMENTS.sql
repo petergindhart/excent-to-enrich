@@ -70,7 +70,7 @@ declare @SaveStudents table (StudentID uniqueidentifier null, OldNumber varchar(
 
 -- declare @studentid varchar(36), @sch varchar(50), @tbl varchar(100), @col varchar(100), @q varchar(max), @tranname varchar(100)
 declare DS cursor for 
-select top 2 x.ID -- select * 
+select x.ID -- select * 
 from Student x 
 where x.ManuallyEntered = 1
 and ID not in (select isnull(StudentID, @zg) from @SaveStudents) -- could use select * from @delstudents instead
@@ -120,6 +120,8 @@ fetch DS into @StudentID
 end
 close DS
 deallocate DS
+--Msg 547, Level 16, State 0, Line 420
+--The DELETE statement conflicted with the REFERENCE constraint "FK_T_ABI_StudentID". The conflict occurred in database "Enrich_DC2_FL_Brevard", table "dbo.T_ABI", column 'StudentID'.
 
 
 -- delete manually entered students from previous LEGACYSPED imports
