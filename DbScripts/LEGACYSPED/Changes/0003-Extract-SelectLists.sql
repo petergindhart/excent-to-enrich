@@ -5,12 +5,12 @@ DROP TABLE LEGACYSPED.SelectLists_LOCAL
 GO
 
 CREATE TABLE LEGACYSPED.SelectLists_LOCAL(
-Type	varchar(20),
-SubType	varchar(20),
-EnrichID varchar(150), -- Newly included column to map with the target table
-StateCode	varchar(20),
-LegacySpedCode	varchar(150),
-EnrichLabel	varchar(254)
+Type	varchar(20) not null,
+SubType	varchar(20) null,
+EnrichID varchar(150) null, -- Newly included column to map with the target table
+StateCode	varchar(20) null,
+LegacySpedCode	varchar(150) null,
+EnrichLabel	varchar(254) not null
 --Sequence	varchar(3),
 --DisplayInUI char(1)
 )
