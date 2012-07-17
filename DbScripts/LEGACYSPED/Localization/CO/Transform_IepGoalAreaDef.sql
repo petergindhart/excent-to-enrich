@@ -39,7 +39,7 @@ SELECT
 	Name = coalesce(i.Name, n.Name, t.Name, cast(k.EnrichLabel as varchar(50))),
 	AllowCustomProbes = cast(0 as bit),
 	StateCode = coalesce(i.StateCode, n.StateCode, t.StateCode),
-	DeletedDate = case when k.EnrichID is not null then NULL when coalesce(i.ID, n.ID, t.ID) is null then getdate() else coalesce(i.DeletedDate, n.DeletedDate, t.DeletedDate) end,
+	DeletedDate = case when k.EnrichID is not null then NULL  else coalesce(i.DeletedDate, n.DeletedDate, t.DeletedDate) end,
 	RequireGoal = cast(1 as bit)
   FROM
 	LEGACYSPED.SelectLists k LEFT JOIN
