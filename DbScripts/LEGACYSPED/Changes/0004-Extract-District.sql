@@ -4,8 +4,8 @@ DROP TABLE LEGACYSPED.District_LOCAL
 GO
 
 CREATE TABLE LEGACYSPED.District_LOCAL(
-DistrictCode    varchar(10),
-DistrictName    varchar(255)
+DistrictCode    varchar(10) not null,
+DistrictName    varchar(255) not null
 )
 GO
 
