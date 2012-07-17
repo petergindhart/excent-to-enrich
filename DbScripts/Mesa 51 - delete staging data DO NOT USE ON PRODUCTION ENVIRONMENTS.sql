@@ -141,9 +141,13 @@ delete x from Schedule x where ID not in (select ID from ServiceSchedule ss) and
 --The DELETE statement conflicted with the REFERENCE constraint "FK_PrgGoal#ProbeSchedule#". The conflict occurred in database "Enrich_DCB2_CO_Mesa51", table "dbo.PrgGoal", column 'ProbeScheduleID'.
 -- delete x from Schedule x 
 
---select * 
---from ServiceSchedule ss join 
---Schedule s on ss.ID = s.ID
+
+delete s
+-- select s.ID, pg.ID, ss.ID 
+from Schedule s left join 
+PrgGoal pg on s.ID = pg.ProbeScheduleID left join
+ServiceSchedule ss on ss.ID = s.ID
+where pg.ID is null and ss.ID is null
 
 --select distinct ProbeScheduleID from PrgGoal 
 --select * from PrgGoal g join PrgSection s on g.InstanceID = s.ID join PrgItem i on s.ItemID = i.ID left join @SaveStudents ss on i.StudentID = ss.StudentID where ss.StudentID is null
