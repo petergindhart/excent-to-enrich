@@ -53,7 +53,7 @@ select
 	Name = coalesce(i.Name, n.ServiceDefName, t.Name, k.EnrichLabel),
 	Description = coalesce(i.Description, n.Description, t.Description), 
 	DefaultLocationID = coalesce(i.DefaultLocationID, n.DefaultLocationID, t.DefaultLocationID), 
-	DeletedDate = case when k.EnrichID is not null then NULL when coalesce(i.ID, n.ID, t.ID) is null then getdate() else coalesce(i.DeletedDate, n.DeletedDate, t.DeletedDate) end
+	DeletedDate = case when k.EnrichID is not null then NULL else coalesce(i.DeletedDate, n.DeletedDate, t.DeletedDate) end
 from LEGACYSPED.SelectLists k left join 
 	dbo.ServiceDef i on k.EnrichID = i.ID left join (
 	select sd.ID, ServiceDefName = sd.Name, sd.StateCode, sd.DeletedDate, ServiceCategoryName = isc.Name, sd.Description, sd.DefaultLocationID 
