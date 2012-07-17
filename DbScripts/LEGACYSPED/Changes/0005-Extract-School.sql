@@ -6,10 +6,10 @@ DROP TABLE LEGACYSPED.School_LOCAL
 GO
 
 CREATE TABLE LEGACYSPED.School_LOCAL(
-SchoolCode    varchar(10),
-SchoolName    varchar(255),
-DistrictCode    varchar(10),
-MinutesPerWeek	varchar(4)
+SchoolCode    varchar(10) not null,
+SchoolName    varchar(255) not null,
+DistrictCode    varchar(10) not null,
+MinutesPerWeek	int not null
 
 )
 GO

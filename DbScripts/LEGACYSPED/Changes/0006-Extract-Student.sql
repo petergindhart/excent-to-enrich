@@ -11,7 +11,7 @@ Firstname    varchar(50),
 MiddleName    varchar(50), 
 LastName    varchar(50),
 Birthdate    datetime, 
-Gender    varchar(4), --changed column name sex to Gender
+Gender    varchar(150), --changed column name sex to Gender
 GradeLevelCode    varchar(150),
 ServiceDistrictCode    varchar(10),
 ServiceSchoolCode    varchar(10),
@@ -33,7 +33,7 @@ Disability7Code    varchar(150),
 Disability8Code    varchar(150),
 Disability9Code    varchar(150),
 EsyElig	varchar(1),
-EsyTBDDate varchar(10),
+EsyTBDDate datetime,
 ExitDate datetime,
 ExitCode varchar(150),
 SpecialEdStatus char(1)
