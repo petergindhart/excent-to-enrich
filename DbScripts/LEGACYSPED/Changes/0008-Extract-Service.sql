@@ -4,24 +4,24 @@ GO
 
 
 CREATE TABLE LEGACYSPED.Service_LOCAL(  
-ServiceType    varchar(20), 
-ServiceRefId    varchar(150), 
-IepRefId    varchar(150),
-ServiceDefinitionCode    varchar(150),
-BeginDate    datetime, 
-EndDate    datetime, 
-IsRelated    varchar(1), 
-IsDirect    varchar(1), 
-ExcludesFromGenEd    varchar(1), 
-ServiceLocationCode    varchar(150), 
-ServiceProviderTitleCode    varchar(150),
-Sequence    varchar(2), 
-IsESY    varchar(1),
-ServiceTime    varchar(4), 
-ServiceFrequencyCode    varchar(150),
-ServiceProviderSSN    varchar(11), 
-StaffEmail varchar(150),
-ServiceAreaText    varchar(254)
+ServiceType    varchar(20) not null, 
+ServiceRefId    varchar(150) not null, 
+IepRefId    varchar(150) not null,
+ServiceDefinitionCode    varchar(150) null,
+BeginDate    datetime not null, 
+EndDate    datetime null, 
+IsRelated    varchar(1) not null, 
+IsDirect    varchar(1) not null, 
+ExcludesFromGenEd    varchar(1) not null, 
+ServiceLocationCode    varchar(150) not null, 
+ServiceProviderTitleCode    varchar(150) not null,
+Sequence    int null, 
+IsESY    varchar(1) null,
+ServiceTime    int not null, 
+ServiceFrequencyCode    varchar(150) not null,
+ServiceProviderSSN    varchar(11) null, 
+StaffEmail varchar(150) null,
+ServiceAreaText    varchar(254) null
 )
 GO
 
@@ -33,4 +33,3 @@ CREATE VIEW LEGACYSPED.Service
 AS  
  SELECT * FROM LEGACYSPED.Service_LOCAL  
 GO  
-
