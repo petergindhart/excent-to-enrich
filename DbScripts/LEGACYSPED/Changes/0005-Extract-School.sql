@@ -13,6 +13,9 @@ MinutesPerWeek	int not null
 
 )
 GO
+Alter table LEGACYSPED.School_LOCAL
+add constraint PK_LEGACYSPED_School_LOCAL_SchoolCode primary key (SchoolCode,DistrictCode)
+GO
 
 IF  EXISTS (SELECT 1 FROM sys.views WHERE object_id = OBJECT_ID(N'LEGACYSPED.School'))
 DROP VIEW LEGACYSPED.School

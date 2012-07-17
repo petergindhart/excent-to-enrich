@@ -13,7 +13,10 @@ CREATE TABLE LEGACYSPED.Objective_LOCAL(
   ObjText	varchar(8000)
 )  
 GO  
-  
+
+Alter table LEGACYSPED.Objective_LOCAL
+add constraint PK_LEGACYSPED_Objective_LOCAL_ObjectiveRefID primary key (ObjectiveRefID)
+GO  
   
 CREATE VIEW LEGACYSPED.Objective  
 AS  

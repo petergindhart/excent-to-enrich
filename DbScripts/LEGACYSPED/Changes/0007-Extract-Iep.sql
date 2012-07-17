@@ -23,6 +23,9 @@ ServiceDeliveryStatement	varchar(8000) null
 
 )
 GO
+Alter table LEGACYSPED.IEP_LOCAL
+add constraint PK_LEGACYSPED_IEP_LOCAL_IepRefID primary key (IepRefID)
+GO
 
 
 IF  EXISTS (SELECT 1 FROM sys.views WHERE object_id = OBJECT_ID(N'LEGACYSPED.IEP'))

@@ -24,6 +24,9 @@ StaffEmail varchar(150) null,
 ServiceAreaText    varchar(254) null
 )
 GO
+Alter table LEGACYSPED.Service_LOCAL
+add constraint PK_LEGACYSPED_Service_LOCAL_ServiceRefId primary key (ServiceRefId)
+GO
 
 IF  EXISTS (SELECT 1 FROM sys.views WHERE object_id = OBJECT_ID(N'LEGACYSPED.Service'))
 DROP VIEW LEGACYSPED.Service  

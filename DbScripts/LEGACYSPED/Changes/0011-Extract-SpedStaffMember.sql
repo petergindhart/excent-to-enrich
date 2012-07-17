@@ -17,6 +17,10 @@ Firstname		varchar(50) not null,
 EnrichRole 		varchar(50) null
 )  
 GO  
+
+Alter table LEGACYSPED.SpedStaffMember_LOCAL
+add constraint PK_LEGACYSPED_SpedStaffMember_LOCAL_StaffEmail primary key (StaffEmail)
+GO
 /*  
 EnrichRole: 
 Staff Member's role in Enrich.  The value in this field must match exactly one of the User Roles in Enrich. 
