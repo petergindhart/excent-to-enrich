@@ -4,21 +4,23 @@ GO
 
 
 CREATE TABLE LEGACYSPED.IEP_LOCAL(
-IepRefID	varchar(150),
-StudentRefID	varchar(150),
-IEPMeetDate	varchar(10),
-IEPStartDate	varchar(10),
-IEPEndDate	varchar(10),
-NextReviewDate	varchar(10),
-InitialEvaluationDate	varchar(10),
-LatestEvaluationDate	varchar(10),
-NextEvaluationDate	varchar(10),
-EligibilityDate varchar(10),
-ConsentForServicesDate	varchar(10),
-LREAgeGroup varchar(3),
-LRECode	varchar(150),
-MinutesPerWeek	varchar(4),
-ServiceDeliveryStatement	varchar(8000),
+
+IepRefID	varchar(150) not null,
+StudentRefID	varchar(150) not null,
+IEPMeetDate	datetime not null,
+IEPStartDate	datetime not null,
+IEPEndDate	datetime not null,
+NextReviewDate	datetime not null,
+InitialEvaluationDate	datetime null,
+LatestEvaluationDate	datetime not null,
+NextEvaluationDate	datetime not null,
+EligibilityDate datetime null,
+ConsentForServicesDate	datetime not null,
+LREAgeGroup varchar(3) null,
+LRECode	varchar(150) not null,
+MinutesPerWeek	int not null,
+ServiceDeliveryStatement	varchar(8000) null
+
 )
 GO
 
