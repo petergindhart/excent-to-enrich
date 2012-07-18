@@ -36,7 +36,7 @@ AS
 	SELECT
 		DisabilityCode = ISNULL(k.LegacySpedCode,CONVERT(varchar(150), k.EnrichLabel)),
 		DestID = coalesce(s.ID, t.ID, k.EnrichID, m.DestID), -- below this line it may not be necessary to use coalesce because we are only updating legacy data (use VC3ETL.LoadTable.DestTableFilter)
-		Name = coalesce(s.name, t.name, k.EnrichLabel), 
+		Name = coalesce(s.name, t.name, CONVERT(varchar(50), k.EnrichLabel)), 
 		Definition = coalesce(s.Definition, t.Definition,''),
 		DeterminationFormTemplateID = isnull(s.DeterminationFormTemplateID, t.DeterminationFormTemplateID),
 		StateCode = coalesce(s.StateCode, t.StateCode, k.StateCode),
