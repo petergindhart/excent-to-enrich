@@ -11,7 +11,10 @@ CREATE TABLE LEGACYSPED.StaffSchool_LOCAL(
   SchoolCode	varchar(10)     not null
 )  
 GO  
-  
+ 
+Alter table LEGACYSPED.StaffSchool_LOCAL
+add constraint PK_LEGACYSPED_StaffSchool_LOCAL_StaffEmail primary key (StaffEmail,SchoolCode)
+GO   
   
 CREATE VIEW LEGACYSPED.StaffSchool  
 AS  

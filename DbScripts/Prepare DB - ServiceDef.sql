@@ -1,3 +1,4 @@
+
 Begin tran fixservdef
 
 set nocount on;
@@ -41,6 +42,13 @@ from ServiceDef x right join
 @ServiceDef t on x.ID = t.ID 
 where x.ID is null order by x.Name
 
+
+select t.ID, TypeID = 'D3945E9D-AA0E-4555-BCB2-F8CA95CC7784', t.Name, t.Description, t.DefaultLocationID, t.MinutesPerUnit
+from ServiceDef x right join
+@ServiceDef t on x.ID = t.ID 
+where x.ID is null order by x.Name
+
+
 ------ delete test		-- we will not be deleting services that were entered manually by the customer.
 select x.*
 from ServiceDef x join
@@ -57,6 +65,7 @@ select t.ID, TypeID = 'D3945E9D-AA0E-4555-BCB2-F8CA95CC7784', t.Name, t.Descript
 from ServiceDef x right join
 @ServiceDef t on x.ID = t.ID 
 where x.ID is null order by x.Name
+
 
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -155,7 +164,7 @@ begin
 	begin
 
  	exec ('update t set '+@relcolumn+' = '''+@KeepID+''' from '+@relschema+'.'+@reltable+' t where t.'+@relcolumn+' = '''+@TossID+'''' )
-
+--print 'update t set '+@relcolumn+' = '''+@KeepID+''' from '+@relschema+'.'+@reltable+' t where t.'+@relcolumn+' = '''+@TossID+'''' 
 	fetch R into @relschema, @RelTable, @relcolumn
 	end
 	close R
@@ -172,8 +181,11 @@ delete x
 from ServiceDef x join
 @MAP_ServiceDef t on x.ID = t.TossID 
 
-insert IepServiceDef (ID, ScheduleFreqOnly) 
-select s.ID, 0
+
+
+
+insert IepServiceDef (ID, CategoryID, ScheduleFreqOnly) 
+select s.ID, s.CategoryID,  0
 from @ServiceDef s left join
 IepServiceDef t on s.ID = t.ID
 where t.ID is null

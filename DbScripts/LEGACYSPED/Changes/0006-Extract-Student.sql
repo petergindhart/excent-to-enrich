@@ -39,6 +39,9 @@ ExitCode varchar(150) null,
 SpecialEdStatus char(1) not null
 )
 GO
+Alter table LEGACYSPED.Student_LOCAL
+add constraint PK_LEGACYSPED_Student_LOCAL_StudentRefID primary key (StudentRefID)
+GO
 
 IF  EXISTS (SELECT 1 FROM sys.views WHERE object_id = OBJECT_ID(N'LEGACYSPED.Student'))
 DROP VIEW LEGACYSPED.Student

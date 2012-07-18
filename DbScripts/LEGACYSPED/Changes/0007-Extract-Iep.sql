@@ -4,6 +4,7 @@ GO
 
 
 CREATE TABLE LEGACYSPED.IEP_LOCAL(
+
 IepRefID	varchar(150) not null,
 StudentRefID	varchar(150) not null,
 IEPMeetDate	datetime not null,
@@ -19,7 +20,11 @@ LREAgeGroup varchar(3) null,
 LRECode	varchar(150) not null,
 MinutesPerWeek	int not null,
 ServiceDeliveryStatement	varchar(8000) null
+
 )
+GO
+Alter table LEGACYSPED.IEP_LOCAL
+add constraint PK_LEGACYSPED_IEP_LOCAL_IepRefID primary key (IepRefID)
 GO
 
 
