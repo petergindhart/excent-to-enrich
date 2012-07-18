@@ -12,7 +12,9 @@ CREATE TABLE LEGACYSPED.TeamMember_LOCAL(
   IsCaseManager	varchar(1)	not null
 )  
 GO  
-  
+Alter table LEGACYSPED.TeamMember_LOCAL
+add constraint PK_LEGACYSPED_TeamMember_LOCAL_StaffEmail primary key (StaffEmail,StudentRefId)
+GO  
   
 CREATE VIEW LEGACYSPED.TeamMember  
 AS  

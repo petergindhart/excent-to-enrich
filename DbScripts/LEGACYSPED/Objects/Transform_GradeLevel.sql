@@ -31,7 +31,7 @@ AS
 	Table Aliases:  k for SelectLists, s for StateCode, m for Map, t for Target
 	
 */
-	
+
 SELECT
 		GradeLevelCode = k.LegacySpedCode,
 		DestID = coalesce(i.ID, n.ID, t.ID, m.DestID), 
@@ -49,5 +49,3 @@ SELECT
 	WHERE
 		k.Type = 'Grade'  
 GO
-
-

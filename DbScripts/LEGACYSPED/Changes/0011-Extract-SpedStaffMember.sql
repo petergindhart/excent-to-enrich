@@ -8,16 +8,19 @@ GO
 /*********************************
 *The data on this tab serves 2 purposes:  
 * 1) lists Service Providers that are referenced on the Services tab and 
-* 2) lists Team Members from the TeamMembers tab.  The EnrichRole is only required .
+* 2) lists Team Members from the TeamMembers tab.  
 **********************************/
 CREATE TABLE LEGACYSPED.SpedStaffMember_LOCAL(  
-StaffEmail		varchar(150),
-Lastname		varchar(50), 
-Firstname		varchar(50), 
-EnrichRole 		varchar(50) 
-
+StaffEmail		varchar(150) not null,
+Lastname		varchar(50) not null, 
+Firstname		varchar(50) not null, 
+EnrichRole 		varchar(50) null
 )  
 GO  
+
+Alter table LEGACYSPED.SpedStaffMember_LOCAL
+add constraint PK_LEGACYSPED_SpedStaffMember_LOCAL_StaffEmail primary key (StaffEmail)
+GO
 /*  
 EnrichRole: 
 Staff Member's role in Enrich.  The value in this field must match exactly one of the User Roles in Enrich. 

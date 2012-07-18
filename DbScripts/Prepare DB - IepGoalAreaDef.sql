@@ -8,15 +8,15 @@ Begin tran fixgoal
 set nocount on;
 declare @IepGoalAreaDef table (ID uniqueidentifier,Sequence int, Name varchar(50),AllowCustomProbes bit,  StateCode varchar(20),RequireGoal bit)
 
-insert @IepGoalAreaDef (ID,Sequence,Name,AllowCustomProbes ,StateCode,RequireGoal) values ('51C976DF-DC56-4F89-BCA1-E9AB6A01FBE7',3,'Communication',0,NULL,1)
-insert @IepGoalAreaDef (ID,Sequence,Name,AllowCustomProbes ,StateCode,RequireGoal) values ('6BBAADD8-BD9D-4C8F-A573-80F136B0A9FB',6,'Emotions',0,NULL,1)
+insert @IepGoalAreaDef (ID,Sequence,Name,AllowCustomProbes ,StateCode,RequireGoal) values ('504CE0ED-537F-4EA0-BD97-0349FB1A4CA8',0,'Reading',0,NULL,1)
+insert @IepGoalAreaDef (ID,Sequence,Name,AllowCustomProbes ,StateCode,RequireGoal) values ('37EA0554-EC3F-4B95-AAD7-A52DECC7377C',1,'Writing',0,NULL,1)
 insert @IepGoalAreaDef (ID,Sequence,Name,AllowCustomProbes ,StateCode,RequireGoal) values ('0E95D360-5CBE-4ECA-820F-CC25864D70D8',2,'Mathematics',0,NULL,1)
+insert @IepGoalAreaDef (ID,Sequence,Name,AllowCustomProbes ,StateCode,RequireGoal) values ('51C976DF-DC56-4F89-BCA1-E9AB6A01FBE7',3,'Communication',0,NULL,1)
+insert @IepGoalAreaDef (ID,Sequence,Name,AllowCustomProbes ,StateCode,RequireGoal) values ('4F131BE0-D2A9-4EB2-8639-D772E05F3D5E',4,'Time Management',0,NULL,1)
+insert @IepGoalAreaDef (ID,Sequence,Name,AllowCustomProbes ,StateCode,RequireGoal) values ('25D890C3-BCAE-4039-AC9D-2AE21686DEB0',5,'Self Advocacy',0,NULL,1)
+insert @IepGoalAreaDef (ID,Sequence,Name,AllowCustomProbes ,StateCode,RequireGoal) values ('6BBAADD8-BD9D-4C8F-A573-80F136B0A9FB',6,'Emotions',0,NULL,1)
 insert @IepGoalAreaDef (ID,Sequence,Name,AllowCustomProbes ,StateCode,RequireGoal) values ('0C0783DD-3D11-47A2-A1C1-CFE2F8F1FB4C',7,'Organization',0,NULL,1)
 insert @IepGoalAreaDef (ID,Sequence,Name,AllowCustomProbes ,StateCode,RequireGoal) values ('702A94A6-9D11-408B-B003-11B9CCDE092E',8,'Other',0,NULL,1)
-insert @IepGoalAreaDef (ID,Sequence,Name,AllowCustomProbes ,StateCode,RequireGoal) values ('504CE0ED-537F-4EA0-BD97-0349FB1A4CA8',0,'Reading',0,NULL,1)
-insert @IepGoalAreaDef (ID,Sequence,Name,AllowCustomProbes ,StateCode,RequireGoal) values ('25D890C3-BCAE-4039-AC9D-2AE21686DEB0',5,'Self Advocacy',0,NULL,1)
-insert @IepGoalAreaDef (ID,Sequence,Name,AllowCustomProbes ,StateCode,RequireGoal) values ('4F131BE0-D2A9-4EB2-8639-D772E05F3D5E',4,'Time Management',0,NULL,1)
-insert @IepGoalAreaDef (ID,Sequence,Name,AllowCustomProbes ,StateCode,RequireGoal) values ('37EA0554-EC3F-4B95-AAD7-A52DECC7377C',1,'Writing',0,NULL,1)
 
 --select * from IepGoalAreaDef order by Name
 --select * from @IepGoalAreaDef order by Name

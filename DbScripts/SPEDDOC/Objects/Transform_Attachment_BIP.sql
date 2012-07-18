@@ -1,4 +1,4 @@
---#include Transform_FileData.sql
+--#include Transform_FileData_BIP.sql
 
 -- #############################################################################
 -- This table will associate the Attachment with IepRefID.  IepRefId will be the primary Key.
@@ -13,7 +13,7 @@ CREATE TABLE SPEDDOC.MAP_AttachmentID_BIP
 	) 
 
 ALTER TABLE SPEDDOC.MAP_AttachmentID_BIP ADD CONSTRAINT
-	PK_MAP_AttachmentID PRIMARY KEY CLUSTERED
+	PK_MAP_AttachmentID_BIP PRIMARY KEY CLUSTERED
 	(
 	IepRefID
 	)
@@ -34,7 +34,7 @@ AS
 
 SELECT 
 	BIPDoc.IepRefId
-	,DestID = coalesce(Attach.ID, MAttachment.DestID, NEWID())
+	,DestID = coalesce(Attach.ID, MAttachment.DestID)
 	,TranPrgIEP.StudentID
 	,TranPrgIEP.DestID AS ItemID
     ,TranPrgIEP.VersionDestID AS VersionID
@@ -48,7 +48,7 @@ FROM  SPEDDOC.BIPDoc BIPDoc
      JOIN LEGACYSPED.Transform_PrgIep TranPrgIEP
 		ON BIPDoc.IepRefID = TranPrgIEP.IepRefID AND BIPDoc.StudentRefID = TranPrgIEP.StudentRefID
 	
-	LEFT JOIN SPEDDOC.Transform_FileData MapFile 
+	LEFT JOIN SPEDDOC.Transform_FileData_BIP MapFile 
 		ON MapFile.IepRefID = BIPDoc.IepRefID
 		
 	LEFT JOIN  SPEDDOC.MAP_AttachmentID_BIP MAttachment

@@ -31,7 +31,7 @@ AS
 */
 SELECT 
 	IEPDoc.IepRefID as IepRefID,
-	DestID = coalesce(FData.ID, MFData.DestID, NEWID()),
+	DestID = coalesce(FData.ID, MFData.DestID),
 	OriginalName = 'Original IEP Document'
 	,ReceivedDate = GETDATE()
 	,'application/'+ IEPDoc.DocType as MimeType
