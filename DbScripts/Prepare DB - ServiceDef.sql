@@ -5,9 +5,15 @@ set nocount on;
 
 declare @ServiceDef table (ID uniqueidentifier, CategoryID uniqueidentifier, Name varchar(100), Description text, DefaultLocationID uniqueidentifier, MinutesPerUnit int) 
 
+insert @ServiceDef (ID, CategoryID, Name) values ('52AD0E2D-3A97-499A-95F4-5B4BB02912DF', '4570E6F2-2691-4BB1-9BBB-A62AC3BEECB7', 'Adapted Physical Education')
 insert @ServiceDef (ID, CategoryID, Name) values ('8C054380-B22F-4D2A-98DE-568498E06EAB', '4CA5DB1F-2CAC-4DDC-B856-B4B8BFE88BDD', 'Assistive Technology Services')
 insert @ServiceDef (ID, CategoryID, Name) values ('6C1EA4EC-C0F0-4C7D-99F2-7AFBB2DBB68C', '4CA5DB1F-2CAC-4DDC-B856-B4B8BFE88BDD', 'Audiology Services')
+	-- insert @ServiceDef (ID, CategoryID, Name) values ('61D1B5E8-C054-4EA8-B9CB-F61EBDB1F629', '4570E6F2-2691-4BB1-9BBB-A62AC3BEECB7', 'Consultation')
 insert @ServiceDef (ID, CategoryID, Name) values ('94C0C353-6595-4A7E-873E-CE77A52474FA', '4CA5DB1F-2CAC-4DDC-B856-B4B8BFE88BDD', 'Counseling')
+	--insert @ServiceDef (ID, CategoryID, Name) values ('D4149322-3A4A-42C1-8590-5A5D919E7B28', '4570E6F2-2691-4BB1-9BBB-A62AC3BEECB7', 'Indirect')
+	--insert @ServiceDef (ID, CategoryID, Name) values ('2991CDE7-FB2A-4FDA-AD00-6BF56DCD4D09', '4570E6F2-2691-4BB1-9BBB-A62AC3BEECB7', 'Instruction-Co-Teach')
+	--insert @ServiceDef (ID, CategoryID, Name) values ('42176279-A1A0-4699-B01B-187FD0FF07E2', '4570E6F2-2691-4BB1-9BBB-A62AC3BEECB7', 'Instruction-Direct In Gen Ed Class')
+	--insert @ServiceDef (ID, CategoryID, Name) values ('E2819193-5118-4DC9-8433-6F35851C14FC', '4570E6F2-2691-4BB1-9BBB-A62AC3BEECB7', 'Instruction-Direct Outside Gen Ed Class')
 insert @ServiceDef (ID, CategoryID, Name) values ('E3A7E8E5-72C4-4871-8381-E081EC81D1D6', '4CA5DB1F-2CAC-4DDC-B856-B4B8BFE88BDD', 'Interpreting Services')
 insert @ServiceDef (ID, CategoryID, Name) values ('B874A136-2F0E-4955-AA1E-1F0D45F263FB', '4CA5DB1F-2CAC-4DDC-B856-B4B8BFE88BDD', 'Occupational Therapy')
 insert @ServiceDef (ID, CategoryID, Name) values ('CABB2C1E-BC93-4D52-9E2D-AF52A259AD17', '4CA5DB1F-2CAC-4DDC-B856-B4B8BFE88BDD', 'Orientation & Mobility Services')
@@ -16,15 +22,9 @@ insert @ServiceDef (ID, CategoryID, Name) values ('829EA69A-629D-4883-B2A1-446E3
 insert @ServiceDef (ID, CategoryID, Name) values ('73107912-4959-4137-910B-B17E52076074', '4CA5DB1F-2CAC-4DDC-B856-B4B8BFE88BDD', 'Physical Therapy')
 insert @ServiceDef (ID, CategoryID, Name) values ('7BBAAB01-398D-4835-B4B0-13D543FAC564', '4CA5DB1F-2CAC-4DDC-B856-B4B8BFE88BDD', 'Psychological Services')
 insert @ServiceDef (ID, CategoryID, Name) values ('75D07F63-F586-4C55-8FDE-A5B6D0737157', '4CA5DB1F-2CAC-4DDC-B856-B4B8BFE88BDD', 'School Health Services')
-insert @ServiceDef (ID, CategoryID, Name) values ('B630AE87-E461-4DAC-B5B9-3FB85C78F56D', '4CA5DB1F-2CAC-4DDC-B856-B4B8BFE88BDD', 'Transportation Services')
-insert @ServiceDef (ID, CategoryID, Name) values ('D4149322-3A4A-42C1-8590-5A5D919E7B28', '4570E6F2-2691-4BB1-9BBB-A62AC3BEECB7', 'Indirect')
-insert @ServiceDef (ID, CategoryID, Name) values ('2991CDE7-FB2A-4FDA-AD00-6BF56DCD4D09', '4570E6F2-2691-4BB1-9BBB-A62AC3BEECB7', 'Instruction-Co-Teach')
-insert @ServiceDef (ID, CategoryID, Name) values ('42176279-A1A0-4699-B01B-187FD0FF07E2', '4570E6F2-2691-4BB1-9BBB-A62AC3BEECB7', 'Instruction-Direct In Gen Ed Class')
-insert @ServiceDef (ID, CategoryID, Name) values ('E2819193-5118-4DC9-8433-6F35851C14FC', '4570E6F2-2691-4BB1-9BBB-A62AC3BEECB7', 'Instruction-Direct Outside Gen Ed Class')
 insert @ServiceDef (ID, CategoryID, Name) values ('9DE4CBF9-BD8D-490C-8E1B-34F5E73DEF11', '4570E6F2-2691-4BB1-9BBB-A62AC3BEECB7', 'Specialized Instruction')
 insert @ServiceDef (ID, CategoryID, Name) values ('BF859DEF-67A2-4285-A871-E80315AF3BD5', '4570E6F2-2691-4BB1-9BBB-A62AC3BEECB7', 'Speech/Language Services')
-insert @ServiceDef (ID, CategoryID, Name) values ('52AD0E2D-3A97-499A-95F4-5B4BB02912DF', '4570E6F2-2691-4BB1-9BBB-A62AC3BEECB7', 'Adapted Physical Education')
-insert @ServiceDef (ID, CategoryID, Name) values ('61D1B5E8-C054-4EA8-B9CB-F61EBDB1F629', '4570E6F2-2691-4BB1-9BBB-A62AC3BEECB7', 'Consultation')
+insert @ServiceDef (ID, CategoryID, Name) values ('B630AE87-E461-4DAC-B5B9-3FB85C78F56D', '4CA5DB1F-2CAC-4DDC-B856-B4B8BFE88BDD', 'Transportation Services')
 
 
 update x set Description = sd.Description, DefaultLocationID = sd.DefaultLocationID, MinutesPerUnit = sd.MinutesPerUnit
@@ -42,13 +42,6 @@ from ServiceDef x right join
 @ServiceDef t on x.ID = t.ID 
 where x.ID is null order by x.Name
 
-
-select t.ID, TypeID = 'D3945E9D-AA0E-4555-BCB2-F8CA95CC7784', t.Name, t.Description, t.DefaultLocationID, t.MinutesPerUnit
-from ServiceDef x right join
-@ServiceDef t on x.ID = t.ID 
-where x.ID is null order by x.Name
-
-
 ------ delete test		-- we will not be deleting services that were entered manually by the customer.
 select x.*
 from ServiceDef x join
@@ -57,6 +50,12 @@ from ServiceDef x join
 where d.ID is null
 order by x.Name
 
+-- update test - deleted date
+select sd.*
+-- update sd set DeletedDate = GETDATE()
+from ServiceDef sd left join
+@ServiceDef t on sd.ID = t.ID 
+where t.ID is null
 
 
 
@@ -92,7 +91,9 @@ declare @RelSchema varchar(100), @RelTable varchar(100), @RelColumn varchar(100)
 --insert @MAP_ServiceDef values ('BBB4773F-4A8A-49E5-A0D4-952D2A0D1F18', 'B9AAA2A4-A395-4BF2-B5C1-6AF98CCEA676') -- 'Autism Spectrum Disorders'
 
 --insert @MAP_ServiceDef values ('8C054380-B22F-4D2A-98DE-568498E06EAB', '') -- 'Assistive Technology Services')
+insert @MAP_ServiceDef values ('52AD0E2D-3A97-499A-95F4-5B4BB02912DF', '5D70A02F-F9E9-40BD-B30C-9144E419882A') -- 'Adapted Physical Education')
 insert @MAP_ServiceDef values ('6C1EA4EC-C0F0-4C7D-99F2-7AFBB2DBB68C', 'BA58A524-BF79-4527-90C1-C3A3A487AD7B') -- 'Audiology Services')
+	--insert @MAP_ServiceDef values ('61D1B5E8-C054-4EA8-B9CB-F61EBDB1F629', '54AD7B8C-D44B-45C2-9C80-7BBF87579AB4') -- 'Consultation')
 insert @MAP_ServiceDef values ('94C0C353-6595-4A7E-873E-CE77A52474FA', 'B111C18D-AA0C-4982-9CFE-4E9C3F75611A') -- 'Counseling')
 insert @MAP_ServiceDef values ('E3A7E8E5-72C4-4871-8381-E081EC81D1D6', 'FB6F9141-CE06-4B61-AA29-A14FED8C1CCC') -- 'Interpreting Services')
 --insert @MAP_ServiceDef values ('B874A136-2F0E-4955-AA1E-1F0D45F263FB', '') -- 'Occupational Therapy')
@@ -103,14 +104,12 @@ insert @MAP_ServiceDef values ('829EA69A-629D-4883-B2A1-446E3ED2872D', 'AF88E635
 --insert @MAP_ServiceDef values ('7BBAAB01-398D-4835-B4B0-13D543FAC564', '') -- 'Psychological Services')
 --insert @MAP_ServiceDef values ('75D07F63-F586-4C55-8FDE-A5B6D0737157', '') -- 'School Health Services')
 --insert @MAP_ServiceDef values ('B630AE87-E461-4DAC-B5B9-3FB85C78F56D', '') -- 'Transportation Services')
-insert @MAP_ServiceDef values ('D4149322-3A4A-42C1-8590-5A5D919E7B28', '89BEE326-69D3-4ECF-9C1F-A117D4293F38') -- 'Indirect')
-insert @MAP_ServiceDef values ('2991CDE7-FB2A-4FDA-AD00-6BF56DCD4D09', '315884B0-8B78-46F0-8423-E06FDD41319C') -- 'Instruction-Co-Teach')
-insert @MAP_ServiceDef values ('42176279-A1A0-4699-B01B-187FD0FF07E2', '4B3948BD-70BF-4684-B93E-F2B29772FBCF') -- 'Instruction-Direct In Gen Ed Class')
-insert @MAP_ServiceDef values ('E2819193-5118-4DC9-8433-6F35851C14FC', '95D0A92D-784A-447C-B94B-AF407ABAA3E5') -- 'Instruction-Direct Outside Gen Ed Class')
+	--insert @MAP_ServiceDef values ('D4149322-3A4A-42C1-8590-5A5D919E7B28', '89BEE326-69D3-4ECF-9C1F-A117D4293F38') -- 'Indirect')
+	--insert @MAP_ServiceDef values ('2991CDE7-FB2A-4FDA-AD00-6BF56DCD4D09', '315884B0-8B78-46F0-8423-E06FDD41319C') -- 'Instruction-Co-Teach')
+	--insert @MAP_ServiceDef values ('42176279-A1A0-4699-B01B-187FD0FF07E2', '4B3948BD-70BF-4684-B93E-F2B29772FBCF') -- 'Instruction-Direct In Gen Ed Class')
+	--insert @MAP_ServiceDef values ('E2819193-5118-4DC9-8433-6F35851C14FC', '95D0A92D-784A-447C-B94B-AF407ABAA3E5') -- 'Instruction-Direct Outside Gen Ed Class')
 insert @MAP_ServiceDef values ('9DE4CBF9-BD8D-490C-8E1B-34F5E73DEF11', 'FF3E14C1-6482-46DC-BB4E-08E2BFA39B85') -- 'Specialized Instruction')
 --insert @MAP_ServiceDef values ('BF859DEF-67A2-4285-A871-E80315AF3BD5', '') -- 'Speech/Language Services')
-insert @MAP_ServiceDef values ('52AD0E2D-3A97-499A-95F4-5B4BB02912DF', '5D70A02F-F9E9-40BD-B30C-9144E419882A') -- 'Adapted Physical Education')
-insert @MAP_ServiceDef values ('61D1B5E8-C054-4EA8-B9CB-F61EBDB1F629', '54AD7B8C-D44B-45C2-9C80-7BBF87579AB4') -- 'Consultation')
 
 --5D70A02F-F9E9-40BD-B30C-9144E419882A	Adapted Physical Education
 --54AD7B8C-D44B-45C2-9C80-7BBF87579AB4	Consultation
@@ -182,6 +181,12 @@ from ServiceDef x join
 @MAP_ServiceDef t on x.ID = t.TossID 
 
 
+-- another way to handle this:  delete unused records with delete script, and in trannsform, set all new records to deleleteddate not null.  
+-- however, that may have a negative impact on FL districts, who may want to keep the services that have entered in their Staging instance.
+update sd set DeletedDate = GETDATE()
+from ServiceDef sd left join
+@ServiceDef t on sd.ID = t.ID 
+where t.ID is null
 
 
 insert IepServiceDef (ID, CategoryID, ScheduleFreqOnly) 
@@ -189,6 +194,10 @@ select s.ID, s.CategoryID,  0
 from @ServiceDef s left join
 IepServiceDef t on s.ID = t.ID
 where t.ID is null
+
+
+
+-- select * from ServiceDef order by deleteddate
 
 
 commit tran fixservdef
