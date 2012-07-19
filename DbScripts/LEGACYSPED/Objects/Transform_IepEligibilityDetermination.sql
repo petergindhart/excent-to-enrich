@@ -7,7 +7,7 @@ AS
 SELECT   
 	IEPRefID = iep.ExistingIEPRefID,
 	DestID = s.DestID,
-	DateDetermined = i.LatestEvaluationDate,
+	DateDetermined = isnull(i.EligibilityDate, i.LatestEvaluationDate),
 	NoneSuspected = cast(0 as Bit),
 	iep.Touched
 FROM
