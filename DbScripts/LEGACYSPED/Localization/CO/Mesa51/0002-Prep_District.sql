@@ -11,10 +11,25 @@
 --from (select top 1 OrgUnitID from School group by OrgUnitID order by count(*) desc) m join dbo.OrgUnit ou on m.OrgUnitID = ou.ID
 --go
 
+if exists (select 1 from sys.schemas s join sys.objects o on s.schema_id = o.schema_id where s.name = 'LEGACYSPED' and o.name = 'MAP_AdminUnitID')
+drop table LEGACYSPED.MAP_AdminUnitID
+go
+
+create table LEGACYSPED.MAP_AdminUnitID (
+DestID uniqueidentifier not null
+)
+
+-- select * from OrgUnit where ParentID is null
+--this line may be different for every district!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+insert LEGACYSPED.MAP_AdminUnitID values ('6531EF88-352D-4620-AF5D-CE34C54A9F53') -- INSERT ONLY ONE RECORD INTO THIS TABLE!!!!!!!!!!!!!!!!!!!!!!
+-- INSERT ONLY ONE RECORD INTO THIS TABLE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+go
+
+
 update OrgUnit set Number = '1980' where ID = '4794DAC4-151A-45B2-9570-91C8297218E9'
 update OrgUnit set Number = '1990' where ID = 'B717B3FE-10F1-4788-8C77-C60A2C04AF1D'	
-update OrgUnit set Number = '2000' where ID = '6531EF88-352D-4620-AF5D-CE34C54A9F53'	
-	
+update OrgUnit set Number = '2000' where ID = '6531EF88-352D-4620-AF5D-CE34C54A9F53'
+go
 
 
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'LEGACYSPED.ImportPrgSections') AND type in (N'U'))
