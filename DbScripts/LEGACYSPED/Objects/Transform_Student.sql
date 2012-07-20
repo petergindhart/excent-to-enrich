@@ -52,6 +52,8 @@ AS
   x_Retain = cast(0 as bit),
   LinkedToAEPSi = cast(0 as bit),
   IsHispanic = case when src.IsHispanic = 'Y' then 1 else 0 end,
+  MedicaidNumber = src.MedicaidNumber,
+  OID = (select DestID from LEGACYSPED.MAP_AdminUnitID),
   ImportPausedDate = cast(NULL as datetime),
   ImportPausedByID = cast(NULL as uniqueidentifier),
   IsActive = coalesce(sst.IsActive, sloc.IsActive, 1),
@@ -64,21 +66,21 @@ AS
   LEGACYSPED.Transform_School sch on src.ServiceSchoolCode = sch.SchoolCode and src.ServiceDistrictCode = sch.DistrictCode LEFT JOIN
 
   -- match on StateID if possible
- LEGACYSPED.StudentView sst on src.StudentStateID = sst.StudentStateID and
+ LEGACYSPED.StudentView sst on ltrim(rtrim(src.StudentStateID)) = ltrim(rtrim(sst.StudentStateID)) and
  sst.ID = (
   select top 1 a.ID 
   from LEGACYSPED.StudentView a 
   where
-   isnull(a.StudentStateID,'x') = isnull(sst.StudentStateID,'y')
+   isnull(ltrim(rtrim(a.StudentStateID)),'x') = isnull(ltrim(rtrim(sst.StudentStateID)),'y')
   order by a.ManuallyEntered, a.IsActive desc, a.ID) LEFT JOIN -- identifies students in legacy data that match students in Enrich
 
   -- match on Local ID if State ID not available
-  dbo.Student sloc on src.StudentLocalID = sloc.Number and 
+  dbo.Student sloc on ltrim(rtrim(src.StudentLocalID)) = ltrim(rtrim(sloc.Number)) and 
 	sloc.ID = (
 		select top 1 a.ID 
 		from dbo.Student a 
 		where
-			a.Number = sloc.Number 
+			ltrim(rtrim(a.Number)) = ltrim(rtrim(sloc.Number)) 
 		order by a.ManuallyEntered, a.IsActive desc, a.ID) LEFT JOIN -- identifies students in legacy data that match students in Enrich
 
   -- match on firstname, lastname, dob and Gender if Local ID not available
@@ -103,9 +105,10 @@ AS
   PrgItem i on coalesce(sst.ID, sloc.ID, snam.ID, m.DestID) = i.StudentID and i.DefID = '8011D6A2-1014-454B-B83C-161CE678E3D3' left join 
 	( 
 	select s.StudentRefID, i.StudentID, ItemID = i.ID, i.InvolvementID, i.IsEnded, i.Revision
-	from PrgItem i join (select StudentID = b.ID, a.StudentRefID from LEGACYSPED.Student a join LEGACYSPED.StudentView b on (a.StudentLocalID = b.Number or a.StudentStateID = b.StudentStateID or a.Firstname = b.FirstName and a.LastName = b.LastName and a.Birthdate = b.DOB) and b.IsActive = 1) s on i.StudentID = s.StudentID -- if items are eliminated by join to Transform_Student not to worry, because we are not importing them anyway
+	-- on the line below, I'm not sure about the OR clauses.
+	from PrgItem i join (select StudentID = b.ID, a.StudentRefID from LEGACYSPED.Student a join LEGACYSPED.StudentView b on (ltrim(rtrim(a.StudentLocalID)) = ltrim(rtrim(b.Number)) or ltrim(rtrim(a.StudentStateID)) = ltrim(rtrim(b.StudentStateID)) or a.Firstname = b.FirstName and a.LastName = b.LastName and a.Birthdate = b.DOB) and b.IsActive = 1) s on i.StudentID = s.StudentID -- if items are eliminated by join to Transform_Student not to worry, because we are not importing them anyway
 	where i.ID = (
-		select max(convert(varchar(36), i2.ID)) -- we are arbitrarily selecting only one of the non-converted items of type "IEP", because we just need to know if one exists
+		select max(convert(varchar(36), i2.ID)) -- we are arbitrarily selecting only one of the non-converted items of type "IEP", because we just need to know if one exists.  We are assuming that TypeID = A5990B5E-AFAD-4EF0-9CCA-DC3685296870 in every instance of Enrich
 		from (select i3.ID, i3.StudentID from PrgItem i3 join PrgItemDef d3 on i3.DefID = d3.ID join PrgInvolvement v3 on i3.InvolvementID = v3.ID where d3.TypeID = 'A5990B5E-AFAD-4EF0-9CCA-DC3685296870' and i3.DefID <> '8011D6A2-1014-454B-B83C-161CE678E3D3' and v3.EndDate is null) i2 -- TypeID = IEP, non-converted
 			where i.StudentID = i2.StudentID) 
 			) xni on src.StudentRefID = xni.StudentRefID

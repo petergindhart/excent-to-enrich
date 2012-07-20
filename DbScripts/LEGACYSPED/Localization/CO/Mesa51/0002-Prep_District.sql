@@ -11,10 +11,25 @@
 --from (select top 1 OrgUnitID from School group by OrgUnitID order by count(*) desc) m join dbo.OrgUnit ou on m.OrgUnitID = ou.ID
 --go
 
+if exists (select 1 from sys.schemas s join sys.objects o on s.schema_id = o.schema_id where s.name = 'LEGACYSPED' and o.name = 'MAP_AdminUnitID')
+drop table LEGACYSPED.MAP_AdminUnitID
+go
+
+create table LEGACYSPED.MAP_AdminUnitID (
+DestID uniqueidentifier not null
+)
+
+-- select * from OrgUnit where ParentID is null
+--this line may be different for every district!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+insert LEGACYSPED.MAP_AdminUnitID values ('6531EF88-352D-4620-AF5D-CE34C54A9F53') -- INSERT ONLY ONE RECORD INTO THIS TABLE!!!!!!!!!!!!!!!!!!!!!!
+-- INSERT ONLY ONE RECORD INTO THIS TABLE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+go
+
+
 update OrgUnit set Number = '1980' where ID = '4794DAC4-151A-45B2-9570-91C8297218E9'
 update OrgUnit set Number = '1990' where ID = 'B717B3FE-10F1-4788-8C77-C60A2C04AF1D'	
-update OrgUnit set Number = '2000' where ID = '6531EF88-352D-4620-AF5D-CE34C54A9F53'	
-	
+update OrgUnit set Number = '2000' where ID = '6531EF88-352D-4620-AF5D-CE34C54A9F53'
+go
 
 
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'LEGACYSPED.ImportPrgSections') AND type in (N'U'))
@@ -95,16 +110,21 @@ from LEGACYSPED.MAP_ServiceFrequencyID m left join
 where t.ID is null
 GO
 
+if not exists (select * from PrgItemOutcome where Text = 'IEP Ended' and CurrentDefID = '8011D6A2-1014-454B-B83C-161CE678E3D3')
+begin
+	insert PrgItemOutcome (ID, CurrentDefID, Text, Sequence) values (newid(), '8011D6A2-1014-454B-B83C-161CE678E3D3', 'IEP Ended', 0)
+end
+declare @PrgItemOutcomeID uniqueidentifier
+select @PrgItemOutcomeID = ID from PrgItemOutcome where Text = 'IEP Ended' and CurrentDefID = '8011D6A2-1014-454B-B83C-161CE678E3D3'
 
 if exists (select 1 from sys.schemas s join sys.objects o on s.schema_id = o.schema_id where s.name = 'LEGACYSPED' and o.name = 'PrgItemOutcome_EndIEP')
 drop table LEGACYSPED.PrgItemOutcome_EndIEP
-go
 
 create table LEGACYSPED.PrgItemOutcome_EndIEP (
 PrgItemOutcomeID uniqueidentifier not null
 )
 
-insert LEGACYSPED.PrgItemOutcome_EndIEP values ('5ADC11E8-227D-4142-91BA-637E68FDBE70')
+insert LEGACYSPED.PrgItemOutcome_EndIEP values (@PrgItemOutcomeID)
 go
 
 
