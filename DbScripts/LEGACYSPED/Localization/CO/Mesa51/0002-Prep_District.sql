@@ -110,16 +110,21 @@ from LEGACYSPED.MAP_ServiceFrequencyID m left join
 where t.ID is null
 GO
 
+if not exists (select * from PrgItemOutcome where Text = 'IEP Ended' and CurrentDefID = '8011D6A2-1014-454B-B83C-161CE678E3D3')
+begin
+	insert PrgItemOutcome (ID, CurrentDefID, Text, Sequence) values (newid(), '8011D6A2-1014-454B-B83C-161CE678E3D3', 'IEP Ended', 0)
+end
+declare @PrgItemOutcomeID uniqueidentifier
+select @PrgItemOutcomeID = ID from PrgItemOutcome where Text = 'IEP Ended' and CurrentDefID = '8011D6A2-1014-454B-B83C-161CE678E3D3'
 
 if exists (select 1 from sys.schemas s join sys.objects o on s.schema_id = o.schema_id where s.name = 'LEGACYSPED' and o.name = 'PrgItemOutcome_EndIEP')
 drop table LEGACYSPED.PrgItemOutcome_EndIEP
-go
 
 create table LEGACYSPED.PrgItemOutcome_EndIEP (
 PrgItemOutcomeID uniqueidentifier not null
 )
 
-insert LEGACYSPED.PrgItemOutcome_EndIEP values ('5ADC11E8-227D-4142-91BA-637E68FDBE70')
+insert LEGACYSPED.PrgItemOutcome_EndIEP values (@PrgItemOutcomeID)
 go
 
 
