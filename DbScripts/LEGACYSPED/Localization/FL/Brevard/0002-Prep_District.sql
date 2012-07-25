@@ -4,14 +4,29 @@
 -- Brevard 
 
 -- OrgUnit 
+/*
 update ou set Number = '05' -- Brevard County State Reporting DistrictID
 from (select top 1 OrgUnitID from School group by OrgUnitID order by count(*) desc) m join dbo.OrgUnit ou on m.OrgUnitID = ou.ID
+
+*/
+
+if exists (select 1 from sys.schemas s join sys.objects o on s.schema_id = o.schema_id where s.name = 'LEGACYSPED' and o.name = 'MAP_AdminUnitID')
+drop table LEGACYSPED.MAP_AdminUnitID
 go
 
--- update the school.number - for Brevard
-update s set Number = f.ID
-from dbo.School s JOIN
-EFF.Schools f on s.Number = f.ID
+create table LEGACYSPED.MAP_AdminUnitID (
+DestID uniqueidentifier not null
+)
+
+-- select * from OrgUnit where ParentID is null
+--this line may be different for every district!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+insert LEGACYSPED.MAP_AdminUnitID values ('6531EF88-352D-4620-AF5D-CE34C54A9F53') -- INSERT ONLY ONE RECORD INTO THIS TABLE!!!!!!!!!!!!!!!!!!!!!!
+-- INSERT ONLY ONE RECORD INTO THIS TABLE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+go
+
+update OrgUnit set Number = '05' where ID = '6531EF88-352D-4620-AF5D-CE34C54A9F53'
+go
+
 
 IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'LEGACYSPED.ImportPrgSections') AND type in (N'U'))
 DROP TABLE LEGACYSPED.ImportPrgSections
