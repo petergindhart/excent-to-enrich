@@ -52,7 +52,7 @@ AS
 	Sequence < g.Sequence
 	),												-- source
   IsProbeGoal = cast(0 as bit),
-  TargetDate = cast(NULL as datetime),
+  TargetDate = iep.IEPEndDate, 
   GoalStatement = cast(g.GoalStatement as text),	-- source
   ProbeTypeID = cast(NULL as uniqueidentifier),
   NumericTarget = cast(0 as float),
@@ -65,12 +65,14 @@ AS
   ProbeScheduleID = cast(NULL as uniqueidentifier), 
   ParentID = CAST(NULL as uniqueidentifier),
   FormInstanceID = CAST(NULL as uniqueidentifier),
+  StartDate = iep.IEPStartDate,
 -- IepGoal
   EsyID = case when g.IsEsy = 'Y' then 'B76DDCD6-B261-4D46-A98E-857B0A814A0C' else 'F7E20A86-2709-4170-9810-15B601C61B79' end, -- source.    Consider getting PrgGoal.ID from PrgGoal table
   i.DoNotTouch,
   CrossVersionGoalID = isnull(m.CrossVersionGoalID, NEWID())
  FROM
-  LEGACYSPED.Goal g JOIN
+  LEGACYSPED.IEP iep join 
+  LEGACYSPED.Goal g on iep.IepRefID = g.IepRefID JOIN
   LEGACYSPED.GoalAreaExists e on g.GoalRefID = e.GoalRefID LEFT JOIN 
   LEGACYSPED.MAP_PrgGoalID m on g.GoalRefID = m.GoalRefID LEFT JOIN 
   LEGACYSPED.Transform_PrgGoals i on g.IepRefID = i.IepRefID LEFT JOIN -- getting a null instance id for students that have been deleted, but goal records are imported.  bad data, but handle it here anyway.
