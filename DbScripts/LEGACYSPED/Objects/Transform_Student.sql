@@ -49,7 +49,7 @@ AS
   ZipCode = cast(null as varchar),
   PhoneNumber = cast(null as varchar),
   GPA = cast(0 as float),
-  x_Retain = cast(0 as bit),
+ --  x_Retain = cast(0 as bit),
   LinkedToAEPSi = cast(0 as bit),
   IsHispanic = case when src.IsHispanic = 'Y' then 1 else 0 end,
   MedicaidNumber = src.MedicaidNumber,
