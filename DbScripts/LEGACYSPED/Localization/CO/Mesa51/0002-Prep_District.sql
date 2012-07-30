@@ -137,7 +137,7 @@ go
 create procedure LEGACYSPED.SpedConversionWrapUp
 as
 -- this should run for all districts in all states
-update d set IsReevaluationNeeded = 1, StartDate = dateadd(dd, d.MaxDaysToComplete, dateadd(yy, d.MaxYearsToComplete, getdate())) from PrgMilestoneDef d where d.ID in ('27C002AF-ED92-4152-8B8C-7CA1ADEA2C81', 'AC043E4C-55EC-4F10-BCED-7E9201D7D0E2')
+update d set IsReevaluationNeeded = 1, StartDate = dateadd(dd, -d.MaxDaysToComplete, dateadd(yy, -d.MaxYearsToComplete, getdate())) from PrgMilestoneDef d where d.ID in ('27C002AF-ED92-4152-8B8C-7CA1ADEA2C81', 'AC043E4C-55EC-4F10-BCED-7E9201D7D0E2')
 
 
 -- mesa 51 specific
