@@ -58,55 +58,6 @@ AS
 GO
 
 
-/*
-
-select * from LEGACYSPED.MAP_IepDisabilityID 
-
-
-delete LEGACYSPED.MAP_IepDisabilityID 
-
-
-select * from VC3ETL.LoadTable where DestTable = 'IepDisability'
-
-select * from LEGACYSPED.SelectLIsts where type = 'Disab'
-
-
-
-
-vc3etl.loadtable_run 'C258B587-87B6-40FA-83DB-946C55D48482', '', 1, 0
-
-select s.*
--- UPDATE IepDisability SET Definition=s.Definition, DeletedDate=s.DeletedDate, Name=s.Name, DeterminationFormTemplateID=s.DeterminationFormTemplateID, IsOutOfState=s.IsOutOfState, StateCode=s.StateCode
-FROM  IepDisability d JOIN 
-	LEGACYSPED.Transform_IepDisability  s ON s.DestID=d.ID
-	AND s.DestID in (select DestID from LEGACYSPED.MAP_IepDisabilityID)
-
-UPDATE STATISTICS IepDisability
-
-
-INSERT LEGACYSPED.MAP_IepDisabilityID
-SELECT DisabilityCode, NEWID()
-FROM LEGACYSPED.Transform_IepDisability s
-WHERE NOT EXISTS (SELECT * FROM IepDisability d WHERE s.DestID=d.ID)
-
-UPDATE STATISTICS LEGACYSPED.MAP_IepDisabilityID
-
-INSERT IepDisability (ID, Definition, DeletedDate, Name, DeterminationFormTemplateID, IsOutOfState, StateCode)
-SELECT s.DestID, s.Definition, s.DeletedDate, s.Name, s.DeterminationFormTemplateID, s.IsOutOfState, s.StateCode
-FROM LEGACYSPED.Transform_IepDisability s
-WHERE NOT EXISTS (SELECT * FROM IepDisability d WHERE s.DestID=d.ID)
-
-UPDATE STATISTICS IepDisability
-
-
-
-
-
-
-
-*/
-
-
 
 
 
