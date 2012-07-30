@@ -1,7 +1,6 @@
 -- #############################################################################
 -- Note:  Separated PrgInvolvement MAP table code from Transform_PrgInvolvement files because EvaluateIncomingItems depends on this MAP, and Transform_PrgInvolvement depends on EvaluateIncomingItems
 
-
 IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.Transform_PrgInvolvement') AND OBJECTPROPERTY(id, N'IsView') = 1)
 DROP VIEW LEGACYSPED.Transform_PrgInvolvement
 GO
@@ -26,7 +25,9 @@ AS
 		IsManuallyEnded = cast(case when stu.SpecialEdStatus = 'I' then 1 else isnull(t.IsManuallyEnded,0) end as tinyint),
 		Touched = isnull(cast(t.IsManuallyEnded as int),0) -- select ev.StudentRefID
 		,
-		stu.SpecialEdStatus
+		stu.SpecialEdStatus,
+		-- PrgInvolvementStatus
+		StatusID = '0B5D5C72-5058-4BF5-A414-BDB27BD5DD94'
 	FROM
 		LEGACYSPED.EvaluateIncomingItems ev join 
 		LEGACYSPED.Transform_Student stu on ev.StudentRefID = stu.StudentRefID JOIN 
