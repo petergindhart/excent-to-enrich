@@ -25,11 +25,10 @@ insert LEGACYSPED.MAP_AdminUnitID values ('6531EF88-352D-4620-AF5D-CE34C54A9F53'
 -- INSERT ONLY ONE RECORD INTO THIS TABLE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 go
 
-
 update OrgUnit set Number = '1980' where ID = '4794DAC4-151A-45B2-9570-91C8297218E9'
 update OrgUnit set Number = '1990' where ID = 'B717B3FE-10F1-4788-8C77-C60A2C04AF1D'	
 update OrgUnit set Number = '2000' where ID = '6531EF88-352D-4620-AF5D-CE34C54A9F53'
-go
+--go
 
 
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'LEGACYSPED.ImportPrgSections') AND type in (N'U'))

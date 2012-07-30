@@ -183,10 +183,10 @@ from ServiceDef x join
 
 -- another way to handle this:  delete unused records with delete script, and in trannsform, set all new records to deleleteddate not null.  
 -- however, that may have a negative impact on FL districts, who may want to keep the services that have entered in their Staging instance.
-update sd set DeletedDate = GETDATE()
-from ServiceDef sd left join
-@ServiceDef t on sd.ID = t.ID 
-where t.ID is null
+--update sd set DeletedDate = GETDATE()
+--from ServiceDef sd left join
+--@ServiceDef t on sd.ID = t.ID 
+--where t.ID is null
 
 
 insert IepServiceDef (ID, CategoryID, ScheduleFreqOnly) 

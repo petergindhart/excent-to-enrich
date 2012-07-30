@@ -4,17 +4,25 @@
 -- San Luis Valley
 
 -- note : data model for SystemSettings table has changed (v 19)
+if exists (select 1 from sys.schemas s join sys.objects o on s.schema_id = o.schema_id where s.name = 'LEGACYSPED' and o.name = 'MAP_AdminUnitID')
+drop table LEGACYSPED.MAP_AdminUnitID
+go
+
+create table LEGACYSPED.MAP_AdminUnitID (
+DestID uniqueidentifier not null
+)
+
+-- select * from OrgUnit where ParentID is null
+--this line may be different for every district!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+insert LEGACYSPED.MAP_AdminUnitID values ('6531EF88-352D-4620-AF5D-CE34C54A9F53') -- INSERT ONLY ONE RECORD INTO THIS TABLE!!!!!!!!!!!!!!!!!!!!!!
+-- INSERT ONLY ONE RECORD INTO THIS TABLE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+go
 
 -- OrgUnit
 update ou set Number = '9055' 
  --select ou.*
 from (select top 1 OrgUnitID from School group by OrgUnitID order by count(*) desc) m join dbo.OrgUnit ou on m.OrgUnitID = ou.ID
 go
-
---update OrgUnit set Number = '1980' where ID = '4794DAC4-151A-45B2-9570-91C8297218E9'
---update OrgUnit set Number = '1990' where ID = 'B717B3FE-10F1-4788-8C77-C60A2C04AF1D'	
---update OrgUnit set Number = '2000' where ID = '6531EF88-352D-4620-AF5D-CE34C54A9F53'	
-	
 
 
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'LEGACYSPED.ImportPrgSections') AND type in (N'U'))
@@ -64,52 +72,51 @@ go
 */
 
 -- Lee County had a MAP_ServiceFrequencyID from a previouos ETL run that had bogus frequency data. delete that data and insert the good.
---declare @Map_ServiceFrequencyID table (ServiceFrequencyCode varchar(30), ServiceFrequencyName varchar(50), DestID uniqueidentifier)
---set nocount on;
---insert @Map_ServiceFrequencyID values ('ZZZ', 'Not specified', 'C42C50ED-863B-44B8-BF68-B377C8B0FA95')
---insert @Map_ServiceFrequencyID values ('03', 'monthly', '3D4B557B-0C2E-4A41-9410-BA331F1D20DD')
---insert @Map_ServiceFrequencyID values ('01', 'daily', '71590A00-2C40-40FF-ABD9-E73B09AF46A1')
---insert @Map_ServiceFrequencyID values ('02', 'weekly', 'A2080478-1A03-4928-905B-ED25DEC259E6')
---insert @Map_ServiceFrequencyID values ('', 'yearly', '5F3A2822-56F3-49DA-9592-F604B0F202C3')
---insert @Map_ServiceFrequencyID values('AN', 'As Needed', '69439D9D-B6C1-4B7A-9CAC-C69810ADFD31')
---insert @Map_ServiceFrequencyID values('ESY', 'As Needed for ESY', '836D1E97-CE4D-4FD5-9D0A-148924AC007B')
+declare @map_servicefrequencyid table (servicefrequencycode varchar(30), servicefrequencyname varchar(50), destid uniqueidentifier)
+set nocount on;
+insert @map_servicefrequencyid values ('zzz', 'not specified', 'c42c50ed-863b-44b8-bf68-b377c8b0fa95')
+insert @map_servicefrequencyid values ('03', 'monthly', '3d4b557b-0c2e-4a41-9410-ba331f1d20dd')
+insert @map_servicefrequencyid values ('01', 'daily', '71590a00-2c40-40ff-abd9-e73b09af46a1')
+insert @map_servicefrequencyid values ('02', 'weekly', 'a2080478-1a03-4928-905b-ed25dec259e6')
+insert @map_servicefrequencyid values ('', 'yearly', '5f3a2822-56f3-49da-9592-f604b0f202c3')
+insert @map_servicefrequencyid values('an', 'as needed', '69439d9d-b6c1-4b7a-9cac-c69810adfd31')
+insert @map_servicefrequencyid values('esy', 'as needed for esy', '836d1e97-ce4d-4fd5-9d0a-148924ac007b')
 
 
 
 
---if (select COUNT(*) from @Map_ServiceFrequencyID t join LEGACYSPED.MAP_ServiceFrequencyID m on t.DestID = m.DestID) <> 5
---	delete LEGACYSPED.MAP_ServiceFrequencyID
+if (select count(*) from @map_servicefrequencyid t join legacysped.map_servicefrequencyid m on t.destid = m.destid) <> 5
+	delete legacysped.map_servicefrequencyid
 
---set nocount off;
---insert LEGACYSPED.MAP_ServiceFrequencyID
---select m.ServiceFrequencyCode, m.ServiceFrequencyName, m.DestID
---from @Map_ServiceFrequencyID m left join
---	LEGACYSPED.MAP_ServiceFrequencyID t on m.DestID = t.DestID
---where t.DestID is null
+set nocount off;
+insert legacysped.map_servicefrequencyid
+select m.servicefrequencycode, m.servicefrequencyname, m.destid
+from @map_servicefrequencyid m left join
+	legacysped.map_servicefrequencyid t on m.destid = t.destid
+where t.destid is null
 
----- this is seed data, but maybe this is not the best place for this code.....
---insert ServiceFrequency (ID, Name, Sequence, WeekFactor)
---select DestID, m.ServiceFrequencyName, 99, 0
---from LEGACYSPED.MAP_ServiceFrequencyID m left join
---	ServiceFrequency t on m.DestID = t.ID
---where t.ID is null
---GO
-
-
-if exists (select 1 from sys.schemas s join sys.objects o on s.schema_id = o.schema_id where s.name = 'LEGACYSPED' and o.name = 'PrgItemOutcome_EndIEP')
-drop table LEGACYSPED.PrgItemOutcome_EndIEP
-go
-
-create table LEGACYSPED.PrgItemOutcome_EndIEP (
-PrgItemOutcomeID uniqueidentifier not null
-)
-
-insert LEGACYSPED.PrgItemOutcome_EndIEP values ('5ADC11E8-227D-4142-91BA-637E68FDBE70')
+-- this is seed data, but maybe this is not the best place for this code.....
+insert servicefrequency (id, name, sequence, weekfactor)
+select destid, m.servicefrequencyname, 99, 0
+from legacysped.map_servicefrequencyid m left join
+	servicefrequency t on m.destid = t.id
+where t.id is null
 go
 
 
 if not exists (select * from PrgItemOutcome where Text = 'IEP Ended' and CurrentDefID = '8011D6A2-1014-454B-B83C-161CE678E3D3')
 begin
- insert PrgItemOutcome (ID, CurrentDefID, Text, Sequence) values (newid(), '8011D6A2-1014-454B-B83C-161CE678E3D3', 'IEP Ended', 0)
+	insert PrgItemOutcome (ID, CurrentDefID, Text, Sequence) values (newid(), '8011D6A2-1014-454B-B83C-161CE678E3D3', 'IEP Ended', 0)
 end
-select * from PrgItemOutcome where Text = 'IEP Ended' and CurrentDefID = '8011D6A2-1014-454B-B83C-161CE678E3D3'
+declare @PrgItemOutcomeID uniqueidentifier
+select @PrgItemOutcomeID = ID from PrgItemOutcome where Text = 'IEP Ended' and CurrentDefID = '8011D6A2-1014-454B-B83C-161CE678E3D3'
+
+if exists (select 1 from sys.schemas s join sys.objects o on s.schema_id = o.schema_id where s.name = 'LEGACYSPED' and o.name = 'PrgItemOutcome_EndIEP')
+drop table LEGACYSPED.PrgItemOutcome_EndIEP
+
+create table LEGACYSPED.PrgItemOutcome_EndIEP (
+PrgItemOutcomeID uniqueidentifier not null
+)
+
+insert LEGACYSPED.PrgItemOutcome_EndIEP values (@PrgItemOutcomeID)
+go
