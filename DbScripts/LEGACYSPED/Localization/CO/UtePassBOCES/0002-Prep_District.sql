@@ -19,6 +19,21 @@
 --6531EF88-352D-4620-AF5D-CE34C54A9F53	420A9663-FFE8-4FF1-B405-1DB1D42B6F8A	UTE Pass BOCES
 --select * from Orgunittype where ID = '420A9663-FFE8-4FF1-B405-1DB1D42B6F8A'
 
+if exists (select 1 from sys.schemas s join sys.objects o on s.schema_id = o.schema_id where s.name = 'LEGACYSPED' and o.name = 'MAP_AdminUnitID')
+drop table LEGACYSPED.MAP_AdminUnitID
+go
+
+create table LEGACYSPED.MAP_AdminUnitID (
+DestID uniqueidentifier not null
+)
+
+-- select * from OrgUnit where ParentID is null
+--this line may be different for every district!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+insert LEGACYSPED.MAP_AdminUnitID values ('6531EF88-352D-4620-AF5D-CE34C54A9F53') -- INSERT ONLY ONE RECORD INTO THIS TABLE!!!!!!!!!!!!!!!!!!!!!!
+-- INSERT ONLY ONE RECORD INTO THIS TABLE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+go
+
+
 UPDATE OrgUnit
 SET Number = '3020' --, ParentID = '6531EF88-352D-4620-AF5D-CE34C54A9F53'
 Where ID = '1A7AE897-99F4-4C22-B529-6EB36A763DC4'
@@ -34,8 +49,6 @@ Where ID = '6F22BFFC-728F-4304-8FDC-CDD151A946AB'
 UPDATE OrgUnit
 SET Number = '9165'
 Where ID = '6531EF88-352D-4620-AF5D-CE34C54A9F53'
-
-
 
 
 
@@ -198,15 +211,21 @@ GO
 -- renamed this transform
 
 
+if not exists (select * from PrgItemOutcome where Text = 'IEP Ended' and CurrentDefID = '8011D6A2-1014-454B-B83C-161CE678E3D3')
+begin
+	insert PrgItemOutcome (ID, CurrentDefID, Text, Sequence) values (newid(), '8011D6A2-1014-454B-B83C-161CE678E3D3', 'IEP Ended', 0)
+end
+declare @PrgItemOutcomeID uniqueidentifier
+select @PrgItemOutcomeID = ID from PrgItemOutcome where Text = 'IEP Ended' and CurrentDefID = '8011D6A2-1014-454B-B83C-161CE678E3D3'
+
 if exists (select 1 from sys.schemas s join sys.objects o on s.schema_id = o.schema_id where s.name = 'LEGACYSPED' and o.name = 'PrgItemOutcome_EndIEP')
 drop table LEGACYSPED.PrgItemOutcome_EndIEP
-go
 
 create table LEGACYSPED.PrgItemOutcome_EndIEP (
 PrgItemOutcomeID uniqueidentifier not null
 )
 
-insert LEGACYSPED.PrgItemOutcome_EndIEP values ('5ADC11E8-227D-4142-91BA-637E68FDBE70')
+insert LEGACYSPED.PrgItemOutcome_EndIEP values (@PrgItemOutcomeID)
 go
 
 
