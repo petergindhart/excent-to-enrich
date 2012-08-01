@@ -1,8 +1,8 @@
 /*	BEFORE RUNNING THIS SCRIPT, follow these steps
 
 1.  Create schema using this script:
-		create schema GEORGE
-2.  Import both the StaffMember (and/or SpedStaffMember) and StaffSchool files into tables named GEORGE.StaffMember and GEORGE.StaffSchool
+		create schema ADHOCIMPORT
+2.  Import both the StaffMember (and/or SpedStaffMember) and StaffSchool files into tables named ADHOCIMPORT.StaffMember and ADHOCIMPORT.StaffSchool
 3.  Run this script
 
 This script will normally be run on the Staging server before data conversino is run.
@@ -16,7 +16,7 @@ declare @u uniqueidentifier, @e varchar(100), @f varchar(100), @l varchar(100), 
 select @po = o.ID from OrgUnit o join School h on o.ID = h.OrgUnitID where ParentID is null 
 
 declare U cursor for 
-select sm.StaffEmail, sm.Firstname, sm.Lastname, r.ID, UserProfileID = newid() from GEORGE.StaffMember sm left join Person p on sm.STAFFEMAIL = p.EmailAddress left join SecurityRole r on sm.ENRICHROLE = r.Name where p.ID is null
+select sm.StaffEmail, sm.Firstname, sm.Lastname, r.ID, UserProfileID = newid() from ADHOCIMPORT.StaffMember sm left join Person p on sm.STAFFEMAIL = p.EmailAddress left join SecurityRole r on sm.ENRICHROLE = r.Name where p.ID is null
 
 open U
 fetch U into @e, @f, @l, @r, @u
@@ -37,7 +37,7 @@ select @u, isnull(@o, @po) where not exists (select 1 from UserProfileOrgUnit uo
 insert UserProfileSchool 
 select newid(), @u, h.ID 
 from School h join 
-GEORGE.StaffSchool ss on h.Number = ss.SCHOOLCODE left join
+ADHOCIMPORT.StaffSchool ss on h.Number = ss.SCHOOLCODE left join
 UserProfileSchool us on h.ID = us.SchoolID and us.UserProfileID = @u
 where h.DeletedDate is null
 and ss.STAFFEMAIL = @e
