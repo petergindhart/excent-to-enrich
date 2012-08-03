@@ -18,11 +18,28 @@ insert LEGACYSPED.MAP_AdminUnitID values ('6531EF88-352D-4620-AF5D-CE34C54A9F53'
 -- INSERT ONLY ONE RECORD INTO THIS TABLE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 go
 
--- OrgUnit
-update ou set Number = '9055' 
- --select ou.*
-from (select top 1 OrgUnitID from School group by OrgUnitID order by count(*) desc) m join dbo.OrgUnit ou on m.OrgUnitID = ou.ID
-go
+-- to consider:  in case these get deleted, have code that will insert them if they are not here.  Not necessary at this point.
+declare @OrgUnit table (ID uniqueidentifier, Name varchar(200), Number varchar(10))
+insert @OrgUnit values ('6531EF88-352D-4620-AF5D-CE34C54A9F53', 'San Luis Valley BOCES', '9055')
+insert @OrgUnit values ('EA3B93CD-1CDD-4B18-9A82-7CD78D7C6D50', 'Alamosa', '0100')
+insert @OrgUnit values ('3BAC0447-41AA-4E89-AABD-BC008FA0D2A9', 'Centennial', '0640')
+insert @OrgUnit values ('73767E9D-F1F3-461B-B578-FD6363DC81CD', 'Center', '2810')
+insert @OrgUnit values ('81F9A7FF-227A-4EE5-9CA9-BD7D082F93E8', 'Creede', '2010')
+insert @OrgUnit values ('37531427-30E3-433D-B355-7F980A4E8F20', 'Del Norte', '2730')
+insert @OrgUnit values ('089E7B37-444C-49E4-ABD1-873C1DCD9DCE', 'Moffat', '2800')
+insert @OrgUnit values ('174DCE7F-5EB7-406A-A62F-8A4D0CE8536C', 'Monte Vista', '2740')
+insert @OrgUnit values ('3ABE3F65-D96A-426A-BC6A-CABF85B22414', 'Mountain Valley', '2790')
+insert @OrgUnit values ('4FBD455A-2D15-4D4C-AA4A-547851CDB047', 'North Conejos', '0550')
+insert @OrgUnit values ('2FF0C5AE-41F6-4B4A-B714-F5C68A5BC483', 'Sanford', '0560')
+insert @OrgUnit values ('FB3116CC-87C9-4606-A858-31D36696C81E', 'Sangre De Cristo', '0110')
+insert @OrgUnit values ('617108E9-62FB-4FDB-81AE-CFC116FF700F', 'Sargent', '2750')
+insert @OrgUnit values ('82D605C4-97CB-46BB-B931-5BC674F42E15', 'Sierra Grande', '0740')
+insert @OrgUnit values ('046E8710-CD0E-43CC-9C2D-F3690F92EDD0', 'South Conejos', '0580')
+
+update ou set Number = t.Number
+-- select * 
+from @OrgUnit t join
+OrgUnit ou on t.ID = ou.ID 
 
 
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'LEGACYSPED.ImportPrgSections') AND type in (N'U'))
@@ -71,7 +88,6 @@ go
 			i.e. 2 times Quarterly = 8 times yearly,  30 minutes per quarter = 2 hours per year or 120 minutes per year
 */
 
--- Lee County had a MAP_ServiceFrequencyID from a previouos ETL run that had bogus frequency data. delete that data and insert the good.
 declare @map_servicefrequencyid table (servicefrequencycode varchar(30), servicefrequencyname varchar(50), destid uniqueidentifier)
 set nocount on;
 insert @map_servicefrequencyid values ('zzz', 'not specified', 'c42c50ed-863b-44b8-bf68-b377c8b0fa95')
@@ -83,7 +99,7 @@ insert @map_servicefrequencyid values('an', 'as needed', '69439d9d-b6c1-4b7a-9ca
 insert @map_servicefrequencyid values('esy', 'as needed for esy', '836d1e97-ce4d-4fd5-9d0a-148924ac007b')
 
 
-
+-- select * from ServiceFrequency
 
 if (select count(*) from @map_servicefrequencyid t join legacysped.map_servicefrequencyid m on t.destid = m.destid) <> 5
 	delete legacysped.map_servicefrequencyid
@@ -129,9 +145,4 @@ create procedure LEGACYSPED.SpedConversionWrapUp
 as
 -- this should run for all districts in all states
 update d set IsReevaluationNeeded = 1, StartDate = dateadd(dd, -d.MaxDaysToComplete, dateadd(yy, -d.MaxYearsToComplete, getdate())) from PrgMilestoneDef d where d.ID in ('27C002AF-ED92-4152-8B8C-7CA1ADEA2C81', 'AC043E4C-55EC-4F10-BCED-7E9201D7D0E2')
-
-
 GO
-
-
-go
