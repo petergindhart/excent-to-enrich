@@ -211,9 +211,8 @@ deallocate I
 
 -- delete unneeded
 delete g
-from ServiceProviderTitle g left join
-@ServiceProviderTitle t on g.ID = t.ID
-where t.ID is null 
+from ServiceProviderTitle g  join
+@MAP_ServiceProviderTitle t on g.ID = t.TossID
 
 
 commit tran fixspt
