@@ -11,8 +11,8 @@ as
   RosterYearID = ry.ID, 
   ry.StartDate, 
   EndDate = cast(NULL as datetime),
-  SchoolHistoryExists = case when ssh.StudentID is null then 1 else 0 end,
-  GradeLevelHistoryExists = case when sgh.StudentID is null then 1 else 0 end,
+  SchoolHistoryExists = case when ssh.StudentID is not null then 1 else 0 end,
+  GradeLevelHistoryExists = case when sgh.StudentID is not null then 1 else 0 end,
   s.ManuallyEntered
  from LEGACYSPED.Transform_Student s cross join 
  (select ry.ID, ry.StartDate from RosterYear ry where dbo.DateInRange(getdate(), ry.StartDate, ry.EndDate) = 1) ry left join 
