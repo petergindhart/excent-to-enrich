@@ -21,7 +21,8 @@ insert @PrgStatus (ID, ProgramID, Sequence, Name, IsExit, IsEntry,  StatusStyleI
 insert @PrgStatus (ID, ProgramID, Sequence, Name, IsExit, IsEntry,  StatusStyleID, StateCode, Description) values ('2477C14E-7939-46D6-99E4-43F6E35701A4', 'F98A8EF2-98E2-4CAC-95AF-D7D89EF7F80C', 99, convert(varchar(50), 'Completed (non-diploma certificate)'), 1, 0, 'FA528C27-E567-4CC9-A328-FF499BB803F6', '92', 'Completed (non-diploma certificate)')
 insert @PrgStatus (ID, ProgramID, Sequence, Name, IsExit, IsEntry,  StatusStyleID, StateCode, Description) values ('977D0FE7-B5EA-4656-B193-5B0BF784EDCC', 'F98A8EF2-98E2-4CAC-95AF-D7D89EF7F80C', 99, convert(varchar(50), 'General Education Development Certificate (GED)'), 1, 0, 'FA528C27-E567-4CC9-A328-FF499BB803F6', '93', 'General Education Development Certificate (GED)')
 insert @PrgStatus (ID, ProgramID, Sequence, Name, IsExit, IsEntry,  StatusStyleID, StateCode, Description) values ('E6DB43DE-03DF-4C27-A61B-6B1277102B73', 'F98A8EF2-98E2-4CAC-95AF-D7D89EF7F80C', 99, convert(varchar(50), 'Student received GED certificate at Non-District Program same year of transfer.'), 1, 0, 'FA528C27-E567-4CC9-A328-FF499BB803F6', '94', 'Student received GED certificate at Non-District Program same year of transfer.')
-
+-- Converted Data Plan
+insert @PrgStatus (ID, ProgramID, Sequence, Name, IsExit, IsEntry,  StatusStyleID, StateCode, Description) values ('0B5D5C72-5058-4BF5-A414-BDB27BD5DD94', 'F98A8EF2-98E2-4CAC-95AF-D7D89EF7F80C', 5, convert(varchar(50), 'Converted Data Plan'), 0, 0, '85AAB540-503F-4613-9F1F-A14C72764285', NULL, NULL)
 --select * from PrgStatus order by Name,Sequence
 
 update t set Sequence = g.Sequence
