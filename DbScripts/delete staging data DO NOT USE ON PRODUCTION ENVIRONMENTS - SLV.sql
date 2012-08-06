@@ -332,7 +332,7 @@ ReportCardScore x on n.StudentID = x.Student
 	Student x on n.StudentID = x.ID
 --Msg 547, Level 16, State 0, Line 328
 --The DELETE statement conflicted with the REFERENCE constraint "FK_ProbeTime#Student#ProbeTimes". The conflict occurred in database "Enrich_DCB4_CO_SLV", table "dbo.ProbeTime", column 'StudentID'.
-select * from ProbeTime
+--select * from ProbeTime
 
 
 -- san luis valley is all manually entered SIS data at this point
