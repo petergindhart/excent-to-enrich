@@ -15,14 +15,14 @@ insert @ServiceDef (ID, CategoryID, Name) values ('73107912-4959-4137-910B-B17E5
 insert @ServiceDef (ID, CategoryID, Name) values ('7BBAAB01-398D-4835-B4B0-13D543FAC564', '4CA5DB1F-2CAC-4DDC-B856-B4B8BFE88BDD', 'Psychological Services')
 insert @ServiceDef (ID, CategoryID, Name) values ('75D07F63-F586-4C55-8FDE-A5B6D0737157', '4CA5DB1F-2CAC-4DDC-B856-B4B8BFE88BDD', 'School Health Services')
 insert @ServiceDef (ID, CategoryID, Name) values ('B630AE87-E461-4DAC-B5B9-3FB85C78F56D', '4CA5DB1F-2CAC-4DDC-B856-B4B8BFE88BDD', 'Transportation Services')
-insert @ServiceDef (ID, CategoryID, Name) values ('D4149322-3A4A-42C1-8590-5A5D919E7B28', '4570E6F2-2691-4BB1-9BBB-A62AC3BEECB7', 'Indirect')
-insert @ServiceDef (ID, CategoryID, Name) values ('2991CDE7-FB2A-4FDA-AD00-6BF56DCD4D09', '4570E6F2-2691-4BB1-9BBB-A62AC3BEECB7', 'Instruction-Co-Teach')
-insert @ServiceDef (ID, CategoryID, Name) values ('42176279-A1A0-4699-B01B-187FD0FF07E2', '4570E6F2-2691-4BB1-9BBB-A62AC3BEECB7', 'Instruction-Direct In Gen Ed Class')
-insert @ServiceDef (ID, CategoryID, Name) values ('E2819193-5118-4DC9-8433-6F35851C14FC', '4570E6F2-2691-4BB1-9BBB-A62AC3BEECB7', 'Instruction-Direct Outside Gen Ed Class')
+--insert @ServiceDef (ID, CategoryID, Name) values ('D4149322-3A4A-42C1-8590-5A5D919E7B28', '4570E6F2-2691-4BB1-9BBB-A62AC3BEECB7', 'Indirect')
+--insert @ServiceDef (ID, CategoryID, Name) values ('2991CDE7-FB2A-4FDA-AD00-6BF56DCD4D09', '4570E6F2-2691-4BB1-9BBB-A62AC3BEECB7', 'Instruction-Co-Teach')
+--insert @ServiceDef (ID, CategoryID, Name) values ('42176279-A1A0-4699-B01B-187FD0FF07E2', '4570E6F2-2691-4BB1-9BBB-A62AC3BEECB7', 'Instruction-Direct In Gen Ed Class')
+--insert @ServiceDef (ID, CategoryID, Name) values ('E2819193-5118-4DC9-8433-6F35851C14FC', '4570E6F2-2691-4BB1-9BBB-A62AC3BEECB7', 'Instruction-Direct Outside Gen Ed Class')
 insert @ServiceDef (ID, CategoryID, Name) values ('9DE4CBF9-BD8D-490C-8E1B-34F5E73DEF11', '4570E6F2-2691-4BB1-9BBB-A62AC3BEECB7', 'Specialized Instruction')
 insert @ServiceDef (ID, CategoryID, Name) values ('BF859DEF-67A2-4285-A871-E80315AF3BD5', '4570E6F2-2691-4BB1-9BBB-A62AC3BEECB7', 'Speech/Language Services')
 insert @ServiceDef (ID, CategoryID, Name) values ('52AD0E2D-3A97-499A-95F4-5B4BB02912DF', '4570E6F2-2691-4BB1-9BBB-A62AC3BEECB7', 'Adapted Physical Education')
-insert @ServiceDef (ID, CategoryID, Name) values ('61D1B5E8-C054-4EA8-B9CB-F61EBDB1F629', '4570E6F2-2691-4BB1-9BBB-A62AC3BEECB7', 'Consultation')
+--insert @ServiceDef (ID, CategoryID, Name) values ('61D1B5E8-C054-4EA8-B9CB-F61EBDB1F629', '4570E6F2-2691-4BB1-9BBB-A62AC3BEECB7', 'Consultation')
 
 
 update x set Description = sd.Description, DefaultLocationID = sd.DefaultLocationID, MinutesPerUnit = sd.MinutesPerUnit
