@@ -33,22 +33,43 @@ insert LEGACYSPED.MAP_AdminUnitID values ('6531EF88-352D-4620-AF5D-CE34C54A9F53'
 -- INSERT ONLY ONE RECORD INTO THIS TABLE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 go
 
+declare @OrgUnit table (ID uniqueidentifier, Name varchar(200), Number varchar(10))
+insert @OrgUnit values ('1295D5FF-2E5D-45B4-8DCA-2A0ADEB3FA68','El Paso 2','0980')
+insert @OrgUnit values ('64B46E66-61B5-461D-BA95-3EBE8FBFEED3','El Paso 12','1020')
+insert @OrgUnit values('EFC57A8C-6CD7-4456-9DD5-459EE2ED8C5F','El Paso 11','1010')
+insert @OrgUnit values('70EE2A06-EF2F-4544-83DA-532DF3006649','PIKES PEAK BOCES','9045')
+insert @OrgUnit values('44118DF4-DE34-423C-9F51-6B32ACF661C7','Fremont RE-2 Florence','1150')
+insert @OrgUnit values('1A7AE897-99F4-4C22-B529-6EB36A763DC4','Woodland Park','3020')
+insert @OrgUnit values('99714D30-07C8-4BE0-9D20-AC92875EF3F7','El Paso 49','1110')
+insert @OrgUnit values('8558AD16-FEF6-4008-8BEA-B3A19BF8B6A9','Manitou Springs','1030')
+insert @OrgUnit values('16686C6F-637E-43C4-A3E8-B67C8533C1B0','ZZZZ','0000')
+insert @OrgUnit values('6F22BFFC-728F-4304-8FDC-CDD151A946AB','Cripple Creek','3010')
+insert @OrgUnit values('6531EF88-352D-4620-AF5D-CE34C54A9F53','UTE Pass BOCES','9165')
+insert @OrgUnit values('648BAB04-405E-491B-996E-DFE7D14580CC','Park RE-2 Fairplay','2610')
+insert @OrgUnit values('D20A5171-7E06-4D79-B569-E8BE9E5D419E','El Paso 20','1040')
 
-UPDATE OrgUnit
-SET Number = '3020' --, ParentID = '6531EF88-352D-4620-AF5D-CE34C54A9F53'
-Where ID = '1A7AE897-99F4-4C22-B529-6EB36A763DC4'
 
-UPDATE OrgUnit
-SET Number = '1030'  --, ParentID = '6531EF88-352D-4620-AF5D-CE34C54A9F53'
-Where ID = '8558AD16-FEF6-4008-8BEA-B3A19BF8B6A9'
+update ou set Number = t.Number
+-- select * 
+from @OrgUnit t join
+OrgUnit ou on t.ID = ou.ID
 
-UPDATE OrgUnit
-SET Number = '3010'  --, ParentID = '6531EF88-352D-4620-AF5D-CE34C54A9F53'
-Where ID = '6F22BFFC-728F-4304-8FDC-CDD151A946AB'
 
-UPDATE OrgUnit
-SET Number = '9165'
-Where ID = '6531EF88-352D-4620-AF5D-CE34C54A9F53'
+--UPDATE OrgUnit
+--SET Number = '3020' --, ParentID = '6531EF88-352D-4620-AF5D-CE34C54A9F53'
+--Where ID = '1A7AE897-99F4-4C22-B529-6EB36A763DC4'
+
+--UPDATE OrgUnit
+--SET Number = '1030'  --, ParentID = '6531EF88-352D-4620-AF5D-CE34C54A9F53'
+--Where ID = '8558AD16-FEF6-4008-8BEA-B3A19BF8B6A9'
+
+--UPDATE OrgUnit
+--SET Number = '3010'  --, ParentID = '6531EF88-352D-4620-AF5D-CE34C54A9F53'
+--Where ID = '6F22BFFC-728F-4304-8FDC-CDD151A946AB'
+
+--UPDATE OrgUnit
+--SET Number = '9165'
+--Where ID = '6531EF88-352D-4620-AF5D-CE34C54A9F53'
 
 
 
