@@ -8,7 +8,7 @@
 --select top 1 o.ID
 --from OrgUnit o join
 --School s on o.ID = s.OrgUnitID join 
---GEORGE.StaffSchool ss on s.Number = ss.SCHOOLCODE 
+--ADHOCIMPORT.StaffSchool ss on s.Number = ss.SCHOOLCODE 
 --where ss.STAFFEMAIL = @e
 --group by o.ID 
 --order by count(*) desc
@@ -22,7 +22,7 @@ declare @u uniqueidentifier, @e varchar(100), @f varchar(100), @l varchar(100), 
 select @po = o.ID from OrgUnit o join School h on o.ID = h.OrgUnitID where ParentID is null 
 
 declare U cursor for 
-select sm.StaffEmail, sm.Firstname, sm.Lastname, r.ID, UserProfileID = newid() from GEORGE.StaffMember sm left join Person p on sm.STAFFEMAIL = p.EmailAddress left join SecurityRole r on sm.ENRICHROLE = r.Name where p.ID is null
+select sm.StaffEmail, sm.Firstname, sm.Lastname, r.ID, UserProfileID = newid() from ADHOCIMPORT.StaffMember sm left join Person p on sm.STAFFEMAIL = p.EmailAddress left join SecurityRole r on sm.ENRICHROLE = r.Name where p.ID is null
 
 open U
 fetch U into @e, @f, @l, @r, @u
@@ -37,13 +37,24 @@ values (@u, 'U', @f, @l, @e, 1)
 insert UserProfile (ID, RoleID, Username, CanPerformAllServices, CanSignAllServices, IsSchoolAutoSelected, CurrentFailedLoginAttempts, RoleStatusID)
 values (@u, isnull(@r, 'A101B7EC-62CA-48C2-9562-DD511AB88534'), 'Enrich:'+@f+@l, 0, 0, 0, 0, 'M')
 
-insert UserProfileOrgUnit (UserProfileID, OrgUnitID) 
-select @u, isnull(@o, @po) where not exists (select 1 from UserProfileOrgUnit uo where uo.UserProfileID = @u and uo.OrgUnitID = isnull(@o, @po))
+--insert UserProfileOrgUnit (UserProfileID, OrgUnitID) 
+--select @u, isnull(@o, @po) where not exists (select 1 from UserProfileOrgUnit uo where uo.UserProfileID = @u and uo.OrgUnitID = isnull(@o, @po))
+
+insert UserProfileOrgUnit
+select distinct UserProfileID = up.ID, OrgUnitID = h.OrgUnitID
+from School h join 
+ADHOCIMPORT.StaffSchool ss on h.Number = ss.SCHOOLCODE left join
+dbo.Person up on ss.STAFFEMAIL = up.EmailAddress and up.TypeID = 'U' left join
+dbo.UserProfileOrgUnit pou on h.OrgUnitID = pou.OrgUnitID and pou.UserProfileID = up.ID
+where h.DeletedDate is null
+and ss.STAFFEMAIL = @e
+and pou.OrgUnitID is null
+
 
 insert UserProfileSchool 
 select newid(), @u, h.ID 
 from School h join 
-GEORGE.StaffSchool ss on h.Number = ss.SCHOOLCODE left join
+ADHOCIMPORT.StaffSchool ss on h.Number = ss.SCHOOLCODE left join
 UserProfileSchool us on h.ID = us.SchoolID and us.UserProfileID = @u
 where h.DeletedDate is null
 and ss.STAFFEMAIL = @e
