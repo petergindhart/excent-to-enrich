@@ -28,7 +28,7 @@ AS
 	DestID = coalesce(i.ID, n.ID, t.ID, m.DestID, k.EnrichID),
 	Name = coalesce(i.Name, n.Name, t.Name, k.EnrichLabel),
 	StateCode = coalesce(i.StateCode, n.StateCode, t.StateCode),
-	DeletedDate = case when k.EnrichID is not null then NULL when coalesce(i.ID, n.ID, t.ID) is null then getdate() else coalesce(i.DeletedDate, n.DeletedDate, t.DeletedDate) end
+	DeletedDate = case when k.EnrichID is not null then NULL when coalesce(i.ID, n.ID, t.ID) is null then NULL else coalesce(i.DeletedDate, n.DeletedDate, t.DeletedDate) end
  FROM  
 	LEGACYSPED.SelectLists k LEFT JOIN
 	dbo.ServiceProviderTitle i on k.EnrichID = i.ID left join
