@@ -1,6 +1,14 @@
 -- #############################################################################
 -- Note:  Separated code for several MAP tables from Transform_PrgIep file because EvaluateIncomingItems depends on those MAPs, and Transform_PrgIep depends on EvaluateIncomingItems
 
+If not exists (select 1 from PrgStatus where Name = 'Converted Data Plan')
+begin
+	insert PrgStatus (ID, ProgramID, Sequence, Name, IsExit, IsEntry,  StatusStyleID, StateCode, Description) 
+	values ('0B5D5C72-5058-4BF5-A414-BDB27BD5DD94', 'F98A8EF2-98E2-4CAC-95AF-D7D89EF7F80C', 5, convert(varchar(50), 'Converted Data Plan'), 0, 0, '85AAB540-503F-4613-9F1F-A14C72764285', NULL, NULL)
+end
+GO
+
+
 IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.Transform_PrgIep') AND OBJECTPROPERTY(id, N'IsView') = 1)
 DROP VIEW LEGACYSPED.Transform_PrgIep
 GO
