@@ -41,7 +41,7 @@ AS
   StatusStyleID = coalesce(i.StatusStyleID, n.StatusStyleID, t.StatusStyleID, 'FA528C27-E567-4CC9-A328-FF499BB803F6'), 
   StateCode = coalesce(i.StateCode, n.StateCode, t.StateCode), 
   Description = coalesce(i.Description, n.Description, t.Description), 
-  DeletedDate = case when k.EnrichID is not null then NULL when coalesce(i.ID, n.ID, t.ID) is null then getdate() else coalesce(i.DeletedDate, n.DeletedDate, t.DeletedDate) end
+  DeletedDate = case when k.EnrichID is not null then NULL when coalesce(i.ID, n.ID, t.ID) is null then NULL else coalesce(i.DeletedDate, n.DeletedDate, t.DeletedDate) end
  FROM 
   LEGACYSPED.SelectLists k LEFT JOIN
   dbo.PrgStatus i on k.EnrichID = i.ID left join
