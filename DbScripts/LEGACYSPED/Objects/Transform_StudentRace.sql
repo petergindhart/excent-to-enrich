@@ -37,7 +37,5 @@ from (
 
 LEGACYSPED.Transform_Student s on r.StudentRefID = s.StudentRefID left join
 
-dbo.StudentRace sr on s.DestID = sr.StudentID and r.RaceID = sr.RaceID left join 
-
-dbo.Student st on s.DestID = st.ID
+dbo.StudentRace sr on s.DestID = sr.StudentID and r.RaceID = sr.RaceID 
 
