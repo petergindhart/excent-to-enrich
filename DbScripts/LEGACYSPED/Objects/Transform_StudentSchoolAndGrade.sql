@@ -15,7 +15,7 @@ as
   GradeLevelHistoryExists = case when sgh.StudentID is not null then 1 else 0 end,
   s.ManuallyEntered
  from LEGACYSPED.Transform_Student s cross join 
- (select ry.ID, ry.StartDate from RosterYear ry where dbo.DateInRange(getdate(), ry.StartDate, ry.EndDate) = 1) ry left join 
+ (select ry.ID, ry.StartDate from RosterYear ry where dbo.DateInRange(dateadd(yy, -1, getdate()), ry.StartDate, ry.EndDate) = 1) ry left join
  StudentSchoolHistory ssh on
 	s.DestID = ssh.StudentID and
 	s.CurrentSchoolID = ssh.SchoolID and
@@ -25,6 +25,7 @@ as
 	s.CurrentGradeLevelID = sgh.GradeLevelID and
 	sgh.EndDate is null
 -- where s.ManuallyEntered = 1
+where s.CurrentSchoolID is not null
 go
 
 --select * from StudentSchoolHistory where StudentID = '22CBCDC9-27C3-49F3-9D03-7612CF3431A8'
