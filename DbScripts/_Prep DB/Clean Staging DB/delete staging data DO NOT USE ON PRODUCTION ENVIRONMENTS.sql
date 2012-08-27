@@ -16,6 +16,7 @@ set xact_abort on
 -- select * from Student where ID = @StudentID
 --select x.* from FormInstanceInterval x join PrgItemForm pif on x.InstanceId = pif.ID join PrgItem i on pif.ItemID = i.ID 
 
+declare @studentid varchar(36), @sch varchar(50), @tbl varchar(100), @col varchar(100), @q varchar(max), @tranname varchar(100)
 
 -- select * from student where lastname = 'student' -- select * from LEGACYSPED.MAP_StudentRefID
 
@@ -28,16 +29,10 @@ delete PrgItem where StudentID in (select DestID from LEGACYSPED.MAP_StudentRefI
 delete PrgInvolvement where StudentID in (select DestID from LEGACYSPED.MAP_StudentRefID)
 delete PrgVersionIntent where ItemIntentId in (select ID from PrgItemIntent where StudentID in (select DestID from LEGACYSPED.MAP_StudentRefID))
 delete PrgItemIntent where StudentID in (select DestID from LEGACYSPED.MAP_StudentRefID)
-delete T_FCAT_ReadingAndMath where StudentID in (select DestID from LEGACYSPED.MAP_StudentRefID)
-delete T_FL_Alt where StudentID in (select DestID from LEGACYSPED.MAP_StudentRefID)
 delete StudentRosterYear where StudentID in (select DestID from LEGACYSPED.MAP_StudentRefID)
 delete StudentClassRosterHistory where StudentID in (select DestID from LEGACYSPED.MAP_StudentRefID)
 delete StudentGradeLevelHistory where StudentID in (select DestID from LEGACYSPED.MAP_StudentRefID)
-delete T_CSAP where StudentID in (select DestID from LEGACYSPED.MAP_StudentRefID)
-delete T_COGAT where StudentID in (select DestID from LEGACYSPED.MAP_StudentRefID)
-delete T_CELA where StudentID in (select DestID from LEGACYSPED.MAP_StudentRefID)
 delete StudentGroupStudent where StudentID in (select DestID from LEGACYSPED.MAP_StudentRefID)
-delete T_ACT where StudentID in (select DestID from LEGACYSPED.MAP_StudentRefID)
 
 delete Student where ID in (select DestID from LEGACYSPED.MAP_StudentRefID)
 end
@@ -48,6 +43,62 @@ declare @zg uniqueidentifier ; select @zg = '00000000-0000-0000-0000-00000000000
 declare @SaveStudents table (StudentID uniqueidentifier null, OldNumber varchar(50) not null, OldFirstname varchar(50) not null, OldLastname varchar(50) not null, NewNumber varchar(50), NewFirstname varchar(50) not null, NewLastname varchar(50) not null) ; 
 -- insert @SaveStudents (OldNumber, OldLastname, OldFirstname, NewNumber, NewLastname, NewFirstname) values ('3632271715', 'Ceotto', 'Sara', '0000000001', 'Student', 'Samantha')
 insert @SaveStudents (StudentID, OldNumber, OldFirstname, OldLastname, NewNumber, NewFirstname, NewLastname) values ('3384C724-6449-411E-9A9A-45EDAE354F9F', '', '', '', '', 'Sam', 'Student')
+
+
+-- declare @studentid varchar(36), @sch varchar(50), @tbl varchar(100), @col varchar(100), @q varchar(max), @tranname varchar(100)
+declare DS cursor for 
+select x.ID -- select * 
+from Student x 
+where x.ManuallyEntered = 1
+and ID not in (select isnull(StudentID, @zg) from @SaveStudents) -- could use select * from @delstudents instead
+
+open DS 
+fetch DS into @StudentID
+while @@FETCH_STATUS = 0
+begin
+
+set @tranname = 'del'+@StudentID
+
+print @StudentID
+begin tran @tranname
+
+	declare T cursor for 
+	SELECT 
+		SCHEMA_NAME(f.SCHEMA_ID) SchemaName,
+		OBJECT_NAME(f.parent_object_id) AS TableName,
+		COL_NAME(fc.parent_object_id,fc.parent_column_id) AS ColumnName
+	FROM sys.foreign_keys AS f
+		INNER JOIN sys.foreign_key_columns AS fc ON f.OBJECT_ID = fc.constraint_object_id
+		INNER JOIN sys.objects AS o ON o.OBJECT_ID = fc.referenced_object_id
+	where SCHEMA_NAME(o.SCHEMA_ID) = 'dbo' 
+		and OBJECT_NAME (f.referenced_object_id) = 'Student' ------------------------- Table name here
+		and COL_NAME(fc.referenced_object_id,fc.referenced_column_id) = 'ID' --------------- Column name here
+		and OBJECT_NAME(f.parent_object_id) like 'T[_]%'
+	order by SchemaName, TableName, ColumnName
+
+	open T 
+	fetch T into @sch, @tbl, @col
+	while @@FETCH_STATUS = 0
+	begin
+	
+	set @q = 'if exists (select 1 from '+@sch+'.'+@tbl+' where '+@col+' = '''+@StudentID+''')
+	delete '+@sch+'.'+@tbl+' where '+@col+' = '''+@studentid+''''
+	exec (@q)
+	-- print @q
+	
+	fetch T into @sch, @tbl, @col
+	end
+	close T
+	deallocate T
+
+commit tran @tranname
+
+fetch DS into @StudentID
+end
+close DS
+deallocate DS
+--Msg 547, Level 16, State 0, Line 420
+--The DELETE statement conflicted with the REFERENCE constraint "FK_T_ABI_StudentID". The conflict occurred in database "Enrich_DC2_FL_Brevard", table "dbo.T_ABI", column 'StudentID'.
 
 
 -- delete sample student guardians from the mapping table
@@ -266,27 +317,7 @@ StudentGroupStudent x on n.StudentID = x.StudentId
 delete x 
 -- select ManStud = s.ManuallyEntered, x.*
 from @delstudents n join
-T_CSAP x on n.StudentID = x.StudentId
-
-delete x 
--- select ManStud = s.ManuallyEntered, x.*
-from @delstudents n join
-T_COGAT x on n.StudentID = x.StudentId
-
-delete x 
--- select ManStud = s.ManuallyEntered, x.*
-from @delstudents n join
 StudentRecordException x on n.StudentID = x.Student2ID
-
-delete x 
--- select ManStud = s.ManuallyEntered, x.*
-from @delstudents n join
-T_ACT x on n.StudentID = x.StudentID
-
-delete x 
--- select ManStud = s.ManuallyEntered, x.*
-from @delstudents n join
-T_CELA x on n.StudentID = x.StudentID
 
 delete x 
 -- select ManStud = s.ManuallyEntered, x.*
