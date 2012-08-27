@@ -158,13 +158,13 @@ insert @SelectLists (Type, SubType, EnrichID, StateCode, EnrichLabel) values ('P
 
 --declare @MAP_Race table (Code varchar(10), OldRace uniqueidentifier, NewRace uniqueidentifier) -- based on COMPARE OLD AND NEW above, please fill in the OLD values below.  If there are OLD values that do not corespond to the NEW values, do not include them in the MAP table
 ----Vallivue
-----insert @MAP_Race values ('01','06D1BB41-9516-4C56-B12B-37EA8CACD083', '4B3DB67E-21B2-4ABC-B7FF-6CE7194B9973') -- Race: American Indian or Alaska Native
-----insert @MAP_Race values ('02','1C012C25-3BC1-40CC-8FD3-CF8A874DAF69', '9089FEE5-A947-47DF-A75E-48FD36497634') -- Race: Asian
-----insert @MAP_Race values ('03','CC8E3624-8D04-43DA-B9F8-41B60D06D015', '016E70C1-28B8-4DE3-B497-7D63E157031B') -- Race: Black or African American
-----insert @MAP_Race values ('06','3D89F11D-449F-4CDB-9386-33072073A52C', '6039E197-C060-4ACD-BD46-410517E5EA0A') -- Ethnicity: Hispanic or Latino
-----insert @MAP_Race values ('05','7A4383F3-CC9C-4A9A-AE16-0A052CCFD775', 'B8D4CB59-4714-4D23-A066-1CF408FE480F') -- Race: White
-----insert @MAP_Race values ('04','7B7CCD93-AF44-45DD-BD74-0502DC2B2E50', '77C31E40-CAC1-43F8-9537-39A0003FE84C') -- Race: Native Hawaiian or Other Pacific Islander
-----insert @MAP_Race values ('07','9A65D79B-AD12-4F21-8276-EC01ADE19503', '5E9AD89E-04D1-449D-B052-D8D3B57D748E') -- Race: Two or more races
+--insert @MAP_Race values ('01','06D1BB41-9516-4C56-B12B-37EA8CACD083', '4B3DB67E-21B2-4ABC-B7FF-6CE7194B9973') -- Race: American Indian or Alaska Native
+--insert @MAP_Race values ('02','1C012C25-3BC1-40CC-8FD3-CF8A874DAF69', '9089FEE5-A947-47DF-A75E-48FD36497634') -- Race: Asian
+--insert @MAP_Race values ('03','CC8E3624-8D04-43DA-B9F8-41B60D06D015', '016E70C1-28B8-4DE3-B497-7D63E157031B') -- Race: Black or African American
+--insert @MAP_Race values ('06','3D89F11D-449F-4CDB-9386-33072073A52C', '6039E197-C060-4ACD-BD46-410517E5EA0A') -- Ethnicity: Hispanic or Latino
+--insert @MAP_Race values ('05','7A4383F3-CC9C-4A9A-AE16-0A052CCFD775', 'B8D4CB59-4714-4D23-A066-1CF408FE480F') -- Race: White
+--insert @MAP_Race values ('04','7B7CCD93-AF44-45DD-BD74-0502DC2B2E50', '77C31E40-CAC1-43F8-9537-39A0003FE84C') -- Race: Native Hawaiian or Other Pacific Islander
+--insert @MAP_Race values ('07','9A65D79B-AD12-4F21-8276-EC01ADE19503', '5E9AD89E-04D1-449D-B052-D8D3B57D748E') -- Race: Two or more races
 
 --update r set StateCode = m.Code
 --from (select * from @SelectLists where Type = 'Race') r join
@@ -237,7 +237,7 @@ insert @SelectLists (Type, SubType, EnrichID, StateCode, EnrichLabel) values ('P
 
 --update EnumValue set IsActive = 0 where Type = 'CBB84AE3-A547-4E81-82D2-060AA3A50535' and ID not in (select EnrichID from @SelectLists where Type = 'Race')
 
---commit tran FixRace
+----commit tran FixRace
 ----rollback tran FixRace
 
 --select * from EnumValue where Type = 'CBB84AE3-A547-4E81-82D2-060AA3A50535' and IsActive = 1
@@ -321,7 +321,7 @@ insert @SelectLists (Type, SubType, EnrichID, StateCode, EnrichLabel) values ('P
 --update EnumValue set IsActive = 0 where Type = 'D6194389-17AC-494C-9C37-FD911DA2DD4B' and ID not in (select EnrichID from @SelectLists where Type = 'Gender')
 
 
-------commit tran FixGender
+----commit tran FixGender
 ------ rollback tran FixGender
 
 --=====================================GradeLevel==================================================
@@ -600,7 +600,7 @@ insert @SelectLists (Type, SubType, EnrichID, StateCode, EnrichLabel) values ('P
 
 -- 	exec ('delete x from dbo.IepDisability x left join '+@RelTable+' r on x.ID = r.'+@RelColumn+' where x.ID = '''+@toss+''' and r.'+@RelColumn+' is null')
 
--- print 
+---- print 
 
 --	fetch R into @relschema, @RelTable, @relcolumn
 --	end
@@ -623,17 +623,17 @@ insert @SelectLists (Type, SubType, EnrichID, StateCode, EnrichLabel) values ('P
 
 
 
--- update state code
+-- --update state code
 --update x set StateCode = t.StateCode,
 --			 Definition = ti.Definition,
 --			 DeterminationFormTemplateID = ti.DeterminationFormTemplateID
--- select g.*, t.StateCode
+-- --select g.*, t.StateCode
 --from IepDisability x  join
 --(select * from @SelectLists where Type = 'Disab') t on x.ID = t.EnrichID JOIN 
 -- @IepDisability ti on t.EnrichID = ti.ID
 
 
--- insert missing.  This has to be done before updating the records to be deleted and before deleting.
+-- --insert missing.  This has to be done before updating the records to be deleted and before deleting.
 --insert IepDisability (ID, Name, Definition, DeterminationFormTemplateID, StateCode, IsOutOfState)
 --select t.EnrichID, t.EnrichLabel, ti.Definition, ti.DeterminationFormTemplateID, t.StateCode,0
 --from IepDisability x right join
@@ -657,27 +657,27 @@ insert @SelectLists (Type, SubType, EnrichID, StateCode, EnrichLabel) values ('P
 --   ============================================================================= NOTE ============================================================================= */
 
 
---B9AAA2A4-A395-4BF2-B5C1-6AF98CCEA676	Autism Spectrum Disorders
---D1CFA1E9-D8D8-4317-92A4-94621F5C3466	Hearing Impairment, Including Deafness
---1D0B34DD-55BF-42EB-A0CA-7D2542EBC059	Preschooler with a Disability
---7599B90D-8842-4B49-9BFC-B5CDBAAAA074	Serious Emotional Disability
---CF411FEB-F76E-4EC0-BE2F-0F84AA453292	Vision Impairment, Including Blindness
+----B9AAA2A4-A395-4BF2-B5C1-6AF98CCEA676	Autism Spectrum Disorders
+----D1CFA1E9-D8D8-4317-92A4-94621F5C3466	Hearing Impairment, Including Deafness
+----1D0B34DD-55BF-42EB-A0CA-7D2542EBC059	Preschooler with a Disability
+----7599B90D-8842-4B49-9BFC-B5CDBAAAA074	Serious Emotional Disability
+----CF411FEB-F76E-4EC0-BE2F-0F84AA453292	Vision Impairment, Including Blindness
 
--- populate MAP
--- this needs to be done by visual inspection because IepDisability names can vary widely
+---- populate MAP
+---- this needs to be done by visual inspection because IepDisability names can vary widely
 --insert @MAP_IepDisability  values ('BBB4773F-4A8A-49E5-A0D4-952D2A0D1F18', 'B9AAA2A4-A395-4BF2-B5C1-6AF98CCEA676') -- 'Autism Spectrum Disorders'
 --insert @MAP_IepDisability  values ('0C02B702-D681-4C66-BA67-8F9D3847E6A9', 'D1CFA1E9-D8D8-4317-92A4-94621F5C3466') -- 'Hearing Impairment, Including Deafness'
---insert @MAP_IepDisability  values ('12F08D30-1ADA-4F9A-AD2A-EF5451BB2325', '') -- 'Intellectual Disability'
---insert @MAP_IepDisability  values ('CA41A561-16BE-4E21-BE8A-BC59ED86C921', '') -- 'Multiple Disabilities'
---insert @MAP_IepDisability  values ('07093979-0C3F-414D-9750-8080C6BB7C45', '') -- 'Physical Disability'
+----insert @MAP_IepDisability  values ('12F08D30-1ADA-4F9A-AD2A-EF5451BB2325', '') -- 'Intellectual Disability'
+----insert @MAP_IepDisability  values ('CA41A561-16BE-4E21-BE8A-BC59ED86C921', '') -- 'Multiple Disabilities'
+----insert @MAP_IepDisability  values ('07093979-0C3F-414D-9750-8080C6BB7C45', '') -- 'Physical Disability'
 --insert @MAP_IepDisability  values ('917D79C8-8604-49E5-A64F-0ADCFD85819B', '1D0B34DD-55BF-42EB-A0CA-7D2542EBC059') -- 'Preschooler with a Disability'
 --insert @MAP_IepDisability  values ('41500452-3FEB-4EBF-87A0-BFC5F385A973', '7599B90D-8842-4B49-9BFC-B5CDBAAAA074') -- 'Serious Emotional Disability'
---insert @MAP_IepDisability  values ('0E026822-6B22-43A1-BD6E-C1412E3A6FA3', '') -- 'Specific Learning Disability'
---insert @MAP_IepDisability  values ('96A66C19-7AAB-4EE6-AA81-7CD8CD4FEB09', '') -- 'Speech or Language Impairment'
---insert @MAP_IepDisability  values ('E65E6AAE-AE9B-4275-B547-9CE1A4B9EEF3', '') -- 'Traumatic Brain Injury'
+----insert @MAP_IepDisability  values ('0E026822-6B22-43A1-BD6E-C1412E3A6FA3', '') -- 'Specific Learning Disability'
+----insert @MAP_IepDisability  values ('96A66C19-7AAB-4EE6-AA81-7CD8CD4FEB09', '') -- 'Speech or Language Impairment'
+----insert @MAP_IepDisability  values ('E65E6AAE-AE9B-4275-B547-9CE1A4B9EEF3', '') -- 'Traumatic Brain Injury'
 --insert @MAP_IepDisability  values ('E77D061F-0E5B-4CF8-AB46-A0D4042E8601', 'CF411FEB-F76E-4EC0-BE2F-0F84AA453292') -- 'Vision Impairment, Including Blindness'
 
--- list all tables with FK on GradeLevel and update them 
+-- --list all tables with FK on GradeLevel and update them 
 
 
 --declare I cursor for 
@@ -723,14 +723,14 @@ insert @SelectLists (Type, SubType, EnrichID, StateCode, EnrichLabel) values ('P
 
 
 
--- delete unneeded
+-- --delete unneeded
 --delete x
--- select g.*, t.StateCode
+-- --select g.*, t.StateCode
 --from IepDisability x join
 --@MAP_IepDisability t on x.ID = t.TossID 
 
---commit tran FixDisab
-----rollback tran FixDisab 
+----commit tran FixDisab
+------rollback tran FixDisab 
 
 ----======================================================================================================
 ----							PrgLocation
@@ -857,7 +857,7 @@ insert @SelectLists (Type, SubType, EnrichID, StateCode, EnrichLabel) values ('P
 --from PrgLocation x join
 --@MAP_PrgLocation t on x.ID = t.TossID 
 
-----commit tran FixLocation
+--commit tran FixLocation
 ----rollback tran FixLocation
 
 --select * from PrgLocation d order by d.Name
@@ -905,8 +905,8 @@ insert @SelectLists (Type, SubType, EnrichID, StateCode, EnrichLabel) values ('P
 --order by x.Name
 
 
-----commit tran fixfreq
-----rollback tran fixfreq
+--commit tran fixfreq
+------rollback tran fixfreq
 
 
 ----===================================================================================================================
@@ -1094,7 +1094,7 @@ insert @SelectLists (Type, SubType, EnrichID, StateCode, EnrichLabel) values ('P
 --@MAP_ServiceProviderTitle t on g.ID = t.TossID
 
 
-----commit tran fixspt
+--commit tran fixspt
 ---- Rollback tran fixspt
 
 --=========================================================================================================================
@@ -1222,9 +1222,9 @@ insert @SelectLists (Type, SubType, EnrichID, StateCode, EnrichLabel) values ('P
 
 --select * from IepGoalAreaDef where DeletedDate is null order by Name
 
-----commit tran fixgoal
+--commit tran fixgoal
 
-----ROLLBACK  tran fixgoal
+--ROLLBACK  tran fixgoal
 
 ----========================================================================================================
 ----					ServiceDef
@@ -1298,8 +1298,8 @@ insert @SelectLists (Type, SubType, EnrichID, StateCode, EnrichLabel) values ('P
 
 --Begin tran fixservdef
 
---insert ServiceDef (ID, TypeID, Name, Description, DefaultLocationID, MinutesPerUnit)
---select t.EnrichID, TypeID = 'D3945E9D-AA0E-4555-BCB2-F8CA95CC7784', t.EnrichLabel, tsd.Description, tsd.DefaultLocationID, tsd.MinutesPerUnit
+--insert ServiceDef (ID, TypeID, Name, Description, DefaultLocationID, MinutesPerUnit,UserDefined)
+--select t.EnrichID, TypeID = 'D3945E9D-AA0E-4555-BCB2-F8CA95CC7784', t.EnrichLabel, tsd.Description, tsd.DefaultLocationID, tsd.MinutesPerUnit,1
 --from ServiceDef x right join
 --(select * from @SelectLists where Type = 'Service') t on x.ID =t.EnrichID JOIN 
 --@ServiceDef tsd on t.EnrichID = tsd.ID 
@@ -1424,8 +1424,8 @@ insert @SelectLists (Type, SubType, EnrichID, StateCode, EnrichLabel) values ('P
 ---- select * from ServiceDef order by Name
 ----select * from IepServiceDef
 
-----commit tran fixservdef
-----rollback tran fixservdef
+--commit tran fixservdef
+------rollback tran fixservdef
 
 --=================================================================================================================
 --						IepPlacementOption
@@ -1571,7 +1571,7 @@ insert @SelectLists (Type, SubType, EnrichID, StateCode, EnrichLabel) values ('P
 --from IepPlacementOption x join
 --@MAP_IepPlacementOption t on x.ID = t.TossID 
 
-----commit tran fixLRE
+--commit tran fixLRE
 ----rollback tran fixLRE
 
 
@@ -1698,5 +1698,5 @@ insert @SelectLists (Type, SubType, EnrichID, StateCode, EnrichLabel) values ('P
 --@MAP_PrgStatus t on x.ID = t.TossID 
 
 
-----commit tran FixPrgStatus
+--commit tran FixPrgStatus
 ----rollback tran FixPrgStatus
