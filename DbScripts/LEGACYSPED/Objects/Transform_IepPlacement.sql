@@ -35,13 +35,13 @@ GO
 
 CREATE VIEW LEGACYSPED.Transform_IepPlacement
 AS
-	SELECT
-		lre.IepRefID,
+	SELECT 
+		lre.IepRefID, 
 		DestID = m.DestID,
 		InstanceID = lre.DestID,
 		TypeID = pt.ID,
 		OptionID = case when po.TypeID = pt.ID then po.DestID else NULL End,
-		--IsEnabled = case when po.TypeID = pt.ID then 1 else 0 End,
+		IsEnabled = case when po.TypeID = pt.ID then 1 else 0 End,
 		SourceID = CASE
 					WHEN piep.StartDate >=  DATEADD(YEAR, pt.MinAge, stu.DOB) 
 													 THEN '3C5BFC1F-B3E6-4E69-BC32-FCFBA2E8185E' -- StartDate
@@ -67,9 +67,9 @@ AS
 		LEGACYSPED.MAP_IepPlacementID m on 
 			isnull(m.IepRefID,'a') = isnull(lre.IepRefID,'b') and 
 			isnull(m.TypeID,'00000000-0000-0000-0000-000000000000') = isnull(pt.ID,'FFFFFFFF-FFFF-FFFF-FFFF-FFFFFFFFFFFF') LEFT JOIN 
-		dbo.IepPlacement t on lre.DestID = t.ID  LEFT JOIN  -- 1:24 for 23556 records.  Attempts to address performance issues not working well
-		LEGACYSPED.Transform_PrgIep piep ON piep.IEPRefID = m.IepRefID LEFT JOIN 
-		LEGACYSPED.Transform_Student stu ON stu.DestID = piep.StudentID
+		dbo.IepPlacement t on isnull(lre.DestID,'00000000-0000-0000-0000-000000000000') = isnull(t.ID,'FFFFFFFF-FFFF-FFFF-FFFF-FFFFFFFFFFFF')  LEFT JOIN  -- 1:24 for 23556 records.  Attempts to address performance issues not working well
+		LEGACYSPED.Transform_PrgIep piep ON isnull(piep.IEPRefID,'a') =isnull(m.IepRefID,'b') LEFT JOIN  --For new LRE model
+		LEGACYSPED.Transform_Student stu ON isnull(stu.DestID,'00000000-0000-0000-0000-000000000000') = isnull(piep.StudentID,'FFFFFFFF-FFFF-FFFF-FFFF-FFFFFFFFFFFF')
 		
 GO
 --
