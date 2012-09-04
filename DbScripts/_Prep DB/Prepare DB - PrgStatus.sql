@@ -57,51 +57,51 @@ declare @RelSchema varchar(100), @RelTable varchar(100), @RelColumn varchar(100)
 
 --   ============================================================================= NOTE ============================================================================= */
 
-declare T cursor for 
-select x.ID
-from PrgStatus x left join
-@PrgStatus t on x.ID = t.ID 
-where t.ID is null 
+--declare T cursor for 
+--select x.ID
+--from PrgStatus x left join
+--@PrgStatus t on x.ID = t.ID 
+--where t.ID is null 
 
-open T
-fetch T into @toss
+--open T
+--fetch T into @toss
 
-while @@fetch_status = 0
+--while @@fetch_status = 0
 
-begin
+--begin
 
-	declare R cursor for 
-	SELECT 
-		SCHEMA_NAME(f.SCHEMA_ID) SchemaName,
-		OBJECT_NAME(f.parent_object_id) AS TableName,
-		COL_NAME(fc.parent_object_id,fc.parent_column_id) AS ColumnName
-	FROM sys.foreign_keys AS f
-		INNER JOIN sys.foreign_key_columns AS fc ON f.OBJECT_ID = fc.constraint_object_id
-		INNER JOIN sys.objects AS o ON o.OBJECT_ID = fc.referenced_object_id
-	where SCHEMA_NAME(o.SCHEMA_ID) = 'dbo' 
-		and OBJECT_NAME (f.referenced_object_id) = 'PrgStatus' ------------------------- Table name here
-		and COL_NAME(fc.referenced_object_id,fc.referenced_column_id) = 'ID' --------------- Column name here
-	order by SchemaName, TableName, ColumnName
+--	declare R cursor for 
+--	SELECT 
+--		SCHEMA_NAME(f.SCHEMA_ID) SchemaName,
+--		OBJECT_NAME(f.parent_object_id) AS TableName,
+--		COL_NAME(fc.parent_object_id,fc.parent_column_id) AS ColumnName
+--	FROM sys.foreign_keys AS f
+--		INNER JOIN sys.foreign_key_columns AS fc ON f.OBJECT_ID = fc.constraint_object_id
+--		INNER JOIN sys.objects AS o ON o.OBJECT_ID = fc.referenced_object_id
+--	where SCHEMA_NAME(o.SCHEMA_ID) = 'dbo' 
+--		and OBJECT_NAME (f.referenced_object_id) = 'PrgStatus' ------------------------- Table name here
+--		and COL_NAME(fc.referenced_object_id,fc.referenced_column_id) = 'ID' --------------- Column name here
+--	order by SchemaName, TableName, ColumnName
 
-	open R
-	fetch R into @relschema, @RelTable, @relcolumn
+--	open R
+--	fetch R into @relschema, @RelTable, @relcolumn
 
-	while @@fetch_status = 0
-	begin
+--	while @@fetch_status = 0
+--	begin
 
- 	exec ('delete x from dbo.PrgStatus x left join '+@RelTable+' r on x.ID = r.'+@RelColumn+' where x.ID = '''+@toss+''' and r.'+@RelColumn+' is null')
+-- 	exec ('delete x from dbo.PrgStatus x left join '+@RelTable+' r on x.ID = r.'+@RelColumn+' where x.ID = '''+@toss+''' and r.'+@RelColumn+' is null')
 
--- print 
+---- print 
 
-	fetch R into @relschema, @RelTable, @relcolumn
-	end
-	close R
-	deallocate R
+--	fetch R into @relschema, @RelTable, @relcolumn
+--	end
+--	close R
+--	deallocate R
 
-fetch T into @toss
-end
-close T
-deallocate T
+--fetch T into @toss
+--end
+--close T
+--deallocate T
 
 
 -- insert missing.  This has to be done before updating the records to be deleted and before deleting.
@@ -160,51 +160,51 @@ declare @MAP_PrgStatus table (KeepID uniqueidentifier, TossID uniqueidentifier)
 ----insert @MAP_PrgStatus (KeepID, TossID) values ('E6DB43DE-03DF-4C27-A61B-6B1277102B73', '') -- 'Student received GED certificate at Non-District Program same year of transfer.')
 
 
---declare I cursor for 
---select KeepID, TossID from @MAP_PrgStatus 
+declare I cursor for 
+select KeepID, TossID from @MAP_PrgStatus 
 
---open I
---fetch I into @KeepID, @TossID
+open I
+fetch I into @KeepID, @TossID
 
---while @@fetch_status = 0
+while @@fetch_status = 0
 
---begin
+begin
 
---	declare R cursor for 
---	SELECT 
---		SCHEMA_NAME(f.SCHEMA_ID) SchemaName,
---		OBJECT_NAME(f.parent_object_id) AS TableName,
---		COL_NAME(fc.parent_object_id,fc.parent_column_id) AS ColumnName
---	FROM sys.foreign_keys AS f
---		INNER JOIN sys.foreign_key_columns AS fc ON f.OBJECT_ID = fc.constraint_object_id
---		INNER JOIN sys.objects AS o ON o.OBJECT_ID = fc.referenced_object_id
---	where SCHEMA_NAME(o.SCHEMA_ID) = 'dbo' 
---		and OBJECT_NAME (f.referenced_object_id) = 'PrgStatus' ------------------------- Table name here
---		and COL_NAME(fc.referenced_object_id,fc.referenced_column_id) = 'ID'
---	order by SchemaName, TableName, ColumnName
+	declare R cursor for 
+	SELECT 
+		SCHEMA_NAME(f.SCHEMA_ID) SchemaName,
+		OBJECT_NAME(f.parent_object_id) AS TableName,
+		COL_NAME(fc.parent_object_id,fc.parent_column_id) AS ColumnName
+	FROM sys.foreign_keys AS f
+		INNER JOIN sys.foreign_key_columns AS fc ON f.OBJECT_ID = fc.constraint_object_id
+		INNER JOIN sys.objects AS o ON o.OBJECT_ID = fc.referenced_object_id
+	where SCHEMA_NAME(o.SCHEMA_ID) = 'dbo' 
+		and OBJECT_NAME (f.referenced_object_id) = 'PrgStatus' ------------------------- Table name here
+		and COL_NAME(fc.referenced_object_id,fc.referenced_column_id) = 'ID'
+	order by SchemaName, TableName, ColumnName
 
---	open R
---	fetch R into @relschema, @RelTable, @relcolumn
+	open R
+	fetch R into @relschema, @RelTable, @relcolumn
 
---	while @@fetch_status = 0
---	begin
+	while @@fetch_status = 0
+	begin
 
--- 	exec ('update t set '+@relcolumn+' = '''+@KeepID+''' from '+@relschema+'.'+@reltable+' t where t.'+@relcolumn+' = '''+@TossID+'''' )
+ 	exec ('update t set '+@relcolumn+' = '''+@KeepID+''' from '+@relschema+'.'+@reltable+' t where t.'+@relcolumn+' = '''+@TossID+'''' )
 
---	fetch R into @relschema, @RelTable, @relcolumn
---	end
---	close R
---	deallocate R
+	fetch R into @relschema, @RelTable, @relcolumn
+	end
+	close R
+	deallocate R
 
---fetch I into @KeepID, @TossID
---end
---close I
---deallocate I
+fetch I into @KeepID, @TossID
+end
+close I
+deallocate I
 
 -- delete unneeded
 delete x
 -- select g.*, t.StateCode
-from PrgStatus x left join
+from PrgStatus x  join
 @MAP_PrgStatus t on x.ID = t.TossID 
 
 --delete g
@@ -216,7 +216,7 @@ from PrgStatus x left join
 
 
 
--- commit tran FixPrgStatus
+commit tran FixPrgStatus
 -- rollback tran FixPrgStatus
 
 
