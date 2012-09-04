@@ -46,7 +46,7 @@ declare @GoalAreasPerGoalView table (
 IepRefID	varchar(150),
 InstanceID	uniqueidentifier NOT NULL,
 DefID	uniqueidentifier NOT NULL,
-GoalAreaCode	varchar(15) NOT NULL,
+GoalAreaCode	varchar(150) NOT NULL,
 GoalRefID	varchar(150) NOT NULL,
 GoalIndex	int,
 	primary key (IepRefID, GoalRefID, GoalAreaCode)
@@ -55,7 +55,7 @@ GoalIndex	int,
 -- #3
 declare @Transform_IepGoalArea table (
 IepRefID	varchar(150),
-GoalAreaCode	varchar(15) NOT NULL,
+GoalAreaCode	varchar(150) NOT NULL,
 DestID	uniqueidentifier,
 InstanceID	uniqueidentifier NOT NULL,
 DefID	uniqueidentifier NOT NULL,
