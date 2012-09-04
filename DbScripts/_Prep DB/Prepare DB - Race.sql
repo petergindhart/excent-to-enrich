@@ -36,12 +36,12 @@ declare @MAP_Race table (OldRace uniqueidentifier, NewRace uniqueidentifier)
 --insert @MAP_Race values ('', 'E97F2925-C985-4C26-BC60-1F0B42C1719D') -- Race: Two or more races
 
 
----- isnert test
---select t.ID, t.Type, t.DisplayValue, t.isActive, t.StateCode
---from EnumValue x right join
---@Race t on x.ID = t.ID 
---where x.ID is null
---order by x.StateCode, x.DisplayValue
+-- isnert test
+select t.ID, t.Type, t.DisplayValue, t.isActive, t.StateCode
+from EnumValue x right join
+@Race t on x.ID = t.ID 
+where x.ID is null
+order by x.StateCode, x.DisplayValue
 
 -- insert missing.  This has to be done before updating related tables with new EnumValue.
 insert EnumValue (ID, Type, DisplayValue, isActive, StateCode)
