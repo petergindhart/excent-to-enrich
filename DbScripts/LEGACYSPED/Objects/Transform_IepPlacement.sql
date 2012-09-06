@@ -41,16 +41,10 @@ AS
 		InstanceID = lre.DestID,
 		TypeID = pt.ID,
 		OptionID = case when po.TypeID = pt.ID then po.DestID else NULL End,
-		IsEnabled = case when po.TypeID = pt.ID then 1 else 0 End,
 		SourceID = '3C5BFC1F-B3E6-4E69-BC32-FCFBA2E8185E', -- StartDate:  Per Pete, use this in all cases as of 9/5/2012
-			--CASE
-			--WHEN piep.StartDate >=  DATEADD(YEAR, pt.MinAge, stu.DOB) 
-			--	 THEN '3C5BFC1F-B3E6-4E69-BC32-FCFBA2E8185E' -- StartDate
-				 --ELSE '173E47D8-5B63-4A69-9430-8064759AAA47' -- Aged Up
-		   --END,
 		AsOfDate = CASE
-            WHEN piep.StartDate >= DATEADD(YEAR, pt.MinAge, stu.DOB) THEN piep.StartDate
-            ELSE DATEADD(YEAR, pt.MinAge, stu.DOB)
+			WHEN piep.StartDate >= DATEADD(YEAR, pt.MinAge, stu.DOB) THEN piep.StartDate
+			ELSE DATEADD(YEAR, pt.MinAge, stu.DOB)
 			END,
 		IsDecOneCount = case when po.TypeID = pt.ID then 1 else 0 End,
 		MinutesInstruction = lre.MinutesInstruction,
@@ -66,6 +60,6 @@ AS
 		dbo.IepPlacement t on isnull(lre.DestID,'00000000-0000-0000-0000-000000000000') = isnull(t.ID,'FFFFFFFF-FFFF-FFFF-FFFF-FFFFFFFFFFFF')  LEFT JOIN  -- 1:24 for 23556 records.  Attempts to address performance issues not working well
 		LEGACYSPED.Transform_PrgIep piep ON isnull(piep.IEPRefID,'a') =isnull(m.IepRefID,'b') LEFT JOIN  --For new LRE model
 		dbo.Student stu ON stu.ID = isnull(piep.StudentID,'FFFFFFFF-FFFF-FFFF-FFFF-FFFFFFFFFFFF')
-		
+	where po.TypeID = pt.ID
 GO
 --
