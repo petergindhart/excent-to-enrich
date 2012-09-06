@@ -42,23 +42,19 @@ AS
 		TypeID = pt.ID,
 		OptionID = case when po.TypeID = pt.ID then po.DestID else NULL End,
 		IsEnabled = case when po.TypeID = pt.ID then 1 else 0 End,
-		SourceID = CASE
-					WHEN piep.StartDate >=  DATEADD(YEAR, pt.MinAge, stu.DOB) 
-													 THEN '3C5BFC1F-B3E6-4E69-BC32-FCFBA2E8185E' -- StartDate
-													 ELSE '173E47D8-5B63-4A69-9430-8064759AAA47' -- Aged Up
-
-				   END,
+		SourceID = '3C5BFC1F-B3E6-4E69-BC32-FCFBA2E8185E', -- StartDate:  Per Pete, use this in all cases as of 9/5/2012
+			--CASE
+			--WHEN piep.StartDate >=  DATEADD(YEAR, pt.MinAge, stu.DOB) 
+			--	 THEN '3C5BFC1F-B3E6-4E69-BC32-FCFBA2E8185E' -- StartDate
+				 --ELSE '173E47D8-5B63-4A69-9430-8064759AAA47' -- Aged Up
+		   --END,
 		AsOfDate = CASE
-
             WHEN piep.StartDate >= DATEADD(YEAR, pt.MinAge, stu.DOB) THEN piep.StartDate
-
             ELSE DATEADD(YEAR, pt.MinAge, stu.DOB)
 			END,
 		IsDecOneCount = case when po.TypeID = pt.ID then 1 else 0 End,
 		MinutesInstruction = lre.MinutesInstruction,
 		lre.DoNotTouch
-	
-	
 	FROM dbo.IepPlacementType pt CROSS JOIN
 		LEGACYSPED.Transform_IepLeastRestrictiveEnvironment lre LEFT JOIN -- attempting to address a performance issue when treating nulls in queries referencing this view
 		LEGACYSPED.Transform_IepPlacementOption po on 
