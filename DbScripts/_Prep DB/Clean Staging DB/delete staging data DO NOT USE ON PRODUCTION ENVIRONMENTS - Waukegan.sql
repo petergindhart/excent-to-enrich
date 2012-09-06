@@ -263,10 +263,10 @@ delete x
 from @delstudents n join
 StudentGroupStudent x on n.StudentID = x.StudentId
 
-delete x 
--- select ManStud = s.ManuallyEntered, x.*
-from @delstudents n join
-T_CSAP x on n.StudentID = x.StudentId
+--delete x 
+---- select ManStud = s.ManuallyEntered, x.*
+--from @delstudents n join
+--T_CSAP x on n.StudentID = x.StudentId
 
 delete x 
 -- select ManStud = s.ManuallyEntered, x.*

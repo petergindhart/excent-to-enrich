@@ -1,36 +1,41 @@
 
+
+begin tran FixPrgStatus
+
 set nocount on;
 
 declare @PrgStatus table (ID uniqueidentifier, ProgramID uniqueidentifier, Sequence int, Name varchar(50), IsExit bit, IsEntry bit,  StatusStyleID uniqueidentifier, StateCode varchar(20), Description text)
 
-insert @PrgStatus (ID, ProgramID, Sequence, Name, IsExit, IsEntry,  StatusStyleID, StateCode, Description) values ('BF898F66-AD71-451F-AD11-3639155A431F', 'F98A8EF2-98E2-4CAC-95AF-D7D89EF7F80C', 6, convert(varchar(50), 'Reached Maximum Age For Services'), 1, 0, 'FA528C27-E567-4CC9-A328-FF499BB803F6', '01', 'Reached Maximum Age For Services')
-insert @PrgStatus (ID, ProgramID, Sequence, Name, IsExit, IsEntry,  StatusStyleID, StateCode, Description) values ('8DCBA0CA-9560-4E3A-88AB-805FD659C9C2', 'F98A8EF2-98E2-4CAC-95AF-D7D89EF7F80C', 7, convert(varchar(50), 'Transfer to a Public School in a Different District, known to continue'), 1, 0, 'FA528C27-E567-4CC9-A328-FF499BB803F6', '13', 'Transfer to a Public School in a Different District, known to continue')
-insert @PrgStatus (ID, ProgramID, Sequence, Name, IsExit, IsEntry,  StatusStyleID, StateCode, Description) values ('4878A47C-1AAA-4697-BE30-42106F214E7D', 'F98A8EF2-98E2-4CAC-95AF-D7D89EF7F80C', 8, convert(varchar(50), 'Death'), 1, 0, 'FA528C27-E567-4CC9-A328-FF499BB803F6', '02', 'Death')
-insert @PrgStatus (ID, ProgramID, Sequence, Name, IsExit, IsEntry,  StatusStyleID, StateCode, Description) values ('825305B4-0600-4098-8B17-381499942419', 'F98A8EF2-98E2-4CAC-95AF-D7D89EF7F80C', 9, convert(varchar(50), 'GED Transfer'), 1, 0, 'FA528C27-E567-4CC9-A328-FF499BB803F6', '70', 'GED Transfer')
-insert @PrgStatus (ID, ProgramID, Sequence, Name, IsExit, IsEntry,  StatusStyleID, StateCode, Description) values ('C425DBDE-4DBD-4A9D-B1F5-6C3D99262AFD', 'F98A8EF2-98E2-4CAC-95AF-D7D89EF7F80C', 99, convert(varchar(50), 'PK-6 Student Exited, not known to continue'), 1, 0, 'FA528C27-E567-4CC9-A328-FF499BB803F6', '06', 'PK-6 Student Exited, not known to continue')
-insert @PrgStatus (ID, ProgramID, Sequence, Name, IsExit, IsEntry,  StatusStyleID, StateCode, Description) values ('C2DF5F3F-D0EE-4493-BBA7-6D8327EA36D8', 'F98A8EF2-98E2-4CAC-95AF-D7D89EF7F80C', 99, convert(varchar(50), 'Transferred to Regular Education'), 1, 0, 'FA528C27-E567-4CC9-A328-FF499BB803F6', '09', 'Transferred to Regular Education')
-insert @PrgStatus (ID, ProgramID, Sequence, Name, IsExit, IsEntry,  StatusStyleID, StateCode, Description) values ('05F914D8-2A29-489A-82ED-A7506341A83F', 'F98A8EF2-98E2-4CAC-95AF-D7D89EF7F80C', 99, convert(varchar(50), 'Transfer to a School in a Different State/Country'), 1, 0, 'FA528C27-E567-4CC9-A328-FF499BB803F6', '14', 'Transfer to a School in a Different State/Country')
-insert @PrgStatus (ID, ProgramID, Sequence, Name, IsExit, IsEntry,  StatusStyleID, StateCode, Description) values ('DFBE9247-8EBC-447B-87C2-A8FAEB37A96D', 'F98A8EF2-98E2-4CAC-95AF-D7D89EF7F80C', 99, convert(varchar(50), 'Transfer to a Non-Public School'), 1, 0, 'FA528C27-E567-4CC9-A328-FF499BB803F6', '15', 'Transfer to a Non-Public School')
-insert @PrgStatus (ID, ProgramID, Sequence, Name, IsExit, IsEntry,  StatusStyleID, StateCode, Description) values ('3C35632F-8323-4CB7-8585-B7D3D4586152', 'F98A8EF2-98E2-4CAC-95AF-D7D89EF7F80C', 99, convert(varchar(50), 'Transfer to Home-Based Education'), 1, 0, 'FA528C27-E567-4CC9-A328-FF499BB803F6', '16', 'Transfer to Home-Based Education')
-insert @PrgStatus (ID, ProgramID, Sequence, Name, IsExit, IsEntry,  StatusStyleID, StateCode, Description) values ('2D966F92-A821-47EF-B785-DE1E32C84C3A', 'F98A8EF2-98E2-4CAC-95AF-D7D89EF7F80C', 99, convert(varchar(50), 'Transfer to a Career and Technical Education Program (Non-CO district or BOCES operated)'), 1, 0, 'FA528C27-E567-4CC9-A328-FF499BB803F6', '18', 'Transfer to a Career and Technical Education Program (Non-CO district or BOCES operated)')
-insert @PrgStatus (ID, ProgramID, Sequence, Name, IsExit, IsEntry,  StatusStyleID, StateCode, Description) values ('BB19EFF0-AF1F-4F8A-A8F2-EC11F2A56711', 'F98A8EF2-98E2-4CAC-95AF-D7D89EF7F80C', 99, convert(varchar(50), 'Transfer to a Facility Operated by CO Dept of Youth Corrections'), 1, 0, 'FA528C27-E567-4CC9-A328-FF499BB803F6', '21', 'Transfer to a Facility Operated by CO Dept of Youth Corrections')
-insert @PrgStatus (ID, ProgramID, Sequence, Name, IsExit, IsEntry,  StatusStyleID, StateCode, Description) values ('E8959582-644B-4AAC-B3FF-0580B1BE158F', 'F98A8EF2-98E2-4CAC-95AF-D7D89EF7F80C', 99, convert(varchar(50), 'Discontinued Schooling / Dropped out'), 1, 0, 'FA528C27-E567-4CC9-A328-FF499BB803F6', '40', 'Discontinued Schooling / Dropped out')
-insert @PrgStatus (ID, ProgramID, Sequence, Name, IsExit, IsEntry,  StatusStyleID, StateCode, Description) values ('59BBBBE9-BF7C-44E0-B9FB-0E376A26E0B8', 'F98A8EF2-98E2-4CAC-95AF-D7D89EF7F80C', 99, convert(varchar(50), 'Explusion'), 1, 0, 'FA528C27-E567-4CC9-A328-FF499BB803F6', '50', 'Explusion')
-insert @PrgStatus (ID, ProgramID, Sequence, Name, IsExit, IsEntry,  StatusStyleID, StateCode, Description) values ('A24AEA49-735D-425F-B803-168769054306', 'F98A8EF2-98E2-4CAC-95AF-D7D89EF7F80C', 99, convert(varchar(50), 'Parent Revokes Consent for Services'), 1, 0, 'FA528C27-E567-4CC9-A328-FF499BB803F6', '60', 'Parent Revokes Consent for Services')
-insert @PrgStatus (ID, ProgramID, Sequence, Name, IsExit, IsEntry,  StatusStyleID, StateCode, Description) values ('3A7DEAC1-7A66-42D6-B452-3A0529DA133D', 'F98A8EF2-98E2-4CAC-95AF-D7D89EF7F80C', 99, convert(varchar(50), 'Graduated with a Regular Deploma'), 1, 0, 'FA528C27-E567-4CC9-A328-FF499BB803F6', '90', 'Graduated with a Regular Deploma')
-insert @PrgStatus (ID, ProgramID, Sequence, Name, IsExit, IsEntry,  StatusStyleID, StateCode, Description) values ('2477C14E-7939-46D6-99E4-43F6E35701A4', 'F98A8EF2-98E2-4CAC-95AF-D7D89EF7F80C', 99, convert(varchar(50), 'Completed (non-diploma certificate)'), 1, 0, 'FA528C27-E567-4CC9-A328-FF499BB803F6', '92', 'Completed (non-diploma certificate)')
-insert @PrgStatus (ID, ProgramID, Sequence, Name, IsExit, IsEntry,  StatusStyleID, StateCode, Description) values ('977D0FE7-B5EA-4656-B193-5B0BF784EDCC', 'F98A8EF2-98E2-4CAC-95AF-D7D89EF7F80C', 99, convert(varchar(50), 'General Education Development Certificate (GED)'), 1, 0, 'FA528C27-E567-4CC9-A328-FF499BB803F6', '93', 'General Education Development Certificate (GED)')
-insert @PrgStatus (ID, ProgramID, Sequence, Name, IsExit, IsEntry,  StatusStyleID, StateCode, Description) values ('E6DB43DE-03DF-4C27-A61B-6B1277102B73', 'F98A8EF2-98E2-4CAC-95AF-D7D89EF7F80C', 99, convert(varchar(50), 'Student received GED certificate at Non-District Program same year of transfer.'), 1, 0, 'FA528C27-E567-4CC9-A328-FF499BB803F6', '94', 'Student received GED certificate at Non-District Program same year of transfer.')
--- Converted Data Plan
-insert @PrgStatus (ID, ProgramID, Sequence, Name, IsExit, IsEntry,  StatusStyleID, StateCode, Description) values ('0B5D5C72-5058-4BF5-A414-BDB27BD5DD94', 'F98A8EF2-98E2-4CAC-95AF-D7D89EF7F80C', 5, convert(varchar(50), 'Converted Data Plan'), 0, 0, '85AAB540-503F-4613-9F1F-A14C72764285', NULL, NULL)
+insert @PrgStatus (ID, ProgramID,Sequence,Name,IsExit,IsEntry, StatusStyleID,StateCode,Description) values ('88C72843-7005-4945-8338-FE15B6C1DDC5','F98A8EF2-98E2-4CAC-95AF-D7D89EF7F80C' ,'99',Convert(varchar(50),'Reached maximum age for Special Education Service'),1,0,'FA528C27-E567-4CC9-A328-FF499BB803F6','14', 'Reached maximum age for Special Education Service')
+insert @PrgStatus (ID, ProgramID,Sequence,Name,IsExit,IsEntry, StatusStyleID,StateCode,Description) values ('CF29F9AD-AF69-4969-9000-5E851205787F','F98A8EF2-98E2-4CAC-95AF-D7D89EF7F80C' ,'99',Convert(varchar(50),'Discontinued Schooling / Dropped out'),1,0,'FA528C27-E567-4CC9-A328-FF499BB803F6','09', 'Discontinued Schooling / Dropped out')
+insert @PrgStatus (ID, ProgramID,Sequence,Name,IsExit,IsEntry, StatusStyleID,StateCode,Description) values ('2526C9C9-3079-4A4A-821F-B644355A3919','F98A8EF2-98E2-4CAC-95AF-D7D89EF7F80C' ,'99',Convert(varchar(50),'Death'),1,0,'FA528C27-E567-4CC9-A328-FF499BB803F6','07', 'Death')
+insert @PrgStatus (ID, ProgramID,Sequence,Name,IsExit,IsEntry, StatusStyleID,StateCode,Description) values ('488748F2-60D7-495C-895F-69C48B310833','F98A8EF2-98E2-4CAC-95AF-D7D89EF7F80C' ,'99',Convert(varchar(50),'Moved, not known to be continuing'),1,0,'FA528C27-E567-4CC9-A328-FF499BB803F6','11', 'Moved, not known to be continuing')
+insert @PrgStatus (ID, ProgramID,Sequence,Name,IsExit,IsEntry, StatusStyleID,StateCode,Description) values ('0873838E-85FF-4948-A0F8-6DA148FC26C9','F98A8EF2-98E2-4CAC-95AF-D7D89EF7F80C' ,'99',Convert(varchar(50),'Transfer to another public school within the district'),1,0,'FA528C27-E567-4CC9-A328-FF499BB803F6','02', 'Transfer to another public school within the district')
+insert @PrgStatus (ID, ProgramID,Sequence,Name,IsExit,IsEntry, StatusStyleID,StateCode,Description) values ('D8DF3100-C036-4048-9AE6-AFF6CC1FE415','F98A8EF2-98E2-4CAC-95AF-D7D89EF7F80C' ,'99',Convert(varchar(50),'Transfer to Home Schooled'),1,0,'FA528C27-E567-4CC9-A328-FF499BB803F6','03', 'Transfer to Home Schooled')
+insert @PrgStatus (ID, ProgramID,Sequence,Name,IsExit,IsEntry, StatusStyleID,StateCode,Description) values ('9B31EA23-A09A-4CB1-A813-CB199A86D5E5','F98A8EF2-98E2-4CAC-95AF-D7D89EF7F80C' ,'99',Convert(varchar(50),'Transfer to Private School'),1,0,'FA528C27-E567-4CC9-A328-FF499BB803F6','04', 'Transfer to Private School')
+insert @PrgStatus (ID, ProgramID,Sequence,Name,IsExit,IsEntry, StatusStyleID,StateCode,Description) values ('8AFB63A6-A7A0-4E86-809B-610023AA5BD0','F98A8EF2-98E2-4CAC-95AF-D7D89EF7F80C' ,'99',Convert(varchar(50),'Promotion'),1,0,'FA528C27-E567-4CC9-A328-FF499BB803F6','05', 'Promotion')
+insert @PrgStatus (ID, ProgramID,Sequence,Name,IsExit,IsEntry, StatusStyleID,StateCode,Description) values ('395B51A0-D3EB-46BE-8B02-22326D504B20','F98A8EF2-98E2-4CAC-95AF-D7D89EF7F80C' ,'99',Convert(varchar(50),'Retained in same grade or demoted to a lower grade'),1,0,'FA528C27-E567-4CC9-A328-FF499BB803F6','12', 'Retained in same grade or demoted to a lower grade')
+insert @PrgStatus (ID, ProgramID,Sequence,Name,IsExit,IsEntry, StatusStyleID,StateCode,Description) values ('4CAADA77-611E-44D8-9006-31DEDA8EF04B','F98A8EF2-98E2-4CAC-95AF-D7D89EF7F80C' ,'99',Convert(varchar(50),'Certificate of Completion'),1,0,'FA528C27-E567-4CC9-A328-FF499BB803F6','15', 'Certificate of Completion')
+insert @PrgStatus (ID, ProgramID,Sequence,Name,IsExit,IsEntry, StatusStyleID,StateCode,Description) values ('AE339B0C-BB65-4FC6-9E23-75054624D809','F98A8EF2-98E2-4CAC-95AF-D7D89EF7F80C' ,'99',Convert(varchar(50),'Victim of a Violent Crime'),1,0,'FA528C27-E567-4CC9-A328-FF499BB803F6','16', 'Victim of a Violent Crime')
+insert @PrgStatus (ID, ProgramID,Sequence,Name,IsExit,IsEntry, StatusStyleID,StateCode,Description) values ('539DD468-E2D7-4430-89F8-D25A9F6F69F4','F98A8EF2-98E2-4CAC-95AF-D7D89EF7F80C' ,'99',Convert(varchar(50),'Change in Serving School or Full Time Equivalent (FTE)'),1,0,'FA528C27-E567-4CC9-A328-FF499BB803F6','17', 'Change in Serving School or Full Time Equivalent (FTE)')
+insert @PrgStatus (ID, ProgramID,Sequence,Name,IsExit,IsEntry, StatusStyleID,StateCode,Description) values ('B53FE183-D52F-4183-867F-74D7C238050D','F98A8EF2-98E2-4CAC-95AF-D7D89EF7F80C' ,'99',Convert(varchar(50),'Moved Out of the United States'),1,0,'FA528C27-E567-4CC9-A328-FF499BB803F6','18', 'Moved Out of the United States')
+insert @PrgStatus (ID, ProgramID,Sequence,Name,IsExit,IsEntry, StatusStyleID,StateCode,Description) values ('810AF969-7E43-4599-B068-C8A01FE9712B','F98A8EF2-98E2-4CAC-95AF-D7D89EF7F80C' ,'99',Convert(varchar(50),'Transfer to another public school district out of Illinois'),1,0,'FA528C27-E567-4CC9-A328-FF499BB803F6','19', 'Transfer to another public school district out of Illinois')
+insert @PrgStatus (ID, ProgramID,Sequence,Name,IsExit,IsEntry, StatusStyleID,StateCode,Description) values ('5868C69C-25CC-43DD-BF28-B37A8928DB61','F98A8EF2-98E2-4CAC-95AF-D7D89EF7F80C' ,'99',Convert(varchar(50),'Transfer to another public school district in Illinois'),1,0,'FA528C27-E567-4CC9-A328-FF499BB803F6','20', 'Transfer to another public school district in Illinois')
+insert @PrgStatus (ID, ProgramID,Sequence,Name,IsExit,IsEntry, StatusStyleID,StateCode,Description) values ('105E844D-7DAA-4590-9628-864D7F04F11D','F98A8EF2-98E2-4CAC-95AF-D7D89EF7F80C' ,'99',Convert(varchar(50),'Erroneous enrollment'),1,0,'FA528C27-E567-4CC9-A328-FF499BB803F6','99', 'Erroneous enrollment')
+insert @PrgStatus (ID, ProgramID,Sequence,Name,IsExit,IsEntry, StatusStyleID,StateCode,Description) values ('13BE36B4-F53B-40B8-A3BA-AAD7BADF7DE8','F98A8EF2-98E2-4CAC-95AF-D7D89EF7F80C' ,'99',Convert(varchar(50),'Explusion'),1,0,'FA528C27-E567-4CC9-A328-FF499BB803F6','08', 'Explusion')
+insert @PrgStatus (ID, ProgramID,Sequence,Name,IsExit,IsEntry, StatusStyleID,StateCode,Description) values ('0CED7BBA-32B6-4EAA-8A54-A7FCA9857EAF','F98A8EF2-98E2-4CAC-95AF-D7D89EF7F80C' ,'99',Convert(varchar(50),'Transfer to GED program'),1,0,'FA528C27-E567-4CC9-A328-FF499BB803F6','10', 'Transfer to GED program')
+insert @PrgStatus (ID, ProgramID,Sequence,Name,IsExit,IsEntry, StatusStyleID,StateCode,Description) values ('0154C70A-EF02-4222-ABEE-26347F2A835D','F98A8EF2-98E2-4CAC-95AF-D7D89EF7F80C' ,'99',Convert(varchar(50),'Graduated with regular, advanced, International Baccalaureate, or other type of diploma'),1,0,'FA528C27-E567-4CC9-A328-FF499BB803F6','06', 'Graduated with regular, advanced, International Baccalaureate, or other type of diploma')
+
+
+
 
 --select * from PrgStatus where ProgramID = 'F98A8EF2-98E2-4CAC-95AF-D7D89EF7F80C' and IsExit = 1 order by  sequence
 
-update t set Sequence = g.Sequence
-from PrgStatus g left join
-@PrgStatus t on g.StateCode = t.StateCode
-where g.ProgramID = 'F98A8EF2-98E2-4CAC-95AF-D7D89EF7F80C' and g.IsExit = 1
-and g.Sequence not between 5 and 9
+--update t set Sequence = g.Sequence
+--from PrgStatus g left join
+--@PrgStatus t on g.StateCode = t.StateCode
+--where g.ProgramID = 'F98A8EF2-98E2-4CAC-95AF-D7D89EF7F80C' and g.IsExit = 1
+--and g.Sequence not between 5 and 9
 
 ---- insert test
 select t.ID, t.ProgramID, t.Sequence, t.Name, t.IsExit, t.IsEntry, t.StatusStyleID, t.StateCode, t.Description
@@ -47,8 +52,6 @@ where t.ID is null and g.ProgramID = 'F98A8EF2-98E2-4CAC-95AF-D7D89EF7F80C' and 
 and g.Sequence not between 5 and 9
 order by g.DeletedDate desc, g.Sequence, g.stateCode, g.Name
 
-
-begin tran FixPrgStatus
 
 declare @RelSchema varchar(100), @RelTable varchar(100), @RelColumn varchar(100), @KeepID varchar(50), @TossID varchar(50), @toss varchar(50);
 
@@ -123,8 +126,8 @@ declare @RelSchema varchar(100), @RelTable varchar(100), @RelColumn varchar(100)
 
 
 -- insert missing.  This has to be done before updating the records to be deleted and before deleting.
-insert PrgStatus (ID, ProgramID, Sequence, Name, IsExit, IsEntry,  StatusStyleID, StateCode, Description)
-select t.ID, t.ProgramID, t.Sequence, t.Name, t.IsExit, t.IsEntry, t.StatusStyleID, t.StateCode, t.Description
+insert PrgStatus (ID, ProgramID,Sequence,Name,IsExit,IsEntry,StatusStyleID ,StateCode, Description)
+select t.ID, t.ProgramID, t.Sequence, t.Name, t.IsExit, t.IsEntry,t.StatusStyleID,  t.StateCode, t.Description
 from PrgStatus g right join
 @PrgStatus t on g.ID = t.ID and g.ProgramID = 'F98A8EF2-98E2-4CAC-95AF-D7D89EF7F80C'
 where g.ID is null
@@ -160,7 +163,7 @@ declare @MAP_PrgStatus table (KeepID uniqueidentifier, TossID uniqueidentifier)
 
 --insert @MAP_PrgStatus (KeepID, TossID) values ('BF898F66-AD71-451F-AD11-3639155A431F', 'C3804D67-D4F7-4D69-A3E6-4CFE64771A41') -- 'Reached Maximum Age For Services')
 --insert @MAP_PrgStatus (KeepID, TossID) values ('4878A47C-1AAA-4697-BE30-42106F214E7D', '0C105E02-5FC2-49E0-9B8F-7BA0D0D196E8') -- 'Death')
---insert @MAP_PrgStatus (KeepID, TossID) values ('C425DBDE-4DBD-4A9D-B1F5-6C3D99262AFD', '4C809168-6D25-4B48-A9EA-0C1C9CB49D39') -- 'PK-6 Student Exited, not known to continue')
+--insert @MAP_PrgStatus (KeepID, TossID) values ('C425DBDE-4DBD-4A9D-B1F5-6C3D99262AFD', '5FE09089-8A70-44EC-A557-69428B491BB9') -- 'PK-6 Student Exited, not known to continue')
 --insert @MAP_PrgStatus (KeepID, TossID) values ('C2DF5F3F-D0EE-4493-BBA7-6D8327EA36D8', '25F39C6E-DBA1-4499-BEE4-D5EF87588CE0') -- 'Transferred to Regular Education')
 --insert @MAP_PrgStatus (KeepID, TossID) values ('8DCBA0CA-9560-4E3A-88AB-805FD659C9C2', '2D13E52E-C4CD-42F7-A218-78E1026B5222') -- 'Transfer to a Public School in a Different District, known to continue')
 --insert @MAP_PrgStatus (KeepID, TossID) values ('05F914D8-2A29-489A-82ED-A7506341A83F', '9CA7F697-301B-48C5-A3E8-C776F77C362F') -- 'Transfer to a School in a Different State/Country')
@@ -235,34 +238,11 @@ from PrgStatus x join
 --where t.ID is null
 --and g.ProgramID = 'F98A8EF2-98E2-4CAC-95AF-D7D89EF7F80C' and g.IsExit = 1
 --and g.Sequence not between 5 and 9
+--select * from  PrgStatus order by Name
 
 
 commit tran FixPrgStatus
---rollback tran FixPrgStatus
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+-- rollback tran FixPrgStatus
 
 /*
 

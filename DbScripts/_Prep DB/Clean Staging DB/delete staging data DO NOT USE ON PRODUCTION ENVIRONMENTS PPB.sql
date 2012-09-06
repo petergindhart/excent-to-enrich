@@ -16,6 +16,8 @@ set xact_abort on
 -- select * from Student where ID = @StudentID
 --select x.* from FormInstanceInterval x join PrgItemForm pif on x.InstanceId = pif.ID join PrgItem i on pif.ItemID = i.ID 
 
+declare @studentid varchar(36), @sch varchar(50), @tbl varchar(100), @col varchar(100), @q varchar(max), @tranname varchar(100)
+
 -- select * from student where lastname = 'student' -- select * from LEGACYSPED.MAP_StudentRefID
 
 -- delete manually entered students from previous LEGACYSPED imports
@@ -27,16 +29,10 @@ delete PrgItem where StudentID in (select DestID from LEGACYSPED.MAP_StudentRefI
 delete PrgInvolvement where StudentID in (select DestID from LEGACYSPED.MAP_StudentRefID)
 delete PrgVersionIntent where ItemIntentId in (select ID from PrgItemIntent where StudentID in (select DestID from LEGACYSPED.MAP_StudentRefID))
 delete PrgItemIntent where StudentID in (select DestID from LEGACYSPED.MAP_StudentRefID)
-delete T_FCAT_ReadingAndMath where StudentID in (select DestID from LEGACYSPED.MAP_StudentRefID)
-delete T_FL_Alt where StudentID in (select DestID from LEGACYSPED.MAP_StudentRefID)
 delete StudentRosterYear where StudentID in (select DestID from LEGACYSPED.MAP_StudentRefID)
 delete StudentClassRosterHistory where StudentID in (select DestID from LEGACYSPED.MAP_StudentRefID)
 delete StudentGradeLevelHistory where StudentID in (select DestID from LEGACYSPED.MAP_StudentRefID)
-delete T_CSAP where StudentID in (select DestID from LEGACYSPED.MAP_StudentRefID)
-delete T_COGAT where StudentID in (select DestID from LEGACYSPED.MAP_StudentRefID)
-delete T_CELA where StudentID in (select DestID from LEGACYSPED.MAP_StudentRefID)
 delete StudentGroupStudent where StudentID in (select DestID from LEGACYSPED.MAP_StudentRefID)
-delete T_ACT where StudentID in (select DestID from LEGACYSPED.MAP_StudentRefID)
 
 delete Student where ID in (select DestID from LEGACYSPED.MAP_StudentRefID)
 end
@@ -46,9 +42,63 @@ declare @zg uniqueidentifier ; select @zg = '00000000-0000-0000-0000-00000000000
 
 declare @SaveStudents table (StudentID uniqueidentifier null, OldNumber varchar(50) not null, OldFirstname varchar(50) not null, OldLastname varchar(50) not null, NewNumber varchar(50), NewFirstname varchar(50) not null, NewLastname varchar(50) not null) ; 
 -- insert @SaveStudents (OldNumber, OldLastname, OldFirstname, NewNumber, NewLastname, NewFirstname) values ('3632271715', 'Ceotto', 'Sara', '0000000001', 'Student', 'Samantha')
-insert @SaveStudents (StudentID, OldNumber, OldFirstname, OldLastname, NewNumber, NewFirstname, NewLastname) values ('AF485717-2CD4-4423-A387-6B35DD02C8B6', '', '', '', '', 'Beverly', 'Gomez')
+insert @SaveStudents (StudentID, OldNumber, OldFirstname, OldLastname, NewNumber, NewFirstname, NewLastname) values ('3384C724-6449-411E-9A9A-45EDAE354F9F', '', '', '', '', 'Sam', 'Student')
 
--- select * from Student where Number = '12345678'
+
+-- declare @studentid varchar(36), @sch varchar(50), @tbl varchar(100), @col varchar(100), @q varchar(max), @tranname varchar(100)
+declare DS cursor for 
+select x.ID -- select * 
+from Student x 
+where x.ManuallyEntered = 1
+and ID not in (select isnull(StudentID, @zg) from @SaveStudents) -- could use select * from @delstudents instead
+
+open DS 
+fetch DS into @StudentID
+while @@FETCH_STATUS = 0
+begin
+
+set @tranname = 'del'+@StudentID
+
+print @StudentID
+begin tran @tranname
+
+	declare T cursor for 
+	SELECT 
+		SCHEMA_NAME(f.SCHEMA_ID) SchemaName,
+		OBJECT_NAME(f.parent_object_id) AS TableName,
+		COL_NAME(fc.parent_object_id,fc.parent_column_id) AS ColumnName
+	FROM sys.foreign_keys AS f
+		INNER JOIN sys.foreign_key_columns AS fc ON f.OBJECT_ID = fc.constraint_object_id
+		INNER JOIN sys.objects AS o ON o.OBJECT_ID = fc.referenced_object_id
+	where SCHEMA_NAME(o.SCHEMA_ID) = 'dbo' 
+		and OBJECT_NAME (f.referenced_object_id) = 'Student' ------------------------- Table name here
+		and COL_NAME(fc.referenced_object_id,fc.referenced_column_id) = 'ID' --------------- Column name here
+		and OBJECT_NAME(f.parent_object_id) like 'T[_]%'
+	order by SchemaName, TableName, ColumnName
+
+	open T 
+	fetch T into @sch, @tbl, @col
+	while @@FETCH_STATUS = 0
+	begin
+	
+	set @q = 'if exists (select 1 from '+@sch+'.'+@tbl+' where '+@col+' = '''+@StudentID+''')
+	delete '+@sch+'.'+@tbl+' where '+@col+' = '''+@studentid+''''
+	exec (@q)
+	-- print @q
+	
+	fetch T into @sch, @tbl, @col
+	end
+	close T
+	deallocate T
+
+commit tran @tranname
+
+fetch DS into @StudentID
+end
+close DS
+deallocate DS
+--Msg 547, Level 16, State 0, Line 420
+--The DELETE statement conflicted with the REFERENCE constraint "FK_T_ABI_StudentID". The conflict occurred in database "Enrich_DC2_FL_Brevard", table "dbo.T_ABI", column 'StudentID'.
 
 
 -- delete sample student guardians from the mapping table
@@ -106,33 +156,7 @@ delete x from IepPlacementOption x where DeletedDate is not null or Sequence = 9
 -- set nocount off;
 delete x from ServiceSchedule x where ID not in (select z.ID from ServiceSchedule z join ServiceScheduleServicePlan sssp on z.ID = sssp.ScheduleID join ServicePlan sp on sssp.ServicePlanID = sp.ID  where sp.StudentID in (select isnull(StudentID, @zg) from @SaveStudents) )  ; print 'ServiceSchedule : ' + convert(varchar(10), @@rowcount)-- ??
 delete x from ServiceSchedule x where ID not in (select z.ID from ServiceSchedule z join PrgLocation pl on z.LocationID = pl.ID where pl.DeletedDate is not null) ; print 'ServiceSchedule (for PrgLocation) : ' + convert(varchar(10), @@rowcount)-- ??
-delete x from Schedule x join PrgGoal g on x.ID = g.ProbeScheduleID join PrgSection s on g.InstanceID = s.ID join PrgItem i on s.ItemID = i.ID where i.StudentID not in (select isnull(StudentID, @zg) from @SaveStudents)  ; print 'Schedule : ' + convert(varchar(10), @@rowcount)-- ??
---Msg 547, Level 16, State 0, Line 109
---The DELETE statement conflicted with the REFERENCE constraint "FK_PrgGoal#ProbeSchedule#". The conflict occurred in database "Enrich_DCB4_CO_SLV", table "dbo.PrgGoal", column 'ProbeScheduleID'.
-
---Msg 547, Level 16, State 0, Line 109
---The DELETE statement conflicted with the REFERENCE constraint "FK_PrgGoal#ProbeSchedule#". The conflict occurred in database "Enrich_DCB4_CO_SLV", table "dbo.PrgGoal", column 'ProbeScheduleID'.
-
--- select * from Schedule x join PrgGoal g on x.ID = g.ProbeScheduleID join PrgSection s on g.InstanceID = s.ID join PrgItem i on s.ItemID = i.ID where s.ID not in (select isnull(StudentID, @zg) from @SaveStudents) 
-/*
-select * from @SaveStudents
-
-select x.*
-from PrgGoal x join PrgSection ps on x.InstanceID = ps.ID join PrgItem i on ps.ItemId = i.ID where i.StudentID not in (select isnull(StudentID, @zg) from @SaveStudents) ; print 'PrgGoal : ' + convert(varchar(10), @@rowcount)
-
-
-select x.ID, k.*
-from Schedule x join 
-PrgGoal g on x.ID = g.ProbeScheduleID join 
-PrgSection s on g.InstanceID = s.ID join 
-PrgItem i on s.ItemID = i.ID join 
-Student k on i.StudentID = k.ID
-where k.ID not in (select isnull(StudentID, @zg) from @SaveStudents)
-
---3E4FEB1C-73E8-4E46-BD47-A0B9760E4DF0
---A72748A3-E235-4597-B329-9150DD600AB8
---54B46A8F-496D-4FD9-AC9D-D5A56B70054F
-*/
+delete x from Schedule x where ID not in (select ID from ServiceSchedule) ; print 'Schedule : ' + convert(varchar(10), @@rowcount)-- ??
 
 -- delete x from Schedule x 
 
@@ -235,6 +259,28 @@ from (select Number from School where deleteddate is null group by Number having
 join School h on n.Number = h.Number and h.ManuallyEntered = 1 
 join ProbeTypeSchool pts on h.ID = pts.SchoolID ; print 'ProbeTypeSchool : ' + convert(varchar(10), @@rowcount) 
 
+
+delete h
+-- select h.*
+from (select Number from School where deleteddate is null group by Number having COUNT(*) > 1 ) n join
+School sc on n.Number =sc.Number
+join StudentSchoolHistory h on sc.ID = h.SchoolID ; print 'StudentSchoolHistory : ' + convert(varchar(10), @@rowcount)
+
+delete h
+-- select h.*
+from (select Number from School where deleteddate is null group by Number having COUNT(*) > 1 ) n join
+School sc on n.Number =sc.Number
+join Student st on st.CurrentSchoolID = sc.ID
+join StudentGradeLevelHistory h on st.ID = h.StudentID ; print 'Student : ' + convert(varchar(10), @@rowcount)
+
+delete h
+-- select h.*
+from (select Number from School where deleteddate is null group by Number having COUNT(*) > 1 ) n join
+School sc on n.Number =sc.Number
+join Student h on sc.ID = h.CurrentSchoolID ; print 'Student : ' + convert(varchar(10), @@rowcount)
+
+
+
 delete h
 -- select h.*
 from (select Number from School where deleteddate is null group by Number having COUNT(*) > 1) n
@@ -254,7 +300,6 @@ insert @delstudents
 select x.ID
 from Student x 
 where x.ManuallyEntered = 1
-and x.ID not in (select ID from @SaveStudents) ------------------------------------------------------------------ think about deleting manually entered students.  Some districts lost these.
 
 delete x 
 -- select ManStud = s.ManuallyEntered, x.*
@@ -294,27 +339,7 @@ StudentGroupStudent x on n.StudentID = x.StudentId
 delete x 
 -- select ManStud = s.ManuallyEntered, x.*
 from @delstudents n join
-T_CSAP x on n.StudentID = x.StudentId
-
-delete x 
--- select ManStud = s.ManuallyEntered, x.*
-from @delstudents n join
-T_COGAT x on n.StudentID = x.StudentId
-
-delete x 
--- select ManStud = s.ManuallyEntered, x.*
-from @delstudents n join
 StudentRecordException x on n.StudentID = x.Student2ID
-
-delete x 
--- select ManStud = s.ManuallyEntered, x.*
-from @delstudents n join
-T_ACT x on n.StudentID = x.StudentID
-
-delete x 
--- select ManStud = s.ManuallyEntered, x.*
-from @delstudents n join
-T_CELA x on n.StudentID = x.StudentID
 
 delete x 
 -- select ManStud = s.ManuallyEntered, x.*
@@ -326,43 +351,35 @@ delete x
 from @delstudents n join
 ReportCardScore x on n.StudentID = x.Student
 
+delete x
+	-- select x.*
+	from @delstudents n join
+	MedicaidAuthorization x on n.StudentID = x.StudentID
+
+
 	delete x
 	-- select x.*
 	from @delstudents n join
 	Student x on n.StudentID = x.ID
---Msg 547, Level 16, State 0, Line 328
---The DELETE statement conflicted with the REFERENCE constraint "FK_ProbeTime#Student#ProbeTimes". The conflict occurred in database "Enrich_DCB4_CO_SLV", table "dbo.ProbeTime", column 'StudentID'.
---select * from ProbeTime
 
+delete x
+-- select x.*
+from ProbeTypeSchool x join 
+School s on x.SchoolID = s.ID
+where s.ManuallyEntered = 1
 
--- san luis valley is all manually entered SIS data at this point
---delete x
----- select x.*
---from ProbeTypeSchool x join 
---School s on x.SchoolID = s.ID
---where s.ManuallyEntered = 1
+delete x
+from School x 
+where x.ManuallyEntered = 1
 
---delete x
---from School x 
---where x.ManuallyEntered = 1
-
---select ID, Name, Number = ''
---from OrgUnit 
---order by case when Name like '%BOCES' then 0 else 1 end, Name
-
---select * from School
-
-
---Msg 547, Level 16, State 0, Line 344
---The DELETE statement conflicted with the REFERENCE constraint "FK_IepDemographics#ServiceSchool#". The conflict occurred in database "Enrich_DCB4_CO_SLV", table "dbo.IepDemographics", column 'ServiceSchoolID'.
 
 --Msg 547, Level 16, State 0, Line 247
 --The DELETE statement conflicted with the REFERENCE constraint "FK_StudentRosterYearInformation#Student#StudentRosterYearInformations". The conflict occurred in database "Enrich_DC5_CO_Poudre", table "dbo.StudentRosterYear", column 'StudentId'.
 
-					--delete h
-					---- select h.*
-					--from (select Number from School where deleteddate is not null) n
-					--join School h on n.Number = h.Number and h.ManuallyEntered = 1 and h.ID not in (select SchoolID from dbo.T_FCAT_ReadingAndMath) ; print 'School : ' + convert(varchar(10), @@rowcount)
+					delete h
+					-- select h.*
+					from (select Number from School where deleteddate is not null) n
+					join School h on n.Number = h.Number and h.ManuallyEntered = 1 and h.ID not in (select SchoolID from dbo.T_FCAT_ReadingAndMath) ; print 'School : ' + convert(varchar(10), @@rowcount)
 
 --Msg 547, Level 16, State 0, Line 253
 --The DELETE statement conflicted with the REFERENCE constraint "FK_Student#CurrentSchool#Students". The conflict occurred in database "Enrich_DC5_CO_Poudre", table "dbo.Student", column 'CurrentSchoolID'.

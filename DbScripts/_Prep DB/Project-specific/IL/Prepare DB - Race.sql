@@ -8,13 +8,14 @@ set nocount on;
 -- (ID, Type, DisplayValue, Code, isActive, Sequence, StateCode)
 declare @Race table (ID uniqueidentifier, Type uniqueidentifier, DisplayValue varchar(512), Code varchar(8), isActive bit, Sequence int, StateCode varchar(50))
 
-insert @Race (ID, Type, DisplayValue, isActive, StateCode) values ('E1611EE9-7FC3-4CEF-80D6-D67EE6EE1F6F', 'CBB84AE3-A547-4E81-82D2-060AA3A50535', 'Race: American Indian or Alaska Native', 1, '01')
-insert @Race (ID, Type, DisplayValue, isActive, StateCode) values ('953025B8-4102-4C8F-B8AB-766068ACC978', 'CBB84AE3-A547-4E81-82D2-060AA3A50535', 'Race: Asian', 1, '02')
-insert @Race (ID, Type, DisplayValue, isActive, StateCode) values ('628814D0-09B4-4B77-A1A7-A9CEEC360C2B', 'CBB84AE3-A547-4E81-82D2-060AA3A50535', 'Race: Black or African American', 1, '03')
-insert @Race (ID, Type, DisplayValue, isActive, StateCode) values ('68F95480-110E-45EB-84DC-566A930E8C67', 'CBB84AE3-A547-4E81-82D2-060AA3A50535', 'Ethnicity: Hispanic or Latino', 1, '04')
-insert @Race (ID, Type, DisplayValue, isActive, StateCode) values ('3A074939-80D2-4138-97E9-149345528E9F', 'CBB84AE3-A547-4E81-82D2-060AA3A50535', 'Race: White', 1, '05')
-insert @Race (ID, Type, DisplayValue, isActive, StateCode) values ('80034B85-658B-497E-8793-E2382CB6AF51', 'CBB84AE3-A547-4E81-82D2-060AA3A50535', 'Race: Native Hawaiian or Other Pacific Islander', 1, '06')
-insert @Race (ID, Type, DisplayValue, isActive, StateCode) values ('E97F2925-C985-4C26-BC60-1F0B42C1719D', 'CBB84AE3-A547-4E81-82D2-060AA3A50535', 'Race: Two or more races', 1, '07')
+insert @Race (ID, Type, DisplayValue, isActive, StateCode) values ('3722D2F9-43DE-4B0C-BA4F-5D2393E99AFB', 'CBB84AE3-A547-4E81-82D2-060AA3A50535', 'Race: American Indian or Alaska Native', 1, '12')
+insert @Race (ID, Type, DisplayValue, isActive, StateCode) values ('77C1BF9F-B798-4352-894F-F029BDE72405', 'CBB84AE3-A547-4E81-82D2-060AA3A50535', 'Race: Asian', 1, '13')
+insert @Race (ID, Type, DisplayValue, isActive, StateCode) values ('49553226-22A2-4811-87FB-AA26AD8CF5BA', 'CBB84AE3-A547-4E81-82D2-060AA3A50535', 'Race: Black or African American', 1, '14')
+insert @Race (ID, Type, DisplayValue, isActive, StateCode) values ('6FB5A09C-CC40-42C8-AE0D-002E634BF5C5', 'CBB84AE3-A547-4E81-82D2-060AA3A50535', 'Ethnicity: Hispanic or Latino', 1, '11')
+insert @Race (ID, Type, DisplayValue, isActive, StateCode) values ('403478BC-1E55-4A59-9BEF-750444AE2B77', 'CBB84AE3-A547-4E81-82D2-060AA3A50535', 'Race: White', 1, '16')
+insert @Race (ID, Type, DisplayValue, isActive, StateCode) values ('39007092-52B7-49BD-BF1F-8B8C60D8D61E', 'CBB84AE3-A547-4E81-82D2-060AA3A50535', 'Race: Native Hawaiian or Other Pacific Islander', 1, '15')
+insert @Race (ID, Type, DisplayValue, isActive, StateCode) values ('49DF5C6E-6971-4544-86D1-DED67EA4B70E', 'CBB84AE3-A547-4E81-82D2-060AA3A50535', 'Race: Two or more races', 1, '17')
+
 
 -- COMPARE OLD AND NEW --
 select 'OLD' Age, ID, DisplayValue, Code from EnumValue v where v.Type = 'CBB84AE3-A547-4E81-82D2-060AA3A50535' order by Code -- DisplayValue
@@ -97,14 +98,21 @@ end
 close G
 deallocate G
 
-update EnumValue set IsActive = 0 where Type = 'CBB84AE3-A547-4E81-82D2-060AA3A50535' and ID not in (select ID from @Race)
+UPDATE x
+SET StateCode = t.StateCode,
+    DisplayValue = t.DisplayValue
+from EnumValue x  join
+@Race t on x.ID = t.ID 
 
+
+
+update EnumValue set IsActive = 0 where Type = 'CBB84AE3-A547-4E81-82D2-060AA3A50535' and ID not in (select ID from @Race)
 
 commit tran FixRace
 --rollback tran FixRace
 
 
 
---SELECT * from EnumValue where Type = 'CBB84AE3-A547-4E81-82D2-060AA3A50535' and IsActive = 1
+--SELECT * from EnumValue where Type = 'CBB84AE3-A547-4E81-82D2-060AA3A50535' and IsActive = 1 order by statecode
 
 

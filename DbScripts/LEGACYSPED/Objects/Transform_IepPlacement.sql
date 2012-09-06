@@ -65,7 +65,7 @@ AS
 			isnull(m.TypeID,'00000000-0000-0000-0000-000000000000') = isnull(pt.ID,'FFFFFFFF-FFFF-FFFF-FFFF-FFFFFFFFFFFF') LEFT JOIN 
 		dbo.IepPlacement t on isnull(lre.DestID,'00000000-0000-0000-0000-000000000000') = isnull(t.ID,'FFFFFFFF-FFFF-FFFF-FFFF-FFFFFFFFFFFF')  LEFT JOIN  -- 1:24 for 23556 records.  Attempts to address performance issues not working well
 		LEGACYSPED.Transform_PrgIep piep ON isnull(piep.IEPRefID,'a') =isnull(m.IepRefID,'b') LEFT JOIN  --For new LRE model
-		LEGACYSPED.Transform_Student stu ON isnull(stu.DestID,'00000000-0000-0000-0000-000000000000') = isnull(piep.StudentID,'FFFFFFFF-FFFF-FFFF-FFFF-FFFFFFFFFFFF')
+		dbo.Student stu ON stu.ID = isnull(piep.StudentID,'FFFFFFFF-FFFF-FFFF-FFFF-FFFFFFFFFFFF')
 		
 GO
 --
