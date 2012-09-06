@@ -28,11 +28,9 @@
 set nocount on;
 declare @GradeLevel table (ID uniqueidentifier, Name varchar(10), Active bit, BitMask int, Sequence int, StateCode varchar(10))
 
-insert @GradeLevel (ID, Name, Active, BitMask, Sequence, StateCode) values ('4410F5E9-B2F1-40CD-8157-E8BB4F76CD2D', convert( varchar(10),'KinderGarten'), 1, 2, 0, '15') 
-insert @GradeLevel (ID, Name, Active, BitMask, Sequence, StateCode) values ('C7C1BEDA-B3D0-4D73-ABBB-9EC9E95ED92E', convert( varchar(10),'Pre-K'), 1, 1, 0, '14') 
 insert @GradeLevel (ID, Name, Active, BitMask, Sequence, StateCode) values ('10B6907F-2675-4610-983E-B460338569BE', convert( varchar(10),'Birth to 3'), 1, 2, 0, '00') -- name chosen by someone else
 insert @GradeLevel (ID, Name, Active, BitMask, Sequence, StateCode) values ('07975B7A-8A1A-47AE-A71F-7ED97BA9D48B', convert( varchar(10),'Grade 1'), 1, 4, 2, '01') 
-insert @GradeLevel (ID, Name, Active, BitMask, Sequence, StateCode) values ('DDC4180A-64FC-49BD-AC11-DAA185059885',convert( varchar(10), 'Grade 2'), 1, 8, 3, '02') 
+insert @GradeLevel (ID, Name, Active, BitMask, Sequence, StateCode) values ('DDC4180A-64FC-49BD-AC11-DAA185059885', convert(varchar(10), 'Grade 2'), 1, 8, 3, '02') 
 insert @GradeLevel (ID, Name, Active, BitMask, Sequence, StateCode) values ('D3C1BD80-0D32-4317-BAB8-CAF196D19350', convert( varchar(10),'Grade 3'), 1, 16, 4, '03') 
 insert @GradeLevel (ID, Name, Active, BitMask, Sequence, StateCode) values ('BE4F651A-D5B5-4B05-8237-9FD33E4D2B68', convert( varchar(10),'Grade 4'), 1, 32, 5, '04') 
 insert @GradeLevel (ID, Name, Active, BitMask, Sequence, StateCode) values ('5A021B34-D33B-43B5-BD8A-40446AC2E972', convert( varchar(10),'Grade 5'), 1, 64, 6, '05') 
@@ -43,6 +41,8 @@ insert @GradeLevel (ID, Name, Active, BitMask, Sequence, StateCode) values ('FA0
 insert @GradeLevel (ID, Name, Active, BitMask, Sequence, StateCode) values ('8085537C-8EA9-4801-8EC8-A8BDA7E61DB6', convert( varchar(10),'Grade 10'), 1, 2048, 11, '10') 
 insert @GradeLevel (ID, Name, Active, BitMask, Sequence, StateCode) values ('EA727CED-8A2C-4434-974A-6D8D924D95C6', convert( varchar(10),'Grade 11'), 1, 4096, 12, '11') 
 insert @GradeLevel (ID, Name, Active, BitMask, Sequence, StateCode) values ('0D7B8529-62C7-4F25-B78F-2A4724BD7990', convert( varchar(10),'Grade 12'), 1, 8192, 13, '12')
+insert @GradeLevel (ID, Name, Active, BitMask, Sequence, StateCode) values ('C7C1BEDA-B3D0-4D73-ABBB-9EC9E95ED92E', convert( varchar(10),'Pre-K'), 1, 1, 0, '14') 
+insert @GradeLevel (ID, Name, Active, BitMask, Sequence, StateCode) values ('4410F5E9-B2F1-40CD-8157-E8BB4F76CD2D', convert( varchar(10),'KinderGarten'), 1, 2, 0, '15') 
 
 --select * from GradeLevel g order by g.Active desc, g.Sequence, g.BitMask, g.stateCode, g.Name
 --select * from @GradeLevel g order by g.Active desc, g.Sequence, g.BitMask, g.stateCode, g.Name
@@ -98,24 +98,21 @@ declare @MAP_GradeLevel table (KeepID uniqueidentifier, TossID uniqueidentifier)
 	-- this needs to be done by visual inspection because Grade Level names can vary widely
 -- 1. un-comment the rows required to map for updating FK related tables.  
 -- 2. Add the ID that needs to be deleted in the Empty quotes of the Values insert
---insert @MAP_GradeLevel values ('C808C991-CA93-4F51-AF41-A8BA494AC10F', '') --  '') --  'Infant', 1, 0, 0, '002') 
---insert @MAP_GradeLevel values ('4B0ED575-7C9A-451D-A8E6-2D9F22F31349', '') --  'Half Day K', 1, 0, 0, '006') 
---insert @MAP_GradeLevel values ('6061CD90-8BEC-4389-A140-CF645A5D47FE', 'E4C4E846-B85F-4AB5-871B-A8976EE25A69') --  'Pre-K', 1, 1, 0, '004') 
---insert @MAP_GradeLevel values ('6061CD90-8BEC-4389-A140-CF645A5D47FE', 'D90C08C8-683F-4C2B-9D1F-769D904CD060') --  'Pre-K', 1, 1, 0, '004') 
---insert @MAP_GradeLevel values ('7269BD32-C052-455B-B3E3-FF5BCB199679', '10B6907F-2675-4610-983E-B460338569BE') --  '00', 1, 2, 0, '007') 
---insert @MAP_GradeLevel values ('7269BD32-C052-455B-B3E3-FF5BCB199679', 'AA2D13F2-ABFF-4245-8B48-EA13EE264B70') --  '00', 1, 2, 0, '007') 
---insert @MAP_GradeLevel values ('07975B7A-8A1A-47AE-A71F-7ED97BA9D48B', '') --  '01', 1, 4, 2, '010') 
---insert @MAP_GradeLevel values ('DDC4180A-64FC-49BD-AC11-DAA185059885', '') --  '02', 1, 8, 3, '020') 
---insert @MAP_GradeLevel values ('D3C1BD80-0D32-4317-BAB8-CAF196D19350', '') --  '03', 1, 16, 4, '030') 
---insert @MAP_GradeLevel values ('BE4F651A-D5B5-4B05-8237-9FD33E4D2B68', '') --  '04', 1, 32, 5, '040') 
---insert @MAP_GradeLevel values ('5A021B34-D33B-43B5-BD8A-40446AC2E972', '') --  '05', 1, 64, 6, '050') 
---insert @MAP_GradeLevel values ('92B484A3-2DBD-4952-9519-03B848AE1215', '') --  '06', 1, 128, 7, '060') 
---insert @MAP_GradeLevel values ('81FEC824-DB83-4C5D-91A5-2DFE72DE93EC', '') --  '07', 1, 256, 8, '070') 
---insert @MAP_GradeLevel values ('245F48A7-6927-4EFA-A3F2-AF30463C9B4D', '') --  '08', 1, 512, 9, '080') 
---insert @MAP_GradeLevel values ('FA02DAC4-AE22-4370-8BE3-10C3F2D92CB3', '') --  '09', 1, 1024, 10, '090') 
---insert @MAP_GradeLevel values ('8085537C-8EA9-4801-8EC8-A8BDA7E61DB6', '') --  '10', 1, 2048, 11, '100') 
---insert @MAP_GradeLevel values ('EA727CED-8A2C-4434-974A-6D8D924D95C6', '') --  '11', 1, 4096, 12, '110') 
---insert @MAP_GradeLevel values ('0D7B8529-62C7-4F25-B78F-2A4724BD7990', '') --  '12', 1, 8192, 13, '120') 
+--insert @MAP_GradeLevel values ('10B6907F-2675-4610-983E-B460338569BE','')--'Birth to 3'
+--insert @MAP_GradeLevel values ('C7C1BEDA-B3D0-4D73-ABBB-9EC9E95ED92E','')--'Pre-k'
+--insert @MAP_GradeLevel values ('4410F5E9-B2F1-40CD-8157-E8BB4F76CD2D','')--'KinderGarten'
+--insert @MAP_GradeLevel values ('07975B7A-8A1A-47AE-A71F-7ED97BA9D48B','')--'Grade 1'
+--insert @MAP_GradeLevel values ('DDC4180A-64FC-49BD-AC11-DAA185059885','')--'Grade 2'
+--insert @MAP_GradeLevel values ('D3C1BD80-0D32-4317-BAB8-CAF196D19350','')--'Grade 3'
+--insert @MAP_GradeLevel values ('BE4F651A-D5B5-4B05-8237-9FD33E4D2B68','')--'Grade 4'
+--insert @MAP_GradeLevel values ('5A021B34-D33B-43B5-BD8A-40446AC2E972','')--'Grade 5'
+--insert @MAP_GradeLevel values ('92B484A3-2DBD-4952-9519-03B848AE1215','')--'Grade 6'
+--insert @MAP_GradeLevel values ('81FEC824-DB83-4C5D-91A5-2DFE72DE93EC','')--'Grade 7'
+--insert @MAP_GradeLevel values ('245F48A7-6927-4EFA-A3F2-AF30463C9B4D','')--'Grade 8'
+--insert @MAP_GradeLevel values ('FA02DAC4-AE22-4370-8BE3-10C3F2D92CB3','')--'Grade 9'
+--insert @MAP_GradeLevel values ('8085537C-8EA9-4801-8EC8-A8BDA7E61DB6','')--'Grade 10'
+--insert @MAP_GradeLevel values ('EA727CED-8A2C-4434-974A-6D8D924D95C6','')--'Grade 11'
+--insert @MAP_GradeLevel values ('0D7B8529-62C7-4F25-B78F-2A4724BD7990','')--'Grade 12'
 
 
 --10B6907F-2675-4610-983E-B460338569BE	00	1	2	1	NULL	NULL

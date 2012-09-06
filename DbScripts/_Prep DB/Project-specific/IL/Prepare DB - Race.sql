@@ -28,13 +28,13 @@ set nocount on;
 declare @MAP_Race table (OldRace uniqueidentifier, NewRace uniqueidentifier) 
 -- based on COMPARE OLD AND NEW above, please fill in the OLD values below.  If there are OLD values that do not corespond to the NEW values, do not include them in the MAP table
 
---insert @MAP_Race values ('', 'E1611EE9-7FC3-4CEF-80D6-D67EE6EE1F6F') -- Race: American Indian or Alaska Native
---insert @MAP_Race values ('', '953025B8-4102-4C8F-B8AB-766068ACC978') -- Race: Asian
---insert @MAP_Race values ('', '628814D0-09B4-4B77-A1A7-A9CEEC360C2B') -- Race: Black or African American
---insert @MAP_Race values ('', '68F95480-110E-45EB-84DC-566A930E8C67') -- Ethnicity: Hispanic or Latino
---insert @MAP_Race values ('', '3A074939-80D2-4138-97E9-149345528E9F') -- Race: White
---insert @MAP_Race values ('', '80034B85-658B-497E-8793-E2382CB6AF51') -- Race: Native Hawaiian or Other Pacific Islander
---insert @MAP_Race values ('', 'E97F2925-C985-4C26-BC60-1F0B42C1719D') -- Race: Two or more races
+--insert @MAP_Race values ('3722D2F9-43DE-4B0C-BA4F-5D2393E99AFB', 'E1611EE9-7FC3-4CEF-80D6-D67EE6EE1F6F') -- Race: American Indian or Alaska Native
+--insert @MAP_Race values ('77C1BF9F-B798-4352-894F-F029BDE72405', '953025B8-4102-4C8F-B8AB-766068ACC978') -- Race: Asian
+--insert @MAP_Race values ('49553226-22A2-4811-87FB-AA26AD8CF5BA', '628814D0-09B4-4B77-A1A7-A9CEEC360C2B') -- Race: Black or African American
+--insert @MAP_Race values ('6FB5A09C-CC40-42C8-AE0D-002E634BF5C5', '68F95480-110E-45EB-84DC-566A930E8C67') -- Ethnicity: Hispanic or Latino
+--insert @MAP_Race values ('403478BC-1E55-4A59-9BEF-750444AE2B77', '3A074939-80D2-4138-97E9-149345528E9F') -- Race: White
+--insert @MAP_Race values ('39007092-52B7-49BD-BF1F-8B8C60D8D61E', '80034B85-658B-497E-8793-E2382CB6AF51') -- Race: Native Hawaiian or Other Pacific Islander
+--insert @MAP_Race values ('49DF5C6E-6971-4544-86D1-DED67EA4B70E', 'E97F2925-C985-4C26-BC60-1F0B42C1719D') -- Race: Two or more races
 
 
 -- isnert test
