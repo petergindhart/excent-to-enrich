@@ -161,24 +161,26 @@ order by g.DeletedDate desc, g.Sequence, g.stateCode, g.Name
 
 declare @MAP_PrgStatus table (KeepID uniqueidentifier, TossID uniqueidentifier)
 
---insert @MAP_PrgStatus (KeepID, TossID) values ('BF898F66-AD71-451F-AD11-3639155A431F', 'C3804D67-D4F7-4D69-A3E6-4CFE64771A41') -- 'Reached Maximum Age For Services')
---insert @MAP_PrgStatus (KeepID, TossID) values ('4878A47C-1AAA-4697-BE30-42106F214E7D', '0C105E02-5FC2-49E0-9B8F-7BA0D0D196E8') -- 'Death')
---insert @MAP_PrgStatus (KeepID, TossID) values ('C425DBDE-4DBD-4A9D-B1F5-6C3D99262AFD', '5FE09089-8A70-44EC-A557-69428B491BB9') -- 'PK-6 Student Exited, not known to continue')
---insert @MAP_PrgStatus (KeepID, TossID) values ('C2DF5F3F-D0EE-4493-BBA7-6D8327EA36D8', '25F39C6E-DBA1-4499-BEE4-D5EF87588CE0') -- 'Transferred to Regular Education')
---insert @MAP_PrgStatus (KeepID, TossID) values ('8DCBA0CA-9560-4E3A-88AB-805FD659C9C2', '2D13E52E-C4CD-42F7-A218-78E1026B5222') -- 'Transfer to a Public School in a Different District, known to continue')
---insert @MAP_PrgStatus (KeepID, TossID) values ('05F914D8-2A29-489A-82ED-A7506341A83F', '9CA7F697-301B-48C5-A3E8-C776F77C362F') -- 'Transfer to a School in a Different State/Country')
---insert @MAP_PrgStatus (KeepID, TossID) values ('DFBE9247-8EBC-447B-87C2-A8FAEB37A96D', 'F0AA3505-42FB-490A-AB24-9CA239978BC1') -- 'Transfer to a Non-Public School')
---insert @MAP_PrgStatus (KeepID, TossID) values ('3C35632F-8323-4CB7-8585-B7D3D4586152', 'BAC31361-D952-4416-8463-98D79881AF69') -- 'Transfer to Home-Based Education')
---insert @MAP_PrgStatus (KeepID, TossID) values ('2D966F92-A821-47EF-B785-DE1E32C84C3A', '5951577A-7192-42AE-B1BD-385628B14369') -- 'Transfer to a Career and Technical Education Program (Non-CO district or BOCES operated)')
---insert @MAP_PrgStatus (KeepID, TossID) values ('BB19EFF0-AF1F-4F8A-A8F2-EC11F2A56711', '338F2F0A-A8FF-47C4-AF04-423D6094243A') -- 'Transfer to a Facility Operated by CO Dept of Youth Corrections')
---insert @MAP_PrgStatus (KeepID, TossID) values ('E8959582-644B-4AAC-B3FF-0580B1BE158F', '979F387E-8AE3-473E-9854-2649A82B15F0') -- 'Discontinued Schooling / Dropped out')
---insert @MAP_PrgStatus (KeepID, TossID) values ('59BBBBE9-BF7C-44E0-B9FB-0E376A26E0B8', '7F95788C-4317-4450-9540-3C14A7316E3B') -- 'Explusion')
---insert @MAP_PrgStatus (KeepID, TossID) values ('A24AEA49-735D-425F-B803-168769054306', 'B92F951E-5C89-476D-9B16-E8F89A1DD120') -- 'Parent Revokes Consent for Services')
---insert @MAP_PrgStatus (KeepID, TossID) values ('825305B4-0600-4098-8B17-381499942419', '12F8E2B3-9FD9-4E33-90EB-8FF2AC582018') -- 'GED Transfer')
---insert @MAP_PrgStatus (KeepID, TossID) values ('3A7DEAC1-7A66-42D6-B452-3A0529DA133D', '6EB49F85-5662-46B3-AD08-903DFBE6D090') -- 'Graduated with a Regular Deploma')
---insert @MAP_PrgStatus (KeepID, TossID) values ('2477C14E-7939-46D6-99E4-43F6E35701A4', 'AA9CE34B-71BC-440A-B29F-1E3613A8919E') -- 'Completed (non-diploma certificate)')
---insert @MAP_PrgStatus (KeepID, TossID) values ('977D0FE7-B5EA-4656-B193-5B0BF784EDCC', '25B25E2B-ECBB-4392-BF09-11D7F011FDB5') -- 'General Education Development Certificate (GED)')
---insert @MAP_PrgStatus (KeepID, TossID) values ('E6DB43DE-03DF-4C27-A61B-6B1277102B73', '15D33468-D8A9-4E96-800A-AEAEE92A8025') -- 'Student received GED certificate at Non-District Program same year of transfer.')
+--insert @MAP_PrgStatus (KeepID, TossID) values ('88C72843-7005-4945-8338-FE15B6C1DDC5','')--'Reached maximum age for Special Education Service'
+--insert @MAP_PrgStatus (KeepID, TossID) values ('CF29F9AD-AF69-4969-9000-5E851205787F','')--'Discontinued Schooling / Dropped out'
+--insert @MAP_PrgStatus (KeepID, TossID) values ('2526C9C9-3079-4A4A-821F-B644355A3919','')--'Death'
+--insert @MAP_PrgStatus (KeepID, TossID) values ('488748F2-60D7-495C-895F-69C48B310833','')--'Moved, not known to be continuing'
+--insert @MAP_PrgStatus (KeepID, TossID) values ('0873838E-85FF-4948-A0F8-6DA148FC26C9','')--'Transfer to another public school within the district'
+--insert @MAP_PrgStatus (KeepID, TossID) values ('D8DF3100-C036-4048-9AE6-AFF6CC1FE415','')--'Transfer to Home Schooled'
+--insert @MAP_PrgStatus (KeepID, TossID) values ('9B31EA23-A09A-4CB1-A813-CB199A86D5E5','')--'Transfer to Private School'
+--insert @MAP_PrgStatus (KeepID, TossID) values ('8AFB63A6-A7A0-4E86-809B-610023AA5BD0','')--'Promotion'
+--insert @MAP_PrgStatus (KeepID, TossID) values ('395B51A0-D3EB-46BE-8B02-22326D504B20','')--'Retained in same grade or demoted to a lower grade'
+--insert @MAP_PrgStatus (KeepID, TossID) values ('4CAADA77-611E-44D8-9006-31DEDA8EF04B','')--'Certificate of Completion'
+--insert @MAP_PrgStatus (KeepID, TossID) values ('AE339B0C-BB65-4FC6-9E23-75054624D809','')--'Victim of a Violent Crime'
+--insert @MAP_PrgStatus (KeepID, TossID) values ('539DD468-E2D7-4430-89F8-D25A9F6F69F4','')--'Change in Serving School or Full Time Equivalent (FTE)'
+--insert @MAP_PrgStatus (KeepID, TossID) values ('B53FE183-D52F-4183-867F-74D7C238050D','')--'Moved Out of the United States'
+--insert @MAP_PrgStatus (KeepID, TossID) values ('810AF969-7E43-4599-B068-C8A01FE9712B','')--'Transfer to another public school district out of Illinois'
+--insert @MAP_PrgStatus (KeepID, TossID) values ('5868C69C-25CC-43DD-BF28-B37A8928DB61','')--'Transfer to another public school district in Illinois'
+--insert @MAP_PrgStatus (KeepID, TossID) values ('105E844D-7DAA-4590-9628-864D7F04F11D','')--'Erroneous enrollment'
+--insert @MAP_PrgStatus (KeepID, TossID) values ('13BE36B4-F53B-40B8-A3BA-AAD7BADF7DE8','')--'Explusion'
+--insert @MAP_PrgStatus (KeepID, TossID) values ('0CED7BBA-32B6-4EAA-8A54-A7FCA9857EAF','')--'Transfer to GED program'
+--insert @MAP_PrgStatus (KeepID, TossID) values ('0154C70A-EF02-4222-ABEE-26347F2A835D','')--'Graduated with regular, advanced, International Baccalaureate, or other type of diploma'
+
 
 
 declare I cursor for 
