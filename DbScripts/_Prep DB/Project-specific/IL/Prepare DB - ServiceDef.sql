@@ -5,6 +5,21 @@ set nocount on;
 
 declare @ServiceDef table (ID uniqueidentifier, CategoryID uniqueidentifier, Name varchar(100), Description text, DefaultLocationID uniqueidentifier, MinutesPerUnit int) 
 
+insert @ServiceDef (ID, CategoryID, Name) values ('76C23361-F9E0-4BBB-9CFA-2F6C23170EF7','4CA5DB1F-2CAC-4DDC-B856-B4B8BFE88BDD','Academic Program Only')
+insert @ServiceDef (ID, CategoryID, Name) values ('FFC6DBBC-C509-4AE8-89D1-AF1BA52EA45C','4CA5DB1F-2CAC-4DDC-B856-B4B8BFE88BDD','Acquisition of Daily Living Skills')
+insert @ServiceDef (ID, CategoryID, Name) values ('E82106FB-28EF-4507-915B-D8E9F7D07CCC','4CA5DB1F-2CAC-4DDC-B856-B4B8BFE88BDD','Adapted Driver Education')
+insert @ServiceDef (ID, CategoryID, Name) values ('C4EACCE2-B4ED-4456-8482-5A32E6DC898C','4CA5DB1F-2CAC-4DDC-B856-B4B8BFE88BDD','Adapted Physical Education')
+insert @ServiceDef (ID, CategoryID, Name) values ('84F08D2A-1273-41F2-A018-A781B199C66B','4CA5DB1F-2CAC-4DDC-B856-B4B8BFE88BDD','Aide-Class')
+insert @ServiceDef (ID, CategoryID, Name) values ('094FFD46-BC6E-40EE-852B-6CE5023CCB54','4CA5DB1F-2CAC-4DDC-B856-B4B8BFE88BDD','Aide-Individual Student')
+insert @ServiceDef (ID, CategoryID, Name) values ('D2DE1380-17A1-4896-B609-7B733B93C2F4','4CA5DB1F-2CAC-4DDC-B856-B4B8BFE88BDD','Art Therapy')
+insert @ServiceDef (ID, CategoryID, Name) values ('1BD44FD5-B553-4F35-A59E-F4873F33833A','4CA5DB1F-2CAC-4DDC-B856-B4B8BFE88BDD','Assistive Device')
+insert @ServiceDef (ID, CategoryID, Name) values ('1CE6205D-EA3D-4B62-98EF-AFFE01E8EFB1','4CA5DB1F-2CAC-4DDC-B856-B4B8BFE88BDD','Audiology')
+insert @ServiceDef (ID, CategoryID, Name) values ('46DE2328-F85E-43CD-9EF2-322D6513AB72','4CA5DB1F-2CAC-4DDC-B856-B4B8BFE88BDD','Behavioral Intervention Plan')
+insert @ServiceDef (ID, CategoryID, Name) values ('7DEEDF7D-E024-4112-809F-AFEA266A4D73','4CA5DB1F-2CAC-4DDC-B856-B4B8BFE88BDD','Braillist/Reader')
+insert @ServiceDef (ID, CategoryID, Name) values ('36DD09DD-16DF-4762-ABE3-FD5D56E24B31','4CA5DB1F-2CAC-4DDC-B856-B4B8BFE88BDD','Career and Technical Education')
+insert @ServiceDef (ID, CategoryID, Name) values ('1B181ABD-4B48-45EA-A53E-C6458B5F554E','4CA5DB1F-2CAC-4DDC-B856-B4B8BFE88BDD','Competetive Employment')
+insert @ServiceDef (ID, CategoryID, Name) values ('F00AEC99-8AA5-4ED5-8051-63A9471F1DFE','4CA5DB1F-2CAC-4DDC-B856-B4B8BFE88BDD','Consultant Services')
+insert @ServiceDef (ID, CategoryID, Name) values ('FFCF41E6-E085-477E-A720-B466DDE53952','4CA5DB1F-2CAC-4DDC-B856-B4B8BFE88BDD','Counseling Services')
 insert @ServiceDef (ID, CategoryID, Name) values ('8FC14A48-AFC9-4F04-AB0A-4E0C515268F5','4CA5DB1F-2CAC-4DDC-B856-B4B8BFE88BDD','Orientation and Mobility')
 insert @ServiceDef (ID, CategoryID, Name) values ('5B371197-4356-49E0-99AE-7EB7DC166506','4CA5DB1F-2CAC-4DDC-B856-B4B8BFE88BDD','Other Related Services')
 insert @ServiceDef (ID, CategoryID, Name) values ('568B04D7-A82F-4533-A2E8-29969F2C2738','4CA5DB1F-2CAC-4DDC-B856-B4B8BFE88BDD','Outdoor Education')
@@ -30,6 +45,7 @@ insert @ServiceDef (ID, CategoryID, Name) values ('5FACFB25-6651-4C09-8770-1BFFF
 insert @ServiceDef (ID, CategoryID, Name) values ('6E077483-6E86-4789-9E44-A331E9555F9F','4570E6F2-2691-4BB1-9BBB-A62AC3BEECB7','Speech/Language Services')
 insert @ServiceDef (ID, CategoryID, Name) values ('82953DE8-5608-4723-A85F-3B0A1BD4FAC5','4570E6F2-2691-4BB1-9BBB-A62AC3BEECB7','Vision Screening')
 insert @ServiceDef (ID, CategoryID, Name) values ('3F3CE74E-B435-4227-85ED-32463D4C9F1C','4570E6F2-2691-4BB1-9BBB-A62AC3BEECB7','Visually Impaired')
+
 
 
 update x set Description = sd.Description, DefaultLocationID = sd.DefaultLocationID, MinutesPerUnit = sd.MinutesPerUnit
@@ -93,6 +109,21 @@ declare @MAP_ServiceDef table (KeepID uniqueidentifier, TossID uniqueidentifier)
 declare @RelSchema varchar(100), @RelTable varchar(100), @RelColumn varchar(100), @KeepID varchar(50), @TossID varchar(50), @toss varchar(50);
 -- populate MAP
 -- this needs to be done by visual inspection because IepDisability names can vary widely
+--insert @MAP_ServiceDef values ('76C23361-F9E0-4BBB-9CFA-2F6C23170EF7','')--'Academic Program Only'
+--insert @MAP_ServiceDef values ('FFC6DBBC-C509-4AE8-89D1-AF1BA52EA45C','')--'Acquisition of Daily Living Skills'
+--insert @MAP_ServiceDef values ('E82106FB-28EF-4507-915B-D8E9F7D07CCC','')--'Adapted Driver Education'
+--insert @MAP_ServiceDef values ('C4EACCE2-B4ED-4456-8482-5A32E6DC898C','')--'Adapted Physical Education'
+--insert @MAP_ServiceDef values ('84F08D2A-1273-41F2-A018-A781B199C66B','')--'Aide-Class'
+--insert @MAP_ServiceDef values ('094FFD46-BC6E-40EE-852B-6CE5023CCB54','')--'Aide-Individual Student'
+--insert @MAP_ServiceDef values ('D2DE1380-17A1-4896-B609-7B733B93C2F4','')--'Art Therapy'
+--insert @MAP_ServiceDef values ('1BD44FD5-B553-4F35-A59E-F4873F33833A','')--'Assistive Device'
+--insert @MAP_ServiceDef values ('1CE6205D-EA3D-4B62-98EF-AFFE01E8EFB1','')--'Audiology'
+--insert @MAP_ServiceDef values ('46DE2328-F85E-43CD-9EF2-322D6513AB72','')--'Behavioral Intervention Plan'
+--insert @MAP_ServiceDef values ('7DEEDF7D-E024-4112-809F-AFEA266A4D73','')--'Braillist/Reader'
+--insert @MAP_ServiceDef values ('36DD09DD-16DF-4762-ABE3-FD5D56E24B31','')--'Career and Technical Education'
+--insert @MAP_ServiceDef values ('1B181ABD-4B48-45EA-A53E-C6458B5F554E','')--'Competetive Employment'
+--insert @MAP_ServiceDef values ('F00AEC99-8AA5-4ED5-8051-63A9471F1DFE','')--'Consultant Services'
+--insert @MAP_ServiceDef values ('FFCF41E6-E085-477E-A720-B466DDE53952','')--'Counseling Services'
 --insert @MAP_ServiceDef values ('8FC14A48-AFC9-4F04-AB0A-4E0C515268F5','')--'Orientation and Mobility'
 --insert @MAP_ServiceDef values ('5B371197-4356-49E0-99AE-7EB7DC166506','')--'Other Related Services'
 --insert @MAP_ServiceDef values ('568B04D7-A82F-4533-A2E8-29969F2C2738','')--'Outdoor Education'
@@ -120,26 +151,6 @@ declare @RelSchema varchar(100), @RelTable varchar(100), @RelColumn varchar(100)
 --insert @MAP_ServiceDef values ('3F3CE74E-B435-4227-85ED-32463D4C9F1C','')--'Visually Impaired'
 
 
---5D70A02F-F9E9-40BD-B30C-9144E419882A	Adapted Physical Education
---54AD7B8C-D44B-45C2-9C80-7BBF87579AB4	Consultation
-
---BA58A524-BF79-4527-90C1-C3A3A487AD7B	Audiology Services
---B111C18D-AA0C-4982-9CFE-4E9C3F75611A	Counseling
---FB6F9141-CE06-4B61-AA29-A14FED8C1CCC	Interpreting Services
---B6AC6BB7-E6D3-4C45-AA93-438B015DB2B2	Orientation & Mobility Services
---4161C328-1AAE-41E1-9CA8-3699031912FF	Parent Counseling and Training
---AF88E635-7B1C-4F95-B43D-847AA466C669	Personal Care Services
---FF3E14C1-6482-46DC-BB4E-08E2BFA39B85	Specialized Instruction
-
---89BEE326-69D3-4ECF-9C1F-A117D4293F38	Indirect
---315884B0-8B78-46F0-8423-E06FDD41319C	Instruction-Co-Teach
---4B3948BD-70BF-4684-B93E-F2B29772FBCF	Instruction-Direct In Gen Ed Class
---95D0A92D-784A-447C-B94B-AF407ABAA3E5	Instruction-Direct Outside Gen Ed Class
-
---52AD0E2D-3A97-499A-95F4-5B4BB02912DF	Adapted Physical Education
---61D1B5E8-C054-4EA8-B9CB-F61EBDB1F629	Consultation
-
--- list all tables with FK on GradeLevel and update them 
 
 
 declare I cursor for 

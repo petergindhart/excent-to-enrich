@@ -5,8 +5,8 @@ declare @s varchar(150), @o varchar(150), @c varchar(150), @TossID varchar(36), 
 set nocount on;
 -- (ID, Type, DisplayValue, Code, isActive, Sequence, StateCode)
 declare @Gender table (ID uniqueidentifier, Type uniqueidentifier, DisplayValue varchar(512), Code varchar(8), isActive bit, Sequence int, StateCode varchar(50))
-insert @Gender (ID, Type, DisplayValue, isActive, StateCode) values ('ACD31A4B-66FD-4D49-9A5A-2DB12005A1DD', 'D6194389-17AC-494C-9C37-FD911DA2DD4B', 'Female', 1, '01')
-insert @Gender (ID, Type, DisplayValue, isActive, StateCode) values ('2FF51A82-9351-481A-8288-DCF8F7D96083', 'D6194389-17AC-494C-9C37-FD911DA2DD4B', 'Male', 1, '02')
+insert @Gender (ID, Type, DisplayValue, isActive, StateCode) values ('ACD31A4B-66FD-4D49-9A5A-2DB12005A1DD', 'D6194389-17AC-494C-9C37-FD911DA2DD4B', 'Female', 1, NULL)
+insert @Gender (ID, Type, DisplayValue, isActive, StateCode) values ('2FF51A82-9351-481A-8288-DCF8F7D96083', 'D6194389-17AC-494C-9C37-FD911DA2DD4B', 'Male', 1, NULL)
 
 --ACD31A4B-66FD-4D49-9A5A-2DB12005A1DD	01		Female
 --2FF51A82-9351-481A-8288-DCF8F7D96083	02		Male
