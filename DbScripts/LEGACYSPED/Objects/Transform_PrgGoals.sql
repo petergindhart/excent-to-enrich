@@ -8,6 +8,7 @@ AS
 		iep.IepRefId,
 		DestID = sec.ID,
 		ReportFrequencyID = 'A3FF9417-0899-42BE-8090-D1855D50612F',
+		UseProgressReporting = cast (1 as BIT),
 		iep.DoNotTouch
 	FROM
 	LEGACYSPED.Transform_PrgIep iep JOIN -- 10721

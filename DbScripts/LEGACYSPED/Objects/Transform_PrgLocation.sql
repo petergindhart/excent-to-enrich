@@ -54,7 +54,7 @@ AS
 		Description = isnull(i.Description, t.Description),
 		MedicaidLocationID = coalesce(i.MedicaidLocationID, n.MedicaidLocationID, t.MedicaidLocationID),
 		StateCode = coalesce(i.StateCode, n.StateCode, t.StateCode),
-		DeletedDate = case when k.EnrichID is not null then NULL when coalesce(i.ID, n.ID, t.ID) is null then getdate() else coalesce(i.DeletedDate, n.DeletedDate, t.DeletedDate) end
+		DeletedDate = case when k.EnrichID is not null then NULL when coalesce(i.ID, n.ID, t.ID) is null then NULL else coalesce(i.DeletedDate, n.DeletedDate, t.DeletedDate) end
 	from LEGACYSPED.SelectLists k left join
 		dbo.PrgLocation i on k.EnrichID = i.ID left join 
 		dbo.PrgLocation n on k.EnrichLabel = n.Name left join 

@@ -472,6 +472,13 @@ INSERT INTO @VC3ETL_LoadColumn VALUES ('DDBFEF07-373A-458C-A88D-560ED7599576', '
 --Schedule
 --INSERT INTO @VC3ETL_LoadColumn VALUES ('96515330-C486-4BBF-8F76-28B414146A17', '0cff91d7-4e85-46d7-aaf2-75a217aa7edd', 'IsEnabled', 'IsEnabled', 'C', 0, NULL, NULL, NULL)
 
+--IepDisabilityEligibility
+INSERT INTO @VC3ETL_LoadColumn VALUES ('03ABFC9A-365C-4A6A-85AC-4FC74C5C0199', '9ef8de14-d683-4653-969e-831eb33d5ce6', 'WasPreviouslyEligible', 'WasPreviouslyEligible', 'C', 0, NULL, NULL, NULL)
+
+--PrgGoals
+INSERT INTO @VC3ETL_LoadColumn VALUES ('88A4118C-77A9-4DDA-A5CF-F30EABFECE51', '78d7c5c4-dc7b-4443-bd00-297742cf435b', 'UseProgressReporting', 'UseProgressReporting', 'C', 0, NULL, NULL, NULL)
+
+
 
 -- refactor 
 delete Destination
