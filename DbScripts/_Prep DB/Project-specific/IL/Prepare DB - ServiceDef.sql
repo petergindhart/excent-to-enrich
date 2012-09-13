@@ -80,8 +80,8 @@ where t.ID is null
 
 
 
-insert ServiceDef (ID, TypeID, Name, Description, DefaultLocationID, MinutesPerUnit)
-select t.ID, TypeID = 'D3945E9D-AA0E-4555-BCB2-F8CA95CC7784', t.Name, t.Description, t.DefaultLocationID, t.MinutesPerUnit
+insert ServiceDef (ID, TypeID, Name, Description, DefaultLocationID, MinutesPerUnit,UserDefined)
+select t.ID, TypeID = 'D3945E9D-AA0E-4555-BCB2-F8CA95CC7784', t.Name, t.Description, t.DefaultLocationID, t.MinutesPerUnit,0
 from ServiceDef x right join
 @ServiceDef t on x.ID = t.ID 
 where x.ID is null order by x.Name
