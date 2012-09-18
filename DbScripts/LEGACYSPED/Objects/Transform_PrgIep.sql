@@ -57,7 +57,8 @@ select
 		end, 
 	iep.LRECode,
 	iep.MinutesPerWeek,
-	iep.ConsentForServicesDate 
+	iep.ConsentForServicesDate,
+	iep.ServiceDeliveryStatement
 from LEGACYSPED.EvaluateIncomingItems ev left join 
 	LEGACYSPED.Transform_Student stu on ev.StudentRefID = stu.StudentRefID left join 
 	LEGACYSPED.IEP iep on ev.IncomingIEPRefID = iep.IepRefID left join -------------------------------------------------------------------------------- do we need to the Existing IEPRefID or the Incoming IEPRefID ?
