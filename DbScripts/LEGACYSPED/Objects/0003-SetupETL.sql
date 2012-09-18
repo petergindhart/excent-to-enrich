@@ -66,7 +66,8 @@ INSERT INTO @VC3ETL_FlatFileExtractTable VALUES ('b5000a4a-e3d0-44c0-b476-fcc377
 -- Declare a temporary table to hold the data to be synchronized
 DECLARE @VC3ETL_LoadTable TABLE (ID uniqueidentifier, ExtractDatabase uniqueidentifier, Sequence int, SourceTable varchar(100), DestTable varchar(100), HasMapTable bit, MapTable varchar(100), KeyField varchar(250), DeleteKey varchar(50), ImportType int, DeleteTrans bit, UpdateTrans bit, InsertTrans bit, Enabled bit, SourceTableFilter varchar(1000), DestTableFilter varchar(1000), PurgeCondition varchar(1000), KeepMappingAfterDelete bit, StartNewTransaction bit, LastLoadDate datetime, MapTableMapID varchar(250), Comments varchar(1000))
 
--- Insert the data to be synchronized into the temporary table
+-- Insert the data to be synchronized into the temporary table 
+--INSERT INTO @VC3ETL_LoadTable VALUES ('89BC41E5-5DAD-479A-890F-10D9CF7DD47D', '29d14961-928d-4bee-9025-238496d144c6', 0, 'LEGACYSPED.BeforeImportCounts', NULL, 0, NULL, NULL, NULL, 4, 0, 0, 0, 1, NULL, NULL, NULL, 0, 0, '1/1/1970 12:00:00 AM', NULL, NULL)     --For ImportCounts
 INSERT INTO @VC3ETL_LoadTable VALUES ('90dc3810-824a-4040-a223-0290453aa934', '29d14961-928d-4bee-9025-238496d144c6', 9, 'LEGACYSPED.Transform_PrgIep', 'PrgItem', 1, 'LEGACYSPED.MAP_IepStudentRefID', 'IepRefID, StudentRefID', 'DestID', 1, 0, 1, 1, 1, 'DoNotTouch = 0', 'd.DefID = ''8011D6A2-1014-454B-B83C-161CE678E3D3''', '1=1', 0, 0, '1/1/1970 12:00:00 AM', NULL, NULL)
 INSERT INTO @VC3ETL_LoadTable VALUES ('7264bc06-009b-47e3-924d-0a84662af348', '29d14961-928d-4bee-9025-238496d144c6', 16, 'LEGACYSPED.Transform_PrgConsent', 'PrgConsent', 0, NULL, NULL, NULL, 1, 0, 1, 1, 1, 'DoNotTouch = 0', NULL, NULL, 0, 0, '1/1/1970 12:00:00 AM', NULL, NULL)
 INSERT INTO @VC3ETL_LoadTable VALUES ('86a1d977-790c-4852-b574-1d305b814a17', '29d14961-928d-4bee-9025-238496d144c6', 999, 'PrgInvolvement_RecalculateStatuses @involvementID = NULL', NULL, 0, NULL, NULL, NULL, 4, 0, 0, 0, 1, NULL, NULL, NULL, 0, 0, '1/1/1970 12:00:00 AM', NULL, NULL)
@@ -124,6 +125,8 @@ INSERT INTO @VC3ETL_LoadTable VALUES ('EBBF67AD-87EA-4D4D-8F06-C61A8F57D11C', '2
 
 INSERT INTO @VC3ETL_LoadTable VALUES ('FA861FD5-3C1E-4CD4-A553-507DB6F80EB1', '29d14961-928d-4bee-9025-238496d144c6', 999, 'Util_OptimizeDatabase', NULL, 0, NULL, NULL, NULL, 4, 0, 0, 0, 1, NULL, NULL, NULL, 0, 0, '1/1/1970 12:00:00 AM', NULL, NULL)
 INSERT INTO @VC3ETL_LoadTable VALUES ('F8B21125-33FB-4291-B79C-03DA15C4861E', '29d14961-928d-4bee-9025-238496d144c6', 997, 'Util_VerifyProgramDataAssumptions ''F98A8EF2-98E2-4CAC-95AF-D7D89EF7F80C''', NULL, 0, NULL, NULL, NULL, 4, 0, 0, 0, 0, NULL, NULL, NULL, 0, 0, '1/1/1970 12:00:00 AM', NULL, NULL)
+--INSERT INTO @VC3ETL_LoadTable VALUES ('1DEDF3D8-8DC1-4814-A683-DB6DC38CF721', '29d14961-928d-4bee-9025-238496d144c6', 996, 'LEGACYSPED.AfterImportCounts', NULL, 0, NULL, NULL, NULL, 4, 0, 0, 0, 1, NULL, NULL, NULL, 0, 0, '1/1/1970 12:00:00 AM', NULL, NULL)  --For ImportCounts after data conversion
+-- Form
 
 
 
