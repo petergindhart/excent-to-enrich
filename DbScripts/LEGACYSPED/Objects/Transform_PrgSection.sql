@@ -68,7 +68,7 @@ AS
 		ItemID = i.DestID,
 		DefID = d.ID,
 		VersionID = CASE WHEN t.CanVersion = 1 THEN i.VersionDestID ELSE CAST(NULL as uniqueidentifier) END,
-		FormInstanceID = cast(NULL as uniqueidentifier),
+		HeaderFormInstanceID = case when d.ID = '9AC79680-7989-4CC9-8116-1CCDB1D0AE5F' then tsvc.FormInstanceID else NULL end, 
 		i.DoNotTouch
 	FROM
 		LEGACYSPED.Transform_PrgIep i CROSS JOIN
@@ -80,7 +80,8 @@ AS
 			s.DefID = d.ID LEFT JOIN
 		LEGACYSPED.MAP_PrgSectionID_NonVersioned nvm ON
 			nvm.ItemID = i.DestID AND
-			nvm.DefID = d.ID
+			nvm.DefID = d.ID left join 
+		LEGACYSPED.Transform_IepServices tsvc on i.DestID = tsvc.ItemID
 GO
 --84588, 28 seconds
 -- after indexes :  4 seconds
