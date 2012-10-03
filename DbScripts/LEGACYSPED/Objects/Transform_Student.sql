@@ -102,7 +102,9 @@ AS
   LEGACYSPED.MAP_StudentRefID m on src.StudentRefID = m.StudentRefID LEFT JOIN
   dbo.Student t on m.DestID = t.ID left join 
   -- on subsequent imports, verify whether records associated with the manually entered student have been modified.  I don't remember why this was necessary.  the query below checks for existance of a non-converted iep.
-  PrgItem i on coalesce(sst.ID, sloc.ID, snam.ID, m.DestID) = i.StudentID and i.DefID = '8011D6A2-1014-454B-B83C-161CE678E3D3' left join 
+  PrgItem i on coalesce(sst.ID, sloc.ID, snam.ID, m.DestID) = i.StudentID and i.DefID = '8011D6A2-1014-454B-B83C-161CE678E3D3' and i.IsEnded = 0 
+	--and i.StudentID not in (select zb.StudentID from PrgItem zb where zb.DefID = '8011D6A2-1014-454B-B83C-161CE678E3D3' and zb.IsEnded = 0 group by zb.StudentID having count(*) > 1) 
+	and i.ID = (select zb.DestID from LEGACYSPED.MAP_IEPStudentRefID zb where iep.StudentRefID = zb.StudentRefID) left join -- ensure that we don't act on Converted IEPs created through the UI
 	( 
 	select s.StudentRefID, i.StudentID, ItemID = i.ID, i.InvolvementID, i.IsEnded, i.Revision
 	from PrgItem i join (select StudentID = b.ID, a.StudentRefID from LEGACYSPED.Student a join LEGACYSPED.StudentView b on (a.StudentLocalID = b.Number or a.StudentStateID = b.StudentStateID or a.Firstname = b.FirstName and a.LastName = b.LastName and a.Birthdate = b.DOB) and b.IsActive = 1) s on i.StudentID = s.StudentID -- if items are eliminated by join to Transform_Student not to worry, because we are not importing them anyway
