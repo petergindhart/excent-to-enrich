@@ -69,7 +69,8 @@ CreatedByID	varchar(36) NOT NULL,
 AgeGroup	varchar(3),
 LRECode	varchar(150),
 MinutesPerWeek	int,
-ConsentForServicesDate	datetime)
+ConsentForServicesDate	datetime,
+ServiceDeliveryStatement varchar(8000))
 
 insert @Transform_IepLeastRestrictiveEnvironment
 select * from LEGACYSPED.Transform_IepLeastRestrictiveEnvironment
