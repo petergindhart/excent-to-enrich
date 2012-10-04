@@ -1,4 +1,4 @@
-
+--#include Transform_IepServices.sql
 IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.Transform_Section') AND OBJECTPROPERTY(id, N'IsView') = 1)
 DROP VIEW LEGACYSPED.Transform_Section
 GO
@@ -68,7 +68,7 @@ AS
 		ItemID = i.DestID,
 		DefID = d.ID,
 		VersionID = CASE WHEN t.CanVersion = 1 THEN i.VersionDestID ELSE CAST(NULL as uniqueidentifier) END,
-		HeaderFormInstanceID = case when d.ID = '9AC79680-7989-4CC9-8116-1CCDB1D0AE5F' then tsvc.FormInstanceID else NULL end, 
+		FormInstanceID = case when d.ID = '9AC79680-7989-4CC9-8116-1CCDB1D0AE5F' then tsvc.FormInstanceID else NULL end, 
 		i.DoNotTouch
 	FROM
 		LEGACYSPED.Transform_PrgIep i CROSS JOIN
