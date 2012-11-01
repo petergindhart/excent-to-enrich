@@ -40,6 +40,8 @@ delete IepServicePlan where ID in (select ID from @services) ; print 'deleted Ie
 delete ServicePlan where ID in (select ID from @services) ; print 'deleted ServicePlan: '+convert(varchar(10), @@rowcount)
 -- from Pete
 
+delete itemrel from @item d join PrgItem item on d.ItemID = item.ID join PrgItemRel itemrel ON itemrel.ResultingItemID = item.ID  ; print 'deleted PrgItemRel: '+convert(varchar(10), @@rowcount)
+
 delete item from @item d join PrgItem item on d.ItemID = item.ID ; print 'deleted PrgItem: '+convert(varchar(10), @@rowcount)
 
 -- while this could be performed without a table variable, we are using one to simplify the query

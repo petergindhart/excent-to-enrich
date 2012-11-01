@@ -18,7 +18,8 @@ SELECT
 	CategoryID = mc.DestID, 
 	DirectID = t.DirectID, -- Imported at individual service level, not here
 	ExcludesID = t.ExcludesID, -- Imported individual service level, not here
-	ScheduleFreqOnly = ISNULL(t.ScheduleFreqOnly,0) -- we don't know this, so assume Time required.  Pete says:  True means when user adds a service for this definition on an IEP, they will only be prompted for frequency as a unit (times, Amount = 1), not time.  This was for Florida.
+	ScheduleFreqOnly = ISNULL(t.ScheduleFreqOnly,0), -- we don't know this, so assume Time required.  Pete says:  True means when user adds a service for this definition on an IEP, they will only be prompted for frequency as a unit (times, Amount = 1), not time.  This was for Florida.
+	UseServiceAmountRange = cast( 0 as bit)
 FROM 
 	LEGACYSPED.Transform_ServiceDef md left join -- should be 100% match
 	LEGACYSPED.SelectLists k on 
