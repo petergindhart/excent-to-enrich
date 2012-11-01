@@ -3,10 +3,23 @@
 
 
 
+if exists (select 1 from sys.schemas s join sys.objects o on s.schema_id = o.schema_id where s.name = 'LEGACYSPED' and o.name = 'MAP_AdminUnitID')
+drop table LEGACYSPED.MAP_AdminUnitID
+go
+
+create table LEGACYSPED.MAP_AdminUnitID (
+DestID uniqueidentifier not null
+)
+
+-- select * from OrgUnit where ParentID is null
+--this line may be different for every district!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+insert LEGACYSPED.MAP_AdminUnitID values ('6531EF88-352D-4620-AF5D-CE34C54A9F53') -- INSERT ONLY ONE RECORD INTO THIS TABLE!!!!!!!!!!!!!!!!!!!!!!
+-- INSERT ONLY ONE RECORD INTO THIS TABLE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+go
+
+
 -- OrgUnit 
-update ou set Number = '11' -- Collier County State Reporting DistrictID
--- select ou.*
-from (select top 1 OrgUnitID from School group by OrgUnitID order by count(*) desc) m join dbo.OrgUnit ou on m.OrgUnitID = ou.ID
+update ou set Number = '11' from OrgUnit ou where ID = '6531EF88-352D-4620-AF5D-CE34C54A9F53'
 go
 
 
@@ -72,165 +85,17 @@ END
 GO
 
 
--- Map_ServiceFrequencyID is created in the Transform script.
+if exists (select 1 from sys.schemas s join sys.objects o on s.schema_id = o.schema_id where s.name = 'LEGACYSPED' and o.name = 'SpedConversionWrapUp')
+drop procedure LEGACYSPED.SpedConversionWrapUp
+go
 
-/*
+create procedure LEGACYSPED.SpedConversionWrapUp
+as
+-- this should run for all districts in all states
+update d set IsReevaluationNeeded = 1, StartDate = dateadd(dd, -d.MaxDaysToComplete, dateadd(yy, -d.MaxYearsToComplete, getdate())) from PrgMilestoneDef d where d.ID in ('27C002AF-ED92-4152-8B8C-7CA1ADEA2C81', 'AC043E4C-55EC-4F10-BCED-7E9201D7D0E2')
 
-	In an effort to limit the number of files that needs to be touched for each new implementation of Enrich,
-	this file contains all district-specific ETL connfiguration.
-*/
+exec dbo.Util_VerifyProgramDataAssumptions 'F98A8EF2-98E2-4CAC-95AF-D7D89EF7F80C'
 
-/*
-	ServiceFrequency is part of seed data in Enrich.  Thus it must be hard-mapped.  
-	ServiceFrequency did not support hiding from UI at the time this code was written, so additional service frequencies are not supported.
-		For additional frequencies it may be possible to calculate the frequency based on an existing value 
-			i.e. 2 times Quarterly = 8 times yearly,  30 minutes per quarter = 2 hours per year or 120 minutes per year
-*/
-
--- collier is not importing services
---declare @Map_ServiceFrequencyID table (ServiceFrequencyCode varchar(30), ServiceFrequencyName varchar(50), DestID uniqueidentifier)
---set nocount on;
---insert @Map_ServiceFrequencyID values ('day', 'daily', '71590A00-2C40-40FF-ABD9-E73B09AF46A1')
---insert @Map_ServiceFrequencyID values ('week', 'weekly', 'A2080478-1A03-4928-905B-ED25DEC259E6')
---insert @Map_ServiceFrequencyID values ('month', 'monthly', '3D4B557B-0C2E-4A41-9410-BA331F1D20DD')
---insert @Map_ServiceFrequencyID values ('year', 'yearly', '5F3A2822-56F3-49DA-9592-F604B0F202C3')
---insert @Map_ServiceFrequencyID values ('ZZZ', 'unknown', 'C42C50ED-863B-44B8-BF68-B377C8B0FA95')
-
---if (select COUNT(*) from @Map_ServiceFrequencyID t join LEGACYSPED.MAP_ServiceFrequencyID m on t.DestID = m.DestID) <> 5
---	delete LEGACYSPED.MAP_ServiceFrequencyID
-
---set nocount off;
---insert LEGACYSPED.MAP_ServiceFrequencyID
---select m.ServiceFrequencyCode, m.ServiceFrequencyName, m.DestID
---from @Map_ServiceFrequencyID m left join
---	LEGACYSPED.MAP_ServiceFrequencyID t on m.DestID = t.DestID
---where t.DestID is null
-
----- this is seed data, but maybe this is not the best place for this code.....
---insert ServiceFrequency (ID, Name, Sequence, WeekFactor)
---select DestID, m.ServiceFrequencyName, 99, 0
---from LEGACYSPED.MAP_ServiceFrequencyID m left join
---	ServiceFrequency t on m.DestID = t.ID
---where t.ID is null
---GO
-
-
--- need this code to add cascade delete on FK_PrgIep_PrgItem until the build with this change makes production
-IF  EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'dbo.FK_PrgIep_PrgItem') AND parent_object_id = OBJECT_ID(N'dbo.PrgIep'))
-ALTER TABLE dbo.PrgIep DROP CONSTRAINT FK_PrgIep_PrgItem
 GO
-
-ALTER TABLE dbo.PrgIep  WITH CHECK ADD  CONSTRAINT FK_PrgIep_PrgItem FOREIGN KEY(ID)
-REFERENCES dbo.PrgItem (ID)
-      ON DELETE CASCADE
-GO
-
-ALTER TABLE dbo.PrgIep CHECK CONSTRAINT FK_PrgIep_PrgItem
-GO
-
-
-IF  EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'dbo.FK_PrgMatrixOfServices#InitiatingIep#') AND parent_object_id = OBJECT_ID(N'dbo.PrgMatrixOfServices'))
-ALTER TABLE dbo.PrgMatrixOfServices DROP CONSTRAINT FK_PrgMatrixOfServices#InitiatingIep#
-GO
-
-ALTER TABLE dbo.PrgMatrixOfServices  WITH CHECK ADD  CONSTRAINT FK_PrgMatrixOfServices#InitiatingIep# FOREIGN KEY(InitiatingIepID)
-REFERENCES dbo.PrgIep (ID)
-	ON DELETE CASCADE
-GO
-
-ALTER TABLE dbo.PrgMatrixOfServices CHECK CONSTRAINT FK_PrgMatrixOfServices#InitiatingIep#
-GO
-
-
--- drop objects no longer needed
-
--- Florida
--- Lee County School District
-
--- All MAP tables have been moved to the transform script files.  This file contains drop table statements for MAP tables that are no longer used.
-
--- #############################################################################
--- ServiceDef
-IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'AURORAX.Map_ServiceDefIDstatic') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
-	DROP TABLE AURORAX.Map_ServiceDefIDstatic
-GO
--- no longer used
-
--- #############################################################################
--- ExitReason
-IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'AURORAX.MAP_OutcomeID') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
-	DROP TABLE AURORAX.MAP_OutcomeID
-GO
--- we are using PrgStatus
-
--- #############################################################################
--- Service Location
-IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'AURORAX.MAP_ServiceLocationIDstatic') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
-	DROP TABLE AURORAX.MAP_ServiceLocationIDstatic
-GO
--- no longer used
-
--- #############################################################################
--- Service Location
-IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'AURORAX.MAP_ServiceLocationID') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
-	DROP TABLE AURORAX.MAP_ServiceLocationID
-GO
--- we are using PrgLocation
-
-
--- #############################################################################
--- School
-IF  EXISTS (SELECT 1 from sys.schemas s join sys.objects o on s.schema_id = o.schema_id where s.name = 'AURORAX' and o.name = 'MAP_SchoolView')
-	DROP VIEW AURORAX.MAP_SchoolView
-GO
--- no longer used
-
--- #############################################################################
--- ServiceDefID
-IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'AURORAX.Transform_ServiceDefID') AND OBJECTPROPERTY(id, N'IsView') = 1)
-DROP VIEW AURORAX.Transform_ServiceDefID
-GO
--- renamed this transform
-
-
-/*
-
-select 
-	PlacementTypeCode = k.SubType,
-	PlacementOptionCode = isnull(k.Code, convert(varchar(150), k.Label)), 
-	StateCode = k.StateCode, -- ??
-	DestID = coalesce(s.ID, t.ID, m.DestID),
-	TypeID = coalesce(s.TypeID, t.TypeID, my.DestID),
-	Sequence = coalesce(s.Sequence, t.Sequence, 99),
-	Text = coalesce(s.Text, t.Text, k.Label),
-	MinPercentGenEd = isnull(s.MinPercentGenEd, t.MinPercentGenEd),   
-	MaxPercentGenEd = isnull(s.MaxPercentGenEd, t.MaxPercentGenEd),   
-	DeletedDate = 
-			CASE 
-				WHEN s.ID IS NOT NULL THEN NULL -- Always show in UI where there is a StateID.  Period.
-				ELSE 
-					CASE WHEN k.DisplayInUI = 'Y' THEN NULL -- User specified they want to see this in the UI.  Let them.
-					ELSE GETDATE()
-					END
-			END 
-from 
-	LEGACYSPED.Lookups k LEFT JOIN
-	LEGACYSPED.MAP_IepPlacementTypeID my on k.SubType = my.PlacementTypeCode LEFT JOIN 
-	dbo.IepPlacementOption s on 
-		my.DestID = s.TypeID and
-		k.StateCode = s.StateCode LEFT JOIN 
-	LEGACYSPED.MAP_IepPlacementOptionID m on 
-		my.PlacementTypeCode = m.PlacementTypeCode and
-		isnull(k.Code, convert(varchar(150), k.label)) = m.PlacementOptionCode LEFT JOIN
-	dbo.IepPlacementOption t on m.DestID = t.ID
-where k.Type = 'LRE' and
-	k.SubType in ('PK', 'K12') 
-
-
-
-*/
-
-
-
 
 
