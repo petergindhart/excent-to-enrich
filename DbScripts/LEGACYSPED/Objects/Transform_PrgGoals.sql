@@ -7,7 +7,7 @@ AS
 	SELECT
 		iep.IepRefId,
 		DestID = sec.ID,
-		ReportFrequencyID = isnull(gs.ReportFrequencyID, 'A3FF9417-0899-42BE-8090-D1855D50612F'), -- if PrgGoals.ReportFrequencyID exists, we MUST keep it
+		ReportFrequencyID = isnull(pf.ID, 'A3FF9417-0899-42BE-8090-D1855D50612F'), -- if PrgGoals.ReportFrequencyID exists, we MUST keep it
 		UseProgressReporting = cast (1 as BIT),
 		iep.DoNotTouch
 	FROM
@@ -15,6 +15,10 @@ AS
 	PrgSection sec ON
 		sec.VersionID = iep.VersionDestID AND -- our map of PrgSection is using ItemID instead of VersionID.  Does that matter?
 		sec.DefID = '84E5A67D-CC9A-4D5B-A7B8-C04E8C3B8E0A' left join --IEP Goals
-	PrgGoals gs on sec.ID = gs.ID 
+	dbo.School h on iep.SchoolID = h.ID left join
+	LEGACYSPED.SchoolProgressFrequency sf on h.Number = sf.SchoolCode left join 
+	PrgGoalProgressFreq pf on sf.FrequencyName = pf.Name 
+	--left join
+	--PrgGoals gs on sec.ID = gs.ID  -- had considered using the target table freq, but it is often incorrect
 GO
 --
