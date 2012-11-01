@@ -17,7 +17,7 @@ update t set Code = e.Code
 from @Gender t join
 (select distinct DisplayValue, Code from EnumValue where Type = 'D6194389-17AC-494C-9C37-FD911DA2DD4B' and isnull(Code,'') <> '') e on t.DisplayValue = e.DisplayValue
 
-update t set Code = g.Code
+update t set Code = g.StateCode
 from @Gender g join
 EnumValue t on g.ID = t.ID
 
