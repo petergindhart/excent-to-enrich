@@ -12,7 +12,7 @@ CREATE TABLE LEGACYSPED.ProgressFrequencySchool_LOCAL(
 )
 GO
 
-Alter table LEGACYSPED.StaffSchool_LOCAL
+Alter table LEGACYSPED.ProgressFrequencySchool_LOCAL
 add constraint PK_ProgressFrequencySchool_LOCAL_SchoolCode primary key (SchoolCode)
 GO
 
