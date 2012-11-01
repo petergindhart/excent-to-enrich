@@ -41,7 +41,7 @@ AS
 		InstanceID = lre.DestID,
 		TypeID = pt.ID,
 		OptionID = case when po.TypeID = pt.ID then po.DestID else NULL End,
-		SourceID = '3C5BFC1F-B3E6-4E69-BC32-FCFBA2E8185E', -- StartDate:  Per Pete, use this in all cases as of 9/5/2012.  Pete will change 
+		SourceID = 'C9967875-E09B-4F3E-BE00-5BF2A97C7DAD', -- User Created:  Per Pete, use this in all cases as of 10/30/2012
 		AsOfDate = CASE
 			WHEN piep.StartDate >= DATEADD(YEAR, pt.MinAge, stu.DOB) THEN piep.StartDate
 			ELSE DATEADD(YEAR, pt.MinAge, stu.DOB)
