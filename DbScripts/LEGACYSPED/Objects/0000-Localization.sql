@@ -12,6 +12,7 @@
 --#include EvaluateIncomingItems.sql
 --#include Transform_PrgInvolvement.sql
 --#include Transform_PrgIep.sql
+--#include Transform_IepServices.sql
 --#include Transform_PrgSection.sql
 --#include Transform_PrgGoals.sql
 --#include Transform_PrgGoal.sql
