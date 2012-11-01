@@ -12,6 +12,7 @@ CREATE FUNCTION LEGACYSPED.Transform_IepPlacement_Function ()
 		AsOfDate datetime,
 		IsDecOneCount bit,
 		MinutesInstruction int,
+		UseLimitedValidation bit,
 		DoNotTouch bit
 	) AS  
 	BEGIN 
