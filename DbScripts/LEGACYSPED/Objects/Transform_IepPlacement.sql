@@ -48,7 +48,7 @@ AS
 			END,
 		IsDecOneCount = case when po.TypeID = pt.ID then 1 else 0 End,
 		MinutesInstruction = lre.MinutesInstruction,
-		UseLimitedValidation = (cast 1 as bit),
+		UseLimitedValidation = cast (1 as bit),
 		lre.DoNotTouch
 	FROM LEGACYSPED.Transform_IepLeastRestrictiveEnvironment lre JOIN -- left join resulted in more rows returned.  did not investigate.  gg
 		LEGACYSPED.Transform_IepPlacementOption po on 
