@@ -41,13 +41,14 @@ AS
 		InstanceID = lre.DestID,
 		TypeID = pt.ID,
 		OptionID = case when po.TypeID = pt.ID then po.DestID else NULL End,
-		SourceID = '3C5BFC1F-B3E6-4E69-BC32-FCFBA2E8185E', -- StartDate:  Per Pete, use this in all cases as of 9/5/2012
+		SourceID = '3C5BFC1F-B3E6-4E69-BC32-FCFBA2E8185E', -- StartDate:  Per Pete, use this in all cases as of 9/5/2012.  Pete will change 
 		AsOfDate = CASE
 			WHEN piep.StartDate >= DATEADD(YEAR, pt.MinAge, stu.DOB) THEN piep.StartDate
 			ELSE DATEADD(YEAR, pt.MinAge, stu.DOB)
 			END,
 		IsDecOneCount = case when po.TypeID = pt.ID then 1 else 0 End,
 		MinutesInstruction = lre.MinutesInstruction,
+		UseLimitedValidation = (cast 1 as bit),
 		lre.DoNotTouch
 	FROM LEGACYSPED.Transform_IepLeastRestrictiveEnvironment lre JOIN -- left join resulted in more rows returned.  did not investigate.  gg
 		LEGACYSPED.Transform_IepPlacementOption po on 
