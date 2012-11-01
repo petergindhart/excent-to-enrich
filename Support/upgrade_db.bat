@@ -41,7 +41,7 @@ if %1==DCB7 (
 goto :exit
 
 :end
-set connection="server=.;uid=%1_%state%_%speddistrict%_User;pwd=vc3go!!;database=Enrich_%1_%state%_%speddistrict%;Application Name=%1_%state%_%speddistrict%"
+set connection="server=.;uid=enrich_db_user;pwd=vc3go!!;database=Enrich_%1_%state%_%speddistrict%;Application Name=%1_%state%_%speddistrict%"
 
 echo %blank%
 rem echo DB Upgrade %state% %speddistrict%

@@ -21,6 +21,56 @@ END
 GO
 
 
+-- IEPStudent -- We will migrate away from LEGACYSPED.MAP_IepRefID.  Do not drop it until we populate the new map table with it.
+IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.MAP_IEPStudentRefID') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
+BEGIN
+CREATE TABLE LEGACYSPED.MAP_IEPStudentRefID
+(
+	IepRefID varchar(150) NOT NULL ,
+	StudentRefID varchar(150) not null,
+	DestID uniqueidentifier NOT NULL
+)
+
+ALTER TABLE LEGACYSPED.MAP_IEPStudentRefID ADD CONSTRAINT
+PK_MAP_IEPStudentRefID PRIMARY KEY CLUSTERED
+(
+	IepRefID
+)
+
+-- here were are transitioning from the old MAP_IEPRefID to the new MAP_IEPStudentRefID
+-- we insert the new map with the contents of the old map plus the StudentRefID
+-- objective of using studentrefid is to aid query performance where needed.
+-- it is assumed that there is a 1:1 relationship between students and IEPs
+-- after the first upgrade_db where this new map is implemented, the old map data will be present
+-- however, after the new source files are imported, and thus LEGACYSPED.IEP is populated with new data, the query below will return new rows that have not been inserted.
+-- but the script to insert the new map should only be run once ever, when the table is first created.
+if exists (select 1 from sys.schemas s join sys.objects o on s.schema_id = o.schema_id where s.name = 'LEGACYSPED' and o.name = 'Transform_PrgIep')
+begin
+	insert LEGACYSPED.MAP_IEPStudentRefID
+	select distinct m.IepRefID, s.StudentRefID, m.DestID
+	from LEGACYSPED.MAP_IepRefID m join --  we could have just used the transform, but using the MAP facilitates excluding NULLs
+	LEGACYSPED.Transform_PrgIep s on m.IepRefID = s.IepRefID left join  -- since this map table already exists, this is okay.
+	LEGACYSPED.MAP_IEPStudentRefID t on m.IepRefID = t.IepRefID
+	where t.IepRefID is null 
+end
+-- this was NULL during testing because we have already deleted some superfluous records from the map tables.  will need to test this after restore
+
+-- consider dropping MAP_IepRefID here.  There will be issues with existing views if this does not happen in the correct order.
+
+END
+
+if not exists (select 1 from sys.indexes where name = 'IX_LEGACYSPED_MAP_IEPStudentRefID_DestID')
+create nonclustered index IX_LEGACYSPED_MAP_IEPStudentRefID_DestID on LEGACYSPED.MAP_IEPStudentRefID (DestID)
+
+if not exists (select 1 from sys.indexes where name = 'IX_LEGACYSPED_MAP_IEPStudentRefID_StudentRefID')
+create nonclustered index IX_LEGACYSPED_MAP_IEPStudentRefID_StudentRefID on LEGACYSPED.MAP_IEPStudentRefID (StudentRefID)
+
+if not exists (select 1 from sys.indexes where name = 'IX_LEGACYSPED_MAP_IEPStudentRefID_IepRefID_StudentRefID')
+create nonclustered index IX_LEGACYSPED_MAP_IEPStudentRefID_IepRefID_StudentRefID on LEGACYSPED.MAP_IEPStudentRefID (IepRefID, StudentRefID)
+
+GO
+
+
 IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.Transform_Student') AND OBJECTPROPERTY(id, N'IsView') = 1)
 DROP VIEW LEGACYSPED.Transform_Student
 GO
@@ -65,14 +115,14 @@ AS
   LEGACYSPED.Transform_GradeLevel g on src.GradeLevelCode = g.GradeLevelCode LEFT JOIN
   LEGACYSPED.Transform_School sch on src.ServiceSchoolCode = sch.SchoolCode and src.ServiceDistrictCode = sch.DistrictCode LEFT JOIN
 
-  -- match on StateID if possible
- LEGACYSPED.StudentView sst on src.StudentStateID = sst.StudentStateID and
+ -- match on StateID if possible
+  LEGACYSPED.StudentView sst on isnull(src.StudentStateID,'x1') = isnull(sst.StudentStateID,'y1') and
  sst.ID = (
-  select top 1 a.ID 
+  select max(convert(varchar(36), a.ID))
   from LEGACYSPED.StudentView a 
   where
-   isnull(a.StudentStateID,'x') = isnull(sst.StudentStateID,'y')
-  order by a.ManuallyEntered, a.IsActive desc, a.ID) LEFT JOIN -- identifies students in legacy data that match students in Enrich
+ a.StudentStateID is not null and
+ a.StudentStateID = sst.StudentStateID) LEFT JOIN -- identifies students in legacy data that match students in Enrich
 
   -- match on Local ID if State ID not available
   dbo.Student sloc on src.StudentLocalID = sloc.Number and 
@@ -102,7 +152,9 @@ AS
   LEGACYSPED.MAP_StudentRefID m on src.StudentRefID = m.StudentRefID LEFT JOIN
   dbo.Student t on m.DestID = t.ID left join 
   -- on subsequent imports, verify whether records associated with the manually entered student have been modified.  I don't remember why this was necessary.  the query below checks for existance of a non-converted iep.
-  PrgItem i on coalesce(sst.ID, sloc.ID, snam.ID, m.DestID) = i.StudentID and i.DefID = '8011D6A2-1014-454B-B83C-161CE678E3D3' left join 
+  PrgItem i on coalesce(sst.ID, sloc.ID, snam.ID, m.DestID) = i.StudentID and i.DefID = '8011D6A2-1014-454B-B83C-161CE678E3D3' and i.IsEnded = 0 
+	--and i.StudentID not in (select zb.StudentID from PrgItem zb where zb.DefID = '8011D6A2-1014-454B-B83C-161CE678E3D3' and zb.IsEnded = 0 group by zb.StudentID having count(*) > 1) 
+	and i.ID = (select zb.DestID from LEGACYSPED.MAP_IEPStudentRefID zb where iep.StudentRefID = zb.StudentRefID) left join -- ensure that we don't act on Converted IEPs created through the UI
 	( 
 	select s.StudentRefID, i.StudentID, ItemID = i.ID, i.InvolvementID, i.IsEnded, i.Revision
 	from PrgItem i join (select StudentID = b.ID, a.StudentRefID from LEGACYSPED.Student a join LEGACYSPED.StudentView b on (a.StudentLocalID = b.Number or a.StudentStateID = b.StudentStateID or a.Firstname = b.FirstName and a.LastName = b.LastName and a.Birthdate = b.DOB) and b.IsActive = 1) s on i.StudentID = s.StudentID -- if items are eliminated by join to Transform_Student not to worry, because we are not importing them anyway

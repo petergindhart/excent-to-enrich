@@ -2,34 +2,7 @@
 IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.Transform_Section') AND OBJECTPROPERTY(id, N'IsView') = 1)
 DROP VIEW LEGACYSPED.Transform_Section
 GO
--- ############################################################################# 
--- Section
-IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.MAP_PrgSectionID') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
-BEGIN
-CREATE TABLE LEGACYSPED.MAP_PrgSectionID
-(
-	DefID uniqueidentifier NOT NULL,
-	VersionID uniqueidentifier NOT NULL,
-	DestID uniqueidentifier NOT NULL
-)
 
-ALTER TABLE LEGACYSPED.MAP_PrgSectionID ADD CONSTRAINT
-PK_MAP_PrgSectionID PRIMARY KEY CLUSTERED
-(
-	DefID, VersionID
-)
-END
-
-if not exists (select 1 from sys.indexes where name = 'IX_LEGACYSPED_MAP_PrgSectionID_DestID')
-CREATE NONCLUSTERED INDEX IX_LEGACYSPED_MAP_PrgSectionID_DestID ON [LEGACYSPED].[MAP_PrgSectionID] ([DestID])
-
-if not exists (select 1 from sys.indexes where name = 'IX_LEGACYSPED_MAP_PrgSectionID_DefID_DestID')
-CREATE NONCLUSTERED INDEX  IX_LEGACYSPED_MAP_PrgSectionID_DefID_DestID ON [LEGACYSPED].[MAP_PrgSectionID] ([DefID],[DestID])
-
-if not exists (select 1 from sys.indexes where name = 'IX_LEGACYSPED_PrgSection_DefID')
-CREATE NONCLUSTERED INDEX  IX_LEGACYSPED_PrgSection_DefID ON [dbo].[PrgSection] ([DefID]) INCLUDE ([VersionID])
-
-GO
 
 -- ############################################################################# 
 -- Section
@@ -68,9 +41,7 @@ AS
 		ItemID = i.DestID,
 		DefID = d.ID,
 		VersionID = CASE WHEN t.CanVersion = 1 THEN i.VersionDestID ELSE CAST(NULL as uniqueidentifier) END,
-		FormInstanceID = CAST(NULL as uniqueidentifier),
-		HeaderFormInstanceID = CAST(NULL as uniqueidentifier),
-		--HeaderFormInstanceID = case when d.ID = '9AC79680-7989-4CC9-8116-1CCDB1D0AE5F' then tsvc.FormInstanceID else NULL end, 
+		FormInstanceID = case when d.ID = '9AC79680-7989-4CC9-8116-1CCDB1D0AE5F' then tsvc.FormInstanceID else NULL end, 
 		i.DoNotTouch
 	FROM
 		LEGACYSPED.Transform_PrgIep i CROSS JOIN
@@ -82,8 +53,8 @@ AS
 			s.DefID = d.ID LEFT JOIN
 		LEGACYSPED.MAP_PrgSectionID_NonVersioned nvm ON
 			nvm.ItemID = i.DestID AND
-			nvm.DefID = d.ID --left join 
-		--LEGACYSPED.Transform_IepServices tsvc on i.DestID = tsvc.ItemID
+			nvm.DefID = d.ID left join 
+		LEGACYSPED.Transform_IepServices tsvc on i.DestID = tsvc.ItemID
 GO
 --84588, 28 seconds
 -- after indexes :  4 seconds

@@ -469,7 +469,7 @@ and h.GradeLevelID is null
 
 -- break the association between the mosratingdef and iepgoalareas that will be deleted.  is this okay?
 update dbo.MosRatingDef set IepGoalAreaDefID = NULL where IepGoalAreaDefID in (select ID from dbo.IepGoalAreaDef where DeletedDate is not null ) -- is this okay?
-delete dbo.IepGoalAreaDef where DeletedDate is not null -- 
+--delete dbo.IepGoalAreaDef where DeletedDate is not null -- 
 
 
 
@@ -686,7 +686,7 @@ select 'truncate table '+s.name+'.'+o.name
 from sys.schemas s join
 sys.objects o on s.schema_id = o.schema_id
 where s.name in ('LEGACYSPED', 'SPEDDOC')
-and o.type in ('U') 
+and o.type in ('U')  and o.Name not in ('LEGACYSPED.ImportDetails', 'LEGACYSPED.ImportCountLog', 'LEGACYSPED.ImportDataLog')
 order by s.name, case o.Type when 'P' then 0 when 'V' then 1 when 'U' then 2 end
 
 open D
@@ -724,7 +724,7 @@ and StartTime is null
 declare @o varchar(100), @ut char(1), @n varchar(5), @q varchar(max); select @n = '
 '
 declare O cursor for 
-select o.name, o.type from sys.schemas s join sys.objects o on s.schema_id = o.schema_id where s.name = 'LEGACYSPED' and o.type in ('U', 'V') order by o.type desc, o.name
+select o.name, o.type from sys.schemas s join sys.objects o on s.schema_id = o.schema_id where s.name = 'LEGACYSPED' and o.type in ('U', 'V') and o.Name not in ('LEGACYSPED.ImportDetails', 'LEGACYSPED.ImportCountLog', 'LEGACYSPED.ImportDataLog') order by o.type desc, o.name
 
 open O
 fetch O into @o, @ut

@@ -1,4 +1,6 @@
 
+
+-- note:  the hard-coded values below need to be replaced with values in a lookup table in the LOCALIZATION file: 0002-Prep_District.sql
 IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.Transform_StudentRace') AND OBJECTPROPERTY(id, N'IsView') = 1)
 DROP VIEW LEGACYSPED.Transform_StudentRace  
 GO
