@@ -333,7 +333,14 @@ delete x
 	-- select x.*
 	from @delstudents n join
 	MedicaidAuthorization x on n.StudentID = x.StudentID
-
+	
+delete x
+	-- select x.*
+	from @delstudents n join
+	MedicaidEligibilityHistory x on n.StudentID = x.StudentID
+	
+--Msg 547, Level 16, State 0, Line 338
+--The DELETE statement conflicted with the REFERENCE constraint "FK_MedicaidEligibilityHistory#Student#MedicaidEligibilityHistories". The conflict occurred in database "Enrich_DCB3_ID_MultiDistrict", table "dbo.MedicaidEligibilityHistory", column 'StudentID'.
 
 	delete x
 	-- select x.*
