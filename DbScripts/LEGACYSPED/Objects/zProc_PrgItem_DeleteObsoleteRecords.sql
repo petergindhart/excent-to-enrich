@@ -41,6 +41,7 @@ delete ServicePlan where ID in (select ID from @services) ; print 'deleted Servi
 -- from Pete
 
 delete itemrel from @item d join PrgItem item on d.ItemID = item.ID join PrgItemRel itemrel ON itemrel.ResultingItemID = item.ID  ; print 'deleted PrgItemRel: '+convert(varchar(10), @@rowcount)
+delete doc from @item d join PrgDocument doc on d.ItemID = doc.ItemID ; print 'deleted PrgDocument: '+convert(varchar(10), @@rowcount)
 
 delete item from @item d join PrgItem item on d.ItemID = item.ID ; print 'deleted PrgItem: '+convert(varchar(10), @@rowcount)
 
