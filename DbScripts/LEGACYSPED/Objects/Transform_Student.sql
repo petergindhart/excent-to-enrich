@@ -108,7 +108,7 @@ AS
   ImportPausedByID = cast(NULL as uniqueidentifier),
   IsActive = coalesce(sst.IsActive, sloc.IsActive, 1),
   ManuallyEntered = ISNULL(m.LegacyData, case when coalesce(sst.ID, sloc.ID, snam.ID, m.DestID) IS NULL then 1 else 0 end), -- cast(case when dest.ID is null then 1 else 0 end as bit),
-  Touched = isnull(cast(i.IsEnded as int)+i.Revision+ case when i.StudentID is not null then 1 else 0 end, 0) -- what is the purpose of this?  gg 20120618
+  Touched = isnull(cast(i.IsEnded as int)+i.Revision/* + case when i.StudentID is not null then 1 else 0 end*/, 0) -- what is the purpose of this?  gg 20120618 
  FROM
   LEGACYSPED.IEP iep join -- this is to ensure a 1:1 relationship on imported students and IEPs (some IEPs may have failed vailidation.  avoid importing Student without IEP).
   LEGACYSPED.Student src on iep.StudentRefID = src.StudentRefID LEFT JOIN
