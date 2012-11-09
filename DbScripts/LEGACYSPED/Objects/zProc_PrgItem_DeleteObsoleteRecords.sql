@@ -74,6 +74,8 @@ delete m from LEGACYSPED.MAP_IepGoalAreaDefID m left join IepGoalAreaDef x on m.
 delete m from LEGACYSPED.MAP_IepGoalArea m left join IepGoalArea x on m.DestID = x.ID where x.ID is null ; print 'deleted MAP_IepGoalArea: '+convert(varchar(10), @@rowcount)
 delete m from LEGACYSPED.MAP_PrgGoalID m left join PrgGoal x on m.DestID = x.ID where x.ID is null ; print 'deleted MAP_PrgGoalID: '+convert(varchar(10), @@rowcount)
 delete m from LEGACYSPED.MAP_PrgGoalObjectiveID m left join PrgGoal x on m.DestID = x.ID where x.ID is null ; print 'deleted MAP_PrgGoalObjectiveID: '+convert(varchar(10), @@rowcount)
+delete m from LEGACYSPED.MAP_StudentRefID m left join dbo.Student s on m.DestID = s.ID where s.ID is null ; print 'deleted MAP_StudentRefID: '+convert(varchar(10), @@rowcount)
+
 
 go
 
