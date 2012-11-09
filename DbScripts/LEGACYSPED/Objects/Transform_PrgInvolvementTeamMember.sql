@@ -35,5 +35,5 @@ FROM
       LEGACYSPED.MAP_SpedStaffMemberView staff on staff.StaffEmail = team.StaffEmail  JOIN
       UserProfile u on u.ID = staff.UserProfileID left join 
 	  LEGACYSPED.MAP_PrgInvolvementTeamMemberID mp ON mp.StudentRefId =team.StudentRefId and mp.StaffEmail = team.StaffEmail
-	  
-	  
+Where i.ExistingInvolvementID is not null
+GO
