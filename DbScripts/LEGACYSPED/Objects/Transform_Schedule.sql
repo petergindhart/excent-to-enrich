@@ -30,8 +30,8 @@ AS
   LastOccurrence = cast(NULL as datetime), 
   IsEnabled = cast(1 as bit), 
   -- schedule frequency is static in Enrich
-  FrequencyID = '634EA996-D5FF-4A4A-B169-B8CB70DBBEC2', 
-  FrequencyAmount = cast(v.ServiceTime as int), 
+  FrequencyID = cast(case when isnull(v.ServiceTime,0) < 1 then NULL else '634EA996-D5FF-4A4A-B169-B8CB70DBBEC2' end as uniqueidentifier), -- weekly
+  FrequencyAmount = cast(case when isnull(v.ServiceTime,0) < 1 then 0 else v.ServiceTime end as int), -- For FrequencyID and FrequencyAmount see change script 2023-CorrectConvertedIepServiceSchedules.sql
   WeeklyMon = cast(0 as bit),
   WeeklyTue = cast(0 as bit),
   WeeklyWed = cast(0 as bit),
