@@ -27,6 +27,7 @@ where iep.IEPRefID is null
 	and item.Revision = 0
 	and item.IsApprovalPending = 0 
 	and v.IsApprovalPending = 0 -- I don't know how this would be incremented for a converted iep, but...
+	and item.ID not in (select i.ID from PrgItem i join PrgSection s on i.ID = s.ItemID join IepServicePlan isp on s.ID = isp.InstanceID join ServiceDeliveryStudent sds on isp.ID = sds.PlanID) 
 
 -- do not touch items associated with ended milestones 
 delete d from @item d join PrgSection s on d.ItemID = s.ItemID join PrgMilestone ms on s.ID = ms.EndingSectionID
@@ -41,6 +42,12 @@ delete ServicePlan where ID in (select ID from @services) ; print 'deleted Servi
 -- from Pete
 
 delete itemrel from @item d join PrgItem item on d.ItemID = item.ID join PrgItemRel itemrel ON itemrel.ResultingItemID = item.ID  ; print 'deleted PrgItemRel: '+convert(varchar(10), @@rowcount)
+
+delete doc from PrgDocument doc join PrgVersion v on doc.VersionId = v.ID join @item item on v.ItemID = item.ItemID
+
+update PrgSection set FormInstanceID = NULL where FormInstanceID in (select ID from PrgItemForm form join @item item on form.ItemID = item.ItemID) -- update it here and lete the item delete cascade to this record
+
+delete form from PrgItemForm form join @item item on form.ItemID = item.ItemID
 
 delete item from @item d join PrgItem item on d.ItemID = item.ID ; print 'deleted PrgItem: '+convert(varchar(10), @@rowcount)
 
