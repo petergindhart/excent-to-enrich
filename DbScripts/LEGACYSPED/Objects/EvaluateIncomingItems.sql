@@ -158,7 +158,7 @@ select distinct -- we are seeing
 	InvolvementEndDate = cast(case when ts.SpecialEdStatus = 'I' then gci.IEPEndDate else case when xp.EndDate > getdate() then NULL else xp.EndDate end end as datetime), -- reset to NULL if inv.EndDate is future.  This will be used in Transform_PrgInvolvement
 -- Item
 	ExistingIEPRefID = xcm.IepRefID, 
-	IncomingIEPRefID = gci.IepRefID, Incoming = case when gci.IepRefID is null then 0 else 1 end, 
+	IncomingIEPRefID = gci.IepRefID, Incoming = case when gci.IepRefID is null then 0 else 1 end, IncomingIsOlder = case when convert(datetime, gci.IEPStartDate) < convert(datetime,xci.StartDate) then 1 else 0 end,
 -- Exsting Converted
 	ExistingConvertedItemID = xcm.DestID, ExistingConvertedVersionID = xcv.DestID, ExistingConvertedItemIsEnded = xci.IsEnded, 
 -- Exsting Non-Converted
