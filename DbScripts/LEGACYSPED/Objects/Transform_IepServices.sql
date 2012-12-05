@@ -133,6 +133,7 @@ AS
 		LEGACYSPED.MAP_FormInstance_Services mfi on iep.IepRefID = mfi.IEPRefID left join 
 		LEGACYSPED.MAP_FormInstanceInterval_Services mfii on iep.IepRefID = mfii.IepRefID left join 
 		LEGACYSPED.MAP_FormInputValue_Services mfiv on iep.IepRefID = mfiv.IepRefID 
+	WHERE iep.DoNotTouch = 0
 GO
 --
 
