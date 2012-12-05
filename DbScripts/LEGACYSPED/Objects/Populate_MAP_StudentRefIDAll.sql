@@ -1,4 +1,4 @@
-IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.MAP_StudentRefID') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
+IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.MAP_StudentRefIDAll') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
 BEGIN
 create table LEGACYSPED.MAP_StudentRefIDAll (
 StudentRefID varchar(150) not null,
@@ -24,9 +24,10 @@ go
 create proc LEGACYSPED.Populate_MAP_StudentRefIDAll 
 as
 insert LEGACYSPED.MAP_StudentRefIDAll
-select t.StudentRefID, t.DestID 
+select distinct t.StudentRefID, t.DestID 
 from LEGACYSPED.Transform_Student t left join
-LEGACYSPED.MAP_StudentRefIDAll m on t.StudentRefID = m.StudentRefID and
-	t.DestID = m.DestID -- ?????
+LEGACYSPED.MAP_StudentRefIDAll m on t.StudentRefID = m.StudentRefID 
+--and
+--	t.DestID = m.DestID -- ?????
 where m.DestID is null
 go
