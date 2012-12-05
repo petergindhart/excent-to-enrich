@@ -1,22 +1,22 @@
-IF  EXISTS (SELECT 1 FROM sys.objects WHERE object_id = OBJECT_ID(N'LEGACYSPED.ProgressFrequencySchool_LOCAL') AND type in (N'U'))
-DROP TABLE LEGACYSPED.ProgressFrequencySchool_LOCAL
+IF  EXISTS (SELECT 1 FROM sys.objects WHERE object_id = OBJECT_ID(N'LEGACYSPED.SchoolProgressFrequency_LOCAL') AND type in (N'U'))
+DROP TABLE LEGACYSPED.SchoolProgressFrequency_LOCAL
 GO
 
-IF  EXISTS (SELECT 1 FROM sys.views WHERE object_id = OBJECT_ID(N'LEGACYSPED.ProgressFrequencySchool'))
-DROP VIEW LEGACYSPED.ProgressFrequencySchool
+IF  EXISTS (SELECT 1 FROM sys.views WHERE object_id = OBJECT_ID(N'LEGACYSPED.SchoolProgressFrequency'))
+DROP VIEW LEGACYSPED.SchoolProgressFrequency
 GO
 
-CREATE TABLE LEGACYSPED.ProgressFrequencySchool_LOCAL(
+CREATE TABLE LEGACYSPED.SchoolProgressFrequency_LOCAL(
   SchoolCode	varchar(10)     not null,
   FrequencyName	varchar(50)		not null
 )
 GO
 
-Alter table LEGACYSPED.ProgressFrequencySchool_LOCAL
-add constraint PK_ProgressFrequencySchool_LOCAL_SchoolCode primary key (SchoolCode)
+Alter table LEGACYSPED.SchoolProgressFrequency_LOCAL
+add constraint PK_SchoolProgressFrequency_LOCAL_SchoolCode primary key (SchoolCode)
 GO
 
-CREATE VIEW LEGACYSPED.ProgressFrequencySchool
+CREATE VIEW LEGACYSPED.SchoolProgressFrequency
 AS
- SELECT * FROM LEGACYSPED.ProgressFrequencySchool_LOCAL
+ SELECT * FROM LEGACYSPED.SchoolProgressFrequency_LOCAL
 GO
