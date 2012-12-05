@@ -45,6 +45,8 @@ ALTER TABLE LEGACYSPED.MAP_FormInstance_Services ADD CONSTRAINT
 	IepRefID
 	)
 END
+if not exists (select 1 from sys.indexes where name = 'IX_LEGACYSPED_MAP_FormInstance_Services_DestID')
+create index IX_LEGACYSPED_MAP_FormInstance_Services_DestID on LEGACYSPED.MAP_FormInstance_Services (DestID)
 GO
 
 -- #############################################################################
@@ -63,6 +65,8 @@ ALTER TABLE LEGACYSPED.MAP_FormInstanceInterval_Services ADD CONSTRAINT
 	IepRefID
 	)
 END
+if not exists (select 1 from sys.indexes where name = 'IX_LEGACYSPED_MAP_FormInstanceInterval_Services_DestID')
+create index IX_LEGACYSPED_MAP_FormInstanceInterval_Services_DestID on LEGACYSPED.MAP_FormInstanceInterval_Services (DestID)
 GO
 
 
@@ -129,7 +133,7 @@ AS
 		LEGACYSPED.MAP_FormInstance_Services mfi on iep.IepRefID = mfi.IEPRefID left join 
 		LEGACYSPED.MAP_FormInstanceInterval_Services mfii on iep.IepRefID = mfii.IepRefID left join 
 		LEGACYSPED.MAP_FormInputValue_Services mfiv on iep.IepRefID = mfiv.IepRefID 
-	where iep.DoNotTouch = 0
+	WHERE iep.DoNotTouch = 0
 GO
 --
 
