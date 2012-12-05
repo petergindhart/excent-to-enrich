@@ -20,6 +20,9 @@ CREATE NONCLUSTERED INDEX IX_LEGACYSPED_Person_TypeID_Deleted_EmailAddress ON [d
 
 if not exists (select 1 from sys.indexes where name = 'IX_LEGACYSPED_Service_LOCAL_IepRefID')
 CREATE NONCLUSTERED INDEX IX_LEGACYSPED_Service_LOCAL_IepRefID ON [LEGACYSPED].[Service_LOCAL] ([IepRefId]) INCLUDE ([ServiceType],[ServiceRefId],[ServiceDefinitionCode],[ServiceLocationCode],[ServiceProviderTitleCode],[ServiceFrequencyCode],[StaffEmail])
+
+if not exists (select 1 from sys.indexes where name = 'IX_LEGACYSPED_MAP_ServicePlanID_DestID')
+create index IX_LEGACYSPED_MAP_ServicePlanID_DestID on LEGACYSPED.MAP_ServicePlanID (DestID)
 GO
 
 IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.Transform_IepService') AND OBJECTPROPERTY(id, N'IsView') = 1)
@@ -55,13 +58,13 @@ select
 	DirectID = case when IsDirect = 'Y' then 'A7061714-ADA3-44F7-8329-159DD4AE2ECE' else '1A8BF908-E3ED-45B0-8EEC-99CB1AD0806F' end, -- A7061714-ADA3-44F7-8329-159DD4AE2ECE	Direct, 1A8BF908-E3ED-45B0-8EEC-99CB1AD0806F	Indirect
 	ExcludesID = case when ExcludesFromGenEd = 'Y' then '493713FB-6071-42D4-B46A-1B09037C1F8B' else '235C3167-A3E6-4D1D-8AAB-0B2B57FD5160' end, -- 235C3167-A3E6-4D1D-8AAB-0B2B57FD5160	Inside, 493713FB-6071-42D4-B46A-1B09037C1F8B	Outside
 	EsyID = case when IsEsy = 'Y' then 'B76DDCD6-B261-4D46-A98E-857B0A814A0C' else 'F7E20A86-2709-4170-9810-15B601C61B79' end, -- F7E20A86-2709-4170-9810-15B601C61B79	N, B76DDCD6-B261-4D46-A98E-857B0A814A0C	Y
-	DeliveryStatement = v.ServiceAreaText,
+	DeliveryStatement = v.ServiceAreaText
 -- ServiceSchedule
-	ServiceSchedueDestID = ssm.DestID,
-	ProviderID = prv.UserProfileID,
-	Name = CAST(null as varchar),
-	LocationId = loc.DestID,
-	LocationDescription = loc.Name 
+	--ServiceSchedueDestID = ssm.DestID,
+	--ProviderID = prv.UserProfileID,
+	--Name = CAST(null as varchar),
+	--LocationId = loc.DestID,
+	--LocationDescription = loc.Name 
 FROM
 	LEGACYSPED.Transform_PrgIep iep JOIN
 	PrgSection sec ON
@@ -73,13 +76,13 @@ FROM
 	LEGACYSPED.Transform_ServiceDef sdm on 
 		v.ServiceType = isnull(sdm.ServiceCategoryCode,'') AND
 		v.ServiceDefinitionCode = isnull(sdm.ServiceDefCode, 'ZZZ') LEFT JOIN
-	LEGACYSPED.Transform_PrgLocation loc on v.ServiceLocationCode = loc.ServiceLocationCode LEFT JOIN 
+	--LEGACYSPED.Transform_PrgLocation loc on v.ServiceLocationCode = loc.ServiceLocationCode LEFT JOIN 
 	LEGACYSPED.Transform_ServiceFrequency freq on isnull(v.ServiceFrequencyCode, 'ZZZ') = freq.ServiceFrequencyCode LEFT JOIN 
  	LEGACYSPED.Transform_ServiceProviderTitle ttl on v.ServiceProviderTitleCode = ttl.ServiceProviderCode and
  		cast(case when ttl.DeletedDate is null then 0 else 1 end as Int) = (
  			select min(cast(case when ttlt.DeletedDate is null then 0 else 1 end as Int)) from ServiceProviderTitle ttlt where ttl.Name = ttlt.Name) LEFT JOIN
- 	LEGACYSPED.Transform_IepServiceCategory cat on isnull(cat.ServiceCategoryCode,'x') = isnull(v.ServiceType,'y') LEFT JOIN
-	LEGACYSPED.MAP_ScheduleID ssm on v.ServiceRefID = ssm.ServiceRefID LEFT JOIN
-	LEGACYSPED.MAP_SpedStaffMemberView prv on isnull(v.StaffEmail,'') = prv.StaffEmail
+ 	LEGACYSPED.Transform_IepServiceCategory cat on isnull(cat.ServiceCategoryCode,'x') = isnull(v.ServiceType,'y')-- LEFT JOIN
+	--LEGACYSPED.MAP_ScheduleID ssm on v.ServiceRefID = ssm.ServiceRefID LEFT JOIN
+	--LEGACYSPED.MAP_SpedStaffMemberView prv on isnull(v.StaffEmail,'') = prv.StaffEmail
 GO
 --- 
