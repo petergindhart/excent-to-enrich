@@ -200,7 +200,7 @@ from
 -- EXISTING non-conveted ITEM (IEP)
 	( 
 	select s.StudentRefID, i.StudentID, ItemID = i.ID, i.InvolvementID, i.IsEnded
-	from PrgItem i join LEGACYSPED.Transform_Student s on i.StudentID = s.DestID -- if items are eliminated by join to Transform_Student not to worry, because we are not importing them anyway
+	from PrgItem i join LEGACYSPED.MAP_StudentRefIDAll s on i.StudentID = s.DestID -- if items are eliminated by join to Transform_Student not to worry, because we are not importing them anyway
 	where i.ID = (
 		select max(convert(varchar(36), i2.ID)) -- we are arbitrarily selecting only one of the non-converted items of type "IEP", because we just need to know if one exists
 		from (select i3.ID, i3.StudentID from PrgItem i3 join PrgItemDef d3 on i3.DefID = d3.ID join PrgInvolvement v3 on i3.InvolvementID = v3.ID where d3.TypeID = 'A5990B5E-AFAD-4EF0-9CCA-DC3685296870' and i3.DefID <> '8011D6A2-1014-454B-B83C-161CE678E3D3' and v3.EndDate is null) i2 -- TypeID = IEP, non-converted
