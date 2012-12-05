@@ -9,6 +9,7 @@
 --#include Transform_School.sql
 --#include Transform_GradeLevel.sql
 --#include Transform_Student.sql
+--#include Populate_MAP_StudentRefIDAll.sql
 --#include EvaluateIncomingItems.sql
 --#include Transform_PrgInvolvement.sql
 --#include Transform_PrgIep.sql
