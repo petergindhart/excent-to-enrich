@@ -30,18 +30,28 @@ where iep.IEPRefID is null
 
 -- do not touch items associated with ended milestones 
 delete d from @item d join PrgSection s on d.ItemID = s.ItemID join PrgMilestone ms on s.ID = ms.EndingSectionID
-
+--FK_IepService#Instance#ServicePlans
 -- from Pete
 declare @services table (ID uniqueidentifier) 
 insert @services 
-select isp.ID from @item item join PrgSection sec on item.ItemID = sec.ItemID join IepServicePlan isp on sec.ID = isp.InstanceID
+select isp.ID 
+from @item item join PrgSection sec on item.ItemID = sec.ItemID join IepServicePlan isp on sec.ID = isp.InstanceID 
+--where isp.ID not in (Select PlanID from ServiceDeliveryStudent where PlanID is not null)
 
+delete v from IepServices v where v.ID in (select distinct s.ID from @services s ) ; print 'deleted IepServices: '+convert(varchar(10), @@rowcount)
+delete sds from ServiceDeliveryStudent sds join Serviceplan sp ON sp.ID = sds.PlanID Where Sp.ID in (select ID from @services) ; print 'deleted ServiceDeliveryStudent: '+convert(varchar(10), @@rowcount)
 delete IepServicePlan where ID in (select ID from @services) ; print 'deleted IepServicePlan: '+convert(varchar(10), @@rowcount)
 delete ServicePlan where ID in (select ID from @services) ; print 'deleted ServicePlan: '+convert(varchar(10), @@rowcount)
 -- from Pete
-
+/*
+Msg 547, Level 16, State 0, Line 38
+The DELETE statement conflicted with the REFERENCE constraint "FK_PrgSection#FormInstance#". The conflict occurred in database "Enrich_DCB8_CO_Douglas", table "dbo.PrgSection", column 'FormInstanceID'.
+*/
+delete sec from FormInstance ins join PrgSection sec on sec.FormInstanceID =ins.Id join @item i on i.ItemID = sec.ItemID ; print 'deleted PrgSection: '+convert(varchar(10), @@rowcount)
+delete ins from FormInstance ins join PrgSection sec on sec.FormInstanceID =ins.Id join @item i on i.ItemID = sec.ItemID ; print 'deleted FormInstance: '+convert(varchar(10), @@rowcount)
 delete itemrel from @item d join PrgItem item on d.ItemID = item.ID join PrgItemRel itemrel ON itemrel.ResultingItemID = item.ID  ; print 'deleted PrgItemRel: '+convert(varchar(10), @@rowcount)
 delete doc from @item d join PrgDocument doc on d.ItemID = doc.ItemID ; print 'deleted PrgDocument: '+convert(varchar(10), @@rowcount)
+delete itform from @item d join PrgItemform itform on d.ItemID = itform.ItemID ; print 'deleted PrgItemform: '+convert(varchar(10), @@rowcount)
 
 delete item from @item d join PrgItem item on d.ItemID = item.ID ; print 'deleted PrgItem: '+convert(varchar(10), @@rowcount)
 
