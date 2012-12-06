@@ -43,7 +43,7 @@ AS
  FROM
   LEGACYSPED.Service v LEFT JOIN
   LEGACYSPED.MAP_ScheduleID m on v.ServiceRefID = m.ServiceRefID LEFT JOIN
-  LEGACYSPED.MAP_ServiceFrequencyID mf on isnull(v.ServiceFrequencyCode, 'ZZZ') = mf.ServiceFrequencyCode left join -- select * from  LEGACYSPED.MAP_ScheduleFrequencyID
+  LEGACYSPED.MAP_ServiceFrequencyID mf on isnull(v.ServiceFrequencyCode, 'ZZZ') = mf.ServiceFrequencyCode left join -- select * from  LEGACYSPED.MAP_ServiceFrequencyID
   dbo.Schedule sched on m.DestID = sched.ID
 GO
 --
