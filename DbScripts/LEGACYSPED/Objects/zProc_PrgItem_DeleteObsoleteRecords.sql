@@ -60,6 +60,8 @@ update PrgSection set FormInstanceID = NULL where FormInstanceID in (select ID f
 
 delete form from PrgItemForm form join @item item on form.ItemID = item.ItemID
 
+delete att from @item d join PrgItem item on d.ItemID = item.ID join PrgVersion ver on item.ID = ver.ItemID join Attachment att on ver.ID = att.VersionID ; print 'deleted Attachment: '+convert(varchar(10), @@rowcount)
+
 delete item from @item d join PrgItem item on d.ItemID = item.ID ; print 'deleted PrgItem: '+convert(varchar(10), @@rowcount)
 
 -- while this could be performed without a table variable, we are using one to simplify the query
