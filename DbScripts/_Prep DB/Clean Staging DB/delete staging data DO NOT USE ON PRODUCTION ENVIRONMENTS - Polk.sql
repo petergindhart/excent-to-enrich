@@ -943,5 +943,33 @@ commit tran
 
 --dbcc opentran()
 
+go
+
+declare @t varchar(100), @q varchar(max)
+declare T cursor for 
+select DestTable from VC3ETL.LoadTable where ExtractDatabase = '29D14961-928D-4BEE-9025-238496D144C6' and DestTable is not null and DestTable not like 'LEGACYSPED%'
+union 
+select 'PrgDocument'
+union
+select 'FormTemplate'
+order by DestTable
+
+open T 
+fetch T into @t
+
+while @@fetch_status = 0
+begin
+
+set @q = 'DBCC DBREINDEX ('+@t+')'
+exec (@q)
+
+
+
+fetch T into @t
+end
+close T
+deallocate T
+
+
 
 
