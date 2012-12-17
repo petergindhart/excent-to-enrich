@@ -36,10 +36,10 @@ select
 	ParentID = kp.EnrichID,
 	Sequence = coalesce(i.sequence, n.sequence, t.sequence, 
 	case ks.LegacySpedCode ----------- this will have to do for now.  we may need to set all to 99 or something (for re-use with other districts/states).
-		when 'GAReading' then 1
-		when 'GAWriting' then 2
-		when 'GAMath' then 3
-		when 'GAOther' then 4
+		when 'GAReading' then 0
+		when 'GAWriting' then 1
+		when 'GAMath' then 2
+		when 'GAOther' then 3
 	end),
 	Name = coalesce(i.name, n.name, t.name, ks.EnrichLabel), 
 	StateCode = cast(NULL as varchar(10)),
