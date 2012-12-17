@@ -75,16 +75,16 @@ GO
 
 -- select 'insert LEGACYSPED.MAP_IepSubGoalAreaDefID values ('''+SubGoalAreaCode+''', '''+convert(varchar(36), DestID)+''', '''+convert(varchar(36), ParentID)+''')' from LEGACYSPED.Transform_IepSubGoalAreaDef
 if not exists (select 1 from LEGACYSPED.MAP_IepSubGoalAreaDefID where SubGoalAreaCode = 'GAReading')
-insert LEGACYSPED.MAP_IepSubGoalAreaDefID values ('GAReading', 'A7506FED-1F87-484C-97DF-99517AC26971')
+insert LEGACYSPED.MAP_IepSubGoalAreaDefID values ('GAReading', 'A7506FED-1F87-484C-97DF-99517AC26971', '35B32108-174B-4F7F-9B5A-B5AF106F06BC')
 
 if not exists (select 1 from LEGACYSPED.MAP_IepSubGoalAreaDefID where SubGoalAreaCode = 'GAWriting')
-insert LEGACYSPED.MAP_IepSubGoalAreaDefID values ('GAWriting', '7099C2E7-02C9-4903-8A01-8F0774364E5B')
+insert LEGACYSPED.MAP_IepSubGoalAreaDefID values ('GAWriting', '7099C2E7-02C9-4903-8A01-8F0774364E5B', '35B32108-174B-4F7F-9B5A-B5AF106F06BC')
 
 if not exists (select 1 from LEGACYSPED.MAP_IepSubGoalAreaDefID where SubGoalAreaCode = 'GAMath')
-insert LEGACYSPED.MAP_IepSubGoalAreaDefID values ('GAMath', 'D58C5141-DD5D-4C80-BB93-7CC88A234B2D')
+insert LEGACYSPED.MAP_IepSubGoalAreaDefID values ('GAMath', 'D58C5141-DD5D-4C80-BB93-7CC88A234B2D', '35B32108-174B-4F7F-9B5A-B5AF106F06BC')
 
 if not exists (select 1 from LEGACYSPED.MAP_IepSubGoalAreaDefID where SubGoalAreaCode = 'GAOther')
-insert LEGACYSPED.MAP_IepSubGoalAreaDefID values ('GAOther', 'DEEB5A06-156D-43D0-B976-4B30245C6784')
+insert LEGACYSPED.MAP_IepSubGoalAreaDefID values ('GAOther', 'DEEB5A06-156D-43D0-B976-4B30245C6784', '35B32108-174B-4F7F-9B5A-B5AF106F06BC')
 
 
 -- Map_ServiceFrequencyID is created in the Transform script. -- select * from IepSubGoalAreaDef
