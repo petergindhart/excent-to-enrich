@@ -31,7 +31,7 @@ AS
   IsEnabled = cast(1 as bit), 
   -- schedule frequency is static in Enrich
   FrequencyID = cast(case when isnull(v.ServiceTime,0) < 1 then NULL else '634EA996-D5FF-4A4A-B169-B8CB70DBBEC2' end as uniqueidentifier), -- weekly
-  FrequencyAmount = cast(case when isnull(v.ServiceTime,0) < 1 then 0 else v.ServiceTime end as int), -- For FrequencyID and FrequencyAmount see change script 2023-CorrectConvertedIepServiceSchedules.sql
+  FrequencyAmount = cast(case when isnull(v.ServiceTime,0) < 1 then 1 else v.ServiceTime end as int), -- For FrequencyID and FrequencyAmount see change script 2023-CorrectConvertedIepServiceSchedules.sql
   WeeklyMon = cast(0 as bit),
   WeeklyTue = cast(0 as bit),
   WeeklyWed = cast(0 as bit),
@@ -39,7 +39,7 @@ AS
   WeeklyFri = cast(0 as bit),
   WeeklySat = cast(0 as bit),
   WeeklySun = cast(0 as bit),
-  TimesPerDay = cast(0 as int)
+  TimesPerDay = cast(0 as int) -- select v.*
  FROM
   LEGACYSPED.Service v LEFT JOIN
   LEGACYSPED.MAP_ScheduleID m on v.ServiceRefID = m.ServiceRefID LEFT JOIN

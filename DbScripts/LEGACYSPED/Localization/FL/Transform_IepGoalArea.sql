@@ -9,14 +9,14 @@ BEGIN
 CREATE TABLE LEGACYSPED.MAP_IepGoalArea
 (
 	GoalRefID	varchar(150) not null,
-	GoalAreaDefID uniqueidentifier NOT NULL,
+	DefID uniqueidentifier NOT NULL,
 	DestID uniqueidentifier NOT NULL
 )
 
 ALTER TABLE LEGACYSPED.MAP_IepGoalArea ADD CONSTRAINT 
 PK_MAP_IepGoalArea PRIMARY KEY CLUSTERED
 (
-	GoalAreaDefID, GoalRefID
+	DefID, GoalRefID
 )
 END
 GO
@@ -38,6 +38,10 @@ PK_MAP_GoalAreaPivot PRIMARY KEY CLUSTERED
 )
 END
 GO
+
+if not exists (select 1 from sys.indexes where name = 'IX_LEGACYSPED_MAP_GoalAreaPivot_GaolRefID_GoalAreaCode')
+create index IX_LEGACYSPED_MAP_GoalAreaPivot_GaolRefID_GoalAreaCode on LEGACYSPED.MAP_GoalAreaPivot (GoalRefID, GoalAreaCode)
+go
 
 
 -- #############################################################################
@@ -133,7 +137,7 @@ select
 from LEGACYSPED.Transform_PrgGoal g join 
 LEGACYSPED.MAP_GoalAreaPivot p on g.GoalRefID = p.GoalRefID join -- in the where clause we will limit this to the primary goal area.  Another transform will insert subgoals, and yet another will insert secondary goals
 LEGACYSPED.MAP_IepGoalAreaDefID md on p.GoalAreaCode = md.GoalAreaCode left join
-LEGACYSPED.MAP_IepGoalArea mga on g.GoalRefID = mga.GoalRefID and md.DestID = mga.GoalAreaDefID left join 
+LEGACYSPED.MAP_IepGoalArea mga on g.GoalRefID = mga.GoalRefID and md.DestID = mga.DefID left join 
 IepGoalArea ga on mga.DestID = ga.ID
 where p.GoalAreaDefIndex = (
 	select min(pmin.GoalAreaDefIndex)
