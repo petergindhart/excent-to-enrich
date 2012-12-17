@@ -37,6 +37,7 @@ AS
 */
 SELECT
 	GoalAreaCode = k.LegacySpedCode,
+	k.SubType,
 	DestID = coalesce(i.ID, n.ID, t.ID,  m.DestID),
 	Sequence = coalesce(i.Sequence, n.Sequence, t.Sequence, 99),
 	Name = coalesce(i.Name, n.Name, t.Name, cast(k.EnrichLabel as varchar(50))),
@@ -44,20 +45,14 @@ SELECT
 	StateCode = coalesce(i.StateCode, n.StateCode, t.StateCode),
 	-- note that some districts in FL have soft-deleted 3 of 4 goal areas and we don't want to un-soft-delete them.  turn off UPDATE flag in the load table record.
 	DeletedDate = case when k.EnrichID is not null then NULL when coalesce(i.ID, n.ID, t.ID) is null then getdate() else coalesce(i.DeletedDate, n.DeletedDate, t.DeletedDate) end,
-	RequireGoal = cast(1 as bit)
-  FROM
-	LEGACYSPED.SelectLists k LEFT JOIN
+	RequireGoal = cast(1 as bit) 
+  FROM 
+	LEGACYSPED.SelectLists k LEFT JOIN -- select k.EnrichID, k.LegacySpedCode, t.* from (select Type = 'GoalArea') x join LEGACYSPED.SelectLists k on x.Type = k.Type LEFT JOIN
 	dbo.IepGoalAreaDef i on k.EnrichID = i.ID left join
 	dbo.IepGoalAreaDef n on k.EnrichLabel = n.Name and n.DeletedDate is null left join -- only match on the name if not soft-deleted?
 	LEGACYSPED.MAP_IepGoalAreaDefID m on k.LegacySpedCode = m.GoalAreaCode LEFT JOIN 
 	dbo.IepGoalAreaDef t on m.DestID = t.ID 
-WHERE k.Type = 'GoalArea'
+WHERE k.Type = 'GoalArea' and (isnull(k.SubType,'parent') = 'parent')
 GO
 
-
-
-
---insert IepGoalAreaDef values ('DA0ECBD3-9E20-4031-8F8F-631D3FB4118C', 1, 'Curriculum and Learning/Writing', 0, NULL, '2011-09-29 00:00:00.000')
---insert IepGoalAreaDef values ('F6C49490-FA7B-4188-A24A-D98797484D38', 2, 'Curriculum and Learning/Math', 0, NULL, '2011-09-29 00:00:00.000')
---insert IepGoalAreaDef values ('489C84EA-BD0D-4F56-9C79-89FB089E2511', 3, 'Curriculum and Learning/Other', 0, NULL, '2011-09-29 00:00:00.000')
 

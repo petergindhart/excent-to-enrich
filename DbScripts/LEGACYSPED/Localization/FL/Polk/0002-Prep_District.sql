@@ -2,14 +2,22 @@
 -- Florida
 -- Polk
 
--- OrgUnit 
-update ou set Number = '53' -- Polk
--- select ou.*
--- select ou.*
-from (select top 1 OrgUnitID from School group by OrgUnitID order by count(*) desc) m join dbo.OrgUnit ou on m.OrgUnitID = ou.ID
+if exists (select 1 from sys.schemas s join sys.objects o on s.schema_id = o.schema_id where s.name = 'LEGACYSPED' and o.name = 'MAP_AdminUnitID')
+drop table LEGACYSPED.MAP_AdminUnitID
 go
 
+create table LEGACYSPED.MAP_AdminUnitID (
+DestID uniqueidentifier not null
+)
 
+-- select * from OrgUnit where ParentID is null
+--this line may be different for every district!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+insert LEGACYSPED.MAP_AdminUnitID values ('6531EF88-352D-4620-AF5D-CE34C54A9F53') -- INSERT ONLY ONE RECORD INTO THIS TABLE!!!!!!!!!!!!!!!!!!!!!!
+-- INSERT ONLY ONE RECORD INTO THIS TABLE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+go
+
+update OrgUnit set Number = '53' where ID = '6531EF88-352D-4620-AF5D-CE34C54A9F53'
+go
 
 IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'LEGACYSPED.ImportPrgSections') AND type in (N'U'))
 DROP TABLE LEGACYSPED.ImportPrgSections
@@ -45,11 +53,41 @@ select * from @importPrgSections
 go
 
 
+---- #############################################################################
+----		Goal Area MAP
+IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.MAP_IepSubGoalAreaDefID') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
+BEGIN
+CREATE TABLE LEGACYSPED.MAP_IepSubGoalAreaDefID 
+(
+	SubGoalAreaCode	varchar(150) NOT NULL,
+	DestID uniqueidentifier NOT NULL,
+	ParentID uniqueidentifier not null
+)
+
+ALTER TABLE LEGACYSPED.MAP_IepSubGoalAreaDefID ADD CONSTRAINT
+PK_MAP_IepSubGoalAreaDefID PRIMARY KEY CLUSTERED
+(
+	SubGoalAreaCode
+)
+
+END
+GO
+
+-- select 'insert LEGACYSPED.MAP_IepSubGoalAreaDefID values ('''+SubGoalAreaCode+''', '''+convert(varchar(36), DestID)+''', '''+convert(varchar(36), ParentID)+''')' from LEGACYSPED.Transform_IepSubGoalAreaDef
+if not exists (select 1 from LEGACYSPED.MAP_IepSubGoalAreaDefID where SubGoalAreaCode = 'GAReading')
+insert LEGACYSPED.MAP_IepSubGoalAreaDefID values ('GAReading', 'A7506FED-1F87-484C-97DF-99517AC26971', '35B32108-174B-4F7F-9B5A-B5AF106F06BC')
+
+if not exists (select 1 from LEGACYSPED.MAP_IepSubGoalAreaDefID where SubGoalAreaCode = 'GAWriting')
+insert LEGACYSPED.MAP_IepSubGoalAreaDefID values ('GAWriting', '7099C2E7-02C9-4903-8A01-8F0774364E5B', '35B32108-174B-4F7F-9B5A-B5AF106F06BC')
+
+if not exists (select 1 from LEGACYSPED.MAP_IepSubGoalAreaDefID where SubGoalAreaCode = 'GAMath')
+insert LEGACYSPED.MAP_IepSubGoalAreaDefID values ('GAMath', 'D58C5141-DD5D-4C80-BB93-7CC88A234B2D', '35B32108-174B-4F7F-9B5A-B5AF106F06BC')
+
+if not exists (select 1 from LEGACYSPED.MAP_IepSubGoalAreaDefID where SubGoalAreaCode = 'GAOther')
+insert LEGACYSPED.MAP_IepSubGoalAreaDefID values ('GAOther', 'DEEB5A06-156D-43D0-B976-4B30245C6784', '35B32108-174B-4F7F-9B5A-B5AF106F06BC')
 
 
-
-
--- Map_ServiceFrequencyID is created in the Transform script.
+-- Map_ServiceFrequencyID is created in the Transform script. -- select * from IepSubGoalAreaDef
 
 
 /*
@@ -87,122 +125,41 @@ where t.ID is null
 GO
 
 
--- need this code to add cascade delete on FK_PrgIep_PrgItem until the build with this change makes production
-IF  EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'dbo.FK_PrgIep_PrgItem') AND parent_object_id = OBJECT_ID(N'dbo.PrgIep'))
-ALTER TABLE dbo.PrgIep DROP CONSTRAINT FK_PrgIep_PrgItem
+
+--A3FF9417-0899-42BE-8090-D1855D50612F	Quarterly
+
+--67FA2FF5-2300-42D9-A3A7-DF2B76BA2B16	1st Marking Period	Quarterly
+--25A2BE26-9706-4127-B1FD-EE0063E0F99E	2nd Marking Period	Quarterly
+--B6A39644-01C9-4AC9-A793-5D754848009F	3rd Marking Period	Quarterly
+--25FF7721-3E3D-4607-AC9A-C76019444F94	4th Marking Period	Quarterly
+
+
+--B608ACEE-656E-4F45-B6D9-5D8D9B31BF12	Quarterly and Interim Reports
+
+--8C8F5A4F-7AB3-434A-AC41-839005519762	1st Interim Report	Quarterly and Interim Reports
+--39490C65-B14C-4C65-8638-3922EBDD0A6C	1st Marking Period	Quarterly and Interim Reports
+--E767511B-0CBA-4C18-9D5E-4F5E8864C71A	2nd Interim Report	Quarterly and Interim Reports
+--83284E4D-D586-4843-B7F9-5CCF2CBE2501	2nd Marking Period	Quarterly and Interim Reports
+--BF0F3412-61ED-437B-A474-8EA736CA599E	3rd Interim Report	Quarterly and Interim Reports
+--9458D601-90B4-4229-994F-0F8FA2EF7F00	3rd Marking Period	Quarterly and Interim Reports
+--FAD5B4C8-36B8-4F1D-84A9-C126BDB5325C	4th Interim Report	Quarterly and Interim Reports
+--B73FE1CE-AD18-4E86-9B84-1115938612DB	4th Marking Period	Quarterly and Interim Reports
+--119F85F4-3252-43B5-AA4F-CE9176510627	ESY Summer			Quarterly and Interim Reports
+
+
+
+
+if exists (select 1 from sys.schemas s join sys.objects o on s.schema_id = o.schema_id where s.name = 'LEGACYSPED' and o.name = 'SpedConversionWrapUp')
+drop procedure LEGACYSPED.SpedConversionWrapUp
+go
+
+create procedure LEGACYSPED.SpedConversionWrapUp
+as
+-- this should run for all districts in all states
+update d set IsReevaluationNeeded = 1, StartDate = dateadd(dd, -d.MaxDaysToComplete, dateadd(yy, -d.MaxYearsToComplete, getdate())) from PrgMilestoneDef d where d.ID in ('27C002AF-ED92-4152-8B8C-7CA1ADEA2C81', 'AC043E4C-55EC-4F10-BCED-7E9201D7D0E2')
+
+exec dbo.Util_VerifyProgramDataAssumptions 'F98A8EF2-98E2-4CAC-95AF-D7D89EF7F80C'
+
 GO
-
-ALTER TABLE dbo.PrgIep  WITH CHECK ADD  CONSTRAINT FK_PrgIep_PrgItem FOREIGN KEY(ID)
-REFERENCES dbo.PrgItem (ID)
-      ON DELETE CASCADE
-GO
-
-ALTER TABLE dbo.PrgIep CHECK CONSTRAINT FK_PrgIep_PrgItem
-GO
-
-
-IF  EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'dbo.FK_PrgMatrixOfServices#InitiatingIep#') AND parent_object_id = OBJECT_ID(N'dbo.PrgMatrixOfServices'))
-ALTER TABLE dbo.PrgMatrixOfServices DROP CONSTRAINT FK_PrgMatrixOfServices#InitiatingIep#
-GO
-
-ALTER TABLE dbo.PrgMatrixOfServices  WITH CHECK ADD  CONSTRAINT FK_PrgMatrixOfServices#InitiatingIep# FOREIGN KEY(InitiatingIepID)
-REFERENCES dbo.PrgIep (ID)
-	ON DELETE CASCADE
-GO
-
-ALTER TABLE dbo.PrgMatrixOfServices CHECK CONSTRAINT FK_PrgMatrixOfServices#InitiatingIep#
-GO
-
-
--- drop objects no longer needed
-
--- Florida
--- Lee County School District
-
--- All MAP tables have been moved to the transform script files.  This file contains drop table statements for MAP tables that are no longer used.
-
--- #############################################################################
--- ServiceDef
-IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'AURORAX.Map_ServiceDefIDstatic') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
-	DROP TABLE AURORAX.Map_ServiceDefIDstatic
-GO
--- no longer used
-
--- #############################################################################
--- ExitReason
-IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'AURORAX.MAP_OutcomeID') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
-	DROP TABLE AURORAX.MAP_OutcomeID
-GO
--- we are using PrgStatus
-
--- #############################################################################
--- Service Location
-IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'AURORAX.MAP_ServiceLocationIDstatic') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
-	DROP TABLE AURORAX.MAP_ServiceLocationIDstatic
-GO
--- no longer used
-
--- #############################################################################
--- Service Location
-IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'AURORAX.MAP_ServiceLocationID') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
-	DROP TABLE AURORAX.MAP_ServiceLocationID
-GO
--- we are using PrgLocation
-
-
--- #############################################################################
--- School
-IF  EXISTS (SELECT 1 from sys.schemas s join sys.objects o on s.schema_id = o.schema_id where s.name = 'AURORAX' and o.name = 'MAP_SchoolView')
-	DROP VIEW AURORAX.MAP_SchoolView
-GO
--- no longer used
-
--- #############################################################################
--- ServiceDefID
-IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'AURORAX.Transform_ServiceDefID') AND OBJECTPROPERTY(id, N'IsView') = 1)
-DROP VIEW AURORAX.Transform_ServiceDefID
-GO
--- renamed this transform
-
-
-/*
-
-select 
-	PlacementTypeCode = k.SubType,
-	PlacementOptionCode = isnull(k.Code, convert(varchar(150), k.Label)), 
-	StateCode = k.StateCode, -- ??
-	DestID = coalesce(s.ID, t.ID, m.DestID),
-	TypeID = coalesce(s.TypeID, t.TypeID, my.DestID),
-	Sequence = coalesce(s.Sequence, t.Sequence, 99),
-	Text = coalesce(s.Text, t.Text, k.Label),
-	MinPercentGenEd = isnull(s.MinPercentGenEd, t.MinPercentGenEd),   
-	MaxPercentGenEd = isnull(s.MaxPercentGenEd, t.MaxPercentGenEd),   
-	DeletedDate = 
-			CASE 
-				WHEN s.ID IS NOT NULL THEN NULL -- Always show in UI where there is a StateID.  Period.
-				ELSE 
-					CASE WHEN k.DisplayInUI = 'Y' THEN NULL -- User specified they want to see this in the UI.  Let them.
-					ELSE GETDATE()
-					END
-			END 
-from 
-	LEGACYSPED.Lookups k LEFT JOIN
-	LEGACYSPED.MAP_IepPlacementTypeID my on k.SubType = my.PlacementTypeCode LEFT JOIN 
-	dbo.IepPlacementOption s on 
-		my.DestID = s.TypeID and
-		k.StateCode = s.StateCode LEFT JOIN 
-	LEGACYSPED.MAP_IepPlacementOptionID m on 
-		my.PlacementTypeCode = m.PlacementTypeCode and
-		isnull(k.Code, convert(varchar(150), k.label)) = m.PlacementOptionCode LEFT JOIN
-	dbo.IepPlacementOption t on m.DestID = t.ID
-where k.Type = 'LRE' and
-	k.SubType in ('PK', 'K12') 
-
-
-
-*/
-
-
-
 
 

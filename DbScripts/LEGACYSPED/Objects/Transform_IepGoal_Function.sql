@@ -1,17 +1,34 @@
---if exists (select 1 from sys.schemas s join sys.objects o on s.schema_id = o.schema_id where s.name = 'LEGACYSPED' and o.name = 'IepGoal_InsertAllRecordsFromLegacySped')
---drop proc LEGACYSPED.IepGoal_InsertAllRecordsFromLegacySped
+--if exists (select 1 from sys.schemas s join sys.objects o on s.schema_id = o.schema_id where s.name = 'LEGACYSPED' and o.name  = 'Transform_IepGoal_Function')
+--drop FUNCTION LEGACYSPED.Transform_IepGoal_Function
 --go
 
+---- table valued function for IepGoal
 
---create PROC LEGACYSPED.IepGoal_InsertAllRecordsFromLegacySped
---as
+--create FUNCTION LEGACYSPED.Transform_IepGoal_Function ()  
+--RETURNS @Transform_IepGoal table(
+--GoalRefID varchar(150),
+--DestID	uniqueidentifier,
+--GoalAreaID	uniqueidentifier,
+--PostSchoolAreaDefID	uniqueidentifier,
+--EsyID	varchar(36) NOT NULL,
+--	primary key (DestID)
+--) AS  
+--BEGIN 
 
---/*
---	For expediency we are using this stored procedure to insert IepGoal in view of the expensive query plan selecting straight from the views.
---	gg.
---*/
+---- test
+--declare @Transform_IepGoal table(
+--GoalRefID varchar(150),
+--DestID	uniqueidentifier,
+--GoalAreaID	uniqueidentifier,
+--PostSchoolAreaDefID	uniqueidentifier,
+--EsyID	varchar(36) NOT NULL,
+--	primary key (DestID)
+--) 
 
---set nocount on;
+------ test
+
+
+
 ---- #1
 --Declare @Transform_PrgGoal table (
 --IepRefID	varchar(150),
@@ -43,11 +60,11 @@
 
 ---- #2
 --declare @GoalAreasPerGoalView table (
---IepRefID	varchar(150),
+--GoalRefID	varchar(150) not null,
+--IepRefID	varchar(150) not null,
 --InstanceID	uniqueidentifier NOT NULL,
 --DefID	uniqueidentifier NOT NULL,
 --GoalAreaCode	varchar(150) NOT NULL,
---GoalRefID	varchar(150) NOT NULL,
 --GoalIndex	int,
 --	primary key (IepRefID, GoalRefID, GoalAreaCode)
 --)
@@ -55,12 +72,14 @@
 ---- #3
 --declare @Transform_IepGoalArea table (
 --IepRefID	varchar(150),
+--GoalRefID	varchar(150),
 --GoalAreaCode	varchar(150) NOT NULL,
+--GoalAreaDefID uniqueidentifier not null,
 --DestID	uniqueidentifier,
 --InstanceID	uniqueidentifier NOT NULL,
 --DefID	uniqueidentifier NOT NULL,
 --FormInstanceID	uniqueidentifier,
---	primary key (IepRefID, GoalAreaCode)
+--	primary key (GoalRefID, GoalAreaCode) -- how to accommodate multiple areas per goal?
 --)
 
 ---- #4
@@ -75,13 +94,13 @@
 --)
 
 ---- #5
---declare @Transform_IepGoal table (
---DestID	uniqueidentifier,
---GoalAreaID	uniqueidentifier,
---PostSchoolAreaDefID	uniqueidentifier,
---EsyID	varchar(36) NOT NULL,
---	primary key (DestID)
---)
+----declare @Transform_IepGoal table (
+----DestID	uniqueidentifier,
+----GoalAreaID	uniqueidentifier,
+----PostSchoolAreaDefID	uniqueidentifier,
+----EsyID	varchar(36) NOT NULL,
+----	primary key (DestID)
+----)
 
 ---- insert table variables
 ---- #1
@@ -108,10 +127,19 @@
 --select * from LEGACYSPED.Transform_IepGoalPostSchoolAreaDef
 ----print '		complete	'+convert(varchar(50), getdate(), 108)
 
+
+--select * from @Transform_PrgGoal
+--select * from @GoalAreasPerGoalView
+--select * from @Transform_IepGoalArea
+--select * from @Transform_IepGoalPostSchoolAreaDef
+--select * from IepGoalAreaDef order by Sequence
+
+
 ---- #5
 ----print 'insert @Transform_IepGoal '+convert(varchar(50), getdate(), 108)
 --insert @Transform_IepGoal 
 --select 
+--  pg.GoalRefID,
 --  DestID = pg.DestID,
 --  GoalAreaID = ga.DestID,
 --  PostSchoolAreaDefID = psa.PostSchoolAreaDefID,
@@ -119,19 +147,16 @@
 --FROM 
 --	@Transform_PrgGoal pg JOIN
 --	@GoalAreasPerGoalView pgga ON pg.GoalRefID = pgga.GoalRefID JOIN
---	@Transform_IepGoalArea ga on pg.InstanceID = ga.InstanceID AND pgga.GoalAreaCode = ga.GoalAreaCode LEFT JOIN 
+--	@Transform_IepGoalArea ga on pg.InstanceID = ga.InstanceID AND pgga.GoalAreaCode = ga.GoalAreaCode and pgga.GoalRefID = ga.GoalRefID LEFT JOIN 
 --	@Transform_IepGoalPostSchoolAreaDef psa on pg.GoalRefID = psa.GoalRefID and psa.Sequence = 0 LEFT JOIN 
 --	dbo.IepGoalArea tgt on ga.InstanceID = tgt.InstanceID and psa.PostSchoolAreaDefID = tgt.DefID 
 ----print '		complete	'+convert(varchar(50), getdate(), 108)
 
---set nocount off;
----- hard code the logic for this insert
-----print 'insert IepGoal '+convert(varchar(50), getdate(), 108)
---INSERT IepGoal (ID, PostSchoolAreaDefID, EsyID, GoalAreaID)
---SELECT s.DestID, s.PostSchoolAreaDefID, s.EsyID, s.GoalAreaID
---FROM @Transform_IepGoal s
---WHERE NOT EXISTS (SELECT * FROM IepGoal d WHERE s.DestID=d.ID)
-----print '		complete	'+convert(varchar(50), getdate(), 108)
+----Msg 2627, Level 14, State 1, Line 116
+----Violation of PRIMARY KEY constraint 'PK__#606C28F__EF9784F162547169'. Cannot insert duplicate key in object 'dbo.@Transform_IepGoal'. The duplicate key value is (5c0c010c-cf22-4225-9ed2-e27aad5e6073).
+----The statement has been terminated.
 
---go
+
+--return 
+--END
 

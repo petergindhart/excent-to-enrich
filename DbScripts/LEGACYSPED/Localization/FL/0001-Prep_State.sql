@@ -56,56 +56,66 @@ GO
 
 IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.MAP_IepGoalAreaDefID') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
 BEGIN
-CREATE TABLE LEGACYSPED.MAP_IepGoalAreaDefID
-(
-	GoalAreaCode	varchar(150) NOT NULL,
-	DestID uniqueidentifier NOT NULL
-)
+	CREATE TABLE LEGACYSPED.MAP_IepGoalAreaDefID
+	(
+		GoalAreaCode	varchar(150) NOT NULL,
+		DestID uniqueidentifier NOT NULL
+	)
 
-ALTER TABLE LEGACYSPED.MAP_IepGoalAreaDefID ADD CONSTRAINT
-PK_MAP_IepGoalAreaDefID PRIMARY KEY CLUSTERED
-(
-	GoalAreaCode
-)
+	ALTER TABLE LEGACYSPED.MAP_IepGoalAreaDefID ADD CONSTRAINT
+	PK_MAP_IepGoalAreaDefID PRIMARY KEY CLUSTERED
+	(
+		GoalAreaCode
+	)
+END
 
 -- Should these be exported with the configuration?
 -- these IDs used to be exported with Enrich configuration for Florida.  This should be in the State config file
 declare @ga table (GoalAreaCode varchar(20), DestID uniqueidentifier)
 set nocount on;
-insert @ga values ('GAReading', '35B32108-174B-4F7F-9B5A-B5AF106F06BC')
-insert @ga values ('GAWriting', 'DA0ECBD3-9E20-4031-8F8F-631D3FB4118C')
-insert @ga values ('GAMath', 'F6C49490-FA7B-4188-A24A-D98797484D38')
-insert @ga values ('GAOther', '489C84EA-BD0D-4F56-9C79-89FB089E2511')
+--insert @ga values ('GAReading', '35B32108-174B-4F7F-9B5A-B5AF106F06BC')
+--insert @ga values ('GAWriting', 'DA0ECBD3-9E20-4031-8F8F-631D3FB4118C')
+--insert @ga values ('GAMath', 'F6C49490-FA7B-4188-A24A-D98797484D38')
+--insert @ga values ('GAOther', '489C84EA-BD0D-4F56-9C79-89FB089E2511')
+insert @ga values ('GACurriculum', '35B32108-174B-4F7F-9B5A-B5AF106F06BC')
 insert @ga values ('GAEmotional', '52073BF0-C83A-4DEF-9C3C-F4D6884BE9AA')
 insert @ga values ('GAIndependent', '5A3D5EE7-618B-4F70-B893-BFB0EE8754BE')
 insert @ga values ('GAHealth', '7D6B33A0-216B-4747-A827-7A4FFC80227F')
 insert @ga values ('GACommunication', '2AA2F135-2FB3-4607-B932-99F5491916DE')
 
-insert LEGACYSPED.MAP_IepGoalAreaDefID 
-select * from @ga where GoalAreaCode not in (select GoalAreaCode from LEGACYSPED.MAP_IepGoalAreaDefID)
 
-END
-GO
+insert LEGACYSPED.MAP_IepGoalAreaDefID
+select ga.* from @ga ga left join LEGACYSPED.MAP_IepGoalAreaDefID m on ga.GoalAreaCode = m.GoalAreaCode where m.GoalAreaCode is null
+
+
+--		these are inserted in PrepDistrict (not all FL districts will have their goal areas separated this way).
+--insert @ga values ('GAReading', '35B32108-174B-4F7F-9B5A-B5AF106F06BC')
+--insert @ga values ('GAWriting', 'DA0ECBD3-9E20-4031-8F8F-631D3FB4118C')
+--insert @ga values ('GAMath', 'F6C49490-FA7B-4188-A24A-D98797484D38')
+--insert @ga values ('GAOther', '489C84EA-BD0D-4F56-9C79-89FB089E2511')
+
+
+
 
 -- #############################################################################
 --		Post School Area MAP
 IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.MAP_PostSchoolAreaDefID') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
 BEGIN
-CREATE TABLE LEGACYSPED.MAP_PostSchoolAreaDefID
-(
-	PostSchoolAreaCode	varchar(150) NOT NULL,
-	DestID uniqueidentifier NOT NULL
-)
+	CREATE TABLE LEGACYSPED.MAP_PostSchoolAreaDefID
+	(
+		PostSchoolAreaCode	varchar(150) NOT NULL,
+		DestID uniqueidentifier NOT NULL
+	)
 
-ALTER TABLE LEGACYSPED.MAP_PostSchoolAreaDefID ADD CONSTRAINT
-PK_MAP_PostSchoolAreaDefID PRIMARY KEY CLUSTERED
-(
-	PostSchoolAreaCode
-)
+	ALTER TABLE LEGACYSPED.MAP_PostSchoolAreaDefID ADD CONSTRAINT
+	PK_MAP_PostSchoolAreaDefID PRIMARY KEY CLUSTERED
+	(
+		PostSchoolAreaCode
+	)
 
-create index IX_LEGACYSPED_MAP_PostSchoolAreaDefID_DestID on LEGACYSPED.MAP_PostSchoolAreaDefID (DestID)
+	create index IX_LEGACYSPED_MAP_PostSchoolAreaDefID_DestID on LEGACYSPED.MAP_PostSchoolAreaDefID (DestID)
 
--- thse IDs are exported with Enrich configuration for Florida.  This should be in the State config file
+	-- thse IDs are exported with Enrich configuration for Florida.  This should be in the State config file
 END
 
 set nocount on;

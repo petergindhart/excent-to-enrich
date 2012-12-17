@@ -29,6 +29,13 @@ update ou set Number = '136'
  --select ou.*
 from dbo.OrgUnit ou where ID = 'FCEA67BE-5E12-4D65-BDA4-D12E938D010E'
 go
+update ou set Number = '7597' 
+ --select ou.*
+from dbo.OrgUnit ou where ID = 'CB3869D6-0AF1-412A-AA09-227A9BD3DA61'
+GO
+update ou set Number = '999' 
+ --select ou.*
+from dbo.OrgUnit ou where ID = 'C5D9E1C3-12E0-4B12-9C2A-54DAC9712369'
 
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'LEGACYSPED.ImportPrgSections') AND type in (N'U'))
 BEGIN
