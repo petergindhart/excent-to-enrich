@@ -1,5 +1,5 @@
 
-
+-- Not currently in LoadTable.  We are populating MAP_IepSubGoalAreaDefID in the state specific ETL Prep file.
 IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.MAP_IepSubGoalAreaDefID') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
 BEGIN
 CREATE TABLE LEGACYSPED.MAP_IepSubGoalAreaDefID 
@@ -24,24 +24,23 @@ GO
 
 create view LEGACYSPED.SubGoalAreaPivotView
 as
-	select IepRefID, GoalRefID, 'GAReading' GoalAreaCode, CAST(0 as int) GoalIndex
+	select IepRefID, GoalRefID, 'GAReading' GoalAreaCode, CAST(0 as int) SubGoalDefIndex
 	from LEGACYSPED.Goal
 	where GAReading = 'Y'
 	UNION ALL
-	select IepRefID, GoalRefID, 'GAWriting' GoalAreaCode, CAST(1 as int) GoalIndex
+	select IepRefID, GoalRefID, 'GAWriting' GoalAreaCode, CAST(1 as int) SubGoalDefIndex
 	from LEGACYSPED.Goal
 	where  GAWriting = 'Y'
 	UNION ALL
-	select IepRefID, GoalRefID, 'GAMath' GoalAreaCode, CAST(2 as int) GoalIndex
+	select IepRefID, GoalRefID, 'GAMath' GoalAreaCode, CAST(2 as int) SubGoalDefIndex
 	from LEGACYSPED.Goal
 	where  GAMath = 'Y'
 	UNION ALL
-	select IepRefID, GoalRefID, 'GAOther' GoalAreaCode, CAST(3 as int) GoalIndex
+	select IepRefID, GoalRefID, 'GAOther' GoalAreaCode, CAST(3 as int) SubGoalDefIndex
 	from LEGACYSPED.Goal
 	where  GAOther = 'Y'
-	order by GoalRefID, GoalIndex
+	--order by GoalRefID, GoalIndex
 go
-
 
 IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.Transform_IepGoalSubGoalAreaDef') AND OBJECTPROPERTY(id, N'IsView') = 1)
 DROP VIEW LEGACYSPED.Transform_IepGoalSubGoalAreaDef
