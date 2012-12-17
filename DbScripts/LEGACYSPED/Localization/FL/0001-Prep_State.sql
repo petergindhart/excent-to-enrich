@@ -85,7 +85,7 @@ insert @ga values ('GACommunication', '2AA2F135-2FB3-4607-B932-99F5491916DE')
 
 
 insert LEGACYSPED.MAP_IepGoalAreaDefID
-select * from @ga
+select ga.* from @ga ga left join LEGACYSPED.MAP_IepGoalAreaDefID m on ga.GoalAreaCode = m.GoalAreaCode where m.GoalAreaCode is null
 
 
 --		these are inserted in PrepDistrict (not all FL districts will have their goal areas separated this way).
