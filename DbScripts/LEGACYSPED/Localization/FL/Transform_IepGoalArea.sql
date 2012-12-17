@@ -137,7 +137,7 @@ select
 from LEGACYSPED.Transform_PrgGoal g join 
 LEGACYSPED.MAP_GoalAreaPivot p on g.GoalRefID = p.GoalRefID join -- in the where clause we will limit this to the primary goal area.  Another transform will insert subgoals, and yet another will insert secondary goals
 LEGACYSPED.MAP_IepGoalAreaDefID md on p.GoalAreaCode = md.GoalAreaCode left join
-LEGACYSPED.MAP_IepGoalArea mga on g.GoalRefID = mga.GoalRefID and md.DestID = mga.GoalAreaDefID left join 
+LEGACYSPED.MAP_IepGoalArea mga on g.GoalRefID = mga.GoalRefID and md.DestID = mga.DefID left join 
 IepGoalArea ga on mga.DestID = ga.ID
 where p.GoalAreaDefIndex = (
 	select min(pmin.GoalAreaDefIndex)
