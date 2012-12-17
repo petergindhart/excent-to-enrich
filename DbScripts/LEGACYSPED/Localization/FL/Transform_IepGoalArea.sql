@@ -9,14 +9,14 @@ BEGIN
 CREATE TABLE LEGACYSPED.MAP_IepGoalArea
 (
 	GoalRefID	varchar(150) not null,
-	GoalAreaDefID uniqueidentifier NOT NULL,
+	DefID uniqueidentifier NOT NULL,
 	DestID uniqueidentifier NOT NULL
 )
 
 ALTER TABLE LEGACYSPED.MAP_IepGoalArea ADD CONSTRAINT 
 PK_MAP_IepGoalArea PRIMARY KEY CLUSTERED
 (
-	GoalAreaDefID, GoalRefID
+	DefID, GoalRefID
 )
 END
 GO
@@ -38,6 +38,10 @@ PK_MAP_GoalAreaPivot PRIMARY KEY CLUSTERED
 )
 END
 GO
+
+if not exists (select 1 from sys.indexes where name = 'IX_LEGACYSPED_MAP_GoalAreaPivot_GaolRefID_GoalAreaCode')
+create index IX_LEGACYSPED_MAP_GoalAreaPivot_GaolRefID_GoalAreaCode on LEGACYSPED.MAP_GoalAreaPivot (GoalRefID, GoalAreaCode)
+go
 
 
 -- #############################################################################
