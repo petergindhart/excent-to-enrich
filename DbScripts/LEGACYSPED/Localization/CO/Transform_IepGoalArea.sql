@@ -20,6 +20,29 @@ PK_MAP_IepGoalArea PRIMARY KEY CLUSTERED
 END
 GO
 
+-- this MAP table will speed up the GoalArea queries considerably
+IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.MAP_GoalAreaPivot') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
+BEGIN
+create table LEGACYSPED.MAP_GoalAreaPivot 
+(
+	GoalRefID	varchar(150) not null,
+	GoalAreaCode varchar(150) not null,
+	GoalAreaDefIndex int not null
+)
+
+ALTER TABLE LEGACYSPED.MAP_GoalAreaPivot ADD CONSTRAINT 
+PK_MAP_GoalAreaPivot PRIMARY KEY CLUSTERED
+(
+	GoalRefID, GoalAreaDefIndex
+)
+END
+GO
+
+if not exists (select 1 from sys.indexes where name = 'IX_LEGACYSPED_MAP_GoalAreaPivot_GaolRefID_GoalAreaCode')
+create index IX_LEGACYSPED_MAP_GoalAreaPivot_GaolRefID_GoalAreaCode on LEGACYSPED.MAP_GoalAreaPivot (GoalRefID, GoalAreaCode)
+go
+
+
 -- #############################################################################
 /*
 IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.GoalAreaPivotView') AND OBJECTPROPERTY(id, N'IsView') = 1)
@@ -129,12 +152,15 @@ create view LEGACYSPED.Transform_IepGoalArea
 as
 	select distinct
 		gapg.IepRefID,
+		g.GoalRefID,
 		gapg.GoalAreaCode,
 		mga.DestID,
+		GoalID = g.DestID,
 		gapg.InstanceID,
 		gapg.DefID,
-		FormInstanceID = CAST(NULL as uniqueidentifier)
-	from 
+		FormInstanceID = CAST(NULL as uniqueidentifier),
+		g.EsyID
+	from Legacysped.Transform_PrgGoal g join 
 		--select distinct -- if support is later added for multiple domains per goal this portion of the query may work
 		--	ga.IepRefID,
 		--	InstanceID = pgs.DestID,
@@ -143,7 +169,7 @@ as
 		--from LEGACYSPED.GoalAreaPivotView ga JOIN 
 		--LEGACYSPED.Transform_PrgGoals pgs on ga.IepRefID = pgs.IepRefID join -- on left join some records do not have an instanceid  -- 4E367F51-09E0-41A6-9CA1-88F0230A05D1 
 		--LEGACYSPED.MAP_GoalAreaDefID m on ga.GoalAreaCode = m.GoalAreaCode
-		LEGACYSPED.GoalAreasPerGoalView gapg left join
+		LEGACYSPED.GoalAreasPerGoalView gapg on g.GoalRefID = gapg.GoalRefID and g.IepRefID = gapg.IepRefID left join
 		--) distga left join -- 32608
 		LEGACYSPED.MAP_IepGoalArea mga on gapg.InstanceID = mga.InstanceID and gapg.DefID = mga.GoalAreaDefID left join
 		dbo.IepGoalArea tgt on mga.DestID = tgt.ID --- select * from IepGoalArea
