@@ -24,6 +24,7 @@ declare @studentid varchar(36), @sch varchar(50), @tbl varchar(100), @col varcha
 -- select * from student where lastname = 'student' -- select * from LEGACYSPED.MAP_StudentRefID
 
 
+delete VC3ETL.LoadTable where ExtractDatabase = '29D14961-928D-4BEE-9025-238496D144C6' and SourceTable like 'EFF.%'
 
 declare @zg uniqueidentifier ; select @zg = '00000000-0000-0000-0000-000000000000'
 
@@ -31,33 +32,6 @@ declare @SaveStudents table (StudentID uniqueidentifier null, OldNumber varchar(
 -- insert @SaveStudents (OldNumber, OldLastname, OldFirstname, NewNumber, NewLastname, NewFirstname) values ('3632271715', 'Ceotto', 'Sara', '0000000001', 'Student', 'Samantha')
 -- select 'insert @SaveStudents (StudentID, OldNumber, OldFirstname, OldLastname, NewNumber, NewFirstname, NewLastname) values ('''+convert(varchar(36), ID)+''', '''', '''', '''', '''', '''+FirstName+''', '''+LastName+''')' from Student where LastName = 'Sample'
 --insert @SaveStudents (StudentID, OldNumber, OldFirstname, OldLastname, NewNumber, NewFirstname, NewLastname) values ('4424BD98-0022-45FB-BDD5-E2B4F4E3CAF9', '', '', '', '', 'Early Childhood', 'Sample')
---insert @SaveStudents (StudentID, OldNumber, OldFirstname, OldLastname, NewNumber, NewFirstname, NewLastname) values ('0B75426F-8DA0-41F3-A504-97ABDAC03B5F', '', '', '', '', 'School Age', 'Sample')
---insert @SaveStudents (StudentID, OldNumber, OldFirstname, OldLastname, NewNumber, NewFirstname, NewLastname) values ('9DA82836-6E53-44CB-B764-FBC10CC9236F', '', '', '', '', 'Shelly', 'Sample')
---insert @SaveStudents (StudentID, OldNumber, OldFirstname, OldLastname, NewNumber, NewFirstname, NewLastname) values ('79FE1005-228D-4925-8ED9-6F99B1AA0602', '', '', '', '', 'Transition Age', 'Sample')
---insert @SaveStudents (StudentID, OldNumber, OldFirstname, OldLastname, NewNumber, NewFirstname, NewLastname) values ('D1390550-E3B3-4BB2-8FAC-13348C01CA56', '', '', '', '', 'Status', 'Sample')
-
-
----- select 'insert @SaveStudents (StudentID, OldNumber, OldFirstname, OldLastname, NewNumber, NewFirstname, NewLastname) values ('''+convert(varchar(36), ID)+''', '''', '''', '''', '''', '''+FirstName+''', '''+LastName+''')' from Student where LastName = 'RtI'
---insert @SaveStudents (StudentID, OldNumber, OldFirstname, OldLastname, NewNumber, NewFirstname, NewLastname) values ('5A65F8FD-C7A5-421A-9F0B-0493E7FB5385', '', '', '', '', 'Student1', 'Rti')
---insert @SaveStudents (StudentID, OldNumber, OldFirstname, OldLastname, NewNumber, NewFirstname, NewLastname) values ('0EDADF0B-6CC8-40BA-AB98-D6025BD65C61', '', '', '', '', 'Student2', 'Rti')
---insert @SaveStudents (StudentID, OldNumber, OldFirstname, OldLastname, NewNumber, NewFirstname, NewLastname) values ('A2A1F6FD-359C-4080-B6AE-12960F918585', '', '', '', '', 'Student3', 'Rti')
---insert @SaveStudents (StudentID, OldNumber, OldFirstname, OldLastname, NewNumber, NewFirstname, NewLastname) values ('66372922-0819-4B78-AF76-E23ED467CD58', '', '', '', '', 'Student4', 'Rti')
---insert @SaveStudents (StudentID, OldNumber, OldFirstname, OldLastname, NewNumber, NewFirstname, NewLastname) values ('6AF83FD1-9022-4A5A-A048-A596BC37DB73', '', '', '', '', 'Student5', 'Rti')
---insert @SaveStudents (StudentID, OldNumber, OldFirstname, OldLastname, NewNumber, NewFirstname, NewLastname) values ('69B8893B-1F3C-4689-931C-3521F6682377', '', '', '', '', 'Student6', 'Rti')
---insert @SaveStudents (StudentID, OldNumber, OldFirstname, OldLastname, NewNumber, NewFirstname, NewLastname) values ('2F9B39F2-3ED2-475C-8175-F2A427B8E91B', '', '', '', '', 'Student7', 'Rti')
---insert @SaveStudents (StudentID, OldNumber, OldFirstname, OldLastname, NewNumber, NewFirstname, NewLastname) values ('A5760B31-687F-48C8-B711-253B45E2B161', '', '', '', '', 'Student8', 'Rti')
---insert @SaveStudents (StudentID, OldNumber, OldFirstname, OldLastname, NewNumber, NewFirstname, NewLastname) values ('6C4FFBC4-8322-4D9D-82EE-D4643865F3E4', '', '', '', '', 'Student9', 'Rti')
---insert @SaveStudents (StudentID, OldNumber, OldFirstname, OldLastname, NewNumber, NewFirstname, NewLastname) values ('9499CA51-AFA8-4713-AF34-84CD36BD715D', '', '', '', '', 'Student10', 'Rti')
---insert @SaveStudents (StudentID, OldNumber, OldFirstname, OldLastname, NewNumber, NewFirstname, NewLastname) values ('74A439C4-E236-432A-ADDC-41B2BF7E4113', '', '', '', '', 'Student11', 'Rti')
---insert @SaveStudents (StudentID, OldNumber, OldFirstname, OldLastname, NewNumber, NewFirstname, NewLastname) values ('3E2253FD-9750-4F4D-891B-75E497B218B7', '', '', '', '', 'Student12', 'Rti')
---insert @SaveStudents (StudentID, OldNumber, OldFirstname, OldLastname, NewNumber, NewFirstname, NewLastname) values ('79C59142-2BE8-4D0A-8830-DD79C08A18D8', '', '', '', '', 'Student13', 'Rti')
---insert @SaveStudents (StudentID, OldNumber, OldFirstname, OldLastname, NewNumber, NewFirstname, NewLastname) values ('2456EBE0-A7BC-4238-A24C-C5C95E18CA97', '', '', '', '', 'Student14', 'Rti')
---insert @SaveStudents (StudentID, OldNumber, OldFirstname, OldLastname, NewNumber, NewFirstname, NewLastname) values ('C542F1C9-5C09-4866-B715-02DBE310E4C2', '', '', '', '', 'Student15', 'Rti')
---insert @SaveStudents (StudentID, OldNumber, OldFirstname, OldLastname, NewNumber, NewFirstname, NewLastname) values ('E2FE8019-C50D-4E52-9952-476F74430A44', '', '', '', '', 'Student16', 'Rti')
---insert @SaveStudents (StudentID, OldNumber, OldFirstname, OldLastname, NewNumber, NewFirstname, NewLastname) values ('E191093C-46DE-4A19-9029-30D5EC945546', '', '', '', '', 'Student17', 'Rti')
---insert @SaveStudents (StudentID, OldNumber, OldFirstname, OldLastname, NewNumber, NewFirstname, NewLastname) values ('E9324BD7-4733-4617-8B87-1D509786906F', '', '', '', '', 'Student18', 'Rti')
---insert @SaveStudents (StudentID, OldNumber, OldFirstname, OldLastname, NewNumber, NewFirstname, NewLastname) values ('3BAF0A76-1A51-4E6B-8741-49799C7958F2', '', '', '', '', 'Student19', 'Rti')
---insert @SaveStudents (StudentID, OldNumber, OldFirstname, OldLastname, NewNumber, NewFirstname, NewLastname) values ('4F075DE6-ADA4-443E-87D8-3DCD0ECD3C63', '', '', '', '', 'Student20', 'Rti')
 
 -- show students to be preserved.
 --select isnull(StudentID, @zg) from @SaveStudents
@@ -142,18 +116,19 @@ delete StudentGroupStudent where StudentID in (select DestID from LEGACYSPED.MAP
 delete Student where ID in (select DestID from LEGACYSPED.MAP_StudentRefID)
 end
 
+declare @attachmentfile table (ID uniqueidentifier not null)
+insert @attachmentfile
+select a.ID 
+from Attachment a join 
+FileData f on a.FileID = f.ID 
 
+delete a
+from @attachmentfile af 
+join Attachment a on af.ID = a.ID
 
-
-
-
-
-
-
-
-
-
-
+delete f
+from @attachmentfile af 
+join FileData f on af.ID = f.ID
 
 -- delete sample student guardians from the mapping table
 delete m from EFF.Map_StudentGuardianID m join EFF.StudentGuardians g on m.ID = g.GuardianID join @SaveStudents s on g.StudentID = s.OldNumber ; print 'Delete Guardian ID from MAP table : ' + convert(varchar(10), @@rowcount)
@@ -923,18 +898,18 @@ where Module = 'SPEDDOC'
 UPDATE SystemSettings SET SecurityRebuiltDate = NULL
 
 
--- Poudre unneeded DistrictID
-delete d
--- select d.*, k.*
-from UserProfileOrgUnit d 
-where d.OrgUnitID = '0A2D598F-A05D-4553-8772-314449FAAF73' -- Poudre School District - test
+---- Poudre unneeded DistrictID
+--delete d
+---- select d.*, k.*
+--from UserProfileOrgUnit d 
+--where d.OrgUnitID = '0A2D598F-A05D-4553-8772-314449FAAF73' -- Poudre School District - test
 
-if exists (select 1 from OrgUnit where ID = '0A2D598F-A05D-4553-8772-314449FAAF73')
-begin
-	update s set OID = '6531EF88-352D-4620-AF5D-CE34C54A9F53' from Student s where s.OID = '0A2D598F-A05D-4553-8772-314449FAAF73'
-	delete UserProfileOrgUnit where OrgUnitID = '0A2D598F-A05D-4553-8772-314449FAAF73'
-	delete OrgUnit where ID = '0A2D598F-A05D-4553-8772-314449FAAF73' 
-end
+--if exists (select 1 from OrgUnit where ID = '0A2D598F-A05D-4553-8772-314449FAAF73')
+--begin
+--	update s set OID = '6531EF88-352D-4620-AF5D-CE34C54A9F53' from Student s where s.OID = '0A2D598F-A05D-4553-8772-314449FAAF73'
+--	delete UserProfileOrgUnit where OrgUnitID = '0A2D598F-A05D-4553-8772-314449FAAF73'
+--	delete OrgUnit where ID = '0A2D598F-A05D-4553-8772-314449FAAF73' 
+--end
 
 commit tran
 --rollback tran
@@ -942,6 +917,34 @@ commit tran
 --select * from Student where LastName = 'Sample' or LastName = 'RtI' order by LastName, FirstName
 
 --dbcc opentran()
+
+go
+
+declare @t varchar(100), @q varchar(max)
+declare T cursor for 
+select DestTable from VC3ETL.LoadTable where ExtractDatabase = '29D14961-928D-4BEE-9025-238496D144C6' and DestTable is not null and DestTable not like 'LEGACYSPED%' and len(DestTable)>2
+union 
+select 'PrgDocument'
+union
+select 'FormTemplate'
+order by DestTable
+
+open T 
+fetch T into @t
+
+while @@fetch_status = 0
+begin
+
+set @q = 'DBCC DBREINDEX ('+@t+')'
+exec (@q)
+
+
+
+fetch T into @t
+end
+close T
+deallocate T
+
 
 
 
