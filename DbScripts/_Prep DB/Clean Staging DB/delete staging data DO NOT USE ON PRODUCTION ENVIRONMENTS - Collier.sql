@@ -24,6 +24,7 @@ declare @studentid varchar(36), @sch varchar(50), @tbl varchar(100), @col varcha
 -- select * from student where lastname = 'student' -- select * from LEGACYSPED.MAP_StudentRefID
 
 
+delete VC3ETL.LoadTable where ExtractDatabase = '29D14961-928D-4BEE-9025-238496D144C6' and SourceTable like 'EFF.%'
 
 declare @zg uniqueidentifier ; select @zg = '00000000-0000-0000-0000-000000000000'
 
