@@ -4,7 +4,7 @@ DROP TABLE SPEDDOC.AllDocs_LOCAL
 GO  
 
 CREATE TABLE SPEDDOC.AllDocs_LOCAL(	
-	PKSeq	varchar(150) not null, -- remember this might be a GUID or something else in some other environement
+	DocumentRefID	varchar(150) not null, -- remember this might be a GUID or something else in some other environement
 	DocumentType varchar(100) not null,
 	DocumentDate datetime null,
 	StudentRefID varchar(150) not null,

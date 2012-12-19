@@ -5,7 +5,7 @@ IF  NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'SPEDDOC.MAP_
 BEGIN 
 CREATE TABLE SPEDDOC.MAP_FileDataID
 	(
-	PKSeq varchar(150) not null,
+	DocumentRefID varchar(150) not null,
 	StudentRefID varchar(150) not null,
 	DocumentType varchar(100) not null,
 	DestID uniqueidentifier NOT NULL
@@ -14,7 +14,7 @@ CREATE TABLE SPEDDOC.MAP_FileDataID
 ALTER TABLE SPEDDOC.MAP_FileDataID ADD CONSTRAINT
 	PK_MAP_FileDataID_IEP PRIMARY KEY CLUSTERED
 	(
-	PKSeq, DocumentType
+	DocumentRefID, DocumentType
 	)
 END
 GO
@@ -34,19 +34,19 @@ AS
 	This view will select PDF document from SPEDDOC.IEPDoc table by joining LEGACYSPED.IEP table on IepRefID.
 */
 SELECT 
-	d.PKSeq,
+	d.DocumentRefID,
 	d.DocumentType,
 	d.StudentRefID,
 	DestID = coalesce(t.ID, m.DestID),
-	OriginalName = d.DocumentType+' - '+isnull(convert(varchar, d.DocumentDate,101), ''),
+	OriginalName = d.DocumentType+' - '+isnull(convert(varchar, d.DocumentDate,101), '')+'.pdf',
 	ReceivedDate = GETDATE(),
-	MimeType = 'document/pdf',
+	d.MimeType,
 	d.Content,
 	isTemporary = 0
 FROM 
 	SPEDDOC.AllDocs d JOIN
-	LEGACYSPED.Student s ON d.StudentRefID = s.StudentRefID LEFT JOIN 
-	SPEDDOC.MAP_FileDataID m ON d.PKSeq = m.PKSeq and d.DocumentType = m.DocumentType left join
+	LEGACYSPED.IEP s ON d.StudentRefID = s.StudentRefID LEFT JOIN 
+	SPEDDOC.MAP_FileDataID m ON d.DocumentRefID = m.DocumentRefID and d.DocumentType = m.DocumentType left join
 	dbo.FileData t ON m.DestID = t.ID
 go
 
