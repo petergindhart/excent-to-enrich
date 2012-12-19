@@ -923,18 +923,18 @@ where Module = 'SPEDDOC'
 UPDATE SystemSettings SET SecurityRebuiltDate = NULL
 
 
--- Poudre unneeded DistrictID
-delete d
--- select d.*, k.*
-from UserProfileOrgUnit d 
-where d.OrgUnitID = '0A2D598F-A05D-4553-8772-314449FAAF73' -- Poudre School District - test
+---- Poudre unneeded DistrictID
+--delete d
+---- select d.*, k.*
+--from UserProfileOrgUnit d 
+--where d.OrgUnitID = '0A2D598F-A05D-4553-8772-314449FAAF73' -- Poudre School District - test
 
-if exists (select 1 from OrgUnit where ID = '0A2D598F-A05D-4553-8772-314449FAAF73')
-begin
-	update s set OID = '6531EF88-352D-4620-AF5D-CE34C54A9F53' from Student s where s.OID = '0A2D598F-A05D-4553-8772-314449FAAF73'
-	delete UserProfileOrgUnit where OrgUnitID = '0A2D598F-A05D-4553-8772-314449FAAF73'
-	delete OrgUnit where ID = '0A2D598F-A05D-4553-8772-314449FAAF73' 
-end
+--if exists (select 1 from OrgUnit where ID = '0A2D598F-A05D-4553-8772-314449FAAF73')
+--begin
+--	update s set OID = '6531EF88-352D-4620-AF5D-CE34C54A9F53' from Student s where s.OID = '0A2D598F-A05D-4553-8772-314449FAAF73'
+--	delete UserProfileOrgUnit where OrgUnitID = '0A2D598F-A05D-4553-8772-314449FAAF73'
+--	delete OrgUnit where ID = '0A2D598F-A05D-4553-8772-314449FAAF73' 
+--end
 
 commit tran
 --rollback tran
