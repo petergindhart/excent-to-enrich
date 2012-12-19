@@ -3,12 +3,12 @@
 -- #############################################################################
 -- This table will associate the Attachment.  
 
-IF  NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'SPEDDOC.MAP_AttachmentID') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
+IF  NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'SPEDDOC.MAP_AttachmentID') AND OBJECTPROPERTY(id, N'IsUserTable') = 1) -- drop table SPEDDOC.MAP_AttachmentID
 
 BEGIN 
 CREATE TABLE SPEDDOC.MAP_AttachmentID
 (
-	PKSeq varchar(150) not null,
+	DocumentRefID varchar(150) not null,
 	StudentRefID varchar(150) NOT NULL,
 	DocumentType varchar(100) not null,
 	DestID uniqueidentifier NOT NULL
@@ -17,7 +17,7 @@ CREATE TABLE SPEDDOC.MAP_AttachmentID
 ALTER TABLE SPEDDOC.MAP_AttachmentID ADD CONSTRAINT
 	PK_MAP_AttachmentID PRIMARY KEY CLUSTERED
 (
-	PKSeq, DocumentType
+	DocumentRefID, DocumentType
 )
 END
 GO
@@ -39,7 +39,7 @@ AS
 */
 
 SELECT 
-	f.PKSeq,
+	f.DocumentRefID,
 	f.DocumentType,
 	f.StudentRefID,
 	DestID = coalesce(t.ID, ma.DestID),
@@ -52,7 +52,7 @@ SELECT
 FROM  
 	SPEDDOC.Transform_FileData f JOIN
 	LEGACYSPED.Transform_PrgIep i on f.StudentRefID = i.StudentRefID LEFT JOIN
-	SPEDDOC.MAP_AttachmentID ma	on f.PKSeq = ma.PKSeq and f.DocumentType = ma.DocumentType LEFT JOIN	
+	SPEDDOC.MAP_AttachmentID ma	on f.DocumentRefID = ma.DocumentRefID and f.DocumentType = ma.DocumentType LEFT JOIN	
 	dbo.Attachment t ON ma.DestID = t.ID
 go
 
