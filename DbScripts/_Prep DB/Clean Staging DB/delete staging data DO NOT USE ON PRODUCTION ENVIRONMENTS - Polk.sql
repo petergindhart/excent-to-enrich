@@ -142,18 +142,18 @@ delete StudentGroupStudent where StudentID in (select DestID from LEGACYSPED.MAP
 delete Student where ID in (select DestID from LEGACYSPED.MAP_StudentRefID)
 end
 
+declare @attachmentfile table (ID uniqueidentifier not null)
+select a.ID 
+from Attachment a join 
+FileData f on a.FileID = f.ID 
 
+delete a
+from @attachmentfile af 
+join Attachment a on af.ID = a.ID
 
-
-
-
-
-
-
-
-
-
-
+delete f
+from @attachmentfile af 
+join FileData f on af.ID = f.ID
 
 -- delete sample student guardians from the mapping table
 delete m from EFF.Map_StudentGuardianID m join EFF.StudentGuardians g on m.ID = g.GuardianID join @SaveStudents s on g.StudentID = s.OldNumber ; print 'Delete Guardian ID from MAP table : ' + convert(varchar(10), @@rowcount)
