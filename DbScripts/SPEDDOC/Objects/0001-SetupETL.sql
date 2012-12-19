@@ -10,14 +10,14 @@ INSERT INTO @VC3ETL_ExtractDatabase VALUES ( '9756E9BB-8B6B-44E4-9C4E-B3F8E6A6CD
 DECLARE @VC3ETL_ExtractTable TABLE (ID uniqueidentifier, ExtractDatabase uniqueidentifier, SourceTable varchar(100), DestSchema varchar(50), DestTable varchar(50), PrimaryKey varchar(100), Indexes varchar(200), LastSuccessfulCount int, CurrentCount int, Filter varchar(1000), Enabled bit, IgnoreMissing bit, Columns varchar(4000), Comments varchar(1000))
 
 -- Insert the data to be synchronized into the temporary table
-INSERT INTO @VC3ETL_ExtractTable VALUES ('642BB649-FF50-418E-9866-FE605880F8A1', '9756E9BB-8B6B-44E4-9C4E-B3F8E6A6CD16', 'AllDocs', 'SPEDDOC', 'AllDocs', 'PKSeq, DocumentType', NULL, 0, 0, NULL, 1, 0, NULL, NULL)
+INSERT INTO @VC3ETL_ExtractTable VALUES ('642BB649-FF50-418E-9866-FE605880F8A1', '9756E9BB-8B6B-44E4-9C4E-B3F8E6A6CD16', 'AllDocs', 'SPEDDOC', 'AllDocs', 'DocumentRefID, DocumentType', NULL, 0, 0, NULL, 1, 0, NULL, NULL)
 
 -- Declare a temporary table to hold the data to be synchronized
 DECLARE @VC3ETL_LoadTable TABLE (ID uniqueidentifier, ExtractDatabase uniqueidentifier, Sequence int, SourceTable varchar(100), DestTable varchar(100), HasMapTable bit, MapTable varchar(100), KeyField varchar(250), DeleteKey varchar(50), ImportType int, DeleteTrans bit, UpdateTrans bit, InsertTrans bit, Enabled bit, SourceTableFilter varchar(1000), DestTableFilter varchar(1000), PurgeCondition varchar(1000), KeepMappingAfterDelete bit, StartNewTransaction bit, LastLoadDate datetime, MapTableMapID varchar(250), Comments varchar(1000))
 
 -- Insert the data to be synchronized into the temporary table
-INSERT INTO @VC3ETL_LoadTable VALUES ('5903F2EE-5984-4322-A3DF-9140F46A70F4', '9756E9BB-8B6B-44E4-9C4E-B3F8E6A6CD16', 0, 'SPEDDOC.Transform_FileData', 'FileData', 1, 'SPEDDOC.MAP_FileDataID', 'PKSeq, StudentRefID, DocumentType', 'DestID', 1, 1, 0, 1, 1, null, 's.DestID in (select DestID from SPEDDOC.MAP_FileDataID)', NULL, 0, 0, '1/1/1970', NULL, NULL)
-INSERT INTO @VC3ETL_LoadTable VALUES ('BD05E043-13D4-4250-85E2-D2976EDAB08F', '9756E9BB-8B6B-44E4-9C4E-B3F8E6A6CD16', 1, 'SPEDDOC.Transform_Attachment', 'Attachment', 1, 'SPEDDOC.MAP_AttachmentID', 'PKSeq, StudentRefID, DocumentType', 'DestID', 1, 1, 0, 1, 1, null, 's.DestID in (select DestID from SPEDDOC.MAP_AttachmentID)', NULL, 0, 0, '1/1/1970', NULL, NULL)
+INSERT INTO @VC3ETL_LoadTable VALUES ('5903F2EE-5984-4322-A3DF-9140F46A70F4', '9756E9BB-8B6B-44E4-9C4E-B3F8E6A6CD16', 0, 'SPEDDOC.Transform_FileData', 'FileData', 1, 'SPEDDOC.MAP_FileDataID', 'DocumentRefID, StudentRefID, DocumentType', 'DestID', 1, 1, 0, 1, 1, null, 's.DestID in (select DestID from SPEDDOC.MAP_FileDataID)', NULL, 0, 0, '1/1/1970', NULL, NULL)
+INSERT INTO @VC3ETL_LoadTable VALUES ('BD05E043-13D4-4250-85E2-D2976EDAB08F', '9756E9BB-8B6B-44E4-9C4E-B3F8E6A6CD16', 1, 'SPEDDOC.Transform_Attachment', 'Attachment', 1, 'SPEDDOC.MAP_AttachmentID', 'DocumentRefID, StudentRefID, DocumentType', 'DestID', 1, 1, 0, 1, 1, null, 's.DestID in (select DestID from SPEDDOC.MAP_AttachmentID)', NULL, 0, 0, '1/1/1970', NULL, NULL)
 
 -- Declare a temporary table to hold the data to be synchronized    
 DECLARE @VC3ETL_LoadColumn TABLE (ID uniqueidentifier, LoadTable uniqueidentifier, SourceColumn varchar(500), DestColumn varchar(500), ColumnType char(1), UpdateOnDelete bit, DeletedValue varchar(500), NullValue varchar(500), Comments varchar(1000))
