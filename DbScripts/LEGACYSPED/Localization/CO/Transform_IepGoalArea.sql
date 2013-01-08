@@ -44,46 +44,24 @@ go
 
 
 -- #############################################################################
-/*
 IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.GoalAreaPivotView') AND OBJECTPROPERTY(id, N'IsView') = 1)
 DROP VIEW LEGACYSPED.GoalAreaPivotView
---GO
+GO
 
 create view LEGACYSPED.GoalAreaPivotView
 as
-	select IepRefID, GoalRefID, 'GAReading' GoalAreaCode, CAST(0 as int) GoalIndex
-	from LEGACYSPED.Goal
-	where GAReading = 'Y'
-	UNION ALL
-	select IepRefID, GoalRefID, 'GAWriting' GoalAreaCode, CAST(1 as int) GoalIndex
-	from LEGACYSPED.Goal
-	where  GAWriting = 'Y'
-	UNION ALL
-	select IepRefID, GoalRefID, 'GAMath' GoalAreaCode, CAST(2 as int) GoalIndex
-	from LEGACYSPED.Goal
-	where  GAMath = 'Y'
-	UNION ALL
-	select IepRefID, GoalRefID, 'GAOther' GoalAreaCode, CAST(3 as int) GoalIndex
-	from LEGACYSPED.Goal
-	where  GAOther = 'Y'
-	UNION ALL
-	select IepRefID, GoalRefID, 'GAEmotional' GoalAreaCode, CAST(4 as int) GoalIndex
-	from LEGACYSPED.Goal
-	where  GAEmotional = 'Y'
-	UNION ALL
-	select IepRefID, GoalRefID, 'GAIndependent' GoalAreaCode, CAST(5 as int) GoalIndex
-	from LEGACYSPED.Goal
-	where  GAIndependent = 'Y'
-	UNION ALL
-	select IepRefID, GoalRefID, 'GAHealth' GoalAreaCode, CAST(6 as int) GoalIndex
-	from LEGACYSPED.Goal
-	where  GAHealth = 'Y'
-	UNION ALL
-	select IepRefID, GoalRefID, 'GACommunication' GoalAreaCode, CAST(7 as int) GoalIndex
-	from LEGACYSPED.Goal
-	where  GACommunication = 'Y'
---GO
-*/
+select g.IepRefID, g.GoalRefID, g.GoalAreaCode, GoalAreaDefIndex = k.Sequence
+from LEGACYSPED.Goal g join (
+	select k.Type, k.LegacySpedCode, k.EnrichLabel, Sequence = (
+		select count(*) 
+		from LEGACYSPED.SelectLists ki 
+		where ki.Type = 'GoalArea' 
+		and ki.EnrichLabel < k.EnrichLabel
+		) 
+	from LEGACYSPED.SelectLists k 
+	where k.Type = 'GoalArea'
+	) k on g.GoalAreaCode = k.LegacySpedCode 
+GO
 
 --create table LEGACYSPED.GoalAreaPivotTable (
 --IepRefID varchar(150) not null,
