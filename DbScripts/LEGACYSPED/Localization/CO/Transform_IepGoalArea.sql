@@ -7,15 +7,15 @@ IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.MA
 BEGIN
 CREATE TABLE LEGACYSPED.MAP_IepGoalArea
 (
-	InstanceID	uniqueidentifier not null,
-	GoalAreaDefID uniqueidentifier NOT NULL,
+	GoalRefID	varchar(150) not null,
+	DefID uniqueidentifier NOT NULL,
 	DestID uniqueidentifier NOT NULL
 )
 
 ALTER TABLE LEGACYSPED.MAP_IepGoalArea ADD CONSTRAINT 
 PK_MAP_IepGoalArea PRIMARY KEY CLUSTERED
 (
-	InstanceID, GoalAreaDefID
+	DefID, GoalRefID
 )
 END
 GO
@@ -171,10 +171,6 @@ as
 		--LEGACYSPED.MAP_GoalAreaDefID m on ga.GoalAreaCode = m.GoalAreaCode
 		LEGACYSPED.GoalAreasPerGoalView gapg on g.GoalRefID = gapg.GoalRefID and g.IepRefID = gapg.IepRefID left join
 		--) distga left join -- 32608
-		LEGACYSPED.MAP_IepGoalArea mga on gapg.InstanceID = mga.InstanceID and gapg.DefID = mga.GoalAreaDefID left join
-		dbo.IepGoalArea tgt on mga.DestID = tgt.ID --- select * from IepGoalArea
-		--where gapg.GoalIndex = 
-		--	(select MIN(gaIn.GoalIndex) -- Enrich does not currently support multiple domains per Goal
-		--	from LEGACYSPED.GoalAreaPivotView gaIn
-		--	where gaIn.GoalRefID = gapg.GoalRefID) 
+		LEGACYSPED.MAP_IepGoalArea mga on gapg.GoalRefID = mga.GoalRefID and gapg.DefID = mga.DefID left join
+		dbo.IepGoalArea tgt on mga.DestID = tgt.ID
 go
