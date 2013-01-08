@@ -43,6 +43,7 @@ AS
 		VersionID = CASE WHEN t.CanVersion = 1 THEN i.VersionDestID ELSE CAST(NULL as uniqueidentifier) END,
 		FormInstanceID = case when d.ID = '9AC79680-7989-4CC9-8116-1CCDB1D0AE5F' then tsvc.FormInstanceID else NULL end,
 		HeaderFormInstanceID =  CAST (NULL as UNIQUEIDENTIFIER),
+		OnLatestVersion = cast(1 as bit),
 		i.DoNotTouch
 	FROM
 		LEGACYSPED.Transform_PrgIep i CROSS JOIN
