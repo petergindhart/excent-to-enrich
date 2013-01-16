@@ -22,7 +22,7 @@ GO
 CREATE VIEW LEGACYSPED.Transform_PrgInvolvementTeamMember
 AS
 SELECT
-      ID = mp.DestID,
+      mp.DestID,
       StaffEmail = team.StaffEmail,
       StudentRefId = team.StudentRefId,
       PersonID = u.ID,
