@@ -24,6 +24,8 @@ GO
 
 create view LEGACYSPED.SubGoalAreaPivotView
 as
+/*	FLORIDA CODE AS FOLLOWS:
+
 	select IepRefID, GoalRefID, 'GAReading' GoalAreaCode, CAST(0 as int) SubGoalDefIndex
 	from LEGACYSPED.Goal
 	where GAReading = 'Y'
@@ -40,6 +42,11 @@ as
 	from LEGACYSPED.Goal
 	where  GAOther = 'Y'
 	--order by GoalRefID, GoalIndex
+	
+	CREATE A DUMMY VIEW FOR STATES THAT DO NOT USE SUBGOALAREAS SO THAT WE CAN RE-USE THE REST OF THE CODE. */
+select top 1 IepRefID, GoalRefID, 'do not need this view in CO' GoalAreaCode, CAST(0 as int) SubGoalDefIndex
+from LEGACYSPED.Goal
+where 0 = 1
 go
 
 IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.Transform_IepGoalSubGoalAreaDef') AND OBJECTPROPERTY(id, N'IsView') = 1)
