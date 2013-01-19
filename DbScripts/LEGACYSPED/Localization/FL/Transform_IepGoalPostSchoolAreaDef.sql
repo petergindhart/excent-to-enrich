@@ -1,39 +1,25 @@
 -- #############################################################################
 --		Goal Area Pivot 
 
+-- COLORADO SPECIFIC
+
 IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.PostSchoolAreaPivotView') AND OBJECTPROPERTY(id, N'IsView') = 1)
 DROP VIEW LEGACYSPED.PostSchoolAreaPivotView
 GO
 
-create view LEGACYSPED.PostSchoolAreaPivotView
+create view LEGACYSPED.PostSchoolAreaPivotView -- select GoalRefID, count(*) tot from LEGACYSPED.PostSchoolAreaPivotView group by GoalRefID having count(*) > 1
 as
-	select IepRefID, GoalRefID, 'PSAdult' PostSchoolAreaCode
+	select IepRefID, GoalRefID, '01' PostSchoolAreaCode
 	from LEGACYSPED.Goal
-	where PSAdult = 'Y'
+	where PSEducation = 'Y'
 	UNION ALL
-	select IepRefID, GoalRefID, 'PSCommunity' PostSchoolAreaCode
-	from LEGACYSPED.Goal
-	where  PSCommunity = 'Y'
-	UNION ALL
-	select IepRefID, GoalRefID, 'PSInstruction' PostSchoolAreaCode
-	from LEGACYSPED.Goal
-	where  PSInstruction = 'Y'
-	UNION ALL
-	select IepRefID, GoalRefID, 'PSEmployment' PostSchoolAreaCode
+	select IepRefID, GoalRefID, '02' PostSchoolAreaCode
 	from LEGACYSPED.Goal
 	where  PSEmployment = 'Y'
 	UNION ALL
-	select IepRefID, GoalRefID, 'PSDailyLiving' PostSchoolAreaCode
+	select IepRefID, GoalRefID, '03' PostSchoolAreaCode
 	from LEGACYSPED.Goal
-	where  PSDailyLiving = 'Y'
-	UNION ALL
-	select IepRefID, GoalRefID, 'PSRelated' PostSchoolAreaCode
-	from LEGACYSPED.Goal
-	where  PSRelated = 'Y'
-	UNION ALL
-	select IepRefID, GoalRefID, 'PSVocational' PostSchoolAreaCode
-	from LEGACYSPED.Goal
-	where  PSVocational = 'Y'
+	where  PSIndependent = 'Y'
 GO
 
 
@@ -51,19 +37,17 @@ as
 		ps.GoalRefID,
 		ps.PostSchoolAreaCode,
 		GoalID = pg.DestID,
+		--DestID = NEWID(),
 		PostSchoolAreaDefID = m.DestID,
 		Sequence = (select COUNT(*) from LEGACYSPED.PostSchoolAreaPivotView where GoalRefID = ps.GoalRefID and PostSchoolAreaCode < ps.PostSchoolAreaCode)
 	from LEGACYSPED.PostSchoolAreaPivotView ps JOIN 
 	LEGACYSPED.Transform_PrgGoal pg on ps.GoalRefID = pg.GoalRefID join 
 	LEGACYSPED.MAP_PostSchoolAreaDefID m on ps.PostSchoolAreaCode = m.PostSchoolAreaCode left join
-	dbo.IepGoalPostSchoolAreaDef t on 
-		pg.DestID = t.GoalID and 
-		m.DestID = t.PostSchoolAreaDefID
+	dbo.IepGoalPostSchoolAreaDef tgt on pg.DestID = tgt.GoalID and m.DestID = tgt.PostSchoolAreaDefID
 	where 
-		t.GoalID is null
+		tgt.GoalID is null
 -- order by ps.GoalRefID, Sequence
 go
--- 17045
 
 
 

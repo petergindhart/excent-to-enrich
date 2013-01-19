@@ -1,7 +1,6 @@
+-- COLORADO VERSION
 
--- FLORIDA SPECIFIC
-
--- LEGACYSPED.MAP_GoalAreaDefID is created and inserted in LEGACYSPED\Objects\0001a-ETLPrep_State_FL.sql -- drop table LEGACYSPED.MAP_IepGoalArea
+-- LEGACYSPED.MAP_GoalAreaDefID is created and inserted in LEGACYSPED\Objects\0001a-ETLPrep_State_FL.sql
 -- #############################################################################
 --		Iep Goal Area MAP
 IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.MAP_IepGoalArea') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
@@ -51,98 +50,105 @@ GO
 
 create view LEGACYSPED.GoalAreaPivotView
 as
-	select IepRefID, GoalRefID, 'GACurriculum' GoalAreaCode, cast(0 as int) GoalAreaDefIndex
-	from LEGACYSPED.Goal 
-	where not (GAReading is null and GAWriting is null and GAMath is null and GAOther is null) 
-	UNION ALL
-	select IepRefID, GoalRefID, 'GAEmotional' GoalAreaCode, CAST(4 as int) GoalAreaDefIndex
-	from LEGACYSPED.Goal
-	where  GAEmotional = 'Y'
-	UNION ALL
-	select IepRefID, GoalRefID, 'GAIndependent' GoalAreaCode, CAST(5 as int) GoalAreaDefIndex
-	from LEGACYSPED.Goal
-	where  GAIndependent = 'Y'
-	UNION ALL
-	select IepRefID, GoalRefID, 'GAHealth' GoalAreaCode, CAST(6 as int) GoalAreaDefIndex
-	from LEGACYSPED.Goal
-	where  GAHealth = 'Y'
-	UNION ALL
-	select IepRefID, GoalRefID, 'GACommunication' GoalAreaCode, CAST(7 as int) GoalAreaDefIndex
-	from LEGACYSPED.Goal
-	where  GACommunication = 'Y'
---order by GoalRefID
-go
+select g.IepRefID, g.GoalRefID, g.GoalAreaCode, GoalAreaDefIndex = k.Sequence
+from LEGACYSPED.Goal g join (
+	select k.Type, k.LegacySpedCode, k.EnrichLabel, Sequence = (
+		select count(*) 
+		from LEGACYSPED.SelectLists ki 
+		where ki.Type = 'GoalArea' 
+		and ki.EnrichLabel < k.EnrichLabel
+		) 
+	from LEGACYSPED.SelectLists k 
+	where k.Type = 'GoalArea'
+	) k on g.GoalAreaCode = k.LegacySpedCode 
+GO
+
+--create table LEGACYSPED.GoalAreaPivotTable (
+--IepRefID varchar(150) not null,
+--GoalRefID varchar(150) not null,
+--GoalAreaCode varchar(20) not null,
+--GoalIndex int not null
+--)
+
+--alter table LEGACYSPED.GoalAreaPivotTable 
+--	add constraint PK_LEGACYSPED_GoalAreaPivotTable primary key (IepRefID, GoalRefID, GoalAreaCode)
+--go
+
+--alter table LEGACYSPED.GoalAreaPivotTable 
+--	drop constraint PK_LEGACYSPED_GoalAreaPivotTable 
+--go
+
+
+--insert LEGACYSPED.GoalAreaPivotTable
+--select * from LEGACYSPED.GoalAreaPivotView
+
+-- #############################################################################
+
+IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.GoalAreasPerGoalView') AND OBJECTPROPERTY(id, N'IsView') = 1)
+DROP VIEW LEGACYSPED.GoalAreasPerGoalView
+GO
+
+-- this view is different between FL and CO because of the way Goal Areas are handled in the 2 states
+create view LEGACYSPED.GoalAreasPerGoalView -- select * from LEGACYSPED.GoalAreasPerGoalView 
+as
+/*
+
+	Currently Enrich does not support more than 1 goal area per goal, so we need to arbitrarily but consistently pick one goal for now.
+	In LEGACYSPED.GoalAreaPivotView we devised an Index that will allow us to select the minimum GoalAreaIndex per Goal, which this view provides.
+	The output of this view will be the one GoalArea selected for each Goal.
+	This filter will no longer be necessary after support for multiple areas (domains) per goal is added to Enrich.
+
+*/
+
+-- The output of this view will be the one GoalArea selected for each Goal.
+	select
+		g.IepRefID,
+		InstanceID = pgs.DestID,
+		DefID = m.DestID,
+		GoalAreaCode = isnull(g.GoalAreaCode, 'ZZZ'),
+		g.GoalRefID,
+		GoalIndex = cast(0 as int) -- select g.*
+	from LEGACYSPED.Goal g JOIN
+		LEGACYSPED.Transform_PrgGoals pgs on g.IepRefID = pgs.IepRefID join -- on left join some records do not have an instanceid  -- 4E367F51-09E0-41A6-9CA1-88F0230A05D1 
+		LEGACYSPED.Transform_IepGoalAreaDef m on isnull(g.GoalAreaCode,'ZZZ') = m.GoalAreaCode -- select * from LEGACYSPED.MAP_GoalAreaDefID -- select * from IepGoalAreaDef order by deleteddate, sequence, Name -- select * from LEGACYSPED.MAP_GoalAreaDefID
+	--where ga.GoalIndex = (				
+	--	select top 1 minga.GoalIndex
+	--	from  LEGACYSPED.GoalAreaPivotView minga
+	--	where ga.GoalRefID = minga.GoalRefID
+	--	order by ga.GoalIndex)
+GO
 
 
 -- #############################################################################
 
---IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.GoalAreasPerGoalView') AND OBJECTPROPERTY(id, N'IsView') = 1)
---DROP VIEW LEGACYSPED.GoalAreasPerGoalView
---GO
 
---create view LEGACYSPED.GoalAreasPerGoalView ---------------------------- change name to minimum goal area per goal -- or -- goal area per goal view (not plural).  one primary area, possible multiple secondary areas.
---as
---/*
-
---	--Currently Enrich does not support more than 1 goal area per goal, so we need to arbitrarily but consistently pick one goal for now.
---	--In LEGACYSPED.GoalAreaPivotView we devised an Index that will allow us to select the minimum GoalAreaIndex per Goal, which this view provides.
---	--The output of this view will be the one GoalArea selected for each Goal.
---	--This filter will no longer be necessary after support for multiple areas (domains) per goal is added to Enrich.
----- The output of this view will be the one GoalArea selected for each Goal.
-
---	NOTE:  The above comment does not apply now that we can have more than one goal area per goal.  GG 20121213
-
---	Now the view should only return one goal area per goal, because the sub-goals are being split out.	
-
---*/
---select
---	tg.GoalRefID,
---	tg.IepRefID,
---	tg.InstanceID,
---	DefID = m.DestID,
---	ga.GoalAreaCode, 
---	GoalIndex = cast(0 as int) -- select ga.* 
---from 
---	LEGACYSPED.Transform_PrgGoal tg join -- select * from LEGACYSPED.Transform_PrgGoal 
---	LEGACYSPED.GoalAreaPivotView ga on tg.GoalRefID = ga.GoalRefID join -- select * from LEGACYSPED.GoalAreaPivotView
---	LEGACYSPED.MAP_IepGoalAreaDefID m on ga.GoalAreaCode = m.GoalAreaCode  -- select * from LEGACYSPED.MAP_IepGoalAreaDefID
---where ga.GoalAreaDefIndex = (
---	select min(minga.GoalAreaDefIndex)
---	from  LEGACYSPED.GoalAreaPivotView minga
---	where tg.GoalRefID = minga.GoalRefID
---	)
---GO
-
-
--- #############################################################################
--- Transform_IepGoalArea (PRIMARY)
 IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.Transform_IepGoalArea') AND OBJECTPROPERTY(id, N'IsView') = 1)
 DROP VIEW LEGACYSPED.Transform_IepGoalArea
-go
+GO
 
-create view LEGACYSPED.Transform_IepGoalArea
+create view LEGACYSPED.Transform_IepGoalArea 
 as
--- we are separating out the primary goal areas from the secondary goal areas.  We will use the lowest GoalAreaDefIndex for the primary goal. 
--- Curriculum and Learning goals are derived from the presence any of Reading, Writing, Math or Other
-select 
-	g.IepRefID, 
-	g.GoalRefID, 
-	p.GoalAreaCode, 
-	mga.DestID,
-	GoalID = g.DestID,
-	DefID = md.DestID, -- GoalAreaDefID
-	g.InstanceID, 
-	FormInstanceID = cast(NULL as uniqueidentifier),
-	g.EsyID
-from LEGACYSPED.Transform_PrgGoal g join 
-LEGACYSPED.MAP_GoalAreaPivot p on g.GoalRefID = p.GoalRefID join -- in the where clause we will limit this to the primary goal area.  Another transform will insert subgoals, and yet another will insert secondary goals
-LEGACYSPED.MAP_IepGoalAreaDefID md on p.GoalAreaCode = md.GoalAreaCode left join
-LEGACYSPED.MAP_IepGoalArea mga on g.GoalRefID = mga.GoalRefID and md.DestID = mga.DefID left join 
-IepGoalArea ga on mga.DestID = ga.ID
-where p.GoalAreaDefIndex = (
-	select min(pmin.GoalAreaDefIndex)
-	from LEGACYSPED.MAP_GoalAreaPivot pmin 
-	where p.GoalRefID = pmin.GoalRefID)
+	select distinct
+		gapg.IepRefID,
+		g.GoalRefID,
+		gapg.GoalAreaCode,
+		mga.DestID,
+		GoalID = g.DestID,
+		gapg.InstanceID,
+		gapg.DefID,
+		FormInstanceID = CAST(NULL as uniqueidentifier),
+		g.EsyID
+	from Legacysped.Transform_PrgGoal g join 
+		--select distinct -- if support is later added for multiple domains per goal this portion of the query may work
+		--	ga.IepRefID,
+		--	InstanceID = pgs.DestID,
+		--	DefID = m.DestID,
+		--	ga.GoalAreaCode
+		--from LEGACYSPED.GoalAreaPivotView ga JOIN 
+		--LEGACYSPED.Transform_PrgGoals pgs on ga.IepRefID = pgs.IepRefID join -- on left join some records do not have an instanceid  -- 4E367F51-09E0-41A6-9CA1-88F0230A05D1 
+		--LEGACYSPED.MAP_GoalAreaDefID m on ga.GoalAreaCode = m.GoalAreaCode
+		LEGACYSPED.GoalAreasPerGoalView gapg on g.GoalRefID = gapg.GoalRefID and g.IepRefID = gapg.IepRefID left join
+		--) distga left join -- 32608
+		LEGACYSPED.MAP_IepGoalArea mga on gapg.GoalRefID = mga.GoalRefID and gapg.DefID = mga.DefID left join
+		dbo.IepGoalArea tgt on mga.DestID = tgt.ID
 go
-
-
