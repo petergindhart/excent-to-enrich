@@ -4,7 +4,7 @@ GO
 
 create view LEGACYSPED.Transform_StudentSchoolAndGrade
 as
- select 
+select 
   StudentID = s.DestID, 
   GradeLevelID = s.CurrentGradeLevelID, 
   SchoolID = s.CurrentSchoolID, 
@@ -25,10 +25,6 @@ as
 	s.DestID = sgh.StudentID and
 	s.CurrentGradeLevelID = sgh.GradeLevelID and
 	sgh.EndDate is null
-where sgh.StartDate = (
-	select max(hx.startdate) 
-	from StudentGradeLevelHistory hx 
-	where sgh.StudentID = hx.StudentID and sgh.GradeLevelID = hx.GradeLevelID
-	)
+where s.ManuallyEntered = 1 and s.CurrentSchoolID is not null
 go
 
