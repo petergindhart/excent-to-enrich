@@ -89,6 +89,7 @@ AgeGroup	varchar(3),
 LRECode	varchar(150),
 MinutesPerWeek	int,
 ConsentForServicesDate	datetime,
+ConsentForEvaluationDate	datetime,
 ServiceDeliveryStatement varchar(8000))
 
 insert @Transform_IepLeastRestrictiveEnvironment
