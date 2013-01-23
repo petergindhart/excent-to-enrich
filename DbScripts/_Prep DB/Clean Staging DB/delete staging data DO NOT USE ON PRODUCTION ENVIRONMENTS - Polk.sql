@@ -854,10 +854,10 @@ end
 close O
 deallocate O
 
-
-/* 
+go
+/* */
 declare @o varchar(100), @ut char(1), @n varchar(5), @q varchar(max); select @n = '
-'*/
+'
 
 -- speddoc
 declare O cursor for 
