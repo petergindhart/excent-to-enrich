@@ -1,10 +1,8 @@
 --#include ..\..\..\Objects\Transform_ServiceFrequency.sql
 
--- Idaho
--- AnotherChoice
-
+-- Colorado
+-- Ft.LuptonKeensBurg
 -- note : data model for SystemSettings table has changed (v 19)
-
 if exists (select 1 from sys.schemas s join sys.objects o on s.schema_id = o.schema_id where s.name = 'LEGACYSPED' and o.name = 'MAP_AdminUnitID')
 drop table LEGACYSPED.MAP_AdminUnitID
 go
@@ -19,11 +17,14 @@ insert LEGACYSPED.MAP_AdminUnitID values ('6531EF88-352D-4620-AF5D-CE34C54A9F53'
 -- INSERT ONLY ONE RECORD INTO THIS TABLE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 go
 
--- OrgUnit
-update ou set Number = '994' 
- --select ou.*
-from (select top 1 OrgUnitID from School group by OrgUnitID order by count(*) desc) m join dbo.OrgUnit ou on m.OrgUnitID = ou.ID
-go
+-- to consider:  in case these get deleted, have code that will insert them if they are not here.  Not necessary at this point.
+declare @OrgUnit table (ID uniqueidentifier, Name varchar(200), Number varchar(10))
+insert @OrgUnit values ('C0EE4341-A386-444A-8485-97209F816C91', 'Weld RE8', '3140')
+
+update ou set Number = t.Number
+-- select * 
+from @OrgUnit t join
+OrgUnit ou on t.ID = ou.ID 
 
 
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'LEGACYSPED.ImportPrgSections') AND type in (N'U'))
@@ -73,37 +74,37 @@ go
 			i.e. 2 times Quarterly = 8 times yearly,  30 minutes per quarter = 2 hours per year or 120 minutes per year
 */
 
--- Lee County had a MAP_ServiceFrequencyID from a previouos ETL run that had bogus frequency data. delete that data and insert the good.
-declare @Map_ServiceFrequencyID table (ServiceFrequencyCode varchar(30), ServiceFrequencyName varchar(50), DestID uniqueidentifier)
+declare @map_servicefrequencyid table (servicefrequencycode varchar(30), servicefrequencyname varchar(50), destid uniqueidentifier)
 set nocount on;
-insert @Map_ServiceFrequencyID values ('ZZZ', 'Not specified', 'C42C50ED-863B-44B8-BF68-B377C8B0FA95')
-insert @Map_ServiceFrequencyID values ('03', 'monthly', '3D4B557B-0C2E-4A41-9410-BA331F1D20DD')
-insert @Map_ServiceFrequencyID values ('01', 'daily', '71590A00-2C40-40FF-ABD9-E73B09AF46A1')
-insert @Map_ServiceFrequencyID values ('02', 'weekly', 'A2080478-1A03-4928-905B-ED25DEC259E6')
-insert @Map_ServiceFrequencyID values ('', 'yearly', '5F3A2822-56F3-49DA-9592-F604B0F202C3')
-insert @Map_ServiceFrequencyID values('AN', 'As Needed', '69439D9D-B6C1-4B7A-9CAC-C69810ADFD31')
-insert @Map_ServiceFrequencyID values('ESY', 'As Needed for ESY', '836D1E97-CE4D-4FD5-9D0A-148924AC007B')
-
-select * from ServiceFrequency
+insert @map_servicefrequencyid values ('zzz', 'not specified', 'c42c50ed-863b-44b8-bf68-b377c8b0fa95')
+insert @map_servicefrequencyid values ('03', 'monthly', '3d4b557b-0c2e-4a41-9410-ba331f1d20dd')
+insert @map_servicefrequencyid values ('01', 'daily', '71590a00-2c40-40ff-abd9-e73b09af46a1')
+insert @map_servicefrequencyid values ('02', 'weekly', 'a2080478-1a03-4928-905b-ed25dec259e6')
+insert @map_servicefrequencyid values ('', 'yearly', '5f3a2822-56f3-49da-9592-f604b0f202c3')
+insert @map_servicefrequencyid values('an', 'as needed', '69439d9d-b6c1-4b7a-9cac-c69810adfd31')
+insert @map_servicefrequencyid values('esy', 'as needed for esy', '836d1e97-ce4d-4fd5-9d0a-148924ac007b')
 
 
-if (select COUNT(*) from @Map_ServiceFrequencyID t join LEGACYSPED.MAP_ServiceFrequencyID m on t.DestID = m.DestID) <> 5
-	delete LEGACYSPED.MAP_ServiceFrequencyID
+-- select * from ServiceFrequency
+
+if (select count(*) from @map_servicefrequencyid t join legacysped.map_servicefrequencyid m on t.destid = m.destid) <> 5
+	delete legacysped.map_servicefrequencyid
 
 set nocount off;
-insert LEGACYSPED.MAP_ServiceFrequencyID
-select m.ServiceFrequencyCode, m.ServiceFrequencyName, m.DestID
-from @Map_ServiceFrequencyID m left join
-	LEGACYSPED.MAP_ServiceFrequencyID t on m.DestID = t.DestID
-where t.DestID is null
+insert legacysped.map_servicefrequencyid
+select m.servicefrequencycode, m.servicefrequencyname, m.destid
+from @map_servicefrequencyid m left join
+	legacysped.map_servicefrequencyid t on m.destid = t.destid
+where t.destid is null
 
 -- this is seed data, but maybe this is not the best place for this code.....
-insert ServiceFrequency (ID, Name, Sequence, WeekFactor)
-select DestID, m.ServiceFrequencyName, 99, 0
-from LEGACYSPED.MAP_ServiceFrequencyID m left join
-	ServiceFrequency t on m.DestID = t.ID
-where t.ID is null
-GO
+insert servicefrequency (id, name, sequence, weekfactor)
+select destid, m.servicefrequencyname, 99, 0
+from legacysped.map_servicefrequencyid m left join
+	servicefrequency t on m.destid = t.id
+where t.id is null
+go
+
 
 if not exists (select * from PrgItemOutcome where Text = 'IEP Ended' and CurrentDefID = '8011D6A2-1014-454B-B83C-161CE678E3D3')
 begin
@@ -122,7 +123,6 @@ PrgItemOutcomeID uniqueidentifier not null
 insert LEGACYSPED.PrgItemOutcome_EndIEP values (@PrgItemOutcomeID)
 go
 
-
 if exists (select 1 from sys.schemas s join sys.objects o on s.schema_id = o.schema_id where s.name = 'LEGACYSPED' and o.name = 'SpedConversionWrapUp')
 drop procedure LEGACYSPED.SpedConversionWrapUp
 go
@@ -132,5 +132,3 @@ as
 -- this should run for all districts in all states
 update d set IsReevaluationNeeded = 1, StartDate = dateadd(dd, -d.MaxDaysToComplete, dateadd(yy, -d.MaxYearsToComplete, getdate())) from PrgMilestoneDef d where d.ID in ('27C002AF-ED92-4152-8B8C-7CA1ADEA2C81', 'AC043E4C-55EC-4F10-BCED-7E9201D7D0E2')
 GO
-
-

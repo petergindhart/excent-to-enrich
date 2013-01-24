@@ -58,6 +58,7 @@ select
 	iep.LRECode,
 	iep.MinutesPerWeek,
 	iep.ConsentForServicesDate,
+	iep.ConsentForEvaluationDate,
 	iep.ServiceDeliveryStatement
 from LEGACYSPED.EvaluateIncomingItems ev left join 
 	LEGACYSPED.Transform_Student stu on ev.StudentRefID = stu.StudentRefID left join 

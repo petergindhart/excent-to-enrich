@@ -18,6 +18,7 @@ LEGACYSPED.MAP_PersonID m ON m.StaffEmail = sm.StaffEmail left join
 UserProfile up ON up.ID = m.DestID left join 
 SecurityRole r on sm.ENRICHROLE = r.Name 
 WHERE up.ID is null
+and not exists (select 1 from UserProfile where UserName = 'Enrich:'+sm.Firstname+ sm.Lastname)
 
 
 --insert UserProfile (ID, RoleID, Username, CanPerformAllServices, CanSignAllServices, IsSchoolAutoSelected, CurrentFailedLoginAttempts, RoleStatusID)
