@@ -61,45 +61,21 @@ PK_MAP_IepGoalAreaDefID PRIMARY KEY CLUSTERED
 )
 
 -- In FL EO deployments these are populated in the Prep_State file, but in CO Clarity they are populated via ETL.  Transform should work in both cases.
+declare @ga table (GoalAreaCode varchar(20), DestID uniqueidentifier)
+set nocount on;
+--insert @ga values ('', '37EA0554-EC3F-4B95-AAD7-A52DECC7377C') -- Written Language -- same GUID used for Not Definied in Colorado
+--insert @ga values ('', '0E95D360-5CBE-4ECA-820F-CC25864D70D8') -- Mathematics
+--insert @ga values ('', '51C976DF-DC56-4F89-BCA1-E9AB6A01FBE7') -- Behavior
+--insert @ga values ('', '4F131BE0-D2A9-4EB2-8639-D772E05F3D5E') -- Developmental Therapy
+--insert @ga values ('', '25D890C3-BCAE-4039-AC9D-2AE21686DEB0') -- Speech/Language Therapy
+--insert @ga values ('', '6BBAADD8-BD9D-4C8F-A573-80F136B0A9FB') -- Occupational Therapy
+--insert @ga values ('', '0C0783DD-3D11-47A2-A1C1-CFE2F8F1FB4C') -- Orientation and Mobility
+--insert @ga values ('', 'B23994DB-2DEB-4D87-B77E-86E76F259A3E') -- Physical Therapy
+--insert @ga values ('', '702A94A6-9D11-408B-B003-11B9CCDE092E') -- Other
+insert @ga values ('ZZZ', '2CFF6386-49FD-4BC2-AA0C-C8474C2DEE69') -- Not defined
 
--- these IDs are exported with Enrich configuration for Colorado.  
--- Values from Clarity for APS do not at all match up with the IepGoalAreaDef values
---set nocount on;
---declare @ga table (GoalAreaCode varchar(20), DestID uniqueidentifier)
---insert @ga values ('BEEP', 'F7F042D5-885E-4BA0-B76D-C00C7C7988E3')
---insert @ga values ('BEPS', 'F7F042D5-885E-4BA0-B76D-C00C7C7988E3')
---insert @ga values ('TPIE', '8705E0BB-2CD9-498D-BB80-B54B2D2B9BF6')
---insert @ga values ('VOC', '8705E0BB-2CD9-498D-BB80-B54B2D2B9BF6')
---insert @ga values ('LAEX', '51C976DF-DC56-4F89-BCA1-E9AB6A01FBE7')
---insert @ga values ('LARL', '51C976DF-DC56-4F89-BCA1-E9AB6A01FBE7')
---insert @ga values ('SP', '51C976DF-DC56-4F89-BCA1-E9AB6A01FBE7')
---insert @ga values ('TPIIR', '6BBAADD8-BD9D-4C8F-A573-80F136B0A9FB')
---insert @ga values ('MA', '0E95D360-5CBE-4ECA-820F-CC25864D70D8')
---insert @ga values ('NM', '0E95D360-5CBE-4ECA-820F-CC25864D70D8')
---insert @ga values ('APE', 'D9260B1A-F268-4304-A22B-34A9D8001DE0')
---insert @ga values ('EC', 'D9260B1A-F268-4304-A22B-34A9D8001DE0')
---insert @ga values ('FM', 'D9260B1A-F268-4304-A22B-34A9D8001DE0')
---insert @ga values ('GMAP', 'D9260B1A-F268-4304-A22B-34A9D8001DE0')
---insert @ga values ('GMGC1', 'D9260B1A-F268-4304-A22B-34A9D8001DE0')
---insert @ga values ('GMPO2', 'D9260B1A-F268-4304-A22B-34A9D8001DE0')
---insert @ga values ('HHLD', 'D9260B1A-F268-4304-A22B-34A9D8001DE0')
---insert @ga values ('HLTH', 'D9260B1A-F268-4304-A22B-34A9D8001DE0')
---insert @ga values ('OMF', 'D9260B1A-F268-4304-A22B-34A9D8001DE0')
---insert @ga values ('VIS', 'D9260B1A-F268-4304-A22B-34A9D8001DE0')
---insert @ga values ('RD', '504CE0ED-537F-4EA0-BD97-0349FB1A4CA8')
---insert @ga values ('TPIC', '25D890C3-BCAE-4039-AC9D-2AE21686DEB0')
---insert @ga values ('BESI', '5050E2FA-7FF7-4910-8893-D354FFAF15C9')
---insert @ga values ('TPICP', 'D5976143-EE40-484F-B888-5D203452BDC9')
---insert @ga values ('TPIDL', 'D5976143-EE40-484F-B888-5D203452BDC9')
---insert @ga values ('TPIH', 'D5976143-EE40-484F-B888-5D203452BDC9')
---insert @ga values ('TPILA', 'D5976143-EE40-484F-B888-5D203452BDC9')
---insert @ga values ('TPIPS', 'D5976143-EE40-484F-B888-5D203452BDC9')
---insert @ga values ('TPISD', 'D5976143-EE40-484F-B888-5D203452BDC9')
---insert @ga values ('WL', '37EA0554-EC3F-4B95-AAD7-A52DECC7377C')
-
-
---insert LEGACYSPED.MAP_IepGoalAreaDefID 
---select ga.* from @ga ga where GoalAreaCode not in (select GoalAreaCode from LEGACYSPED.MAP_GoalAreaDefID)
+insert LEGACYSPED.MAP_IepGoalAreaDefID 
+select ga.* from @ga ga where GoalAreaCode not in (select GoalAreaCode from LEGACYSPED.MAP_IepGoalAreaDefID)
 
 END
 GO
