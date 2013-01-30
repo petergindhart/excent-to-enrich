@@ -17,7 +17,7 @@ go
 
 create view LEGACYSPED.Transform_IepGoalSecondaryGoalAreaDef -- no map necessary.  just delete and insert
 as
--- The secondary goal areas are all those other than the goal area with the lowest GoalAreaDefIndex
+-- The secondary goal areas are all those other than the goal area with the lowest GoalAreaDefIndex (per goal)
 select
 	tg.GoalRefID,
 	ga.GoalAreaCode,
