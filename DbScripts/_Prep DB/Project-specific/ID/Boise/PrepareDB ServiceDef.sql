@@ -102,9 +102,8 @@ from ServiceDef sd left join
 where t.ID is null
 
 Begin tran fixservdef
-
-insert ServiceDef (ID, TypeID, Name, Description, DefaultLocationID, MinutesPerUnit,UserDefined)
-select t.EnrichID, TypeID = 'D3945E9D-AA0E-4555-BCB2-F8CA95CC7784', t.EnrichLabel, tsd.Description, tsd.DefaultLocationID, tsd.MinutesPerUnit,1
+insert ServiceDef (ID, TypeID, Name, Description, DefaultLocationID, MinutesPerUnit,UserDefined,PhysicianReferralRequired)
+select t.EnrichID, TypeID = 'D3945E9D-AA0E-4555-BCB2-F8CA95CC7784', t.EnrichLabel, tsd.Description, tsd.DefaultLocationID, tsd.MinutesPerUnit,1,0
 from ServiceDef x right join
 (select * from @SelectLists where Type = 'Service') t on x.ID =t.EnrichID JOIN 
 @ServiceDef tsd on t.EnrichID = tsd.ID 
