@@ -53,6 +53,7 @@ select
 -- Additional Elements
 	AgeGroup = case 
 		when (select DistrictState from SystemSettings) = 'CO' then case when iep.LRECode between '200' and '299' then 'PK' when iep.LRECode between '300' and '399' then 'K12' else '' end 
+		when (select DistrictState from SystemSettings) = 'ID' then case when iep.LREAgeGroup IS null then k.SubType end
 		else case when DATEDIFF(yy, stu.DOB, iep.IepStartDate) < 6 then 'PK' when DATEDIFF(yy, stu.DOB, iep.IepStartDate) > 5 then 'K12' End
 		end, 
 	iep.LRECode,
@@ -63,6 +64,7 @@ select
 from LEGACYSPED.EvaluateIncomingItems ev left join 
 	LEGACYSPED.Transform_Student stu on ev.StudentRefID = stu.StudentRefID left join 
 	LEGACYSPED.IEP iep on ev.IncomingIEPRefID = iep.IepRefID left join -------------------------------------------------------------------------------- do we need to the Existing IEPRefID or the Incoming IEPRefID ?
+	LEGACYSPED.SelectLists k on iep.LRECode = k.LegacySpedCode and k.Type = 'LRE' left join -- ID sees some students with wrong LREAgeGroup
 	dbo.PrgItem t on ev.ExistingConvertedItemID = t.ID left join
 	LEGACYSPED.MAP_PrgInvolvementID minv on ev.StudentRefID = minv.StudentRefID 
 	--left join
