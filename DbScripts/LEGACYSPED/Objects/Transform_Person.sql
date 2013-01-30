@@ -19,19 +19,14 @@ GO
 
 CREATE VIEW LEGACYSPED.Transform_Person
 as
-SELECT 
- DestID = ISNULL(p.ID, m.DestID)
-,TypeID = 'U'
-,Firstname = sm.Firstname
-,Lastname = sm.Lastname
-,StaffEmail = sm.StaffEmail
-,ManuallyEntered = cast (1 as bit)
+SELECT DestID = ISNULL(p.ID, m.DestID),TypeID = 'U', Firstname = sm.Firstname, Lastname = sm.Lastname, StaffEmail = sm.StaffEmail, ManuallyEntered = cast (1 as bit) 
 FROM LEGACYSPED.SPEDStaffMember sm left join 
 LEGACYSPED.MAP_PersonID m ON m.StaffEmail = sm.StaffEmail left join 
-Person p on sm.STAFFEMAIL = p.EmailAddress 
-
-
-
---Person (ID, TypeID, Firstname, Lastname, EmailAddress, ManuallyEntered) 
+Person p on sm.STAFFEMAIL = p.EmailAddress left join
+UserProfile u on p.ID = u.ID left join
+UserProfile upn on 'Enrich:'+sm.Firstname+ sm.Lastname = upn.Username
+where u.ID is null
+and upn.ID is null
+go
 
 
