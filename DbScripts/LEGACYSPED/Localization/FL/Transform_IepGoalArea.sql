@@ -133,7 +133,7 @@ select
 	DefID = md.DestID, -- GoalAreaDefID
 	g.InstanceID, 
 	FormInstanceID = cast(NULL as uniqueidentifier),
-	g.EsyID
+	g.EsyID -- select *
 from LEGACYSPED.Transform_PrgGoal g join 
 LEGACYSPED.MAP_GoalAreaPivot p on g.GoalRefID = p.GoalRefID join -- in the where clause we will limit this to the primary goal area.  Another transform will insert subgoals, and yet another will insert secondary goals
 LEGACYSPED.MAP_IepGoalAreaDefID md on p.GoalAreaCode = md.GoalAreaCode left join
@@ -145,4 +145,15 @@ where p.GoalAreaDefIndex = (
 	where p.GoalRefID = pmin.GoalRefID)
 go
 
+
+IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.Transform_IepGoalArea_Distinct') AND OBJECTPROPERTY(id, N'IsView') = 1)
+DROP VIEW LEGACYSPED.Transform_IepGoalArea_Distinct
+go
+
+create view LEGACYSPED.Transform_IepGoalArea_Distinct
+as
+select IepRefID, GoalAreaCode, DefID, InstanceID, FormInstanceID
+from LEGACYSPED.Transform_IepGoalArea ga 
+group by IepRefID, GoalAreaCode, DefID, InstanceID, FormInstanceID
+go
 
