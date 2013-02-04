@@ -1,9 +1,9 @@
 --Get rid off old version
-IF EXISTS (SELECT 1 FROM sys.schemas s join sys.objects o on s.schema_id = o.schema_id where s.name = 'dbo' and o.name = 'Check_Objective_Specifcations')
-DROP PROC dbo.Check_Objective_Specifcations
+IF EXISTS (SELECT 1 FROM sys.schemas s join sys.objects o on s.schema_id = o.schema_id where s.name = 'dbo' and o.name = 'Check_Objective_Specifications')
+DROP PROC dbo.Check_Objective_Specifications
 GO
 
-CREATE PROC dbo.Check_Objective_Specifcations
+CREATE PROC dbo.Check_Objective_Specifications
 AS
 BEGIN
 

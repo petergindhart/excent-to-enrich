@@ -1,8 +1,8 @@
 IF EXISTS (SELECT 1 FROM sys.schemas s join sys.objects o on s.schema_id = o.schema_id where s.name = 'dbo' and o.name = 'Check_Service_Specifcations')
-DROP PROC dbo.Check_Service_Specifcations
+DROP PROC dbo.Check_Service_Specifications
 GO
 
-CREATE PROC dbo.Check_Service_Specifcations
+CREATE PROC dbo.Check_Service_Specifications
 AS
 BEGIN
 
@@ -12,64 +12,66 @@ SET @sql = 'DELETE Service'
 EXEC sp_executesql @stmt = @sql
 
 INSERT Service 
-SELECT CONVERT(VARCHAR(20),ServiceType)
-	  ,CONVERT(VARCHAR(150),ServiceRefId)
-	  ,CONVERT(VARCHAR(150),IepRefId)
-	  ,CONVERT(VARCHAR(150),ServiceDefinitionCode)
-	  ,CONVERT(VARCHAR(10),BeginDate)
-	  ,CONVERT(VARCHAR(10),EndDate)
-	  ,CONVERT(VARCHAR(1),IsRelated)
-	  ,CONVERT(VARCHAR(1),IsDirect)
-	  ,CONVERT(VARCHAR(1),ExcludesFromGenEd)
-	  ,CONVERT(VARCHAR(150),ServiceLocationCode)
-	  ,CONVERT(VARCHAR(150),ServiceProviderTitleCode)
-	  ,CONVERT(INT ,Sequence)
-	  ,CONVERT(VARCHAR(1),IsESY)
-	  ,CONVERT(INT ,ServiceTime)
-	  ,CONVERT(VARCHAR(150),ServiceFrequencyCode)
-	  ,CONVERT(VARCHAR(11) ,ServiceProviderSSN)
-	  ,CONVERT(VARCHAR(150),StaffEmail)
-	  ,CONVERT(VARCHAR(254),ServiceAreaText)
-	FROM Service_Local
-    WHERE ((DATALENGTH(ServiceType)/2)<= 20) 
-		  AND ((DATALENGTH(ServiceRefId)/2)<=150) 
-		  AND ((DATALENGTH(IepRefId)/2)<= 150) 
-		  AND ((DATALENGTH(ServiceDefinitionCode)/2)<=150 OR ServiceDefinitionCode IS NULL)
-		  AND ((DATALENGTH(BeginDate)/2)<=150 AND ISDATE(BeginDate)=1) 
-		  AND (((DATALENGTH(EndDate)/2)<= 150 AND ISDATE(EndDate)= 1)OR EndDate IS NULL)  
-		  AND ((DATALENGTH(IsRelated)/2)<=1) 
-		  AND ((DATALENGTH(IsDirect)/2)<= 1) 
-		  AND ((DATALENGTH(ExcludesFromGenEd)/2)<= 1) 
-		  AND ((DATALENGTH(ServiceLocationCode)/2)<= 1) 
-		  AND ((DATALENGTH(ServiceProviderTitleCode)/2)<= 1) 
-		  AND ((DATALENGTH(Sequence)/2)<= 2 OR Sequence IS NULL) 
-		  AND ((DATALENGTH(IsESY)/2)<= 1 OR IsESY IS NULL) 
-		  AND ((DATALENGTH(ServiceTime)/2)<= 4) 
-		  AND ((DATALENGTH(ServiceFrequencyCode)/2)<= 150) 
-		  AND ((DATALENGTH(ServiceProviderSSN)/2)<= 11 OR ServiceProviderSSN IS NULL) 
-		  AND ((DATALENGTH(StaffEmail)/2)<= 1 OR StaffEmail IS NULL) 
-		  AND ((DATALENGTH(ServiceAreaText)/2)<= 254 OR ServiceAreaText IS NULL) 
-		  AND NOT EXISTS (SELECT ServiceRefId FROM Service_Local GROUP BY ServiceRefId HAVING COUNT(*)>1) 
-		  AND (ServiceType IS NOT NULL) 
-		  AND (ServiceRefId IS NOT NULL)
-		  AND (IepRefId IS NOT NULL) 
-		  AND (BeginDate IS NOT NULL)
-		  AND (IsRelated IS NOT NULL) 
-		  AND (IsDirect IS NOT NULL)
-		  AND (ExcludesFromGenEd IS NOT NULL) 
-		  AND (ServiceLocationCode IS NOT NULL)
-		  AND (ServiceProviderTitleCode IS NOT NULL)
-		  AND (ServiceTime IS NOT NULL) 
-		  AND (ServiceFrequencyCode IS NOT NULL)
-		  AND IepRefId IN (SELECT IepRefId FROM IEP)
-		  AND (ServiceDefinitionCode IN (SELECT LEGACYSPEDCODE FROM SelectLists_LOCAL WHERE TYPE= 'Service') OR ServiceDefinitionCode IS NULL)
-		  AND ServiceLocationCode IN (SELECT LEGACYSPEDCODE FROM SelectLists_LOCAL WHERE TYPE= 'ServLoc')
-		  AND ServiceProviderTitleCode IN (SELECT LEGACYSPEDCODE FROM SelectLists_LOCAL WHERE TYPE= 'ServProv')
-		  AND ServiceFrequencyCode IN (SELECT LEGACYSPEDCODE FROM SelectLists_LOCAL WHERE TYPE= 'ServFreq')
-		  AND IsRelated IN ('Y','N')
-		  AND IsDirect IN ('Y','N')
-		  AND ExcludesFromGenEd IN ('Y','N')
-		  AND (IsESY IN ('Y','N') OR IsESY IS NULL)
+SELECT CONVERT(VARCHAR(20),ser.ServiceType)
+	  ,CONVERT(VARCHAR(150),ser.ServiceRefId)
+	  ,CONVERT(VARCHAR(150),ser.IepRefId)
+	  ,CONVERT(VARCHAR(150),ser.ServiceDefinitionCode)
+	  ,CONVERT(VARCHAR(10),ser.BeginDate)
+	  ,CONVERT(VARCHAR(10),ser.EndDate)
+	  ,CONVERT(VARCHAR(1),ser.IsRelated)
+	  ,CONVERT(VARCHAR(1),ser.IsDirect)
+	  ,CONVERT(VARCHAR(1),ser.ExcludesFromGenEd)
+	  ,CONVERT(VARCHAR(150),ser.ServiceLocationCode)
+	  ,CONVERT(VARCHAR(150),ser.ServiceProviderTitleCode)
+	  ,CONVERT(INT ,ser.Sequence)
+	  ,CONVERT(VARCHAR(1),ser.IsESY)
+	  ,CONVERT(INT ,ser.ServiceTime)
+	  ,CONVERT(VARCHAR(150),ser.ServiceFrequencyCode)
+	  ,CONVERT(VARCHAR(11) ,ser.ServiceProviderSSN)
+	  ,CONVERT(VARCHAR(150),ser.StaffEmail)
+	  ,CONVERT(VARCHAR(254),ser.ServiceAreaText)
+	FROM Service_Local ser
+		 JOIN (SELECT ServiceRefId FROM Service_Local GROUP BY ServiceRefId HAVING COUNT(*)= 1) ucser ON ucser.SERVICEREFID = ser.SERVICEREFID
+    WHERE ((DATALENGTH(ser.SERVICETYPE)/2)<= 10) 
+		  AND ((DATALENGTH(ser.ServiceRefId)/2)<=150) 
+		  AND ((DATALENGTH(ser.IepRefId)/2)<= 150) 
+		  AND ((DATALENGTH(ser.ServiceDefinitionCode)/2)<=150 OR ser.ServiceDefinitionCode IS NULL)
+		  AND ((DATALENGTH(ser.BeginDate)/2)<=150 AND ISDATE(ser.BeginDate)=1) 
+		  AND (((DATALENGTH(ser.EndDate)/2)<= 150 AND ISDATE(ser.EndDate)= 1)OR ser.EndDate IS NULL)  
+		  AND ((DATALENGTH(ser.IsRelated)/2)<=1) 
+		  AND ((DATALENGTH(ser.IsDirect)/2)<= 1) 
+		  AND ((DATALENGTH(ser.ExcludesFromGenEd)/2)<= 1) 
+		  AND ((DATALENGTH(ser.ServiceLocationCode)/2)<= 150) 
+		  AND ((DATALENGTH(ser.ServiceProviderTitleCode)/2)<= 150) 
+		  AND ((DATALENGTH(ser.Sequence)/2)<= 2 OR ser.Sequence IS NULL) 
+		  AND ((DATALENGTH(ser.IsESY)/2)<= 1 OR ser.IsESY IS NULL) 
+		  AND ((DATALENGTH(ser.ServiceTime)/2)<= 4) 
+		  AND ((DATALENGTH(ser.ServiceFrequencyCode)/2)<= 150) 
+		  AND ((DATALENGTH(ser.ServiceProviderSSN)/2)<= 11 OR ser.ServiceProviderSSN IS NULL) 
+		  AND ((DATALENGTH(ser.StaffEmail)/2)<= 1 OR ser.StaffEmail IS NULL) 
+		  AND ((DATALENGTH(ser.ServiceAreaText)/2)<= 254 OR ser.ServiceAreaText IS NULL) 
+		 --AND NOT EXISTS (SELECT ServiceRefId FROM Service_Local GROUP BY ServiceRefId HAVING COUNT(*)>1) 
+		  AND (ser.ServiceType IS NOT NULL) 
+		  AND (ser.ServiceRefId IS NOT NULL)
+		  AND (ser.IepRefId IS NOT NULL) 
+		  AND (ser.BeginDate IS NOT NULL)
+		  AND (ser.IsRelated IS NOT NULL) 
+		  AND (ser.IsDirect IS NOT NULL)
+		  AND (ser.ExcludesFromGenEd IS NOT NULL) 
+		  AND (ser.ServiceLocationCode IS NOT NULL)
+		  AND (ser.ServiceProviderTitleCode IS NOT NULL)
+		  AND (ser.ServiceTime IS NOT NULL) 
+		  AND (ser.ServiceFrequencyCode IS NOT NULL)
+		  AND ser.IepRefId IN (SELECT IepRefId FROM IEP)
+		  AND (ser.ServiceDefinitionCode IN (SELECT LEGACYSPEDCODE FROM SelectLists_LOCAL WHERE TYPE= 'Service') OR ServiceDefinitionCode IS NULL)
+		  AND ser.ServiceLocationCode IN (SELECT LEGACYSPEDCODE FROM SelectLists_LOCAL WHERE TYPE= 'ServLoc')
+		  AND ser.ServiceProviderTitleCode IN (SELECT LEGACYSPEDCODE FROM SelectLists_LOCAL WHERE TYPE= 'ServProv')
+		  AND ser.ServiceFrequencyCode IN (SELECT LEGACYSPEDCODE FROM SelectLists_LOCAL WHERE TYPE= 'ServFreq')
+		  AND ser.IsRelated IN ('Y','N')
+		  AND ser.IsDirect IN ('Y','N')
+		  AND ser.ExcludesFromGenEd IN ('Y','N')
+		  AND (ser.IsESY IN ('Y','N') OR ser.IsESY IS NULL)
+		  AND (ser.STAFFEMAIL IN (Select StaffEmail from SpedStaffMember) OR ser.STAFFEMAIL IS NULL)
 		/*
 		  AND NOT EXISTS ( Select * FROM Service_LOCAL ser JOIN IEP i ON ser.IepRefId = i.IepRefID WHERE ser.BeginDate < i.IEPStartDate)
 		  AND NOT EXISTS ( Select * FROM Service_LOCAL ser JOIN IEP i ON ser.IepRefId = i.IepRefID WHERE i.IEPEndDate < ser.EndDate)
@@ -83,87 +85,87 @@ SELECT LINE = IDENTITY(INT,1,1),* INTO #Service FROM Service_LOCAL
 INSERT Service_ValidationReport(Result)
 SELECT 'Please check the datalength of ServiceType for the following record. The line no is '+CAST(LINE AS VARCHAR(50))+ '.'+ISNULL(ServiceType,'')+'|'+ISNULL(ServiceRefId,'')+ISNULL(IepRefId,'')+'|'+ISNULL(ServiceDefinitionCode,'')+ISNULL(BeginDate,'')+'|'+ISNULL(EndDate,'')+ISNULL(IsRelated,'')+'|'+ISNULL(IsDirect,'')+ISNULL(ExcludesFromGenEd,'')+'|'+ISNULL(ServiceLocationCode,'')+ISNULL(ServiceProviderTitleCode,'')+'|'+ISNULL(Sequence,'')+ISNULL(IsESY,'')+'|'+ISNULL(ServiceTime,'')+ISNULL(ServiceFrequencyCode,'')+'|'+ISNULL(ServiceProviderSSN,'')+ISNULL(StaffEmail,'')+'|'+ISNULL(ServiceAreaText,'')
 FROM #Service 
-    WHERE ((DATALENGTH(ServiceType)/2)> 20) 
+    WHERE ((DATALENGTH(ServiceType)/2)> 20 AND ServiceType IS NOT NULL) 
 
 INSERT Service_ValidationReport(Result)
 SELECT 'Please check the datalength of ServiceRefId for the following record. The line no is '+CAST(LINE AS VARCHAR(50))+ '.'+ISNULL(ServiceType,'')+'|'+ISNULL(ServiceRefId,'')+ISNULL(IepRefId,'')+'|'+ISNULL(ServiceDefinitionCode,'')+ISNULL(BeginDate,'')+'|'+ISNULL(EndDate,'')+ISNULL(IsRelated,'')+'|'+ISNULL(IsDirect,'')+ISNULL(ExcludesFromGenEd,'')+'|'+ISNULL(ServiceLocationCode,'')+ISNULL(ServiceProviderTitleCode,'')+'|'+ISNULL(Sequence,'')+ISNULL(IsESY,'')+'|'+ISNULL(ServiceTime,'')+ISNULL(ServiceFrequencyCode,'')+'|'+ISNULL(ServiceProviderSSN,'')+ISNULL(StaffEmail,'')+'|'+ISNULL(ServiceAreaText,'')
 FROM #Service 
-    WHERE ((DATALENGTH(ServiceRefId)/2)> 150) 
+    WHERE ((DATALENGTH(ServiceRefId)/2)> 150 AND ServiceRefId IS NOT NULL) 
     
 INSERT Service_ValidationReport(Result)
 SELECT 'Please check the datalength of IepRefId for the following record. The line no is '+CAST(LINE AS VARCHAR(50))+ '.'+ISNULL(ServiceType,'')+'|'+ISNULL(ServiceRefId,'')+ISNULL(IepRefId,'')+'|'+ISNULL(ServiceDefinitionCode,'')+ISNULL(BeginDate,'')+'|'+ISNULL(EndDate,'')+ISNULL(IsRelated,'')+'|'+ISNULL(IsDirect,'')+ISNULL(ExcludesFromGenEd,'')+'|'+ISNULL(ServiceLocationCode,'')+ISNULL(ServiceProviderTitleCode,'')+'|'+ISNULL(Sequence,'')+ISNULL(IsESY,'')+'|'+ISNULL(ServiceTime,'')+ISNULL(ServiceFrequencyCode,'')+'|'+ISNULL(ServiceProviderSSN,'')+ISNULL(StaffEmail,'')+'|'+ISNULL(ServiceAreaText,'')
 FROM #Service 
-    WHERE ((DATALENGTH(IepRefId)/2) > 150) 
+    WHERE ((DATALENGTH(IepRefId)/2) > 150 AND IepRefId IS NOT NULL) 
     
 INSERT Service_ValidationReport(Result)
 SELECT 'Please check the datalength of ServiceDefinitionCode for the following record. The line no is '+CAST(LINE AS VARCHAR(50))+ '.'+ISNULL(ServiceType,'')+'|'+ISNULL(ServiceRefId,'')+ISNULL(IepRefId,'')+'|'+ISNULL(ServiceDefinitionCode,'')+ISNULL(BeginDate,'')+'|'+ISNULL(EndDate,'')+ISNULL(IsRelated,'')+'|'+ISNULL(IsDirect,'')+ISNULL(ExcludesFromGenEd,'')+'|'+ISNULL(ServiceLocationCode,'')+ISNULL(ServiceProviderTitleCode,'')+'|'+ISNULL(Sequence,'')+ISNULL(IsESY,'')+'|'+ISNULL(ServiceTime,'')+ISNULL(ServiceFrequencyCode,'')+'|'+ISNULL(ServiceProviderSSN,'')+ISNULL(StaffEmail,'')+'|'+ISNULL(ServiceAreaText,'')
 FROM #Service 
-    WHERE ((DATALENGTH(ServiceDefinitionCode)/2)> 150 OR ServiceDefinitionCode IS NOT NULL)
+    WHERE ((DATALENGTH(ServiceDefinitionCode)/2)> 150 AND ServiceDefinitionCode IS NOT NULL)
     
 INSERT Service_ValidationReport(Result)
 SELECT 'Please check the datalength of BeginDate for the following record. The line no is '+CAST(LINE AS VARCHAR(50))+ '.'+ISNULL(ServiceType,'')+'|'+ISNULL(ServiceRefId,'')+ISNULL(IepRefId,'')+'|'+ISNULL(ServiceDefinitionCode,'')+ISNULL(BeginDate,'')+'|'+ISNULL(EndDate,'')+ISNULL(IsRelated,'')+'|'+ISNULL(IsDirect,'')+ISNULL(ExcludesFromGenEd,'')+'|'+ISNULL(ServiceLocationCode,'')+ISNULL(ServiceProviderTitleCode,'')+'|'+ISNULL(Sequence,'')+ISNULL(IsESY,'')+'|'+ISNULL(ServiceTime,'')+ISNULL(ServiceFrequencyCode,'')+'|'+ISNULL(ServiceProviderSSN,'')+ISNULL(StaffEmail,'')+'|'+ISNULL(ServiceAreaText,'')
 FROM #Service 
-    WHERE ((DATALENGTH(BeginDate)/2)>150 AND ISDATE(BeginDate)=0) 
+    WHERE ((DATALENGTH(BeginDate)/2)>150 AND ISDATE(BeginDate)=0 AND BeginDate IS NOT NULL) 
     
 INSERT Service_ValidationReport(Result)
 SELECT 'Please check the datalength of EndDate for the following record. The line no is '+CAST(LINE AS VARCHAR(50))+ '.'+ISNULL(ServiceType,'')+'|'+ISNULL(ServiceRefId,'')+ISNULL(IepRefId,'')+'|'+ISNULL(ServiceDefinitionCode,'')+ISNULL(BeginDate,'')+'|'+ISNULL(EndDate,'')+ISNULL(IsRelated,'')+'|'+ISNULL(IsDirect,'')+ISNULL(ExcludesFromGenEd,'')+'|'+ISNULL(ServiceLocationCode,'')+ISNULL(ServiceProviderTitleCode,'')+'|'+ISNULL(Sequence,'')+ISNULL(IsESY,'')+'|'+ISNULL(ServiceTime,'')+ISNULL(ServiceFrequencyCode,'')+'|'+ISNULL(ServiceProviderSSN,'')+ISNULL(StaffEmail,'')+'|'+ISNULL(ServiceAreaText,'')
 FROM #Service 
-    WHERE (((DATALENGTH(EndDate)/2)> 150 AND ISDATE(EndDate)= 0)OR EndDate IS NOT NULL)
+    WHERE (((DATALENGTH(EndDate)/2)> 150 AND ISDATE(EndDate)= 0) AND EndDate IS NOT NULL)
     
 INSERT Service_ValidationReport(Result)
 SELECT 'Please check the datalength of IsRelated for the following record. The line no is '+CAST(LINE AS VARCHAR(50))+ '.'+ISNULL(ServiceType,'')+'|'+ISNULL(ServiceRefId,'')+ISNULL(IepRefId,'')+'|'+ISNULL(ServiceDefinitionCode,'')+ISNULL(BeginDate,'')+'|'+ISNULL(EndDate,'')+ISNULL(IsRelated,'')+'|'+ISNULL(IsDirect,'')+ISNULL(ExcludesFromGenEd,'')+'|'+ISNULL(ServiceLocationCode,'')+ISNULL(ServiceProviderTitleCode,'')+'|'+ISNULL(Sequence,'')+ISNULL(IsESY,'')+'|'+ISNULL(ServiceTime,'')+ISNULL(ServiceFrequencyCode,'')+'|'+ISNULL(ServiceProviderSSN,'')+ISNULL(StaffEmail,'')+'|'+ISNULL(ServiceAreaText,'')
 FROM #Service 
-    WHERE ((DATALENGTH(IsRelated)/2)>1) 
+    WHERE ((DATALENGTH(IsRelated)/2)>1 AND IsRelated IS NOT NULL) 
     
 INSERT Service_ValidationReport(Result)
 SELECT 'Please check the datalength of IsDirect for the following record. The line no is '+CAST(LINE AS VARCHAR(50))+ '.'+ISNULL(ServiceType,'')+'|'+ISNULL(ServiceRefId,'')+ISNULL(IepRefId,'')+'|'+ISNULL(ServiceDefinitionCode,'')+ISNULL(BeginDate,'')+'|'+ISNULL(EndDate,'')+ISNULL(IsRelated,'')+'|'+ISNULL(IsDirect,'')+ISNULL(ExcludesFromGenEd,'')+'|'+ISNULL(ServiceLocationCode,'')+ISNULL(ServiceProviderTitleCode,'')+'|'+ISNULL(Sequence,'')+ISNULL(IsESY,'')+'|'+ISNULL(ServiceTime,'')+ISNULL(ServiceFrequencyCode,'')+'|'+ISNULL(ServiceProviderSSN,'')+ISNULL(StaffEmail,'')+'|'+ISNULL(ServiceAreaText,'')
 FROM #Service 
-    WHERE ((DATALENGTH(IsDirect)/2)> 1)  
+    WHERE ((DATALENGTH(IsDirect)/2)> 1 AND IsDirect IS NOT NULL)  
     
 INSERT Service_ValidationReport(Result)
 SELECT 'Please check the datalength of ExcludesFromGenEd for the following record. The line no is '+CAST(LINE AS VARCHAR(50))+ '.'+ISNULL(ServiceType,'')+'|'+ISNULL(ServiceRefId,'')+ISNULL(IepRefId,'')+'|'+ISNULL(ServiceDefinitionCode,'')+ISNULL(BeginDate,'')+'|'+ISNULL(EndDate,'')+ISNULL(IsRelated,'')+'|'+ISNULL(IsDirect,'')+ISNULL(ExcludesFromGenEd,'')+'|'+ISNULL(ServiceLocationCode,'')+ISNULL(ServiceProviderTitleCode,'')+'|'+ISNULL(Sequence,'')+ISNULL(IsESY,'')+'|'+ISNULL(ServiceTime,'')+ISNULL(ServiceFrequencyCode,'')+'|'+ISNULL(ServiceProviderSSN,'')+ISNULL(StaffEmail,'')+'|'+ISNULL(ServiceAreaText,'')
 FROM #Service 
-    WHERE ((DATALENGTH(ExcludesFromGenEd)/2)> 1) 
+    WHERE ((DATALENGTH(ExcludesFromGenEd)/2)> 1 AND ExcludesFromGenEd IS NOT NULL) 
     
 INSERT Service_ValidationReport(Result)
 SELECT 'Please check the datalength of ServiceLocationCode for the following record. The line no is '+CAST(LINE AS VARCHAR(50))+ '.'+ISNULL(ServiceType,'')+'|'+ISNULL(ServiceRefId,'')+ISNULL(IepRefId,'')+'|'+ISNULL(ServiceDefinitionCode,'')+ISNULL(BeginDate,'')+'|'+ISNULL(EndDate,'')+ISNULL(IsRelated,'')+'|'+ISNULL(IsDirect,'')+ISNULL(ExcludesFromGenEd,'')+'|'+ISNULL(ServiceLocationCode,'')+ISNULL(ServiceProviderTitleCode,'')+'|'+ISNULL(Sequence,'')+ISNULL(IsESY,'')+'|'+ISNULL(ServiceTime,'')+ISNULL(ServiceFrequencyCode,'')+'|'+ISNULL(ServiceProviderSSN,'')+ISNULL(StaffEmail,'')+'|'+ISNULL(ServiceAreaText,'')
 FROM #Service 
-    WHERE ((DATALENGTH(ServiceLocationCode)/2)> 1) 
+    WHERE ((DATALENGTH(ServiceLocationCode)/2)> 1 AND ServiceLocationCode IS NOT NULL) 
     
 INSERT Service_ValidationReport(Result)
 SELECT 'Please check the datalength of ServiceProviderTitleCode for the following record. The line no is '+CAST(LINE AS VARCHAR(50))+ '.'+ISNULL(ServiceType,'')+'|'+ISNULL(ServiceRefId,'')+ISNULL(IepRefId,'')+'|'+ISNULL(ServiceDefinitionCode,'')+ISNULL(BeginDate,'')+'|'+ISNULL(EndDate,'')+ISNULL(IsRelated,'')+'|'+ISNULL(IsDirect,'')+ISNULL(ExcludesFromGenEd,'')+'|'+ISNULL(ServiceLocationCode,'')+ISNULL(ServiceProviderTitleCode,'')+'|'+ISNULL(Sequence,'')+ISNULL(IsESY,'')+'|'+ISNULL(ServiceTime,'')+ISNULL(ServiceFrequencyCode,'')+'|'+ISNULL(ServiceProviderSSN,'')+ISNULL(StaffEmail,'')+'|'+ISNULL(ServiceAreaText,'')
 FROM #Service 
-    WHERE ((DATALENGTH(ServiceProviderTitleCode)/2)> 1) 
+    WHERE ((DATALENGTH(ServiceProviderTitleCode)/2)> 1 AND ServiceProviderTitleCode IS NOT NULL) 
     
 INSERT Service_ValidationReport(Result)
 SELECT 'Please check the datalength of Sequence for the following record. The line no is '+CAST(LINE AS VARCHAR(50))+ '.'+ISNULL(ServiceType,'')+'|'+ISNULL(ServiceRefId,'')+ISNULL(IepRefId,'')+'|'+ISNULL(ServiceDefinitionCode,'')+ISNULL(BeginDate,'')+'|'+ISNULL(EndDate,'')+ISNULL(IsRelated,'')+'|'+ISNULL(IsDirect,'')+ISNULL(ExcludesFromGenEd,'')+'|'+ISNULL(ServiceLocationCode,'')+ISNULL(ServiceProviderTitleCode,'')+'|'+ISNULL(Sequence,'')+ISNULL(IsESY,'')+'|'+ISNULL(ServiceTime,'')+ISNULL(ServiceFrequencyCode,'')+'|'+ISNULL(ServiceProviderSSN,'')+ISNULL(StaffEmail,'')+'|'+ISNULL(ServiceAreaText,'')
 FROM #Service 
-    WHERE ((DATALENGTH(Sequence)/2) > 2 OR Sequence IS NULL) 
+    WHERE ((DATALENGTH(Sequence)/2) > 2 AND Sequence IS NOT NULL) 
     
 INSERT Service_ValidationReport(Result)
 SELECT 'Please check the datalength of IsESY for the following record. The line no is '+CAST(LINE AS VARCHAR(50))+ '.'+ISNULL(ServiceType,'')+'|'+ISNULL(ServiceRefId,'')+ISNULL(IepRefId,'')+'|'+ISNULL(ServiceDefinitionCode,'')+ISNULL(BeginDate,'')+'|'+ISNULL(EndDate,'')+ISNULL(IsRelated,'')+'|'+ISNULL(IsDirect,'')+ISNULL(ExcludesFromGenEd,'')+'|'+ISNULL(ServiceLocationCode,'')+ISNULL(ServiceProviderTitleCode,'')+'|'+ISNULL(Sequence,'')+ISNULL(IsESY,'')+'|'+ISNULL(ServiceTime,'')+ISNULL(ServiceFrequencyCode,'')+'|'+ISNULL(ServiceProviderSSN,'')+ISNULL(StaffEmail,'')+'|'+ISNULL(ServiceAreaText,'')
 FROM #Service 
-    WHERE ((DATALENGTH(IsESY)/2) > 1 OR IsESY IS NULL)  
+    WHERE ((DATALENGTH(IsESY)/2) > 1 AND IsESY IS NOT NULL)  
     
 INSERT Service_ValidationReport(Result)
 SELECT 'Please check the datalength of ServiceTime for the following record. The line no is '+CAST(LINE AS VARCHAR(50))+ '.'+ISNULL(ServiceType,'')+'|'+ISNULL(ServiceRefId,'')+ISNULL(IepRefId,'')+'|'+ISNULL(ServiceDefinitionCode,'')+ISNULL(BeginDate,'')+'|'+ISNULL(EndDate,'')+ISNULL(IsRelated,'')+'|'+ISNULL(IsDirect,'')+ISNULL(ExcludesFromGenEd,'')+'|'+ISNULL(ServiceLocationCode,'')+ISNULL(ServiceProviderTitleCode,'')+'|'+ISNULL(Sequence,'')+ISNULL(IsESY,'')+'|'+ISNULL(ServiceTime,'')+ISNULL(ServiceFrequencyCode,'')+'|'+ISNULL(ServiceProviderSSN,'')+ISNULL(StaffEmail,'')+'|'+ISNULL(ServiceAreaText,'')
 FROM #Service 
-    WHERE (((DATALENGTH(ServiceTime)/2) > 4) 
+    WHERE (((DATALENGTH(ServiceTime)/2) > 4) AND ServiceTime IS NOT NULL) 
     
 INSERT Service_ValidationReport(Result)
 SELECT 'Please check the datalength of ServiceFrequencyCode for the following record. The line no is '+CAST(LINE AS VARCHAR(50))+ '.'+ISNULL(ServiceType,'')+'|'+ISNULL(ServiceRefId,'')+ISNULL(IepRefId,'')+'|'+ISNULL(ServiceDefinitionCode,'')+ISNULL(BeginDate,'')+'|'+ISNULL(EndDate,'')+ISNULL(IsRelated,'')+'|'+ISNULL(IsDirect,'')+ISNULL(ExcludesFromGenEd,'')+'|'+ISNULL(ServiceLocationCode,'')+ISNULL(ServiceProviderTitleCode,'')+'|'+ISNULL(Sequence,'')+ISNULL(IsESY,'')+'|'+ISNULL(ServiceTime,'')+ISNULL(ServiceFrequencyCode,'')+'|'+ISNULL(ServiceProviderSSN,'')+ISNULL(StaffEmail,'')+'|'+ISNULL(ServiceAreaText,'')
 FROM #Service 
-    WHERE ((DATALENGTH(ServiceFrequencyCode)/2)<= 150) 
+    WHERE ((DATALENGTH(ServiceFrequencyCode)/2)<= 150 AND ServiceFrequencyCode IS NOT NULL) 
     
 INSERT Service_ValidationReport(Result)
 SELECT 'Please check the datalength of ServiceProviderSSN for the following record. The line no is '+CAST(LINE AS VARCHAR(50))+ '.'+ISNULL(ServiceType,'')+'|'+ISNULL(ServiceRefId,'')+ISNULL(IepRefId,'')+'|'+ISNULL(ServiceDefinitionCode,'')+ISNULL(BeginDate,'')+'|'+ISNULL(EndDate,'')+ISNULL(IsRelated,'')+'|'+ISNULL(IsDirect,'')+ISNULL(ExcludesFromGenEd,'')+'|'+ISNULL(ServiceLocationCode,'')+ISNULL(ServiceProviderTitleCode,'')+'|'+ISNULL(Sequence,'')+ISNULL(IsESY,'')+'|'+ISNULL(ServiceTime,'')+ISNULL(ServiceFrequencyCode,'')+'|'+ISNULL(ServiceProviderSSN,'')+ISNULL(StaffEmail,'')+'|'+ISNULL(ServiceAreaText,'')
 FROM #Service 
-    WHERE ((DATALENGTH(ServiceProviderSSN)/2) > 11 OR ServiceProviderSSN IS NOT NULL) 
+    WHERE ((DATALENGTH(ServiceProviderSSN)/2) > 11 AND ServiceProviderSSN IS NOT NULL) 
     
 INSERT Service_ValidationReport(Result)
 SELECT 'Please check the datalength of StaffEmail for the following record. The line no is '+CAST(LINE AS VARCHAR(50))+ '.'+ISNULL(ServiceType,'')+'|'+ISNULL(ServiceRefId,'')+ISNULL(IepRefId,'')+'|'+ISNULL(ServiceDefinitionCode,'')+ISNULL(BeginDate,'')+'|'+ISNULL(EndDate,'')+ISNULL(IsRelated,'')+'|'+ISNULL(IsDirect,'')+ISNULL(ExcludesFromGenEd,'')+'|'+ISNULL(ServiceLocationCode,'')+ISNULL(ServiceProviderTitleCode,'')+'|'+ISNULL(Sequence,'')+ISNULL(IsESY,'')+'|'+ISNULL(ServiceTime,'')+ISNULL(ServiceFrequencyCode,'')+'|'+ISNULL(ServiceProviderSSN,'')+ISNULL(StaffEmail,'')+'|'+ISNULL(ServiceAreaText,'')
 FROM #Service 
-    WHERE ((DATALENGTH(StaffEmail)/2) > 1 OR StaffEmail IS NOT NULL) 
+    WHERE ((DATALENGTH(StaffEmail)/2) > 1 AND StaffEmail IS NOT NULL) 
     
     
 INSERT Service_ValidationReport(Result)
@@ -229,16 +231,22 @@ FROM #Service
     
 ---Unique Fields
 INSERT Service_ValidationReport(Result)
-SELECT 'The "ServiceRefId" ' +ServiceRefId+' is unique field, It can not be duplicated. The line no is '+CAST(LINE AS VARCHAR(50))+ '.'+ISNULL(ServiceType,'')+'|'+ISNULL(ServiceRefId,'')+ISNULL(IepRefId,'')+'|'+ISNULL(ServiceDefinitionCode,'')+ISNULL(BeginDate,'')+'|'+ISNULL(EndDate,'')+ISNULL(IsRelated,'')+'|'+ISNULL(IsDirect,'')+ISNULL(ExcludesFromGenEd,'')+'|'+ISNULL(ServiceLocationCode,'')+ISNULL(ServiceProviderTitleCode,'')+'|'+ISNULL(Sequence,'')+ISNULL(IsESY,'')+'|'+ISNULL(ServiceTime,'')+ISNULL(ServiceFrequencyCode,'')+'|'+ISNULL(ServiceProviderSSN,'')+ISNULL(StaffEmail,'')+'|'+ISNULL(ServiceAreaText,'')
-FROM #Service 
-    WHERE EXISTS (SELECT ServiceRefId FROM Service_Local GROUP BY ServiceRefId HAVING COUNT(*)>1)   
+SELECT 'The "ServiceRefId" ' +ser.SERVICEREFID+' is unique field, It can not be duplicated. The line no is '+CAST(LINE AS VARCHAR(50))+ '.'+ISNULL(ServiceType,'')+'|'+ISNULL(ser.SERVICEREFID,'')+ISNULL(IepRefId,'')+'|'+ISNULL(ServiceDefinitionCode,'')+ISNULL(BeginDate,'')+'|'+ISNULL(EndDate,'')+ISNULL(IsRelated,'')+'|'+ISNULL(IsDirect,'')+ISNULL(ExcludesFromGenEd,'')+'|'+ISNULL(ServiceLocationCode,'')+ISNULL(ServiceProviderTitleCode,'')+'|'+ISNULL(Sequence,'')+ISNULL(IsESY,'')+'|'+ISNULL(ServiceTime,'')+ISNULL(ServiceFrequencyCode,'')+'|'+ISNULL(ServiceProviderSSN,'')+ISNULL(StaffEmail,'')+'|'+ISNULL(ServiceAreaText,'')
+FROM #Service ser
+JOIN (SELECT ServiceRefId FROM Service_Local GROUP BY ServiceRefId HAVING COUNT(*)>1) ucser
+ON ucser.SERVICEREFID = ser.SERVICEREFID 
     
 --To check the referential integrity issues
 INSERT Service_ValidationReport(Result)
 SELECT 'The "IepRefId" ' +IepRefId+' does not exist in IEP file or were not validated succuessfully. The line no is '+CAST(LINE AS VARCHAR(50))+ '.'+ISNULL(ServiceType,'')+'|'+ISNULL(ServiceRefId,'')+ISNULL(IepRefId,'')+'|'+ISNULL(ServiceDefinitionCode,'')+ISNULL(BeginDate,'')+'|'+ISNULL(EndDate,'')+ISNULL(IsRelated,'')+'|'+ISNULL(IsDirect,'')+ISNULL(ExcludesFromGenEd,'')+'|'+ISNULL(ServiceLocationCode,'')+ISNULL(ServiceProviderTitleCode,'')+'|'+ISNULL(Sequence,'')+ISNULL(IsESY,'')+'|'+ISNULL(ServiceTime,'')+ISNULL(ServiceFrequencyCode,'')+'|'+ISNULL(ServiceProviderSSN,'')+ISNULL(StaffEmail,'')+'|'+ISNULL(ServiceAreaText,'')
 FROM #Service 
 WHERE IepRefId NOT IN (SELECT IepRefId FROM IEP)
-  
+ 
+INSERT Service_ValidationReport(Result)
+SELECT 'The "StaffEmail" ' +StaffEmail+' does not exist in IEP file or were not validated succuessfully. The line no is '+CAST(LINE AS VARCHAR(50))+ '.'+ISNULL(ServiceType,'')+'|'+ISNULL(ServiceRefId,'')+ISNULL(IepRefId,'')+'|'+ISNULL(ServiceDefinitionCode,'')+ISNULL(BeginDate,'')+'|'+ISNULL(EndDate,'')+ISNULL(IsRelated,'')+'|'+ISNULL(IsDirect,'')+ISNULL(ExcludesFromGenEd,'')+'|'+ISNULL(ServiceLocationCode,'')+ISNULL(ServiceProviderTitleCode,'')+'|'+ISNULL(Sequence,'')+ISNULL(IsESY,'')+'|'+ISNULL(ServiceTime,'')+ISNULL(ServiceFrequencyCode,'')+'|'+ISNULL(ServiceProviderSSN,'')+ISNULL(StaffEmail,'')+'|'+ISNULL(ServiceAreaText,'')
+FROM #Service 
+WHERE (StaffEmail NOT IN (SELECT STAFFEMAIL FROM SpedStaffMember) AND StaffEmail IS NOT NULL)
+
 INSERT Service_ValidationReport(Result)
 SELECT 'The "ServiceDefinitionCode" ' +ServiceDefinitionCode+' does not exist in SelectLists file, but it existed in Service file. The line no is '+CAST(LINE AS VARCHAR(50))+ '.'+ISNULL(ServiceType,'')+'|'+ISNULL(ServiceRefId,'')+ISNULL(IepRefId,'')+'|'+ISNULL(ServiceDefinitionCode,'')+ISNULL(BeginDate,'')+'|'+ISNULL(EndDate,'')+ISNULL(IsRelated,'')+'|'+ISNULL(IsDirect,'')+ISNULL(ExcludesFromGenEd,'')+'|'+ISNULL(ServiceLocationCode,'')+ISNULL(ServiceProviderTitleCode,'')+'|'+ISNULL(Sequence,'')+ISNULL(IsESY,'')+'|'+ISNULL(ServiceTime,'')+ISNULL(ServiceFrequencyCode,'')+'|'+ISNULL(ServiceProviderSSN,'')+ISNULL(StaffEmail,'')+'|'+ISNULL(ServiceAreaText,'')
 FROM #Service 
@@ -249,20 +257,16 @@ SELECT 'The "ServiceLocationCode" ' +ServiceLocationCode+' does not exist in Sel
 FROM #Service 
 WHERE (ServiceLocationCode NOT IN (SELECT LEGACYSPEDCODE FROM SelectLists_LOCAL WHERE TYPE= 'ServLoc') AND ServiceLocationCode IS NOT NULL)
 
-INSERT Service_ValidationReport(Result)
-SELECT 'The "ServiceProviderTitleCode" ' +ServiceProviderTitleCode+' does not exist in SelectLists file, but it existed in Service file. The line no is '+CAST(LINE AS VARCHAR(50))+ '.'+ISNULL(ServiceType,'')+'|'+ISNULL(ServiceRefId,'')+ISNULL(IepRefId,'')+'|'+ISNULL(ServiceDefinitionCode,'')+ISNULL(BeginDate,'')+'|'+ISNULL(EndDate,'')+ISNULL(IsRelated,'')+'|'+ISNULL(IsDirect,'')+ISNULL(ExcludesFromGenEd,'')+'|'+ISNULL(ServiceLocationCode,'')+ISNULL(ServiceProviderTitleCode,'')+'|'+ISNULL(Sequence,'')+ISNULL(IsESY,'')+'|'+ISNULL(ServiceTime,'')+ISNULL(ServiceFrequencyCode,'')+'|'+ISNULL(ServiceProviderSSN,'')+ISNULL(StaffEmail,'')+'|'+ISNULL(ServiceAreaText,'')
-FROM #Service 
-WHERE (ServiceProviderTitleCode IN (SELECT LEGACYSPEDCODE FROM SelectLists_LOCAL WHERE TYPE= 'ServProv') AND ServiceProviderTitleCode IS NOT NULL)
 
 INSERT Service_ValidationReport(Result)
 SELECT 'The "ServiceProviderTitleCode" ' +ServiceProviderTitleCode+' does not exist in SelectLists file, but it existed in Service file. The line no is '+CAST(LINE AS VARCHAR(50))+ '.'+ISNULL(ServiceType,'')+'|'+ISNULL(ServiceRefId,'')+ISNULL(IepRefId,'')+'|'+ISNULL(ServiceDefinitionCode,'')+ISNULL(BeginDate,'')+'|'+ISNULL(EndDate,'')+ISNULL(IsRelated,'')+'|'+ISNULL(IsDirect,'')+ISNULL(ExcludesFromGenEd,'')+'|'+ISNULL(ServiceLocationCode,'')+ISNULL(ServiceProviderTitleCode,'')+'|'+ISNULL(Sequence,'')+ISNULL(IsESY,'')+'|'+ISNULL(ServiceTime,'')+ISNULL(ServiceFrequencyCode,'')+'|'+ISNULL(ServiceProviderSSN,'')+ISNULL(StaffEmail,'')+'|'+ISNULL(ServiceAreaText,'')
 FROM #Service 
-WHERE (ServiceProviderTitleCode IN (SELECT LEGACYSPEDCODE FROM SelectLists_LOCAL WHERE TYPE= 'ServProv') AND ServiceProviderTitleCode IS NOT NULL)
+WHERE (ServiceProviderTitleCode NOT IN (SELECT LEGACYSPEDCODE FROM SelectLists_LOCAL WHERE TYPE= 'ServProv') AND ServiceProviderTitleCode IS NOT NULL)
 
 INSERT Service_ValidationReport(Result)
 SELECT 'The "ServiceFrequencyCode" ' +ServiceFrequencyCode+' does not exist in SelectLists file, but it existed in Service file. The line no is '+CAST(LINE AS VARCHAR(50))+ '.'+ISNULL(ServiceType,'')+'|'+ISNULL(ServiceRefId,'')+ISNULL(IepRefId,'')+'|'+ISNULL(ServiceDefinitionCode,'')+ISNULL(BeginDate,'')+'|'+ISNULL(EndDate,'')+ISNULL(IsRelated,'')+'|'+ISNULL(IsDirect,'')+ISNULL(ExcludesFromGenEd,'')+'|'+ISNULL(ServiceLocationCode,'')+ISNULL(ServiceProviderTitleCode,'')+'|'+ISNULL(Sequence,'')+ISNULL(IsESY,'')+'|'+ISNULL(ServiceTime,'')+ISNULL(ServiceFrequencyCode,'')+'|'+ISNULL(ServiceProviderSSN,'')+ISNULL(StaffEmail,'')+'|'+ISNULL(ServiceAreaText,'')
 FROM #Service 
-WHERE (ServiceFrequencyCode IN (SELECT LEGACYSPEDCODE FROM SelectLists_LOCAL WHERE TYPE= 'ServFreq') AND ServiceFrequencyCode IS NOT NULL)
+WHERE (ServiceFrequencyCode NOT IN (SELECT LEGACYSPEDCODE FROM SelectLists_LOCAL WHERE TYPE= 'ServFreq') AND ServiceFrequencyCode IS NOT NULL)
 
 
 INSERT Service_ValidationReport(Result)

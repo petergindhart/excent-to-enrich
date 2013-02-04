@@ -20,6 +20,17 @@ CREATE TABLE District_ValidationReport
 )
 GO
 
+IF  EXISTS (SELECT 1 FROM sys.objects WHERE object_id = OBJECT_ID(N'School_ValidationReport') AND type in (N'U'))
+DROP TABLE School_ValidationReport
+GO
+
+CREATE TABLE School_ValidationReport
+( 
+	ID INT IDENTITY(1,1),
+	Result VARCHAR(MAX)
+)
+GO
+
 IF  EXISTS (SELECT 1 FROM sys.objects WHERE object_id = OBJECT_ID(N'Student_ValidationReport') AND type in (N'U'))
 DROP TABLE Student_ValidationReport
 GO
@@ -91,6 +102,17 @@ DROP TABLE TeamMember_ValidationReport
 GO
 
 CREATE TABLE TeamMember_ValidationReport
+( 
+	ID INT IDENTITY(1,1),
+	Result VARCHAR(MAX)
+)
+GO
+
+IF  EXISTS (SELECT 1 FROM sys.objects WHERE object_id = OBJECT_ID(N'StaffSchool_ValidationReport') AND type in (N'U'))
+DROP TABLE StaffSchool_ValidationReport
+GO
+
+CREATE TABLE StaffSchool_ValidationReport
 ( 
 	ID INT IDENTITY(1,1),
 	Result VARCHAR(MAX)

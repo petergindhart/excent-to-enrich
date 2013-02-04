@@ -1,9 +1,9 @@
 --Get rid off old version
-IF EXISTS (SELECT 1 FROM sys.schemas s join sys.objects o on s.schema_id = o.schema_id where s.name = 'dbo' and o.name = 'Check_StaffSchool_Specifcations')
-DROP PROC dbo.Check_StaffSchool_Specifcations
+IF EXISTS (SELECT 1 FROM sys.schemas s join sys.objects o on s.schema_id = o.schema_id where s.name = 'dbo' and o.name = 'Check_StaffSchool_Specifications')
+DROP PROC dbo.Check_StaffSchool_Specifications
 GO
 
-CREATE PROC dbo.Check_StaffSchool_Specifcations
+CREATE PROC dbo.Check_StaffSchool_Specifications
 AS
 BEGIN
 
@@ -56,7 +56,7 @@ WHERE (SchoolCode IS NULL)
 
 --To Check Duplicate Records
 INSERT StaffSchool_ValidationReport (Result)
-SELECT 'The record "'+tss.StaffEmail+','+tss.StudentRefID+'" was duplicated. The line no is '+CAST(tss.LINE AS VARCHAR(50))+ '.'+ISNULL(tss.StaffEmail,'')+'|'+ISNULL(tss.SchoolCode,'')
+SELECT 'The record "'+tss.StaffEmail+','+tss.SchoolCode+'" was duplicated. The line no is '+CAST(tss.LINE AS VARCHAR(50))+ '.'+ISNULL(tss.StaffEmail,'')+'|'+ISNULL(tss.SchoolCode,'')
 FROM #StaffSchool tss
  JOIN (SELECT StaffEmail,SchoolCode FROM StaffSchool_LOCAL GROUP BY StaffEmail,SchoolCode HAVING COUNT(*)>1) ucss
 		 ON (ucss.StaffEmail = tss.StaffEmail) AND (ucss.SchoolCode = tss.SchoolCode)

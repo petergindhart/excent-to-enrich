@@ -7,16 +7,28 @@ AS
 BEGIN
 
 BEGIN TRY 
-EXEC dbo.ImportDatafileToStaging 'C:\Test\SelectLists.csv','SelectLists_LOCAL'
-EXEC dbo.ImportDatafileToStaging 'C:\Test\District.csv','District_LOCAL'
-EXEC dbo.ImportDatafileToStaging 'C:\Test\Student.csv','Student_LOCAL'
-EXEC dbo.ImportDatafileToStaging 'C:\Test\IEP.csv','IEP_LOCAL'
-EXEC dbo.ImportDatafileToStaging 'C:\Test\SpedStaffMember.csv','SpedStaffMember_LOCAL'
-EXEC dbo.ImportDatafileToStaging 'C:\Test\Service.csv','Service_LOCAL'
-EXEC dbo.ImportDatafileToStaging 'C:\Test\Goal.csv','Goal_LOCAL'
-EXEC dbo.ImportDatafileToStaging 'C:\Test\Objective.csv','Objective_LOCAL'
-EXEC dbo.ImportDatafileToStaging 'C:\Test\TeamMember.csv','TeamMember_LOCAL'
-EXEC dbo.ImportDatafileToStaging 'C:\Test\StaffSchool.csv','StaffSchool_LOCAL'
+EXEC dbo.DataValidationReport_History 'SelectLists'
+EXEC dbo.DataValidationReport_History 'District'
+EXEC dbo.DataValidationReport_History 'School'
+EXEC dbo.DataValidationReport_History 'Student'
+EXEC dbo.DataValidationReport_History 'IEP'
+EXEC dbo.DataValidationReport_History 'SpedStaffMember'
+EXEC dbo.DataValidationReport_History 'Service'
+EXEC dbo.DataValidationReport_History 'Goal'
+EXEC dbo.DataValidationReport_History 'Objective'
+EXEC dbo.DataValidationReport_History 'TeamMember'
+EXEC dbo.DataValidationReport_History 'StaffSchool'
+EXEC dbo.ExtractData_From_Csv 'C:\Test\SelectLists.csv','SelectLists'
+EXEC dbo.ExtractData_From_Csv 'C:\Test\District.csv','District'
+EXEC dbo.ExtractData_From_Csv 'C:\Test\School.csv','School'
+EXEC dbo.ExtractData_From_Csv 'C:\Test\Student.csv','Student'
+EXEC dbo.ExtractData_From_Csv 'C:\Test\IEP.csv','IEP'
+EXEC dbo.ExtractData_From_Csv 'C:\Test\SpedStaffMember.csv','SpedStaffMember'
+EXEC dbo.ExtractData_From_Csv 'C:\Test\Service.csv','Service'
+EXEC dbo.ExtractData_From_Csv 'C:\Test\Goal.csv','Goal'
+EXEC dbo.ExtractData_From_Csv 'C:\Test\Objective.csv','Objective'
+EXEC dbo.ExtractData_From_Csv 'C:\Test\TeamMember.csv','TeamMember'
+EXEC dbo.ExtractData_From_Csv 'C:\Test\StaffSchool.csv','StaffSchool'
 END TRY
 
 BEGIN CATCH

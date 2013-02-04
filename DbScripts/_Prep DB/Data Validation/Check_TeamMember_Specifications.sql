@@ -1,9 +1,9 @@
 --Get rid off old version
-IF EXISTS (SELECT 1 FROM sys.schemas s join sys.objects o on s.schema_id = o.schema_id where s.name = 'dbo' and o.name = 'Check_TeamMember_Specifcations')
-DROP PROC dbo.Check_TeamMember_Specifcations
+IF EXISTS (SELECT 1 FROM sys.schemas s join sys.objects o on s.schema_id = o.schema_id where s.name = 'dbo' and o.name = 'Check_TeamMember_Specifications')
+DROP PROC dbo.Check_TeamMember_Specifications
 GO
 
-CREATE PROC dbo.Check_TeamMember_Specifcations
+CREATE PROC dbo.Check_TeamMember_Specifications
 AS
 BEGIN
 
@@ -39,17 +39,17 @@ SELECT LINE = IDENTITY(INT,1,1),* INTO  #TeamMember FROM TeamMember_LOCAL
 INSERT TeamMember_ValidationReport (Result)
 SELECT 'Please check the datalength of StaffEmail for the following record. The line no is '+CAST(LINE AS VARCHAR(50))+ '.'+ISNULL(StaffEmail,'')+'|'+ISNULL(StudentRefId,'')+'|'+ISNULL(IsCaseManager,'')
 FROM #TeamMember 
-    WHERE ((DATALENGTH(StaffEmail)/2)> 150) 
+    WHERE ((DATALENGTH(StaffEmail)/2)> 150 AND StaffEmail IS NOT NULL) 
 
 INSERT TeamMember_ValidationReport (Result)
 SELECT 'Please check the datalength of StudentRefId for the following record. The line no is '+CAST(LINE AS VARCHAR(50))+ '.'+ISNULL(StaffEmail,'')+'|'+ISNULL(StudentRefId,'')+'|'+ISNULL(IsCaseManager,'')
 FROM #TeamMember 
-    WHERE ((DATALENGTH(StudentRefId)/2)> 150) 
+    WHERE ((DATALENGTH(StudentRefId)/2)> 150 AND StudentRefId IS NOT NULL)  
 
 INSERT TeamMember_ValidationReport (Result)
 SELECT 'Please check the datalength of IsCaseManager for the following record. The line no is '+CAST(LINE AS VARCHAR(50))+ '.'+ISNULL(StaffEmail,'')+'|'+ISNULL(StudentRefId,'')+'|'+ISNULL(IsCaseManager,'')
 FROM #TeamMember 
-    WHERE ((DATALENGTH(IsCaseManager)/2)> 150) 
+    WHERE ((DATALENGTH(IsCaseManager)/2)> 150 AND IsCaseManager IS NOT NULL) 
 
 ---Required Fields
 INSERT TeamMember_ValidationReport (Result)
@@ -69,7 +69,7 @@ WHERE (IsCaseManager IS NULL)
 
 --To Check Duplicate Records
 INSERT TeamMember_ValidationReport (Result)
-SELECT 'The record'+tteam.StaffEmail+','+tteam.StudentRefID+' is duplicated. The line no is '+CAST(LINE AS VARCHAR(50))+ '.'+ISNULL(StaffEmail,'')+'|'+ISNULL(StudentRefId,'')+'|'+ISNULL(IsCaseManager,'')
+SELECT 'The record'+tteam.StaffEmail+','+tteam.StudentRefID+' is duplicated. The line no is '+CAST(LINE AS VARCHAR(50))+ '.'+ISNULL(tteam.STAFFEMAIL,'')+'|'+ISNULL(tteam.STUDENTREFID,'')+'|'+ISNULL(IsCaseManager,'')
 FROM #TeamMember tteam
 JOIN (SELECT StaffEmail,StudentRefId FROM TeamMember_LOCAL GROUP BY StaffEmail,StudentRefId HAVING COUNT(*)>1) ucteam 
 		 ON (ucteam.StaffEmail = tteam.StaffEmail) AND (ucteam.StudentRefID = tteam.StudentRefID)

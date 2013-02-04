@@ -1,9 +1,9 @@
 --Get rid off old version
-IF EXISTS (SELECT 1 FROM sys.schemas s join sys.objects o on s.schema_id = o.schema_id where s.name = 'dbo' and o.name = 'Check_IEP_Specifcations')
-DROP PROC dbo.Check_IEP_Specifcations
+IF EXISTS (SELECT 1 FROM sys.schemas s join sys.objects o on s.schema_id = o.schema_id where s.name = 'dbo' and o.name = 'Check_IEP_Specifications')
+DROP PROC dbo.Check_IEP_Specifications
 GO
 
-CREATE PROC dbo.Check_IEP_Specifcations
+CREATE PROC dbo.Check_IEP_Specifications
 AS
 BEGIN
 
@@ -13,54 +13,59 @@ SET @sql = 'DELETE IEP'
 EXEC sp_executesql @stmt = @sql
 
 INSERT IEP 
-SELECT CONVERT(VARCHAR(150),IepRefID)
-	  ,CONVERT(VARCHAR(150),StudentRefID)
-	  ,CONVERT(DATETIME ,IEPMeetDate)
-	  ,CONVERT(DATETIME ,IEPStartDate)
-	  ,CONVERT(DATETIME ,IEPEndDate)
-	  ,CONVERT(DATETIME ,InitialEvaluationDate)
-	  ,CONVERT(DATETIME ,LatestEvaluationDate)
-	  ,CONVERT(DATETIME ,NextEvaluationDate)
-	  ,CONVERT(DATETIME ,EligibilityDate)
-	  ,CONVERT(DATETIME ,ConsentForServicesDate)
-	  ,CONVERT(DATETIME ,ConsentForEvaluationDate)
-	  ,CONVERT(VARCHAR(3) ,LREAgeGroup)
-	  ,CONVERT(VARCHAR(150),LRECode)
-	  ,CONVERT(int,MinutesPerWeek)
-	  ,CONVERT(VARCHAR(8000),ServiceDeliveryStatement)
-	FROM IEP_LOCAL
-    WHERE ((DATALENGTH(IepRefID)/2)<= 150) 
-		  AND ((DATALENGTH(StudentRefID)/2)<=150) 
-		  AND ((DATALENGTH(IEPMeetDate)/2) <= 10 AND ISDATE(IEPMEETDATE) = 1) 
-		  AND ((DATALENGTH(IEPStartDate)/2)<= 10 AND ISDATE(IEPStartDate)= 1) 
-		  AND ((DATALENGTH(IEPEndDate)/2)  <= 10 AND ISDATE(IEPEndDate) = 1)
-		  AND ((DATALENGTH(InitialEvaluationDate)/2)<= 10 AND (ISDATE(InitialEvaluationDate) = 1 OR InitialEvaluationDate IS NULL ) ) 
-		  AND ((DATALENGTH(LatestEvaluationDate)/2)<= 10 AND ISDATE(LatestEvaluationDate) = 1) 
-		  AND ((DATALENGTH(NextEvaluationDate)/2)<= 10 AND ISDATE(NextEvaluationDate) = 1)
-		  AND ((DATALENGTH(EligibilityDate)/2)<= 10 AND (ISDATE(EligibilityDate) = 1 OR EligibilityDate IS NULL ) ) 
-		  AND ((DATALENGTH(ConsentForServicesDate)/2)<= 10 AND ISDATE(ConsentForServicesDate) = 1) 
-		  AND ((DATALENGTH(ConsentForEvaluationDate)/2)<= 10  AND (ISDATE(ConsentForEvaluationDate) = 1 OR ConsentForEvaluationDate IS NULL ))
-		  AND ((DATALENGTH(LREAgeGroup)/2)<= 3) 
-		  AND ((DATALENGTH(LRECode)/2)<= 150) 
-		  AND (ISNUMERIC(MinutesPerWeek)=1) AND ((DATALENGTH(MinutesPerWeek)/2)<= 4)  ---!!!Need to check this out!!!
-		  AND ((DATALENGTH(ServiceDeliveryStatement)/2)<= 8000) 
-		  AND NOT EXISTS (SELECT IepRefID FROM IEP_LOCAL GROUP BY IepRefID HAVING COUNT(*)>1) ---!!!Need to check this out!!!
-		  AND NOT EXISTS (SELECT StudentRefID FROM IEP_LOCAL GROUP BY StudentRefID HAVING COUNT(*)>1)
+SELECT CONVERT(VARCHAR(150),iep.IepRefID)
+	  ,CONVERT(VARCHAR(150),iep.StudentRefID)
+	  ,CONVERT(DATETIME ,iep.IEPMeetDate)
+	  ,CONVERT(DATETIME ,iep.IEPStartDate)
+	  ,CONVERT(DATETIME ,iep.IEPEndDate)
+	  ,CONVERT(DATETIME ,iep.NEXTREVIEWDATE)
+	  ,CONVERT(DATETIME ,iep.InitialEvaluationDate)
+	  ,CONVERT(DATETIME ,iep.LatestEvaluationDate)
+	  ,CONVERT(DATETIME ,iep.NextEvaluationDate)
+	  ,CONVERT(DATETIME ,iep.EligibilityDate)
+	  ,CONVERT(DATETIME ,iep.ConsentForServicesDate)
+	  ,CONVERT(DATETIME ,iep.ConsentForEvaluationDate)
+	  ,CONVERT(VARCHAR(3) ,iep.LREAgeGroup)
+	  ,CONVERT(VARCHAR(150),iep.LRECode)
+	  ,CONVERT(int,iep.MinutesPerWeek)
+	  ,CONVERT(VARCHAR(8000),iep.ServiceDeliveryStatement)
+	FROM IEP_LOCAL iep
+		 JOIN Student st ON iep.STUDENTREFID = st.StudentRefID
+		 JOIN (SELECT IepRefID FROM IEP_LOCAL GROUP BY IepRefID HAVING COUNT(*)=1) ucieprefid ON iep.IEPREFID  = ucieprefid.IEPREFID
+		 JOIN (SELECT StudentRefID FROM IEP_LOCAL GROUP BY StudentRefID HAVING COUNT(*)=1) ucstu ON iep.STUDENTREFID = ucstu.STUDENTREFID
+    WHERE ((DATALENGTH(iep.IepRefID)/2)<= 150) 
+		  AND ((DATALENGTH(iep.STUDENTREFID)/2)<=150) 
+		  AND ((DATALENGTH(iep.IEPMeetDate)/2) <= 10 AND ISDATE(iep.IEPMEETDATE) = 1) 
+		  AND ((DATALENGTH(iep.IEPStartDate)/2)<= 10 AND ISDATE(iep.IEPStartDate)= 1) 
+		  AND ((DATALENGTH(iep.IEPEndDate)/2)  <= 10 AND ISDATE(iep.IEPEndDate) = 1)
+		  AND ((DATALENGTH(iep.NextReviewDate)/2)  <= 10 AND ISDATE(iep.NextReviewDate) = 1)
+		  AND ((DATALENGTH(iep.InitialEvaluationDate)/2)<= 10 AND (ISDATE(iep.InitialEvaluationDate) = 1 OR iep. InitialEvaluationDate IS NULL ) ) 
+		  AND ((DATALENGTH(iep.LatestEvaluationDate)/2)<= 10 AND ISDATE(iep.LatestEvaluationDate) = 1) 
+		  AND ((DATALENGTH(iep.NextEvaluationDate)/2)<= 10 AND ISDATE(iep.NextEvaluationDate) = 1)
+		  AND ((DATALENGTH(iep.EligibilityDate)/2)<= 10 AND (ISDATE(iep.EligibilityDate) = 1 OR iep.EligibilityDate IS NULL ) ) 
+		  AND ((DATALENGTH(iep.ConsentForServicesDate)/2)<= 10 AND ISDATE(iep.ConsentForServicesDate) = 1) 
+		  AND (((DATALENGTH(iep.ConsentForEvaluationDate)/2)<= 10 OR iep.ConsentForEvaluationDate IS NULL) AND (ISDATE(iep.ConsentForEvaluationDate) = 1 OR iep.ConsentForEvaluationDate IS NULL ))
+		  AND ((DATALENGTH(iep.LREAgeGroup)/2)<= 3 OR iep.LREAGEGROUP IS NULL) 
+		  AND ((DATALENGTH(iep.LRECode)/2)<= 150) 
+		  AND (ISNUMERIC(iep.MinutesPerWeek)=1) AND ((DATALENGTH(iep.MinutesPerWeek)/2)<= 4)  ---!!!Need to check this out!!!
+		  AND ((DATALENGTH(iep.ServiceDeliveryStatement)/2)<= 8000 OR iep.SERVICEDELIVERYSTATEMENT IS NULL) 
+		  --AND NOT EXISTS (SELECT IepRefID FROM IEP_LOCAL GROUP BY IepRefID HAVING COUNT(*)>1) ---!!!Need to check this out!!!
+		  --AND NOT EXISTS (SELECT StudentRefID FROM IEP_LOCAL GROUP BY StudentRefID HAVING COUNT(*)>1)
 		  --Required Fields
-		  AND (IepRefID IS NOT NULL) 
-		  AND (StudentRefID IS NOT NULL)
-		  AND (IEPMeetDate IS NOT NULL)
-		  AND (IEPStartDate IS NOT NULL)
-		  AND (IEPEndDate IS NOT NULL) 
-		  AND (NextReviewDate IS NOT NULL)
-		  AND (LatestEvaluationDate IS NOT NULL)
-		  AND (NextEvaluationDate IS NOT NULL)
-		  AND (ConsentForServicesDate IS NOT NULL)
-		  AND (LRECode IS NOT NULL)
-		  AND (MinutesPerWeek IS NOT NULL)
+		  AND (iep.IepRefID IS NOT NULL) 
+		  AND (iep.StudentRefID IS NOT NULL)
+		  AND (iep.IEPMeetDate IS NOT NULL)
+		  AND (iep.IEPStartDate IS NOT NULL)
+		  AND (iep.IEPEndDate IS NOT NULL) 
+		  AND (iep.NextReviewDate IS NOT NULL)
+		  AND (iep.LatestEvaluationDate IS NOT NULL)
+		  AND (iep.NextEvaluationDate IS NOT NULL)
+		  AND (iep.ConsentForServicesDate IS NOT NULL)
+		  AND (iep.LRECode IS NOT NULL)
+		  AND (iep.MinutesPerWeek IS NOT NULL)
 		  --Referential Integrity
-		  AND StudentRefID IN (SELECT StudentRefID FROM Student_LOCAL)
-		  AND LRECODE IN (SELECT LEGACYSPEDCODE FROM SelectLists_LOCAL WHERE TYPE= 'LRE')
+		  --AND StudentRefID IN (SELECT StudentRefID FROM Student_LOCAL)
+		  AND iep.LRECODE IN (SELECT LEGACYSPEDCODE FROM SelectLists_LOCAL WHERE TYPE= 'LRE')
 		  
 SET @sql = 'IF OBJECT_ID(''tempdb..#IEP'') IS NOT NULL DROP TABLE #IEP'	
 EXEC sp_executesql @stmt = @sql
@@ -71,82 +76,82 @@ SELECT LINE = IDENTITY(INT,1,1),* INTO  #IEP FROM IEP_LOCAL
 INSERT IEP_ValidationReport(Result)
 SELECT 'Please check the datalength of IepRefID for the following record. The line no is '+CAST(LINE AS VARCHAR(50))+ '.'+ISNULL(IepRefID,'')+'|'+ISNULL(StudentRefID,'')+'|'+ISNULL(IEPMeetDate,'')+'|'+ISNULL(IEPStartDate,'')+ISNULL(IEPEndDate,'')+'|'+ISNULL(NextReviewDate,'')+'|'+ISNULL(InitialEvaluationDate,'')+'|'+ISNULL(LatestEvaluationDate,'')+'|'+ISNULL(NextEvaluationDate,'')+ISNULL(EligibilityDate,'')+'|'+ISNULL(ConsentForServicesDate,'')+'|'+ISNULL(ConsentForEvaluationDate,'')+'|'+ISNULL(LREAgeGroup,'')+'|'+ISNULL(LRECode,'')+'|'+ISNULL(MinutesPerWeek,'')+'|'+ISNULL(ServiceDeliveryStatement,'')
 FROM #IEP
-WHERE ((DATALENGTH(IepRefID)/2) > 150)
+WHERE ((DATALENGTH(IepRefID)/2) > 150 AND IepRefID IS NOT NULL)
 
 INSERT IEP_ValidationReport(Result)
 SELECT 'Please check the datalength of StudentRefID for the following record. The line no is '+CAST(LINE AS VARCHAR(50))+ '.'+ISNULL(IepRefID,'')+'|'+ISNULL(StudentRefID,'')+'|'+ISNULL(IEPMeetDate,'')+'|'+ISNULL(IEPStartDate,'')+ISNULL(IEPEndDate,'')+'|'+ISNULL(NextReviewDate,'')+'|'+ISNULL(InitialEvaluationDate,'')+'|'+ISNULL(LatestEvaluationDate,'')+'|'+ISNULL(NextEvaluationDate,'')+ISNULL(EligibilityDate,'')+'|'+ISNULL(ConsentForServicesDate,'')+'|'+ISNULL(ConsentForEvaluationDate,'')+'|'+ISNULL(LREAgeGroup,'')+'|'+ISNULL(LRECode,'')+'|'+ISNULL(MinutesPerWeek,'')+'|'+ISNULL(ServiceDeliveryStatement,'')
 FROM #IEP
-WHERE ((DATALENGTH(StudentRefID)/2)> 150)
+WHERE ((DATALENGTH(StudentRefID)/2)> 150 AND StudentRefID IS NOT NULL)
 
 INSERT IEP_ValidationReport(Result)
 SELECT 'Please check the datalength of StudentRefID for the following record. The line no is '+CAST(LINE AS VARCHAR(50))+ '.'+ISNULL(IepRefID,'')+'|'+ISNULL(StudentRefID,'')+'|'+ISNULL(IEPMeetDate,'')+'|'+ISNULL(IEPStartDate,'')+ISNULL(IEPEndDate,'')+'|'+ISNULL(NextReviewDate,'')+'|'+ISNULL(InitialEvaluationDate,'')+'|'+ISNULL(LatestEvaluationDate,'')+'|'+ISNULL(NextEvaluationDate,'')+ISNULL(EligibilityDate,'')+'|'+ISNULL(ConsentForServicesDate,'')+'|'+ISNULL(ConsentForEvaluationDate,'')+'|'+ISNULL(LREAgeGroup,'')+'|'+ISNULL(LRECode,'')+'|'+ISNULL(MinutesPerWeek,'')+'|'+ISNULL(ServiceDeliveryStatement,'')
 FROM #IEP
-WHERE ((DATALENGTH(IEPMeetDate)/2)> 10) 
+WHERE ((DATALENGTH(IEPMeetDate)/2)> 10 AND IEPMeetDate IS NOT NULL) 
 
 INSERT IEP_ValidationReport(Result)
 SELECT 'Please check the datalength of StudentRefID for the following record. The line no is '+CAST(LINE AS VARCHAR(50))+ '.'+ISNULL(IepRefID,'')+'|'+ISNULL(StudentRefID,'')+'|'+ISNULL(IEPMeetDate,'')+'|'+ISNULL(IEPStartDate,'')+ISNULL(IEPEndDate,'')+'|'+ISNULL(NextReviewDate,'')+'|'+ISNULL(InitialEvaluationDate,'')+'|'+ISNULL(LatestEvaluationDate,'')+'|'+ISNULL(NextEvaluationDate,'')+ISNULL(EligibilityDate,'')+'|'+ISNULL(ConsentForServicesDate,'')+'|'+ISNULL(ConsentForEvaluationDate,'')+'|'+ISNULL(LREAgeGroup,'')+'|'+ISNULL(LRECode,'')+'|'+ISNULL(MinutesPerWeek,'')+'|'+ISNULL(ServiceDeliveryStatement,'')
 FROM #IEP
-WHERE ((DATALENGTH(IEPStartDate)/2)> 10) 
+WHERE ((DATALENGTH(IEPStartDate)/2)> 10 AND IEPStartDate IS NOT NULL) 
 
 INSERT IEP_ValidationReport(Result)
 SELECT 'Please check the datalength of StudentRefID for the following record. The line no is '+CAST(LINE AS VARCHAR(50))+ '.'+ISNULL(IepRefID,'')+'|'+ISNULL(StudentRefID,'')+'|'+ISNULL(IEPMeetDate,'')+'|'+ISNULL(IEPStartDate,'')+ISNULL(IEPEndDate,'')+'|'+ISNULL(NextReviewDate,'')+'|'+ISNULL(InitialEvaluationDate,'')+'|'+ISNULL(LatestEvaluationDate,'')+'|'+ISNULL(NextEvaluationDate,'')+ISNULL(EligibilityDate,'')+'|'+ISNULL(ConsentForServicesDate,'')+'|'+ISNULL(ConsentForEvaluationDate,'')+'|'+ISNULL(LREAgeGroup,'')+'|'+ISNULL(LRECode,'')+'|'+ISNULL(MinutesPerWeek,'')+'|'+ISNULL(ServiceDeliveryStatement,'')
 FROM #IEP
-WHERE ((DATALENGTH(IEPEndDate)/2)> 10) 
+WHERE ((DATALENGTH(IEPEndDate)/2)> 10 AND IEPEndDate IS NOT NULL) 
 
 INSERT IEP_ValidationReport(Result)
 SELECT 'Please check the datalength of StudentRefID for the following record. The line no is '+CAST(LINE AS VARCHAR(50))+ '.'+ISNULL(IepRefID,'')+'|'+ISNULL(StudentRefID,'')+'|'+ISNULL(IEPMeetDate,'')+'|'+ISNULL(IEPStartDate,'')+ISNULL(IEPEndDate,'')+'|'+ISNULL(NextReviewDate,'')+'|'+ISNULL(InitialEvaluationDate,'')+'|'+ISNULL(LatestEvaluationDate,'')+'|'+ISNULL(NextEvaluationDate,'')+ISNULL(EligibilityDate,'')+'|'+ISNULL(ConsentForServicesDate,'')+'|'+ISNULL(ConsentForEvaluationDate,'')+'|'+ISNULL(LREAgeGroup,'')+'|'+ISNULL(LRECode,'')+'|'+ISNULL(MinutesPerWeek,'')+'|'+ISNULL(ServiceDeliveryStatement,'')
 FROM #IEP
-WHERE ((DATALENGTH(NextReviewDate)/2)> 10) 
+WHERE ((DATALENGTH(NextReviewDate)/2)> 10 AND NextReviewDate IS NOT NULL) 
 
 INSERT IEP_ValidationReport(Result)
 SELECT 'Please check the datalength of StudentRefID for the following record. The line no is '+CAST(LINE AS VARCHAR(50))+ '.'+ISNULL(IepRefID,'')+'|'+ISNULL(StudentRefID,'')+'|'+ISNULL(IEPMeetDate,'')+'|'+ISNULL(IEPStartDate,'')+ISNULL(IEPEndDate,'')+'|'+ISNULL(NextReviewDate,'')+'|'+ISNULL(InitialEvaluationDate,'')+'|'+ISNULL(LatestEvaluationDate,'')+'|'+ISNULL(NextEvaluationDate,'')+ISNULL(EligibilityDate,'')+'|'+ISNULL(ConsentForServicesDate,'')+'|'+ISNULL(ConsentForEvaluationDate,'')+'|'+ISNULL(LREAgeGroup,'')+'|'+ISNULL(LRECode,'')+'|'+ISNULL(MinutesPerWeek,'')+'|'+ISNULL(ServiceDeliveryStatement,'')
 FROM #IEP
-WHERE ((DATALENGTH(InitialEvaluationDate)/2)> 10) 
+WHERE ((DATALENGTH(InitialEvaluationDate)/2)> 10 AND InitialEvaluationDate IS NOT NULL) 
 
 INSERT IEP_ValidationReport(Result)
 SELECT 'Please check the datalength of StudentRefID for the following record. The line no is '+CAST(LINE AS VARCHAR(50))+ '.'+ISNULL(IepRefID,'')+'|'+ISNULL(StudentRefID,'')+'|'+ISNULL(IEPMeetDate,'')+'|'+ISNULL(IEPStartDate,'')+ISNULL(IEPEndDate,'')+'|'+ISNULL(NextReviewDate,'')+'|'+ISNULL(InitialEvaluationDate,'')+'|'+ISNULL(LatestEvaluationDate,'')+'|'+ISNULL(NextEvaluationDate,'')+ISNULL(EligibilityDate,'')+'|'+ISNULL(ConsentForServicesDate,'')+'|'+ISNULL(ConsentForEvaluationDate,'')+'|'+ISNULL(LREAgeGroup,'')+'|'+ISNULL(LRECode,'')+'|'+ISNULL(MinutesPerWeek,'')+'|'+ISNULL(ServiceDeliveryStatement,'')
 FROM #IEP
-WHERE ((DATALENGTH(LatestEvaluationDate)/2)> 10) 
+WHERE ((DATALENGTH(LatestEvaluationDate)/2)> 10 AND LatestEvaluationDate IS NOT NULL) 
 
 INSERT IEP_ValidationReport(Result)
 SELECT 'Please check the datalength of StudentRefID for the following record. The line no is '+CAST(LINE AS VARCHAR(50))+ '.'+ISNULL(IepRefID,'')+'|'+ISNULL(StudentRefID,'')+'|'+ISNULL(IEPMeetDate,'')+'|'+ISNULL(IEPStartDate,'')+ISNULL(IEPEndDate,'')+'|'+ISNULL(NextReviewDate,'')+'|'+ISNULL(InitialEvaluationDate,'')+'|'+ISNULL(LatestEvaluationDate,'')+'|'+ISNULL(NextEvaluationDate,'')+ISNULL(EligibilityDate,'')+'|'+ISNULL(ConsentForServicesDate,'')+'|'+ISNULL(ConsentForEvaluationDate,'')+'|'+ISNULL(LREAgeGroup,'')+'|'+ISNULL(LRECode,'')+'|'+ISNULL(MinutesPerWeek,'')+'|'+ISNULL(ServiceDeliveryStatement,'')
 FROM #IEP
-WHERE ((DATALENGTH(NextEvaluationDate)/2)> 10) 
+WHERE ((DATALENGTH(NextEvaluationDate)/2)> 10 AND NextEvaluationDate IS NOT NULL) 
 
 INSERT IEP_ValidationReport(Result)
 SELECT 'Please check the datalength of StudentRefID for the following record. The line no is '+CAST(LINE AS VARCHAR(50))+ '.'+ISNULL(IepRefID,'')+'|'+ISNULL(StudentRefID,'')+'|'+ISNULL(IEPMeetDate,'')+'|'+ISNULL(IEPStartDate,'')+ISNULL(IEPEndDate,'')+'|'+ISNULL(NextReviewDate,'')+'|'+ISNULL(InitialEvaluationDate,'')+'|'+ISNULL(LatestEvaluationDate,'')+'|'+ISNULL(NextEvaluationDate,'')+ISNULL(EligibilityDate,'')+'|'+ISNULL(ConsentForServicesDate,'')+'|'+ISNULL(ConsentForEvaluationDate,'')+'|'+ISNULL(LREAgeGroup,'')+'|'+ISNULL(LRECode,'')+'|'+ISNULL(MinutesPerWeek,'')+'|'+ISNULL(ServiceDeliveryStatement,'')
 FROM #IEP
-WHERE ((DATALENGTH(EligibilityDate)/2)> 10) 
+WHERE ((DATALENGTH(EligibilityDate)/2)> 10 AND EligibilityDate IS NOT NULL) 
 
 INSERT IEP_ValidationReport(Result)
 SELECT 'Please check the datalength of StudentRefID for the following record. The line no is '+CAST(LINE AS VARCHAR(50))+ '.'+ISNULL(IepRefID,'')+'|'+ISNULL(StudentRefID,'')+'|'+ISNULL(IEPMeetDate,'')+'|'+ISNULL(IEPStartDate,'')+ISNULL(IEPEndDate,'')+'|'+ISNULL(NextReviewDate,'')+'|'+ISNULL(InitialEvaluationDate,'')+'|'+ISNULL(LatestEvaluationDate,'')+'|'+ISNULL(NextEvaluationDate,'')+ISNULL(EligibilityDate,'')+'|'+ISNULL(ConsentForServicesDate,'')+'|'+ISNULL(ConsentForEvaluationDate,'')+'|'+ISNULL(LREAgeGroup,'')+'|'+ISNULL(LRECode,'')+'|'+ISNULL(MinutesPerWeek,'')+'|'+ISNULL(ServiceDeliveryStatement,'')
 FROM #IEP
-WHERE ((DATALENGTH(ConsentForServicesDate)/2)> 10) 
+WHERE ((DATALENGTH(ConsentForServicesDate)/2)> 10 AND ConsentForServicesDate IS NOT NULL) 
 
 INSERT IEP_ValidationReport(Result)
 SELECT 'Please check the datalength of StudentRefID for the following record. The line no is '+CAST(LINE AS VARCHAR(50))+ '.'+ISNULL(IepRefID,'')+'|'+ISNULL(StudentRefID,'')+'|'+ISNULL(IEPMeetDate,'')+'|'+ISNULL(IEPStartDate,'')+ISNULL(IEPEndDate,'')+'|'+ISNULL(NextReviewDate,'')+'|'+ISNULL(InitialEvaluationDate,'')+'|'+ISNULL(LatestEvaluationDate,'')+'|'+ISNULL(NextEvaluationDate,'')+ISNULL(EligibilityDate,'')+'|'+ISNULL(ConsentForServicesDate,'')+'|'+ISNULL(ConsentForEvaluationDate,'')+'|'+ISNULL(LREAgeGroup,'')+'|'+ISNULL(LRECode,'')+'|'+ISNULL(MinutesPerWeek,'')+'|'+ISNULL(ServiceDeliveryStatement,'')
 FROM #IEP
-WHERE ((DATALENGTH(ConsentForEvaluationDate)/2)> 10) 
+WHERE ((DATALENGTH(ConsentForEvaluationDate)/2)> 10 AND ConsentForEvaluationDate IS NOT NULL) 
 
 INSERT IEP_ValidationReport(Result)
 SELECT 'Please check the datalength of StudentRefID for the following record. The line no is '+CAST(LINE AS VARCHAR(50))+ '.'+ISNULL(IepRefID,'')+'|'+ISNULL(StudentRefID,'')+'|'+ISNULL(IEPMeetDate,'')+'|'+ISNULL(IEPStartDate,'')+ISNULL(IEPEndDate,'')+'|'+ISNULL(NextReviewDate,'')+'|'+ISNULL(InitialEvaluationDate,'')+'|'+ISNULL(LatestEvaluationDate,'')+'|'+ISNULL(NextEvaluationDate,'')+ISNULL(EligibilityDate,'')+'|'+ISNULL(ConsentForServicesDate,'')+'|'+ISNULL(ConsentForEvaluationDate,'')+'|'+ISNULL(LREAgeGroup,'')+'|'+ISNULL(LRECode,'')+'|'+ISNULL(MinutesPerWeek,'')+'|'+ISNULL(ServiceDeliveryStatement,'')
 FROM #IEP
-WHERE ((DATALENGTH(LREAgeGroup)/2)> 3) 
+WHERE ((DATALENGTH(LREAgeGroup)/2)> 3 AND LREAgeGroup IS NOT NULL) 
 
 INSERT IEP_ValidationReport(Result)
 SELECT 'Please check the datalength of StudentRefID for the following record. The line no is '+CAST(LINE AS VARCHAR(50))+ '.'+ISNULL(IepRefID,'')+'|'+ISNULL(StudentRefID,'')+'|'+ISNULL(IEPMeetDate,'')+'|'+ISNULL(IEPStartDate,'')+ISNULL(IEPEndDate,'')+'|'+ISNULL(NextReviewDate,'')+'|'+ISNULL(InitialEvaluationDate,'')+'|'+ISNULL(LatestEvaluationDate,'')+'|'+ISNULL(NextEvaluationDate,'')+ISNULL(EligibilityDate,'')+'|'+ISNULL(ConsentForServicesDate,'')+'|'+ISNULL(ConsentForEvaluationDate,'')+'|'+ISNULL(LREAgeGroup,'')+'|'+ISNULL(LRECode,'')+'|'+ISNULL(MinutesPerWeek,'')+'|'+ISNULL(ServiceDeliveryStatement,'')
 FROM #IEP
-WHERE ((DATALENGTH(LRECode)/2)> 150) 
+WHERE ((DATALENGTH(LRECode)/2)> 150 AND LRECode IS NOT NULL) 
 
 INSERT IEP_ValidationReport(Result)
 SELECT 'Please check the datalength of StudentRefID for the following record. The line no is '+CAST(LINE AS VARCHAR(50))+ '.'+ISNULL(IepRefID,'')+'|'+ISNULL(StudentRefID,'')+'|'+ISNULL(IEPMeetDate,'')+'|'+ISNULL(IEPStartDate,'')+ISNULL(IEPEndDate,'')+'|'+ISNULL(NextReviewDate,'')+'|'+ISNULL(InitialEvaluationDate,'')+'|'+ISNULL(LatestEvaluationDate,'')+'|'+ISNULL(NextEvaluationDate,'')+ISNULL(EligibilityDate,'')+'|'+ISNULL(ConsentForServicesDate,'')+'|'+ISNULL(ConsentForEvaluationDate,'')+'|'+ISNULL(LREAgeGroup,'')+'|'+ISNULL(LRECode,'')+'|'+ISNULL(MinutesPerWeek,'')+'|'+ISNULL(ServiceDeliveryStatement,'')
 FROM #IEP
-WHERE ((DATALENGTH(MinutesPerWeek)/2)> 4) 
+WHERE ((DATALENGTH(MinutesPerWeek)/2)> 4 AND MinutesPerWeek IS NOT NULL) 
 
 INSERT IEP_ValidationReport(Result)
 SELECT 'Please check the datalength of StudentRefID for the following record. The line no is '+CAST(LINE AS VARCHAR(50))+ '.'+ISNULL(IepRefID,'')+'|'+ISNULL(StudentRefID,'')+'|'+ISNULL(IEPMeetDate,'')+'|'+ISNULL(IEPStartDate,'')+ISNULL(IEPEndDate,'')+'|'+ISNULL(NextReviewDate,'')+'|'+ISNULL(InitialEvaluationDate,'')+'|'+ISNULL(LatestEvaluationDate,'')+'|'+ISNULL(NextEvaluationDate,'')+ISNULL(EligibilityDate,'')+'|'+ISNULL(ConsentForServicesDate,'')+'|'+ISNULL(ConsentForEvaluationDate,'')+'|'+ISNULL(LREAgeGroup,'')+'|'+ISNULL(LRECode,'')+'|'+ISNULL(MinutesPerWeek,'')+'|'+ISNULL(ServiceDeliveryStatement,'')
 FROM #IEP
-WHERE ((DATALENGTH(ServiceDeliveryStatement)/2)> 8000) 
+WHERE ((DATALENGTH(ServiceDeliveryStatement)/2)> 8000 AND ServiceDeliveryStatement IS NOT NULL) 
 
 ---Required Fields
 INSERT IEP_ValidationReport(Result)
@@ -221,27 +226,30 @@ WHERE (MinutesPerWeek IS NULL)
 
 --Unique Fileds
 INSERT IEP_ValidationReport(Result)
-SELECT 'The "IepRefID" ' +IepRefID+' is duplicated. The line no is '+CAST(LINE AS VARCHAR(50))+ '.'+ISNULL(IepRefID,'')+'|'+ISNULL(StudentRefID,'')+'|'+ISNULL(IEPMeetDate,'')+'|'+ISNULL(IEPStartDate,'')+ISNULL(IEPEndDate,'')+'|'+ISNULL(NextReviewDate,'')+'|'+ISNULL(InitialEvaluationDate,'')+'|'+ISNULL(LatestEvaluationDate,'')+'|'+ISNULL(NextEvaluationDate,'')+ISNULL(EligibilityDate,'')+'|'+ISNULL(ConsentForServicesDate,'')+'|'+ISNULL(ConsentForEvaluationDate,'')+'|'+ISNULL(LREAgeGroup,'')+'|'+ISNULL(LRECode,'')+'|'+ISNULL(MinutesPerWeek,'')+'|'+ISNULL(ServiceDeliveryStatement,'')
-FROM #IEP
-WHERE EXISTS (SELECT IepRefID FROM IEP_LOCAL GROUP BY IepRefID HAVING COUNT(*)>1) 
+SELECT 'The "IepRefID" ' +tiep.IEPREFID+' is duplicated. The line no is '+CAST(tiep.LINE AS VARCHAR(50))+ '.'+ISNULL(tiep.IEPREFID,'')+'|'+ISNULL(tiep.STUDENTREFID,'')+'|'+ISNULL(tiep.IEPMeetDate,'')+'|'+ISNULL(tiep.IEPStartDate,'')+ISNULL(tiep.IEPEndDate,'')+'|'+ISNULL(tiep.NextReviewDate,'')+'|'+ISNULL(tiep.InitialEvaluationDate,'')+'|'+ISNULL(tiep.LatestEvaluationDate,'')+'|'+ISNULL(tiep.NextEvaluationDate,'')+ISNULL(tiep.EligibilityDate,'')+'|'+ISNULL(tiep.ConsentForServicesDate,'')+'|'+ISNULL(tiep.ConsentForEvaluationDate,'')+'|'+ISNULL(tiep.LREAgeGroup,'')+'|'+ISNULL(tiep.LRECode,'')+'|'+ISNULL(tiep.MinutesPerWeek,'')+'|'+ISNULL(tiep.ServiceDeliveryStatement,'')
+FROM #IEP tiep
+JOIN (SELECT IepRefID FROM IEP_LOCAL GROUP BY IepRefID HAVING COUNT(*)> 1) ucieprefid ON tiep.IEPREFID  = ucieprefid.IEPREFID
+
 
 INSERT IEP_ValidationReport(Result)
-SELECT 'The "StudentRefID" ' +StudentRefID+' is duplicated. The line no is '+CAST(LINE AS VARCHAR(50))+ '.'+ISNULL(IepRefID,'')+'|'+ISNULL(StudentRefID,'')+'|'+ISNULL(IEPMeetDate,'')+'|'+ISNULL(IEPStartDate,'')+ISNULL(IEPEndDate,'')+'|'+ISNULL(NextReviewDate,'')+'|'+ISNULL(InitialEvaluationDate,'')+'|'+ISNULL(LatestEvaluationDate,'')+'|'+ISNULL(NextEvaluationDate,'')+ISNULL(EligibilityDate,'')+'|'+ISNULL(ConsentForServicesDate,'')+'|'+ISNULL(ConsentForEvaluationDate,'')+'|'+ISNULL(LREAgeGroup,'')+'|'+ISNULL(LRECode,'')+'|'+ISNULL(MinutesPerWeek,'')+'|'+ISNULL(ServiceDeliveryStatement,'')
-FROM #IEP
-WHERE EXISTS (SELECT StudentRefID FROM IEP_LOCAL GROUP BY StudentRefID HAVING COUNT(*)>1)
-	 
+SELECT 'The "StudentRefID" ' +tiep.STUDENTREFID+' is duplicated. The line no is '+CAST(tiep.LINE AS VARCHAR(50))+ '.'+ISNULL(tiep.IEPREFID,'')+'|'+ISNULL(tiep.STUDENTREFID,'')+'|'+ISNULL(tiep.IEPMeetDate,'')+'|'+ISNULL(tiep.IEPStartDate,'')+ISNULL(tiep.IEPEndDate,'')+'|'+ISNULL(tiep.NextReviewDate,'')+'|'+ISNULL(tiep.InitialEvaluationDate,'')+'|'+ISNULL(tiep.LatestEvaluationDate,'')+'|'+ISNULL(tiep.NextEvaluationDate,'')+ISNULL(tiep.EligibilityDate,'')+'|'+ISNULL(tiep.ConsentForServicesDate,'')+'|'+ISNULL(tiep.ConsentForEvaluationDate,'')+'|'+ISNULL(tiep.LREAgeGroup,'')+'|'+ISNULL(tiep.LRECode,'')+'|'+ISNULL(tiep.MinutesPerWeek,'')+'|'+ISNULL(tiep.ServiceDeliveryStatement,'')
+FROM #IEP tiep
+JOIN (SELECT StudentRefID FROM IEP_LOCAL GROUP BY StudentRefID HAVING COUNT(*)>1) ucstu ON tiep.STUDENTREFID = ucstu.STUDENTREFID
+ 
 
 --To Check the Referential Integrity
+INSERT IEP_ValidationReport(Result)
 SELECT 'The StudentRefID "'+ StudentRefID+'" were not existed in Student File or were not validated successfully. The line no is  '+CAST(LINE AS VARCHAR(50))+ '.'+ISNULL(IepRefID,'')+'|'+ISNULL(StudentRefID,'')+'|'+ISNULL(IEPMeetDate,'')+'|'+ISNULL(IEPStartDate,'')+ISNULL(IEPEndDate,'')+'|'+ISNULL(NextReviewDate,'')+'|'+ISNULL(InitialEvaluationDate,'')+'|'+ISNULL(LatestEvaluationDate,'')+'|'+ISNULL(NextEvaluationDate,'')+ISNULL(EligibilityDate,'')+'|'+ISNULL(ConsentForServicesDate,'')+'|'+ISNULL(ConsentForEvaluationDate,'')+'|'+ISNULL(LREAgeGroup,'')+'|'+ISNULL(LRECode,'')+'|'+ISNULL(MinutesPerWeek,'')+'|'+ISNULL(ServiceDeliveryStatement,'')
-FROM #IEP
-WHERE StudentRefID NOT IN (SELECT StudentRefID FROM Student_LOCAL)
+FROM #IEP 
+WHERE StudentRefID NOT IN (SELECT StudentRefID FROM Student)
 
+INSERT IEP_ValidationReport(Result)
 SELECT 'The LRECODE "'+ LRECODE+'" does not exist in SelectLists file, but it exists in IEP file. The line no is  '+CAST(LINE AS VARCHAR(50))+ '.'+ISNULL(IepRefID,'')+'|'+ISNULL(StudentRefID,'')+'|'+ISNULL(IEPMeetDate,'')+'|'+ISNULL(IEPStartDate,'')+ISNULL(IEPEndDate,'')+'|'+ISNULL(NextReviewDate,'')+'|'+ISNULL(InitialEvaluationDate,'')+'|'+ISNULL(LatestEvaluationDate,'')+'|'+ISNULL(NextEvaluationDate,'')+ISNULL(EligibilityDate,'')+'|'+ISNULL(ConsentForServicesDate,'')+'|'+ISNULL(ConsentForEvaluationDate,'')+'|'+ISNULL(LREAgeGroup,'')+'|'+ISNULL(LRECode,'')+'|'+ISNULL(MinutesPerWeek,'')+'|'+ISNULL(ServiceDeliveryStatement,'')
 FROM #IEP
-WHERE LRECODE IN (SELECT LEGACYSPEDCODE FROM SelectLists_LOCAL WHERE TYPE= 'LRE')
+WHERE LRECODE NOT IN (SELECT LEGACYSPEDCODE FROM SelectLists WHERE TYPE= 'LRE')
 
 --To Check the Date Format
-
+INSERT IEP_ValidationReport(Result)
 SELECT 'Please check the date format. The line no is  '+CAST(LINE AS VARCHAR(50))+ '.'+ISNULL(IepRefID,'')+'|'+ISNULL(StudentRefID,'')+'|'+ISNULL(IEPMeetDate,'')+'|'+ISNULL(IEPStartDate,'')+ISNULL(IEPEndDate,'')+'|'+ISNULL(NextReviewDate,'')+'|'+ISNULL(InitialEvaluationDate,'')+'|'+ISNULL(LatestEvaluationDate,'')+'|'+ISNULL(NextEvaluationDate,'')+ISNULL(EligibilityDate,'')+'|'+ISNULL(ConsentForServicesDate,'')+'|'+ISNULL(ConsentForEvaluationDate,'')+'|'+ISNULL(LREAgeGroup,'')+'|'+ISNULL(LRECode,'')+'|'+ISNULL(MinutesPerWeek,'')+'|'+ISNULL(ServiceDeliveryStatement,'')
 FROM #IEP
 WHERE (ISDATE(IEPMEETDATE) = 0 AND IEPMEETDATE IS NOT NULL) OR (ISDATE(IEPStartDate) = 0 AND IEPStartDate IS NOT NULL ) 
