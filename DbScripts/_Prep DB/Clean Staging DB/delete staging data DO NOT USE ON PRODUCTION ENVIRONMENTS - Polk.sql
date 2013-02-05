@@ -309,10 +309,17 @@ from (select Number from School where deleteddate is null group by Number having
 join School h on n.Number = h.Number and h.ManuallyEntered = 1 
 join ProbeTypeSchool pts on h.ID = pts.SchoolID ; print 'ProbeTypeSchool : ' + convert(varchar(10), @@rowcount) 
 
+-- where duplicate schools have been manually entered, save 1 of them
 delete h
 -- select h.*
 from (select Number from School where deleteddate is null group by Number having COUNT(*) > 1) n
-join School h on n.Number = h.Number and h.ManuallyEntered = 1 ; print 'School : ' + convert(varchar(10), @@rowcount)
+join School h on n.Number = h.Number and h.ManuallyEntered = 1 
+where convert(varchar(36), h.ID) > (
+	select top 1 convert(varchar(36), hd.ID)
+	from School hd 
+	where hd.Number = h.Number 
+	order by hd.ManuallyEntered desc, hd.Street, convert(varchar(36), hd.ID) -- 1. save the SIS entered duplicate school,   2) keep the one with a street address, 3) arbitrarily order by GUID to pick one at random
+	) ; print 'School : ' + convert(varchar(10), @@rowcount)
 
 -- delete soft-deleted schools
 delete pts
