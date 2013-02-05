@@ -1,3 +1,77 @@
+-- ############################################################################# ------- duplicated in Transform_IepGoalArea.sql
+--		Iep Goal Area MAP
+IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.MAP_IepGoalArea') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
+BEGIN
+CREATE TABLE LEGACYSPED.MAP_IepGoalArea
+(
+	GoalRefID	varchar(150) not null,
+	DefID uniqueidentifier NOT NULL,
+	DestID uniqueidentifier NOT NULL
+)
+
+ALTER TABLE LEGACYSPED.MAP_IepGoalArea ADD CONSTRAINT 
+PK_MAP_IepGoalArea PRIMARY KEY CLUSTERED
+(
+	DefID, GoalRefID
+)
+END
+GO
+
+
+-- this MAP table will speed up the GoalArea queries considerably
+IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.MAP_GoalAreaPivot') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
+BEGIN
+create table LEGACYSPED.MAP_GoalAreaPivot 
+(
+	GoalRefID	varchar(150) not null,
+	GoalAreaCode varchar(150) not null,
+	GoalAreaDefIndex int not null
+)
+
+ALTER TABLE LEGACYSPED.MAP_GoalAreaPivot ADD CONSTRAINT 
+PK_MAP_GoalAreaPivot PRIMARY KEY CLUSTERED
+(
+	GoalRefID, GoalAreaDefIndex
+)
+END
+GO
+
+if not exists (select 1 from sys.indexes where name = 'IX_LEGACYSPED_MAP_GoalAreaPivot_GaolRefID_GoalAreaCode')
+create index IX_LEGACYSPED_MAP_GoalAreaPivot_GaolRefID_GoalAreaCode on LEGACYSPED.MAP_GoalAreaPivot (GoalRefID, GoalAreaCode)
+go
+
+
+-- #############################################################################
+IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.GoalAreaPivotView') AND OBJECTPROPERTY(id, N'IsView') = 1)
+DROP VIEW LEGACYSPED.GoalAreaPivotView
+GO
+
+create view LEGACYSPED.GoalAreaPivotView
+as
+	select IepRefID, GoalRefID, 'GACurriculum' GoalAreaCode, cast(0 as int) GoalAreaDefIndex
+	from LEGACYSPED.Goal 
+	where not (GAReading is null and GAWriting is null and GAMath is null and GAOther is null) 
+	UNION ALL
+	select IepRefID, GoalRefID, 'GAEmotional' GoalAreaCode, CAST(4 as int) GoalAreaDefIndex
+	from LEGACYSPED.Goal
+	where  GAEmotional = 'Y'
+	UNION ALL
+	select IepRefID, GoalRefID, 'GAIndependent' GoalAreaCode, CAST(5 as int) GoalAreaDefIndex
+	from LEGACYSPED.Goal
+	where  GAIndependent = 'Y'
+	UNION ALL
+	select IepRefID, GoalRefID, 'GAHealth' GoalAreaCode, CAST(6 as int) GoalAreaDefIndex
+	from LEGACYSPED.Goal
+	where  GAHealth = 'Y'
+	UNION ALL
+	select IepRefID, GoalRefID, 'GACommunication' GoalAreaCode, CAST(7 as int) GoalAreaDefIndex
+	from LEGACYSPED.Goal
+	where  GACommunication = 'Y'
+--order by GoalRefID
+go
+
+------------------------------------------------------------------------------------------- end code duplicated from Transform_IepGoalArea.sql
+
 -- #############################################################################
 -- Goal
 IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.MAP_PrgGoalID') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
@@ -45,12 +119,7 @@ AS
   DestID = m.DestID,
   TypeID = cast('AB74929E-B03F-4A51-82CA-659CA90E291A'  as uniqueidentifier), -- IEP goal as opposed to an Objective (both stored in same table)
   InstanceID = i.DestID,
-  Sequence = (
-	SELECT count(*)
-	FROM LEGACYSPED.Goal
-	WHERE IepRefID = g.IepRefID AND
-	Sequence < g.Sequence
-	),												-- source
+  Sequence = (select count(*) from LEGACYSPED.GoalAreaPivotView gpvt where gpvt.IepRefID = ga1.IepRefID and gpvt.GoalAreaCode = ga1.GoalAreaCode and gpvt.GoalRefID < g.GoalRefID),												-- source
   IsProbeGoal = cast(0 as bit),
   TargetDate = iep.IEPEndDate, 
   GoalStatement = cast(g.GoalStatement as text),	-- source
@@ -73,7 +142,15 @@ AS
  FROM
   LEGACYSPED.IEP iep join 
   LEGACYSPED.Goal g on iep.IepRefID = g.IepRefID JOIN
-  LEGACYSPED.GoalAreaExists e on g.GoalRefID = e.GoalRefID LEFT JOIN 
+  LEGACYSPED.GoalAreaExists e on g.GoalRefID = e.GoalRefID left join
+  LEGACYSPED.MAP_IepGoalArea ga on g.GoalRefID = ga.GoalRefID left join ----------------- May be able to use MAP table for speed
+	(
+	select g.IepRefID, ga.DefID, gad.GoalAreaCode 
+	from LEGACYSPED.Goal g join
+	LEGACYSPED.MAP_IepGoalArea ga on g.GoalRefID = ga.GoalRefID join ----------------- May be able to use MAP table for speed
+	LEGACYSPED.MAP_IepGoalAreaDefID gad on ga.DefID = gad.DestID
+	group by g.IepRefID, ga.DefID, gad.GoalAreaCode
+	) ga1 on g.IepRefId = ga1.IepRefID and ga.DefID = ga1.DefID LEFT JOIN 
   LEGACYSPED.MAP_PrgGoalID m on g.GoalRefID = m.GoalRefID LEFT JOIN 
   LEGACYSPED.Transform_PrgGoals i on g.IepRefID = i.IepRefID LEFT JOIN -- getting a null instance id for students that have been deleted, but goal records are imported.  bad data, but handle it here anyway.
 --   LEGACYSPED.MAP_PostSchoolGoalAreaDefID ps on g.PostSchoolAreaCode = ps.PostSchoolAreaID LEFT JOIN
