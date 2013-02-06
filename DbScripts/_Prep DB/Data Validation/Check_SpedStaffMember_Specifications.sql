@@ -8,8 +8,10 @@ BEGIN
 
 DECLARE @sql nVARCHAR(MAX)
 SET @sql = 'DELETE SpedStaffMember'
+EXEC sp_executesql @stmt = @sql
 
 EXEC sp_executesql @stmt = @sql
+SET @sql = 'DELETE SpedStaffMember_ValidationSummaryReport'
 
 INSERT SpedStaffMember 
 SELECT CONVERT(VARCHAR(150),spedstaff.STAFFEMAIL)
@@ -31,35 +33,76 @@ SET @sql = 'IF OBJECT_ID(''tempdb..#SpedStaffMember'') IS NOT NULL DROP TABLE #S
 EXEC sp_executesql @stmt = @sql
 
 SELECT LINE = IDENTITY(INT,1,1),* INTO  #SpedStaffMember FROM SpedStaffMember_LOCAL 
+
+INSERT SpedStaffMember_ValidationSummaryReport (Description,NoOfRecords)
+SELECT 'TotalRecords',COUNT(*)
+FROM SpedStaffMember_LOCAL
+    
+INSERT SpedStaffMember_ValidationSummaryReport (Description,NoOfRecords)
+SELECT 'SuccessfulRecords',COUNT(*)
+FROM SpedStaffMember
+
+INSERT SpedStaffMember_ValidationSummaryReport (Description,NoOfRecords)
+SELECT 'FailedRecords',((select COUNT(*) FROM SpedStaffMember_LOCAL) - (select COUNT(*) FROM SpedStaffMember))
 	
 INSERT SpedStaffMember_ValidationReport (Result)
 SELECT 'Please check the datalength of StaffEmail for the following record. The line no is '+CAST(LINE AS VARCHAR(50))+ '.'+ISNULL(StaffEmail,'')+'|'+ISNULL(LASTNAME,'')+ISNULL(Firstname,'')+'|'+ISNULL(EnrichRole,'')
 FROM #SpedStaffMember 
-    WHERE ((DATALENGTH(StaffEmail)/2)>150)
+    WHERE ((DATALENGTH(StaffEmail)/2)>150 AND StaffEmail IS NOT NULL)
 
+INSERT SpedStaffMember_ValidationSummaryReport (Description,NoOfRecords)
+SELECT 'Issue in the datalength of DistrictCode',COUNT(*)
+FROM #SpedStaffMember 
+    WHERE ((DATALENGTH(StaffEmail)/2)>150 AND StaffEmail IS NOT NULL)
+    
 INSERT SpedStaffMember_ValidationReport (Result) 
 SELECT 'Please check the datalength of StaffEmail for the following record. The line no is '+CAST(LINE AS VARCHAR(50))+ '.'+ISNULL(StaffEmail,'')+'|'+ISNULL(LASTNAME,'')+ISNULL(Firstname,'')+'|'+ISNULL(EnrichRole,'')
 FROM #SpedStaffMember 
-    WHERE ((DATALENGTH(LASTNAME)/2)>50)
+    WHERE ((DATALENGTH(LASTNAME)/2)>50 AND LASTNAME IS NOT NULL)
+    
+INSERT SpedStaffMember_ValidationSummaryReport (Description,NoOfRecords)
+SELECT 'Issue in the datalength of LASTNAME',COUNT(*)
+FROM #SpedStaffMember 
+    WHERE ((DATALENGTH(LASTNAME)/2)>50 AND LASTNAME IS NOT NULL)
     
 INSERT SpedStaffMember_ValidationReport (Result)
 SELECT 'Please check the datalength of StaffEmail for the following record. The line no is '+CAST(LINE AS VARCHAR(50))+ '.'+ISNULL(StaffEmail,'')+'|'+ISNULL(LASTNAME,'')+ISNULL(Firstname,'')+'|'+ISNULL(EnrichRole,'')
 FROM #SpedStaffMember 
-    WHERE ((DATALENGTH(Firstname)/2)>50)
+    WHERE ((DATALENGTH(Firstname)/2)>50 AND Firstname IS NOT NULL)
+    
+INSERT SpedStaffMember_ValidationSummaryReport (Description,NoOfRecords)
+SELECT 'Issue in the datalength of Firstname',COUNT(*)
+FROM #SpedStaffMember 
+    WHERE ((DATALENGTH(Firstname)/2)>50 AND Firstname IS NOT NULL)
 
 INSERT SpedStaffMember_ValidationReport (Result) 
-SELECT 'Please check the datalength of StaffEmail for the following record. The line no is '+CAST(LINE AS VARCHAR(50))+ '.'+ISNULL(StaffEmail,'')+'|'+ISNULL(LASTNAME,'')+ISNULL(Firstname,'')+'|'+ISNULL(EnrichRole,'')
+SELECT 'Please check the datalength of EnrichRole for the following record. The line no is '+CAST(LINE AS VARCHAR(50))+ '.'+ISNULL(StaffEmail,'')+'|'+ISNULL(LASTNAME,'')+ISNULL(Firstname,'')+'|'+ISNULL(EnrichRole,'')
 FROM #SpedStaffMember 
-    WHERE ((DATALENGTH(EnrichRole)/2)>50)
+    WHERE ((DATALENGTH(EnrichRole)/2)>50 AND EnrichRole IS NOT NULL)
 
+INSERT SpedStaffMember_ValidationSummaryReport (Description,NoOfRecords)
+SELECT 'Issue in the datalength of EnrichRole',COUNT(*)
+FROM #SpedStaffMember 
+    WHERE ((DATALENGTH(EnrichRole)/2)>50 AND EnrichRole IS NOT NULL)
+    
 --Required Fields
 INSERT SpedStaffMember_ValidationReport (Result) 
 SELECT 'The StaffEmail is required field, It can not be blank. The line no is '+CAST(LINE AS VARCHAR(50))+ '.'+ISNULL(StaffEmail,'')+'|'+ISNULL(LASTNAME,'')+ISNULL(Firstname,'')+'|'+ISNULL(EnrichRole,'')
 FROM #SpedStaffMember 
 WHERE (StaffEmail IS NULL) 
 
+INSERT SpedStaffMember_ValidationSummaryReport (Description,NoOfRecords)
+SELECT 'The StaffEmail doesnot have any value, It is required column',COUNT(*)
+FROM #SpedStaffMember 
+WHERE (StaffEmail IS NULL) 
+    
 INSERT SpedStaffMember_ValidationReport (Result) 
 SELECT 'The StaffEmail is required field, It can not be blank. The line no is '+CAST(LINE AS VARCHAR(50))+ '.'+ISNULL(StaffEmail,'')+'|'+ISNULL(LASTNAME,'')+ISNULL(Firstname,'')+'|'+ISNULL(EnrichRole,'')
+FROM #SpedStaffMember 
+WHERE (Lastname IS NULL) 
+
+INSERT SpedStaffMember_ValidationSummaryReport (Description,NoOfRecords)
+SELECT 'The Lastname doesnot have any value, It is required column',COUNT(*)
 FROM #SpedStaffMember 
 WHERE (Lastname IS NULL) 
 
@@ -68,9 +111,19 @@ SELECT 'The StaffEmail is required field, It can not be blank. The line no is '+
 FROM #SpedStaffMember 
 WHERE (Firstname IS NULL) 
 
+INSERT SpedStaffMember_ValidationSummaryReport (Description,NoOfRecords)
+SELECT 'The Firstname doesnot have any value, It is required column',COUNT(*)
+FROM #SpedStaffMember 
+WHERE (Firstname IS NULL) 
+
 --Unique Fields
 INSERT SpedStaffMember_ValidationReport (Result) 
 SELECT 'The StaffEmail'+tspedstaff.STAFFEMAIL+' is unique field, It can not be duplicated. The line no is '+CAST(LINE AS VARCHAR(50))+ '.'+ISNULL(tspedstaff.STAFFEMAIL,'')+'|'+ISNULL(tspedstaff.LASTNAME,'')+ISNULL(tspedstaff.FIRSTNAME,'')+'|'+ISNULL(tspedstaff.ENRICHROLE,'')
+FROM #SpedStaffMember tspedstaff
+JOIN (SELECT StaffEmail FROM SpedStaffMember_LOCAL GROUP BY StaffEmail HAVING COUNT(*)>1) ucspedstaff ON tspedstaff.STAFFEMAIL = ucspedstaff.STAFFEMAIL
+
+INSERT SpedStaffMember_ValidationSummaryReport (Description,NoOfRecords)
+SELECT 'The StaffEmail record has duplicated.',COUNT(*)
 FROM #SpedStaffMember tspedstaff
 JOIN (SELECT StaffEmail FROM SpedStaffMember_LOCAL GROUP BY StaffEmail HAVING COUNT(*)>1) ucspedstaff ON tspedstaff.STAFFEMAIL = ucspedstaff.STAFFEMAIL
 	 

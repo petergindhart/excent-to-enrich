@@ -9,7 +9,9 @@ BEGIN
 
 DECLARE @sql nVARCHAR(MAX)
 SET @sql = 'DELETE TeamMember'
+EXEC sp_executesql @stmt = @sql
 
+SET @sql = 'DELETE TeamMember_ValidationSummaryReport'
 EXEC sp_executesql @stmt = @sql
 
 INSERT TeamMember 
@@ -35,9 +37,25 @@ EXEC sp_executesql @stmt = @sql
 
 SELECT LINE = IDENTITY(INT,1,1),* INTO  #TeamMember FROM TeamMember_LOCAL 
 
+INSERT TeamMember_ValidationSummaryReport (Description,NoOfRecords)
+SELECT 'TotalRecords',COUNT(*)
+FROM TeamMember_LOCAL
+    
+INSERT TeamMember_ValidationSummaryReport (Description,NoOfRecords)
+SELECT 'SuccessfulRecords',COUNT(*)
+FROM TeamMember
+
+INSERT TeamMember_ValidationSummaryReport (Description,NoOfRecords)
+SELECT 'FailedRecords',((select COUNT(*) FROM TeamMember_LOCAL) - (select COUNT(*) FROM TeamMember))
+
 --To check the Datalength of the fields
 INSERT TeamMember_ValidationReport (Result)
 SELECT 'Please check the datalength of StaffEmail for the following record. The line no is '+CAST(LINE AS VARCHAR(50))+ '.'+ISNULL(StaffEmail,'')+'|'+ISNULL(StudentRefId,'')+'|'+ISNULL(IsCaseManager,'')
+FROM #TeamMember 
+    WHERE ((DATALENGTH(StaffEmail)/2)> 150 AND StaffEmail IS NOT NULL) 
+
+INSERT TeamMember_ValidationSummaryReport (Description,NoOfRecords)
+SELECT 'Issue in the datalength of StaffEmail',COUNT(*)
 FROM #TeamMember 
     WHERE ((DATALENGTH(StaffEmail)/2)> 150 AND StaffEmail IS NOT NULL) 
 
@@ -46,19 +64,40 @@ SELECT 'Please check the datalength of StudentRefId for the following record. Th
 FROM #TeamMember 
     WHERE ((DATALENGTH(StudentRefId)/2)> 150 AND StudentRefId IS NOT NULL)  
 
+
+INSERT TeamMember_ValidationSummaryReport (Description,NoOfRecords)
+SELECT 'Issue in the datalength of StudentRefId',COUNT(*)
+FROM #TeamMember 
+    WHERE ((DATALENGTH(StudentRefId)/2)> 150 AND StudentRefId IS NOT NULL)  
+    
 INSERT TeamMember_ValidationReport (Result)
 SELECT 'Please check the datalength of IsCaseManager for the following record. The line no is '+CAST(LINE AS VARCHAR(50))+ '.'+ISNULL(StaffEmail,'')+'|'+ISNULL(StudentRefId,'')+'|'+ISNULL(IsCaseManager,'')
 FROM #TeamMember 
     WHERE ((DATALENGTH(IsCaseManager)/2)> 150 AND IsCaseManager IS NOT NULL) 
 
+INSERT TeamMember_ValidationSummaryReport (Description,NoOfRecords)
+SELECT 'Issue in the datalength of IsCaseManager',COUNT(*)
+FROM #TeamMember 
+    WHERE ((DATALENGTH(IsCaseManager)/2)> 150 AND IsCaseManager IS NOT NULL) 
+    
 ---Required Fields
 INSERT TeamMember_ValidationReport (Result)
 SELECT 'The StaffEmail is required field, It can not be blank. The line no is '+CAST(LINE AS VARCHAR(50))+ '.'+ISNULL(StaffEmail,'')+'|'+ISNULL(StudentRefId,'')+'|'+ISNULL(IsCaseManager,'')
 FROM #TeamMember 
 WHERE (StaffEmail IS NULL) 
 
+INSERT TeamMember_ValidationSummaryReport (Description,NoOfRecords)
+SELECT 'The StaffEmail doesnot have any value, It is required column',COUNT(*)
+FROM #TeamMember 
+WHERE (StaffEmail IS NULL) 
+  
 INSERT TeamMember_ValidationReport (Result)
 SELECT 'The StudentRefId is required field, It can not be blank. The line no is '+CAST(LINE AS VARCHAR(50))+ '.'+ISNULL(StaffEmail,'')+'|'+ISNULL(StudentRefId,'')+'|'+ISNULL(IsCaseManager,'')
+FROM #TeamMember 
+WHERE (StudentRefId IS NULL) 
+
+INSERT TeamMember_ValidationSummaryReport (Description,NoOfRecords)
+SELECT 'The StudentRefId doesnot have any value, It is required column',COUNT(*)
 FROM #TeamMember 
 WHERE (StudentRefId IS NULL) 
 
@@ -67,9 +106,20 @@ SELECT 'The IsCaseManager is required field, It can not be blank. The line no is
 FROM #TeamMember 
 WHERE (IsCaseManager IS NULL) 
 
+INSERT TeamMember_ValidationSummaryReport (Description,NoOfRecords)
+SELECT 'The IsCaseManager doesnot have any value, It is required column',COUNT(*)
+FROM #TeamMember 
+WHERE (IsCaseManager IS NULL) 
+
 --To Check Duplicate Records
 INSERT TeamMember_ValidationReport (Result)
 SELECT 'The record'+tteam.StaffEmail+','+tteam.StudentRefID+' is duplicated. The line no is '+CAST(LINE AS VARCHAR(50))+ '.'+ISNULL(tteam.STAFFEMAIL,'')+'|'+ISNULL(tteam.STUDENTREFID,'')+'|'+ISNULL(IsCaseManager,'')
+FROM #TeamMember tteam
+JOIN (SELECT StaffEmail,StudentRefId FROM TeamMember_LOCAL GROUP BY StaffEmail,StudentRefId HAVING COUNT(*)>1) ucteam 
+		 ON (ucteam.StaffEmail = tteam.StaffEmail) AND (ucteam.StudentRefID = tteam.StudentRefID)
+		 
+INSERT TeamMember_ValidationSummaryReport (Description,NoOfRecords)
+SELECT 'The "StaffEmail,StudentRefId" has duplicated.',COUNT(*)
 FROM #TeamMember tteam
 JOIN (SELECT StaffEmail,StudentRefId FROM TeamMember_LOCAL GROUP BY StaffEmail,StudentRefId HAVING COUNT(*)>1) ucteam 
 		 ON (ucteam.StaffEmail = tteam.StaffEmail) AND (ucteam.StudentRefID = tteam.StudentRefID)
@@ -81,17 +131,33 @@ FROM #TeamMember tteam
 LEFT JOIN Student st ON st.StudentRefID = tteam.StudentRefID
 WHERE st.StudentRefID IS NULL
 
+INSERT TeamMember_ValidationSummaryReport (Description,NoOfRecords)
+SELECT 'The StudentRefID does not exist in Student file, It existed in TeamMember file',COUNT(*)
+FROM #TeamMember tteam
+LEFT JOIN Student st ON st.StudentRefID = tteam.StudentRefID
+WHERE st.StudentRefID IS NULL
+
 INSERT TeamMember_ValidationReport (Result)
 SELECT 'The StaffEmail' +tteam.StaffEmail+' does not exist in SpedStaffMember file or were not validated successfully, It existed in TeamMember file. The line no is '+CAST(tteam.LINE AS VARCHAR(50))+ '.'+ISNULL(tteam.StaffEmail,'')+'|'+ISNULL(tteam.StudentRefId,'')+'|'+ISNULL(tteam.IsCaseManager,'')
 FROM #TeamMember tteam
 LEFT JOIN SpedStaffMember sped ON sped.StaffEmail = tteam.StaffEmail
 WHERE sped.StaffEmail IS NULL
 
+INSERT TeamMember_ValidationSummaryReport (Description,NoOfRecords)
+SELECT 'The StaffEmail does not exist in SpedStaffMember file, It existed in TeamMember file',COUNT(*)
+FROM #TeamMember tteam
+LEFT JOIN SpedStaffMember sped ON sped.StaffEmail = tteam.StaffEmail
+WHERE sped.StaffEmail IS NULL
 
 INSERT TeamMember_ValidationReport (Result)
 SELECT 'The IsCaseManager should have "Y" or "N". The line no is '+CAST(tteam.LINE AS VARCHAR(50))+ '.'+ISNULL(tteam.StaffEmail,'')+'|'+ISNULL(tteam.StudentRefId,'')+'|'+ISNULL(tteam.IsCaseManager,'')
 FROM #TeamMember tteam
-WHERE (tteam.IsCaseManager IN ('Y','N') AND tteam.IsCaseManager IS NOT NULL)
+WHERE (tteam.IsCaseManager NOT IN ('Y','N') AND tteam.IsCaseManager IS NOT NULL)
+
+INSERT TeamMember_ValidationSummaryReport (Description,NoOfRecords)
+SELECT 'The IsCaseManager does not have "Y"/"N".',COUNT(*)
+FROM #TeamMember tteam
+WHERE (tteam.IsCaseManager NOT IN ('Y','N') AND tteam.IsCaseManager IS NOT NULL)
 
 SET @sql = 'IF OBJECT_ID(''tempdb..#TeamMember'') IS NOT NULL DROP TABLE #TeamMember'	
 EXEC sp_executesql @stmt = @sql   

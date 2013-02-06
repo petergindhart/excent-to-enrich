@@ -9,8 +9,10 @@ BEGIN
 
 DECLARE @sql nVARCHAR(MAX)
 SET @sql = 'DELETE StaffSchool'
+EXEC sp_executesql @stmt = @sql
 
 EXEC sp_executesql @stmt = @sql
+SET @sql = 'DELETE StaffSchool_ValidationSummaryReport'
 
 INSERT StaffSchool 
 SELECT CONVERT(VARCHAR(150) ,ss.StaffEmail)
@@ -32,31 +34,68 @@ EXEC sp_executesql @stmt = @sql
 
 SELECT LINE = IDENTITY(INT,1,1),* INTO  #StaffSchool FROM StaffSchool_LOCAL 
 
+INSERT StaffSchool_ValidationSummaryReport (Description,NoOfRecords)
+SELECT 'TotalRecords',COUNT(*)
+FROM StaffSchool_LOCAL
+    
+INSERT StaffSchool_ValidationSummaryReport (Description,NoOfRecords)
+SELECT 'SuccessfulRecords',COUNT(*)
+FROM StaffSchool
+
+INSERT StaffSchool_ValidationSummaryReport (Description,NoOfRecords)
+SELECT 'FailedRecords',((select COUNT(*) FROM StaffSchool_LOCAL) - (select COUNT(*) FROM StaffSchool))
+
 --To check the Datalength of the fields
 INSERT StaffSchool_ValidationReport (Result)
 SELECT 'Please check the datalength of StaffEmail for the following record. The line no is '+CAST(LINE AS VARCHAR(50))+ '.'+ISNULL(StaffEmail,'')+'|'+ISNULL(SchoolCode,'')
 FROM #StaffSchool
     WHERE ((DATALENGTH(StaffEmail)/2)> 150 AND StaffEmail IS NOT NULL) 
 
+INSERT StaffSchool_ValidationSummaryReport (Description,NoOfRecords)
+SELECT 'Issue in the datalength of StaffEmail',COUNT(*)
+FROM #StaffSchool
+    WHERE ((DATALENGTH(StaffEmail)/2)> 150 AND StaffEmail IS NOT NULL) 
+    
 INSERT StaffSchool_ValidationReport (Result)
 SELECT 'Please check the datalength of SchoolCode for the following record. The line no is '+CAST(LINE AS VARCHAR(50))+ '.'+ISNULL(StaffEmail,'')+'|'+ISNULL(SchoolCode,'')
 FROM #StaffSchool
     WHERE ((DATALENGTH(SchoolCode)/2)> 10 AND SchoolCode IS NOT NULL) 
 
+INSERT StaffSchool_ValidationSummaryReport (Description,NoOfRecords)
+SELECT 'Issue in the datalength of SchoolCode',COUNT(*)
+FROM #StaffSchool
+    WHERE ((DATALENGTH(SchoolCode)/2)> 10 AND SchoolCode IS NOT NULL) 
+    
 ---Required Fields
 INSERT StaffSchool_ValidationReport (Result)
 SELECT 'The StaffEmail is required field, It can not be blank. The line no is '+CAST(LINE AS VARCHAR(50))+ '.'+ISNULL(StaffEmail,'')+'|'+ISNULL(SchoolCode,'')
 FROM #StaffSchool
 WHERE (StaffEmail IS NULL) 
 
+INSERT StaffSchool_ValidationSummaryReport (Description,NoOfRecords)
+SELECT 'The StaffEmail does not have any value, It is required column',COUNT(*)
+FROM #StaffSchool
+WHERE (StaffEmail IS NULL) 
+    
 INSERT StaffSchool_ValidationReport (Result)
 SELECT 'The SchoolCode is required field, It can not be blank. The line no is '+CAST(LINE AS VARCHAR(50))+ '.'+ISNULL(StaffEmail,'')+'|'+ISNULL(SchoolCode,'')
+FROM #StaffSchool
+WHERE (SchoolCode IS NULL) 
+
+INSERT StaffSchool_ValidationSummaryReport (Description,NoOfRecords)
+SELECT 'The SchoolCode does not have any value, It is required column',COUNT(*)
 FROM #StaffSchool
 WHERE (SchoolCode IS NULL) 
 
 --To Check Duplicate Records
 INSERT StaffSchool_ValidationReport (Result)
 SELECT 'The record "'+tss.StaffEmail+','+tss.SchoolCode+'" was duplicated. The line no is '+CAST(tss.LINE AS VARCHAR(50))+ '.'+ISNULL(tss.StaffEmail,'')+'|'+ISNULL(tss.SchoolCode,'')
+FROM #StaffSchool tss
+ JOIN (SELECT StaffEmail,SchoolCode FROM StaffSchool_LOCAL GROUP BY StaffEmail,SchoolCode HAVING COUNT(*)>1) ucss
+		 ON (ucss.StaffEmail = tss.StaffEmail) AND (ucss.SchoolCode = tss.SchoolCode)
+
+INSERT StaffSchool_ValidationSummaryReport (Description,NoOfRecords)
+SELECT 'The "StaffEmail,SchoolCode" has duplicated',COUNT(*)
 FROM #StaffSchool tss
  JOIN (SELECT StaffEmail,SchoolCode FROM StaffSchool_LOCAL GROUP BY StaffEmail,SchoolCode HAVING COUNT(*)>1) ucss
 		 ON (ucss.StaffEmail = tss.StaffEmail) AND (ucss.SchoolCode = tss.SchoolCode)
@@ -68,12 +107,23 @@ FROM #StaffSchool tss
 LEFT JOIN School sc ON sc.SchoolCode = tss.SchoolCode
 WHERE sc.SchoolCode IS NULL
 
+INSERT StaffSchool_ValidationSummaryReport (Description,NoOfRecords)
+SELECT 'The SchoolCode does not exist in School file, It existed in StaffSchool file',COUNT(*)
+FROM #StaffSchool tss
+LEFT JOIN School sc ON sc.SchoolCode = tss.SchoolCode
+WHERE sc.SchoolCode IS NULL
+		 
 INSERT StaffSchool_ValidationReport (Result)
 SELECT 'The StaffEmail' +tss.StaffEmail+' does not exist in SpedStaffMember file or were not validated successfully, It existed in StaffSchool file. The line no is '+CAST(tss.LINE AS VARCHAR(50))+ '.'+ISNULL(tss.StaffEmail,'')+'|'+ISNULL(tss.SchoolCode,'')
 FROM #StaffSchool tss
 LEFT JOIN SpedStaffMember sped ON sped.StaffEmail = tss.StaffEmail
 WHERE sped.StaffEmail IS NULL
 
+INSERT StaffSchool_ValidationSummaryReport (Description,NoOfRecords)
+SELECT 'The StaffEmail does not exist in SpedStaffMember file, It existed in StaffSchool file',COUNT(*)
+FROM #StaffSchool tss
+LEFT JOIN SpedStaffMember sped ON sped.StaffEmail = tss.StaffEmail
+WHERE sped.StaffEmail IS NULL
 
 SET @sql = 'IF OBJECT_ID(''tempdb..#StaffSchool'') IS NOT NULL DROP TABLE #StaffSchool'	
 EXEC sp_executesql @stmt = @sql   

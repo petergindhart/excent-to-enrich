@@ -12,6 +12,10 @@ SET @sql = 'DELETE School'
 
 EXEC sp_executesql @stmt = @sql
 
+SET @sql = 'DELETE School_ValidationSummaryReport'
+
+EXEC sp_executesql @stmt = @sql
+
 INSERT School 
 SELECT CONVERT(VARCHAR(10) ,sch.SCHOOLCODE)
 	  ,CONVERT(VARCHAR(255),sch.SCHOOLNAME)
@@ -37,24 +41,55 @@ EXEC sp_executesql @stmt = @sql
 
 SELECT LINE = IDENTITY(INT,1,1),* INTO  #School FROM School_LOCAL 
 
+INSERT School_ValidationSummaryReport (Description,NoOfRecords)
+SELECT 'TotalRecords',COUNT(*)
+FROM School_LOCAL
+    
+INSERT School_ValidationSummaryReport (Description,NoOfRecords)
+SELECT 'SuccessfulRecords',COUNT(*)
+FROM School
+
+INSERT School_ValidationSummaryReport (Description,NoOfRecords)
+SELECT 'FailedRecords',((select COUNT(*) FROM School_LOCAL) - (select COUNT(*) FROM School))
+
 --To check the Datalength of the fields
 INSERT School_ValidationReport (Result)
 SELECT 'Please check the datalength of SchoolCode for the following record. The line no is '+CAST(LINE AS VARCHAR(50))+ '.'+ISNULL(SchoolCode,'')+'|'+ISNULL(SchoolName,'')+'|'+ISNULL(DistrictCode,'')+'|'+ISNULL(MinutesPerWeek,'')
 FROM #School 
     WHERE ((DATALENGTH(SchoolCode)/2)> 10 AND SchoolCode IS NOT NULL) 
 
+INSERT School_ValidationSummaryReport (Description,NoOfRecords)
+SELECT 'Issue in the datalength of SchoolCode',COUNT(*)
+FROM #School 
+    WHERE ((DATALENGTH(SchoolCode)/2)> 10 AND SchoolCode IS NOT NULL) 
+    
 INSERT School_ValidationReport (Result)
 SELECT 'Please check the datalenth of SchoolName for the following record. The line no is '+CAST(LINE AS VARCHAR(50))+ '.'+ISNULL(SchoolCode,'')+'|'+ISNULL(SchoolName,'')+'|'+ISNULL(DistrictCode,'')+'|'+ISNULL(MinutesPerWeek,'')
 FROM #School 
      WHERE ((DATALENGTH(SchoolName)/2)>254 AND SchoolName IS NOT NULL) 
 
+INSERT School_ValidationSummaryReport (Description,NoOfRecords)
+SELECT 'Issue in the datalength of SchoolName',COUNT(*)
+FROM #School 
+     WHERE ((DATALENGTH(SchoolName)/2)>254 AND SchoolName IS NOT NULL) 
+    
 INSERT School_ValidationReport (Result)
 SELECT 'Please check the datalenth of DistrictCode for the following record. The line no is '+CAST(LINE AS VARCHAR(50))+ '.'+ISNULL(SchoolCode,'')+'|'+ISNULL(SchoolName,'')+'|'+ISNULL(DistrictCode,'')+'|'+ISNULL(MinutesPerWeek,'')
 FROM #School 
 WHERE ((DATALENGTH(DistrictCode)/2)> 10 AND DistrictCode IS NOT NULL) 
 
+INSERT School_ValidationSummaryReport (Description,NoOfRecords)
+SELECT 'Issue in the datalength of DistrictCode',COUNT(*)
+FROM #School 
+WHERE ((DATALENGTH(DistrictCode)/2)> 10 AND DistrictCode IS NOT NULL) 
+     
 INSERT School_ValidationReport (Result)
 SELECT 'Please check the datalenth of MinutesPerWeek for the following record. The line no is '+CAST(LINE AS VARCHAR(50))+ '.'+ISNULL(SchoolCode,'')+'|'+ISNULL(SchoolName,'')+'|'+ISNULL(DistrictCode,'')+'|'+ISNULL(MinutesPerWeek,'')
+FROM #School 
+WHERE (((ISNUMERIC(MinutesPerWeek)=0) OR ((DATALENGTH(MinutesPerWeek)/2)>4)) AND MinutesPerWeek IS NOT NULL)
+
+INSERT School_ValidationSummaryReport (Description,NoOfRecords)
+SELECT 'Issue in the datalength of MinutesPerWeek',COUNT(*)
 FROM #School 
 WHERE (((ISNUMERIC(MinutesPerWeek)=0) OR ((DATALENGTH(MinutesPerWeek)/2)>4)) AND MinutesPerWeek IS NOT NULL)
 
@@ -64,8 +99,18 @@ SELECT 'The field "SchoolCode" is required field. The line no is '+CAST(LINE AS 
 FROM #School 
 WHERE (SchoolCode IS NULL) 
 
+INSERT School_ValidationSummaryReport (Description,NoOfRecords)
+SELECT 'The field "SchoolCode" doesnot have any value, It is required column',COUNT(*)
+FROM #School 
+WHERE (SchoolCode IS NULL) 
+
 INSERT School_ValidationReport (Result)
 SELECT 'The field "SchoolName" is required field. The line no is '+CAST(LINE AS VARCHAR(50))+ '.'+ISNULL(SchoolCode,'')+'|'+ISNULL(SchoolName,'')+'|'+ISNULL(DistrictCode,'')+'|'+ISNULL(MinutesPerWeek,'')
+FROM #School 
+WHERE (SchoolName IS NULL) 
+
+INSERT School_ValidationSummaryReport (Description,NoOfRecords)
+SELECT 'The field "SchoolName" doesnot have any value, It is required column',COUNT(*)
 FROM #School 
 WHERE (SchoolName IS NULL) 
 
@@ -74,8 +119,18 @@ SELECT 'The field "DistrictCode" is required field. The line no is '+CAST(LINE A
 FROM #School 
 WHERE (DistrictCode IS NULL) 
 
+INSERT School_ValidationSummaryReport (Description,NoOfRecords)
+SELECT 'The field "DistrictCode" doesnot have any value, It is required column',COUNT(*)
+FROM #School 
+WHERE (DistrictCode IS NULL) 
+
 INSERT School_ValidationReport (Result)
 SELECT 'The field "MinutesPerWeek" is required field. The line no is '+CAST(LINE AS VARCHAR(50))+ '.'+ISNULL(SchoolCode,'')+'|'+ISNULL(SchoolName,'')+'|'+ISNULL(DistrictCode,'')+'|'+ISNULL(MinutesPerWeek,'')
+FROM #School 
+WHERE (MinutesPerWeek IS NULL) 
+
+INSERT School_ValidationSummaryReport (Description,NoOfRecords)
+SELECT 'The field "MinutesPerWeek" doesnot have any value, It is required column',COUNT(*)
 FROM #School 
 WHERE (MinutesPerWeek IS NULL) 
 
@@ -86,7 +141,12 @@ FROM #School tsch
 JOIN (SELECT SchoolCode,DISTRICTCODE FROM School_LOCAL GROUP BY SchoolCode,DISTRICTCODE HAVING COUNT(*)>1) ucsch
 		 ON tsch.SCHOOLCODE = ucsch.SCHOOLCODE
  
-	
+INSERT School_ValidationSummaryReport (Description,NoOfRecords)
+SELECT 'The field "SchoolCode, DISTRICTCODE" has duplicated.',COUNT(*)
+FROM #School tsch
+JOIN (SELECT SchoolCode,DISTRICTCODE FROM School_LOCAL GROUP BY SchoolCode,DISTRICTCODE HAVING COUNT(*)>1) ucsch
+		 ON tsch.SCHOOLCODE = ucsch.SCHOOLCODE
+		 
 --To Check the Referential Integrity
 INSERT School_ValidationReport (Result)
 SELECT 'The DistrictCode "' +tsch.DISTRICTCODE+'" does not exist in District File or were not validated successfully. The line no is '+CAST(tsch.LINE AS VARCHAR(50))+ '.'+ISNULL(tsch.SCHOOLCODE,'')+'|'+ISNULL(tsch.SCHOOLNAME,'')+'|'+ISNULL(tsch.DISTRICTCODE,'')+'|'+ISNULL(tsch.MINUTESPERWEEK,'')
@@ -94,6 +154,12 @@ FROM #School tsch
 LEFT JOIN District dt ON dt.DistrictCode = tsch.DISTRICTCODE
 WHERE dt.DistrictCode IS NULL
 
+INSERT School_ValidationSummaryReport (Description,NoOfRecords)
+SELECT 'The DistrictCode does not exist in District file, It existed in School file.',COUNT(*)
+FROM #School tsch
+LEFT JOIN District dt ON dt.DistrictCode = tsch.DISTRICTCODE
+WHERE dt.DistrictCode IS NULL
+		 
 SET @sql = 'IF OBJECT_ID(''tempdb..#School'') IS NOT NULL DROP TABLE #School'	
 EXEC sp_executesql @stmt = @sql   
       

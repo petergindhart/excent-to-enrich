@@ -12,6 +12,10 @@ SET @sql = 'DELETE Goal'
 
 EXEC sp_executesql @stmt = @sql
 
+SET @sql = 'DELETE Goal_ValidationSummaryReport'
+
+EXEC sp_executesql @stmt = @sql
+
 INSERT Goal 
 SELECT CONVERT(VARCHAR(10) ,g.GOALREFID)
 	  ,CONVERT(VARCHAR(255),g.IEPREFID)
@@ -58,44 +62,98 @@ EXEC sp_executesql @stmt = @sql
 
 SELECT LINE = IDENTITY(INT,1,1),* INTO  #Goal FROM Goal_LOCAL 
 
+
+INSERT Goal_ValidationSummaryReport(Description,NoOfRecords)
+SELECT 'TotalRecords',COUNT(*)
+FROM Goal_LOCAL
+    
+INSERT Goal_ValidationSummaryReport(Description,NoOfRecords)
+SELECT 'SuccessfulRecords',COUNT(*)
+FROM Goal
+
+INSERT Goal_ValidationSummaryReport(Description,NoOfRecords)
+SELECT 'FailedRecords',((select COUNT(*) FROM Goal_LOCAL) - (select COUNT(*) FROM Goal))
+
 --To check the Datalength of the fields
 INSERT Goal_ValidationReport (Result)
 SELECT 'Please check the datalength of GoalRefID for the following record. The line no is '+CAST(LINE AS VARCHAR(50))+ '.'+ISNULL(GoalRefID,'')+'|'+ISNULL(IepRefID,'')+'|'+ISNULL(Sequence,'')+'|'+ISNULL(GoalAreaCode,'')+ISNULL(PSEducation,'')+'|'+ISNULL(PSEmployment,'')+'|'+ISNULL(PSIndependent,'')+'|'+ISNULL(IsEsy,'')+ISNULL(UNITOFMEASUREMENT,'')+'|'+ISNULL(BASELINEDATAPOINT,'')+'|'+ISNULL(EVALUATIONMETHOD,'')+'|'+ISNULL(GoalStatement,'')
 FROM #Goal 
     WHERE ((DATALENGTH(GoalRefID)/2)> 150 AND GoalRefID IS NOT NULL) 
 
+INSERT Goal_ValidationSummaryReport (Description,NoOfRecords)
+SELECT 'Issue in the datalength of GoalRefID Field',COUNT(*)
+FROM #Goal 
+    WHERE ((DATALENGTH(GoalRefID)/2)> 150 AND GoalRefID IS NOT NULL) 
+    
 INSERT Goal_ValidationReport (Result)
 SELECT 'Please check the datalength of IepRefID for the following record. The line no is '+CAST(LINE AS VARCHAR(50))+ '.'+ISNULL(GoalRefID,'')+'|'+ISNULL(IepRefID,'')+'|'+ISNULL(Sequence,'')+'|'+ISNULL(GoalAreaCode,'')+ISNULL(PSEducation,'')+'|'+ISNULL(PSEmployment,'')+'|'+ISNULL(PSIndependent,'')+'|'+ISNULL(IsEsy,'')+ISNULL(UNITOFMEASUREMENT,'')+'|'+ISNULL(BASELINEDATAPOINT,'')+'|'+ISNULL(EVALUATIONMETHOD,'')+'|'+ISNULL(GoalStatement,'')
 FROM #Goal 
     WHERE ((DATALENGTH(IepRefID)/2)> 150 AND IepRefID IS NOT NULL) 
 
+INSERT Goal_ValidationSummaryReport (Description,NoOfRecords)
+SELECT 'Issue in the datalength of IepRefID Field',COUNT(*)
+FROM #Goal 
+    WHERE ((DATALENGTH(IepRefID)/2)> 150 AND IepRefID IS NOT NULL) 
+    
 INSERT Goal_ValidationReport (Result)
 SELECT 'Please check the datalength of Sequence for the following record. The line no is '+CAST(LINE AS VARCHAR(50))+ '.'+ISNULL(GoalRefID,'')+'|'+ISNULL(IepRefID,'')+'|'+ISNULL(Sequence,'')+'|'+ISNULL(GoalAreaCode,'')+ISNULL(PSEducation,'')+'|'+ISNULL(PSEmployment,'')+'|'+ISNULL(PSIndependent,'')+'|'+ISNULL(IsEsy,'')+ISNULL(UNITOFMEASUREMENT,'')+'|'+ISNULL(BASELINEDATAPOINT,'')+'|'+ISNULL(EVALUATIONMETHOD,'')+'|'+ISNULL(GoalStatement,'')
 FROM #Goal 
     WHERE ((DATALENGTH(Sequence)/2)> 3 AND Sequence IS NOT NULL) 
-    
+ 
+INSERT Goal_ValidationSummaryReport (Description,NoOfRecords)
+SELECT 'Issue in the datalength of Sequence Field',COUNT(*)
+FROM #Goal 
+    WHERE ((DATALENGTH(Sequence)/2)> 3 AND Sequence IS NOT NULL)  
+        
 INSERT Goal_ValidationReport (Result)
 SELECT 'Please check the datalength of GoalAreaCode for the following record. The line no is '+CAST(LINE AS VARCHAR(50))+ '.'+ISNULL(GoalRefID,'')+'|'+ISNULL(IepRefID,'')+'|'+ISNULL(Sequence,'')+'|'+ISNULL(GoalAreaCode,'')+ISNULL(PSEducation,'')+'|'+ISNULL(PSEmployment,'')+'|'+ISNULL(PSIndependent,'')+'|'+ISNULL(IsEsy,'')+ISNULL(UNITOFMEASUREMENT,'')+'|'+ISNULL(BASELINEDATAPOINT,'')+'|'+ISNULL(EVALUATIONMETHOD,'')+'|'+ISNULL(GoalStatement,'')
 FROM #Goal 
     WHERE ((DATALENGTH(GoalAreaCode)/2)> 150 AND GoalAreaCode IS NOT NULL) 
-    
+ 
+INSERT Goal_ValidationSummaryReport (Description,NoOfRecords)
+SELECT 'Issue in the datalength of GoalAreaCode Field',COUNT(*)
+FROM #Goal 
+     WHERE ((DATALENGTH(GoalAreaCode)/2)> 150 AND GoalAreaCode IS NOT NULL) 
+        
 INSERT Goal_ValidationReport (Result)
 SELECT 'Please check the datalength of PSEducation for the following record. The line no is '+CAST(LINE AS VARCHAR(50))+ '.'+ISNULL(GoalRefID,'')+'|'+ISNULL(IepRefID,'')+'|'+ISNULL(Sequence,'')+'|'+ISNULL(GoalAreaCode,'')+ISNULL(PSEducation,'')+'|'+ISNULL(PSEmployment,'')+'|'+ISNULL(PSIndependent,'')+'|'+ISNULL(IsEsy,'')+ISNULL(UNITOFMEASUREMENT,'')+'|'+ISNULL(BASELINEDATAPOINT,'')+'|'+ISNULL(EVALUATIONMETHOD,'')+'|'+ISNULL(GoalStatement,'')
 FROM #Goal 
     WHERE ((DATALENGTH(PSEducation)/2)> 1 AND PSEducation IS NOT NULL) 
-    
+
+INSERT Goal_ValidationSummaryReport (Description,NoOfRecords)
+SELECT 'Issue in the datalength of PSEducation Field',COUNT(*)
+FROM #Goal 
+    WHERE ((DATALENGTH(PSEducation)/2)> 1 AND PSEducation IS NOT NULL)
+         
 INSERT Goal_ValidationReport (Result)
 SELECT 'Please check the datalength of PSEmployment for the following record. The line no is '+CAST(LINE AS VARCHAR(50))+ '.'+ISNULL(GoalRefID,'')+'|'+ISNULL(IepRefID,'')+'|'+ISNULL(Sequence,'')+'|'+ISNULL(GoalAreaCode,'')+ISNULL(PSEducation,'')+'|'+ISNULL(PSEmployment,'')+'|'+ISNULL(PSIndependent,'')+'|'+ISNULL(IsEsy,'')+ISNULL(UNITOFMEASUREMENT,'')+'|'+ISNULL(BASELINEDATAPOINT,'')+'|'+ISNULL(EVALUATIONMETHOD,'')+'|'+ISNULL(GoalStatement,'')
 FROM #Goal 
     WHERE ((DATALENGTH(PSEmployment)/2)> 1 AND PSEmployment IS NOT NULL) 
-    
+
+INSERT Goal_ValidationSummaryReport (Description,NoOfRecords)
+SELECT 'Issue in the datalength of PSEmployment Field',COUNT(*)
+FROM #Goal 
+     WHERE ((DATALENGTH(PSEmployment)/2)> 1 AND PSEmployment IS NOT NULL) 
+      
 INSERT Goal_ValidationReport (Result)
 SELECT 'Please check the datalength of PSIndependent for the following record. The line no is '+CAST(LINE AS VARCHAR(50))+ '.'+ISNULL(GoalRefID,'')+'|'+ISNULL(IepRefID,'')+'|'+ISNULL(Sequence,'')+'|'+ISNULL(GoalAreaCode,'')+ISNULL(PSEducation,'')+'|'+ISNULL(PSEmployment,'')+'|'+ISNULL(PSIndependent,'')+'|'+ISNULL(IsEsy,'')+ISNULL(UNITOFMEASUREMENT,'')+'|'+ISNULL(BASELINEDATAPOINT,'')+'|'+ISNULL(EVALUATIONMETHOD,'')+'|'+ISNULL(GoalStatement,'')
 FROM #Goal 
     WHERE ((DATALENGTH(PSIndependent)/2)> 1 AND PSIndependent IS NOT NULL) 
     
+
+INSERT Goal_ValidationSummaryReport (Description,NoOfRecords)
+SELECT 'Issue in the datalength of PSIndependent Field',COUNT(*)
+FROM #Goal 
+     WHERE ((DATALENGTH(PSIndependent)/2)> 1 AND PSIndependent IS NOT NULL) 
+    
+    
 INSERT Goal_ValidationReport (Result)
 SELECT 'Please check the datalength of IsEsy for the following record. The line no is '+CAST(LINE AS VARCHAR(50))+ '.'+ISNULL(GoalRefID,'')+'|'+ISNULL(IepRefID,'')+'|'+ISNULL(Sequence,'')+'|'+ISNULL(GoalAreaCode,'')+ISNULL(PSEducation,'')+'|'+ISNULL(PSEmployment,'')+'|'+ISNULL(PSIndependent,'')+'|'+ISNULL(IsEsy,'')+ISNULL(UNITOFMEASUREMENT,'')+'|'+ISNULL(BASELINEDATAPOINT,'')+'|'+ISNULL(EVALUATIONMETHOD,'')+'|'+ISNULL(GoalStatement,'')
+FROM #Goal 
+    WHERE ((DATALENGTH(IsEsy)/2)> 1 AND IsEsy IS NOT NULL) 
+    
+INSERT Goal_ValidationSummaryReport (Description,NoOfRecords)
+SELECT 'Issue in the datalength of IsEsy Field',COUNT(*)
 FROM #Goal 
     WHERE ((DATALENGTH(IsEsy)/2)> 1 AND IsEsy IS NOT NULL) 
     
@@ -103,43 +161,83 @@ INSERT Goal_ValidationReport (Result)
 SELECT 'Please check the datalength of UNITOFMEASUREMENT for the following record. The line no is '+CAST(LINE AS VARCHAR(50))+ '.'+ISNULL(GoalRefID,'')+'|'+ISNULL(IepRefID,'')+'|'+ISNULL(Sequence,'')+'|'+ISNULL(GoalAreaCode,'')+ISNULL(PSEducation,'')+'|'+ISNULL(PSEmployment,'')+'|'+ISNULL(PSIndependent,'')+'|'+ISNULL(IsEsy,'')+ISNULL(UNITOFMEASUREMENT,'')+'|'+ISNULL(BASELINEDATAPOINT,'')+'|'+ISNULL(EVALUATIONMETHOD,'')+'|'+ISNULL(GoalStatement,'')
 FROM #Goal 
     WHERE ((DATALENGTH(UNITOFMEASUREMENT)/2)> 100 AND UNITOFMEASUREMENT IS NOT NULL) 
-    
+
+INSERT Goal_ValidationSummaryReport (Description,NoOfRecords)
+SELECT 'Issue in the datalength of UNITOFMEASUREMENT Field',COUNT(*)
+FROM #Goal 
+   WHERE ((DATALENGTH(UNITOFMEASUREMENT)/2)> 100 AND UNITOFMEASUREMENT IS NOT NULL) 
+      
 INSERT Goal_ValidationReport (Result)
 SELECT 'Please check the datalength of BASELINEDATAPOINT for the following record. The line no is '+CAST(LINE AS VARCHAR(50))+ '.'+ISNULL(GoalRefID,'')+'|'+ISNULL(IepRefID,'')+'|'+ISNULL(Sequence,'')+'|'+ISNULL(GoalAreaCode,'')+ISNULL(PSEducation,'')+'|'+ISNULL(PSEmployment,'')+'|'+ISNULL(PSIndependent,'')+'|'+ISNULL(IsEsy,'')+ISNULL(UNITOFMEASUREMENT,'')+'|'+ISNULL(BASELINEDATAPOINT,'')+'|'+ISNULL(EVALUATIONMETHOD,'')+'|'+ISNULL(GoalStatement,'')
 FROM #Goal 
     WHERE ((DATALENGTH(BASELINEDATAPOINT)/2)> 100 AND BASELINEDATAPOINT IS NOT NULL) 
-    
+
+INSERT Goal_ValidationSummaryReport (Description,NoOfRecords)
+SELECT 'Issue in the datalength of BASELINEDATAPOINT Field',COUNT(*)
+FROM #Goal 
+   WHERE ((DATALENGTH(BASELINEDATAPOINT)/2)> 100 AND BASELINEDATAPOINT IS NOT NULL)
+      
 INSERT Goal_ValidationReport (Result)
 SELECT 'Please check the datalength of EVALUATIONMETHOD for the following record. The line no is '+CAST(LINE AS VARCHAR(50))+ '.'+ISNULL(GoalRefID,'')+'|'+ISNULL(IepRefID,'')+'|'+ISNULL(Sequence,'')+'|'+ISNULL(GoalAreaCode,'')+ISNULL(PSEducation,'')+'|'+ISNULL(PSEmployment,'')+'|'+ISNULL(PSIndependent,'')+'|'+ISNULL(IsEsy,'')+ISNULL(UNITOFMEASUREMENT,'')+'|'+ISNULL(BASELINEDATAPOINT,'')+'|'+ISNULL(EVALUATIONMETHOD,'')+'|'+ISNULL(GoalStatement,'')
 FROM #Goal 
     WHERE ((DATALENGTH(EVALUATIONMETHOD)/2)> 100 AND EVALUATIONMETHOD IS NOT NULL) 
-    
+
+INSERT Goal_ValidationSummaryReport (Description,NoOfRecords)
+SELECT 'Issue in the datalength of EVALUATIONMETHOD Field',COUNT(*)
+FROM #Goal 
+  WHERE ((DATALENGTH(EVALUATIONMETHOD)/2)> 100 AND EVALUATIONMETHOD IS NOT NULL) 
+      
 INSERT Goal_ValidationReport (Result)
 SELECT 'Please check the datalength of GoalStatement for the following record. The line no is '+CAST(LINE AS VARCHAR(50))+ '.'+ISNULL(GoalRefID,'')+'|'+ISNULL(IepRefID,'')+'|'+ISNULL(Sequence,'')+'|'+ISNULL(GoalAreaCode,'')+ISNULL(PSEducation,'')+'|'+ISNULL(PSEmployment,'')+'|'+ISNULL(PSIndependent,'')+'|'+ISNULL(IsEsy,'')+ISNULL(UNITOFMEASUREMENT,'')+'|'+ISNULL(BASELINEDATAPOINT,'')+'|'+ISNULL(EVALUATIONMETHOD,'')+'|'+ISNULL(GoalStatement,'')
 FROM #Goal 
     WHERE ((DATALENGTH(GoalStatement)/2)> 8000 AND GoalStatement IS NOT NULL) 
 
+INSERT Goal_ValidationSummaryReport (Description,NoOfRecords)
+SELECT 'Issue in the datalength of GoalStatement Field',COUNT(*)
+FROM #Goal 
+  WHERE ((DATALENGTH(GoalStatement)/2)> 8000 AND GoalStatement IS NOT NULL) 
+  
 ---Required Fields
 INSERT Goal_ValidationReport (Result)
 SELECT 'The field "GoalRefID" is required field, It can not be blank. The line no is '+CAST(LINE AS VARCHAR(50))+ '.'+ISNULL(GoalRefID,'')+'|'+ISNULL(IepRefID,'')+'|'+ISNULL(Sequence,'')+'|'+ISNULL(GoalAreaCode,'')+ISNULL(PSEducation,'')+'|'+ISNULL(PSEmployment,'')+'|'+ISNULL(PSIndependent,'')+'|'+ISNULL(IsEsy,'')+ISNULL(UNITOFMEASUREMENT,'')+'|'+ISNULL(BASELINEDATAPOINT,'')+'|'+ISNULL(EVALUATIONMETHOD,'')+'|'+ISNULL(GoalStatement,'')
 FROM #Goal 
 WHERE GoalRefID IS NULL
-    
+
+INSERT Goal_ValidationSummaryReport (Description,NoOfRecords)
+SELECT 'The GoalRefID doesnot have any value, It is required column',COUNT(*)
+FROM #Goal 
+  WHERE GoalRefID IS NULL
+      
 INSERT Goal_ValidationReport (Result)
 SELECT 'The field "IepRefID" is required field, It can not be blank. The line no is '+CAST(LINE AS VARCHAR(50))+ '.'+ISNULL(GoalRefID,'')+'|'+ISNULL(IepRefID,'')+'|'+ISNULL(Sequence,'')+'|'+ISNULL(GoalAreaCode,'')+ISNULL(PSEducation,'')+'|'+ISNULL(PSEmployment,'')+'|'+ISNULL(PSIndependent,'')+'|'+ISNULL(IsEsy,'')+ISNULL(UNITOFMEASUREMENT,'')+'|'+ISNULL(BASELINEDATAPOINT,'')+'|'+ISNULL(EVALUATIONMETHOD,'')+'|'+ISNULL(GoalStatement,'')
 FROM #Goal 
 WHERE IepRefID IS NULL
 
+INSERT Goal_ValidationSummaryReport (Description,NoOfRecords)
+SELECT 'The IepRefID doesnot have any value, It is required column',COUNT(*)
+FROM #Goal 
+  WHERE IepRefID IS NULL
+  
 INSERT Goal_ValidationReport (Result)
 SELECT 'The field "IsEsy" is required field, It can not be blank. The line no is '+CAST(LINE AS VARCHAR(50))+ '.'+ISNULL(GoalRefID,'')+'|'+ISNULL(IepRefID,'')+'|'+ISNULL(Sequence,'')+'|'+ISNULL(GoalAreaCode,'')+ISNULL(PSEducation,'')+'|'+ISNULL(PSEmployment,'')+'|'+ISNULL(PSIndependent,'')+'|'+ISNULL(IsEsy,'')+ISNULL(UNITOFMEASUREMENT,'')+'|'+ISNULL(BASELINEDATAPOINT,'')+'|'+ISNULL(EVALUATIONMETHOD,'')+'|'+ISNULL(GoalStatement,'')
 FROM #Goal 
 WHERE IsEsy IS NULL
 
+INSERT Goal_ValidationSummaryReport (Description,NoOfRecords)
+SELECT 'The IsEsy doesnot have any value, It is required column',COUNT(*)
+FROM #Goal 
+  WHERE IsEsy IS NULL
+  
 INSERT Goal_ValidationReport (Result)
 SELECT 'The field "GoalStatement" is required field, It can not be blank. The line no is '+CAST(LINE AS VARCHAR(50))+ '.'+ISNULL(GoalRefID,'')+'|'+ISNULL(IepRefID,'')+'|'+ISNULL(Sequence,'')+'|'+ISNULL(GoalAreaCode,'')+ISNULL(PSEducation,'')+'|'+ISNULL(PSEmployment,'')+'|'+ISNULL(PSIndependent,'')+'|'+ISNULL(IsEsy,'')+ISNULL(UNITOFMEASUREMENT,'')+'|'+ISNULL(BASELINEDATAPOINT,'')+'|'+ISNULL(EVALUATIONMETHOD,'')+'|'+ISNULL(GoalStatement,'')
 FROM #Goal 
 WHERE GoalStatement IS NULL
 
+INSERT Goal_ValidationSummaryReport (Description,NoOfRecords)
+SELECT 'The GoalStatement doesnot have any value, It is required column',COUNT(*)
+FROM #Goal 
+  WHERE GoalStatement IS NULL
+  
 --To Check Duplicate Records
 INSERT Goal_ValidationReport (Result)
 SELECT 'The field "GoalRefID" ' +tg.GOALREFID+'is unique field, It can not be duplicated. The line no is '+CAST(tg.LINE AS VARCHAR(50))+ '.'+ISNULL(tg.GOALREFID,'')+'|'+ISNULL(tg.IEPREFID,'')+'|'+ISNULL(tg.SEQUENCE,'')+'|'+ISNULL(tg.GOALAREACODE,'')+ISNULL(tg.PSEDUCATION,'')+'|'+ISNULL(tg.PSEMPLOYMENT,'')+'|'+ISNULL(tg.PSINDEPENDENT,'')+'|'+ISNULL(IsEsy,'')+ISNULL(tg.UNITOFMEASUREMENT,'')+'|'+ISNULL(tg.BASELINEDATAPOINT,'')+'|'+ISNULL(tg.EVALUATIONMETHOD,'')+'|'+ISNULL(tg.GOALSTATEMENT,'')
@@ -147,39 +245,72 @@ FROM #Goal tg
 JOIN (SELECT GoalRefID FROM Goal_LOCAL GROUP BY GoalRefID HAVING COUNT(*)>1) uc_g
 		ON tg.GOALREFID = uc_g.GOALREFID 
 
+INSERT Goal_ValidationSummaryReport (Description,NoOfRecords)
+SELECT 'The GoalRefID has duplicated',COUNT(*)
+FROM #Goal tg
+JOIN (SELECT GoalRefID FROM Goal_LOCAL GROUP BY GoalRefID HAVING COUNT(*)>1) uc_g
+		ON tg.GOALREFID = uc_g.GOALREFID 
+		
 --To Check the Referential Integrity
 INSERT Goal_ValidationReport (Result)
 SELECT 'The "IepRefID" ' +IepRefID+' does not exist in IEP file or was not validated successfully. The line no is '+CAST(LINE AS VARCHAR(50))+ '.'+ISNULL(GoalRefID,'')+'|'+ISNULL(IepRefID,'')+'|'+ISNULL(Sequence,'')+'|'+ISNULL(GoalAreaCode,'')+ISNULL(PSEducation,'')+'|'+ISNULL(PSEmployment,'')+'|'+ISNULL(PSIndependent,'')+'|'+ISNULL(IsEsy,'')+ISNULL(UNITOFMEASUREMENT,'')+'|'+ISNULL(BASELINEDATAPOINT,'')+'|'+ISNULL(EVALUATIONMETHOD,'')+'|'+ISNULL(GoalStatement,'')
 FROM #Goal 
 WHERE IepRefID NOT IN (SELECT IepRefID FROM IEP)
 
+INSERT Goal_ValidationSummaryReport (Description,NoOfRecords)
+SELECT 'The IepRefID does not exist in Iep file, It existed in Goal file',COUNT(*)
+FROM #Goal 
+WHERE IepRefID NOT IN (SELECT IepRefID FROM IEP)
+
 INSERT Goal_ValidationReport (Result)
 SELECT 'The "GoalAreaCode" ' +GoalAreaCode+' does not exist in SelectLists file, It existed in Goal file. The line no is '+CAST(LINE AS VARCHAR(50))+ '.'+ISNULL(GoalRefID,'')+'|'+ISNULL(IepRefID,'')+'|'+ISNULL(Sequence,'')+'|'+ISNULL(GoalAreaCode,'')+ISNULL(PSEducation,'')+'|'+ISNULL(PSEmployment,'')+'|'+ISNULL(PSIndependent,'')+'|'+ISNULL(IsEsy,'')+ISNULL(UNITOFMEASUREMENT,'')+'|'+ISNULL(BASELINEDATAPOINT,'')+'|'+ISNULL(EVALUATIONMETHOD,'')+'|'+ISNULL(GoalStatement,'')
 FROM #Goal 
-WHERE (GoalAreaCode IN (SELECT LEGACYSPEDCODE FROM SelectLists WHERE TYPE= 'GoalArea') OR GoalAreaCode IS NOT NULL)
+WHERE (GoalAreaCode NOT IN (SELECT LEGACYSPEDCODE FROM SelectLists WHERE TYPE= 'GoalArea') OR GoalAreaCode IS NOT NULL)
 
+INSERT Goal_ValidationSummaryReport (Description,NoOfRecords)
+SELECT 'The GoalAreaCode does not exist in Selectlists file, It existed in Goal file',COUNT(*)
+FROM #Goal 
+WHERE (GoalAreaCode NOT IN (SELECT LEGACYSPEDCODE FROM SelectLists WHERE TYPE= 'GoalArea') OR GoalAreaCode IS NOT NULL)
 
 INSERT Goal_ValidationReport (Result)
 SELECT 'The "PSEducation" should have "Y" OR "N". The line no is '+CAST(LINE AS VARCHAR(50))+ '.'+ISNULL(GoalRefID,'')+'|'+ISNULL(IepRefID,'')+'|'+ISNULL(Sequence,'')+'|'+ISNULL(GoalAreaCode,'')+ISNULL(PSEducation,'')+'|'+ISNULL(PSEmployment,'')+'|'+ISNULL(PSIndependent,'')+'|'+ISNULL(IsEsy,'')+ISNULL(UNITOFMEASUREMENT,'')+'|'+ISNULL(BASELINEDATAPOINT,'')+'|'+ISNULL(EVALUATIONMETHOD,'')+'|'+ISNULL(GoalStatement,'')
 FROM #Goal 
-WHERE (PSEducation IN ('Y','N') AND PSEducation IS NOT NULL)
+WHERE (PSEducation NOT IN ('Y','N') AND PSEducation IS NOT NULL)
+
+INSERT Goal_ValidationSummaryReport (Description,NoOfRecords)
+SELECT 'The PSEducation does not have "Y"/"N".',COUNT(*)
+FROM #Goal 
+WHERE (PSEducation NOT IN ('Y','N') AND PSEducation IS NOT NULL)
 
 INSERT Goal_ValidationReport (Result)
 SELECT 'The "PSEmployment" should have "Y" OR "N". The line no is '+CAST(LINE AS VARCHAR(50))+ '.'+ISNULL(GoalRefID,'')+'|'+ISNULL(IepRefID,'')+'|'+ISNULL(Sequence,'')+'|'+ISNULL(GoalAreaCode,'')+ISNULL(PSEducation,'')+'|'+ISNULL(PSEmployment,'')+'|'+ISNULL(PSIndependent,'')+'|'+ISNULL(IsEsy,'')+ISNULL(UNITOFMEASUREMENT,'')+'|'+ISNULL(BASELINEDATAPOINT,'')+'|'+ISNULL(EVALUATIONMETHOD,'')+'|'+ISNULL(GoalStatement,'')
 FROM #Goal 
-WHERE (PSEmployment IN ('Y','N') AND PSEmployment IS NOT NULL)
+WHERE (PSEmployment NOT IN ('Y','N') AND PSEmployment IS NOT NULL)
 
+INSERT Goal_ValidationSummaryReport (Description,NoOfRecords)
+SELECT 'The PSEmployment does not have "Y"/"N".',COUNT(*)
+FROM #Goal 
+WHERE (PSEmployment NOT IN ('Y','N') AND PSEmployment IS NOT NULL)
 
 INSERT Goal_ValidationReport (Result)
 SELECT 'The "PSIndependent" should have "Y" OR "N". The line no is '+CAST(LINE AS VARCHAR(50))+ '.'+ISNULL(GoalRefID,'')+'|'+ISNULL(IepRefID,'')+'|'+ISNULL(Sequence,'')+'|'+ISNULL(GoalAreaCode,'')+ISNULL(PSEducation,'')+'|'+ISNULL(PSEmployment,'')+'|'+ISNULL(PSIndependent,'')+'|'+ISNULL(IsEsy,'')+ISNULL(UNITOFMEASUREMENT,'')+'|'+ISNULL(BASELINEDATAPOINT,'')+'|'+ISNULL(EVALUATIONMETHOD,'')+'|'+ISNULL(GoalStatement,'')
 FROM #Goal 
-WHERE (PSIndependent IN ('Y','N') AND PSIndependent IS NOT NULL)
+WHERE (PSIndependent NOT IN ('Y','N') AND PSIndependent IS NOT NULL)
+
+INSERT Goal_ValidationSummaryReport (Description,NoOfRecords)
+SELECT 'The PSIndependent does not have "Y"/"N".',COUNT(*)
+FROM #Goal 
+WHERE (PSIndependent NOT IN ('Y','N') AND PSIndependent IS NOT NULL)
 
 INSERT Goal_ValidationReport (Result)
 SELECT 'The "IsEsy" should have "Y" OR "N". The line no is '+CAST(LINE AS VARCHAR(50))+ '.'+ISNULL(GoalRefID,'')+'|'+ISNULL(IepRefID,'')+'|'+ISNULL(Sequence,'')+'|'+ISNULL(GoalAreaCode,'')+ISNULL(PSEducation,'')+'|'+ISNULL(PSEmployment,'')+'|'+ISNULL(PSIndependent,'')+'|'+ISNULL(IsEsy,'')+ISNULL(UNITOFMEASUREMENT,'')+'|'+ISNULL(BASELINEDATAPOINT,'')+'|'+ISNULL(EVALUATIONMETHOD,'')+'|'+ISNULL(GoalStatement,'')
 FROM #Goal 
-WHERE (IsEsy IN ('Y','N') AND IsEsy IS NOT NULL)
+WHERE (IsEsy NOT IN ('Y','N') AND IsEsy IS NOT NULL)
 
+INSERT Goal_ValidationSummaryReport (Description,NoOfRecords)
+SELECT 'The PSIndependent does not have "Y"/"N".',COUNT(*)
+FROM #Goal 
+WHERE (IsEsy NOT IN ('Y','N') AND IsEsy IS NOT NULL)
 
 SET @sql = 'IF OBJECT_ID(''tempdb..#Goal'') IS NOT NULL DROP TABLE #Goal'	
 EXEC sp_executesql @stmt = @sql   

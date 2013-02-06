@@ -12,6 +12,10 @@ SET @sql = 'DELETE Objective'
 
 EXEC sp_executesql @stmt = @sql
 
+SET @sql = 'DELETE Objective_ValidationSummaryReport'
+
+EXEC sp_executesql @stmt = @sql
+
 INSERT Objective 
 SELECT CONVERT(VARCHAR(150) ,obj.OBJECTIVEREFID)
 	  ,CONVERT(VARCHAR(150),obj.GOALREFID)
@@ -36,30 +40,67 @@ EXEC sp_executesql @stmt = @sql
 
 SELECT LINE = IDENTITY(INT,1,1),* INTO  #Objective FROM Objective_LOCAL 
 
+
+INSERT Objective_ValidationSummaryReport (Description,NoOfRecords)
+SELECT 'TotalRecords',COUNT(*)
+FROM Objective_LOCAL
+    
+INSERT Objective_ValidationSummaryReport (Description,NoOfRecords)
+SELECT 'SuccessfulRecords',COUNT(*)
+FROM Objective
+
+INSERT Objective_ValidationSummaryReport (Description,NoOfRecords)
+SELECT 'FailedRecords',((select COUNT(*) FROM Objective_LOCAL) - (select COUNT(*) FROM Objective))
+
 --To check the Datalength of the fields
 INSERT Objective_ValidationReport (Result)
 SELECT 'Please check the datalength of ObjectiveRefID for the following record. The line no is '+CAST(LINE AS VARCHAR(50))+ '.'+ISNULL(ObjectiveRefID,'')+'|'+ISNULL(GoalRefID,'')+'|'+ISNULL(Sequence,'')+'|'+ISNULL(ObjText,'')
 FROM #Objective 
     WHERE ((DATALENGTH(ObjectiveRefID)/2)> 150 AND ObjectiveRefID IS NOT NULL) 
 
+INSERT Objective_ValidationSummaryReport (Description,NoOfRecords)
+SELECT 'Issue in the datalength of ObjectiveRefID Field',COUNT(*)
+FROM #Objective 
+    WHERE ((DATALENGTH(ObjectiveRefID)/2)> 150 AND ObjectiveRefID IS NOT NULL) 
+  
 INSERT Objective_ValidationReport (Result)
 SELECT 'Please check the datalength of GoalRefID for the following record. The line no is '+CAST(LINE AS VARCHAR(50))+ '.'+ISNULL(ObjectiveRefID,'')+'|'+ISNULL(GoalRefID,'')+'|'+ISNULL(Sequence,'')+'|'+ISNULL(ObjText,'')
 FROM #Objective 
     WHERE ((DATALENGTH(GoalRefID)/2)> 150 AND GoalRefID IS NOT NULL) 
-    
+
+INSERT Objective_ValidationSummaryReport (Description,NoOfRecords)
+SELECT 'Issue in the datalength of GoalRefID Field',COUNT(*)
+FROM #Objective 
+    WHERE ((DATALENGTH(GoalRefID)/2)> 150 AND GoalRefID IS NOT NULL) 
+        
 INSERT Objective_ValidationReport (Result)
 SELECT 'Please check the datalength of Sequence for the following record. The line no is '+CAST(LINE AS VARCHAR(50))+ '.'+ISNULL(ObjectiveRefID,'')+'|'+ISNULL(GoalRefID,'')+'|'+ISNULL(Sequence,'')+'|'+ISNULL(ObjText,'')
 FROM #Objective 
     WHERE ((DATALENGTH(Sequence)/2)> 2 AND Sequence IS NOT NULL) 
-    
+
+INSERT Objective_ValidationSummaryReport (Description,NoOfRecords)
+SELECT 'Issue in the datalength of Sequence Field',COUNT(*)
+FROM #Objective 
+    WHERE ((DATALENGTH(Sequence)/2)> 2 AND Sequence IS NOT NULL) 
+        
 INSERT Objective_ValidationReport (Result)
 SELECT 'Please check the datalength of ObjText for the following record. The line no is '+CAST(LINE AS VARCHAR(50))+ '.'+ISNULL(ObjectiveRefID,'')+'|'+ISNULL(GoalRefID,'')+'|'+ISNULL(Sequence,'')+'|'+ISNULL(ObjText,'')
 FROM #Objective 
     WHERE ((DATALENGTH(ObjText)/2)> 8000 AND ObjText IS NOT NULL) 
 
+INSERT Objective_ValidationSummaryReport (Description,NoOfRecords)
+SELECT 'Issue in the datalength of ObjText Field',COUNT(*)
+FROM #Objective 
+    WHERE ((DATALENGTH(ObjText)/2)> 8000 AND ObjText IS NOT NULL) 
+    
 ---Required Fields
 INSERT Objective_ValidationReport (Result)
 SELECT 'The field "ObjectiveRefID" is required field. The line no is '+CAST(LINE AS VARCHAR(50))+ '.'+ISNULL(ObjectiveRefID,'')+'|'+ISNULL(GoalRefID,'')+'|'+ISNULL(Sequence,'')+'|'+ISNULL(ObjText,'')
+FROM #Objective 
+WHERE (ObjectiveRefID IS NULL) 
+
+INSERT Objective_ValidationSummaryReport (Description,NoOfRecords)
+SELECT 'The ObjectiveRefID doesnot have any value, It is required column',COUNT(*)
 FROM #Objective 
 WHERE (ObjectiveRefID IS NULL) 
 
@@ -68,8 +109,18 @@ SELECT 'The field "GoalRefID" is required field. The line no is '+CAST(LINE AS V
 FROM #Objective 
 WHERE (GoalRefID IS NULL) 
 
+INSERT Objective_ValidationSummaryReport (Description,NoOfRecords)
+SELECT 'The GoalRefID doesnot have any value, It is required column',COUNT(*)
+FROM #Objective 
+WHERE (GoalRefID IS NULL) 
+
 INSERT Objective_ValidationReport (Result)
 SELECT 'The field "ObjText" is required field. The line no is '+CAST(LINE AS VARCHAR(50))+ '.'+ISNULL(ObjectiveRefID,'')+'|'+ISNULL(GoalRefID,'')+'|'+ISNULL(Sequence,'')+'|'+ISNULL(ObjText,'')
+FROM #Objective 
+WHERE (ObjText IS NULL) 
+
+INSERT Objective_ValidationSummaryReport (Description,NoOfRecords)
+SELECT 'The ObjText doesnot have any value, It is required column',COUNT(*)
 FROM #Objective 
 WHERE (ObjText IS NULL) 
 
@@ -80,6 +131,12 @@ FROM #Objective tobj
 	JOIN (SELECT ObjectiveRefID FROM Objective_LOCAL GROUP BY ObjectiveRefID HAVING COUNT(*)>1) uc_obj 
 		 ON tobj.OBJECTIVEREFID = uc_obj.OBJECTIVEREFID
 	--WHERE EXISTS (SELECT ObjectiveRefID FROM Objective_LOCAL GROUP BY ObjectiveRefID HAVING COUNT(*)>1)
+
+INSERT Objective_ValidationSummaryReport (Description,NoOfRecords)
+SELECT 'The ObjectiveRefID has duplicated.',COUNT(*)
+FROM #Objective tobj 
+	JOIN (SELECT ObjectiveRefID FROM Objective_LOCAL GROUP BY ObjectiveRefID HAVING COUNT(*)>1) uc_obj 
+		 ON tobj.OBJECTIVEREFID = uc_obj.OBJECTIVEREFID
 	 
 --To Check the Referential Integrity
 INSERT Objective_ValidationReport (Result)
@@ -87,6 +144,11 @@ SELECT 'The record "GoalRefID"'+GoalRefID+ ' does not exist in Goal file, It exi
 FROM #Objective 
 WHERE GoalRefID NOT IN (SELECT GoalRefID FROM Goal)
 
+INSERT Objective_ValidationSummaryReport (Description,NoOfRecords)
+SELECT 'The GoalRefID does not exist in Goal file, It existed in Objective file.',COUNT(*)
+FROM #Objective tobj 
+	WHERE GoalRefID NOT IN (SELECT GoalRefID FROM Goal)
+	 
 SET @sql = 'IF OBJECT_ID(''tempdb..#Objective'') IS NOT NULL DROP TABLE #Objective'	
 EXEC sp_executesql @stmt = @sql   
       
