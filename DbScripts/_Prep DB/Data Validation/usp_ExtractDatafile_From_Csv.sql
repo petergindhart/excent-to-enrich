@@ -17,13 +17,17 @@ BEGIN
 BEGIN TRY 
 
 DECLARE @sql nVARCHAR(4000)
-DECLARE @output int
+DECLARE @fi_av_output int
+DECLARE @chcol_output int
 DECLARE @stagingtablename VARCHAR(100)
 
 SET @stagingtablename = @tablename+'_LOCAL'
-EXEC dbo.ImportDatafileToStaging @path,@stagingtablename
-EXEC @output = dbo.CheckColumnNameAndOrder @tablename
-IF (@output =1)
+
+EXEC @fi_av_output=dbo.ImportDatafileToStaging @path,@stagingtablename
+IF (@fi_av_output = 1)
+BEGIN
+EXEC @chcol_output = dbo.CheckColumnNameAndOrder @tablename
+IF (@chcol_output =1)
 BEGIN
 --RETURN 0 IF THE FILE HAS ANY ISSUES
 SET @sql  = 'dbo.Check_'+@tablename+'_specifications'
@@ -38,7 +42,12 @@ BEGIN
 RETURN 1
 
 END
-
+END
+ELSE 
+BEGIN
+SET @sql = 'INSERT '+ @tablename+'_ValidationReport (Result) SELECT ''The '+@tablename+'.csv doesnot exist'''
+EXEC sp_executesql @stmt=@sql 
+END
 END TRY
 
 BEGIN CATCH

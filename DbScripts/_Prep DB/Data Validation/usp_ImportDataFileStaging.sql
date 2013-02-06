@@ -81,11 +81,14 @@ BEGIN TRY
            '  
 
        EXEC sp_executesql @stmt=@execSQL 
+       RETURN 1
 END TRY
+
 BEGIN CATCH 
 DECLARE @ErrorMessage NVARCHAR(4000);
 select  @ErrorMessage = ERROR_MESSAGE()
 print @ErrorMessage
+RETURN 0
 END CATCH
 
 END

@@ -74,5 +74,19 @@ EXEC sp_executesql @stmt=@sql
 SET @sql  = 'DELETE vh FROM '+@tablename+'_ValidationReport_History vh WHERE ValidatedDate < (DATEADD(DD,-60,ValidatedDate))'
 EXEC sp_executesql @stmt=@sql
 
+SET @sql = 'DELETE '+@tablename+''
+EXEC sp_executesql @stmt = @sql
+
+SET @sql ='IF Object_id('''+@tablename+'_LOCAL'') IS NOT NULL 
+			DROP TABLE '+@tablename +'_LOCAL'
+EXEC sp_executesql @stmt = @sql
+
+					  
+--SET @sql = 'IF Object_id('''+@tablename+'_LOCAL'') IS NOT NULL 	DELETE '+@tablename +'_LOCAL'
+--EXEC sp_executesql @stmt = @sql
+
+SET @sql = 'DELETE '+@tablename+'_ValidationSummaryReport'
+EXEC sp_executesql @stmt = @sql
+
 END
 
