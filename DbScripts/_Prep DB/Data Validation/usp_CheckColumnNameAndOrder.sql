@@ -7,7 +7,7 @@ CREATE PROC dbo.CheckColumnNameAndOrder
 @tablename varchar(50)
 )
 AS
-
+BEGIN 
 DECLARE @format table (columnname varchar(150))
 
 /*
@@ -50,6 +50,13 @@ Check whether the file has any extra columns
    
 ) formatissue
 
+
+DECLARE @tablesql nVARCHAR(MAX)
+SET @tablesql = 'IF OBJECT_ID(''tempdb..#ValidationReport'') IS NOT NULL DROP TABLE #ValidationReport'	
+EXEC sp_executesql @stmt = @tablesql
+
+SELECT * INTO #ValidationReport FROM  @format
+
 DECLARE @sql nVARCHAR(MAX)
 --Here we may insert these issues in a table and can report to customer
 IF EXISTS (SELECT 1 FROM @format)
@@ -57,8 +64,9 @@ IF EXISTS (SELECT 1 FROM @format)
 	BEGIN
 	SET @sql = 'INSERT '+ @tablename+'_ValidationReport (Result) 
 	SELECT ''The issue is in ''+ columnname + '' Field or in Field Order in the '+@tablename+' . Please correct this and check this column exist in specification''
-	FROM @format'
+	FROM #ValidationReport'
 	EXEC sp_executesql @stmt=@sql 
+	RETURN 0
 	END
 
 ELSE
@@ -67,6 +75,11 @@ ELSE
 	SET @sql = 'INSERT '+ @tablename+'_ValidationReport (Result) SELECT ''Field Names and Fields order are correct order in the '+@tablename+'.csv'''
 	
 	EXEC sp_executesql @stmt=@sql 
+	RETURN 1
 	END
-RETURN 1
+	 
+SET @sql = 'IF OBJECT_ID(''tempdb..#Student'') IS NOT NULL DROP TABLE #Student'	
+EXEC sp_executesql @stmt = @sql   
+      
 
+END
