@@ -33,6 +33,11 @@ if %1==DC7 (
   goto :end
 ) 
 
+if %1==DC8 (
+  set state=FL
+  set speddistrict=Lee
+  goto :end
+) 
 goto :exit
 
 :end

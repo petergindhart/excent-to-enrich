@@ -14,7 +14,6 @@ FROM LEGACYSPED.SPEDStaffMember sm  join
 	UserProfile upn on 'Enrich:'+sm.Firstname+ sm.Lastname = upn.Username left join
 	SecurityRole r on sm.ENRICHROLE = r.Name 
 WHERE up.ID is null
-	--and not exists (select 1 from UserProfile where UserName = 'Enrich:'+sm.Firstname+ sm.Lastname)
 
 
 --insert UserProfile (ID, RoleID, Username, CanPerformAllServices, CanSignAllServices, IsSchoolAutoSelected, CurrentFailedLoginAttempts, RoleStatusID)

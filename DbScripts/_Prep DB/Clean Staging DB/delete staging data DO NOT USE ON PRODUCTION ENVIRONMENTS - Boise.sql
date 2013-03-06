@@ -29,13 +29,12 @@ delete VC3ETL.LoadTable where ExtractDatabase = '29D14961-928D-4BEE-9025-238496D
 declare @zg uniqueidentifier ; select @zg = '00000000-0000-0000-0000-000000000000'
 
 declare @SaveStudents table (StudentID uniqueidentifier null, OldNumber varchar(50) not null, OldFirstname varchar(50) not null, OldLastname varchar(50) not null, NewNumber varchar(50), NewFirstname varchar(50) not null, NewLastname varchar(50) not null) ; 
-insert @SaveStudents (StudentID, OldNumber, OldFirstname, OldLastname, NewFirstname, NewLastname) values ('58CB832B-286E-452A-B13C-A4B86893BF51', '', 'Elementary', 'Student', '', '')
-insert @SaveStudents (StudentID, OldNumber, OldFirstname, OldLastname, NewFirstname, NewLastname) values ('34549DC9-2908-4E54-84F9-53CCD9FA340A', '', 'Preschool', 'Student', '', '')
-insert @SaveStudents (StudentID, OldNumber, OldFirstname, OldLastname, NewFirstname, NewLastname) values ('65B16833-356E-416A-B972-0EA9951CD5C1', '', 'Secondary', 'Student', '', '')
-
+-- insert @SaveStudents (OldNumber, OldLastname, OldFirstname, NewNumber, NewLastname, NewFirstname) values ('3632271715', 'Ceotto', 'Sara', '0000000001', 'Student', 'Samantha')
+-- select 'insert @SaveStudents (StudentID, OldNumber, OldFirstname, OldLastname, NewNumber, NewFirstname, NewLastname) values ('''+convert(varchar(36), ID)+''', '''', '''', '''', '''', '''+FirstName+''', '''+LastName+''')' from Student where LastName = 'Sample'
+--insert @SaveStudents (StudentID, OldNumber, OldFirstname, OldLastname, NewNumber, NewFirstname, NewLastname) values ('4424BD98-0022-45FB-BDD5-E2B4F4E3CAF9', '', '', '', '', 'Early Childhood', 'Sample')
 
 -- show students to be preserved.
-select isnull(StudentID, @zg) from @SaveStudents
+--select isnull(StudentID, @zg) from @SaveStudents
 
 
 
@@ -275,35 +274,7 @@ delete x from PrgMatrixOfServices x join PrgItem i on x.ID = i.ID where i.Studen
 delete x from PrgItem x where x.StudentID not in (select isnull(StudentID, @zg) from @SaveStudents) ; print 'PrgItem : ' + convert(varchar(10), @@rowcount)
 delete x from PrgInvolvement x where x.StudentID not in (select isnull(StudentID, @zg) from @SaveStudents) ; print 'PrgInvolvement : ' + convert(varchar(10), @@rowcount)
 
--- on preserved student in Boise staging has a deleted prg status.  assign a new status that seems to make sense.
-update PrgInvolvementStatus set StatusID = '1A10F969-4C63-4EB0-A00A-5F0563305D7A' where StatusID = '5951577A-7192-42AE-B1BD-385628B14369'
-update PrgInvolvement set EndStatus = '1A10F969-4C63-4EB0-A00A-5F0563305D7A' where EndStatus = '5951577A-7192-42AE-B1BD-385628B14369'
-
--- select * from PrgInvolvementStatus where StatusID in (select ID from PrgStatus st where (st.DeletedDate is not null or st.Sequence = 99))
-
---select * from PrgItem i where i.EndStatusID in (select ID from PrgStatus st where (st.DeletedDate is not null or st.Sequence = 99))
-
 delete PrgStatus where IsExit = 1 and ProgramID = 'F98A8EF2-98E2-4CAC-95AF-D7D89EF7F80C' and (DeletedDate is not null or Sequence = 99) ; print 'PrgStatus : ' + convert(varchar(10), @@rowcount) 
-
-
---select * 
---from PrgItem i 
---join PrgInvolvement inv on i.InvolvementID = inv.ID 
---join PrgStatus st on i.EndStatusID = st.ID and st.IsExit = 1 and st.ProgramID = 'F98A8EF2-98E2-4CAC-95AF-D7D89EF7F80C' and (st.DeletedDate is not null or st.Sequence = 99)
-
---select st.Name, s.Number, s.FirstName, s.MiddleName, s.LastName
---from PrgStatus st 
---join PrgInvolvementStatus ist on st.ID = ist.StatusID 
---join PrgInvolvement inv on ist.InvolvementID = inv.ID
---join Student s on inv.StudentID = s.ID
---where st.IsExit = 1 
---and st.ProgramID = 'F98A8EF2-98E2-4CAC-95AF-D7D89EF7F80C' and (st.DeletedDate is not null or st.Sequence = 99)
-
---select * from PrgStatus st where ProgramID = 'F98A8EF2-98E2-4CAC-95AF-D7D89EF7F80C' and IsExit = 1 and (st.DeletedDate is not null or st.Sequence = 99) order by DeletedDate, Sequence
-
-
-
-
 
 
 -- select * from MosRatingDef m 
@@ -587,64 +558,9 @@ and h.GradeLevelID is null
 --and s.ID not in ( select isnull(StudentID, @zg) from @SaveStudents)
 
 
-
-
-
-
-
------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
--- test to here --- is there program data for students other than save students?
-
-
-
 -- break the association between the mosratingdef and iepgoalareas that will be deleted.  is this okay?
 update dbo.MosRatingDef set IepGoalAreaDefID = NULL where IepGoalAreaDefID in (select ID from dbo.IepGoalAreaDef where DeletedDate is not null ) -- is this okay?
-
-
-
-
---select distinct GoalAreaID from IepGoal 
-
---select ig.* from IepGoal ig join PrgGoal pg on ig.id = pg.id
-----
---select g.* 
---from IepGoalAreaDef gad 
---join IepGoalArea ga on gad.ID = ga.DefID 
---join IepGoal g on ga.ID = g.GoalAreaID
---where gad.DeletedDate is not null -- 
-
-----select * from PrgGoal
-
---select gad.*
---from Student stu 
---join PrgItem i on stu.ID = i.StudentID 
---join PrgSection s on i.ID = s.ItemID 
---join PrgGoal pg on s.ID = pg.InstanceID 
---join IepGoal ig on pg.ID = ig.ID
---join IepGoalArea ga on ig.GoalAreaID = ga.ID 
---join IepGoalAreaDef gad on ga.DefID = gad.ID
---where gad.DeletedDate is not null
---Speech/Language Therapy
-
---select * from IepGoalAreaDef order by DeletedDate, Sequence
-
-update IepGoalArea set DefID = 'D7EF41D3-03EF-4599-9A31-42EB8D16ED4B' where DefID = '25D890C3-BCAE-4039-AC9D-2AE21686DEB0'
-
 delete dbo.IepGoalAreaDef where DeletedDate is not null -- 
-
-
-
-
---Msg 547, Level 16, State 0, Line 1
---The DELETE statement conflicted with the REFERENCE constraint "FK_IepGoal#AreaOfNeed#Goals". The conflict occurred in database "Enrich_DCB5_ID_Boise", table "dbo.IepGoal", column 'GoalAreaID'.
 
 
 
