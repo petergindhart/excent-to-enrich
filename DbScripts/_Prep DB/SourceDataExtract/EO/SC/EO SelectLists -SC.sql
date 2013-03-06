@@ -1,26 +1,34 @@
--- select Type, count(*) from (
+USE EO_SC
+GO
+IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'dbo.SelectLists_EO') AND OBJECTPROPERTY(id, N'IsView') = 1)
+DROP VIEW dbo.SelectLists_EO
+GO
 
+CREATE VIEW dbo.SelectLists_EO
+AS
+
+-- select Type, count(*) from (
 -- select Type, SubType, Code, Label, StateCode, Sequence
-select Type, SubType, EnrichID = '', StateCode, LegacySpedCode = Code, EnrichLabel = Label
-from (
+select Line_No=Row_Number() OVER (ORDER BY (SELECT 1)),Type, SubType, EnrichID = NULL, StateCode, LegacySpedCode = Code, EnrichLabel = Label
+FROM (
 -- *************** Ethnicity *****************************************************          
     select 
 		LookupOrder = cast(1 as int),
 		Type = 'Ethnic', 
-		SubType = '', 
+		SubType = NULL, 
 		Code,
 		Label = LookDesc, 
-		StateCode = isnull(StateCode,''),
+		StateCode = StateCode,
 		Sequence = cast(0 as int) 
     from CodeDescLook 
     where UsageID = 'Ethnicity'
     
 -- *************** GradeLevel *****************************************************          
 UNION ALL
-    select							-- these need to be mapped with the grades in the database
+    select	Distinct						-- these need to be mapped with the grades in the database
 		LookupOrder = cast(2 as int),
 		Type = 'Grade', 
-		SubType = '', 
+		SubType = NULL, 
 		Code = OldGrade, 
 		Label = OldDesc, 
 		StateCode = OldGrade, 
@@ -32,7 +40,7 @@ UNION ALL
 	select 
 		LookupOrder = cast(3 as int),
 		Type = cast('Gender' as varchar(10)), 
-		SubType = '', 
+		SubType = NULL, 
 		Code = cast(Code as varchar(10)), 
 		Label = cast(Label as varchar(254)), 
 		StateCode = cast(StateCode as varchar(10)), 
@@ -48,7 +56,7 @@ UNION ALL
     select 
 		LookupOrder = cast(4 as int),
 		Type = 'Disab', 
-		SubType = '', 
+		SubType = NULL, 
 		DisabilityID,
 		Label = DisabDesc, 
 		StateCode = DisabilityID,
@@ -61,10 +69,10 @@ UNION ALL
     select 
 		LookupOrder = cast(5 as int),
 		Type = 'Exit', 
-		SubType = '', 
+		SubType = NULL, 
 		Code,
 		Label = LookDesc, 
-		StateCode = isnull(StateCode, ''),
+		StateCode = StateCode,
 		Sequence = cast(0 as int) 
 	from CodeDescLook
 	where UsageID = 'SpEdReas'
@@ -84,7 +92,7 @@ UNION ALL
 		--end,
 		Code,
 		Label = LookDesc, 
-		StateCode = isnull(Code,''),
+		StateCode = Code,
 		Sequence = cast(0 as int) 
 	from CodeDescLook
 	where usageid like 'LREplace' and LookDesc is not null
@@ -103,7 +111,7 @@ UNION ALL
 		--end,
 		Code,
 		Label = LookDesc, 
-		StateCode = isnull(Code,''),
+		StateCode = Code,
 		Sequence = cast(0 as int) 
 	from CodeDescLook
 	where usageid like 'LREplacePK' and LookDesc is not null
@@ -116,7 +124,7 @@ UNION ALL
 		SubType = 'SpecialEd', -- Jeanne indicated that all services in the EO db are SpEd, no related
 		Code,
 		Label = LookDesc, 
-		StateCode = isnull(StateCode,''),
+		StateCode = StateCode,
 		Sequence = cast(0 as int) 
 	from CodeDescLook 
 	where UsageID = 'IEPServiceSC'
@@ -127,7 +135,7 @@ UNION ALL
 		SubType = 'SpecialEd', 
 		Code = 'ZZZ',
 		Label = 'Manually Entered Service', 
-		StateCode = '',
+		StateCode = NULL,
 		Sequence = cast(0 as int) 
 
 -- *************** ServiceLocationCode *****************************************************          
@@ -135,10 +143,10 @@ UNION ALL
     select 
         LookupOrder = cast(11 as int),
 		Type = 'ServLoc', 
-		SubType = '', 
+		SubType = NULL, 
 		code,
 		Label = LookDesc, 
-		StateCode = isnull(StateCode,''),
+		StateCode = StateCode,
 		Sequence = cast(0 as int) 
 	from CodeDescLook 
 	where UsageID = 'SLogPlace'
@@ -147,48 +155,48 @@ UNION ALL
     select 
     	LookupOrder = cast(8 as int),
 		Type = 'ServProv', 
-		SubType = '', -- Jeanne indicated that all services in the EO db are SpEd, no related
+		SubType = NULL, -- Jeanne indicated that all services in the EO db are SpEd, no related
 		Code,
 		Label, 
-		StateCode = '',
+		StateCode = NULL,
 		Sequence = cast(0 as int) 
 	from -- select top 10 * from servicetbl -- select * from ProviderTbl -- select * from staff
 	(select distinct Code = k.LookupDesc, Label = k.LookupDesc from SpecialEdStudentsAndIEPs i join ServiceTbl v on i.gstudentid = v.gstudentid join DescLook k on v.ProvDesc = k.LookupDesc where k.UsageID = 'Title') t
     union all
-    select LookupOrder = cast (8 as int), 'ServProv', '', 'ZZZ', 'Not specified', '', 0
+    select LookupOrder = cast (8 as int), 'ServProv', NULL, 'ZZZ', 'Not specified', NULL, 0
 -- *************** ServiceFrequency *****************************************************          
 UNION ALL
     select 
     	LookupOrder = cast(9 as int),
 		Type = 'ServFreq',  -- these are already in the database but we need to map to them
-		SubType = '', 
+		SubType = NULL, 
 		Code,
 		Label = LookDesc, 
-		StateCode = isnull(StateCode,''),
+		StateCode = StateCode,
 		Sequence = cast(0 as int) 
 	from CodeDescLook 
 	where UsageID = 'ServPer'
     union all
-    select LookupOrder = cast (9 as int), 'ServFreq', '', 'ZZZ', 'Not specified', '', 0
+    select LookupOrder = cast (9 as int), 'ServFreq', NULL, 'ZZZ', 'Not specified', NULL, 0
 
 -- *************** GoalArea *****************************************************          
 UNION ALL
     select 
     	LookupOrder = cast(10 as int),
 		Type = 'GoalArea', 
-		SubType = '', 
+		SubType = NULL, 
 		Code,
 		Label = isnull(LookDesc, Code), 
-		StateCode = isnull(StateCode,''),
+		StateCode = StateCode,
 		Sequence = cast(0 as int) 
 	from CodeDescLook 
 	where UsageID = 'Banks'
 	--and Code in (select distinct GoalCode from SpecialEdStudentsAndIEPs i join GoalTbl g on i.gstudentid = g.gstudentid where g.IEPStatus = 1 and isnull(g.del_flag,0)=0)
     union all
-    select LookupOrder = cast (10 as int), 'GoalArea', '', 'ZZZ', 'Not specified', '', 0
+    select LookupOrder = cast (10 as int), 'GoalArea', NULL, 'ZZZ', 'Not specified', NULL, 0
 
 ) t
-order by LookupOrder, Code
+--order by LookupOrder, Code
 
 -- select * from codedesclook where usageid like 'IEPServiceSC'
 --select * from Lookup

@@ -1,19 +1,27 @@
--- select InitConsentServDate, MeetDate, NextEligMeet, ReviewMeet, InitConsentForEvalDate, InitEligibilityDate from IEPTbl
+use EO_SC
+GO
+IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'dbo.IEP_EO') AND OBJECTPROPERTY(id, N'IsView') = 1)
+DROP VIEW dbo.IEP_EO
+GO
 
+CREATE VIEW dbo.IEP_EO
+AS
 -- select StudentRefId, count(*) tot from (
-select IepRefId = i.IEPSeqNum, 
+SELECT 
+    Line_No=Row_Number() OVER (ORDER BY (SELECT 1)), 
+    IepRefId = i.IEPSeqNum, 
 	StudentRefId = x.gstudentid, 
-	IEPMeetDate = isnull(convert(varchar, i.MeetDate, 101), ''),
-	IEPStartDate = isnull(convert(varchar, i.MeetDate, 101),''),  --replIEPStartDate
-	IEPEndDate = isnull(convert(varchar, dateadd(dd, -1, dateadd(yy, 1, i.MeetDate)), 101),''),
+	IEPMeetDate = convert(varchar, i.MeetDate, 101), 
+	IEPStartDate = convert(varchar, i.MeetDate, 101),  --replIEPStartDate
+	IEPEndDate = convert(varchar, dateadd(dd, -1, dateadd(yy, 1, i.MeetDate)), 101),
 	NextReviewDate = convert(varchar, i.ReviewDate, 101),
-	InitialEvaluationDate = isnull(convert(varchar, i.CurrEvalDate, 101), ''), -- elig = eval?   InitConsentForEvalDate not InitEligibilityDate
-	LatestEvaluationDate =  isnull(convert(varchar, dateadd(yy, -3, i.LastIEPDate), 101),''), -- fudging this for now
-	NextEvaluationDate = isnull(convert(varchar, i.ReEvalDate, 101), ''), 
-	EligibilityDate = '',
-	ConsentForServicesDate = isnull(convert(varchar, i.MeetDate, 101),''), --replIEPStartDate
-	ConsentForEvaluationDate = '',
-	LREAgeGroup = '',
+	InitialEvaluationDate = convert(varchar, i.CurrEvalDate, 101), -- elig = eval?   InitConsentForEvalDate not InitEligibilityDate
+	LatestEvaluationDate =  convert(varchar, dateadd(yy, -3, i.LastIEPDate), 101), -- fudging this for now
+	NextEvaluationDate = convert(varchar, i.ReEvalDate, 101), 
+	EligibilityDate = NULL,
+	ConsentForServicesDate = convert(varchar, i.MeetDate, 101), --replIEPStartDate
+	ConsentForEvaluationDate = NULL,
+	LREAgeGroup = NULL,
 	/*
 	case 
 			when p.SchPrimInstrCode between '100' and '199' then 'Infant'
@@ -22,15 +30,15 @@ select IepRefId = i.IEPSeqNum,
 			-- else ''
 		end,
 		*/
-	LRECode = isnull(p.LRECode,''),
+	LRECode = p.LRECode,
 	MinutesPerWeek = cast (0 as int), -- cast(cast(ep.TotalSchoolHoursPerWeek*60 as int)as varchar(4)),
-	ServiceDeliveryStatement = ''
+	ServiceDeliveryStatement = NULL
 	--ServiceDeliveryStatement = replace(isnull(convert(varchar(8000), t.servdeliv),''), char(13)+char(10), char(240)+'^') -- note :  will have to remove line breaks
-from SpecialEdStudentsAndIEPs x
+FROM SpecialEdStudentsAndIEPs x
 JOIN IEPCompleteTbl i on x.IEPSeqNum = i.IEPSeqNum
 join ICIEPLRETbl p on i.IEPSeqNum = p.IEPComplSeqNum and x.IEPLRESeqNum = p.IEPLRESeqNum
 --left join ICTransServTbl t on i.IEPSeqNum = t.IEPComplSeqNum and x.TranSeqNum = t.TranSeqNum
-go
+
 
 --select * from IEPCompleteTbl
 --select * from ICIEPLRETbl

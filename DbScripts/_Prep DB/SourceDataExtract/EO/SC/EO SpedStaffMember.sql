@@ -1,12 +1,18 @@
-set nocount on;
-set ansi_warnings off;
+USE EO_SC
+GO
+IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'dbo.SpedStaffMember_EO') AND OBJECTPROPERTY(id, N'IsView') = 1)
+DROP VIEW dbo.SpedStaffMember_EO
+GO
 
-select 
-	StaffEmail = isnull(t.Email,''),
+CREATE VIEW dbo.SpedStaffMember_EO
+AS
+select
+    Line_No=Row_Number() OVER (ORDER BY (SELECT 1)), 
+	StaffEmail = t.Email,
 	t.Firstname,
 	t.Lastname,
-	EnrichRole = ''
-from 
+	EnrichRole = NULL
+FROM 
 	Staff t
 where isnull(t.email,'') <> ''
 	-- isnull(t.del_flag,0)=0  -- removing this criterion because some recent service providers may have been deleted
@@ -21,8 +27,7 @@ and t.staffgid = (
 		where stmin.email = delmin.email 
 		)
 	)
-
-	order by t.email
+	--order by t.email
 
 -- select * from staff where email = 'rguidry@psdschools.org'
 

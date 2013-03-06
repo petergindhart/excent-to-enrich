@@ -1,17 +1,22 @@
-set nocount on;
-set ansi_warnings off;
+use EO_SC
+GO
+IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'dbo.Student_EO') AND OBJECTPROPERTY(id, N'IsView') = 1)
+DROP VIEW dbo.Student_EO
+GO
 
-
-select  
+CREATE VIEW dbo.Student_EO
+AS
+select 
+    Line_No=Row_Number() OVER (ORDER BY (SELECT 1)), 
 	StudentRefID = s.GStudentID,
 	StudentLocalID = s.StudentID,
 	StudentStateID = s.AlterID, -- select top 10 s.* from student s join SpecialEdStudentsAndIEPs x on s.gstudentid = x.gstudentid
 	s.Firstname,
-	MiddleName = isnull(s.MiddleName,''),
+	MiddleName = s.MiddleName,
 	s.LastName,
 	Birthdate = convert(varchar, s.Birthdate, 101),
 	Gender = left(s.Sex, 1),
-	MedicaidNumber = isnull(s.medicaidnum,''),
+	MedicaidNumber = s.medicaidnum,
 	GradeLevelCode = s.Grade, -- find out if this is current
 	ServiceDistrictCode = h.ServiceDistCode, -- select top 10 * from reportstudentschools
 	ServiceSchoolCode = h.ServiceSchCode,
@@ -34,24 +39,24 @@ select
 	d.Disability8Code,
 	d.Disability9Code,
 	ESYElig = case x.ESY when 1 then 'Y' else 'N' end,
-	ESYTBDDate = isnull(convert(varchar, y.ESYDeter, 101),''),
-	ExitDate = isnull(convert(varchar, s.SpedExitDate, 101),''),
-	ExitCode = case isnull(s.SpedExitCode,'') when '0' then '' else isnull(s.SpedExitCode,'') end,
-	SpecialEdStatus = case when s.SpedStat = 1 then 'A' else 'I' end
+	ESYTBDDate = convert(varchar, y.ESYDeter, 101),
+	ExitDate = convert(varchar, s.SpedExitDate, 101),
+	ExitCode = case s.SpedExitCode when '0' then NULL else s.SpedExitCode end,
+	SpecialEdStatus = case when s.SpedStat = 1 then 'A' else 'E' end	
 from SpecialEdStudentsAndIEPs x -- 2451 -- select * from SpecialEdStudentsAndIEPs -- select * from IEPTbl
-JOIN Student s on x.GStudentID = s.GStudentID
+JOIN dbo.Student s on x.GStudentID = s.GStudentID
 JOIN ReportStudentSchools h on s.gstudentid = h.gstudentid
 JOIN (
 	select disab.GStudentID, 
-		Disability1Code = max(case when Sequence = 1 then DisabilityID else '' end),
-		Disability2Code = max(case when Sequence = 2 then DisabilityID else '' end),
-		Disability3Code = max(case when Sequence = 3 then DisabilityID else '' end),
-		Disability4Code = max(case when Sequence = 4 then DisabilityID else '' end),
-		Disability5Code = max(case when Sequence = 5 then DisabilityID else '' end),
-		Disability6Code = max(case when Sequence = 6 then DisabilityID else '' end),
-		Disability7Code = max(case when Sequence = 7 then DisabilityID else '' end),
-		Disability8Code = max(case when Sequence = 8 then DisabilityID else '' end),
-		Disability9Code = max(case when Sequence = 9 then DisabilityID else '' end)
+		Disability1Code = max(case when Sequence = 1 then DisabilityID else NULL end),
+		Disability2Code = max(case when Sequence = 2 then DisabilityID else NULL end),
+		Disability3Code = max(case when Sequence = 3 then DisabilityID else NULL end),
+		Disability4Code = max(case when Sequence = 4 then DisabilityID else NULL end),
+		Disability5Code = max(case when Sequence = 5 then DisabilityID else NULL end),
+		Disability6Code = max(case when Sequence = 6 then DisabilityID else NULL end),
+		Disability7Code = max(case when Sequence = 7 then DisabilityID else NULL end),
+		Disability8Code = max(case when Sequence = 8 then DisabilityID else NULL end),
+		Disability9Code = max(case when Sequence = 9 then DisabilityID else NULL end)
 	from (
 		select 
 			sd.GStudentID, 
@@ -82,13 +87,10 @@ left join ICIEPSpecialFactorTbl y on x.IEPSeqNum = y.IEPComplSeqNum and y.RecNum
 	where y.IEPComplSeqNum = miny.IEPComplSeqNum
 	and isnull(miny.del_flag,0)=0 
 	)
-GO
-
+	
 
 
 /*
-
-
 select x.gstudentid, d1.DisabilityID
 from SpecialEdStudentsAndIEPs x
 join ReportStudPrimaryDisability d1 on x.gstudentid = d1.gstudentid
@@ -103,7 +105,6 @@ JOIN DisabilityLook D on D1.DisabilityID = D.DisabilityID
 
 
 sp_helptext ReportStudDisab_A 
-Text
 
 
 create view ReportStudDisab_A
@@ -125,14 +126,6 @@ select GStudentID,
 	else '00' end as DisabilityID
 from EligConsiderTbl
 where isnull(del_flag,0)!=1
-
-
-
-
-
-
-
-
 
 select * from SpecialEdStudentsAndIEPs where gstudentid = '47AEC5EF-6668-4058-A83D-AF8DE6FBAB20'
 

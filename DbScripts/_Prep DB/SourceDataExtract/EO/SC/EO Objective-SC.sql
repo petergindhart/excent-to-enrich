@@ -1,9 +1,20 @@
-set nocount on;
-set ansi_warnings off;
+USE EO_SC
+GO
+IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'dbo.Objective_EO') AND OBJECTPROPERTY(id, N'IsView') = 1)
+DROP VIEW dbo.Objective_EO
+GO
 
-declare @gtbl table (IEPRefID int not null primary key, GStudentID uniqueidentifier, IEPComplete varchar(20))
-insert @gtbl 
-select distinct x.IEPSeqNum, x.GStudentID, IEPComplete = isnull(i.IEPComplete, 'Draft')
+CREATE VIEW dbo.Objective_EO
+AS
+select 
+    Line_No=Row_Number() OVER (ORDER BY (SELECT 1)),
+	ObjectiveRefID = o.ObjSeqNum,
+	GoalRefID = g.GoalSeqNum,
+	Sequence = o.ObjOrder,
+	ObjText = replace(convert(varchar(8000), o.ObjDesc), char(13)+char(10), char(240)+'^')
+from (
+	select i.GStudentID, g.GoalSeqNum, i.IEPComplete
+	from (  select distinct x.IEPSeqNum as IEPRefID, x.GStudentID, IEPComplete = isnull(i.IEPComplete, 'Draft')
 from SpecialEdStudentsAndIEPs x 
 join IEPTbl i on x.GStudentID = i.GStudentID 
 	and	i.iepseqnum = (
@@ -12,15 +23,7 @@ join IEPTbl i on x.GStudentID = i.GStudentID
 		where i.GStudentID = imin.GStudentID
 		and isnull(imin.del_flag,0)=0
 		)
-
-select 
-	ObjectiveRefID = o.ObjSeqNum,
-	GoalRefID = g.GoalSeqNum,
-	Sequence = o.ObjOrder,
-	ObjText = replace(convert(varchar(8000), o.ObjDesc), char(13)+char(10), char(240)+'^')
-from (
-	select i.GStudentID, g.GoalSeqNum, i.IEPComplete
-	from @gtbl i 
+) i 
 	join GoalTbl g on i.IEPRefID = g.IEPComplSeqNum
 	where (
 		(i.IEPComplete = 'Draft' and g.IEPStatus = 2 and g.del_flag=1) 
@@ -41,7 +44,8 @@ where (
 -- o.IEPStatus = 1 and isnull(o.del_flag,0)=0
 and isnull(convert(varchar(8000), o.ObjDesc),'') <>  ''
 -- and o.objdesc  is not null
-GO
+
+
 
 
 
