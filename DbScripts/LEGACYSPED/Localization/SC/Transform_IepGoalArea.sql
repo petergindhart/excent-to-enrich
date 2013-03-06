@@ -1,4 +1,4 @@
--- IDAHOE VERSION
+-- COLORADO VERSION
 
 -- LEGACYSPED.MAP_GoalAreaDefID is created and inserted in LEGACYSPED\Objects\0001a-ETLPrep_State_CO.sql -- drop table LEGACYSPED.MAP_IepGoalArea
 -- #############################################################################
@@ -43,15 +43,10 @@ if not exists (select 1 from sys.indexes where name = 'IX_LEGACYSPED_MAP_GoalAre
 create index IX_LEGACYSPED_MAP_GoalAreaPivot_GaolRefID_GoalAreaCode on LEGACYSPED.MAP_GoalAreaPivot (GoalRefID, GoalAreaCode)
 go
 
--- #############################################################################
-IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.GoalAreaPivotView') )
-BEGIN
-if exists (select 1 from sys.schemas s join sys.objects o on s.schema_id = o.schema_id where s.name = 'LEGACYSPED' and  o.name = 'GoalAreaPivotView' and o.type = 'V')
-DROP VIEW LEGACYSPED.GoalAreaPivotView
 
-if exists (select 1 from sys.schemas s join sys.objects o on s.schema_id = o.schema_id where s.name = 'LEGACYSPED' and  o.name = 'GoalAreaPivotView' and o.type = 'U')
-DROP TABLE LEGACYSPED.GoalAreaPivotView
-END
+-- #############################################################################
+IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.GoalAreaPivotView') AND OBJECTPROPERTY(id, N'IsView') = 1)
+DROP VIEW LEGACYSPED.GoalAreaPivotView
 GO
 
 create view LEGACYSPED.GoalAreaPivotView
@@ -155,8 +150,3 @@ where p.GoalAreaDefIndex = (
 	from LEGACYSPED.MAP_GoalAreaPivot pmin 
 	where p.GoalRefID = pmin.GoalRefID)
 go
-
-
--- select 'insert @ga values ('''', '''+convert(varchar(36), ID)+''') -- ' + Name from IepGoalAreaDef order by Sequence
-
---insert LEGACYSPED.MAP_IepGoalAreaDefID values ('ZZZ', '2CFF6386-49FD-4BC2-AA0C-C8474C2DEE69') -- Not defined
