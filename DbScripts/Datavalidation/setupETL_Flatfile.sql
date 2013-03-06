@@ -11,14 +11,14 @@ INSERT INTO @VC3ETL_ExtractDatabase VALUES ('EA75038A-D059-44BD-B49A-4CD68E0249B
 
 DECLARE @VC3ETL_LoadTable TABLE (ID uniqueidentifier, ExtractDatabase uniqueidentifier, Sequence int, SourceTable varchar(100), DestTable varchar(100), HasMapTable bit, MapTable varchar(100), KeyField varchar(250), DeleteKey varchar(50), ImportType int, DeleteTrans bit, UpdateTrans bit, InsertTrans bit, Enabled bit, SourceTableFilter varchar(1000), DestTableFilter varchar(1000), PurgeCondition varchar(1000), KeepMappingAfterDelete bit, StartNewTransaction bit, LastLoadDate datetime, MapTableMapID varchar(250), Comments varchar(1000))
 
-INSERT INTO @VC3ETL_LoadTable VALUES ('CC18CE47-F092-4631-9F0A-0D482DF4A4CD', 'EA75038A-D059-44BD-B49A-4CD68E0249B6', 1, 'Datavalidation.ExtractData_FlatFile ''E:\SC\Test''', NULL, 0, NULL, NULL, NULL, 4, 0, 0, 0, 1, NULL, NULL, NULL, 0, 0, '12/17/2012 10:13:21 AM', NULL, NULL)
-INSERT INTO @VC3ETL_LoadTable VALUES ('62BEFA3D-06D5-4280-8216-7E84F726E90A', 'EA75038A-D059-44BD-B49A-4CD68E0249B6', 1, 'Datavalidation.ReportFile_Preparation ''Enrich_DCB7_ID_AnotherChoice'',''C:\ValidationSummaryReport''', NULL, 0, NULL, NULL, NULL, 4, 0, 0, 0, 1, NULL, NULL, NULL, 0, 0, '12/17/2012 10:13:21 AM', NULL, NULL)
+INSERT INTO @VC3ETL_LoadTable VALUES ('CC18CE47-F092-4631-9F0A-0D482DF4A4CD', 'EA75038A-D059-44BD-B49A-4CD68E0249B6', 1, 'Datavalidation.ExtractData_FlatFile @datafilelocationpath = ''E:\EnrichDataFiles\FL\Flagler''', NULL, 0, NULL, NULL, NULL, 4, 0, 0, 0, 1, NULL, NULL, NULL, 0, 0, '12/17/2012 10:13:21 AM', NULL, NULL)
+INSERT INTO @VC3ETL_LoadTable VALUES ('62BEFA3D-06D5-4280-8216-7E84F726E90A', 'EA75038A-D059-44BD-B49A-4CD68E0249B6', 1, 'Datavalidation.ReportFile_Preparation ''Enrich_DC2_FL_Flagler'',''E:\EnrichDataFiles\FL\Flagler\Valid''', NULL, 0, NULL, NULL, NULL, 4, 0, 0, 0, 1, NULL, NULL, NULL, 0, 0, '12/17/2012 10:13:21 AM', NULL, NULL)
 
  --Declare a temporary table to hold the data to be synchronized
 DECLARE @VC3ETL_FlatFileExtractDatabase TABLE (ID uniqueidentifier, LocalCopyPath varchar(1000))
 
 -- Insert the data to be synchronized into the temporary table
-INSERT INTO @VC3ETL_FlatFileExtractDatabase VALUES ('EA75038A-D059-44BD-B49A-4CD68E0249B6', 'E:\SC')
+INSERT INTO @VC3ETL_FlatFileExtractDatabase VALUES ('EA75038A-D059-44BD-B49A-4CD68E0249B6', 'E:\EnrichDataFiles\FL\Flagler') -- not using VC3 flat file extract
 
 -- Declare a temporary table to hold the data to be synchronized
 DECLARE @dbo_InformExtractDatabase TABLE (ID uniqueidentifier, LastExtractRosterYear uniqueidentifier, LastLoadRosterYear uniqueidentifier)
@@ -51,7 +51,6 @@ INSERT INTO VC3ETL.ExtractTable SELECT Source.* FROM @VC3ETL_ExtractTable Source
 INSERT INTO VC3ETL.FlatFileExtractTable SELECT Source.* FROM @VC3ETL_FlatFileExtractTable Source LEFT JOIN VC3ETL.FlatFileExtractTable Destination ON Source.ID = Destination.ID WHERE Destination.ID IS NULL
 INSERT INTO VC3ETL.FlatFileExtractDatabase SELECT Source.* FROM @VC3ETL_FlatFileExtractDatabase Source LEFT JOIN VC3ETL.FlatFileExtractDatabase Destination ON Source.ID = Destination.ID WHERE Destination.ID IS NULL
 
--- Update records in the destination table that already exist
 -- Update records in the destination table that already exist
 UPDATE Destination SET Destination.Type = Source.Type, Destination.DatabaseType = Source.DatabaseType, Destination.Server = Source.Server, Destination.DatabaseOwner = Source.DatabaseOwner, Destination.DatabaseName = Source.DatabaseName, Destination.Username = Source.Username, Destination.Password = Source.Password, Destination.LinkedServer = Source.LinkedServer, Destination.IsLinkedServerManaged = Source.IsLinkedServerManaged, Destination.LastExtractDate = Source.LastExtractDate, Destination.LastLoadDate = Source.LastLoadDate, Destination.SucceededEmail = Source.SucceededEmail, Destination.SucceededSubject = Source.SucceededSubject, Destination.SucceededMessage = Source.SucceededMessage, Destination.FailedEmail = Source.FailedEmail, Destination.FailedSubject = Source.FailedSubject, Destination.FailedMessage = Source.FailedMessage, Destination.RetainSnapshot = Source.RetainSnapshot, Destination.DestTableTempSuffix = Source.DestTableTempSuffix, Destination.DestTableFinalSuffix = Source.DestTableFinalSuffix, Destination.FileGroup = Source.FileGroup, Destination.Schedule = Source.Schedule, Destination.Name = Source.Name, Destination.Enabled = Source.Enabled FROM @VC3ETL_ExtractDatabase Source JOIN VC3ETL.ExtractDatabase Destination ON Source.ID = Destination.ID
 UPDATE Destination SET Destination.LocalCopyPath = Source.LocalCopyPath FROM @VC3ETL_FlatFileExtractDatabase Source JOIN VC3ETL.FlatFileExtractDatabase Destination ON Source.ID = Destination.ID
