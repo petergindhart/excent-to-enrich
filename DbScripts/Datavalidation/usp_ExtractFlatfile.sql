@@ -5,8 +5,8 @@ GO
 CREATE PROC Datavalidation.ExtractData_FlatFile
 (
 @datafilelocationpath VARCHAR(100)
-,@dbname VARCHAR(150)
-,@reportfilelocationpath VARCHAR(150)
+--,@dbname VARCHAR(150)
+--,@reportfilelocationpath VARCHAR(150)
 ) 
 AS
 BEGIN
@@ -39,7 +39,7 @@ SET @sql='EXEC Datavalidation.ExtractData_From_Csv '''+ @datafilelocationpath +'
 EXEC sp_executesql @stmt=@sql
 EXEC Datavalidation.Summaryreport
 EXEC Datavalidation.DataValidationReport_History
-EXEC Datavalidation.ReportFile_Preparation @dbname,@reportfilelocationpath
+--EXEC Datavalidation.ReportFile_Preparation @dbname,@reportfilelocationpath
 END TRY
 
 BEGIN CATCH
