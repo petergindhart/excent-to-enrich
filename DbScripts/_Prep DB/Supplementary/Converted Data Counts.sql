@@ -6,7 +6,7 @@ Total int not null)
 
 declare @t varchar(100), @c int, @q varchar(max)
 declare T cursor for
-select Distinct DestTable, Sequence from VC3ETL.LoadTable where ExtractDatabase = '29D14961-928D-4BEE-9025-238496D144C6' and Sequence between 0 and 99 and DestTable is not null and DestTable not like 'LEGACYSPED%' order by Sequence, DestTable
+select Distinct DestTable, Sequence from VC3ETL.LoadTable where ExtractDatabase = '29D14961-928D-4BEE-9025-238496D144C6' and Sequence between 0 and 99 and DestTable is not null and DestTable not like 'LEGACYSPED%' And DestTable <> '' order by Sequence, DestTable
 
 open T
 fetch T into @t, @c
@@ -37,5 +37,14 @@ drop table #TEMP_ConversionCounts
 
 
 -- EXCENTDATATEAM.Util_VerifyProgramDataAssumptions_New
+
+
+
+
+
+
+
+
+
 
 

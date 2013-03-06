@@ -42,32 +42,17 @@ go
 
 
 -- #############################################################################
-IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.GoalAreaPivotView') AND OBJECTPROPERTY(id, N'IsView') = 1)
-DROP VIEW LEGACYSPED.GoalAreaPivotView
-GO
-
-create view LEGACYSPED.GoalAreaPivotView
-as
-	select IepRefID, GoalRefID, 'GACurriculum' GoalAreaCode, cast(0 as int) GoalAreaDefIndex
-	from LEGACYSPED.Goal 
-	where not (GAReading is null and GAWriting is null and GAMath is null and GAOther is null) 
-	UNION ALL
-	select IepRefID, GoalRefID, 'GAEmotional' GoalAreaCode, CAST(4 as int) GoalAreaDefIndex
-	from LEGACYSPED.Goal
-	where  GAEmotional = 'Y'
-	UNION ALL
-	select IepRefID, GoalRefID, 'GAIndependent' GoalAreaCode, CAST(5 as int) GoalAreaDefIndex
-	from LEGACYSPED.Goal
-	where  GAIndependent = 'Y'
-	UNION ALL
-	select IepRefID, GoalRefID, 'GAHealth' GoalAreaCode, CAST(6 as int) GoalAreaDefIndex
-	from LEGACYSPED.Goal
-	where  GAHealth = 'Y'
-	UNION ALL
-	select IepRefID, GoalRefID, 'GACommunication' GoalAreaCode, CAST(7 as int) GoalAreaDefIndex
-	from LEGACYSPED.Goal
-	where  GACommunication = 'Y'
---order by GoalRefID
+-- create a placeholder object since this view does not exist yet.  cannot create view within begin/end, so create a table instead
+IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.GoalAreaPivotView'))
+begin
+create table LEGACYSPED.GoalAreaPivotView (
+IepRefID varchar(150),
+GoalRefID varchar(150),
+GoalAreaCode varchar(20),
+GoalAreaDefIndex int
+)
+end
+-- this object will be dropped when we create the view later
 go
 
 ------------------------------------------------------------------------------------------- end code duplicated from Transform_IepGoalArea.sql

@@ -309,17 +309,10 @@ from (select Number from School where deleteddate is null group by Number having
 join School h on n.Number = h.Number and h.ManuallyEntered = 1 
 join ProbeTypeSchool pts on h.ID = pts.SchoolID ; print 'ProbeTypeSchool : ' + convert(varchar(10), @@rowcount) 
 
--- where duplicate schools have been manually entered, save 1 of them
 delete h
 -- select h.*
 from (select Number from School where deleteddate is null group by Number having COUNT(*) > 1) n
-join School h on n.Number = h.Number and h.ManuallyEntered = 1 
-where convert(varchar(36), h.ID) > (
-	select top 1 convert(varchar(36), hd.ID)
-	from School hd 
-	where hd.Number = h.Number 
-	order by hd.ManuallyEntered desc, hd.Street, convert(varchar(36), hd.ID) -- 1. save the SIS entered duplicate school,   2) keep the one with a street address, 3) arbitrarily order by GUID to pick one at random
-	) ; print 'School : ' + convert(varchar(10), @@rowcount)
+join School h on n.Number = h.Number and h.ManuallyEntered = 1 ; print 'School : ' + convert(varchar(10), @@rowcount)
 
 -- delete soft-deleted schools
 delete pts
@@ -418,7 +411,7 @@ where s.ManuallyEntered = 1
 delete x
 from School x 
 where x.ManuallyEntered = 1
-	and x.Name <> 'District Office'
+
 
 --Msg 547, Level 16, State 0, Line 247
 --The DELETE statement conflicted with the REFERENCE constraint "FK_StudentRosterYearInformation#Student#StudentRosterYearInformations". The conflict occurred in database "Enrich_DC5_CO_Poudre", table "dbo.StudentRosterYear", column 'StudentId'.
@@ -861,10 +854,10 @@ end
 close O
 deallocate O
 
-go
-/* */
+
+/* 
 declare @o varchar(100), @ut char(1), @n varchar(5), @q varchar(max); select @n = '
-'
+'*/
 
 -- speddoc
 declare O cursor for 
@@ -952,6 +945,22 @@ end
 close T
 deallocate T
 
+-- delete a duplicate service def record that we know the correct ID for (from state template)
+delete UserProfileServiceDefPermission where ServiceDefID in ('CD96747D-3D67-4207-86FD-FD754A498102', '906113FC-C606-4DEF-A5FB-CEC56A7D43C4')
+delete IepServiceDef where ID in ('CD96747D-3D67-4207-86FD-FD754A498102', '906113FC-C606-4DEF-A5FB-CEC56A7D43C4')
+delete ServiceDef where ID in ('CD96747D-3D67-4207-86FD-FD754A498102', '906113FC-C606-4DEF-A5FB-CEC56A7D43C4')
 
-
-
+--		Unhandled duplicates are
+--Behavioral Health Screening
+--Behavioral Health Screening
+--Crisis Management
+--Crisis Management
+--Follow-up Comprehensive Assessment
+--Follow-up Comprehensive Assessment
+--Initial Comprehensive Assessment
+--Initial Comprehensive Assessment
+--Service Plan Development
+--Service Plan Development
+--Therapy Services
+--Therapy Services
+--		These duplicates do not have a service category

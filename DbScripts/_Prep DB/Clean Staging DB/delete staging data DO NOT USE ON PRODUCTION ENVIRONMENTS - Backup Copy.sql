@@ -11,10 +11,6 @@ begin tran
 
 set xact_abort on
 
--- variables for cursor loop to delete manually-added students from Test tables (T_%)
-declare @studentid varchar(36), @sch varchar(50), @tbl varchar(100), @col varchar(100), @q varchar(max), @tranname varchar(100)
-
-
 -- select * from Student where LastName = 'Student' and FirstName = 'sam'
 -- declare @StudentID uniqueidentifier ; select @StudentID = ID from Student where LastName = 'Student' and FirstName = 'Sam'
 -- select * from Student where ID = @StudentID
@@ -23,112 +19,36 @@ declare @studentid varchar(36), @sch varchar(50), @tbl varchar(100), @col varcha
 
 -- select * from student where lastname = 'student' -- select * from LEGACYSPED.MAP_StudentRefID
 
-delete VC3ETL.LoadTable where ExtractDatabase = '29D14961-928D-4BEE-9025-238496D144C6' and SourceTable like 'EFF.%'
-
-
-declare @zg uniqueidentifier ; select @zg = '00000000-0000-0000-0000-000000000000'
-
-declare @SaveStudents table (StudentID uniqueidentifier null, OldNumber varchar(50) not null, OldFirstname varchar(50) not null, OldLastname varchar(50) not null, NewNumber varchar(50), NewFirstname varchar(50) not null, NewLastname varchar(50) not null) ; 
--- insert @SaveStudents (OldNumber, OldLastname, OldFirstname, NewNumber, NewLastname, NewFirstname) values ('3632271715', 'Ceotto', 'Sara', '0000000001', 'Student', 'Samantha')
--- select 'insert @SaveStudents (StudentID, OldNumber, OldFirstname, OldLastname, NewNumber, NewFirstname, NewLastname) values ('''+convert(varchar(36), ID)+''', '''', '''', '''', '''', '''+FirstName+''', '''+LastName+''')' from Student where LastName = 'Sample'
---insert @SaveStudents (StudentID, OldNumber, OldFirstname, OldLastname, NewNumber, NewFirstname, NewLastname) values ('4424BD98-0022-45FB-BDD5-E2B4F4E3CAF9', '', '', '', '', 'Early Childhood', 'Sample')
-
--- show students to be preserved.
---select isnull(StudentID, @zg) from @SaveStudents
-
-
-
-
-
--- delete manual students from test tables
-
--- declare @studentid varchar(36), @sch varchar(50), @tbl varchar(100), @col varchar(100), @q varchar(max), @tranname varchar(100)
-declare DS cursor for 
-select x.ID -- select * 
-from Student x 
-where x.ManuallyEntered = 1
-and ID not in (select isnull(StudentID, @zg) from @SaveStudents) -- could use select * from @delstudents instead
-
-open DS 
-fetch DS into @StudentID
-while @@FETCH_STATUS = 0
-begin
-
-set @tranname = 'del'+@StudentID
-
-print @StudentID
-begin tran @tranname
-
-	declare T cursor for 
-	SELECT 
-		SCHEMA_NAME(f.SCHEMA_ID) SchemaName,
-		OBJECT_NAME(f.parent_object_id) AS TableName,
-		COL_NAME(fc.parent_object_id,fc.parent_column_id) AS ColumnName
-	FROM sys.foreign_keys AS f
-		INNER JOIN sys.foreign_key_columns AS fc ON f.OBJECT_ID = fc.constraint_object_id
-		INNER JOIN sys.objects AS o ON o.OBJECT_ID = fc.referenced_object_id
-	where SCHEMA_NAME(o.SCHEMA_ID) = 'dbo' 
-		and OBJECT_NAME (f.referenced_object_id) = 'Student' ------------------------- Table name here
-		and COL_NAME(fc.referenced_object_id,fc.referenced_column_id) = 'ID' --------------- Column name here
-		and OBJECT_NAME(f.parent_object_id) like 'T[_]%'
-	order by SchemaName, TableName, ColumnName
-
-	open T 
-	fetch T into @sch, @tbl, @col
-	while @@FETCH_STATUS = 0
-	begin
-	
-	set @q = 'if exists (select 1 from '+@sch+'.'+@tbl+' where '+@col+' = '''+@StudentID+''')
-	delete '+@sch+'.'+@tbl+' where '+@col+' = '''+@studentid+''''
-	exec (@q)
-	-- print @q
-	
-	fetch T into @sch, @tbl, @col
-	end
-	close T
-	deallocate T
-
-commit tran @tranname
-
-fetch DS into @StudentID
-end
-close DS
-deallocate DS
---Msg 547, Level 16, State 0, Line 420
---The DELETE statement conflicted with the REFERENCE constraint "FK_T_ABI_StudentID". The conflict occurred in database "Enrich_DC2_FL_Brevard", table "dbo.T_ABI", column 'StudentID'.
-
-
 -- delete manually entered students from previous LEGACYSPED imports
 if exists (select 1 from sys.objects where name = 'LEGACYSPED.MAP_StudentRefID')
 begin
-
 delete ServicePlan where StudentID in (select DestID from LEGACYSPED.MAP_StudentRefID)
 delete Attachment where VersionID in (select VersionID from PrgItem where StudentID in (select DestID from LEGACYSPED.MAP_StudentRefID))
 delete PrgItem where StudentID in (select DestID from LEGACYSPED.MAP_StudentRefID)
 delete PrgInvolvement where StudentID in (select DestID from LEGACYSPED.MAP_StudentRefID)
 delete PrgVersionIntent where ItemIntentId in (select ID from PrgItemIntent where StudentID in (select DestID from LEGACYSPED.MAP_StudentRefID))
 delete PrgItemIntent where StudentID in (select DestID from LEGACYSPED.MAP_StudentRefID)
+delete T_FCAT_ReadingAndMath where StudentID in (select DestID from LEGACYSPED.MAP_StudentRefID)
+delete T_FL_Alt where StudentID in (select DestID from LEGACYSPED.MAP_StudentRefID)
 delete StudentRosterYear where StudentID in (select DestID from LEGACYSPED.MAP_StudentRefID)
 delete StudentClassRosterHistory where StudentID in (select DestID from LEGACYSPED.MAP_StudentRefID)
 delete StudentGradeLevelHistory where StudentID in (select DestID from LEGACYSPED.MAP_StudentRefID)
+delete T_CSAP where StudentID in (select DestID from LEGACYSPED.MAP_StudentRefID)
+delete T_COGAT where StudentID in (select DestID from LEGACYSPED.MAP_StudentRefID)
+delete T_CELA where StudentID in (select DestID from LEGACYSPED.MAP_StudentRefID)
 delete StudentGroupStudent where StudentID in (select DestID from LEGACYSPED.MAP_StudentRefID)
+delete T_ACT where StudentID in (select DestID from LEGACYSPED.MAP_StudentRefID)
 
 delete Student where ID in (select DestID from LEGACYSPED.MAP_StudentRefID)
 end
 
-declare @attachmentfile table (ID uniqueidentifier not null)
-insert @attachmentfile
-select a.ID 
-from Attachment a join 
-FileData f on a.FileID = f.ID 
 
-delete a
-from @attachmentfile af 
-join Attachment a on af.ID = a.ID
+declare @zg uniqueidentifier ; select @zg = '00000000-0000-0000-0000-000000000000'
 
-delete f
-from @attachmentfile af 
-join FileData f on af.ID = f.ID
+declare @SaveStudents table (StudentID uniqueidentifier null, OldNumber varchar(50) not null, OldFirstname varchar(50) not null, OldLastname varchar(50) not null, NewNumber varchar(50), NewFirstname varchar(50) not null, NewLastname varchar(50) not null) ; 
+-- insert @SaveStudents (OldNumber, OldLastname, OldFirstname, NewNumber, NewLastname, NewFirstname) values ('3632271715', 'Ceotto', 'Sara', '0000000001', 'Student', 'Samantha')
+insert @SaveStudents (StudentID, OldNumber, OldFirstname, OldLastname, NewNumber, NewFirstname, NewLastname) values ('3384C724-6449-411E-9A9A-45EDAE354F9F', '', '', '', '', 'Sam', 'Student')
+
 
 -- delete sample student guardians from the mapping table
 delete m from EFF.Map_StudentGuardianID m join EFF.StudentGuardians g on m.ID = g.GuardianID join @SaveStudents s on g.StudentID = s.OldNumber ; print 'Delete Guardian ID from MAP table : ' + convert(varchar(10), @@rowcount)
@@ -185,24 +105,11 @@ delete x from IepPlacementOption x where DeletedDate is not null or Sequence = 9
 -- set nocount off;
 delete x from ServiceSchedule x where ID not in (select z.ID from ServiceSchedule z join ServiceScheduleServicePlan sssp on z.ID = sssp.ScheduleID join ServicePlan sp on sssp.ServicePlanID = sp.ID  where sp.StudentID in (select isnull(StudentID, @zg) from @SaveStudents) )  ; print 'ServiceSchedule : ' + convert(varchar(10), @@rowcount)-- ??
 delete x from ServiceSchedule x where ID not in (select z.ID from ServiceSchedule z join PrgLocation pl on z.LocationID = pl.ID where pl.DeletedDate is not null) ; print 'ServiceSchedule (for PrgLocation) : ' + convert(varchar(10), @@rowcount)-- ??
-delete x from Schedule x where ID not in (select ID from ServiceSchedule ss) and ID not in (select distinct ProbeScheduleID from PrgGoal)  ; print 'Schedule : ' + convert(varchar(10), @@rowcount)-- ??
---Msg 547, Level 16, State 0, Line 115
---The DELETE statement conflicted with the REFERENCE constraint "FK_PrgGoal#ProbeSchedule#". The conflict occurred in database "Enrich_DCB2_CO_Mesa51", table "dbo.PrgGoal", column 'ProbeScheduleID'.
+delete x from Schedule x where ID not in (select ID from ServiceSchedule) ; print 'Schedule : ' + convert(varchar(10), @@rowcount)-- ??
+
 -- delete x from Schedule x 
 
-
-delete s
--- select s.ID, pg.ID, ss.ID 
-from Schedule s left join 
-PrgGoal pg on s.ID = pg.ProbeScheduleID left join
-ServiceSchedule ss on ss.ID = s.ID
-where pg.ID is null and ss.ID is null
-
---select distinct ProbeScheduleID from PrgGoal 
---select * from PrgGoal g join PrgSection s on g.InstanceID = s.ID join PrgItem i on s.ItemID = i.ID left join @SaveStudents ss on i.StudentID = ss.StudentID where ss.StudentID is null
-
-
-
+delete PrgLocation where DeletedDate is not null ; print 'PrgLocation : ' + convert(varchar(10), @@rowcount) -- is there any benefit in attempting to delete Legacy data?
 delete ServiceFrequency where DeletedDate is not null  /* Sequence = 99 */ ; print 'ServiceFrequency : ' + convert(varchar(10), @@rowcount) -- is there any benefit in attempting to delete Legacy data?
 
 update IepServiceDef set DefaultProviderTitleID = NULL where DefaultProviderTitleID in (select ID from ServiceProviderTitle t where t.DeletedDate is not null and t.ID not in (select distinct p.ProviderTitleID from UserProfile p where p.ProviderTitleID is not null) )
@@ -210,20 +117,12 @@ delete t from ServiceProviderTitle t where t.DeletedDate is not null and t.ID no
 
 --delete s from Student s join LEGACYSPED.MAP_StudentRefID m on m.DestID = s.ID where m.LegacyData = 1 ; print 'Student : ' + convert(varchar(10), @@rowcount) -- s.ManuallyEntered = 1 -- is there any benefit in attempting to delete Legacy data?
 
-delete x from ServiceDef sd join IepServiceDef x on sd.ID = x.ID where sd.DeletedDate is not null and sd.ID not in (select DefID from ServicePlan where StudentID in (select isnull(StudentID, @zg) from @SaveStudents)) ; print 'IepServiceDef : ' + convert(varchar(10), @@rowcount) 
-delete x from ServiceDef sd join UserProfileServiceDefPermission x on sd.ID = x.ServiceDefID where sd.DeletedDate is not null and sd.ID not in (select DefID from ServicePlan where StudentID in (select isnull(StudentID, @zg) from @SaveStudents)) ; print 'UserProfileServiceDefPermission : ' + convert(varchar(10), @@rowcount) 
-delete x from ServiceDef sd join ServiceDefDiagnosisCode x on sd.ID = x.ServiceDefID where sd.ID   in (select ID from ServiceDef where DeletedDate is not null )and sd.ID not in (select DefID from ServicePlan where StudentID in (select isnull(StudentID, @zg) from @SaveStudents))
-delete x from ServiceDef sd join ServiceDefProcedure x on sd.ID = x.ServiceDefID where sd.ID  in (select ID from ServiceDef where DeletedDate is not null ) and sd.ID not in (select DefID from ServicePlan where StudentID in (select isnull(StudentID, @zg) from @SaveStudents))
-delete sd from ServiceDef sd where DeletedDate is not null and sd.ID in (select ID from ServiceDef where DeletedDate is not null ) and sd.ID not in (select DefID from ServicePlan where StudentID in (select isnull(StudentID, @zg) from @SaveStudents)) ; print 'ServiceDef : ' + convert(varchar(10), @@rowcount) 
---Msg 547, Level 16, State 0, Line 142
---The DELETE statement conflicted with the REFERENCE constraint "FK_ServicePlan#Def#Plans". The conflict occurred in database "Enrich_DCB2_CO_Mesa51", table "dbo.ServicePlan", column 'DefID'.
-	-- we are handling this separately in Prepare DB ServiceDef
+delete x from ServiceDef sd join IepServiceDef x on sd.ID = x.ID where sd.DeletedDate is not null ; print 'IepServiceDef : ' + convert(varchar(10), @@rowcount) 
+delete x from ServiceDef sd join UserProfileServiceDefPermission x on sd.ID = x.ServiceDefID where sd.DeletedDate is not null ; print 'UserProfileServiceDefPermission : ' + convert(varchar(10), @@rowcount) 
+delete ServiceDefDiagnosisCode where ServiceDefID in (select ID from ServiceDef where DeletedDate is not null )
+delete ServiceDefProcedure where ServiceDefID in (select ID from ServiceDef where DeletedDate is not null )
+delete ServiceDef where DeletedDate is not null ; print 'ServiceDef : ' + convert(varchar(10), @@rowcount) 
 
-delete PrgLocation where DeletedDate is not null ; print 'PrgLocation : ' + convert(varchar(10), @@rowcount) -- is there any benefit in attempting to delete Legacy data?
---Msg 547, Level 16, State 0, Line 232
---The DELETE statement conflicted with the REFERENCE constraint "FK_ServiceDef#DefaultLocation#ServiceDefs". The conflict occurred in database "Enrich_DC4_FL_Collier", table "dbo.ServiceDef", column 'DefaultLocationID'.
-
-	
 
 -- moved PrgInvolvement
 -- delete PrgItemTeamMember ; print 'PrgItemTeamMember : ' + convert(varchar(10), @@rowcount) -- ?.												Duplicate
@@ -309,17 +208,10 @@ from (select Number from School where deleteddate is null group by Number having
 join School h on n.Number = h.Number and h.ManuallyEntered = 1 
 join ProbeTypeSchool pts on h.ID = pts.SchoolID ; print 'ProbeTypeSchool : ' + convert(varchar(10), @@rowcount) 
 
--- where duplicate schools have been manually entered, save 1 of them
 delete h
 -- select h.*
 from (select Number from School where deleteddate is null group by Number having COUNT(*) > 1) n
-join School h on n.Number = h.Number and h.ManuallyEntered = 1 
-where convert(varchar(36), h.ID) > (
-	select top 1 convert(varchar(36), hd.ID)
-	from School hd 
-	where hd.Number = h.Number 
-	order by hd.ManuallyEntered desc, hd.Street, convert(varchar(36), hd.ID) -- 1. save the SIS entered duplicate school,   2) keep the one with a street address, 3) arbitrarily order by GUID to pick one at random
-	) ; print 'School : ' + convert(varchar(10), @@rowcount)
+join School h on n.Number = h.Number and h.ManuallyEntered = 1 ; print 'School : ' + convert(varchar(10), @@rowcount)
 
 -- delete soft-deleted schools
 delete pts
@@ -329,14 +221,12 @@ join School h on n.Number = h.Number and h.ManuallyEntered = 1
 join ProbeTypeSchool pts on h.ID = pts.SchoolID ; print 'ProbeTypeSchool : ' + convert(varchar(10), @@rowcount) 
 
 
-
 -- NEW - only necessary sometimes.   It may be necessary to exclude records that should be preserved.  
 declare @delstudents table (StudentID uniqueidentifier not null)
 insert @delstudents
-select x.ID -- select * 
+select x.ID
 from Student x 
 where x.ManuallyEntered = 1
-and ID not in (select isnull(StudentID, @zg) from @SaveStudents)
 
 delete x 
 -- select ManStud = s.ManuallyEntered, x.*
@@ -373,24 +263,30 @@ delete x
 from @delstudents n join
 StudentGroupStudent x on n.StudentID = x.StudentId
 
+delete x 
+-- select ManStud = s.ManuallyEntered, x.*
+from @delstudents n join
+T_CSAP x on n.StudentID = x.StudentId
+
+delete x 
+-- select ManStud = s.ManuallyEntered, x.*
+from @delstudents n join
+T_COGAT x on n.StudentID = x.StudentId
 
 delete x 
 -- select ManStud = s.ManuallyEntered, x.*
 from @delstudents n join
 StudentRecordException x on n.StudentID = x.Student2ID
 
+delete x 
+-- select ManStud = s.ManuallyEntered, x.*
+from @delstudents n join
+T_ACT x on n.StudentID = x.StudentID
 
-
-
-
---Msg 547, Level 16, State 0, Line 351
---The DELETE statement conflicted with the REFERENCE constraint "FK_T_ABI_StudentID". 
--- The conflict occurred in database "Enrich_Dev", table "dbo.T_ABI", column 'StudentID'.
-
-
--- end of cursor to delete manually added students from T_% tables
-
-
+delete x 
+-- select ManStud = s.ManuallyEntered, x.*
+from @delstudents n join
+T_CELA x on n.StudentID = x.StudentID
 
 delete x 
 -- select ManStud = s.ManuallyEntered, x.*
@@ -402,6 +298,10 @@ delete x
 from @delstudents n join
 ReportCardScore x on n.StudentID = x.Student
 
+delete x
+	-- select x.*
+	from @delstudents n join
+	MedicaidAuthorization x on n.StudentID = x.StudentID
 
 
 	delete x
@@ -418,7 +318,7 @@ where s.ManuallyEntered = 1
 delete x
 from School x 
 where x.ManuallyEntered = 1
-	and x.Name <> 'District Office'
+
 
 --Msg 547, Level 16, State 0, Line 247
 --The DELETE statement conflicted with the REFERENCE constraint "FK_StudentRosterYearInformation#Student#StudentRosterYearInformations". The conflict occurred in database "Enrich_DC5_CO_Poudre", table "dbo.StudentRosterYear", column 'StudentId'.
@@ -555,7 +455,6 @@ and s.ID is null
 and t.ID is null
 and c.Id is null
 and h.GradeLevelID is null
---and s.ID not in ( select isnull(StudentID, @zg) from @SaveStudents)
 
 
 -- break the association between the mosratingdef and iepgoalareas that will be deleted.  is this okay?
@@ -652,9 +551,6 @@ from LEGACYSPED.MAP_StudentRefID x -- map
 --where DestID not in (select ID from Student) -- destination ------------------------------ we want all of them gone.  what about their manually added student records?
 print 'LEGACYSPED.MAP_StudentRefID : ' +convert(varchar(10), @@rowcount)
 
-print 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX 05 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'
-
-
 delete x -- select *
 from LEGACYSPED.MAP_PrgVersionID x -- map
 where DestID not in (select ID from PrgVersion) -- destination
@@ -684,9 +580,6 @@ from LEGACYSPED.MAP_ServiceProviderTitleID x -- map
 where DestID not in (select ID from ServiceProviderTitle) -- destination
 print 'LEGACYSPED.MAP_ServiceProviderTitleID : ' +convert(varchar(10), @@rowcount)
 
-print 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX 10 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'
-
-
 delete x -- select *
 from LEGACYSPED.MAP_ScheduleID x -- map
 where DestID not in (select ID from Schedule) -- destination
@@ -711,9 +604,6 @@ delete x -- select *
 from LEGACYSPED.MAP_IepDisabilityID x -- map
 where DestID not in (select ID from IepDisability) -- destination
 print 'LEGACYSPED.MAP_IepDisabilityID : ' +convert(varchar(10), @@rowcount)
-
-print 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX 15 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'
-
 
 delete x -- select *
 from LEGACYSPED.MAP_GradeLevelID x -- map
@@ -740,8 +630,6 @@ from LEGACYSPED.MAP_IepGoalArea x -- map
 where DestID not in (select ID from IepGoalArea) -- destination
 print 'LEGACYSPED.MAP_IepGoalArea : ' +convert(varchar(10), @@rowcount)
 
-print 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX 20 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'
-
 delete x -- select *
 from LEGACYSPED.MAP_SchoolID x -- map
 where DestID not in (select ID from School) -- destination
@@ -767,8 +655,6 @@ from LEGACYSPED.MAP_IepPlacementOptionID x -- map
 where DestID not in (select ID from IepPlacementOption) -- destination
 print 'LEGACYSPED.MAP_IepPlacementOptionID : ' +convert(varchar(10), @@rowcount)
 
-print 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX 25 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'
-
 delete x -- select *
 from LEGACYSPED.MAP_PrgStatusID x -- map
 where DestID not in (select ID from PrgStatus) -- destination
@@ -782,24 +668,11 @@ end
 
 end
 
-print 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX 27 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'
-
-if exists (select 1 from sys.schemas s join sys.objects o on s.schema_id = o.schema_id where s.name = 'LEGACYSPED' and o.name = 'DataConversionLog')
-begin
-	drop table LEGACYSPED.DataConversionLog
-end
-
-if exists (select 1 from sys.schemas s join sys.objects o on s.schema_id = o.schema_id where s.name = 'LEGACYSPED' and o.name = 'DataConversionLogTable')
-begin
-	drop table LEGACYSPED.DataConversionLogTable
-end
-
 
 -- truncate all of the legacysped tables
 declare @d varchar(254) 
 declare D cursor for 
-select 'print ''truncating : '+s.name+'.'+o.name+'''
-truncate table '+s.name+'.'+o.name 
+select 'truncate table '+s.name+'.'+o.name 
 from sys.schemas s join
 sys.objects o on s.schema_id = o.schema_id
 where s.name in ('LEGACYSPED', 'SPEDDOC')
@@ -812,7 +685,7 @@ while @@fetch_status = 0
 begin
 
 exec (@d)
---print @d
+-- print @d
 
 fetch D into @d
 end 
@@ -849,22 +722,20 @@ fetch O into @o, @ut
 while @@fetch_status = 0
 begin
 
-set @q = 'print ''dropping LEGACYSPED.'+@o+'''
-if exists (select 1 from sys.schemas s join sys.objects o on s.schema_id = o.schema_id where s.name = ''LEGACYSPED'' and o.name = '''+@o+''')
+set @q = 'if exists (select 1 from sys.schemas s join sys.objects o on s.schema_id = o.schema_id where s.name = ''LEGACYSPED'' and o.name = '''+@o+''')
 drop '+case when @ut = 'V' then 'view ' else 'table ' end+ 'LEGACYSPED.'+ @o+@n+@n
 
 exec (@q)
---print @q
 
 fetch O into @o, @ut
 end
 close O
 deallocate O
 
-go
-/* */
+
+/* 
 declare @o varchar(100), @ut char(1), @n varchar(5), @q varchar(max); select @n = '
-'
+'*/
 
 -- speddoc
 declare O cursor for 
@@ -905,53 +776,19 @@ where Module = 'SPEDDOC'
 UPDATE SystemSettings SET SecurityRebuiltDate = NULL
 
 
----- Poudre unneeded DistrictID
---delete d
----- select d.*, k.*
---from UserProfileOrgUnit d 
---where d.OrgUnitID = '0A2D598F-A05D-4553-8772-314449FAAF73' -- Poudre School District - test
+-- Poudre unneeded DistrictID
+delete d
+-- select d.*, k.*
+from UserProfileOrgUnit d 
+where d.OrgUnitID = '0A2D598F-A05D-4553-8772-314449FAAF73' -- Poudre School District - test
 
---if exists (select 1 from OrgUnit where ID = '0A2D598F-A05D-4553-8772-314449FAAF73')
---begin
---	update s set OID = '6531EF88-352D-4620-AF5D-CE34C54A9F53' from Student s where s.OID = '0A2D598F-A05D-4553-8772-314449FAAF73'
---	delete UserProfileOrgUnit where OrgUnitID = '0A2D598F-A05D-4553-8772-314449FAAF73'
---	delete OrgUnit where ID = '0A2D598F-A05D-4553-8772-314449FAAF73' 
---end
+if exists (select 1 from OrgUnit where ID = '0A2D598F-A05D-4553-8772-314449FAAF73')
+begin
+	update s set OID = '6531EF88-352D-4620-AF5D-CE34C54A9F53' from Student s where s.OID = '0A2D598F-A05D-4553-8772-314449FAAF73'
+	delete UserProfileOrgUnit where OrgUnitID = '0A2D598F-A05D-4553-8772-314449FAAF73'
+	delete OrgUnit where ID = '0A2D598F-A05D-4553-8772-314449FAAF73' 
+end
 
 commit tran
 --rollback tran
-
---select * from Student where LastName = 'Sample' or LastName = 'RtI' order by LastName, FirstName
-
---dbcc opentran()
-
-go
-
-declare @t varchar(100), @q varchar(max)
-declare T cursor for 
-select DestTable from VC3ETL.LoadTable where ExtractDatabase = '29D14961-928D-4BEE-9025-238496D144C6' and DestTable is not null and DestTable not like 'LEGACYSPED%'
-union 
-select 'PrgDocument'
-union
-select 'FormTemplate'
-order by DestTable
-
-open T 
-fetch T into @t
-
-while @@fetch_status = 0
-begin
-
-set @q = 'DBCC DBREINDEX ('+@t+')'
-exec (@q)
-
-
-
-fetch T into @t
-end
-close T
-deallocate T
-
-
-
 
