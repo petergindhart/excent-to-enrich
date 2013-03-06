@@ -34,7 +34,7 @@ SET @sql = 'bcp "select tablename+'' - ''+errormessage +'' - ''+ convert(varchar
 EXEC xp_cmdshell @sql
 SET @sql = 'bcp "select tablename+'' - ''+errormessage +'' - ''+ convert(varchar(10),LineNumber)+''- "''+Line+''" '' from '+@dbname+'.Datavalidation.Validationreport WHERE TableName= ''Objective'' order by CONVERT(int,LineNumber)" queryout "'+@reportpath+'\ValidationReport_Objective.txt"  -T -c -t,' 
 EXEC xp_cmdshell @sql
-SET @sql = 'bcp "select tablename+'' - ''+errormessage +'' - ''+ convert(varchar(10),LineNumber)+''- "''+Line+''" '' from '+@dbname+'.Datavalidation.Validationreport WHERE TableName= ''TeamMember'' order by CONVERT(int,LineNumber)" queryout "'+@reportpath+'\ValidationReport_TeamMemeber.txt"  -T -c -t,' 
+SET @sql = 'bcp "select tablename+'' - ''+errormessage +'' - ''+ convert(varchar(10),LineNumber)+''- "''+Line+''" '' from '+@dbname+'.Datavalidation.Validationreport WHERE TableName= ''TeamMember'' order by CONVERT(int,LineNumber)" queryout "'+@reportpath+'\ValidationReport_TeamMember.txt"  -T -c -t,' 
 EXEC xp_cmdshell @sql
 SET @sql = 'bcp "select tablename+'' - ''+errormessage +'' - ''+ convert(varchar(10),LineNumber)+''- "''+Line+''" '' from '+@dbname+'.Datavalidation.Validationreport WHERE TableName= ''StaffSchool'' order by CONVERT(int,LineNumber)" queryout "'+@reportpath+'\ValidationReport_StaffSchool.txt"  -T -c -t,' 
 EXEC xp_cmdshell @sql
