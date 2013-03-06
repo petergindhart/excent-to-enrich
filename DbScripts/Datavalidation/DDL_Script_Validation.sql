@@ -1,18 +1,18 @@
-IF EXISTS(select * from sys.schemas where name = 'Datavalidation')
-DROP SCHEMA Datavalidation
+IF EXISTS(select * from sys.schemas where name = 'DATAVALIDATION')
+DROP SCHEMA DATAVALIDATION
 GO
-CREATE SCHEMA Datavalidation
+CREATE SCHEMA DATAVALIDATION
 GO
 
 /*
 Staging tables to import the Source file data
 */
 ----------------------------------------------------------------------------------------------------------------------------
-IF  EXISTS (SELECT 1 FROM sys.objects WHERE object_id = OBJECT_ID(N'Datavalidation.SelectLists_LOCAL') AND type in (N'U'))
-DROP TABLE Datavalidation.SelectLists_LOCAL
+IF  EXISTS (SELECT 1 FROM sys.objects WHERE object_id = OBJECT_ID(N'DATAVALIDATION.SelectLists_LOCAL') AND type in (N'U'))
+DROP TABLE DATAVALIDATION.SelectLists_LOCAL
 GO
 
-CREATE TABLE Datavalidation.SelectLists_LOCAL(
+CREATE TABLE DATAVALIDATION.SelectLists_LOCAL(
 Line_No INT,
 Type	varchar(max) null,
 SubType	varchar(max) null,
@@ -25,22 +25,22 @@ EnrichLabel	varchar(max) not null
 )
 GO
 
-IF  EXISTS (SELECT 1 FROM sys.objects WHERE object_id = OBJECT_ID(N'Datavalidation.District_LOCAL') AND type in (N'U'))
-DROP TABLE Datavalidation.District_LOCAL
+IF  EXISTS (SELECT 1 FROM sys.objects WHERE object_id = OBJECT_ID(N'DATAVALIDATION.District_LOCAL') AND type in (N'U'))
+DROP TABLE DATAVALIDATION.District_LOCAL
 GO
 
-CREATE TABLE Datavalidation.District_LOCAL(
+CREATE TABLE DATAVALIDATION.District_LOCAL(
 Line_No INT,
 DistrictCode    varchar(max)  null,
 DistrictName    varchar(max) null
 )
 GO
 
-IF  EXISTS (SELECT 1 FROM sys.objects WHERE object_id = OBJECT_ID(N'Datavalidation.School_LOCAL') AND type in (N'U'))
-DROP TABLE Datavalidation.School_LOCAL
+IF  EXISTS (SELECT 1 FROM sys.objects WHERE object_id = OBJECT_ID(N'DATAVALIDATION.School_LOCAL') AND type in (N'U'))
+DROP TABLE DATAVALIDATION.School_LOCAL
 GO
 
-CREATE TABLE Datavalidation.School_LOCAL(
+CREATE TABLE DATAVALIDATION.School_LOCAL(
 Line_No INT,
 SchoolCode    varchar(max),
 SchoolName    varchar(max),
@@ -49,11 +49,11 @@ MinutesPerWeek	varchar(max)
 )
 GO
 
-IF  EXISTS (SELECT 1 FROM sys.objects WHERE object_id = OBJECT_ID(N'Datavalidation.Student_LOCAL') AND type in (N'U'))
-DROP TABLE Datavalidation.Student_LOCAL  
+IF  EXISTS (SELECT 1 FROM sys.objects WHERE object_id = OBJECT_ID(N'DATAVALIDATION.Student_LOCAL') AND type in (N'U'))
+DROP TABLE DATAVALIDATION.Student_LOCAL  
 GO  
   
-CREATE TABLE Datavalidation.Student_LOCAL(
+CREATE TABLE DATAVALIDATION.Student_LOCAL(
 Line_No INT,
 StudentRefID    varchar(max),
 StudentLocalID	varchar(max),
@@ -92,11 +92,11 @@ SpecialEdStatus varchar(max)
 )
 GO
 
-IF  EXISTS (SELECT 1 FROM sys.objects WHERE object_id = OBJECT_ID(N'Datavalidation.IEP_LOCAL') AND type in (N'U'))
-DROP TABLE Datavalidation.IEP_LOCAL
+IF  EXISTS (SELECT 1 FROM sys.objects WHERE object_id = OBJECT_ID(N'DATAVALIDATION.IEP_LOCAL') AND type in (N'U'))
+DROP TABLE DATAVALIDATION.IEP_LOCAL
 GO
 
-CREATE TABLE Datavalidation.IEP_LOCAL(
+CREATE TABLE DATAVALIDATION.IEP_LOCAL(
 Line_No INT,
 IepRefID	varchar(max),
 StudentRefID	varchar(max),
@@ -117,11 +117,11 @@ ServiceDeliveryStatement	varchar(max)
 )
 GO
 
-IF  EXISTS (SELECT 1 FROM sys.objects WHERE object_id = OBJECT_ID(N'Datavalidation.SpedStaffMember_LOCAL') AND type in (N'U'))
-DROP TABLE Datavalidation.SpedStaffMember_LOCAL  
+IF  EXISTS (SELECT 1 FROM sys.objects WHERE object_id = OBJECT_ID(N'DATAVALIDATION.SpedStaffMember_LOCAL') AND type in (N'U'))
+DROP TABLE DATAVALIDATION.SpedStaffMember_LOCAL  
 GO  
 
-CREATE TABLE Datavalidation.SpedStaffMember_LOCAL(  
+CREATE TABLE DATAVALIDATION.SpedStaffMember_LOCAL(  
 Line_No INT,
 StaffEmail		varchar(max),
 Firstname		varchar(max), 
@@ -130,12 +130,12 @@ EnrichRole 		varchar(max)
 )  
 GO  
 
-IF  EXISTS (SELECT 1 FROM sys.objects WHERE object_id = OBJECT_ID(N'Datavalidation.Service_LOCAL') AND type in (N'U'))
-DROP TABLE Datavalidation.Service_LOCAL  
+IF  EXISTS (SELECT 1 FROM sys.objects WHERE object_id = OBJECT_ID(N'DATAVALIDATION.Service_LOCAL') AND type in (N'U'))
+DROP TABLE DATAVALIDATION.Service_LOCAL  
 GO  
 
 
-CREATE TABLE Datavalidation.Service_LOCAL(  
+CREATE TABLE DATAVALIDATION.Service_LOCAL(  
 Line_No INT,
 ServiceType    varchar(max),
 ServiceRefId    varchar(max),
@@ -158,10 +158,10 @@ ServiceAreaText    varchar(max)
 )
 GO
 
-IF EXISTS (SELECT 1 FROM sys.objects WHERE object_id = OBJECT_ID(N'Datavalidation.Goal_LOCAL') AND type in (N'U'))
-DROP TABLE Datavalidation.Goal_LOCAL
+IF EXISTS (SELECT 1 FROM sys.objects WHERE object_id = OBJECT_ID(N'DATAVALIDATION.Goal_LOCAL') AND type in (N'U'))
+DROP TABLE DATAVALIDATION.Goal_LOCAL
 GO
-CREATE TABLE Datavalidation.Goal_LOCAL(  
+CREATE TABLE DATAVALIDATION.Goal_LOCAL(  
 Line_No INT,
 GoalRefID		  varchar(max),
 IepRefID		  varchar(max),
@@ -178,11 +178,11 @@ GoalStatement	varchar(max)
 )
 GO
 
-IF  EXISTS (SELECT 1 FROM sys.objects WHERE object_id = OBJECT_ID(N'Datavalidation.Objective_LOCAL') AND type in (N'U'))
-DROP TABLE Datavalidation.Objective_LOCAL  
+IF  EXISTS (SELECT 1 FROM sys.objects WHERE object_id = OBJECT_ID(N'DATAVALIDATION.Objective_LOCAL') AND type in (N'U'))
+DROP TABLE DATAVALIDATION.Objective_LOCAL  
 GO  
   
-CREATE TABLE Datavalidation.Objective_LOCAL( 
+CREATE TABLE DATAVALIDATION.Objective_LOCAL( 
   Line_No INT, 
   ObjectiveRefID	varchar(max),
   GoalRefID	varchar(max),
@@ -191,11 +191,11 @@ CREATE TABLE Datavalidation.Objective_LOCAL(
 )  
 GO  	
 
-IF  EXISTS (SELECT 1 FROM sys.objects WHERE object_id = OBJECT_ID(N'Datavalidation.TeamMember_LOCAL') AND type in (N'U'))
-DROP TABLE Datavalidation.TeamMember_LOCAL  
+IF  EXISTS (SELECT 1 FROM sys.objects WHERE object_id = OBJECT_ID(N'DATAVALIDATION.TeamMember_LOCAL') AND type in (N'U'))
+DROP TABLE DATAVALIDATION.TeamMember_LOCAL  
 GO  
   
-CREATE TABLE Datavalidation.TeamMember_LOCAL( 
+CREATE TABLE DATAVALIDATION.TeamMember_LOCAL( 
   Line_No INT, 
   StaffEmail	varchar(max),
   StudentRefId	varchar(max),
@@ -203,11 +203,11 @@ CREATE TABLE Datavalidation.TeamMember_LOCAL(
 )  
 GO 
 
-IF  EXISTS (SELECT 1 FROM sys.objects WHERE object_id = OBJECT_ID(N'Datavalidation.StaffSchool_LOCAL') AND type in (N'U'))
-DROP TABLE Datavalidation.StaffSchool_LOCAL  
+IF  EXISTS (SELECT 1 FROM sys.objects WHERE object_id = OBJECT_ID(N'DATAVALIDATION.StaffSchool_LOCAL') AND type in (N'U'))
+DROP TABLE DATAVALIDATION.StaffSchool_LOCAL  
 GO  
   
-CREATE TABLE Datavalidation.StaffSchool_LOCAL(  
+CREATE TABLE DATAVALIDATION.StaffSchool_LOCAL(  
   Line_No INT,
   StaffEmail	varchar(max),
   SchoolCode	varchar(max)
@@ -218,11 +218,11 @@ GO
 Tables to store validated data
 */
 ----------------------------------------------------------------------------------------------------------------------------
-IF  EXISTS (SELECT 1 FROM sys.objects WHERE object_id = OBJECT_ID(N'Datavalidation.SelectLists') AND type in (N'U'))
-DROP TABLE Datavalidation.SelectLists
+IF  EXISTS (SELECT 1 FROM sys.objects WHERE object_id = OBJECT_ID(N'DATAVALIDATION.SelectLists') AND type in (N'U'))
+DROP TABLE DATAVALIDATION.SelectLists
 GO
 
-CREATE TABLE Datavalidation.SelectLists(
+CREATE TABLE DATAVALIDATION.SelectLists(
 Line_No INT,
 Type	varchar(20) not null,
 SubType	varchar(20) null,
@@ -235,22 +235,22 @@ EnrichLabel	varchar(254) not null
 )
 GO
 
-IF  EXISTS (SELECT 1 FROM sys.objects WHERE object_id = OBJECT_ID(N'Datavalidation.District') AND type in (N'U'))
-DROP TABLE Datavalidation.District
+IF  EXISTS (SELECT 1 FROM sys.objects WHERE object_id = OBJECT_ID(N'DATAVALIDATION.District') AND type in (N'U'))
+DROP TABLE DATAVALIDATION.District
 GO
 
-CREATE TABLE Datavalidation.District(
+CREATE TABLE DATAVALIDATION.District(
 Line_No INT,
 DistrictCode    varchar(10) not null,
 DistrictName    varchar(255) not null
 )
 GO
 
-IF  EXISTS (SELECT 1 FROM sys.objects WHERE object_id = OBJECT_ID(N'Datavalidation.School') AND type in (N'U'))
-DROP TABLE Datavalidation.School
+IF  EXISTS (SELECT 1 FROM sys.objects WHERE object_id = OBJECT_ID(N'DATAVALIDATION.School') AND type in (N'U'))
+DROP TABLE DATAVALIDATION.School
 GO
 
-CREATE TABLE Datavalidation.School(
+CREATE TABLE DATAVALIDATION.School(
 Line_No INT,
 SchoolCode    varchar(10) not null,
 SchoolName    varchar(254) not null,  --Need to check this
@@ -259,11 +259,11 @@ MinutesPerWeek	int not null
 )
 GO
 
-IF  EXISTS (SELECT 1 FROM sys.objects WHERE object_id = OBJECT_ID(N'Datavalidation.Student') AND type in (N'U'))
-DROP TABLE Datavalidation.Student  
+IF  EXISTS (SELECT 1 FROM sys.objects WHERE object_id = OBJECT_ID(N'DATAVALIDATION.Student') AND type in (N'U'))
+DROP TABLE DATAVALIDATION.Student  
 GO  
   
-CREATE TABLE Datavalidation.Student(
+CREATE TABLE DATAVALIDATION.Student(
 Line_No INT,
 StudentRefID    varchar(150) not null,
 StudentLocalID	varchar(50) not null,
@@ -302,11 +302,11 @@ SpecialEdStatus char(1) not null
 )
 GO
 
-IF  EXISTS (SELECT 1 FROM sys.objects WHERE object_id = OBJECT_ID(N'Datavalidation.IEP') AND type in (N'U'))
-DROP TABLE Datavalidation.IEP
+IF  EXISTS (SELECT 1 FROM sys.objects WHERE object_id = OBJECT_ID(N'DATAVALIDATION.IEP') AND type in (N'U'))
+DROP TABLE DATAVALIDATION.IEP
 GO
 
-CREATE TABLE Datavalidation.IEP(
+CREATE TABLE DATAVALIDATION.IEP(
 Line_No INT,
 IepRefID	varchar(150) not null,
 StudentRefID	varchar(150) not null,
@@ -327,11 +327,11 @@ ServiceDeliveryStatement	varchar(8000) null
 )
 GO
 
-IF  EXISTS (SELECT 1 FROM sys.objects WHERE object_id = OBJECT_ID(N'Datavalidation.SpedStaffMember') AND type in (N'U'))
-DROP TABLE Datavalidation.SpedStaffMember  
+IF  EXISTS (SELECT 1 FROM sys.objects WHERE object_id = OBJECT_ID(N'DATAVALIDATION.SpedStaffMember') AND type in (N'U'))
+DROP TABLE DATAVALIDATION.SpedStaffMember  
 GO  
 
-CREATE TABLE Datavalidation.SpedStaffMember(
+CREATE TABLE DATAVALIDATION.SpedStaffMember(
 Line_No INT,  
 StaffEmail		varchar(150) not null,
 Firstname		varchar(50) not null, 
@@ -340,12 +340,12 @@ EnrichRole 		varchar(50) null
 )  
 GO  
 
-IF  EXISTS (SELECT 1 FROM sys.objects WHERE object_id = OBJECT_ID(N'Datavalidation.Service') AND type in (N'U'))
-DROP TABLE Datavalidation.Service  
+IF  EXISTS (SELECT 1 FROM sys.objects WHERE object_id = OBJECT_ID(N'DATAVALIDATION.Service') AND type in (N'U'))
+DROP TABLE DATAVALIDATION.Service  
 GO  
 
 
-CREATE TABLE Datavalidation.Service( 
+CREATE TABLE DATAVALIDATION.Service( 
 Line_No INT, 
 ServiceType    varchar(20) not null, 
 ServiceRefId    varchar(150) not null, 
@@ -368,10 +368,10 @@ ServiceAreaText    varchar(254) null
 )
 GO
 
-IF EXISTS (SELECT 1 FROM sys.objects WHERE object_id = OBJECT_ID(N'Datavalidation.Goal') AND type in (N'U'))
-DROP TABLE Datavalidation.Goal
+IF EXISTS (SELECT 1 FROM sys.objects WHERE object_id = OBJECT_ID(N'DATAVALIDATION.Goal') AND type in (N'U'))
+DROP TABLE DATAVALIDATION.Goal
 GO
-CREATE TABLE Datavalidation.Goal(
+CREATE TABLE DATAVALIDATION.Goal(
 Line_No INT,  
 GoalRefID		  varchar(150), 
 IepRefID		  varchar(150), 
@@ -388,11 +388,11 @@ GoalStatement	 varchar(8000)
 )
 GO
 
-IF  EXISTS (SELECT 1 FROM sys.objects WHERE object_id = OBJECT_ID(N'Datavalidation.Objective') AND type in (N'U'))
-DROP TABLE Datavalidation.Objective  
+IF  EXISTS (SELECT 1 FROM sys.objects WHERE object_id = OBJECT_ID(N'DATAVALIDATION.Objective') AND type in (N'U'))
+DROP TABLE DATAVALIDATION.Objective  
 GO  
   
-CREATE TABLE Datavalidation.Objective( 
+CREATE TABLE DATAVALIDATION.Objective( 
   Line_No INT, 
   ObjectiveRefID	varchar(150)	not null,
   GoalRefID	varchar(150)	not null,
@@ -401,11 +401,11 @@ CREATE TABLE Datavalidation.Objective(
 )  
 GO  	
 
-IF  EXISTS (SELECT 1 FROM sys.objects WHERE object_id = OBJECT_ID(N'Datavalidation.TeamMember') AND type in (N'U'))
-DROP TABLE Datavalidation.TeamMember  
+IF  EXISTS (SELECT 1 FROM sys.objects WHERE object_id = OBJECT_ID(N'DATAVALIDATION.TeamMember') AND type in (N'U'))
+DROP TABLE DATAVALIDATION.TeamMember  
 GO  
   
-CREATE TABLE Datavalidation.TeamMember( 
+CREATE TABLE DATAVALIDATION.TeamMember( 
   Line_No INT, 
   StaffEmail	varchar(150)	not null,
   StudentRefId	varchar(150)	not null,
@@ -413,11 +413,11 @@ CREATE TABLE Datavalidation.TeamMember(
 )  
 GO 
 
-IF  EXISTS (SELECT 1 FROM sys.objects WHERE object_id = OBJECT_ID(N'Datavalidation.StaffSchool') AND type in (N'U'))
-DROP TABLE Datavalidation.StaffSchool  
+IF  EXISTS (SELECT 1 FROM sys.objects WHERE object_id = OBJECT_ID(N'DATAVALIDATION.StaffSchool') AND type in (N'U'))
+DROP TABLE DATAVALIDATION.StaffSchool  
 GO  
   
-CREATE TABLE Datavalidation.StaffSchool(
+CREATE TABLE DATAVALIDATION.StaffSchool(
   Line_No INT,  
   StaffEmail	varchar(150)	not null,
   SchoolCode	varchar(10)     not null
@@ -427,11 +427,11 @@ GO
 --=========================================================================================================
 --To store the validation reports of data files for that iteration
 --=========================================================================================================
-IF  EXISTS (SELECT 1 FROM sys.objects WHERE object_id = OBJECT_ID(N'Datavalidation.ValidationReport') AND type in (N'U'))
-DROP TABLE Datavalidation.ValidationReport
+IF  EXISTS (SELECT 1 FROM sys.objects WHERE object_id = OBJECT_ID(N'DATAVALIDATION.ValidationReport') AND type in (N'U'))
+DROP TABLE DATAVALIDATION.ValidationReport
 GO
 
-CREATE TABLE Datavalidation.ValidationReport
+CREATE TABLE DATAVALIDATION.ValidationReport
 ( 
 	ID INT IDENTITY(1,1),
 	TableName VARCHAR(50),
@@ -443,11 +443,11 @@ CREATE TABLE Datavalidation.ValidationReport
 --To Store the valiation report history 
 --=========================================================================================================
 
-IF  EXISTS (SELECT 1 FROM sys.objects WHERE object_id = OBJECT_ID(N'Datavalidation.ValidationReportHistory') AND type in (N'U'))
-DROP TABLE Datavalidation.ValidationReportHistory
+IF  EXISTS (SELECT 1 FROM sys.objects WHERE object_id = OBJECT_ID(N'DATAVALIDATION.ValidationReportHistory') AND type in (N'U'))
+DROP TABLE DATAVALIDATION.ValidationReportHistory
 GO
 
-CREATE TABLE Datavalidation.ValidationReportHistory
+CREATE TABLE DATAVALIDATION.ValidationReportHistory
 ( 
 	IterationNumber INT,
     ValidatedDate	Datetime,
@@ -459,11 +459,11 @@ CREATE TABLE Datavalidation.ValidationReportHistory
 --=========================================================================================================
 --To Store the  validation summary report for that iteration
 --=========================================================================================================
-IF  EXISTS (SELECT 1 FROM sys.objects WHERE object_id = OBJECT_ID(N'Datavalidation.ValidationSummaryReport') AND type in (N'U'))
-DROP TABLE Datavalidation.ValidationSummaryReport
+IF  EXISTS (SELECT 1 FROM sys.objects WHERE object_id = OBJECT_ID(N'DATAVALIDATION.ValidationSummaryReport') AND type in (N'U'))
+DROP TABLE DATAVALIDATION.ValidationSummaryReport
 GO
 
-CREATE TABLE Datavalidation.ValidationSummaryReport
+CREATE TABLE DATAVALIDATION.ValidationSummaryReport
 ( 
 	TableName VARCHAR(50),
 	ErrorMessage VARCHAR(500),
@@ -473,11 +473,11 @@ CREATE TABLE Datavalidation.ValidationSummaryReport
 --To Store the  validation rules (data specifications)
 --=========================================================================================================
 
-IF  EXISTS (SELECT 1 FROM sys.objects WHERE object_id = OBJECT_ID(N'Datavalidation.ValidationRules') AND type in (N'U'))
-DROP TABLE Datavalidation.ValidationRules
+IF  EXISTS (SELECT 1 FROM sys.objects WHERE object_id = OBJECT_ID(N'DATAVALIDATION.ValidationRules') AND type in (N'U'))
+DROP TABLE DATAVALIDATION.ValidationRules
 GO
 
-CREATE TABLE Datavalidation.ValidationRules
+CREATE TABLE DATAVALIDATION.ValidationRules
 ( 
 	TableSchema VARCHAR(50),
 	TableName VARCHAR(50),
@@ -503,11 +503,11 @@ GO
 --To Store the  Datafiles order (data specifications)
 --=========================================================================================================
 
-IF  EXISTS (SELECT 1 FROM sys.objects WHERE object_id = OBJECT_ID(N'Datavalidation.TableOrder') AND type in (N'U'))
-DROP TABLE Datavalidation.TableOrder
+IF  EXISTS (SELECT 1 FROM sys.objects WHERE object_id = OBJECT_ID(N'DATAVALIDATION.TableOrder') AND type in (N'U'))
+DROP TABLE DATAVALIDATION.TableOrder
 GO
 
-CREATE TABLE DataValidation.TableOrder 
+CREATE TABLE DATAVALIDATION.TableOrder 
 (
 Sequence INT NOT NULL,
 Tablename varchar(100) NOT NULL
