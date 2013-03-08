@@ -16,7 +16,7 @@ declare @sql varchar(8000)
 set @sql = 'bcp "select tablename+''-''+errormessage +''=''+ convert(varchar(10),total) from '+@dbname+'.Datavalidation.vw_ValidationSummaryreport order by sequence,tablename,errormessage " queryout "'+@reportpath+'\ValidationSummaryReport.txt"  -T -c -t,' 
 --print @sql
 EXEC xp_cmdshell @sql
-SET @sql = 'bcp "select tablename+'' - ''+errormessage +'' - ''+ convert(varchar(10),LineNumber)+''- "''+Line+''" '' from Enrich_DCB4_FL_Bay.Datavalidation.Validationreport WHERE TableName= ''SelectLists'' order by CONVERT(int,LineNumber)" queryout "C:\ValidationSummaryReport\ValidationReport_Selectlists.txt"  -T -c -t,' 
+SET @sql = 'bcp "select tablename+'' - ''+errormessage +'' - ''+ convert(varchar(10),LineNumber)+''- "''+Line+''" '' from '+@dbname+'.Datavalidation.Validationreport WHERE TableName= ''SelectLists'' order by CONVERT(int,LineNumber)" queryout "C:\ValidationSummaryReport\ValidationReport_Selectlists.txt"  -T -c -t,' 
 EXEC xp_cmdshell @sql
 set @sql = 'bcp "select tablename+'' - ''+errormessage +'' - ''+ convert(varchar(10),LineNumber)+''- "''+Line+''" '' from '+@dbname+'.Datavalidation.Validationreport WHERE TableName= ''District'' order by CONVERT(int,LineNumber)" queryout "'+@reportpath+'\ValidationReport_District.txt"  -T -c -t,' 
 EXEC xp_cmdshell @sql
