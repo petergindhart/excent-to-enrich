@@ -1,3 +1,4 @@
+DELETE Datavalidation.ValidationRules
 INSERT Datavalidation.ValidationRules VALUES  ('Datavalidation','StaffSchool','StaffEmail',1,'varchar','150','1','1','1','SpedStaffMember','StaffEmail','0',NULL,NULL,NULL,'0',NULL)
 INSERT Datavalidation.ValidationRules VALUES  ('Datavalidation','StaffSchool','SchoolCode',2,'varchar','10','1','1','1','School','SchoolCode','0',NULL,NULL,NULL,'0',NULL)
 INSERT Datavalidation.ValidationRules VALUES  ('Datavalidation','SelectLists','Type',1,'varchar','20','1','0','0',NULL,NULL,'0',NULL,NULL,NULL,'0',NULL)
@@ -103,3 +104,4 @@ INSERT Datavalidation.ValidationRules VALUES  ('Datavalidation','Objective','Obj
 INSERT Datavalidation.ValidationRules VALUES  ('Datavalidation','TeamMember','StaffEmail',1,'varchar','150','1','1','1','SpedStaffMember','StaffEmail','0',NULL,NULL,NULL,'0',NULL)
 INSERT Datavalidation.ValidationRules VALUES  ('Datavalidation','TeamMember','StudentRefId',2,'varchar','150','1','1','1','Student','StudentRefID','0',NULL,NULL,NULL,'0',NULL)
 INSERT Datavalidation.ValidationRules VALUES  ('Datavalidation','TeamMember','IsCaseManager',3,'varchar','1','1','1','0',NULL,NULL,'0',NULL,NULL,NULL,'1',' ''Y'',''N''')
+--SELECT * FROM Datavalidation.ValidationRules
