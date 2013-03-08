@@ -1,9 +1,10 @@
+/*
 IF EXISTS(select * from sys.schemas where name = 'DATAVALIDATION')
 DROP SCHEMA DATAVALIDATION
 GO
 CREATE SCHEMA DATAVALIDATION
 GO
-
+*/
 /*
 Staging tables to import the Source file data
 */
