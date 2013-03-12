@@ -84,7 +84,7 @@ EXEC Datavalidation.Check_StaffSchool_Specifications
 --EXEC Datavalidation.Summaryreport
 DELETE Datavalidation.ValidationSummaryReport WHERE NumberOfRecords = 0 AND ErrorMessage NOT IN ('SuccessfulRecords','TotalRecords')
 EXEC Datavalidation.DataValidationReport_History
-EXEC Datavalidation.ReportFile_Preparation @dbname,@reportfilelocationpath
+--EXEC Datavalidation.ReportFile_Preparation @dbname,@reportfilelocationpath
 END TRY
 
 BEGIN CATCH
