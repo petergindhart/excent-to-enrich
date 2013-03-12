@@ -4,7 +4,7 @@ GO
 
 CREATE VIEW Datavalidation.vw_ValidationSummaryreport 
 AS
-SELECT o.Sequence, vr.tablename, vr.errormessage, count(*) total
-FROM DataValidation.ValidationReport vr
+SELECT o.Sequence, vr.tablename, vr.errormessage, vr.NumberOfRecords
+FROM DataValidation.ValidationSummaryReport vr
 JOIN DataValidation.TableOrder o on vr.Tablename = o.TableName
-GROUP BY o.Sequence, vr.tablename, vr.errormessage
+--ORDER BY o.Sequence, vr.tablename, vr.errormessage
