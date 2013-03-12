@@ -81,7 +81,8 @@ EXEC Datavalidation.Check_Goal_Specifications
 EXEC Datavalidation.Check_Objective_Specifications
 EXEC Datavalidation.Check_TeamMember_Specifications
 EXEC Datavalidation.Check_StaffSchool_Specifications
-EXEC Datavalidation.Summaryreport
+--EXEC Datavalidation.Summaryreport
+DELETE Datavalidation.ValidationSummaryReport WHERE NumberOfRecords = 0 AND ErrorMessage NOT IN ('SuccessfulRecords','TotalRecords')
 EXEC Datavalidation.DataValidationReport_History
 EXEC Datavalidation.ReportFile_Preparation @dbname,@reportfilelocationpath
 END TRY

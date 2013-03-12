@@ -200,6 +200,7 @@ OPEN chkSpecifications
 
 FETCH NEXT FROM chkSpecifications INTO @tableschema,@tablename,@columnname,@datatype,@datalength,@isrequired,@isuniquefield,@isFkRelation,@parenttable,@parentcolumn,@islookupcolumn,@lookuptable,@lookupcolumn,@lookuptype,@isFlagfield,@flagrecords
 DECLARE @vsql nVARCHAR(MAX)
+DECLARE @sumsql NVARCHAR(MAX)
 DECLARE @query nVARCHAR(MAX)
 DECLARE @uncol nVARCHAR(MAX)
 DECLARE @uniqoncol nVARCHAR(MAX)
@@ -221,6 +222,17 @@ SET @query  = ' AND ('+@columnname+' IS NULL)'
 SET @vsql = @vsql + @query
 --PRINT @vsql
 EXEC sp_executesql @stmt=@vsql
+
+
+SET @sumsql = 'INSERT Datavalidation.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
+SELECT ''School'',''The field '+@columnname+' is required field.'', COUNT(*)
+FROM Datavalidation.School_LOCAL  WHERE 1 = 1 '
+
+SET @query  = ' AND ('+@columnname+' IS NULL)'
+SET @sumsql = @sumsql + @query
+--PRINT @sumsql
+EXEC sp_executesql @stmt=@sumsql
+
 END
 ----------------------------------------------------------------
 --Check the datalength of Every Fields in the file
@@ -237,6 +249,15 @@ SET @vsql = @vsql + @query
 EXEC sp_executesql @stmt=@vsql
 --PRINT @vsql
 
+
+SET @sumsql = 'INSERT Datavalidation.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
+SELECT ''School'',''The issue is in the datalength of the field '+@columnname+'.'', COUNT(*)
+FROM Datavalidation.School_LOCAL  WHERE 1 = 1 '
+
+SET @query  = ' AND ((DATALENGTH ('+@columnname+')/2) > '+@datalength+' AND '+@columnname+' IS NOT NULL)'
+SET @sumsql = @sumsql + @query
+--PRINT @sumsql
+EXEC sp_executesql @stmt=@sumsql
 END
 -------------------------------------------------------------------
 --Check the Referntial Integrity Issues
@@ -245,13 +266,22 @@ IF (@isFkRelation = 1)
 BEGIN
 
 SET @vsql = 'INSERT Datavalidation.ValidationReport (TableName,ErrorMessage,LineNumber,Line)
-SELECT ''School'',''Some of the '+@parentcolumn+' does not exist in '+@parenttable+' File or were not validated successfully, but it existed in School.'',tsch.Line_No,(ISNULL(CONVERT(VARCHAR(max),tsch.SchoolCode),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),tsch.SchoolName),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),tsch.DistrictCode),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),tsch.MinutesPerWeek),'''')) as line
-FROM Datavalidation.School_LOCAL tsch'
+SELECT ''School'',''The '+@columnname+' "''+CONVERT(VARCHAR(MAX),tsch.'+@columnname+')+''" does not exist in '+@parenttable+'  or were not validated successfully, but it existed in '+@tablename+'.'',tsch.Line_No,(ISNULL(CONVERT(VARCHAR(max),tsch.SchoolCode),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),tsch.SchoolName),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),tsch.DistrictCode),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),tsch.MinutesPerWeek),'''')) as line FROM Datavalidation.School_LOCAL tsch'
 
 SET @query  = ' LEFT JOIN Datavalidation.'+@parenttable+' dt ON tsch.'+@columnname+' = dt.'+@parentcolumn+' WHERE dt.'+@parentcolumn+' IS NULL'
 SET @vsql = @vsql + @query
 EXEC sp_executesql @stmt=@vsql
 --PRINT @vsql
+
+
+SET @sumsql = 'INSERT Datavalidation.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
+SELECT ''School'',''Some of the '+@parentcolumn+' does not exist in '+@parenttable+' File or were not validated successfully, but it existed in School.'', COUNT(*)
+FROM Datavalidation.School_LOCAL tsch '
+
+SET @query  = ' LEFT JOIN Datavalidation.'+@parenttable+' dt ON tsch.'+@columnname+' = dt.'+@parentcolumn+' WHERE dt.'+@parentcolumn+' IS NULL'
+SET @sumsql = @sumsql + @query
+--PRINT @sumsql
+EXEC sp_executesql @stmt=@sumsql
 END
 
 
@@ -265,6 +295,15 @@ SET @query  = ' AND (Datavalidation.udf_IsInteger('+@columnname+') = 0 AND '+@co
 SET @vsql = @vsql + @query
 EXEC sp_executesql @stmt=@vsql
 --PRINT @vsql
+
+SET @sumsql = 'INSERT Datavalidation.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
+SELECT ''School'',''The field '+@columnname+' should have integer records.'', COUNT(*)
+FROM Datavalidation.School_LOCAL WHERE 1 = 1 '
+
+SET @query  = ' AND (Datavalidation.udf_IsInteger('+@columnname+') = 0 AND '+@columnname+' IS NOT NULL)'
+SET @sumsql = @sumsql + @query
+--PRINT @sumsql
+EXEC sp_executesql @stmt=@sumsql
 
 END
 
@@ -288,7 +327,13 @@ DEALLOCATE chkSpecifications
 ----------------------------------------------------------------------------------------------
 --Is it important to check the combination of SchoolCode, DistrictCode?
 INSERT Datavalidation.ValidationReport (TableName,ErrorMessage,LineNumber,Line)
-SELECT Distinct 'School','The combination SchoolCode ,DistrictCode is duplicated.',tsch.Line_No,ISNULL(tsch.SCHOOLCODE,'')+'|'+ISNULL(tsch.SCHOOLNAME,'')+'|'+ISNULL(tsch.DISTRICTCODE,'')+'|'+ISNULL(convert(varchar(10),tsch.MINUTESPERWEEK),'')
+SELECT Distinct 'School','The combination SchoolCode ,DistrictCode "'+CONVERT(VARCHAR(MAX),tsch.DistrictCode)+','+CONVERT(VARCHAR(MAX),tsch.DistrictCode)+'" is duplicated.',tsch.Line_No,ISNULL(tsch.SCHOOLCODE,'')+'|'+ISNULL(tsch.SCHOOLNAME,'')+'|'+ISNULL(tsch.DISTRICTCODE,'')+'|'+ISNULL(convert(varchar(10),tsch.MINUTESPERWEEK),'')
+FROM Datavalidation.School_LOCAL tsch
+JOIN (SELECT SchoolCode,DISTRICTCODE FROM Datavalidation.School_LOCAL GROUP BY SchoolCode,DISTRICTCODE HAVING COUNT(*)>1) ucsch
+		 ON tsch.SCHOOLCODE = ucsch.SCHOOLCODE AND tsch.DistrictCode = ucsch.DistrictCode
+		 
+INSERT Datavalidation.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
+SELECT 'School','The combination SchoolCode ,DistrictCode is duplicated.',COUNT(*)
 FROM Datavalidation.School_LOCAL tsch
 JOIN (SELECT SchoolCode,DISTRICTCODE FROM Datavalidation.School_LOCAL GROUP BY SchoolCode,DISTRICTCODE HAVING COUNT(*)>1) ucsch
 		 ON tsch.SCHOOLCODE = ucsch.SCHOOLCODE AND tsch.DistrictCode = ucsch.DistrictCode

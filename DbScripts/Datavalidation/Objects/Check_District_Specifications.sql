@@ -140,6 +140,7 @@ OPEN chkSpecifications
 
 FETCH NEXT FROM chkSpecifications INTO @tableschema,@tablename,@columnname,@datatype,@datalength,@isrequired,@isuniquefield,@isFkRelation,@parenttable,@parentcolumn,@islookupcolumn,@lookuptable,@lookupcolumn,@lookuptype,@isFlagfield,@flagrecords
 DECLARE @vsql nVARCHAR(MAX)
+DECLARE @sumsql nVARCHAR(MAX)
 DECLARE @query nVARCHAR(MAX)
 WHILE @@FETCH_STATUS = 0
 BEGIN
@@ -155,6 +156,15 @@ SET @query  = ' AND ('+@columnname+' IS NULL)'
 SET @vsql = @vsql + @query
 --PRINT @vsql
 EXEC sp_executesql @stmt=@vsql
+
+SET @sumsql = 'INSERT Datavalidation.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
+SELECT ''District'',''The field '+@columnname+' is required field, it cannot be empty.'', COUNT(*)
+FROM Datavalidation.District_Local WHERE 1 = 1 '
+
+SET @query  = ' AND ('+@columnname+' IS NULL)'
+SET @sumsql = @sumsql + @query
+--PRINT @sumsql
+EXEC sp_executesql @stmt=@sumsql
 END
 --Check the datalength of Every Fields in the file
 IF (1=1)
@@ -169,6 +179,14 @@ SET @vsql = @vsql + @query
 EXEC sp_executesql @stmt=@vsql
 --PRINT @vsql
 
+SET @sumsql = 'INSERT Datavalidation.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
+SELECT ''District'',''The issue is in the datalength of the field '+@columnname+'.'', COUNT(*)
+FROM Datavalidation.District_Local WHERE 1 = 1 '
+
+SET @query  = ' AND ((DATALENGTH ('+@columnname+')/2) > '+@datalength+' AND '+@columnname+' IS NOT NULL)'
+SET @sumsql = @sumsql + @query
+--PRINT @sumsql
+EXEC sp_executesql @stmt=@sumsql
 END
 
 IF (@isuniquefield = 1 )
@@ -176,7 +194,7 @@ IF (@isuniquefield = 1 )
 BEGIN
 
 SET @vsql = 'INSERT Datavalidation.ValidationReport (TableName,ErrorMessage,LineNumber,Line)
-SELECT ''District'',''The field '+@columnname+' is unique field'',dt.Line_No,(ISNULL(CONVERT(VARCHAR(max),dt.DISTRICTCODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),dt.DISTRICTNAME),'''')) as line
+SELECT ''District'',''The field '+@columnname+' is unique field, Here the record "''+dt.'+@columnname+'+''"is repeated.'',dt.Line_No,(ISNULL(CONVERT(VARCHAR(max),dt.DISTRICTCODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),dt.DISTRICTNAME),'''')) as line
 FROM Datavalidation.District_Local dt JOIN '
 
 SET @query  = ' (SELECT '+@columnname+' FROM Datavalidation.District_Local GROUP BY '+@columnname+' HAVING COUNT(*)>1) uctd ON uctd.'+@columnname+' =dt.'+@columnname+''
@@ -184,6 +202,14 @@ SET @vsql = @vsql + @query
 EXEC sp_executesql @stmt=@vsql
 --PRINT @vsql
 
+SET @sumsql = 'INSERT Datavalidation.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
+SELECT ''District'',''The field '+@columnname+' is unique field, It cannot be repeated.'', COUNT(*)
+FROM Datavalidation.District_Local dt JOIN '
+
+SET @query  = ' (SELECT '+@columnname+' FROM Datavalidation.District_Local GROUP BY '+@columnname+' HAVING COUNT(*)>1) uctd ON uctd.'+@columnname+' =dt.'+@columnname+''
+SET @sumsql = @sumsql + @query
+--PRINT @sumsql
+EXEC sp_executesql @stmt=@sumsql
 END
 
 

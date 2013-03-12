@@ -13,7 +13,7 @@ DECLARE @sql nvarchar(max)
 --DECLARE @reportpath varchar(500)
 --SET @dbname= 'Enrich_DCB8_SC_Chesterfield'
 --SET @reportpath ='C:\ValidationSummaryReport'
-SET @sql = 'EXEC Xp_cmdShell ''bcp "select tablename+''''-''''+errormessage +''''=''''+ convert(varchar(10),total) from '+@dbname+'.Datavalidation.vw_ValidationSummaryreport order by sequence,tablename,errormessage " queryout "'+@reportpath+'\ValidationSummaryReport.txt"  -T -c -t,''' 
+SET @sql = 'EXEC Xp_cmdShell ''bcp "select tablename+''''-''''+errormessage +''''=''''+ convert(varchar(10),NumberOfRecords) from '+@dbname+'.Datavalidation.vw_ValidationSummaryreport order by sequence,tablename,errormessage " queryout "'+@reportpath+'\ValidationSummaryReport.txt"  -T -c -t,''' 
 --print @sql
 EXEC sp_executesql @stmt=@sql
 SET @sql = 'EXEC Xp_cmdShell ''bcp "select tablename+'''' - ''''+errormessage +'''' - ''''+ convert(varchar(10),LineNumber)+''''- "''''+Line+''''" '''' from '+@dbname+'.Datavalidation.Validationreport WHERE TableName= ''''SelectLists'''' order by CONVERT(int,LineNumber)" queryout "'+@reportpath+'\ValidationReport_SelectLists.txt"  -T -c -t,''' 

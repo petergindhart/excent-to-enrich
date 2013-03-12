@@ -310,6 +310,7 @@ OPEN chkSpecifications
 
 FETCH NEXT FROM chkSpecifications INTO @tableschema,@tablename,@columnname,@datatype,@datalength,@isrequired,@isuniquefield,@isFkRelation,@parenttable,@parentcolumn,@islookupcolumn,@lookuptable,@lookupcolumn,@lookuptype,@isFlagfield,@flagrecords
 DECLARE @vsql nVARCHAR(MAX)
+DECLARE @sumsql NVARCHAR(MAX)
 DECLARE @query nVARCHAR(MAX)
 DECLARE @uncol nVARCHAR(MAX)
 DECLARE @uniqoncol nVARCHAR(MAX)
@@ -330,6 +331,15 @@ SET @query  = ' AND ('+@columnname+' IS NULL)'
 SET @vsql = @vsql + @query
 --PRINT @vsql
 EXEC sp_executesql @stmt=@vsql
+
+SET @sumsql = 'INSERT Datavalidation.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
+SELECT ''Service'',''The field '+@columnname+' is required field.'', COUNT(*)
+FROM Datavalidation.Service_LOCAL WHERE 1 = 1 '
+
+SET @query  = ' AND ('+@columnname+' IS NULL)'
+SET @sumsql = @sumsql + @query
+--PRINT @sumsql
+EXEC sp_executesql @stmt=@sumsql
 END
 ----------------------------------------------------------------
 --Check the datalength of Every Fields in the file
@@ -346,6 +356,14 @@ SET @vsql = @vsql + @query
 EXEC sp_executesql @stmt=@vsql
 --PRINT @vsql
 
+SET @sumsql = 'INSERT Datavalidation.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
+SELECT ''Service'',''The issue is in the datalength of the field '+@columnname+'.'', COUNT(*)
+FROM Datavalidation.Service_LOCAL WHERE 1 = 1 '
+
+SET @query  = ' AND ((DATALENGTH ('+@columnname+')/2) > '+@datalength+' AND '+@columnname+' IS NOT NULL)'
+SET @sumsql = @sumsql + @query
+--PRINT @sumsql
+EXEC sp_executesql @stmt=@sumsql
 END
 -------------------------------------------------------------------
 --Check the Referntial Integrity Issues
@@ -354,13 +372,22 @@ IF (@isFkRelation = 1)
 BEGIN
 
 SET @vsql = 'INSERT Datavalidation.ValidationReport (TableName,ErrorMessage,LineNumber,Line)
-SELECT ''Service'',''Some of the '+@parentcolumn+' does not exist in '+@parenttable+' File or were not validated successfully, but it existed in Service.'',ser.Line_No,ISNULL(CONVERT(VARCHAR(max),ser.ServiceType),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ser.ServiceRefId),'''')+ISNULL(CONVERT(VARCHAR(max),ser.IepRefId),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ser.ServiceDefinitionCode),'''')+ISNULL(CONVERT(VARCHAR(max),ser.BeginDate),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ser.EndDate),'''')+ISNULL(CONVERT(VARCHAR(max),ser.IsRelated),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ser.IsDirect),'''')+ISNULL(CONVERT(VARCHAR(max),ser.ExcludesFromGenEd),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ser.ServiceLocationCode),'''')+ISNULL(CONVERT(VARCHAR(max),ser.ServiceProviderTitleCode),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ser.Sequence),'''')+ISNULL(CONVERT(VARCHAR(max),ser.IsESY),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ser.ServiceTime),'''')+ISNULL(CONVERT(VARCHAR(max),ser.ServiceFrequencyCode),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ser.ServiceProviderSSN),'''')+ISNULL(CONVERT(VARCHAR(max),ser.StaffEmail),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ser.ServiceAreaText),'''')
+SELECT ''Service'',''The '+@columnname+' "''+CONVERT(VARCHAR(MAX),ser.'+@columnname+')+''" does not exist in '+@parenttable+'  or were not validated successfully, but it existed in '+@tablename+'.'',ser.Line_No,ISNULL(CONVERT(VARCHAR(max),ser.ServiceType),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ser.ServiceRefId),'''')+ISNULL(CONVERT(VARCHAR(max),ser.IepRefId),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ser.ServiceDefinitionCode),'''')+ISNULL(CONVERT(VARCHAR(max),ser.BeginDate),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ser.EndDate),'''')+ISNULL(CONVERT(VARCHAR(max),ser.IsRelated),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ser.IsDirect),'''')+ISNULL(CONVERT(VARCHAR(max),ser.ExcludesFromGenEd),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ser.ServiceLocationCode),'''')+ISNULL(CONVERT(VARCHAR(max),ser.ServiceProviderTitleCode),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ser.Sequence),'''')+ISNULL(CONVERT(VARCHAR(max),ser.IsESY),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ser.ServiceTime),'''')+ISNULL(CONVERT(VARCHAR(max),ser.ServiceFrequencyCode),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ser.ServiceProviderSSN),'''')+ISNULL(CONVERT(VARCHAR(max),ser.StaffEmail),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ser.ServiceAreaText),'''')
 FROM Datavalidation.Service_LOCAL ser '
 
 SET @query  = ' LEFT JOIN Datavalidation.'+@parenttable+' dt ON ser.'+@columnname+' = dt.'+@parentcolumn+' WHERE dt.'+@parentcolumn+' IS NULL'
 SET @vsql = @vsql + @query
 EXEC sp_executesql @stmt=@vsql
 --PRINT @vsql
+
+SET @sumsql = 'INSERT Datavalidation.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
+SELECT ''Service'',''Some of the '+@parentcolumn+' does not exist in '+@parenttable+' File or were not validated successfully, but it existed in Service.'', COUNT(*)
+FROM Datavalidation.Service_LOCAL ser '
+
+SET @query  = ' LEFT JOIN Datavalidation.'+@parenttable+' dt ON ser.'+@columnname+' = dt.'+@parentcolumn+' WHERE dt.'+@parentcolumn+' IS NULL'
+SET @sumsql = @sumsql + @query
+--PRINT @sumsql
+EXEC sp_executesql @stmt=@sumsql
 END
 
 
@@ -375,6 +402,15 @@ SET @query  = '  WHERE (ser.'+@columnname+' NOT IN  ('+@flagrecords+') AND ser.'
 SET @vsql = @vsql + @query
 EXEC sp_executesql @stmt=@vsql
 --PRINT @vsql
+
+SET @sumsql = 'INSERT Datavalidation.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
+SELECT ''Service'',''Some of the '+@parentcolumn+' does not exist in '+@parenttable+' File or were not validated successfully, but it existed in Service.'', COUNT(*)
+FROM Datavalidation.Service_LOCAL ser '
+
+SET @query  = ' LEFT JOIN Datavalidation.'+@parenttable+' dt ON ser.'+@columnname+' = dt.'+@parentcolumn+' WHERE dt.'+@parentcolumn+' IS NULL'
+SET @sumsql = @sumsql + @query
+--PRINT @sumsql
+EXEC sp_executesql @stmt=@sumsql
 END
 
 
@@ -382,12 +418,21 @@ IF (@isuniquefield = 1)
 BEGIN
 
 SET @vsql = 'INSERT Datavalidation.ValidationReport (TableName,ErrorMessage,LineNumber,Line)
-SELECT ''Service'',''The field '+@columnname+' is unique field, Here '+@columnname+' record is repeated.'',ser.Line_No,ISNULL(CONVERT(VARCHAR(max),ser.ServiceType),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ser.ServiceRefId),'''')+ISNULL(CONVERT(VARCHAR(max),ser.IepRefId),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ser.ServiceDefinitionCode),'''')+ISNULL(CONVERT(VARCHAR(max),ser.BeginDate),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ser.EndDate),'''')+ISNULL(CONVERT(VARCHAR(max),ser.IsRelated),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ser.IsDirect),'''')+ISNULL(CONVERT(VARCHAR(max),ser.ExcludesFromGenEd),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ser.ServiceLocationCode),'''')+ISNULL(CONVERT(VARCHAR(max),ser.ServiceProviderTitleCode),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ser.Sequence),'''')+ISNULL(CONVERT(VARCHAR(max),ser.IsESY),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ser.ServiceTime),'''')+ISNULL(CONVERT(VARCHAR(max),ser.ServiceFrequencyCode),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ser.ServiceProviderSSN),'''')+ISNULL(CONVERT(VARCHAR(max),ser.StaffEmail),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ser.ServiceAreaText),'''') FROM Datavalidation.Service_LOCAL ser JOIN '
+SELECT ''Service'',''The field '+@columnname+' is unique field, Here "''+CONVERT(VARCHAR(MAX),ser.'+@columnname+')+''" record is repeated.'',ser.Line_No,ISNULL(CONVERT(VARCHAR(max),ser.ServiceType),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ser.ServiceRefId),'''')+ISNULL(CONVERT(VARCHAR(max),ser.IepRefId),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ser.ServiceDefinitionCode),'''')+ISNULL(CONVERT(VARCHAR(max),ser.BeginDate),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ser.EndDate),'''')+ISNULL(CONVERT(VARCHAR(max),ser.IsRelated),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ser.IsDirect),'''')+ISNULL(CONVERT(VARCHAR(max),ser.ExcludesFromGenEd),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ser.ServiceLocationCode),'''')+ISNULL(CONVERT(VARCHAR(max),ser.ServiceProviderTitleCode),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ser.Sequence),'''')+ISNULL(CONVERT(VARCHAR(max),ser.IsESY),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ser.ServiceTime),'''')+ISNULL(CONVERT(VARCHAR(max),ser.ServiceFrequencyCode),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ser.ServiceProviderSSN),'''')+ISNULL(CONVERT(VARCHAR(max),ser.StaffEmail),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ser.ServiceAreaText),'''') FROM Datavalidation.Service_LOCAL ser JOIN '
 
 SET @query  = ' (SELECT '+@columnname+' FROM Datavalidation.Service_LOCAL GROUP BY '+@columnname+' HAVING COUNT(*)>1) ucser ON ucser.'+@columnname+' = ser.'+@columnname+' '
 SET @vsql = @vsql + @query
 EXEC sp_executesql @stmt=@vsql
 --PRINT @vsql
+
+SET @sumsql = 'INSERT Datavalidation.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
+SELECT ''Service'',''The field '+@columnname+' is unique field, Here '+@columnname+' record is repeated.'', COUNT(*)
+FROM Datavalidation.Service_LOCAL ser JOIN '
+
+SET @query  = ' (SELECT '+@columnname+' FROM Datavalidation.Service_LOCAL GROUP BY '+@columnname+' HAVING COUNT(*)>1) ucser ON ucser.'+@columnname+' = ser.'+@columnname+' '
+SET @sumsql = @sumsql + @query
+--PRINT @sumsql
+EXEC sp_executesql @stmt=@sumsql
 END
 
 IF (@islookupcolumn = 1 AND @lookuptable = 'SelectLists')
@@ -400,6 +445,15 @@ SET @query  = ' WHERE (ser.'+@columnname+' NOT IN ( SELECT '+@lookupcolumn+' FRO
 SET @vsql = @vsql + @query
 EXEC sp_executesql @stmt=@vsql
 --PRINT @vsql
+
+SET @sumsql = 'INSERT Datavalidation.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
+SELECT ''Service'',''The '+@columnname+' does not exist in '+@lookuptable+', but it existed in '+@tablename+''', COUNT(*)
+FROM Datavalidation.Service_LOCAL ser '
+
+SET @query  = ' WHERE (ser.'+@columnname+' NOT IN ( SELECT '+@lookupcolumn+' FROM Datavalidation.'+@lookuptable+' WHERE Type = '''+@lookuptype+''') AND ser.'+@columnname+' IS NOT NULL)'
+SET @sumsql = @sumsql + @query
+--PRINT @sumsql
+EXEC sp_executesql @stmt=@sumsql
 END
 
 IF (@islookupcolumn =1 AND @lookuptable != 'SelectLists')
@@ -412,6 +466,15 @@ SET @query  = ' WHERE (ser.'+@columnname+' NOT IN ( SELECT '+@lookupcolumn+' FRO
 SET @vsql = @vsql + @query
 EXEC sp_executesql @stmt=@vsql
 --PRINT @vsql
+
+SET @sumsql = 'INSERT Datavalidation.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
+SELECT ''Service'',''The '+@columnname+' does not exist in '+@lookuptable+', but it existed in '+@tablename+''', COUNT(*)
+FROM Datavalidation.Service_LOCAL ser '
+
+SET @query  = ' WHERE (ser.'+@columnname+' NOT IN ( SELECT '+@lookupcolumn+' FROM Datavalidation.'+@lookuptable+') AND ser.'+@columnname+' IS NOT NULL)'
+SET @sumsql = @sumsql + @query
+--PRINT @sumsql
+EXEC sp_executesql @stmt=@sumsql
 END
 
 
@@ -426,6 +489,14 @@ SET @vsql = @vsql + @query
 EXEC sp_executesql @stmt=@vsql
 --PRINT @vsql
 
+SET @sumsql = 'INSERT Datavalidation.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
+SELECT ''Service'',''The date format issue is in '+@columnname+'.'', COUNT(*)
+FROM Datavalidation.Service_LOCAL ser WHERE 1 = 1 '
+
+SET @query  = ' AND (ISDATE(ser.'+@columnname+') = 0 AND ser.'+@columnname+' IS NOT NULL)'
+SET @sumsql = @sumsql + @query
+--PRINT @sumsql
+EXEC sp_executesql @stmt=@sumsql
 END
 
 IF (@datatype = 'int')
@@ -439,6 +510,15 @@ SET @vsql = @vsql + @query
 EXEC sp_executesql @stmt=@vsql
 --PRINT @vsql
 
+
+SET @sumsql = 'INSERT Datavalidation.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
+SELECT ''Service'',''The field '+@columnname+' should have integer records.'', COUNT(*)
+FROM Datavalidation.Service_LOCAL WHERE 1 = 1 '
+
+SET @query  = ' AND (Datavalidation.udf_IsInteger('+@columnname+') = 0 AND '+@columnname+' IS NOT NULL)'
+SET @sumsql = @sumsql + @query
+--PRINT @sumsql
+EXEC sp_executesql @stmt=@sumsql
 END
 
 FETCH NEXT FROM chkSpecifications INTO  @tableschema,@tablename,@columnname,@datatype,@datalength,@isrequired,@isuniquefield,@isFkRelation,@parenttable,@parentcolumn,@islookupcolumn,@lookuptable,@lookupcolumn,@lookuptype,@isFlagfield,@flagrecords
@@ -454,11 +534,21 @@ INSERT Datavalidation.ValidationReport(TableName,ErrorMessage,LineNumber,Line)
 SELECT 'Service','The Service StartDate does not exist in IEP date range.',Line_No,ISNULL(CONVERT(VARCHAR(50),ServiceType),'')+'|'+ISNULL(CONVERT(VARCHAR(150),ServiceRefId),'')+ISNULL(CONVERT(VARCHAR(150),IepRefId),'')+'|'+ISNULL(CONVERT(VARCHAR(150),ServiceDefinitionCode),'')+ISNULL(CONVERT(VARCHAR(150),BeginDate),'')+'|'+ISNULL(CONVERT(VARCHAR(150),EndDate),'')+ISNULL(CONVERT(VARCHAR(10),IsRelated),'')+'|'+ISNULL(CONVERT(VARCHAR(10),IsDirect),'')+ISNULL(CONVERT(VARCHAR(10),ExcludesFromGenEd),'')+'|'+ISNULL(CONVERT(VARCHAR(150),ServiceLocationCode),'')+ISNULL(CONVERT(VARCHAR(150),ServiceProviderTitleCode),'')+'|'+ISNULL(CONVERT(VARCHAR(10),Sequence),'')+ISNULL(CONVERT(VARCHAR(10),IsESY),'')+'|'+ISNULL(CONVERT(VARCHAR(50),ServiceTime),'')+ISNULL(CONVERT(VARCHAR(150),ServiceFrequencyCode),'')+'|'+ISNULL(CONVERT(VARCHAR(50),ServiceProviderSSN),'')+ISNULL(CONVERT(VARCHAR(150),StaffEmail),'')+'|'+ISNULL(CONVERT(VARCHAR(max),ServiceAreaText),'')  FROM Datavalidation.Service_LOCAL 
 WHERE ServiceRefId IN (Select ServiceRefId FROM Datavalidation.Service_LOCAL ser JOIN Datavalidation.IEP i ON ser.IepRefId = i.IepRefID WHERE ser.BeginDate < i.IEPStartDate)
 
+INSERT Datavalidation.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
+SELECT 'Service','The Service StartDate does not exist in IEP date range.',COUNT(*)
+FROM Datavalidation.Service_LOCAL
+WHERE ServiceRefId IN (Select ServiceRefId FROM Datavalidation.Service_LOCAL ser JOIN Datavalidation.IEP i ON ser.IepRefId = i.IepRefID WHERE ser.BeginDate < i.IEPStartDate)
+
 --Service EndDate is after IEPEndDate
 INSERT Datavalidation.ValidationReport(TableName,ErrorMessage,LineNumber,Line)
 SELECT 'Service','The Service EndDate does not exist in IEP date range.',Line_No,ISNULL(CONVERT(VARCHAR(50),ServiceType),'')+'|'+ISNULL(CONVERT(VARCHAR(150),ServiceRefId),'')+ISNULL(CONVERT(VARCHAR(150),IepRefId),'')+'|'+ISNULL(CONVERT(VARCHAR(150),ServiceDefinitionCode),'')+ISNULL(CONVERT(VARCHAR(150),BeginDate),'')+'|'+ISNULL(CONVERT(VARCHAR(150),EndDate),'')+ISNULL(CONVERT(VARCHAR(10),IsRelated),'')+'|'+ISNULL(CONVERT(VARCHAR(10),IsDirect),'')+ISNULL(CONVERT(VARCHAR(10),ExcludesFromGenEd),'')+'|'+ISNULL(CONVERT(VARCHAR(150),ServiceLocationCode),'')+ISNULL(CONVERT(VARCHAR(150),ServiceProviderTitleCode),'')+'|'+ISNULL(CONVERT(VARCHAR(10),Sequence),'')+ISNULL(CONVERT(VARCHAR(10),IsESY),'')+'|'+ISNULL(CONVERT(VARCHAR(50),ServiceTime),'')+ISNULL(CONVERT(VARCHAR(150),ServiceFrequencyCode),'')+'|'+ISNULL(CONVERT(VARCHAR(50),ServiceProviderSSN),'')+ISNULL(CONVERT(VARCHAR(150),StaffEmail),'')+'|'+ISNULL(CONVERT(VARCHAR(max),ServiceAreaText),'')  FROM Datavalidation.Service_LOCAL 
 WHERE ServiceRefId IN (Select ServiceRefId FROM Datavalidation.Service_LOCAL ser JOIN Datavalidation.IEP i ON ser.IepRefId = i.IepRefID WHERE i.IEPEndDate < ser.EndDate)
 
+
+INSERT Datavalidation.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
+SELECT 'Service','The Service EndDate does not exist in IEP date range.',COUNT(*)
+FROM Datavalidation.Service_LOCAL 
+WHERE ServiceRefId IN (Select ServiceRefId FROM Datavalidation.Service_LOCAL ser JOIN Datavalidation.IEP i ON ser.IepRefId = i.IepRefID WHERE i.IEPEndDate < ser.EndDate)
 
 /*
 ----------------------------------------------------------------------------

@@ -338,6 +338,7 @@ OPEN chkSpecifications
 
 FETCH NEXT FROM chkSpecifications INTO @tableschema,@tablename,@columnname,@datatype,@datalength,@isrequired,@isuniquefield,@isFkRelation,@parenttable,@parentcolumn,@islookupcolumn,@lookuptable,@lookupcolumn,@lookuptype,@isFlagfield,@flagrecords
 DECLARE @vsql nVARCHAR(MAX)
+DECLARE @sumsql NVARCHAR(MAX)
 DECLARE @query nVARCHAR(MAX)
 DECLARE @uncol nVARCHAR(MAX)
 DECLARE @uniqoncol nVARCHAR(MAX)
@@ -359,6 +360,15 @@ SET @query  = ' AND ('+@columnname+' IS NULL)'
 SET @vsql = @vsql + @query
 --PRINT @vsql
 EXEC sp_executesql @stmt=@vsql
+
+SET @sumsql = 'INSERT Datavalidation.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
+SELECT ''Student'',''The field '+@columnname+' is required field.'', COUNT(*)
+FROM Datavalidation.Student_LOCAL WHERE 1 = 1'
+
+SET @query  = ' AND ('+@columnname+' IS NULL)'
+SET @sumsql = @sumsql + @query
+--PRINT @sumsql
+EXEC sp_executesql @stmt=@sumsql
 END
 ----------------------------------------------------------------
 --Check the datalength of Every Fields in the file
@@ -375,6 +385,14 @@ SET @vsql = @vsql + @query
 EXEC sp_executesql @stmt=@vsql
 --PRINT @vsql
 
+SET @sumsql = 'INSERT Datavalidation.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
+SELECT ''Student'',''The issue is in the datalength of the field '+@columnname+'.'', COUNT(*)
+FROM Datavalidation.Student_LOCAL WHERE 1 = 1'
+
+SET @query  = ' AND ((DATALENGTH ('+@columnname+')/2) > '+@datalength+' AND '+@columnname+' IS NOT NULL)'
+SET @sumsql = @sumsql + @query
+--PRINT @sumsql
+EXEC sp_executesql @stmt=@sumsql
 END
 -------------------------------------------------------------------
 --Check the Referntial Integrity Issues
@@ -383,13 +401,22 @@ IF (@isFkRelation = 1)
 BEGIN
 
 SET @vsql = 'INSERT Datavalidation.ValidationReport (TableName,ErrorMessage,LineNumber,Line)
-SELECT ''Student'',''Some of the '+@parentcolumn+' does not exist in '+@parenttable+' File or were not validated successfully, but it existed in Student.'',st.Line_No,ISNULL(CONVERT(VARCHAR(max),st.StudentRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.StudentLocalID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.StudentStateID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.Firstname),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.MiddleName),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.LastName),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.Birthdate),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.Gender),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.MEDICAIDNUMBER),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.GRADELEVELCODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.SERVICEDISTRICTCODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.SERVICESCHOOLCODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.HOMEDISTRICTCODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.HOMESCHOOLCODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.ISHISPANIC),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.ISAMERICANINDIAN),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.ISASIAN),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.ISBLACKAFRICANAMERICAN),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.ISHAWAIIANPACISLANDER),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.ISWHITE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.DISABILITY1CODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.DISABILITY2CODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.DISABILITY3CODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.DISABILITY4CODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.DISABILITY5CODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.DISABILITY6CODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.DISABILITY7CODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.DISABILITY8CODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.DISABILITY9CODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.ESYELIG),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.ESYTBDDATE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.EXITDATE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.EXITCODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.SPECIALEDSTATUS),'''')
+SELECT ''Student'',''The '+@columnname+' "''+CONVERT(VARCHAR(MAX),st.'+@columnname+')+''" does not exist in '+@parenttable+'  or were not validated successfully, but it existed in '+@tablename+'.'',st.Line_No,ISNULL(CONVERT(VARCHAR(max),st.StudentRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.StudentLocalID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.StudentStateID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.Firstname),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.MiddleName),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.LastName),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.Birthdate),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.Gender),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.MEDICAIDNUMBER),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.GRADELEVELCODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.SERVICEDISTRICTCODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.SERVICESCHOOLCODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.HOMEDISTRICTCODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.HOMESCHOOLCODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.ISHISPANIC),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.ISAMERICANINDIAN),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.ISASIAN),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.ISBLACKAFRICANAMERICAN),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.ISHAWAIIANPACISLANDER),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.ISWHITE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.DISABILITY1CODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.DISABILITY2CODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.DISABILITY3CODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.DISABILITY4CODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.DISABILITY5CODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.DISABILITY6CODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.DISABILITY7CODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.DISABILITY8CODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.DISABILITY9CODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.ESYELIG),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.ESYTBDDATE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.EXITDATE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.EXITCODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.SPECIALEDSTATUS),'''')
 FROM Datavalidation.Student_LOCAL st '
 
 SET @query  = ' LEFT JOIN Datavalidation.'+@parenttable+' ft ON st.'+@columnname+' = ft.'+@parentcolumn+' WHERE ft.'+@parentcolumn+' IS NULL'
 SET @vsql = @vsql + @query
 EXEC sp_executesql @stmt=@vsql
 --PRINT @vsql
+
+SET @sumsql = 'INSERT Datavalidation.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
+SELECT ''Student'',''Some of the '+@parentcolumn+' does not exist in '+@parenttable+' File or were not validated successfully, but it existed in Student.'', COUNT(*)
+FROM Datavalidation.Student_LOCAL st '
+
+SET @query  = ' LEFT JOIN Datavalidation.'+@parenttable+' ft ON st.'+@columnname+' = ft.'+@parentcolumn+' WHERE ft.'+@parentcolumn+' IS NULL'
+SET @sumsql = @sumsql + @query
+--PRINT @sumsql
+EXEC sp_executesql @stmt=@sumsql
 END
 
 
@@ -397,13 +424,22 @@ IF (@isFlagfield = 1)
 BEGIN
 
 SET @vsql = 'INSERT Datavalidation.ValidationReport (TableName,ErrorMessage,LineNumber,Line)
-SELECT ''Student'',''The field '+@columnname+' should have one of the value in '''+LTRIM(REPLACE(@flagrecords,''',''','/'))+''''',Line_No,ISNULL(CONVERT(VARCHAR(max),StudentRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),StudentLocalID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),StudentStateID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),Firstname),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),MiddleName),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),LastName),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),Birthdate),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),Gender),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),MEDICAIDNUMBER),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),GRADELEVELCODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),SERVICEDISTRICTCODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),SERVICESCHOOLCODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),HOMEDISTRICTCODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),HOMESCHOOLCODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ISHISPANIC),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ISAMERICANINDIAN),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ISASIAN),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ISBLACKAFRICANAMERICAN),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ISHAWAIIANPACISLANDER),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ISWHITE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),DISABILITY1CODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),DISABILITY2CODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),DISABILITY3CODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),DISABILITY4CODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),DISABILITY5CODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),DISABILITY6CODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),DISABILITY7CODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),DISABILITY8CODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),DISABILITY9CODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ESYELIG),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ESYTBDDATE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),EXITDATE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),EXITCODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),SPECIALEDSTATUS),'''')
+SELECT ''Student'',''The field '+@columnname+' should have one of the value in '''+LTRIM(REPLACE(@flagrecords,''',''','/'))+''', It has value as "''+'+@columnname+'+''".'',Line_No,ISNULL(CONVERT(VARCHAR(max),StudentRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),StudentLocalID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),StudentStateID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),Firstname),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),MiddleName),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),LastName),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),Birthdate),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),Gender),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),MEDICAIDNUMBER),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),GRADELEVELCODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),SERVICEDISTRICTCODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),SERVICESCHOOLCODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),HOMEDISTRICTCODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),HOMESCHOOLCODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ISHISPANIC),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ISAMERICANINDIAN),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ISASIAN),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ISBLACKAFRICANAMERICAN),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ISHAWAIIANPACISLANDER),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ISWHITE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),DISABILITY1CODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),DISABILITY2CODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),DISABILITY3CODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),DISABILITY4CODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),DISABILITY5CODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),DISABILITY6CODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),DISABILITY7CODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),DISABILITY8CODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),DISABILITY9CODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ESYELIG),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ESYTBDDATE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),EXITDATE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),EXITCODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),SPECIALEDSTATUS),'''')
 FROM Datavalidation.Student_LOCAL'
 
 SET @query  = '  WHERE ('+@columnname+' NOT IN  ('+@flagrecords+') AND '+@columnname+' IS NOT NULL)'
 SET @vsql = @vsql + @query
 EXEC sp_executesql @stmt=@vsql
 --PRINT @vsql
+
+SET @sumsql = 'INSERT Datavalidation.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
+SELECT ''Student'',''The field '+@columnname+' should have one of the value in '''+LTRIM(REPLACE(@flagrecords,''',''','/'))+''''', COUNT(*)
+FROM Datavalidation.Student_LOCAL'
+
+SET @query  = '  WHERE ('+@columnname+' NOT IN  ('+@flagrecords+') AND '+@columnname+' IS NOT NULL)'
+SET @sumsql = @sumsql + @query
+--PRINT @sumsql
+EXEC sp_executesql @stmt=@sumsql
 END
 
 
@@ -411,13 +447,22 @@ IF (@isuniquefield = 1)
 BEGIN
 
 SET @vsql = 'INSERT Datavalidation.ValidationReport (TableName,ErrorMessage,LineNumber,Line)
-SELECT ''Student'',''The field '+@columnname+' is unique field, Here '+@columnname+' record is repeated.'',st.Line_No,ISNULL(CONVERT(VARCHAR(max),st.StudentRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.StudentLocalID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.StudentStateID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.Firstname),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.MiddleName),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.LastName),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.Birthdate),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.Gender),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.MEDICAIDNUMBER),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.GRADELEVELCODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.SERVICEDISTRICTCODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.SERVICESCHOOLCODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.HOMEDISTRICTCODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.HOMESCHOOLCODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.ISHISPANIC),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.ISAMERICANINDIAN),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.ISASIAN),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.ISBLACKAFRICANAMERICAN),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.ISHAWAIIANPACISLANDER),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.ISWHITE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.DISABILITY1CODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.DISABILITY2CODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.DISABILITY3CODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.DISABILITY4CODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.DISABILITY5CODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.DISABILITY6CODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.DISABILITY7CODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.DISABILITY8CODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.DISABILITY9CODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.ESYELIG),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.ESYTBDDATE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.EXITDATE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.EXITCODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.SPECIALEDSTATUS),'''')
+SELECT ''Student'',''The field '+@columnname+' is unique field, Here "''+CONVERT(VARCHAR(MAX),st.'+@columnname+')+''" record is repeated.'',st.Line_No,ISNULL(CONVERT(VARCHAR(max),st.StudentRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.StudentLocalID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.StudentStateID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.Firstname),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.MiddleName),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.LastName),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.Birthdate),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.Gender),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.MEDICAIDNUMBER),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.GRADELEVELCODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.SERVICEDISTRICTCODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.SERVICESCHOOLCODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.HOMEDISTRICTCODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.HOMESCHOOLCODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.ISHISPANIC),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.ISAMERICANINDIAN),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.ISASIAN),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.ISBLACKAFRICANAMERICAN),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.ISHAWAIIANPACISLANDER),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.ISWHITE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.DISABILITY1CODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.DISABILITY2CODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.DISABILITY3CODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.DISABILITY4CODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.DISABILITY5CODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.DISABILITY6CODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.DISABILITY7CODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.DISABILITY8CODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.DISABILITY9CODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.ESYELIG),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.ESYTBDDATE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.EXITDATE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.EXITCODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.SPECIALEDSTATUS),'''')
 FROM Datavalidation.Student_LOCAL st JOIN'
 
 SET @query  = ' (SELECT '+@columnname+' FROM Datavalidation.Student_LOCAL GROUP BY '+@columnname+' HAVING COUNT(*)>1) ucst ON ucst.'+@columnname+' =st.'+@columnname+' '
 SET @vsql = @vsql + @query
 EXEC sp_executesql @stmt=@vsql
 --PRINT @vsql
+
+SET @sumsql = 'INSERT Datavalidation.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
+SELECT ''Student'',''The field '+@columnname+' is unique field, Here '+@columnname+' record is repeated.'', COUNT(*)
+FROM Datavalidation.Student_LOCAL st JOIN'
+
+SET @query  = ' (SELECT '+@columnname+' FROM Datavalidation.Student_LOCAL GROUP BY '+@columnname+' HAVING COUNT(*)>1) ucst ON ucst.'+@columnname+' =st.'+@columnname+' '
+SET @sumsql = @sumsql + @query
+--PRINT @sumsql
+EXEC sp_executesql @stmt=@sumsql
 END
 
 IF (@islookupcolumn =1 AND @lookuptable = 'SelectLists')
@@ -431,6 +476,15 @@ SET @query  = 'WHERE (st.'+@columnname+' NOT IN ( SELECT '+@lookupcolumn+' FROM 
 SET @vsql = @vsql + @query
 EXEC sp_executesql @stmt=@vsql
 --PRINT @vsql
+
+SET @sumsql = 'INSERT Datavalidation.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
+SELECT ''Student'',''The '+@columnname+' does not exist in '+@lookuptable+', but it existed in '+@tablename+''', COUNT(*)
+FROM Datavalidation.Student_LOCAL st '
+
+SET @query  = 'WHERE (st.'+@columnname+' NOT IN ( SELECT '+@lookupcolumn+' FROM Datavalidation.'+@lookuptable+' WHERE Type = '''+@lookuptype+''') AND st.'+@columnname+' IS NOT NULL)'
+SET @sumsql = @sumsql + @query
+--PRINT @sumsql
+EXEC sp_executesql @stmt=@sumsql
 END
 
 IF (@islookupcolumn =1 AND @lookuptable != 'SelectLists')
@@ -444,6 +498,15 @@ SET @query  = ' WHERE (st.'+@columnname+' NOT IN ( SELECT '+@lookupcolumn+' FROM
 SET @vsql = @vsql + @query
 EXEC sp_executesql @stmt=@vsql
 --PRINT @vsql
+
+SET @sumsql = 'INSERT Datavalidation.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
+SELECT ''Student'',''The '+@columnname+' does not exist in '+@lookuptable+', but it existed in '+@tablename+''', COUNT(*)
+FROM Datavalidation.Student_LOCAL st '
+
+SET @query  = ' WHERE (st.'+@columnname+' NOT IN ( SELECT '+@lookupcolumn+' FROM Datavalidation.'+@lookuptable+') AND st.'+@columnname+' IS NOT NULL)'
+SET @sumsql = @sumsql + @query
+--PRINT @sumsql
+EXEC sp_executesql @stmt=@sumsql
 END
 
 
@@ -458,6 +521,15 @@ SET @vsql = @vsql + @query
 EXEC sp_executesql @stmt=@vsql
 --PRINT @vsql
 
+SET @sumsql = 'INSERT Datavalidation.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
+SELECT ''Student'',''The field '+@columnname+' should have integer records, but it doesnot have integer records.'', COUNT(*)
+Datavalidation.Student_LOCAL WHERE 1 = 1 '
+
+SET @query  = ' AND (Datavalidation.udf_IsInteger('+@columnname+') = 0 AND '+@columnname+' IS NOT NULL)'
+SET @sumsql = @sumsql + @query
+--PRINT @sumsql
+EXEC sp_executesql @stmt=@sumsql
+
 END
 
 
@@ -470,17 +542,28 @@ DEALLOCATE chkSpecifications
 ---To check the SchoolCode and DistrictCode combination 
 -----------------------------------------------------------------
 INSERT Datavalidation.ValidationReport (TableName,ErrorMessage,LineNumber,Line)
-SELECT 'Student','The ServiceSchoolCode and ServiceDistrictCode combination does not exist in School.',st.Line_No,ISNULL(convert(varchar(max),st.STUDENTREFID),'')+'|'+ISNULL(convert(varchar(max),st.StudentLocalID),'')+'|'+ISNULL(convert(varchar(max),st.StudentStateID),'')+'|'+ISNULL(convert(varchar(max),st.Firstname),'')+'|'+ISNULL(convert(varchar(max),st.MiddleName),'')+'|'+ISNULL(convert(varchar(max),st.LastName),'')+'|'+ISNULL(convert(varchar(max),st.Birthdate),'')+'|'+ISNULL(convert(varchar(max),st.Gender),'')+'|'+ISNULL(convert(varchar(max),st.MEDICAIDNUMBER),'')+'|'+ISNULL(convert(varchar(max),st.GRADELEVELCODE),'')+'|'+ISNULL(convert(varchar(max),st.SERVICEDISTRICTCODE),'')+'|'+ISNULL(convert(varchar(max),st.SERVICESCHOOLCODE),'')+'|'+ISNULL(convert(varchar(max),st.HOMEDISTRICTCODE),'')+'|'+ISNULL(convert(varchar(max),st.HOMESCHOOLCODE),'')+'|'+ISNULL(convert(varchar(max),st.ISHISPANIC),'')+'|'+ISNULL(convert(varchar(max),st.ISAMERICANINDIAN),'')+'|'+ISNULL(convert(varchar(max),st.ISASIAN),'')+'|'+ISNULL(convert(varchar(max),st.ISBLACKAFRICANAMERICAN),'')+'|'+ISNULL(convert(varchar(max),st.ISHAWAIIANPACISLANDER),'')+'|'+ISNULL(convert(varchar(max),st.ISWHITE),'')+'|'+ISNULL(convert(varchar(max),st.DISABILITY1CODE),'')+'|'+ISNULL(convert(varchar(max),st.DISABILITY2CODE),'')+'|'+ISNULL(convert(varchar(max),st.DISABILITY3CODE),'')+'|'+ISNULL(convert(varchar(max),st.DISABILITY4CODE),'')+'|'+ISNULL(convert(varchar(max),st.DISABILITY5CODE),'')+'|'+ISNULL(convert(varchar(max),st.DISABILITY6CODE),'')+'|'+ISNULL(convert(varchar(max),st.DISABILITY7CODE),'')+'|'+ISNULL(convert(varchar(max),st.DISABILITY8CODE),'')+'|'+ISNULL(convert(varchar(max),st.DISABILITY9CODE),'')+'|'+ISNULL(convert(varchar(max),st.ESYELIG),'')+'|'+ISNULL(convert(varchar(max),st.ESYTBDDATE),'')+'|'+ISNULL(convert(varchar(max),st.EXITDATE),'')+'|'+ISNULL(convert(varchar(max),st.EXITCODE),'')+'|'+ISNULL(convert(varchar(max),st.SPECIALEDSTATUS),'')
+SELECT 'Student','The ServiceSchoolCode and ServiceDistrictCode combination "'+st.ServiceDistrictCode+','+st.ServiceSchoolCode+'" does not exist in School.',st.Line_No,ISNULL(convert(varchar(max),st.STUDENTREFID),'')+'|'+ISNULL(convert(varchar(max),st.StudentLocalID),'')+'|'+ISNULL(convert(varchar(max),st.StudentStateID),'')+'|'+ISNULL(convert(varchar(max),st.Firstname),'')+'|'+ISNULL(convert(varchar(max),st.MiddleName),'')+'|'+ISNULL(convert(varchar(max),st.LastName),'')+'|'+ISNULL(convert(varchar(max),st.Birthdate),'')+'|'+ISNULL(convert(varchar(max),st.Gender),'')+'|'+ISNULL(convert(varchar(max),st.MEDICAIDNUMBER),'')+'|'+ISNULL(convert(varchar(max),st.GRADELEVELCODE),'')+'|'+ISNULL(convert(varchar(max),st.SERVICEDISTRICTCODE),'')+'|'+ISNULL(convert(varchar(max),st.SERVICESCHOOLCODE),'')+'|'+ISNULL(convert(varchar(max),st.HOMEDISTRICTCODE),'')+'|'+ISNULL(convert(varchar(max),st.HOMESCHOOLCODE),'')+'|'+ISNULL(convert(varchar(max),st.ISHISPANIC),'')+'|'+ISNULL(convert(varchar(max),st.ISAMERICANINDIAN),'')+'|'+ISNULL(convert(varchar(max),st.ISASIAN),'')+'|'+ISNULL(convert(varchar(max),st.ISBLACKAFRICANAMERICAN),'')+'|'+ISNULL(convert(varchar(max),st.ISHAWAIIANPACISLANDER),'')+'|'+ISNULL(convert(varchar(max),st.ISWHITE),'')+'|'+ISNULL(convert(varchar(max),st.DISABILITY1CODE),'')+'|'+ISNULL(convert(varchar(max),st.DISABILITY2CODE),'')+'|'+ISNULL(convert(varchar(max),st.DISABILITY3CODE),'')+'|'+ISNULL(convert(varchar(max),st.DISABILITY4CODE),'')+'|'+ISNULL(convert(varchar(max),st.DISABILITY5CODE),'')+'|'+ISNULL(convert(varchar(max),st.DISABILITY6CODE),'')+'|'+ISNULL(convert(varchar(max),st.DISABILITY7CODE),'')+'|'+ISNULL(convert(varchar(max),st.DISABILITY8CODE),'')+'|'+ISNULL(convert(varchar(max),st.DISABILITY9CODE),'')+'|'+ISNULL(convert(varchar(max),st.ESYELIG),'')+'|'+ISNULL(convert(varchar(max),st.ESYTBDDATE),'')+'|'+ISNULL(convert(varchar(max),st.EXITDATE),'')+'|'+ISNULL(convert(varchar(max),st.EXITCODE),'')+'|'+ISNULL(convert(varchar(max),st.SPECIALEDSTATUS),'')
 FROM Datavalidation.Student_LOCAL st
 LEFT JOIN (SELECT STUDENTREFID FROM Datavalidation.Student_LOCAL st JOIN Datavalidation.School sc ON st.ServiceDistrictCode = sc.DistrictCode AND st.ServiceSchoolCode = sc.SchoolCode) stusersch ON st.STUDENTREFID = stusersch.STUDENTREFID
 WHERE stusersch.STUDENTREFID IS NULL
-		                 
+
+INSERT Datavalidation.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
+SELECT 'Student','The ServiceSchoolCode and ServiceDistrictCode combination does not exist in School.',COUNT(*)	 
+FROM Datavalidation.Student_LOCAL st
+LEFT JOIN (SELECT STUDENTREFID FROM Datavalidation.Student_LOCAL st JOIN Datavalidation.School sc ON st.ServiceDistrictCode = sc.DistrictCode AND st.ServiceSchoolCode = sc.SchoolCode) stusersch ON st.STUDENTREFID = stusersch.STUDENTREFID
+WHERE stusersch.STUDENTREFID IS NULL
+           
 INSERT Datavalidation.ValidationReport (TableName,ErrorMessage,LineNumber,Line)
-SELECT 'Student','The HomeSchoolCode and HomeDistrictCode combination does not exist in School.',st.Line_No,ISNULL(convert(varchar(max),st.STUDENTREFID),'')+'|'+ISNULL(convert(varchar(max),st.StudentLocalID),'')+'|'+ISNULL(convert(varchar(max),st.StudentStateID),'')+'|'+ISNULL(convert(varchar(max),st.Firstname),'')+'|'+ISNULL(convert(varchar(max),st.MiddleName),'')+'|'+ISNULL(convert(varchar(max),st.LastName),'')+'|'+ISNULL(convert(varchar(max),st.Birthdate),'')+'|'+ISNULL(convert(varchar(max),st.Gender),'')+'|'+ISNULL(convert(varchar(max),st.MEDICAIDNUMBER),'')+'|'+ISNULL(convert(varchar(max),st.GRADELEVELCODE),'')+'|'+ISNULL(convert(varchar(max),st.SERVICEDISTRICTCODE),'')+'|'+ISNULL(convert(varchar(max),st.SERVICESCHOOLCODE),'')+'|'+ISNULL(convert(varchar(max),st.HOMEDISTRICTCODE),'')+'|'+ISNULL(convert(varchar(max),st.HOMESCHOOLCODE),'')+'|'+ISNULL(convert(varchar(max),st.ISHISPANIC),'')+'|'+ISNULL(convert(varchar(max),st.ISAMERICANINDIAN),'')+'|'+ISNULL(convert(varchar(max),st.ISASIAN),'')+'|'+ISNULL(convert(varchar(max),st.ISBLACKAFRICANAMERICAN),'')+'|'+ISNULL(convert(varchar(max),st.ISHAWAIIANPACISLANDER),'')+'|'+ISNULL(convert(varchar(max),st.ISWHITE),'')+'|'+ISNULL(convert(varchar(max),st.DISABILITY1CODE),'')+'|'+ISNULL(convert(varchar(max),st.DISABILITY2CODE),'')+'|'+ISNULL(convert(varchar(max),st.DISABILITY3CODE),'')+'|'+ISNULL(convert(varchar(max),st.DISABILITY4CODE),'')+'|'+ISNULL(convert(varchar(max),st.DISABILITY5CODE),'')+'|'+ISNULL(convert(varchar(max),st.DISABILITY6CODE),'')+'|'+ISNULL(convert(varchar(max),st.DISABILITY7CODE),'')+'|'+ISNULL(convert(varchar(max),st.DISABILITY8CODE),'')+'|'+ISNULL(convert(varchar(max),st.DISABILITY9CODE),'')+'|'+ISNULL(convert(varchar(max),st.ESYELIG),'')+'|'+ISNULL(convert(varchar(max),st.ESYTBDDATE),'')+'|'+ISNULL(convert(varchar(max),st.EXITDATE),'')+'|'+ISNULL(convert(varchar(max),st.EXITCODE),'')+'|'+ISNULL(convert(varchar(max),st.SPECIALEDSTATUS),'')
+SELECT 'Student','The HomeSchoolCode and HomeDistrictCode combination "'+st.HomeDistrictCode+','+st.HomeSchoolCode+'" does not exist in School.',st.Line_No,ISNULL(convert(varchar(max),st.STUDENTREFID),'')+'|'+ISNULL(convert(varchar(max),st.StudentLocalID),'')+'|'+ISNULL(convert(varchar(max),st.StudentStateID),'')+'|'+ISNULL(convert(varchar(max),st.Firstname),'')+'|'+ISNULL(convert(varchar(max),st.MiddleName),'')+'|'+ISNULL(convert(varchar(max),st.LastName),'')+'|'+ISNULL(convert(varchar(max),st.Birthdate),'')+'|'+ISNULL(convert(varchar(max),st.Gender),'')+'|'+ISNULL(convert(varchar(max),st.MEDICAIDNUMBER),'')+'|'+ISNULL(convert(varchar(max),st.GRADELEVELCODE),'')+'|'+ISNULL(convert(varchar(max),st.SERVICEDISTRICTCODE),'')+'|'+ISNULL(convert(varchar(max),st.SERVICESCHOOLCODE),'')+'|'+ISNULL(convert(varchar(max),st.HOMEDISTRICTCODE),'')+'|'+ISNULL(convert(varchar(max),st.HOMESCHOOLCODE),'')+'|'+ISNULL(convert(varchar(max),st.ISHISPANIC),'')+'|'+ISNULL(convert(varchar(max),st.ISAMERICANINDIAN),'')+'|'+ISNULL(convert(varchar(max),st.ISASIAN),'')+'|'+ISNULL(convert(varchar(max),st.ISBLACKAFRICANAMERICAN),'')+'|'+ISNULL(convert(varchar(max),st.ISHAWAIIANPACISLANDER),'')+'|'+ISNULL(convert(varchar(max),st.ISWHITE),'')+'|'+ISNULL(convert(varchar(max),st.DISABILITY1CODE),'')+'|'+ISNULL(convert(varchar(max),st.DISABILITY2CODE),'')+'|'+ISNULL(convert(varchar(max),st.DISABILITY3CODE),'')+'|'+ISNULL(convert(varchar(max),st.DISABILITY4CODE),'')+'|'+ISNULL(convert(varchar(max),st.DISABILITY5CODE),'')+'|'+ISNULL(convert(varchar(max),st.DISABILITY6CODE),'')+'|'+ISNULL(convert(varchar(max),st.DISABILITY7CODE),'')+'|'+ISNULL(convert(varchar(max),st.DISABILITY8CODE),'')+'|'+ISNULL(convert(varchar(max),st.DISABILITY9CODE),'')+'|'+ISNULL(convert(varchar(max),st.ESYELIG),'')+'|'+ISNULL(convert(varchar(max),st.ESYTBDDATE),'')+'|'+ISNULL(convert(varchar(max),st.EXITDATE),'')+'|'+ISNULL(convert(varchar(max),st.EXITCODE),'')+'|'+ISNULL(convert(varchar(max),st.SPECIALEDSTATUS),'')
 FROM Datavalidation.Student_LOCAL st
 LEFT JOIN (SELECT STUDENTREFID FROM Datavalidation.Student_LOCAL st JOIN Datavalidation.School sc ON st.HomeDistrictCode = sc.DistrictCode AND st.HomeSchoolCode = sc.SchoolCode) stuhomsch ON st.STUDENTREFID = stuhomsch.STUDENTREFID
 WHERE stuhomsch.STUDENTREFID IS NULL
 
+INSERT Datavalidation.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
+SELECT 'Student','The HomeSchoolCode and HomeDistrictCode combination does not exist in School.',COUNT(*)	 
+FROM Datavalidation.Student_LOCAL st
+LEFT JOIN (SELECT STUDENTREFID FROM Datavalidation.Student_LOCAL st JOIN Datavalidation.School sc ON st.HomeDistrictCode = sc.DistrictCode AND st.HomeSchoolCode = sc.SchoolCode) stuhomsch ON st.STUDENTREFID = stuhomsch.STUDENTREFID
+WHERE stuhomsch.STUDENTREFID IS NULL
 /*
 ---------------------------------------------------------
 ---To Check the Datalength 

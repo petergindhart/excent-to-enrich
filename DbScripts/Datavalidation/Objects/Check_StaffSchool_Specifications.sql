@@ -261,6 +261,7 @@ OPEN chkSpecifications
 
 FETCH NEXT FROM chkSpecifications INTO @tableschema,@tablename,@columnname,@datatype,@datalength,@isrequired,@isuniquefield,@isFkRelation,@parenttable,@parentcolumn,@islookupcolumn,@lookuptable,@lookupcolumn,@lookuptype,@isFlagfield,@flagrecords
 DECLARE @vsql nVARCHAR(MAX)
+DECLARE @sumsql NVARCHAR(MAX)
 DECLARE @query nVARCHAR(MAX)
 DECLARE @uncol nVARCHAR(MAX)
 DECLARE @uniqoncol nVARCHAR(MAX)
@@ -281,6 +282,16 @@ SET @query  = ' AND ('+@columnname+' IS NULL)'
 SET @vsql = @vsql + @query
 --PRINT @vsql
 EXEC sp_executesql @stmt=@vsql
+
+
+SET @sumsql = 'INSERT Datavalidation.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
+SELECT ''StaffSchool'',''The field '+@columnname+' is required field.'', COUNT(*)
+FROM Datavalidation.StaffSchool_LOCAL WHERE 1 = 1 '
+
+SET @query  = ' AND ('+@columnname+' IS NULL)'
+SET @sumsql = @sumsql + @query
+--PRINT @sumsql
+EXEC sp_executesql @stmt=@sumsql
 END
 ----------------------------------------------------------------
 --Check the datalength of Every Fields in the file
@@ -297,6 +308,15 @@ SET @vsql = @vsql + @query
 EXEC sp_executesql @stmt=@vsql
 --PRINT @vsql
 
+
+SET @sumsql = 'INSERT Datavalidation.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
+SELECT ''StaffSchool'',''The issue is in the datalength of the field '+@columnname+'.'', COUNT(*)
+FROM Datavalidation.StaffSchool_LOCAL WHERE 1 = 1 '
+
+SET @query  = ' AND ((DATALENGTH ('+@columnname+')/2) > '+@datalength+' AND '+@columnname+' IS NOT NULL)'
+SET @sumsql = @sumsql + @query
+--PRINT @sumsql
+EXEC sp_executesql @stmt=@sumsql
 END
 -------------------------------------------------------------------
 --Check the Referntial Integrity Issues
@@ -305,13 +325,22 @@ IF (@isFkRelation = 1)
 BEGIN
 
 SET @vsql = 'INSERT Datavalidation.ValidationReport (TableName,ErrorMessage,LineNumber,Line)
-SELECT ''StaffSchool'',''Some of the '+@parentcolumn+' does not exist in '+@parenttable+' File or were not validated successfully, but it existed in '+@tablename+'.'',staff.Line_No,ISNULL(CONVERT(VARCHAR(max),staff.StaffEmail),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),staff.SchoolCode),'''')
+SELECT ''StaffSchool'',''The '+@columnname+' "''+CONVERT(VARCHAR(MAX),Staff.'+@columnname+')+''" does not exist in '+@parenttable+'  or were not validated successfully, but it existed in '+@tablename+'.'',staff.Line_No,ISNULL(CONVERT(VARCHAR(max),staff.StaffEmail),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),staff.SchoolCode),'''')
 FROM Datavalidation.StaffSchool_LOCAL staff '
 
 SET @query  = ' LEFT JOIN Datavalidation.'+@parenttable+' dt ON staff.'+@columnname+' = dt.'+@parentcolumn+' WHERE dt.'+@parentcolumn+' IS NULL'
 SET @vsql = @vsql + @query
 EXEC sp_executesql @stmt=@vsql
 --PRINT @vsql
+
+SET @sumsql = 'INSERT Datavalidation.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
+SELECT ''StaffSchool'',''Some of the '+@parentcolumn+' does not exist in '+@parenttable+' or were not validated successfully, but it existed in '+@tablename+'.'', COUNT(*)
+FROM Datavalidation.StaffSchool_LOCAL staff '
+
+SET @query  = ' LEFT JOIN Datavalidation.'+@parenttable+' dt ON staff.'+@columnname+' = dt.'+@parentcolumn+' WHERE dt.'+@parentcolumn+' IS NULL'
+SET @sumsql = @sumsql + @query
+--PRINT @sumsql
+EXEC sp_executesql @stmt=@sumsql
 END
 
 -------------------------------------------------------------------
@@ -322,13 +351,22 @@ IF (@isFlagfield = 1)
 BEGIN
 
 SET @vsql = 'INSERT Datavalidation.ValidationReport (TableName,ErrorMessage,LineNumber,Line)
-SELECT ''StaffSchool'',''The field '+@columnname+' should have one of the value in '''+LTRIM(REPLACE(@flagrecords,''',''','/'))+''''',staff.Line_No,ISNULL(CONVERT(VARCHAR(max),staff.StaffEmail),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),staff.SchoolCode),'''')
+SELECT ''StaffSchool'',''The field '+@columnname+' should have one of the value in '''+LTRIM(REPLACE(@flagrecords,''',''','/'))+''', It has value as "''+'+@columnname+'+''".'',staff.Line_No,ISNULL(CONVERT(VARCHAR(max),staff.StaffEmail),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),staff.SchoolCode),'''')
 FROM Datavalidation.StaffSchool_LOCAL staff '
 
 SET @query  = '  WHERE (staff.'+@columnname+' NOT IN  ('+@flagrecords+') AND staff.'+@columnname+' IS NOT NULL)'
 SET @vsql = @vsql + @query
 EXEC sp_executesql @stmt=@vsql
 --PRINT @vsql
+
+SET @sumsql = 'INSERT Datavalidation.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
+SELECT ''StaffSchool'',''The field '+@columnname+' should have one of the value in '''+LTRIM(REPLACE(@flagrecords,''',''','/'))+''''', COUNT(*)
+FROM Datavalidation.StaffSchool_LOCAL staff '
+
+SET @query  = '  WHERE (staff.'+@columnname+' NOT IN  ('+@flagrecords+') AND staff.'+@columnname+' IS NOT NULL)'
+SET @sumsql = @sumsql + @query
+--PRINT @sumsql
+EXEC sp_executesql @stmt=@sumsql
 END
 
 -------------------------------------------------------------------
@@ -363,6 +401,15 @@ SET @query  = ' WHERE (staff.'+@columnname+' NOT IN ( SELECT '+@lookupcolumn+' F
 SET @vsql = @vsql + @query
 EXEC sp_executesql @stmt=@vsql
 --PRINT @vsql
+
+SET @sumsql = 'INSERT Datavalidation.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
+SELECT ''StaffSchool'',''The '+@columnname+' does not exist in '+@lookuptable+', but it existed in '+@tablename+''', COUNT(*)
+FROM Datavalidation.StaffSchool_LOCAL staff '
+
+SET @query  = ' WHERE (staff.'+@columnname+' NOT IN ( SELECT '+@lookupcolumn+' FROM Datavalidation.'+@lookuptable+' WHERE Type = '''+@lookuptype+''') AND staff.'+@columnname+' IS NOT NULL)'
+SET @sumsql = @sumsql + @query
+--PRINT @sumsql
+EXEC sp_executesql @stmt=@sumsql
 END
 
 IF (@islookupcolumn =1 AND @lookuptable != 'SelectLists')
@@ -376,6 +423,16 @@ SET @query  = '  WHERE (staff.'+@columnname+' NOT IN ( SELECT '+@lookupcolumn+' 
 SET @vsql = @vsql + @query
 EXEC sp_executesql @stmt=@vsql
 --PRINT @vsql
+
+SET @sumsql = 'INSERT Datavalidation.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
+SELECT ''StaffSchool'',''The '+@columnname+' does not exist in '+@lookuptable+', but it existed in '+@tablename+''', COUNT(*)
+FROM Datavalidation.StaffSchool_LOCAL staff '
+
+SET @query  = ' WHERE (staff.'+@columnname+' NOT IN ( SELECT '+@lookupcolumn+' FROM Datavalidation.'+@lookuptable+' WHERE Type = '''+@lookuptype+''') AND staff.'+@columnname+' IS NOT NULL)'
+SET @sumsql = @sumsql + @query
+--PRINT @sumsql
+EXEC sp_executesql @stmt=@sumsql
+
 END
 
 IF (@datatype = 'datetime')
@@ -390,6 +447,14 @@ SET @vsql = @vsql + @query
 EXEC sp_executesql @stmt=@vsql
 --PRINT @vsql
 
+SET @sumsql = 'INSERT Datavalidation.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
+SELECT ''StaffSchool'',''The date format issue is in '+@columnname+'.'', COUNT(*)
+FROM Datavalidation.StaffSchool_LOCAL staff '
+
+SET @query  = ' AND (ISDATE('+@columnname+') = 0 AND '+@columnname+' IS NOT NULL)'
+SET @sumsql = @sumsql + @query
+--PRINT @sumsql
+EXEC sp_executesql @stmt=@sumsql
 END
 
 IF (@datatype = 'int')
@@ -403,6 +468,15 @@ SET @query  = ' AND (Datavalidation.udf_IsInteger('+@columnname+') = 0 AND '+@co
 SET @vsql = @vsql + @query
 EXEC sp_executesql @stmt=@vsql
 --PRINT @vsql
+
+SET @sumsql = 'INSERT Datavalidation.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
+SELECT ''StaffSchool'',''The field '+@columnname+' should have integer records.'', COUNT(*)
+FROM Datavalidation.StaffSchool_LOCAL staff '
+
+SET @query  = ' AND (Datavalidation.udf_IsInteger('+@columnname+') = 0 AND '+@columnname+' IS NOT NULL)'
+SET @sumsql = @sumsql + @query
+--PRINT @sumsql
+EXEC sp_executesql @stmt=@sumsql
 
 END
 
@@ -421,6 +495,15 @@ SET @query  = ' (SELECT StaffEmail,SchoolCode FROM Datavalidation.StaffSchool_LO
 SET @vsql = @vsql + @query
 EXEC sp_executesql @stmt=@vsql
 --PRINT @vsql
+
+SET @sumsql = 'INSERT Datavalidation.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
+SELECT ''StaffSchool'',''The combination of SchoolCode and StaffEmail is repeated.'', COUNT(*)
+FROM Datavalidation.StaffSchool_LOCAL staff  JOIN'
+
+SET @query  = ' (SELECT StaffEmail,SchoolCode FROM Datavalidation.StaffSchool_LOCAL GROUP BY StaffEmail,SchoolCode HAVING COUNT(*)>1) ucss ON (ucss.StaffEmail = staff.StaffEmail) AND (ucss.SchoolCode = staff.SchoolCode)'
+SET @sumsql = @sumsql + @query
+--PRINT @sumsql
+EXEC sp_executesql @stmt=@sumsql
 
 /*
 ----------------------------------------------------------

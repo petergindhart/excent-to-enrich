@@ -258,6 +258,7 @@ OPEN chkSpecifications
 
 FETCH NEXT FROM chkSpecifications INTO @tableschema,@tablename,@columnname,@datatype,@datalength,@isrequired,@isuniquefield,@isFkRelation,@parenttable,@parentcolumn,@islookupcolumn,@lookuptable,@lookupcolumn,@lookuptype,@isFlagfield,@flagrecords
 DECLARE @vsql nVARCHAR(MAX)
+DECLARE @sumsql NVARCHAR(MAX)
 DECLARE @query nVARCHAR(MAX)
 DECLARE @uncol nVARCHAR(MAX)
 DECLARE @uniqoncol nVARCHAR(MAX)
@@ -272,12 +273,21 @@ BEGIN
 
 SET @vsql = 'INSERT Datavalidation.ValidationReport (TableName,ErrorMessage,LineNumber,Line)
 SELECT ''SpedStaffMember'',''The field '+@columnname+' is required field.'',Line_No,ISNULL(CONVERT(VARCHAR(max),StaffEmail),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),LASTNAME),'''')+ISNULL(CONVERT(VARCHAR(max),Firstname),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),EnrichRole),'''')
-FROM Datavalidation.SpedStaffMember_LOCAL WHERE 1 = 1'
+FROM Datavalidation.SpedStaffMember_LOCAL WHERE 1 = 1 '
 
 SET @query  = ' AND ('+@columnname+' IS NULL)'
 SET @vsql = @vsql + @query
 --PRINT @vsql
 EXEC sp_executesql @stmt=@vsql
+
+SET @sumsql = 'INSERT Datavalidation.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
+SELECT ''SpedStaffMember'',''The field '+@columnname+' is required field.'', COUNT(*)
+FROM Datavalidation.SpedStaffMember_LOCAL WHERE 1 = 1 '
+
+SET @query  = ' AND ('+@columnname+' IS NULL)'
+SET @sumsql = @sumsql + @query
+--PRINT @sumsql
+EXEC sp_executesql @stmt=@sumsql
 END
 ----------------------------------------------------------------
 --Check the datalength of Every Fields in the file
@@ -294,6 +304,15 @@ SET @vsql = @vsql + @query
 EXEC sp_executesql @stmt=@vsql
 --PRINT @vsql
 
+SET @sumsql = 'INSERT Datavalidation.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
+SELECT ''SpedStaffMember'',''The issue is in the datalength of the field '+@columnname+'.'', COUNT(*)
+FROM Datavalidation.SpedStaffMember_LOCAL WHERE 1 = 1 '
+
+SET @query  = ' AND ((DATALENGTH ('+@columnname+')/2) > '+@datalength+' AND '+@columnname+' IS NOT NULL)'
+SET @sumsql = @sumsql + @query
+--PRINT @sumsql
+EXEC sp_executesql @stmt=@sumsql
+
 END
 -------------------------------------------------------------------
 --Check the Referntial Integrity Issues
@@ -302,13 +321,22 @@ IF (@isFkRelation = 1)
 BEGIN
 
 SET @vsql = 'INSERT Datavalidation.ValidationReport (TableName,ErrorMessage,LineNumber,Line)
-SELECT ''SpedStaffMember'',''Some of the '+@parentcolumn+' does not exist in '+@parenttable+' File or were not validated successfully, but it existed in SpedStaffMember.'',Line_No,ISNULL(CONVERT(VARCHAR(max),sped.StaffEmail),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),sped.LASTNAME),'''')+ISNULL(CONVERT(VARCHAR(max),sped.Firstname),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),sped.EnrichRole),'''')
+SELECT ''SpedStaffMember'',''The '+@columnname+' "''+CONVERT(VARCHAR(MAX),sped.'+@columnname+')+''" does not exist in '+@parenttable+'  or were not validated successfully, but it existed in '+@tablename+'.'',Line_No,ISNULL(CONVERT(VARCHAR(max),sped.StaffEmail),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),sped.LASTNAME),'''')+ISNULL(CONVERT(VARCHAR(max),sped.Firstname),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),sped.EnrichRole),'''')
 FROM Datavalidation.SpedStaffMember_LOCAL sped'
 
 SET @query  = ' LEFT JOIN Datavalidation.'+@parenttable+' dt ON sped.'+@columnname+' = dt.'+@parentcolumn+' WHERE dt.'+@parentcolumn+' IS NULL'
 SET @vsql = @vsql + @query
 EXEC sp_executesql @stmt=@vsql
 --PRINT @vsql
+
+SET @sumsql = 'INSERT Datavalidation.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
+SELECT ''SpedStaffMember'',''Some of the '+@parentcolumn+' does not exist in '+@parenttable+' File or were not validated successfully, but it existed in SpedStaffMember.'', COUNT(*)
+FROM Datavalidation.SpedStaffMember_LOCAL sped'
+
+SET @query  = ' LEFT JOIN Datavalidation.'+@parenttable+' dt ON sped.'+@columnname+' = dt.'+@parentcolumn+' WHERE dt.'+@parentcolumn+' IS NULL'
+SET @sumsql = @sumsql + @query
+--PRINT @sumsql
+EXEC sp_executesql @stmt=@sumsql
 END
 
 
@@ -316,13 +344,22 @@ IF (@isFlagfield = 1)
 BEGIN
 
 SET @vsql = 'INSERT Datavalidation.ValidationReport (TableName,ErrorMessage,LineNumber,Line)
-SELECT ''SpedStaffMember'',''The field '+@columnname+' should have one of the value in '''+LTRIM(REPLACE(@flagrecords,''',''','/'))+''''',Line_No,ISNULL(CONVERT(VARCHAR(max),StaffEmail),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),LASTNAME),'''')+ISNULL(CONVERT(VARCHAR(max),Firstname),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),EnrichRole),'''')
+SELECT ''SpedStaffMember'',''The field '+@columnname+' should have one of the value in '''+LTRIM(REPLACE(@flagrecords,''',''','/'))+''', It has value as "''+'+@columnname+'+''".'',Line_No,ISNULL(CONVERT(VARCHAR(max),StaffEmail),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),LASTNAME),'''')+ISNULL(CONVERT(VARCHAR(max),Firstname),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),EnrichRole),'''')
 FROM Datavalidation.SpedStaffMember_LOCAL '
 
 SET @query  = '  WHERE ('+@columnname+' NOT IN  ('+@flagrecords+') AND '+@columnname+' IS NOT NULL)'
 SET @vsql = @vsql + @query
 EXEC sp_executesql @stmt=@vsql
 --PRINT @vsql
+
+SET @sumsql = 'INSERT Datavalidation.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
+SELECT ''SpedStaffMember'',''The field '+@columnname+' should have one of the value in '''+LTRIM(REPLACE(@flagrecords,''',''','/'))+''''', COUNT(*)
+FROM Datavalidation.SpedStaffMember_LOCAL '
+
+SET @query  = '  WHERE ('+@columnname+' NOT IN  ('+@flagrecords+') AND '+@columnname+' IS NOT NULL)'
+SET @sumsql = @sumsql + @query
+--PRINT @sumsql
+EXEC sp_executesql @stmt=@sumsql
 END
 
 
@@ -330,13 +367,22 @@ IF (@isuniquefield = 1)
 BEGIN
 
 SET @vsql = 'INSERT Datavalidation.ValidationReport (TableName,ErrorMessage,LineNumber,Line)
-SELECT ''SpedStaffMember'',''The field '+@columnname+' is unique field, Here '+@columnname+' record is repeated.'',sped.Line_No,ISNULL(CONVERT(VARCHAR(max),sped.StaffEmail),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),sped.LASTNAME),'''')+ISNULL(CONVERT(VARCHAR(max),sped.Firstname),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),sped.EnrichRole),'''')
+SELECT ''SpedStaffMember'',''The field '+@columnname+' is unique field, Here "''+CONVERT(VARCHAR(MAX),sped.'+@columnname+')+''" record is repeated.'',sped.Line_No,ISNULL(CONVERT(VARCHAR(max),sped.StaffEmail),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),sped.LASTNAME),'''')+ISNULL(CONVERT(VARCHAR(max),sped.Firstname),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),sped.EnrichRole),'''')
 FROM Datavalidation.SpedStaffMember_LOCAL sped JOIN'
 
 SET @query  = ' (SELECT '+@columnname+' FROM Datavalidation.SpedStaffMember_LOCAL GROUP BY '+@columnname+' HAVING COUNT(*)>1) ucsped ON ucsped.'+@columnname+' = sped.'+@columnname+' '
 SET @vsql = @vsql + @query
 EXEC sp_executesql @stmt=@vsql
 --PRINT @vsql
+
+SET @sumsql = 'INSERT Datavalidation.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
+SELECT ''SpedStaffMember'',''The field '+@columnname+' is unique field, Here '+@columnname+' record is repeated.'', COUNT(*)
+FROM Datavalidation.SpedStaffMember_LOCAL sped JOIN'
+
+SET @query  = ' (SELECT '+@columnname+' FROM Datavalidation.SpedStaffMember_LOCAL GROUP BY '+@columnname+' HAVING COUNT(*)>1) ucsped ON ucsped.'+@columnname+' = sped.'+@columnname+' '
+SET @sumsql = @sumsql + @query
+--PRINT @sumsql
+EXEC sp_executesql @stmt=@sumsql
 END
 
 IF (@islookupcolumn =1 AND @lookuptable = 'SelectLists')
@@ -350,6 +396,15 @@ SET @query  = ' WHERE (sped.'+@columnname+' NOT IN ( SELECT '+@lookupcolumn+' FR
 SET @vsql = @vsql + @query
 EXEC sp_executesql @stmt=@vsql
 --PRINT @vsql
+
+SET @sumsql = 'INSERT Datavalidation.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
+SELECT ''SpedStaffMember'',''The '+@columnname+' does not exist in '+@lookuptable+', but it existed in '+@tablename+''', COUNT(*)
+FROM Datavalidation.SpedStaffMember_LOCAL sped JOIN'
+
+SET @query  = ' WHERE (sped.'+@columnname+' NOT IN ( SELECT '+@lookupcolumn+' FROM Datavalidation.'+@lookuptable+' WHERE Type = '''+@lookuptype+''') AND sped.'+@columnname+' IS NOT NULL)'
+SET @sumsql = @sumsql + @query
+--PRINT @sumsql
+EXEC sp_executesql @stmt=@sumsql
 END
 
 IF (@islookupcolumn =1 AND @lookuptable != 'SelectLists')
@@ -363,6 +418,15 @@ SET @query  = ' WHERE (sped.'+@columnname+' NOT IN ( SELECT '+@lookupcolumn+' FR
 SET @vsql = @vsql + @query
 EXEC sp_executesql @stmt=@vsql
 --PRINT @vsql
+
+SET @sumsql = 'INSERT Datavalidation.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
+SELECT ''SpedStaffMember'',''The '+@columnname+' does not exist in '+@lookuptable+', but it existed in '+@tablename+''' COUNT(*)
+FROM Datavalidation.SpedStaffMember_LOCAL sped JOIN'
+
+SET @query  = ' WHERE (sped.'+@columnname+' NOT IN ( SELECT '+@lookupcolumn+' FROM Datavalidation.'+@lookuptable+') AND sped.'+@columnname+' IS NOT NULL)'
+SET @sumsql = @sumsql + @query
+--PRINT @sumsql
+EXEC sp_executesql @stmt=@sumsql
 END
 
 IF (@datatype = 'int')
@@ -377,6 +441,14 @@ SET @vsql = @vsql + @query
 EXEC sp_executesql @stmt=@vsql
 --PRINT @vsql
 
+SET @sumsql = 'INSERT Datavalidation.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
+SELECT ''SpedStaffMember'',''The field '+@columnname+' should have integer records.'',COUNT(*)
+FROM Datavalidation.SpedStaffMember_LOCAL WHERE 1 = 1 '
+
+SET @query  = ' AND (Datavalidation.udf_IsInteger('+@columnname+') = 0 AND '+@columnname+' IS NOT NULL)'
+SET @sumsql = @sumsql + @query
+--PRINT @sumsql
+EXEC sp_executesql @stmt=@sumsql
 END
 
 FETCH NEXT FROM chkSpecifications INTO  @tableschema,@tablename,@columnname,@datatype,@datalength,@isrequired,@isuniquefield,@isFkRelation,@parenttable,@parentcolumn,@islookupcolumn,@lookuptable,@lookupcolumn,@lookuptype,@isFlagfield,@flagrecords
