@@ -35,6 +35,8 @@ SET @sql='EXEC Datavalidation.ExtractData_From_Csv '''+ @datafilelocationpath +'
 EXEC sp_executesql @stmt=@sql
 SET @sql='EXEC Datavalidation.ExtractData_From_Csv '''+ @datafilelocationpath +'\Objective.csv'',''Objective'''
 EXEC sp_executesql @stmt=@sql
+SET @sql='EXEC Datavalidation.ExtractData_From_Csv '''+ @datafilelocationpath +'\TeamMember.csv'',''TeamMember'''
+EXEC sp_executesql @stmt=@sql
 SET @sql='EXEC Datavalidation.ExtractData_From_Csv '''+ @datafilelocationpath +'\StaffSchool.csv'',''StaffSchool'''
 EXEC sp_executesql @stmt=@sql
 --EXEC Datavalidation.Summaryreport
