@@ -179,7 +179,7 @@ delete x from ServicePlan x where x.StudentID not in (select isnull(StudentID, @
 delete x from PrgSection x join PrgItem i on x.ItemID = i.ID where i.StudentID not in (select isnull(StudentID, @zg) from @SaveStudents) ; print 'PrgSection : ' + convert(varchar(10), @@rowcount)
 
 			delete x from IepDisability x where deleteddate is not null  ; print 'IepDisability : ' + convert(varchar(10), @@rowcount) -- maintained by config import
-			delete x from IepPlacementOption x where DeletedDate is not null /* or Sequence = 99 */  ; print 'IepPlacementOption : ' + convert(varchar(10), @@rowcount)-- maintained by config import
+			delete x from IepPlacementOption x where DeletedDate is not null or Sequence = 99 ; print 'IepPlacementOption : ' + convert(varchar(10), @@rowcount)-- maintained by config import
 
 
 -- set nocount off;
@@ -215,6 +215,11 @@ delete t from ServiceProviderTitle t where t.DeletedDate is not null and t.ID no
 			delete x from ServiceDef sd join ServiceDefDiagnosisCode x on sd.ID = x.ServiceDefID where sd.ID   in (select ID from ServiceDef where DeletedDate is not null )and sd.ID not in (select DefID from ServicePlan where StudentID in (select isnull(StudentID, @zg) from @SaveStudents))
 			delete x from ServiceDef sd join ServiceDefProcedure x on sd.ID = x.ServiceDefID where sd.ID  in (select ID from ServiceDef where DeletedDate is not null ) and sd.ID not in (select DefID from ServicePlan where StudentID in (select isnull(StudentID, @zg) from @SaveStudents))
 			delete sd from ServiceDef sd where DeletedDate is not null and sd.ID in (select ID from ServiceDef where DeletedDate is not null ) and sd.ID not in (select DefID from ServicePlan where StudentID in (select isnull(StudentID, @zg) from @SaveStudents)) ; print 'ServiceDef : ' + convert(varchar(10), @@rowcount) 
+
+-- flagler has 2 Braille Textbooks ServiceDef records.  One's gotta go.
+delete isd from IepServiceDef isd where ID = '446B4A83-8500-403E-BF7A-1CE4F2DD1698'
+delete sd from ServiceDef sd where ID = '446B4A83-8500-403E-BF7A-1CE4F2DD1698'
+
 --Msg 547, Level 16, State 0, Line 142
 --The DELETE statement conflicted with the REFERENCE constraint "FK_ServicePlan#Def#Plans". The conflict occurred in database "Enrich_DCB2_CO_Mesa51", table "dbo.ServicePlan", column 'DefID'.
 	-- we are handling this separately in Prepare DB ServiceDef
@@ -794,6 +799,39 @@ begin
 	drop table LEGACYSPED.DataConversionLogTable
 end
 
+-- delete "lookup" values entered by data conversion process
+delete x
+from IepDisability x 
+join LEGACYSPED.MAP_IepDisabilityID y on x.ID = y.DestID
+
+delete x
+from PrgStatus x 
+join LEGACYSPED.MAP_PrgStatusID y on x.ID = y.DestID
+
+delete x
+from IepPlacementOption x 
+join LEGACYSPED.MAP_IepPlacementOptionID y on x.ID = y.DestID
+
+delete x
+from PrgLocation x 
+join LEGACYSPED.MAP_PrgLocationID y on x.ID = y.DestID
+
+delete x
+from IepServiceDef x 
+join LEGACYSPED.MAP_ServiceDefID y on x.ID = y.DestID
+
+delete x
+from ServiceDef x 
+join LEGACYSPED.MAP_ServiceDefID y on x.ID = y.DestID
+
+delete x
+from IepServiceCategory x 
+join LEGACYSPED.MAP_IepServiceCategoryID y on x.ID = y.DestID
+
+delete x
+from ServiceProviderTitle x 
+join LEGACYSPED.MAP_ServiceProviderTitleID y on x.ID = y.DestID
+
 
 -- truncate all of the legacysped tables
 declare @d varchar(254) 
@@ -802,7 +840,7 @@ select 'print ''truncating : '+s.name+'.'+o.name+'''
 truncate table '+s.name+'.'+o.name 
 from sys.schemas s join
 sys.objects o on s.schema_id = o.schema_id
-where s.name in ('LEGACYSPED', 'SPEDDOC')
+where s.name in ('LEGACYSPED', 'SPEDDOC', 'DATAVALIDATION')
 and o.type in ('U') 
 order by s.name, case o.Type when 'P' then 0 when 'V' then 1 when 'U' then 2 end
 
@@ -851,7 +889,7 @@ begin
 
 set @q = 'print ''dropping LEGACYSPED.'+@o+'''
 if exists (select 1 from sys.schemas s join sys.objects o on s.schema_id = o.schema_id where s.name = ''LEGACYSPED'' and o.name = '''+@o+''')
-drop '+case when @ut = 'V' then 'view ' else 'table ' end+ 'LEGACYSPED.'+ @o+@n+@n
+drop '+case @ut when 'V' then 'view ' when 'U' then 'table ' when 'TF' then 'function ' end+ 'LEGACYSPED.'+ @o+@n+@n
 
 exec (@q)
 --print @q
