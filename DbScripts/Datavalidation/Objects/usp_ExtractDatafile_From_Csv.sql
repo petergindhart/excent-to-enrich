@@ -17,6 +17,7 @@ BEGIN
 BEGIN TRY 
 
 DECLARE @sql nVARCHAR(4000)
+DECLARE @sumsql nVARCHAR(4000)
 DECLARE @fi_av_output int
 DECLARE @chcol_output int
 DBCC CHECKIDENT ('Datavalidation.ValidationReport', RESEED, 1)
@@ -50,6 +51,8 @@ ELSE
  BEGIN
 SET @sql = 'INSERT Datavalidation.ValidationReport (TableName,ErrorMessage,LineNumber,Line) SELECT '''+@tablename+''',''The '+@tablename+'.csv doesnot exist'',''0'','''''
 EXEC sp_executesql @stmt=@sql 
+SET @sumsql = 'INSERT Datavalidation.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords) SELECT '''+@tablename+''',''The '+@tablename+'.csv doesnot exist'',''1'''
+EXEC sp_executesql @stmt=@sumsql 
  END
  
 END TRY

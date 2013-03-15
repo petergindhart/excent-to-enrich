@@ -266,10 +266,11 @@ FROM Datavalidation.ValidationRules WHERE TableName = 'Objective'
 OPEN chkSpecifications
 
 FETCH NEXT FROM chkSpecifications INTO @tableschema,@tablename,@columnname,@datatype,@datalength,@isrequired,@isuniquefield,@isFkRelation,@parenttable,@parentcolumn,@islookupcolumn,@lookuptable,@lookupcolumn,@lookuptype,@isFlagfield,@flagrecords
-DECLARE @vsql nVARCHAR(MAX)
-DECLARE @query nVARCHAR(MAX)
-DECLARE @uncol nVARCHAR(MAX)
-DECLARE @uniqoncol nVARCHAR(MAX)
+DECLARE @vsql NVARCHAR(MAX)
+DECLARE @sumsql NVARCHAR(MAX)
+DECLARE @query NVARCHAR(MAX)
+DECLARE @uncol NVARCHAR(MAX)
+DECLARE @uniqoncol NVARCHAR(MAX)
 
 WHILE @@FETCH_STATUS = 0
 BEGIN
@@ -287,6 +288,16 @@ SET @query  = ' AND ('+@columnname+' IS NULL)'
 SET @vsql = @vsql + @query
 --PRINT @vsql
 EXEC sp_executesql @stmt=@vsql
+
+SET @sumsql = 'INSERT Datavalidation.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
+SELECT ''Objective'',''The field '+@columnname+' is required field.'', COUNT(*)
+FROM Datavalidation.Objective_LOCAL WHERE 1 = 1 '
+
+SET @query  = ' AND ('+@columnname+' IS NULL)'
+SET @sumsql = @sumsql + @query
+--PRINT @sumsql
+EXEC sp_executesql @stmt=@sumsql
+
 END
 ----------------------------------------------------------------
 --Check the datalength of Every Fields in the file
@@ -302,6 +313,16 @@ SET @query  = ' AND ((DATALENGTH ('+@columnname+')/2) > '+@datalength+' AND '+@c
 SET @vsql = @vsql + @query
 EXEC sp_executesql @stmt=@vsql
 --PRINT @vsql
+
+SET @sumsql = 'INSERT Datavalidation.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
+SELECT ''Objective'',''The issue is in the datalength of the field '+@columnname+'.'', COUNT(*)
+FROM Datavalidation.Objective_LOCAL WHERE 1 = 1 '
+
+SET @query  = ' AND ((DATALENGTH ('+@columnname+')/2) > '+@datalength+' AND '+@columnname+' IS NOT NULL)'
+SET @sumsql = @sumsql + @query
+--PRINT @sumsql
+EXEC sp_executesql @stmt=@sumsql
+
 END
 -------------------------------------------------------------------
 --Check the Referntial Integrity Issues
@@ -310,12 +331,22 @@ IF (@isFkRelation = 1)
 BEGIN
 
 SET @vsql = 'INSERT Datavalidation.ValidationReport (TableName,ErrorMessage,LineNumber,Line)
-SELECT ''Objective'',''Some of the '+@parentcolumn+' does not exist in '+@parenttable+' File or were not validated successfully, but it existed in '+@tablename+'.'',obj.Line_No,ISNULL(CONVERT(VARCHAR(max),obj.ObjectiveRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.GoalRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.Sequence),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.ObjText),'''') FROM Datavalidation.Objective_LOCAL obj '
+SELECT ''Objective'',''The '+@columnname+' "''+CONVERT(VARCHAR(MAX),obj.'+@columnname+')+''" does not exist in '+@parenttable+'  or were not validated successfully, but it existed in '+@tablename+'.'',obj.Line_No,ISNULL(CONVERT(VARCHAR(max),obj.ObjectiveRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.GoalRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.Sequence),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.ObjText),'''') FROM Datavalidation.Objective_LOCAL obj '
 
 SET @query  = ' LEFT JOIN Datavalidation.'+@parenttable+' dt ON obj.'+@columnname+' = dt.'+@parentcolumn+' WHERE dt.'+@parentcolumn+' IS NULL'
 SET @vsql = @vsql + @query
 EXEC sp_executesql @stmt=@vsql
 --PRINT @vsql
+
+SET @sumsql = 'INSERT Datavalidation.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
+SELECT ''Objective'',''Some of the '+@parentcolumn+' does not exist in '+@parenttable+' File or were not validated successfully, but it existed in '+@tablename+'.'', COUNT(*)
+FROM Datavalidation.Objective_LOCAL obj '
+
+SET @query  = ' LEFT JOIN Datavalidation.'+@parenttable+' dt ON obj.'+@columnname+' = dt.'+@parentcolumn+' WHERE dt.'+@parentcolumn+' IS NULL'
+SET @sumsql = @sumsql + @query
+--PRINT @sumsql
+EXEC sp_executesql @stmt=@sumsql
+
 END
 
 
@@ -323,12 +354,22 @@ IF (@isFlagfield = 1)
 BEGIN
 
 SET @vsql = 'INSERT Datavalidation.ValidationReport (TableName,ErrorMessage,LineNumber,Line)
-SELECT ''Objective'',''The field '+@columnname+' should have one of the value in '''+LTRIM(REPLACE(@flagrecords,''',''','/'))+''''',obj.Line_No,ISNULL(CONVERT(VARCHAR(max),obj.ObjectiveRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.GoalRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.Sequence),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.ObjText),'''') FROM Datavalidation.Objective_LOCAL obj '
+SELECT ''Objective'',''The field '+@columnname+' should have one of the value in '''+LTRIM(REPLACE(@flagrecords,''',''','/'))+''', It has value as "''+goal.'+@columnname+'+''".'',obj.Line_No,ISNULL(CONVERT(VARCHAR(max),obj.ObjectiveRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.GoalRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.Sequence),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.ObjText),'''') FROM Datavalidation.Objective_LOCAL obj '
 
 SET @query  = '  WHERE (obj.'+@columnname+' NOT IN ('+@flagrecords+') AND obj.'+@columnname+' IS NOT NULL)'
 SET @vsql = @vsql + @query
 EXEC sp_executesql @stmt=@vsql
 --PRINT @vsql
+
+
+SET @sumsql = 'INSERT Datavalidation.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
+SELECT ''Objective'',''The field '+@columnname+' should have one of the value in '''+LTRIM(REPLACE(@flagrecords,''',''','/'))+''''', COUNT(*)
+FROM Datavalidation.Objective_LOCAL obj '
+
+SET @query  = '  WHERE (obj.'+@columnname+' NOT IN ('+@flagrecords+') AND obj.'+@columnname+' IS NOT NULL)'
+SET @sumsql = @sumsql + @query
+--PRINT @sumsql
+EXEC sp_executesql @stmt=@sumsql
 END
 
 
@@ -336,25 +377,45 @@ IF (@isuniquefield = 1)
 BEGIN
 
 SET @vsql = 'INSERT Datavalidation.ValidationReport (TableName,ErrorMessage,LineNumber,Line)
-SELECT ''Objective'',''The field '+@columnname+' is unique field, Here '+@columnname+' record is repeated.'',obj.Line_No,ISNULL(CONVERT(VARCHAR(max),obj.ObjectiveRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.GoalRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.Sequence),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.ObjText),'''') FROM Datavalidation.Objective_LOCAL obj JOIN'
+SELECT ''Objective'',''The field '+@columnname+' is unique field, Here "''+CONVERT(VARCHAR(MAX),obj.'+@columnname+')+''" record is repeated.'',obj.Line_No,ISNULL(CONVERT(VARCHAR(max),obj.ObjectiveRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.GoalRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.Sequence),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.ObjText),'''') FROM Datavalidation.Objective_LOCAL obj JOIN'
 
 SET @query  = ' (SELECT '+@columnname+' FROM Datavalidation.Objective_LOCAL GROUP BY '+@columnname+' HAVING COUNT(*)>1) ucobj ON ucobj.'+@columnname+' = obj.'+@columnname+' '
 SET @vsql = @vsql + @query
 EXEC sp_executesql @stmt=@vsql
 --PRINT @vsql
+
+
+SET @sumsql = 'INSERT Datavalidation.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
+SELECT ''Objective'',''The field '+@columnname+' is unique field, Here '+@columnname+' record is repeated.'', COUNT(*)
+FROM Datavalidation.Objective_LOCAL obj JOIN '
+
+SET @query  = ' (SELECT '+@columnname+' FROM Datavalidation.Objective_LOCAL GROUP BY '+@columnname+' HAVING COUNT(*)>1) ucobj ON ucobj.'+@columnname+' = obj.'+@columnname+' '
+SET @sumsql = @sumsql + @query
+--PRINT @sumsql
+EXEC sp_executesql @stmt=@sumsql
 END
 
 IF (@islookupcolumn = 1 AND @lookuptable = 'SelectLists')
 BEGIN
 
 SET @vsql = 'INSERT Datavalidation.ValidationReport (TableName,ErrorMessage,LineNumber,Line)
-SELECT ''Objective'',''The '+@columnname+' "''+ obj.'+@columnname+'+''" does not exist in '+@lookuptable+', but it existed in '+@tablename+''',,obj.Line_No,ISNULL(CONVERT(VARCHAR(max),obj.ObjectiveRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.GoalRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.Sequence),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.ObjText),'''')
+SELECT ''Objective'',''The '+@columnname+' "''+ obj.'+@columnname+'+''" does not exist in '+@lookuptable+', but it existed in '+@tablename+''',obj.Line_No,ISNULL(CONVERT(VARCHAR(max),obj.ObjectiveRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.GoalRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.Sequence),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.ObjText),'''')
 FROM Datavalidation.Objective_LOCAL obj '
 
 SET @query  = ' WHERE (obj.'+@columnname+' NOT IN ( SELECT '+@lookupcolumn+' FROM Datavalidation.'+@lookuptable+' WHERE Type = '''+@lookuptype+''') AND obj.'+@columnname+' IS NOT NULL)'
 SET @vsql = @vsql + @query
 EXEC sp_executesql @stmt=@vsql
 --PRINT @vsql
+
+
+SET @sumsql = 'INSERT Datavalidation.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
+SELECT ''Objective'',''Some of the '+@columnname+' does not exist in '+@lookuptable+', but it existed in '+@tablename+''', COUNT(*)
+FROM Datavalidation.Objective_LOCAL obj '
+
+SET @query  = ' WHERE (obj.'+@columnname+' NOT IN ( SELECT '+@lookupcolumn+' FROM Datavalidation.'+@lookuptable+' WHERE Type = '''+@lookuptype+''') AND obj.'+@columnname+' IS NOT NULL)'
+SET @sumsql = @sumsql + @query
+--PRINT @sumsql
+EXEC sp_executesql @stmt=@sumsql
 END
 
 IF (@islookupcolumn =1 AND @lookuptable != 'SelectLists')
@@ -368,6 +429,15 @@ SET @query  = ' WHERE (obj.'+@columnname+' NOT IN ( SELECT '+@lookupcolumn+' FRO
 SET @vsql = @vsql + @query
 EXEC sp_executesql @stmt=@vsql
 --PRINT @vsql
+
+SET @sumsql = 'INSERT Datavalidation.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
+SELECT ''Objective'',''Some of the '+@columnname+' does not exist in '+@lookuptable+', but it existed in '+@tablename+''', COUNT(*)
+FROM Datavalidation.Objective_LOCAL obj '
+
+SET @query  = ' WHERE (obj.'+@columnname+' NOT IN ( SELECT '+@lookupcolumn+' FROM Datavalidation.'+@lookuptable+') AND obj.'+@columnname+' IS NOT NULL)'
+SET @sumsql = @sumsql + @query
+--PRINT @sumsql
+EXEC sp_executesql @stmt=@sumsql
 END
 
 
@@ -383,6 +453,14 @@ SET @vsql = @vsql + @query
 EXEC sp_executesql @stmt=@vsql
 --PRINT @vsql
 
+SET @sumsql = 'INSERT Datavalidation.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
+SELECT ''Objective'',''The date format issue is in '+@columnname+'.'', COUNT(*)
+FROM Datavalidation.Objective_LOCAL obj WHERE 1 = 1 '
+
+SET @query  = ' AND (ISDATE(obj.'+@columnname+') = 0 AND '+@columnname+' IS NOT NULL)'
+SET @sumsql = @sumsql + @query
+--PRINT @sumsql
+EXEC sp_executesql @stmt=@sumsql
 END
 
 
@@ -397,6 +475,14 @@ SET @vsql = @vsql + @query
 EXEC sp_executesql @stmt=@vsql
 --PRINT @vsql
 
+SET @sumsql = 'INSERT Datavalidation.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
+SELECT ''Objective'',''The field '+@columnname+' should have integer records.'', COUNT(*)
+FROM Datavalidation.Objective_LOCAL obj WHERE 1 = 1 '
+
+SET @query  = ' AND (Datavalidation.udf_IsInteger('+@columnname+') = 0 AND '+@columnname+' IS NOT NULL)'
+SET @sumsql = @sumsql + @query
+--PRINT @sumsql
+EXEC sp_executesql @stmt=@sumsql
 END
 
 FETCH NEXT FROM chkSpecifications INTO  @tableschema,@tablename,@columnname,@datatype,@datalength,@isrequired,@isuniquefield,@isFkRelation,@parenttable,@parentcolumn,@islookupcolumn,@lookuptable,@lookupcolumn,@lookuptype,@isFlagfield,@flagrecords

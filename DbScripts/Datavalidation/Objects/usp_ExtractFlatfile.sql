@@ -35,9 +35,12 @@ SET @sql='EXEC Datavalidation.ExtractData_From_Csv '''+ @datafilelocationpath +'
 EXEC sp_executesql @stmt=@sql
 SET @sql='EXEC Datavalidation.ExtractData_From_Csv '''+ @datafilelocationpath +'\Objective.csv'',''Objective'''
 EXEC sp_executesql @stmt=@sql
+SET @sql='EXEC Datavalidation.ExtractData_From_Csv '''+ @datafilelocationpath +'\TeamMember.csv'',''TeamMember'''
+EXEC sp_executesql @stmt=@sql
 SET @sql='EXEC Datavalidation.ExtractData_From_Csv '''+ @datafilelocationpath +'\StaffSchool.csv'',''StaffSchool'''
 EXEC sp_executesql @stmt=@sql
-EXEC Datavalidation.Summaryreport
+--EXEC Datavalidation.Summaryreport
+DELETE Datavalidation.ValidationSummaryReport WHERE NumberOfRecords = 0 AND ErrorMessage NOT IN ('SuccessfulRecords','TotalRecords')
 EXEC Datavalidation.DataValidationReport_History
 --EXEC Datavalidation.ReportFile_Preparation @dbname,@reportfilelocationpath
 END TRY

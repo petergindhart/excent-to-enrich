@@ -58,14 +58,20 @@ EXEC sp_executesql @stmt = @tablesql
 SELECT * INTO #ValidationReport FROM  @format
 
 DECLARE @sql nVARCHAR(MAX)
+DECLARE @sumsql NVARCHAR(MAX)
 --Here we may insert these issues in a table and can report to customer
 IF EXISTS (SELECT 1 FROM @format)
 	
 	BEGIN
 	SET @sql = 'INSERT Datavalidation.ValidationReport (TableName,ErrorMessage,LineNumber,Line)
-	SELECT  '''+@tablename+''', ''The issue is in ''+ columnname + '' Field or in Field Order in the '+@tablename+'.csv. Please correct this and check this column exist in specification'',''0'',''''
+	SELECT  '''+@tablename+''', ''The issue is in ''+ columnname + '' Field or in Field Order in the '+@tablename+'. Please correct this and check this column exist in specification'',''0'',''''
 	FROM #ValidationReport'
 	EXEC sp_executesql @stmt=@sql 
+	
+	SET @sumsql = 'INSERT Datavalidation.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
+	SELECT  '''+@tablename+''', ''The issue is in ''+ columnname + '' Field or in Field Order in the '+@tablename+'.'',''1''
+	FROM #ValidationReport'
+	EXEC sp_executesql @stmt=@sumsql 
 	RETURN 0
 	END
 

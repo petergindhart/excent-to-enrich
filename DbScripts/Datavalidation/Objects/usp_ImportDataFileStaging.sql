@@ -114,7 +114,11 @@ INSERT Datavalidation.ValidationSummaryReport
 SELECT @tablename,'Total Records',COUNT(*)as cnt FROM #flatfile
 
 INSERT Datavalidation.ValidationReport
-SELECT @tablename,'Number of fileds in the row does not match with header',LINE_NO,REPLACE(row,'''','''''') as row FROM #flatfile_LineNo WHERE LEN(row) - LEN(REPLACE(row, '|', '')) != @no_of_field
+SELECT @tablename,'Number of fields in the row does not match with header',LINE_NO,REPLACE(row,'''','''''') as row FROM #flatfile_LineNo WHERE LEN(row) - LEN(REPLACE(row, '|', '')) != @no_of_field
+
+INSERT Datavalidation.ValidationSummaryReport 
+SELECT @tablename, 'Number of fields in the row does not match with header', COUNT(*)
+FROM #flatfile_LineNo WHERE LEN(row) - LEN(REPLACE(row, '|', '')) != @no_of_field
  --select * from #flatfile_validrec
  
  --(select ''''+REPLACE(row,'|',''',''')+'''' from #flatfile_validrec)

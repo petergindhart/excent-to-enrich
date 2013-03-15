@@ -292,6 +292,7 @@ OPEN chkSpecifications
 
 FETCH NEXT FROM chkSpecifications INTO @tableschema,@tablename,@columnname,@datatype,@datalength,@isrequired,@isuniquefield,@isFkRelation,@parenttable,@parentcolumn,@islookupcolumn,@lookuptable,@lookupcolumn,@lookuptype,@isFlagfield,@flagrecords
 DECLARE @vsql nVARCHAR(MAX)
+DECLARE @sumsql nVARCHAR(MAX)
 DECLARE @query nVARCHAR(MAX)
 DECLARE @uncol nVARCHAR(MAX)
 DECLARE @uniqoncol nVARCHAR(MAX)
@@ -311,6 +312,15 @@ SET @query  = ' AND ('+@columnname+' IS NULL)'
 SET @vsql = @vsql + @query
 --PRINT @vsql
 EXEC sp_executesql @stmt=@vsql
+
+SET @sumsql = 'INSERT Datavalidation.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
+SELECT ''Goal'',''The field '+@columnname+' is required field, it cannot be empty.'', COUNT(*)
+FROM Datavalidation.Goal_Local WHERE 1 = 1 '
+
+SET @query  = ' AND ('+@columnname+' IS NULL)'
+SET @sumsql = @sumsql + @query
+--PRINT @sumsql
+EXEC sp_executesql @stmt=@sumsql
 END
 ----------------------------------------------------------------
 --Check the datalength of Every Fields in the file
@@ -326,6 +336,15 @@ SET @vsql = @vsql + @query
 EXEC sp_executesql @stmt=@vsql
 --PRINT @vsql
 
+SET @sumsql = 'INSERT Datavalidation.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
+SELECT ''Goal'',''The issue is in the datalength of the field '+@columnname+'.'', COUNT(*)
+FROM Datavalidation.Goal_Local WHERE 1 = 1 '
+
+SET @query  = ' AND ((DATALENGTH ('+@columnname+')/2) > '+@datalength+' AND '+@columnname+' IS NOT NULL)'
+SET @sumsql = @sumsql + @query
+--PRINT @sumsql
+EXEC sp_executesql @stmt=@sumsql
+
 END
 -------------------------------------------------------------------
 --Check the Referntial Integrity Issues
@@ -334,13 +353,22 @@ IF (@isFkRelation = 1)
 BEGIN
 
 SET @vsql = 'INSERT Datavalidation.ValidationReport (TableName,ErrorMessage,LineNumber,Line)
-SELECT ''Goal'',''Some of the '+@parentcolumn+' does not exist in '+@parenttable+' File or were not validated successfully, but it existed in '+@tablename+'.'',goal.Line_No,ISNULL(CONVERT(VARCHAR(max),goal.GoalRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),goal.IepRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),goal.Sequence),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),goal.GoalAreaCode),'''')+ISNULL(CONVERT(VARCHAR(max),goal.PSEducation),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),goal.PSEmployment),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),goal.PSIndependent),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),goal.IsEsy),'''')+ISNULL(CONVERT(VARCHAR(max),goal.UNITOFMEASUREMENT),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),goal.BASELINEDATAPOINT),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),goal.EVALUATIONMETHOD),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),goal.GoalStatement),'''')
+SELECT ''Goal'',''The '+@columnname+' "''+CONVERT(VARCHAR(MAX),goal.'+@columnname+')+''" does not exist in '+@parenttable+'  or were not validated successfully, but it existed in '+@tablename+'.'',goal.Line_No,ISNULL(CONVERT(VARCHAR(max),goal.GoalRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),goal.IepRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),goal.Sequence),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),goal.GoalAreaCode),'''')+ISNULL(CONVERT(VARCHAR(max),goal.PSEducation),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),goal.PSEmployment),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),goal.PSIndependent),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),goal.IsEsy),'''')+ISNULL(CONVERT(VARCHAR(max),goal.UNITOFMEASUREMENT),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),goal.BASELINEDATAPOINT),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),goal.EVALUATIONMETHOD),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),goal.GoalStatement),'''')
 FROM Datavalidation.Goal_Local goal '
 
 SET @query  = ' LEFT JOIN Datavalidation.'+@parenttable+' dt ON goal.'+@columnname+' = dt.'+@parentcolumn+' WHERE dt.'+@parentcolumn+' IS NULL'
 SET @vsql = @vsql + @query
 EXEC sp_executesql @stmt=@vsql
 --PRINT @vsql
+
+SET @sumsql = 'INSERT Datavalidation.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
+SELECT ''Goal'',''Some of the '+@parentcolumn+' does not exist in '+@parenttable+' or were not validated successfully, but it existed in '+@tablename+'.'', COUNT(*)
+FROM Datavalidation.Goal_Local goal '
+
+SET @query  = ' LEFT JOIN Datavalidation.'+@parenttable+' dt ON goal.'+@columnname+' = dt.'+@parentcolumn+' WHERE dt.'+@parentcolumn+' IS NULL'
+SET @sumsql = @sumsql + @query
+--PRINT @sumsql
+EXEC sp_executesql @stmt=@sumsql
 END
 
 -------------------------------------------------------------------
@@ -350,12 +378,22 @@ IF (@isFlagfield = 1)
 BEGIN
 
 SET @vsql = 'INSERT Datavalidation.ValidationReport (TableName,ErrorMessage,LineNumber,Line)
-SELECT ''Goal'',''The field '+@columnname+' should have one of the value in '''+LTRIM(REPLACE(@flagrecords,''',''','/'))+''''',goal.Line_No,ISNULL(CONVERT(VARCHAR(max),goal.GoalRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),goal.IepRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),goal.Sequence),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),goal.GoalAreaCode),'''')+ISNULL(CONVERT(VARCHAR(max),goal.PSEducation),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),goal.PSEmployment),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),goal.PSIndependent),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),goal.IsEsy),'''')+ISNULL(CONVERT(VARCHAR(max),goal.UNITOFMEASUREMENT),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),goal.BASELINEDATAPOINT),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),goal.EVALUATIONMETHOD),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),goal.GoalStatement),'''') FROM Datavalidation.Goal_Local goal '
+SELECT ''Goal'',''The field '+@columnname+' should have one of the value in '''+LTRIM(REPLACE(@flagrecords,''',''','/'))+''', It has value as "''+goal.'+@columnname+'+''".'',goal.Line_No,ISNULL(CONVERT(VARCHAR(max),goal.GoalRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),goal.IepRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),goal.Sequence),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),goal.GoalAreaCode),'''')+ISNULL(CONVERT(VARCHAR(max),goal.PSEducation),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),goal.PSEmployment),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),goal.PSIndependent),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),goal.IsEsy),'''')+ISNULL(CONVERT(VARCHAR(max),goal.UNITOFMEASUREMENT),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),goal.BASELINEDATAPOINT),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),goal.EVALUATIONMETHOD),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),goal.GoalStatement),'''') FROM Datavalidation.Goal_Local goal '
 
 SET @query  = '  WHERE (goal.'+@columnname+' NOT IN  ('+@flagrecords+') AND goal.'+@columnname+' IS NOT NULL)'
 SET @vsql = @vsql + @query
 EXEC sp_executesql @stmt=@vsql
 --PRINT @vsql
+
+
+SET @sumsql = 'INSERT Datavalidation.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
+SELECT ''Goal'',''The field '+@columnname+' should have one of the value in '''+LTRIM(REPLACE(@flagrecords,''',''','/'))+'''.'', COUNT(*)
+FROM Datavalidation.Goal_Local goal '
+
+SET @query  = '  WHERE (goal.'+@columnname+' NOT IN  ('+@flagrecords+') AND goal.'+@columnname+' IS NOT NULL)'
+SET @sumsql = @sumsql + @query
+--PRINT @sumsql
+EXEC sp_executesql @stmt=@sumsql
 END
 -------------------------------------------------------------------
 --Check the unique fields
@@ -365,12 +403,22 @@ IF (@isuniquefield = 1)
 BEGIN
 
 SET @vsql = 'INSERT Datavalidation.ValidationReport (TableName,ErrorMessage,LineNumber,Line)
-SELECT ''Goal'',''The field '+@columnname+' is unique field, Here '+@columnname+' record is repeated.'',goal.Line_No,ISNULL(CONVERT(VARCHAR(max),goal.GoalRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),goal.IepRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),goal.Sequence),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),goal.GoalAreaCode),'''')+ISNULL(CONVERT(VARCHAR(max),goal.PSEducation),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),goal.PSEmployment),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),goal.PSIndependent),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),goal.IsEsy),'''')+ISNULL(CONVERT(VARCHAR(max),goal.UNITOFMEASUREMENT),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),goal.BASELINEDATAPOINT),'''')+''|''+ISNULL(CONVERT(VARCHAR(150),goal.EVALUATIONMETHOD),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),goal.GoalStatement),'''') FROM Datavalidation.Goal_Local goal JOIN '
+SELECT ''Goal'',''The field '+@columnname+' is unique field, Here "''+CONVERT(VARCHAR(MAX),goal.'+@columnname+')+''" record is repeated.'',goal.Line_No,ISNULL(CONVERT(VARCHAR(max),goal.GoalRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),goal.IepRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),goal.Sequence),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),goal.GoalAreaCode),'''')+ISNULL(CONVERT(VARCHAR(max),goal.PSEducation),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),goal.PSEmployment),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),goal.PSIndependent),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),goal.IsEsy),'''')+ISNULL(CONVERT(VARCHAR(max),goal.UNITOFMEASUREMENT),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),goal.BASELINEDATAPOINT),'''')+''|''+ISNULL(CONVERT(VARCHAR(150),goal.EVALUATIONMETHOD),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),goal.GoalStatement),'''') FROM Datavalidation.Goal_Local goal JOIN '
 
 SET @query  = ' (SELECT '+@columnname+' FROM Datavalidation.Goal_LOCAL GROUP BY '+@columnname+' HAVING COUNT(*)>1) ucgoal ON ucgoal.'+@columnname+' = goal.'+@columnname+' '
 SET @vsql = @vsql + @query
 EXEC sp_executesql @stmt=@vsql
 --PRINT @vsql
+
+SET @sumsql = 'INSERT Datavalidation.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
+SELECT ''Goal'',''The field '+@columnname+' is unique field, Here '+@columnname+' record is repeated.'', COUNT(*)
+FROM Datavalidation.Goal_Local goal JOIN  '
+
+SET @query  = ' (SELECT '+@columnname+' FROM Datavalidation.Goal_LOCAL GROUP BY '+@columnname+' HAVING COUNT(*)>1) ucgoal ON ucgoal.'+@columnname+' = goal.'+@columnname+' '
+SET @sumsql = @sumsql + @query
+--PRINT @sumsql
+EXEC sp_executesql @stmt=@sumsql
+
 END
 -------------------------------------------------------------------
 --Check the Lookup columns and Referntial issues
@@ -379,12 +427,22 @@ IF (@islookupcolumn = 1 AND @lookuptable = 'SelectLists')
 BEGIN
 
 SET @vsql = 'INSERT Datavalidation.ValidationReport (TableName,ErrorMessage,LineNumber,Line)
-SELECT ''Goal'',''The '+@columnname+' "''+ goal.'+@columnname+'+''" does not exist in '+@lookuptable+', but it existed in '+@tablename+''',goal.Line_No,ISNULL(CONVERT(VARCHAR(max),goal.GoalRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),goal.IepRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),goal.Sequence),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),goal.GoalAreaCode),'''')+ISNULL(CONVERT(VARCHAR(max),goal.PSEducation),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),goal.PSEmployment),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),goal.PSIndependent),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),goal.IsEsy),'''')+ISNULL(CONVERT(VARCHAR(max),goal.UNITOFMEASUREMENT),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),goal.BASELINEDATAPOINT),'''')+''|''+ISNULL(CONVERT(VARCHAR(150),goal.EVALUATIONMETHOD),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),goal.GoalStatement),'''') FROM Datavalidation.Goal_Local goal '
+SELECT ''Goal'',''The '+@columnname+' "''+CONVERT(VARCHAR(MAX),goal.'+@columnname+')+''" does not exist in '+@lookuptable+', but it existed in '+@tablename+''',goal.Line_No,ISNULL(CONVERT(VARCHAR(max),goal.GoalRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),goal.IepRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),goal.Sequence),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),goal.GoalAreaCode),'''')+ISNULL(CONVERT(VARCHAR(max),goal.PSEducation),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),goal.PSEmployment),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),goal.PSIndependent),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),goal.IsEsy),'''')+ISNULL(CONVERT(VARCHAR(max),goal.UNITOFMEASUREMENT),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),goal.BASELINEDATAPOINT),'''')+''|''+ISNULL(CONVERT(VARCHAR(150),goal.EVALUATIONMETHOD),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),goal.GoalStatement),'''') FROM Datavalidation.Goal_Local goal '
 
 SET @query  = ' WHERE (goal.'+@columnname+' NOT IN ( SELECT '+@lookupcolumn+' FROM Datavalidation.'+@lookuptable+' WHERE Type = '''+@lookuptype+''') AND goal.'+@columnname+' IS NOT NULL)'
 SET @vsql = @vsql + @query
 EXEC sp_executesql @stmt=@vsql
 --PRINT @vsql
+
+SET @sumsql = 'INSERT Datavalidation.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
+SELECT ''Goal'',''Some of the '+@columnname+' does not exist in '+@lookuptable+' or were not validated succesfully, but it existed in '+@tablename+''', COUNT(*)
+FROM Datavalidation.Goal_Local goal  '
+
+SET @query  = ' WHERE (goal.'+@columnname+' NOT IN ( SELECT '+@lookupcolumn+' FROM Datavalidation.'+@lookuptable+' WHERE Type = '''+@lookuptype+''') AND goal.'+@columnname+' IS NOT NULL)'
+SET @sumsql = @sumsql + @query
+--PRINT @sumsql
+EXEC sp_executesql @stmt=@sumsql
+
 END
 
 IF (@islookupcolumn =1 AND @lookuptable != 'SelectLists')
@@ -397,6 +455,16 @@ SET @query  = ' WHERE (goal.'+@columnname+' NOT IN ( SELECT '+@lookupcolumn+' FR
 SET @vsql = @vsql + @query
 EXEC sp_executesql @stmt=@vsql
 --PRINT @vsql
+
+SET @sumsql = 'INSERT Datavalidation.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
+SELECT ''Goal'',''Some of the '+@columnname+' does not exist in '+@lookuptable+' or were not validated succesfully, but it existed in '+@tablename+'.'', COUNT(*)
+FROM Datavalidation.Goal_Local goal  '
+
+SET @query  = ' WHERE (goal.'+@columnname+' NOT IN ( SELECT '+@lookupcolumn+' FROM Datavalidation.'+@lookuptable+') AND goal.'+@columnname+' IS NOT NULL)'
+SET @sumsql = @sumsql + @query
+--PRINT @sumsql
+EXEC sp_executesql @stmt=@sumsql
+
 END
 
 
@@ -411,6 +479,15 @@ SET @vsql = @vsql + @query
 EXEC sp_executesql @stmt=@vsql
 --PRINT @vsql
 
+SET @sumsql = 'INSERT Datavalidation.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
+SELECT ''Goal'',''The date format issue is in '+@columnname+'.'', COUNT(*)
+FROM Datavalidation.Goal_Local WHERE 1 = 1 '
+
+SET @query  = ' AND (ISDATE('''+@columnname+''') = 0 AND '+@columnname+' IS NOT NULL)'
+SET @sumsql = @sumsql + @query
+--PRINT @sumsql
+EXEC sp_executesql @stmt=@sumsql
+
 END
 
 IF (@datatype = 'int')
@@ -423,6 +500,15 @@ SET @query  = ' AND (Datavalidation.udf_IsInteger('+@columnname+') = 0 AND '+@co
 SET @vsql = @vsql + @query
 EXEC sp_executesql @stmt=@vsql
 --PRINT @vsql
+
+SET @sumsql = 'INSERT Datavalidation.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
+SELECT ''Goal'',''The field '+@columnname+' should have integer records.'', COUNT(*)
+FROM Datavalidation.Goal_Local WHERE 1 = 1 '
+
+SET @query  = ' AND (Datavalidation.udf_IsInteger('+@columnname+') = 0 AND '+@columnname+' IS NOT NULL)'
+SET @sumsql = @sumsql + @query
+--PRINT @sumsql
+EXEC sp_executesql @stmt=@sumsql
 
 END
 
