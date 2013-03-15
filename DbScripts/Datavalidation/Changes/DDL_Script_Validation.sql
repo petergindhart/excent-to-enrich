@@ -1,13 +1,4 @@
-/*
-IF EXISTS(select * from sys.schemas where name = 'DATAVALIDATION')
-DROP SCHEMA DATAVALIDATION
-GO
-CREATE SCHEMA DATAVALIDATION
-GO
-*/
-/*
-Staging tables to import the Source file data
-*/
+
 ----------------------------------------------------------------------------------------------------------------------------
 IF  EXISTS (SELECT 1 FROM sys.objects WHERE object_id = OBJECT_ID(N'DATAVALIDATION.SelectLists_LOCAL') AND type in (N'U'))
 DROP TABLE DATAVALIDATION.SelectLists_LOCAL
