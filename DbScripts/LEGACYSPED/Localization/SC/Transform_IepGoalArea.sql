@@ -1,19 +1,18 @@
--- COLORADO VERSION
+-- SOUTH CAROLINA VERSION
 
--- LEGACYSPED.MAP_GoalAreaDefID is created and inserted in LEGACYSPED\Objects\0001a-ETLPrep_State_CO.sql -- drop table LEGACYSPED.MAP_IepGoalArea
 -- #############################################################################
 --		Iep Goal Area MAP
-IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.MAP_IepGoalArea') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
+IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.MAP_IepGoalAreaID') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
 BEGIN
-CREATE TABLE LEGACYSPED.MAP_IepGoalArea
+CREATE TABLE LEGACYSPED.MAP_IepGoalAreaID
 (
 	GoalRefID	varchar(150) not null,
 	DefID uniqueidentifier NOT NULL,
 	DestID uniqueidentifier NOT NULL
 )
 
-ALTER TABLE LEGACYSPED.MAP_IepGoalArea ADD CONSTRAINT 
-PK_MAP_IepGoalArea PRIMARY KEY CLUSTERED
+ALTER TABLE LEGACYSPED.MAP_IepGoalAreaID ADD CONSTRAINT 
+PK_MAP_IepGoalAreaID PRIMARY KEY CLUSTERED
 (
 	DefID, GoalRefID
 )
@@ -143,7 +142,7 @@ select
 from LEGACYSPED.Transform_PrgGoal g join 
 LEGACYSPED.MAP_GoalAreaPivot p on g.GoalRefID = p.GoalRefID join -- in the where clause we will limit this to the primary goal area.  Another transform will insert subgoals, and yet another will insert secondary goals
 LEGACYSPED.MAP_IepGoalAreaDefID md on p.GoalAreaCode = md.GoalAreaCode left join
-LEGACYSPED.MAP_IepGoalArea mga on g.GoalRefID = mga.GoalRefID and md.DestID = mga.DefID left join 
+LEGACYSPED.MAP_IepGoalAreaID mga on g.GoalRefID = mga.GoalRefID and md.DestID = mga.DefID left join 
 IepGoalArea ga on mga.DestID = ga.ID
 where p.GoalAreaDefIndex = (
 	select min(pmin.GoalAreaDefIndex)

@@ -1,19 +1,18 @@
--- COLORADO VERSION
+-- ILLINOIS VERSION
 
--- LEGACYSPED.MAP_GoalAreaDefID is created and inserted in LEGACYSPED\Objects\0001a-ETLPrep_State_FL.sql
 -- #############################################################################
 --		Iep Goal Area MAP
-IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.MAP_IepGoalArea') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
+IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.MAP_IepGoalAreaID') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
 BEGIN
-CREATE TABLE LEGACYSPED.MAP_IepGoalArea
+CREATE TABLE LEGACYSPED.MAP_IepGoalAreaID
 (
 	InstanceID	uniqueidentifier not null,
 	GoalAreaDefID uniqueidentifier NOT NULL,
 	DestID uniqueidentifier NOT NULL
 )
 
-ALTER TABLE LEGACYSPED.MAP_IepGoalArea ADD CONSTRAINT 
-PK_MAP_IepGoalArea PRIMARY KEY CLUSTERED
+ALTER TABLE LEGACYSPED.MAP_IepGoalAreaID ADD CONSTRAINT 
+PK_MAP_IepGoalAreaID PRIMARY KEY CLUSTERED
 (
 	InstanceID, GoalAreaDefID
 )
@@ -145,7 +144,7 @@ as
 		--LEGACYSPED.MAP_GoalAreaDefID m on ga.GoalAreaCode = m.GoalAreaCode
 		LEGACYSPED.GoalAreasPerGoalView gapg left join
 		--) distga left join -- 32608
-		LEGACYSPED.MAP_IepGoalArea mga on gapg.InstanceID = mga.InstanceID and gapg.DefID = mga.GoalAreaDefID left join
+		LEGACYSPED.MAP_IepGoalAreaID mga on gapg.InstanceID = mga.InstanceID and gapg.DefID = mga.GoalAreaDefID left join
 		dbo.IepGoalArea tgt on mga.DestID = tgt.ID --- select * from IepGoalArea
 		--where gapg.GoalIndex = 
 		--	(select MIN(gaIn.GoalIndex) -- Enrich does not currently support multiple domains per Goal

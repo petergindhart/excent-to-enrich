@@ -3,6 +3,8 @@ DROP VIEW LEGACYSPED.StudentView
 GO
 CREATE VIEW LEGACYSPED.StudentView
 as
-SELECT *, StudentStateID = x_UicNumber
-FROM dbo.Student
+SELECT *, StudentStateID = s.x_UICNumber 
+FROM dbo.Student s
 GO
+
+

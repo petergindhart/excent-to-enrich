@@ -1,16 +1,16 @@
 -- ############################################################################# ------- duplicated in Transform_IepGoalArea.sql
 --		Iep Goal Area MAP
-IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.MAP_IepGoalArea') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
+IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.MAP_IepGoalAreaID') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
 BEGIN
-CREATE TABLE LEGACYSPED.MAP_IepGoalArea
+CREATE TABLE LEGACYSPED.MAP_IepGoalAreaID
 (
 	GoalRefID	varchar(150) not null,
 	DefID uniqueidentifier NOT NULL,
 	DestID uniqueidentifier NOT NULL
 )
 
-ALTER TABLE LEGACYSPED.MAP_IepGoalArea ADD CONSTRAINT 
-PK_MAP_IepGoalArea PRIMARY KEY CLUSTERED
+ALTER TABLE LEGACYSPED.MAP_IepGoalAreaID ADD CONSTRAINT 
+PK_MAP_IepGoalAreaID PRIMARY KEY CLUSTERED
 (
 	DefID, GoalRefID
 )
@@ -128,11 +128,11 @@ AS
   LEGACYSPED.IEP iep join 
   LEGACYSPED.Goal g on iep.IepRefID = g.IepRefID JOIN
   LEGACYSPED.GoalAreaExists e on g.GoalRefID = e.GoalRefID left join
-  LEGACYSPED.MAP_IepGoalArea ga on g.GoalRefID = ga.GoalRefID left join ----------------- May be able to use MAP table for speed
+  LEGACYSPED.MAP_IepGoalAreaID ga on g.GoalRefID = ga.GoalRefID left join ----------------- May be able to use MAP table for speed
 	(
 	select g.IepRefID, ga.DefID, gad.GoalAreaCode 
 	from LEGACYSPED.Goal g join
-	LEGACYSPED.MAP_IepGoalArea ga on g.GoalRefID = ga.GoalRefID join ----------------- May be able to use MAP table for speed
+	LEGACYSPED.MAP_IepGoalAreaID ga on g.GoalRefID = ga.GoalRefID join ----------------- May be able to use MAP table for speed
 	LEGACYSPED.MAP_IepGoalAreaDefID gad on ga.DefID = gad.DestID
 	group by g.IepRefID, ga.DefID, gad.GoalAreaCode
 	) ga1 on g.IepRefId = ga1.IepRefID and ga.DefID = ga1.DefID LEFT JOIN 
