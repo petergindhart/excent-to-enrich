@@ -112,6 +112,7 @@ SELECT LINE_NO,REPLACE(row,'''','''''') as row INTO #flatfile_validrec FROM #fla
 
 INSERT Datavalidation.ValidationSummaryReport
 SELECT @tablename,'Total Records',COUNT(*)as cnt FROM #flatfile
+WHERE row IS NOT NULL
 
 INSERT Datavalidation.ValidationReport
 SELECT @tablename,'Number of fields in the row does not match with header',LINE_NO,REPLACE(row,'''','''''') as row FROM #flatfile_LineNo WHERE LEN(row) - LEN(REPLACE(row, '|', '')) != @no_of_field
