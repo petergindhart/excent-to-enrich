@@ -1,3 +1,8 @@
+--#include 0000-RunFirst.sql
+--#include ..\..\Datavalidation\Changes\0000-RegisterModule.sql
+--#include ..\..\Datavalidation\Changes\Check_IsInteger.sql
+--#include ..\..\Datavalidation\Changes\DDL_Script_Validation.sql
+--#include ..\..\Datavalidation\Changes\vw_Validationsummaryreport.sql
 --#include Check_SelecLists_Specifications.sql
 --#include Check_District_Specifications.sql
 --#include Check_School_Specifications.sql
