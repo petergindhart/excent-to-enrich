@@ -27,7 +27,7 @@ AS
 		,
 		stu.SpecialEdStatus,
 		-- PrgInvolvementStatus
-		StatusID = '0B5D5C72-5058-4BF5-A414-BDB27BD5DD94'
+		StatusID = (select DestID from LEGACYSPED.MAP_PrgStatus_ConvertedDataPlan)
 	FROM
 		LEGACYSPED.EvaluateIncomingItems ev join 
 		LEGACYSPED.Transform_Student stu on ev.StudentRefID = stu.StudentRefID JOIN 
