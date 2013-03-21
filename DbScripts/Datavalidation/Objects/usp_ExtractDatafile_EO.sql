@@ -3,10 +3,6 @@ DROP PROC Datavalidation.ExtractDataFile_EO
 GO
 
 CREATE PROC Datavalidation.ExtractDataFile_EO 
-(
-@dbname VARCHAR(150)
-,@reportfilelocationpath VARCHAR(150)
-)
 AS
 BEGIN
 

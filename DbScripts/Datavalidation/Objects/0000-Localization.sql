@@ -3,6 +3,17 @@
 --#include ..\..\Datavalidation\Changes\Check_IsInteger.sql
 --#include ..\..\Datavalidation\Changes\DDL_Script_Validation.sql
 --#include ..\..\Datavalidation\Changes\vw_Validationsummaryreport.sql
+--#include ..\..\Datavalidation\Changes\Datavalidation_SelectLists.sql
+--#include ..\..\Datavalidation\Changes\Datavalidation_District.sql
+--#include ..\..\Datavalidation\Changes\Datavalidation_School.sql
+--#include ..\..\Datavalidation\Changes\Datavalidation_Student.sql
+--#include ..\..\Datavalidation\Changes\Datavalidation_IEP.sql
+--#include ..\..\Datavalidation\Changes\Datavalidation_SpedStaffMember.sql
+--#include ..\..\Datavalidation\Changes\Datavalidation_Service.sql
+--#include ..\..\Datavalidation\Changes\Datavalidation_Goal.sql
+--#include ..\..\Datavalidation\Changes\Datavalidation_Objective.sql
+--#include ..\..\Datavalidation\Changes\Datavalidation_TeamMemeber.sql
+--#include ..\..\Datavalidation\Changes\Datavalidation_StaffSchool.sql
 --#include Check_SelecLists_Specifications.sql
 --#include Check_District_Specifications.sql
 --#include Check_School_Specifications.sql
