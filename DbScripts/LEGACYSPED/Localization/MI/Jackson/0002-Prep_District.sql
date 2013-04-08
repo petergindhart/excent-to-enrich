@@ -18,7 +18,22 @@ go
 
 update OrgUnit set Number = '18' where ID = '6531EF88-352D-4620-AF5D-CE34C54A9F53'
 go
+-- to consider:  in case these get deleted, have code that will insert them if they are not here.  Not necessary at this point.
+declare @OrgUnit table (ID uniqueidentifier, Name varchar(200), Number varchar(10))
+--insert @OrgUnit values ('6531EF88-352D-4620-AF5D-CE34C54A9F53', '', '38170')
+--insert @orgunit values ('93C46867-4ECE-4FAD-8199-323B28F18D03','Concord Community Schools','')
+insert @orgunit values ('68B1FC8B-88B8-4E61-AF11-63A505969DCB','Grasslake Community Schools','38050')
+insert @orgunit values ('7497AAA6-2F2B-4C2F-B33B-72D8E8D1BFE4','Jackson Public Schools','38170')
+insert @orgunit values ('D148C1B7-E526-409A-99FC-7EDC4DD7AC2F','Northwest Community Schools','38140')
+insert @orgunit values ('3B5E97EA-4EF1-470A-BD97-86475C642460','Napoleon Community Schools','38130')
+--insert @orgunit values ('6531EF88-352D-4620-AF5D-CE34C54A9F53','School District','')
+insert @orgunit values ('457ABE79-0236-4877-AE0E-D1333B299F74','Hanover Horton School District','38100')
 
+update ou set Number = t.Number
+-- select * 
+from @OrgUnit t join
+OrgUnit ou on t.ID = ou.ID 
+GO
 if exists (select 1 from sys.schemas s join sys.objects o on s.schema_id = o.schema_id where s.name = 'LEGACYSPED' and o.name = 'MAP_PrgStatus_ConvertedDataPlan')
 drop table LEGACYSPED.MAP_PrgStatus_ConvertedDataPlan
 go

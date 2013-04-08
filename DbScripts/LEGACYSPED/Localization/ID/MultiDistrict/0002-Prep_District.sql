@@ -36,6 +36,19 @@ GO
 update ou set Number = '999' 
  --select ou.*
 from dbo.OrgUnit ou where ID = 'C5D9E1C3-12E0-4B12-9C2A-54DAC9712369'
+GO
+update ou set Number = '052' 
+ --select ou.*
+from dbo.OrgUnit ou where ID = 'A3227EBE-5573-46E3-9A38-115710BA8631'
+
+GO
+if exists (select 1 from sys.schemas s join sys.objects o on s.schema_id = o.schema_id where s.name = 'LEGACYSPED' and o.name = 'MAP_PrgStatus_ConvertedDataPlan')
+drop table LEGACYSPED.MAP_PrgStatus_ConvertedDataPlan
+go
+
+create table LEGACYSPED.MAP_PrgStatus_ConvertedDataPlan (DestID uniqueidentifier not null)
+insert LEGACYSPED.MAP_PrgStatus_ConvertedDataPlan values ('0B5D5C72-5058-4BF5-A414-BDB27BD5DD94')
+go
 
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'LEGACYSPED.ImportPrgSections') AND type in (N'U'))
 BEGIN
