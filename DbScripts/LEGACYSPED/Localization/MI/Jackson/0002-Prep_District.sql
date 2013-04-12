@@ -20,14 +20,24 @@ update OrgUnit set Number = '18' where ID = '6531EF88-352D-4620-AF5D-CE34C54A9F5
 go
 -- to consider:  in case these get deleted, have code that will insert them if they are not here.  Not necessary at this point.
 declare @OrgUnit table (ID uniqueidentifier, Name varchar(200), Number varchar(10))
---insert @OrgUnit values ('6531EF88-352D-4620-AF5D-CE34C54A9F53', '', '38170')
+insert @orgunit values ('44D84A2E-8ED0-4071-8973-A089A812EC7E','Addison Community Schools','46020')
+insert @orgunit values ('186D1AFA-D574-49E4-8C44-3AF4A1BE25A0','Columbia School District','38040')
 --insert @orgunit values ('93C46867-4ECE-4FAD-8199-323B28F18D03','Concord Community Schools','')
+--insert @orgunit values ('9C77BCD9-05F6-4CBB-A846-D0CC45D1FD31','daVinci Institute','')
+insert @orgunit values ('0624D3FE-52FA-4D40-86DE-2C5F3668752C','East Jackson Community Schools','38090')
 insert @orgunit values ('68B1FC8B-88B8-4E61-AF11-63A505969DCB','Grasslake Community Schools','38050')
-insert @orgunit values ('7497AAA6-2F2B-4C2F-B33B-72D8E8D1BFE4','Jackson Public Schools','38170')
-insert @orgunit values ('D148C1B7-E526-409A-99FC-7EDC4DD7AC2F','Northwest Community Schools','38140')
-insert @orgunit values ('3B5E97EA-4EF1-470A-BD97-86475C642460','Napoleon Community Schools','38130')
---insert @orgunit values ('6531EF88-352D-4620-AF5D-CE34C54A9F53','School District','')
 insert @orgunit values ('457ABE79-0236-4877-AE0E-D1333B299F74','Hanover Horton School District','38100')
+insert @orgunit values ('7497AAA6-2F2B-4C2F-B33B-72D8E8D1BFE4','Jackson Public Schools','38170')
+insert @orgunit values ('607C5483-0368-41CF-AE0D-BDD3B38B1D5F','Jonesville Community Schools','30030')
+insert @orgunit values ('00F0DDAB-4CF9-48FE-9DEE-66BBDB606876','Leslie Public Schools','33100')
+insert @orgunit values ('0976D170-591E-4372-BA06-CEECF6EDAF84','Manchester Community Schools','81080')
+insert @orgunit values ('D7F7C781-C73D-4E30-9E05-F120C01E2865','Michigan Center School District','38120')
+insert @orgunit values ('3B5E97EA-4EF1-470A-BD97-86475C642460','Napoleon Community Schools','38130')
+insert @orgunit values ('D148C1B7-E526-409A-99FC-7EDC4DD7AC2F','Northwest Community Schools','38140')
+--insert @orgunit values ('6531EF88-352D-4620-AF5D-CE34C54A9F53','School District','')
+insert @orgunit values ('0B1E4346-04AC-4839-BE42-EB0C5A4496E5','Springport Public Schools','38150')
+insert @orgunit values ('EE4502BC-041F-4C2D-BAE6-25A8A91D39AC','Vandercook Lake Public Schools','38020')
+insert @orgunit values ('41FA44CE-DE9A-4359-9514-F1BAFCA9453D','Western School District','38010')
 
 update ou set Number = t.Number
 -- select * 
