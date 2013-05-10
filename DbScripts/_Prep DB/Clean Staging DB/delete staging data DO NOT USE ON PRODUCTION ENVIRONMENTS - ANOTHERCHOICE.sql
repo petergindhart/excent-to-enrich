@@ -5,18 +5,9 @@ This code is a work in progress.  Some code may be specific to certain environme
 
 */
 
-
-
-
-
-
 set nocount on; -- set nocount off;
 
 begin tran
-
---if not exists (select 1 from sys.schemas s where s.name = 'x_DataTeam')
---create schema x_DataTeam
-
 
 set xact_abort on
 
@@ -433,11 +424,6 @@ delete x
 from School x 
 where x.ManuallyEntered = 1
 	and x.Name <> 'District Office'
-	and x.ID not in (select SchoolID from AuthenticationContext)
-
---Msg 547, Level 16, State 0, Line 423
---The DELETE statement conflicted with the REFERENCE constraint "FK_AuthenticationContext#School#". The conflict occurred in database "Enrich_DC1_MI_Jackson_2005", table "dbo.AuthenticationContext", column 'SchoolID'.
-
 
 --Msg 547, Level 16, State 0, Line 247
 --The DELETE statement conflicted with the REFERENCE constraint "FK_StudentRosterYearInformation#Student#StudentRosterYearInformations". The conflict occurred in database "Enrich_DC5_CO_Poudre", table "dbo.StudentRosterYear", column 'StudentId'.
@@ -814,6 +800,9 @@ begin
 end
 
 -- delete "lookup" values entered by data conversion process
+
+if exists (select 1 from sys.objects where name = 'MAP_IepDisabilityID')
+begin 
 delete x
 from IepDisability x 
 join LEGACYSPED.MAP_IepDisabilityID y on x.ID = y.DestID
@@ -834,63 +823,18 @@ delete x
 from IepServiceDef x 
 join LEGACYSPED.MAP_ServiceDefID y on x.ID = y.DestID
 
-
-
-
-if exists (select 1 from sys.schemas s join sys.objects o on s.schema_id = o.schema_id where s.name = 'x_DataTeam' and o.name = 'UserProfileServiceDefPermission_backup')
-drop table x_DataTeam.UserProfileServiceDefPermission_backup
-
-select y.* , p.UserProfileID, u.UserName, 
-	ServiceDefNameOLD = x.Name,
-	ServiceDefName = replace(replace(replace(replace(replace(x.Name, ' (SpEd)', ''), ' (Related)', ''), ' (Program)', ''), ' (Misc)', ''), ' (NA)', '')
-into x_DataTeam.UserProfileServiceDefPermission_backup
-from LEGACYSPED.MAP_ServiceDefID y 
-join UserProfileServiceDefPermission p on y.DestID = p.ServiceDefID
-join ServiceDef x on y.DestID = x.ID
-join UserProfile u on p.UserProfileID = u.ID
---where x.Name <> replace(replace(replace(replace(replace(x.Name, ' (SpEd)', ''), ' (Related)', ''), ' (Program)', ''), ' (Misc)', ''), ' (NA)', '')
---order by replace(x.Name, replace(replace(replace(replace(replace(x.Name, ' (SpEd)', ''), ' (Related)', ''), ' (Program)', ''), ' (Misc)', ''), ' (NA)', ''), ''), x.name
-
-
-delete x
-from UserProfileServiceDefPermission x 
-join LEGACYSPED.MAP_ServiceDefID y on x.ServiceDefID = y.DestID
-
-
 delete x
 from ServiceDef x 
 join LEGACYSPED.MAP_ServiceDefID y on x.ID = y.DestID
-
---Msg 547, Level 16, State 0, Line 237
---The DELETE statement conflicted with the REFERENCE constraint "FK_UserProfileServiceDefPermission#ServiceDef#". The conflict occurred in database "Enrich_DC1_MI_Jackson_2005", table "dbo.UserProfileServiceDefPermission", column 'ServiceDefID'.
-
-
---Msg 547, Level 16, State 0, Line 215
---The DELETE statement conflicted with the REFERENCE constraint "FK_UserProfileServiceDefPermission#ServiceDef#". The conflict occurred in database "Enrich_DC1_MI_Jackson_2005", table "dbo.UserProfileServiceDefPermission", column 'ServiceDefID'.
-
 
 delete x
 from IepServiceCategory x 
 join LEGACYSPED.MAP_IepServiceCategoryID y on x.ID = y.DestID
 
-if exists (select 1 from sys.schemas s join sys.objects o on s.schema_id = o.schema_id where s.name = 'x_DataTeam' and o.name = 'ServiceProviderTitle_backup')
-drop table x_DataTeam.ServiceProviderTitle_backup
-
-
-select m.*, u.UserName, ProviderTitleName = t.name
-into x_DataTeam.ServiceProviderTitle_backup
-from UserProfile u
-join LEGACYSPED.MAP_ServiceProviderTitleID m on u.ProviderTitleID = m.DestID 
-join ServiceProviderTitle t on m.DestID = t.ID
-
-update UserProfile set ProviderTitleID = NULL where ProviderTitleID in (select distinct ProviderTitleID from UserProfile where ProviderTitleID is not null and ProviderTitleID in (select DestID from LEGACYSPED.MAP_ServiceProviderTitleID))
-
 delete x
 from ServiceProviderTitle x 
 join LEGACYSPED.MAP_ServiceProviderTitleID y on x.ID = y.DestID
-
---Msg 547, Level 16, State 0, Line 253
---The DELETE statement conflicted with the REFERENCE constraint "FK_UserProfile#ServiceProviderTitle#Users". The conflict occurred in database "Enrich_DC1_MI_Jackson_2005", table "dbo.UserProfile", column 'ProviderTitleID'.
+end
 
 -- truncate all of the legacysped tables
 declare @d varchar(254) 
