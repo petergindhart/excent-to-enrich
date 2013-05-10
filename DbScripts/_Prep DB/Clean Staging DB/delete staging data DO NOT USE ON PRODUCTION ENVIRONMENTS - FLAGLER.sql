@@ -799,6 +799,8 @@ begin
 	drop table LEGACYSPED.DataConversionLogTable
 end
 
+if exists (select 1 from sys.schemas s join sys.objects o on s.schema_id = o.schema_id where s.name = 'LEGACYSPED' and o.name = 'MAP_IepDisabilityID ')
+begin
 -- delete "lookup" values entered by data conversion process
 delete x
 from IepDisability x 
@@ -831,6 +833,7 @@ join LEGACYSPED.MAP_IepServiceCategoryID y on x.ID = y.DestID
 delete x
 from ServiceProviderTitle x 
 join LEGACYSPED.MAP_ServiceProviderTitleID y on x.ID = y.DestID
+end
 
 
 -- truncate all of the legacysped tables
