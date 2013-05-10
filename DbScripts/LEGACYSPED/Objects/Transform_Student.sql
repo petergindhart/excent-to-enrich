@@ -86,7 +86,7 @@ AS
   CurrentSchoolID = sch.DestID,
   CurrentGradeLevelID = g.DestID,
   --EthnicityID = CAST(NULL as uniqueidentifier),
-  GenderID = (select TOP 1 ID from EnumValue where Type = 'D6194389-17AC-494C-9C37-FD911DA2DD4B' and StateCode = src.Gender), -- will error if more than one value
+  GenderID = (select TOP 1 v.ID from EnumValue v where v.Type = 'D6194389-17AC-494C-9C37-FD911DA2DD4B' and v.StateCode = src.Gender and v.IsActive = 1), -- will error if more than one value
   Number = src.StudentLocalID,
   src.FirstName,
   src.MiddleName,
@@ -103,7 +103,7 @@ AS
   LinkedToAEPSi = cast(0 as bit),
   IsHispanic = case when src.IsHispanic = 'Y' then 1 else 0 end,
   MedicaidNumber = src.MedicaidNumber,
-  OID = (select DestID from LEGACYSPED.MAP_AdminUnitID),
+  OID = (select DestID from LEGACYSPED.MAP_AdminUnitID), ------------------------------------------------- this is wrong!
   ImportPausedDate = cast(NULL as datetime),
   ImportPausedByID = cast(NULL as uniqueidentifier),
   IsActive = coalesce(sst.IsActive, sloc.IsActive, 1),
