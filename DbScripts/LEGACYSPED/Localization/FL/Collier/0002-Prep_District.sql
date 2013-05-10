@@ -67,6 +67,9 @@ insert LEGACYSPED.ImportPrgSections
 select * from @importPrgSections
 go
 
+-- insert the Consent for Eval section def in case it is missing
+if not exists (select * from PrgSectionDef where ID = '47958E63-10C4-4124-A5BA-8C1077FB2D40')
+insert PrgSectionDef (ID, TypeID, ItemDefID, Sequence, IsVersioned, DisplayPrevious, CanCopy) values ('47958E63-10C4-4124-A5BA-8C1077FB2D40', '31A1AE20-5F63-47FD-852A-4801595033ED', '8011D6A2-1014-454B-B83C-161CE678E3D3', 7, 0, 0, 0)
 
 
 /*
