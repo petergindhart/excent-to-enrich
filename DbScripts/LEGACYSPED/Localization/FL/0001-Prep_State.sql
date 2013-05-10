@@ -5,6 +5,27 @@
 
 */
 
+
+-- NEW powerschool map to indicate up to how many leading zeros to add to district and school numbers
+-- This is necessary because PowerSchool trims leading zeros from District Numbers and SchoolNumbers, but the sped program does not.
+-- See Transform_OrgUnit and Transform_School to see how this view is used
+IF EXISTS (SELECT * FROM sys.schemas s join sys.objects o on s.schema_id = o.schema_id WHERE s.name = 'LEGACYSPED' and o.Name ='DistrictSchoolLeadingZeros' and type = 'U')
+drop table LEGACYSPED.DistrictSchoolLeadingZeros
+GO
+
+CREATE TABLE LEGACYSPED.DistrictSchoolLeadingZeros
+(
+	Entity	varchar(10) not null,
+	Zeros	varchar(10) not null
+)
+
+-- MI:  District 5 characters, School 5 characters
+insert LEGACYSPED.DistrictSchoolLeadingZeros values ('District', '00')
+insert LEGACYSPED.DistrictSchoolLeadingZeros values ('School', '0000')
+go
+
+
+
 -- Ensure GradeLevel StateCode is populated.  Specific to Florida
 update GradeLevel set StateCode = case Name when 'K' then 'KG' when '00' then NULL else Name end
 go
