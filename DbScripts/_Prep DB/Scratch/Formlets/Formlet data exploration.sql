@@ -277,6 +277,15 @@ go
 
 
 
+create view EXCENTDATATEAM.FormInterval
+as
+select FormIntervalID = fi.id, FormInterval = fi.Name, fi.Sequence, fi.SeriesId, FormIntervalSeries = fis.Name, CumulativeUpToID = fi.CumulativeUpTo, CumulativeUpTo = fic.Name
+from dbo.FormInterval fi 
+join dbo.FormIntervalSeries fis on fi.SeriesId = fis.Id
+left join dbo.FormInterval fic on fi.CumulativeUpTo = fic.Id
+go
+
+
 select * 
 from EXCENTDATATEAM.PrgSection ps
 join EXCENTDATATEAM.FormInstanceItem fii on ps.FormInstanceID = fii.FormInstanceID
@@ -406,105 +415,6 @@ delete prgitemtype where ID = 'AA8A82A3-ED26-49AD-BA9E-56004D8779E5'
 update SystemSettings set SecurityRebuiltDate = NULL
 
 
-
-
-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-
---select * from PrgItemDef where ID = '9F8156ED-AC5B-432B-BB12-8F8B302EF02B' -- EP - Gifted Education
-
---select * from Student where lastname like 'Gidd%'
-
--- 372582	COURTNEY	LYNN	GIDDINGS	9644FD42-018F-4AB9-9D49-A557B7415C93
-
-select * from PrgItem where ID = '3B8B7751-2B25-44F1-97C0-28620EAD8159'
-
-select * from StudentSchool where StudentID = '9644FD42-018F-4AB9-9D49-A557B7415C93' and RosterYearID = 'A332BC88-B400-42E2-85AA-3A7F8C6ACA54'
--- select * from RosterYear where getdate() between startdate and EndDate
-
-select * from StudentGradeLevelHistory where StudentID = '9644FD42-018F-4AB9-9D49-A557B7415C93'
-
-insert StudentGradeLevelHistory values ('9644FD42-018F-4AB9-9D49-A557B7415C93', 'BE4F651A-D5B5-4B05-8237-9FD33E4D2B68', '8/21/2012', NULL)
-
-select * from GradeLevel where ID = 'D3C1BD80-0D32-4317-BAB8-CAF196D19350' -- 03
---BE4F651A-D5B5-4B05-8237-9FD33E4D2B68 -- 04
-
-
--- select * from PrgInvolvement
-
-insert PrgInvolvement (ID, StudentID, ProgramID, VariantID, StartDate, IsManuallyEnded) 
-values ('A959F58F-A533-4C04-86F5-0E0DC77DA669', '9644FD42-018F-4AB9-9D49-A557B7415C93', 'AD9F855B-E054-46BF-ACA9-1884CBD6C8E1', '43E1AF01-0A27-41B3-90E1-D7322CE5CD37', '4/1/2013', 0)
-
-
-insert PrgItem (ID, DefID, StudentID, StartDate, EndDate, ItemOutcomeID, CreatedDate, CreatedBy, EndedDate, EndedBy, 
-	SchoolID, GradeLevelID, InvolvementID, StartStatusID, EndStatusID, 
-	PlannedEndDate, IsEnded, LastModifiedDate, LastModifiedByID, Revision, IsApprovalPending, ApprovedDate, ApprovedByID)
-values ('0D629769-1716-46C4-876B-E23400372A0F', '9F8156ED-AC5B-432B-BB12-8F8B302EF02B', '9644FD42-018F-4AB9-9D49-A557B7415C93', '4/2/2013', NULL, NULL, getdate(), 'EEE133BD-C557-47E1-AB67-EE413DD3D1AB', NULL, NULL, 
-	'A60E5028-E178-4AD1-9601-7DE7F6536022', 'BE4F651A-D5B5-4B05-8237-9FD33E4D2B68', 'A959F58F-A533-4C04-86F5-0E0DC77DA669', '5671233A-B650-400C-955F-184930A33A85', NULL,
-	'3/31/2014', 0, getdate(), 'EEE133BD-C557-47E1-AB67-EE413DD3D1AB', 0, 0, NULL, NULL)
-go
-
-insert FormInstance (ID, TemplateId) values ('C4831254-69E9-4D26-8EC6-9170059CFD53', 'DC3596BD-8ECF-475A-966D-0D090C825580') -- generated newid()
-go
-
-insert PrgItemForm (ID, ItemID, CreatedDate, CreatedBy, AssociationTypeID) -- ID is the FormInstanceID
-values ('C4831254-69E9-4D26-8EC6-9170059CFD53', '0D629769-1716-46C4-876B-E23400372A0F', getdate(), 'EEE133BD-C557-47E1-AB67-EE413DD3D1AB', 'DE0AFD97-84C8-488E-94DC-E17CAAA62082')
-
--- Attempted to initialize PrgIep 0d629769-1716-46c4-876b-e23400372a0f*A5990B5E-AFAD-4EF0-9CCA-DC3685296870, however it didn't initialize. This may be because it has been deleted. Support Code: A4-PU-EN
-
-
-insert PrgIep values ('0D629769-1716-46C4-876B-E23400372A0F', 0)
-
---select * from FormInstanceInterval 
-
---select newid()
-
-insert FormInstanceInterval (id, InstanceId, IntervalId) values ('84BD44B5-60CB-46F7-B6FC-CCB1B25E341E', 'C4831254-69E9-4D26-8EC6-9170059CFD53', 'FBE8314C-E0A0-4C5A-9361-7201081BD47D')
-
-
-
-
--- insert form input value
--- pick a date to insert to get started
-
-select * from EXCENTDATATEAM.FormInput where TemplateID = 'DC3596BD-8ECF-475A-966D-0D090C825580' order by Sequence
-
-select * from FormInputValue 
-
---5A25FA40-9E96-4421-88C2-24C177CAF414	0	Date	EP Meeting Date:
---9BD0C775-AD94-46C3-953D-2005854E2D13	1	Date	EP Initiation Date:
---2C41063F-F8A1-45A9-9A7F-96794A77419B	2	Date	Last EP Date:
---FDD3B407-77D3-4FB2-8EAE-3DE0D35A6821	3	Date	Special Review Date:
---D022A416-7E74-4CF0-9007-4224949D1702	4	Date	Duration Date:
---A2E3EB67-6A1F-4B88-99C9-4027B37D4ECA	5	Single Select	EP Level:
-
--- hard code the ID from FormInstance Interval : 84BD44B5-60CB-46F7-B6FC-CCB1B25E341E
-select 'insert FormInputValue (ID, IntervalId, InputFieldId, Sequence) values ('''+ convert(varchar(36), newID())+''', ''84BD44B5-60CB-46F7-B6FC-CCB1B25E341E'', '''+convert(varchar(36), InputFieldId)+''', 0) --'+ convert(varchar(3), Sequence)+' '+ValueType+' '+InputItemLabel
--- select * 
-from EXCENTDATATEAM.FormInput 
-where TemplateID = 'DC3596BD-8ECF-475A-966D-0D090C825580' 
-order by Sequence
-
-insert FormInputValue (ID, IntervalId, InputFieldId, Sequence) values ('A16681CD-FE2F-4B06-939D-FAC428A4D0D0', '84BD44B5-60CB-46F7-B6FC-CCB1B25E341E', '5A25FA40-9E96-4421-88C2-24C177CAF414', 0) --0 Date EP Meeting Date:
-insert FormInputValue (ID, IntervalId, InputFieldId, Sequence) values ('0D5BE69D-7305-436C-A331-518C524D8A90', '84BD44B5-60CB-46F7-B6FC-CCB1B25E341E', '9BD0C775-AD94-46C3-953D-2005854E2D13', 0) --1 Date EP Initiation Date:
-insert FormInputValue (ID, IntervalId, InputFieldId, Sequence) values ('3D74B0A7-77B2-4B04-80C0-41188EB717C7', '84BD44B5-60CB-46F7-B6FC-CCB1B25E341E', '2C41063F-F8A1-45A9-9A7F-96794A77419B', 0) --2 Date Last EP Date:
-insert FormInputValue (ID, IntervalId, InputFieldId, Sequence) values ('FFF38ADF-05D2-4044-940B-34C4B071342C', '84BD44B5-60CB-46F7-B6FC-CCB1B25E341E', 'FDD3B407-77D3-4FB2-8EAE-3DE0D35A6821', 0) --3 Date Special Review Date:
-insert FormInputValue (ID, IntervalId, InputFieldId, Sequence) values ('EC2824C7-2942-47E0-8E6D-64A6CE72D2E6', '84BD44B5-60CB-46F7-B6FC-CCB1B25E341E', 'D022A416-7E74-4CF0-9007-4224949D1702', 0) --4 Date Duration Date:
-insert FormInputValue (ID, IntervalId, InputFieldId, Sequence) values ('240D5A4A-D598-4D94-A60D-5F1CD1034F39', '84BD44B5-60CB-46F7-B6FC-CCB1B25E341E', 'A2E3EB67-6A1F-4B88-99C9-4027B37D4ECA', 0) --5 Single Select EP Level:
-
---Msg 547, Level 16, State 0, Line 1
---The INSERT statement conflicted with the FOREIGN KEY constraint "FK_FormInputValue#Interval#Values". The conflict occurred in database "Enrich_DC4_FL_Collier_SQL2012", table "dbo.FormInstanceInterval", column 'Id'.
---The statement has been terminated.
-
-select * from FormInputDateValue 
-
-insert FormInputDateValue (ID, Value) values ('A16681CD-FE2F-4B06-939D-FAC428A4D0D0', '4/1/2013') --0 Date EP Meeting Date:
-insert FormInputDateValue (ID, Value) values ('0D5BE69D-7305-436C-A331-518C524D8A90', '4/2/2013') --1 Date EP Initiation Date:
-insert FormInputDateValue (ID, Value) values ('3D74B0A7-77B2-4B04-80C0-41188EB717C7', '4/2/2013') --2 Date Last EP Date:
-insert FormInputDateValue (ID, Value) values ('FFF38ADF-05D2-4044-940B-34C4B071342C', NULL) --3 Date Special Review Date:
-insert FormInputDateValue (ID, Value) values ('EC2824C7-2942-47E0-8E6D-64A6CE72D2E6', '4/1/2014') --4 Date Duration Date:
-insert FormInputSingleSelectValue (ID, SelectedOptionId) values ('240D5A4A-D598-4D94-A60D-5F1CD1034F39', 'B8E49B16-F1D3-451E-97B1-5DD41D1CB098') --5 Single Select EP Level:
-
 -- select * from FormInputSingleSelectValue where ID = '663588E8-2B8A-4BB0-8782-64C80B250DEE'
 
 
@@ -517,9 +427,7 @@ select * from PrgItem where Id = '3B8B7751-2B25-44F1-97C0-28620EAD8159'
 
 select newID()
 
--- there was no version record for this one
-insert PrgSection (ID, DefID, ItemID, VersionID, FormInstanceID, OnLatestVersion) values ('C3BF166D-E6AB-4F41-944D-385389D2B0AE', 'D675D88A-199A-4F1C-81D0-1F497B472EC7', '0D629769-1716-46C4-876B-E23400372A0F', NULL, 'C4831254-69E9-4D26-8EC6-9170059CFD53', 1)
--- (triggers were fired off after inserting this record)
+select * from PrgSection where DefID = 'D675D88A-199A-4F1C-81D0-1F497B472EC7'
 
 
 --DC3596BD-8ECF-475A-966D-0D090C825580 -- template
@@ -543,14 +451,180 @@ select * from dbo.FormTemplateInputSelectField where ID = 'A2E3EB67-6A1F-4B88-99
 select * from dbo.FormTemplateInputSelectFieldOption where SelectFieldId = 'A2E3EB67-6A1F-4B88-99C9-4027B37D4ECA'
 
 
+--select * from PrgItemDef where ID = '9F8156ED-AC5B-432B-BB12-8F8B302EF02B' -- EP - Gifted Education
+
+--select * from Student where lastname like 'Gidd%'
+
+-- 372582	COURTNEY	LYNN	GIDDINGS	9644FD42-018F-4AB9-9D49-A557B7415C93
+
+select * from PrgItem where ID = '3B8B7751-2B25-44F1-97C0-28620EAD8159'
+
+select * from StudentSchool where StudentID = '9644FD42-018F-4AB9-9D49-A557B7415C93' and RosterYearID = 'A332BC88-B400-42E2-85AA-3A7F8C6ACA54'
+-- select * from RosterYear where getdate() between startdate and EndDate
+
+select * from StudentGradeLevelHistory where StudentID = '9644FD42-018F-4AB9-9D49-A557B7415C93'
+
+
+select * from GradeLevel where ID = 'D3C1BD80-0D32-4317-BAB8-CAF196D19350' -- 03
+--BE4F651A-D5B5-4B05-8237-9FD33E4D2B68 -- 04
+
+select * from EXCENTDATATEAM.FormInput where TemplateID = 'DC3596BD-8ECF-475A-966D-0D090C825580' order by Sequence
+
+select * from FormInputValue 
+
+select * from dbo.FormTemplateControl where TypeId = 'D4C549BA-5874-4693-BB20-A890F2D3C274'
+select * from dbo.FormTemplateControlType where Id = 'D4C549BA-5874-4693-BB20-A890F2D3C274'
 
 
 
+
+
+
+
+
+--create view [dbo].[FormTemplateLayoutView]
+--as
+	select ftl.*, ControlTypeId = ftc.TypeId
+	from 
+		FormTemplateLayout ftl join
+		FormTemplateControl ftc on ftl.ControlId = ftc.ID
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- prepare test student record - ensure enrollment
+insert StudentGradeLevelHistory values ('9644FD42-018F-4AB9-9D49-A557B7415C93', 'BE4F651A-D5B5-4B05-8237-9FD33E4D2B68', '8/21/2012', NULL)
+
+-- PrgInvolvement
+insert PrgInvolvement (ID, StudentID, ProgramID, VariantID, StartDate, IsManuallyEnded) 
+	values ('A959F58F-A533-4C04-86F5-0E0DC77DA669', '9644FD42-018F-4AB9-9D49-A557B7415C93', 'AD9F855B-E054-46BF-ACA9-1884CBD6C8E1', '43E1AF01-0A27-41B3-90E1-D7322CE5CD37', '4/1/2013', 0)
+
+-- PrgItem
+insert PrgItem (ID, DefID, StudentID, StartDate, EndDate, ItemOutcomeID, CreatedDate, CreatedBy, EndedDate, EndedBy, 
+	SchoolID, GradeLevelID, InvolvementID, StartStatusID, EndStatusID, 
+	PlannedEndDate, IsEnded, LastModifiedDate, LastModifiedByID, Revision, IsApprovalPending, ApprovedDate, ApprovedByID)
+	values ('0D629769-1716-46C4-876B-E23400372A0F', '9F8156ED-AC5B-432B-BB12-8F8B302EF02B', '9644FD42-018F-4AB9-9D49-A557B7415C93', '4/2/2013', NULL, NULL, getdate(), 'EEE133BD-C557-47E1-AB67-EE413DD3D1AB', NULL, NULL, 
+		'A60E5028-E178-4AD1-9601-7DE7F6536022', 'BE4F651A-D5B5-4B05-8237-9FD33E4D2B68', 'A959F58F-A533-4C04-86F5-0E0DC77DA669', '5671233A-B650-400C-955F-184930A33A85', NULL,
+		'3/31/2014', 0, getdate(), 'EEE133BD-C557-47E1-AB67-EE413DD3D1AB', 0, 0, NULL, NULL)
+
+-- FormInstance
+insert FormInstance (ID, TemplateId) values ('C4831254-69E9-4D26-8EC6-9170059CFD53', 'DC3596BD-8ECF-475A-966D-0D090C825580') -- generated newid()
+
+insert PrgItemForm (ID, ItemID, CreatedDate, CreatedBy, AssociationTypeID) -- ID is the FormInstanceID
+	values ('C4831254-69E9-4D26-8EC6-9170059CFD53', '0D629769-1716-46C4-876B-E23400372A0F', getdate(), 'EEE133BD-C557-47E1-AB67-EE413DD3D1AB', 'DE0AFD97-84C8-488E-94DC-E17CAAA62082')
+
+-- Attempted to initialize PrgIep 0d629769-1716-46c4-876b-e23400372a0f*A5990B5E-AFAD-4EF0-9CCA-DC3685296870, however it didn't initialize. This may be because it has been deleted. Support Code: A4-PU-EN
+
+-- though it would be better for the FL clients that wish to see a separation between disabled and gifted, this is how it is for now.
+insert PrgIep values ('0D629769-1716-46C4-876B-E23400372A0F', 0)
+
+insert FormInstanceInterval (id, InstanceId, IntervalId) values ('84BD44B5-60CB-46F7-B6FC-CCB1B25E341E', 'C4831254-69E9-4D26-8EC6-9170059CFD53', 'FBE8314C-E0A0-4C5A-9361-7201081BD47D')
+
+
+
+--------------------------------------------------------- dates
+
+--5A25FA40-9E96-4421-88C2-24C177CAF414	0	Date	EP Meeting Date:
+--9BD0C775-AD94-46C3-953D-2005854E2D13	1	Date	EP Initiation Date:
+--2C41063F-F8A1-45A9-9A7F-96794A77419B	2	Date	Last EP Date:
+--FDD3B407-77D3-4FB2-8EAE-3DE0D35A6821	3	Date	Special Review Date:
+--D022A416-7E74-4CF0-9007-4224949D1702	4	Date	Duration Date:
+--A2E3EB67-6A1F-4B88-99C9-4027B37D4ECA	5	Single Select	EP Level:
+
+-- hard code the ID from FormInstance Interval : 84BD44B5-60CB-46F7-B6FC-CCB1B25E341E
+select 'insert FormInputValue (ID, IntervalId, InputFieldId, Sequence) values ('''+ convert(varchar(36), newID())+''', ''84BD44B5-60CB-46F7-B6FC-CCB1B25E341E'', '''+convert(varchar(36), InputFieldId)+''', 0) --'+ convert(varchar(3), Sequence)+' '+ValueType+' '+InputItemLabel
+from EXCENTDATATEAM.FormInput 
+where TemplateID = 'DC3596BD-8ECF-475A-966D-0D090C825580' 
+order by Sequence
+
+insert FormInputValue (ID, IntervalId, InputFieldId, Sequence) values ('A16681CD-FE2F-4B06-939D-FAC428A4D0D0', '84BD44B5-60CB-46F7-B6FC-CCB1B25E341E', '5A25FA40-9E96-4421-88C2-24C177CAF414', 0) --0 Date EP Meeting Date:
+insert FormInputValue (ID, IntervalId, InputFieldId, Sequence) values ('0D5BE69D-7305-436C-A331-518C524D8A90', '84BD44B5-60CB-46F7-B6FC-CCB1B25E341E', '9BD0C775-AD94-46C3-953D-2005854E2D13', 0) --1 Date EP Initiation Date:
+insert FormInputValue (ID, IntervalId, InputFieldId, Sequence) values ('3D74B0A7-77B2-4B04-80C0-41188EB717C7', '84BD44B5-60CB-46F7-B6FC-CCB1B25E341E', '2C41063F-F8A1-45A9-9A7F-96794A77419B', 0) --2 Date Last EP Date:
+insert FormInputValue (ID, IntervalId, InputFieldId, Sequence) values ('FFF38ADF-05D2-4044-940B-34C4B071342C', '84BD44B5-60CB-46F7-B6FC-CCB1B25E341E', 'FDD3B407-77D3-4FB2-8EAE-3DE0D35A6821', 0) --3 Date Special Review Date:
+insert FormInputValue (ID, IntervalId, InputFieldId, Sequence) values ('EC2824C7-2942-47E0-8E6D-64A6CE72D2E6', '84BD44B5-60CB-46F7-B6FC-CCB1B25E341E', 'D022A416-7E74-4CF0-9007-4224949D1702', 0) --4 Date Duration Date:
+insert FormInputValue (ID, IntervalId, InputFieldId, Sequence) values ('240D5A4A-D598-4D94-A60D-5F1CD1034F39', '84BD44B5-60CB-46F7-B6FC-CCB1B25E341E', 'A2E3EB67-6A1F-4B88-99C9-4027B37D4ECA', 0) --5 Single Select EP Level:
+
+--Msg 547, Level 16, State 0, Line 1
+--The INSERT statement conflicted with the FOREIGN KEY constraint "FK_FormInputValue#Interval#Values". The conflict occurred in database "Enrich_DC4_FL_Collier_SQL2012", table "dbo.FormInstanceInterval", column 'Id'.
+--The statement has been terminated.
+
+insert FormInputDateValue (ID, Value) values ('A16681CD-FE2F-4B06-939D-FAC428A4D0D0', '4/1/2013') --0 Date EP Meeting Date:
+insert FormInputDateValue (ID, Value) values ('0D5BE69D-7305-436C-A331-518C524D8A90', '4/2/2013') --1 Date EP Initiation Date:
+insert FormInputDateValue (ID, Value) values ('3D74B0A7-77B2-4B04-80C0-41188EB717C7', '4/2/2013') --2 Date Last EP Date:
+insert FormInputDateValue (ID, Value) values ('FFF38ADF-05D2-4044-940B-34C4B071342C', NULL) --3 Date Special Review Date:
+insert FormInputDateValue (ID, Value) values ('EC2824C7-2942-47E0-8E6D-64A6CE72D2E6', '4/1/2014') --4 Date Duration Date:
+insert FormInputSingleSelectValue (ID, SelectedOptionId) values ('240D5A4A-D598-4D94-A60D-5F1CD1034F39', 'B8E49B16-F1D3-451E-97B1-5DD41D1CB098') --5 Single Select EP Level:
+
+
+-- there was no version record for this one
+insert PrgSection (ID, DefID, ItemID, VersionID, FormInstanceID, OnLatestVersion) values ('C3BF166D-E6AB-4F41-944D-385389D2B0AE', 'D675D88A-199A-4F1C-81D0-1F497B472EC7', '0D629769-1716-46C4-876B-E23400372A0F', NULL, 'C4831254-69E9-4D26-8EC6-9170059CFD53', 1)
+-- (triggers were fired off after inserting this record)
+
+
+--------------------------------------------------------- Meeting Part. Final.
+select fi.*
+-- select 'insert FormInputValue (ID, IntervalId, InputFieldId, Sequence) values ('''+ convert(varchar(36), newID())+''', ''84BD44B5-60CB-46F7-B6FC-CCB1B25E341E'', '''+convert(varchar(36), InputFieldId)+''', 0) --'+ convert(varchar(3), Sequence)+' '+ValueType+' '+InputItemLabel
+from EXCENTDATATEAM.FormInput fi
+--where fi.TemplateID = 'DC3596BD-8ECF-475A-966D-0D090C825580' 
+order by fi.IsRequired desc, fi.TemplateName, fi.Sequence
+
+
+
+select 'insert FormInputValue (ID, IntervalId, InputFieldId, Sequence) values ('''+ convert(varchar(36), newID())+''', ''84BD44B5-60CB-46F7-B6FC-CCB1B25E341E'', '''+convert(varchar(36), InputFieldId)+''', 0) --'+ convert(varchar(3), Sequence)+' '+ValueType+' '+InputItemLabel
+from EXCENTDATATEAM.FormInput fi
+where fi.TemplateID = '6698C009-F059-4DF4-B724-A580A22C160B' 
+order by fi.IsRequired desc, fi.TemplateName, fi.Sequence
+
+insert FormInputValue (ID, IntervalId, InputFieldId, Sequence) values ('650F6EF8-8EAF-41DC-A968-9E01B5B5B87E', '84BD44B5-60CB-46F7-B6FC-CCB1B25E341E', 'A8893B61-8F90-4337-9D4A-B570949CEAD4', 0) --0 Flag Meeting participants finalized
+
+----- this is how I found out what to insert and where
+--select * from dbo.FormInputValue where InputFieldId = 'A8893B61-8F90-4337-9D4A-B570949CEAD4'
+--select * from dbo.FormTemplateInputItem where Id = 'A8893B61-8F90-4337-9D4A-B570949CEAD4'
+--select * from EXCENTDATATEAM.FormInputValue where InputFieldId = 'A8893B61-8F90-4337-9D4A-B570949CEAD4'
+--select * from FormInputFlagValue 
+insert FormInputFlagValue values ('650F6EF8-8EAF-41DC-A968-9E01B5B5B87E', 1)
+
+select newid()
+insert PrgSection (ID, DefID, ItemID, VersionID, FormInstanceID, OnLatestVersion) values ('F69A2379-E2C9-4ABF-8EAF-ED3F0C1A3DCF', '1734C532-2D04-4F51-9B9F-93731D9C0CDA', '0D629769-1716-46C4-876B-E23400372A0F', NULL, 'C4831254-69E9-4D26-8EC6-9170059CFD53', 1)
+
+select * from PrgItem
+
+select * from EXCENTDATATEAM.PrgSection order by title
+
+select * from EXCENTDATATEAM.FormInstance order by TemplateName
+
+select * from FormInstance where ID = 'BBB7CE75-7324-443B-B82A-841C059A92BD'
+
+
+-- PrgInvolvementID, PrgItemID, 
+
+select * from EXCENTDATATEAM.FormTemplate where Program = 'Gifted' order by TemplateName
+
+select * from EXCENTDATATEAM.FormInputValue
+
+
+go
+
+
+select * from FormInterval order by Sequence
+
+select * from FormIntervalSeries
+
+go
+
+select * from EXCENTDATATEAM.FormInterval order by Sequence
+
+
+
+
+
+select * from FormIntervalSeries where Id = 'AE9D47E2-5F84-4017-AACE-7D6DF1C9590F'
+
+
+select * from dbo.FormInterval where Id = '9FF2068B-724E-4F50-B90D-65983BCF1E3A'
 
 ---------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
-declare @s varchar(150), @o varchar(150), @c varchar(150), @g varchar(36) ; select @g = 'A2E3EB67-6A1F-4B88-99C9-4027B37D4ECA'
+declare @s varchar(150), @o varchar(150), @c varchar(150), @g varchar(36) ; select @g = '9FF2068B-724E-4F50-B90D-65983BCF1E3A'
 
 declare OC cursor for 
 select s.name, o.name, c.name
