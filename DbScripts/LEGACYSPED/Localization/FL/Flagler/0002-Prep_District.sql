@@ -58,6 +58,7 @@ insert @importPrgSections values (1, 'Sped Eligibility Determination', 'F050EF5E
 insert @importPrgSections values (0, 'IEP Goals', '84E5A67D-CC9A-4D5B-A7B8-C04E8C3B8E0A')
 insert @importPrgSections values (1, 'Sped Consent Services', 'D83A4710-A69F-4310-91F8-CB5BFFB1FE4C')
 insert @importPrgSections values (1, 'Sped Consent Evaluation', '47958E63-10C4-4124-A5BA-8C1077FB2D40')
+insert @importPrgSections values (1, 'IEP ESY', 'F60392DA-8EB3-49D0-822D-77A1618C1DAA')
 
 insert LEGACYSPED.ImportPrgSections
 select * from @importPrgSections
@@ -66,6 +67,10 @@ go
 -- insert the Consent for Eval section def in case it is missing
 if not exists (select * from PrgSectionDef where ID = '47958E63-10C4-4124-A5BA-8C1077FB2D40')
 insert PrgSectionDef (ID, TypeID, ItemDefID, Sequence, IsVersioned, DisplayPrevious, CanCopy) values ('47958E63-10C4-4124-A5BA-8C1077FB2D40', '31A1AE20-5F63-47FD-852A-4801595033ED', '8011D6A2-1014-454B-B83C-161CE678E3D3', 7, 0, 0, 0)
+
+-- the data conversion will error during testing if there already exists IEP ESY for Converted Data with a different ID.  This will provide the opportunity to fix the issue in testing.
+if not exists (select 1 from PrgSectionDef sd join PrgSectionType st on sd.TypeID = st.ID where st.Name = 'IEP ESY' and sd.ItemDefID = '8011D6A2-1014-454B-B83C-161CE678E3D3')
+insert PrgSectionDef (ID, TypeID, ItemDefID, Sequence, IsVersioned, DisplayPrevious, CanCopy, HelpTextInfo, HeaderFormTemplateID) values ('F60392DA-8EB3-49D0-822D-77A1618C1DAA', '9B10DCDE-15CC-4AA3-808A-DFD51CE91079', '8011D6A2-1014-454B-B83C-161CE678E3D3', 8, 1, 0, 0, '<p>For each of the following five statements, the IEP team determines the appropriate response regarding this student. The team''s supporting data used to make the determination must be documented for each question. For the first four questions, check N/A if the student has no IEP goal in that area.</p>', 'B97E7849-36B4-4181-8D03-241FDCA5105C')
 
 
 ---- #############################################################################
