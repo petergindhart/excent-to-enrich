@@ -38,9 +38,10 @@ How to handle hierarchical OrgUnits, like AUs or Coops?
 
 select 
   k.DistrictCode,
-  DestID = isnull(isnull(s.ID, t.id), m.DestID), -- below this line may not require coalesce.  only legacy data will be updated, not SIS data.  Think about AU.
+  -- DestID = isnull(isnull(s.ID, t.id), m.DestID), -- below this line may not require coalesce.  only legacy data will be updated, not SIS data.  Think about AU.
+  DestID = coalesce(s.ID, t.ID, m.DestID),
   TypeID = '420A9663-FFE8-4FF1-B405-1DB1D42B6F8A',
-  Name = coalesce(s.Name, t.Name, k.DistrictName),
+  Name = coalesce(k.DistrictName, s.Name, t.Name),
   ParentID = isnull(s.ParentID, t.ParentID),
   Street = isnull(s.Street, t.Street),
   City = isnull(s.City, t.City),
@@ -48,11 +49,12 @@ select
   ZipCode = isnull(s.ZipCode, t.ZipCode),
   PhoneNumber = isnull(s.PhoneNumber, t.PhoneNumber),
   Number = coalesce(s.Number, t.Number, k.DistrictCode),
-  Sequence = isnull(s.Sequence, t.Sequence)
-from LEGACYSPED.District k left join 
-	dbo.OrgUnit s on k.DistrictCode = s.Number left join -- DistrictCode and Number are synonymous with StateCode
+  Sequence = isnull(s.Sequence, t.Sequence) -- select * 
+from 	LEGACYSPED.DistrictSchoolLeadingZeros dz cross join
+	LEGACYSPED.District k left join 
+	dbo.OrgUnit s on k.DistrictCode = right(dz.Zeros+isnull(s.Number,''), len(dz.zeros)) left join -- DistrictCode and Number are synonymous with StateCode
 	LEGACYSPED.MAP_OrgUnitID m on k.DistrictCode = m.DistrictCode left join 
 	dbo.OrgUnit t on m.DestID = t.ID
+where dz.Entity = 'District' 
 GO
 -- 
-
