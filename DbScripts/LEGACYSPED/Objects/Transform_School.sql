@@ -57,24 +57,23 @@ select
 			when s.id is not null then s.DeletedDate
 			when t.ID is not null then t.DeletedDate 
 			else NULL -- Question whether it is needed or advisable to soft-delete these schools
-		end
-from LEGACYSPED.School k LEFT JOIN 
-	dbo.School s on k.SchoolCode = s.Number and s.DeletedDate is null and -- assumes there is only one, and will insert new if any are soft-deleted
+		end 
+from LEGACYSPED.DistrictSchoolLeadingZeros dz cross join LEGACYSPED.DistrictSchoolLeadingZeros sz cross join
+	LEGACYSPED.School k LEFT JOIN 
+	dbo.School s on k.SchoolCode = right(sz.Zeros+isnull(s.Number,''), len(sz.zeros)) and s.DeletedDate is null and -- assumes there is only one, and will insert new if any are soft-deleted
 		-- AND s.IsLocalOrg = 1 
 	convert(varchar(36), s.ID) = ( -- we're doing this in the ON clause as opposed to the WHERE clause to get schools that don't come from SIS (Poudre "Expelled School")
 		select MIN(convert(varchar(36), smid.ID))
 		from dbo.School smid 
-		where s.Number = smid.Number 
+		where right(sz.Zeros+isnull(s.Number,''), len(sz.zeros)) = right(sz.Zeros+isnull(smid.Number,''), len(sz.zeros)) -- could have left this along since we are comparing the table's data to itself
 		and cast(smid.ManuallyEntered as int) = (
 			select MIN(cast(smin.ManuallyEntered as int))
 			from dbo.School smin 
-			where smid.number = smin.Number -- don't try to deal with null numbers.  how about real dups?
+			where right(sz.Zeros+isnull(smid.Number,''), len(sz.zeros)) = right(sz.Zeros+isnull(smin.Number,''), len(sz.zeros)) -- don't try to deal with null numbers.  how about real dups?
 			)
 		) LEFT JOIN
 	LEGACYSPED.MAP_SchoolID m on k.SchoolCode = m.SchoolCode and k.DistrictCode = m.DistrictCode  LEFT JOIN 
 	dbo.School t on m.DestID = t.ID LEFT JOIN
-	LEGACYSPED.Transform_OrgUnit mo on k.DistrictCode = mo.DistrictCode
+	LEGACYSPED.Transform_OrgUnit mo on k.DistrictCode = mo.DistrictCode 
+where dz.Entity = 'District' and sz.Entity = 'School'
 GO
-
-
-
