@@ -32,11 +32,11 @@ SELECT
 	Name = coalesce(s.DisplayValue, x.DisplayValue, l.EnrichLabel)
 FROM
 	LEGACYSPED.SelectLists l LEFT JOIN
-	dbo.EnumValue s on l.StateCode = s.StateCode left join
-	LEGACYSPED.MAP_EthnicityID m on l.LegacySpedCode = m.EthnicityCode and l.Type = 'Ethnic' left join
-	dbo.EnumValue x on l.LegacySpedCode = x.Code -- this will not work for all states.  need a different approach.
-WHERE l.Type = 'Ethnic' AND
-	x.Type = (select t.ID from EnumType t where t.Type = 'ETH')
+	dbo.EnumValue s on l.StateCode = s.StateCode and l.Type = 'Ethnic' and s.Type = 'CBB84AE3-A547-4E81-82D2-060AA3A50535' and s.IsActive = 1 left join
+	LEGACYSPED.MAP_EthnicityID m on l.LegacySpedCode = m.EthnicityCode left join
+	dbo.EnumValue x on l.LegacySpedCode = x.Code AND 
+	x.Type = 'CBB84AE3-A547-4E81-82D2-060AA3A50535'
+WHERE l.Type = 'Ethnic' 
 GO
 
 --
