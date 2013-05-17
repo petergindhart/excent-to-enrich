@@ -39,6 +39,30 @@ from @Map_IepDisabilityID m
 join IepDisability d on m.DestID = d.ID
 go
 
+-- this may need to be modified for states that don't have a specific code for each race, but set a flag for it (such as FL).  Eather that, or we can derive a code for those statues (first 2 letters of the fed name?)
+IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.MAP_FederalRace') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
+BEGIN
+create table LEGACYSPED.MAP_FederalRace 
+	(
+	StateRaceCode varchar(150) NOT NULL,
+	FederalRaceName varchar(150) NOT NULL
+	)
+ALTER TABLE LEGACYSPED.MAP_FederalRace ADD CONSTRAINT
+	PK_MAP_FederalRace PRIMARY KEY CLUSTERED
+	(
+	StateRaceCode
+	)
+END
+GO
+
+--insert LEGACYSPED.MAP_FederalRace values ('A', 'Asian')
+--insert LEGACYSPED.MAP_FederalRace values ('I', 'American Indian')
+--insert LEGACYSPED.MAP_FederalRace values ('P', 'Hawaiian Pacific Islander')
+--insert LEGACYSPED.MAP_FederalRace values ('H', 'Hispanic')
+--insert LEGACYSPED.MAP_FederalRace values ('W', 'White')
+--insert LEGACYSPED.MAP_FederalRace values ('B', 'Black African American')
+go
+
 -- #############################################################################
 --		Goal Area Def MAP
 
