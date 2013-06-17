@@ -604,7 +604,7 @@ go
 -- select * from IEPDisability
 
 
--- delete orphaned map table records (mostly for lookups) -- select * from LEGACYSPED.MAP_IepRefID
+-- delete orphaned map table records (mostly for lookups) -- select * from LEGACYSPED.MAP_IepStudentRefID
 
 if exists (select 1 from sys.schemas where name = 'LEGACYSPED')
 begin
@@ -614,12 +614,12 @@ print 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX DELETING LEGACYSPED XXXXXXXXXX
 
 
 
-if exists (select 1 from sys.objects where name = 'LEGACYSPED.MAP_IepRefID')
+if exists (select 1 from sys.objects where name = 'LEGACYSPED.MAP_IepStudentRefID')
 begin
 delete x -- select *
-from LEGACYSPED.MAP_IepRefID x -- map
+from LEGACYSPED.MAP_IepStudentRefID x -- map
 where DestID not in (select ID from PrgItem) -- destination
-print 'LEGACYSPED.MAP_IepRefID : ' +convert(varchar(10), @@rowcount)
+print 'LEGACYSPED.MAP_IepStudentRefID : ' +convert(varchar(10), @@rowcount)
 
 if exists (select 1 from sys.objects where name = 'LEGACYSPED.MAP_PrgSectionID_NonVersioned')
 begin
