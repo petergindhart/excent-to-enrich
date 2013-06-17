@@ -47,5 +47,6 @@ SELECT
 		LEGACYSPED.MAP_GradeLevelID m on k.LegacySpedCode = m.GradeLevelCode LEFT JOIN
 		GradeLevel t on m.DestID = t.ID
 	WHERE
-		k.Type = 'Grade'  
+		k.Type = 'Grade' and 
+		k.LegacySpedCode is not null
 GO
