@@ -70,42 +70,42 @@ drop schema LEGACY504
 --select * from PrgItemDef where name like '%504%'
 --select * from PrgItemDef where ID = 'FE2248C1-8BD6-4010-B02F-79C9F830E5AC'
 
-declare 
-	@ID	uniqueidentifier,
-	@TypeID	uniqueidentifier,
-	@ProgramID	uniqueidentifier,
-	@StatusID	uniqueidentifier,
-	@Name	varchar(50),
-	@Description	text,
-	@DeletedDate	datetime,
-	@UseTeam	bit,
-	@TeamLabel	varchar(50),
-	@UsePlannedEndDate	bit,
-	@LastModifiedDate	datetime,
-	@LastModifiedUserID	uniqueidentifier,
-	@UseComments	bit,
-	@CanCopy	bit,
-	@MeetingExcusalFormTemplateId	uniqueidentifier,
-	@TeamLeadRequired	bit,
-	@StereotypeID	uniqueidentifier,
-	@IsApprovalRequired	bit,
-	@UseLimitedValidation	bit,
-	@TypeLabel	varchar(50)
+--declare 
+--	@ID	uniqueidentifier,
+--	@TypeID	uniqueidentifier,
+--	@ProgramID	uniqueidentifier,
+--	@StatusID	uniqueidentifier,
+--	@Name	varchar(50),
+--	@Description	text,
+--	@DeletedDate	datetime,
+--	@UseTeam	bit,
+--	@TeamLabel	varchar(50),
+--	@UsePlannedEndDate	bit,
+--	@LastModifiedDate	datetime,
+--	@LastModifiedUserID	uniqueidentifier,
+--	@UseComments	bit,
+--	@CanCopy	bit,
+--	@MeetingExcusalFormTemplateId	uniqueidentifier,
+--	@TeamLeadRequired	bit,
+--	@StereotypeID	uniqueidentifier,
+--	@IsApprovalRequired	bit,
+--	@UseLimitedValidation	bit,
+--	@TypeLabel	varchar(50)
 
-if not exists (select 1 from PrgItemDef where ID = 'FE2248C1-8BD6-4010-B02F-79C9F830E5AC')
-insert PrgItemDef (ID, TypeID, ProgramID, StatusID, Name, Description, DeletedDate, UseTeam, TeamLabel, UsePlannedEndDate, LastModifiedDate, LastModifiedUserID, UseComments, CanCopy, MeetingExcusalFormTemplateId, TeamLeadRequired, StereotypeID, IsApprovalRequired, UseLimitedValidation, TypeLabel)
-values ('FE2248C1-8BD6-4010-B02F-79C9F830E5AC', 'A5990B5E-AFAD-4EF0-9CCA-DC3685296870', 'A1F33015-4D93-4768-B273-EA0CA77274BE', '63E39991-4C5A-48A4-B1B4-93062EA02B89', 'Converted 504 Placeholder', NULL,	NULL,	0,	NULL,	1, getdate(), '514898FB-5257-497E-B637-5688643D25C9', 0, 	0, 	NULL, 	0, 	NULL, 	0, 	1, 	NULL)
--- modify the above to return the values for different databases, which may have been configured with different GUIDs
-go
+--if not exists (select 1 from PrgItemDef where ID = 'FE2248C1-8BD6-4010-B02F-79C9F830E5AC')
+--insert PrgItemDef (ID, TypeID, ProgramID, StatusID, Name, Description, DeletedDate, UseTeam, TeamLabel, UsePlannedEndDate, LastModifiedDate, LastModifiedUserID, UseComments, CanCopy, MeetingExcusalFormTemplateId, TeamLeadRequired, StereotypeID, IsApprovalRequired, UseLimitedValidation, TypeLabel)
+--values ('FE2248C1-8BD6-4010-B02F-79C9F830E5AC', 'A5990B5E-AFAD-4EF0-9CCA-DC3685296870', 'A1F33015-4D93-4768-B273-EA0CA77274BE', '63E39991-4C5A-48A4-B1B4-93062EA02B89', 'Converted 504 Placeholder', NULL,	NULL,	0,	NULL,	1, getdate(), '514898FB-5257-497E-B637-5688643D25C9', 0, 	0, 	NULL, 	0, 	NULL, 	0, 	1, 	NULL)
+---- modify the above to return the values for different databases, which may have been configured with different GUIDs
+--go
 
 create schema x_LEGACY504
 go
 
 
 
-create view x_LEGACY504.Student504Dates
+alter view x_LEGACY504.Student504Dates
 as
-select StudentNumber = ID, StartDate = cast([504StartDate] as datetime), EndDate = cast([504EndDate] as datetime) from x_ADHOCIMPORT.Polk504Students
+select StudentNumber = ID, StartDate = cast([504StartDate] as datetime), EndDate = cast([504EndDate] as datetime) from x_ADHOCIMPORT.Polk504Students where ID <> ''
 go
 
 
@@ -302,7 +302,7 @@ left join dbo.FormInputDateValue d on x.DestID = d.ID
 where d.ID is null
 
 
-rollback 
+-- rollback 
 
 commit
 
@@ -310,7 +310,7 @@ go
 
 
 
-select * from x_LEGACY504.Student504Dates
+select * from PrgItemDef where name like '%504%'
 
 
 
