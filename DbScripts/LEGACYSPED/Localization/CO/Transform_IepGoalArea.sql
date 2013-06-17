@@ -49,6 +49,10 @@ IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.GoalA
 DROP VIEW LEGACYSPED.GoalAreaPivotView
 GO
 
+IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.GoalAreaPivotView') AND OBJECTPROPERTY(id, N'IsTable') = 1)
+DROP TABLE LEGACYSPED.GoalAreaPivotView
+GO
+
 create view LEGACYSPED.GoalAreaPivotView
 as
 select g.IepRefID, g.GoalRefID, g.GoalAreaCode, GoalAreaDefIndex = k.Sequence
