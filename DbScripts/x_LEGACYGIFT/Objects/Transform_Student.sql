@@ -1,0 +1,74 @@
+
+
+-- #############################################################################
+-- Student
+--IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'x_LEGACYGIFT.MAP_StudentRefID') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
+--BEGIN
+--CREATE TABLE x_LEGACYGIFT.MAP_StudentRefID
+--	(
+--	StudentRefID varchar(150) NOT NULL,
+--	DestID uniqueidentifier NOT NULL
+--	)  
+
+--ALTER TABLE x_LEGACYGIFT.MAP_StudentRefID ADD CONSTRAINT
+--	PK_MAP_StudentRefID PRIMARY KEY CLUSTERED
+--	(
+--	StudentRefID
+--	) 
+--END
+--GO
+
+IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'x_LEGACYGIFT.Transform_GiftedStudent') AND OBJECTPROPERTY(id, N'IsView') = 1)
+DROP VIEW x_LEGACYGIFT.Transform_GiftedStudent
+GO
+
+CREATE VIEW x_LEGACYGIFT.Transform_GiftedStudent
+AS 
+select 
+	-- Student
+	x.StudentRefID,
+	DestID = s.ID, 
+	-- Item
+	s.CurrentSchoolID,
+	s.CurrentGradeLevelID,
+	-- MAP EP
+	x.EPRefID,
+	ItemDestID = me.DestID,
+	-- Dates
+	x.EPMeetingDate,
+	x.LastEPDate, 
+	x.DurationDate
+from x_LEGACYGIFT.GiftedStudent x
+join dbo.Student s on x.StudentID = s.Number
+	and s.CurrentGradeLevelID is not null 
+	and s.CurrentSchoolID is not null
+--left join x_LEGACYGIFT.MAP_StudentRefID ms on x.StudentRefID = ms.StudentRefID -- stu map is not necessary because we are not adding students, just matching
+left join x_LEGACYGIFT.MAP_EpRefID me on x.EPRefID = me.EpRefID -- ep map
+left join dbo.PrgItem i on me.DestID = i.ID
+GO
+
+IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'x_LEGACYGIFT.MAP_EPStudentRefID') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
+BEGIN
+CREATE TABLE x_LEGACYGIFT.MAP_EPStudentRefID
+(
+	EPRefID varchar(150) NOT NULL ,
+	StudentRefID varchar(150) not null,
+	DestID uniqueidentifier NOT NULL
+)
+
+ALTER TABLE x_LEGACYGIFT.MAP_EPStudentRefID ADD CONSTRAINT
+PK_MAP_IEPStudentRefID PRIMARY KEY CLUSTERED
+(
+	EPRefID
+)
+
+if exists (select 1 from sys.schemas s join sys.objects o on s.schema_id = o.schema_id where s.name = 'x_LEGACYGIFT' and o.name = 'Transform_GiftedStudent')
+begin
+	insert x_LEGACYGIFT.MAP_EPStudentRefID
+	select distinct s.EPRefID, s.StudentRefID, s.DestID
+	from x_LEGACYGIFT.Transform_GiftedStudent s left join  
+	x_LEGACYGIFT.MAP_EPStudentRefID t on s.EPRefID = t.EPRefID
+	where t.EPRefID is null 
+end
+END
+GO
