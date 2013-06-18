@@ -75,32 +75,32 @@ insert x_LEGACYGIFT.MAP_EPSubGoalAreaDefID values ('GAMath', 'D58C5141-DD5D-4C80
 if not exists (select 1 from x_LEGACYGIFT.MAP_EPSubGoalAreaDefID where SubGoalAreaCode = 'GAOther')
 insert x_LEGACYGIFT.MAP_EPSubGoalAreaDefID values ('GAOther', 'DEEB5A06-156D-43D0-B976-4B30245C6784', '35B32108-174B-4F7F-9B5A-B5AF106F06BC')
 
--- Lee County had a MAP_ServiceFrequencyID from a previouos ETL run that had bogus frequency data. delete that data and insert the good.
-declare @Map_ServiceFrequencyID table (ServiceFrequencyCode varchar(30), ServiceFrequencyName varchar(50), DestID uniqueidentifier)
-set nocount on;
-insert @Map_ServiceFrequencyID values ('day', 'daily', '71590A00-2C40-40FF-ABD9-E73B09AF46A1')
-insert @Map_ServiceFrequencyID values ('week', 'weekly', 'A2080478-1A03-4928-905B-ED25DEC259E6')
-insert @Map_ServiceFrequencyID values ('month', 'monthly', '3D4B557B-0C2E-4A41-9410-BA331F1D20DD')
-insert @Map_ServiceFrequencyID values ('year', 'yearly', '5F3A2822-56F3-49DA-9592-F604B0F202C3')
-insert @Map_ServiceFrequencyID values ('ZZZ', 'unknown', 'C42C50ED-863B-44B8-BF68-B377C8B0FA95')
+---- Lee County had a MAP_ServiceFrequencyID from a previouos ETL run that had bogus frequency data. delete that data and insert the good.
+--declare @Map_ServiceFrequencyID table (ServiceFrequencyCode varchar(30), ServiceFrequencyName varchar(50), DestID uniqueidentifier)
+--set nocount on;
+--insert @Map_ServiceFrequencyID values ('day', 'daily', '71590A00-2C40-40FF-ABD9-E73B09AF46A1')
+--insert @Map_ServiceFrequencyID values ('week', 'weekly', 'A2080478-1A03-4928-905B-ED25DEC259E6')
+--insert @Map_ServiceFrequencyID values ('month', 'monthly', '3D4B557B-0C2E-4A41-9410-BA331F1D20DD')
+--insert @Map_ServiceFrequencyID values ('year', 'yearly', '5F3A2822-56F3-49DA-9592-F604B0F202C3')
+--insert @Map_ServiceFrequencyID values ('ZZZ', 'unknown', 'C42C50ED-863B-44B8-BF68-B377C8B0FA95')
 
-if (select COUNT(*) from @Map_ServiceFrequencyID t join x_LEGACYGIFT.MAP_ServiceFrequencyID m on t.DestID = m.DestID) <> 5
-	delete x_LEGACYGIFT.MAP_ServiceFrequencyID
+--if (select COUNT(*) from @Map_ServiceFrequencyID t join x_LEGACYGIFT.MAP_ServiceFrequencyID m on t.DestID = m.DestID) <> 5
+--	delete x_LEGACYGIFT.MAP_ServiceFrequencyID
 
-set nocount off;
-insert x_LEGACYGIFT.MAP_ServiceFrequencyID
-select m.ServiceFrequencyCode, m.ServiceFrequencyName, m.DestID
-from @Map_ServiceFrequencyID m left join
-	x_LEGACYGIFT.MAP_ServiceFrequencyID t on m.DestID = t.DestID
-where t.DestID is null
+--set nocount off;
+--insert x_LEGACYGIFT.MAP_ServiceFrequencyID
+--select m.ServiceFrequencyCode, m.ServiceFrequencyName, m.DestID
+--from @Map_ServiceFrequencyID m left join
+--	x_LEGACYGIFT.MAP_ServiceFrequencyID t on m.DestID = t.DestID
+--where t.DestID is null
 
--- this is seed data, but maybe this is not the best place for this code.....
-insert ServiceFrequency (ID, Name, Sequence, WeekFactor)
-select DestID, m.ServiceFrequencyName, 99, 0
-from x_LEGACYGIFT.MAP_ServiceFrequencyID m left join
-	ServiceFrequency t on m.DestID = t.ID
-where t.ID is null
-GO
+---- this is seed data, but maybe this is not the best place for this code.....
+--insert ServiceFrequency (ID, Name, Sequence, WeekFactor)
+--select DestID, m.ServiceFrequencyName, 99, 0
+--from x_LEGACYGIFT.MAP_ServiceFrequencyID m left join
+--	ServiceFrequency t on m.DestID = t.ID
+--where t.ID is null
+--GO
 
 
 if exists (select 1 from sys.schemas s join sys.objects o on s.schema_id = o.schema_id where s.name = 'x_LEGACYGIFT' and o.name = 'GiftedConversionWrapUp')
