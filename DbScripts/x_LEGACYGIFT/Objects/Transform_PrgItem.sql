@@ -13,6 +13,23 @@ begin
 end
 GO
 
+-- #############################################################################
+-- Version
+IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'x_LEGACYGIFT.MAP_PrgVersionID') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
+BEGIN
+CREATE TABLE x_LEGACYGIFT.MAP_PrgVersionID
+(
+	EpRefID varchar(150) NOT NULL ,
+	DestID uniqueidentifier NOT NULL
+)
+
+ALTER TABLE x_LEGACYGIFT.MAP_PrgVersionID ADD CONSTRAINT
+PK_MAP_PrgVersionID PRIMARY KEY CLUSTERED
+(
+	EpRefID
+)
+END
+GO
 
 IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'x_LEGACYGIFT.Transform_PrgItem') AND OBJECTPROPERTY(id, N'IsView') = 1)
 DROP VIEW x_LEGACYGIFT.Transform_PrgItem
@@ -48,13 +65,15 @@ select
 -- PrgIep
 	IsTransitional = cast(0 as bit),
 -- PrgVersion
-	VersionDestID = '', -- need something here.
+	VersionDestID = mver.DestID,
 	VersionFinalizedDate = stu.EPMeetingDate, 
 	CreatedByID = 'EEE133BD-C557-47E1-AB67-EE413DD3D1AB',
 -- Additional Elements
 	ServiceDeliveryStatement = NULL
 from x_LEGACYGIFT.Transform_GiftedStudent stu left join 
 	x_LEGACYGIFT.MAP_PrgInvolvementID minv on stu.StudentRefID = minv.StudentRefID left join
+	x_LEGACYGIFT.MAP_PrgVersionID mver on stu.EPRefID = mver.EPRefID left join
+	dbo.PrgVersion v on mver.DestID = v.ID left join
 	dbo.PrgItem t on stu.ItemDestID = t.ID 
 go
 
