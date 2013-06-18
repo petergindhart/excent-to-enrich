@@ -9,6 +9,27 @@
 update gl set StateCode = case when Name like 'K%' then 'KG' when Name = '00' then NULL else Name end from GradeLevel gl where (ISNUMERIC(Name) = 1 or Name in ('K', 'PK', 'KG'))
 go
 
+
+-- NEW powerschool map to indicate up to how many leading zeros to add to district and school numbers
+-- This is necessary because PowerSchool trims leading zeros from District Numbers and SchoolNumbers, but the sped program does not.
+-- See Transform_OrgUnit and Transform_School to see how this view is used
+IF EXISTS (SELECT * FROM sys.schemas s join sys.objects o on s.schema_id = o.schema_id WHERE s.name = 'LEGACYSPED' and o.Name ='DistrictSchoolLeadingZeros' and type = 'U')
+drop table LEGACYSPED.DistrictSchoolLeadingZeros
+GO
+
+CREATE TABLE LEGACYSPED.DistrictSchoolLeadingZeros
+(
+	Entity	varchar(10) not null,
+	Zeros	varchar(10) not null
+)
+
+-- MI:  District 5 characters, School 5 characters
+insert LEGACYSPED.DistrictSchoolLeadingZeros values ('District', '00000')
+insert LEGACYSPED.DistrictSchoolLeadingZeros values ('School', '00000')
+go
+
+
+
 /*
 
 	Ensure IepDisability.StateCode is populated
@@ -39,10 +60,34 @@ from @Map_IepDisabilityID m
 join IepDisability d on m.DestID = d.ID
 go
 
+-- this may need to be modified for states that don't have a specific code for each race, but set a flag for it (such as FL).  Eather that, or we can derive a code for those statues (first 2 letters of the fed name?)
+IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.MAP_FederalRace') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
+BEGIN
+create table LEGACYSPED.MAP_FederalRace 
+	(
+	StateRaceCode varchar(150) NOT NULL,
+	FederalRaceName varchar(150) NOT NULL
+	)
+ALTER TABLE LEGACYSPED.MAP_FederalRace ADD CONSTRAINT
+	PK_MAP_FederalRace PRIMARY KEY CLUSTERED
+	(
+	StateRaceCode
+	)
+END
+GO
+
+--insert LEGACYSPED.MAP_FederalRace values ('A', 'Asian')
+--insert LEGACYSPED.MAP_FederalRace values ('I', 'American Indian')
+--insert LEGACYSPED.MAP_FederalRace values ('P', 'Hawaiian Pacific Islander')
+--insert LEGACYSPED.MAP_FederalRace values ('H', 'Hispanic')
+--insert LEGACYSPED.MAP_FederalRace values ('W', 'White')
+--insert LEGACYSPED.MAP_FederalRace values ('B', 'Black African American')
+go
+
 -- #############################################################################
 --		Goal Area Def MAP
 
-IF EXISTS (SELECT * FROM sys.objects WHERE Name = 'LEGACYSPED.MAP_IepGoalAreaDefID')
+IF EXISTS (SELECT * FROM sys.objects WHERE Name = 'LEGACYSPED.MAP_GoalAreaDefID')
 drop table LEGACYSPED.MAP_GoalAreaDefID
 GO
 
@@ -60,46 +105,13 @@ PK_MAP_IepGoalAreaDefID PRIMARY KEY CLUSTERED
 	GoalAreaCode
 )
 
--- In FL EO deployments these are populated in the Prep_State file, but in CO Clarity they are populated via ETL.  Transform should work in both cases.
 
--- these IDs are exported with Enrich configuration for Colorado.  
--- Values from Clarity for APS do not at all match up with the IepGoalAreaDef values
---set nocount on;
---declare @ga table (GoalAreaCode varchar(20), DestID uniqueidentifier)
---insert @ga values ('BEEP', 'F7F042D5-885E-4BA0-B76D-C00C7C7988E3')
---insert @ga values ('BEPS', 'F7F042D5-885E-4BA0-B76D-C00C7C7988E3')
---insert @ga values ('TPIE', '8705E0BB-2CD9-498D-BB80-B54B2D2B9BF6')
---insert @ga values ('VOC', '8705E0BB-2CD9-498D-BB80-B54B2D2B9BF6')
---insert @ga values ('LAEX', '51C976DF-DC56-4F89-BCA1-E9AB6A01FBE7')
---insert @ga values ('LARL', '51C976DF-DC56-4F89-BCA1-E9AB6A01FBE7')
---insert @ga values ('SP', '51C976DF-DC56-4F89-BCA1-E9AB6A01FBE7')
---insert @ga values ('TPIIR', '6BBAADD8-BD9D-4C8F-A573-80F136B0A9FB')
---insert @ga values ('MA', '0E95D360-5CBE-4ECA-820F-CC25864D70D8')
---insert @ga values ('NM', '0E95D360-5CBE-4ECA-820F-CC25864D70D8')
---insert @ga values ('APE', 'D9260B1A-F268-4304-A22B-34A9D8001DE0')
---insert @ga values ('EC', 'D9260B1A-F268-4304-A22B-34A9D8001DE0')
---insert @ga values ('FM', 'D9260B1A-F268-4304-A22B-34A9D8001DE0')
---insert @ga values ('GMAP', 'D9260B1A-F268-4304-A22B-34A9D8001DE0')
---insert @ga values ('GMGC1', 'D9260B1A-F268-4304-A22B-34A9D8001DE0')
---insert @ga values ('GMPO2', 'D9260B1A-F268-4304-A22B-34A9D8001DE0')
---insert @ga values ('HHLD', 'D9260B1A-F268-4304-A22B-34A9D8001DE0')
---insert @ga values ('HLTH', 'D9260B1A-F268-4304-A22B-34A9D8001DE0')
---insert @ga values ('OMF', 'D9260B1A-F268-4304-A22B-34A9D8001DE0')
---insert @ga values ('VIS', 'D9260B1A-F268-4304-A22B-34A9D8001DE0')
---insert @ga values ('RD', '504CE0ED-537F-4EA0-BD97-0349FB1A4CA8')
---insert @ga values ('TPIC', '25D890C3-BCAE-4039-AC9D-2AE21686DEB0')
---insert @ga values ('BESI', '5050E2FA-7FF7-4910-8893-D354FFAF15C9')
---insert @ga values ('TPICP', 'D5976143-EE40-484F-B888-5D203452BDC9')
---insert @ga values ('TPIDL', 'D5976143-EE40-484F-B888-5D203452BDC9')
---insert @ga values ('TPIH', 'D5976143-EE40-484F-B888-5D203452BDC9')
---insert @ga values ('TPILA', 'D5976143-EE40-484F-B888-5D203452BDC9')
---insert @ga values ('TPIPS', 'D5976143-EE40-484F-B888-5D203452BDC9')
---insert @ga values ('TPISD', 'D5976143-EE40-484F-B888-5D203452BDC9')
---insert @ga values ('WL', '37EA0554-EC3F-4B95-AAD7-A52DECC7377C')
+insert LEGACYSPED.MAP_IepGoalAreaDefID values ('ZZZ', 'FED37909-91FF-43F6-8772-C7D5513F1A01')
+
+if not exists (select 1 from IepGoalAreaDef where ID = 'FED37909-91FF-43F6-8772-C7D5513F1A01')
+insert IepGoalAreaDef (ID, Sequence, Name, AllowCustomProbes, RequireGoal) values ('FED37909-91FF-43F6-8772-C7D5513F1A01', 99, 'Not Defined', 0, 0)
 
 
---insert LEGACYSPED.MAP_IepGoalAreaDefID 
---select ga.* from @ga ga where GoalAreaCode not in (select GoalAreaCode from LEGACYSPED.MAP_GoalAreaDefID)
 
 END
 GO

@@ -89,7 +89,6 @@ delete m from LEGACYSPED.MAP_IepDisabilityEligibilityID m left join IepDisabilit
 delete m from LEGACYSPED.MAP_ScheduleID m left join Schedule x on m.DestID = x.ID where x.ID is null ; print 'deleted MAP_ScheduleID: '+convert(varchar(10), @@rowcount)
 delete m from LEGACYSPED.MAP_ServicePlanID m left join ServicePlan x on m.DestID = x.ID where x.ID is null ; print 'deleted MAP_ServicePlanID: '+convert(varchar(10), @@rowcount)
 delete m from LEGACYSPED.MAP_IepGoalAreaDefID m left join IepGoalAreaDef x on m.DestID = x.ID where x.ID is null ; print 'deleted MAP_IepGoalAreaDefID: '+convert(varchar(10), @@rowcount)
-delete m from LEGACYSPED.MAP_IepGoalAreaDefID m left join IepGoalAreaDef x on m.DestID = x.ID where x.ID is null ; print 'deleted MAP_IepGoalAreaDefID: '+convert(varchar(10), @@rowcount)
 delete m from LEGACYSPED.MAP_IepGoalAreaID m left join IepGoalArea x on m.DestID = x.ID where x.ID is null ; print 'deleted MAP_IepGoalAreaID: '+convert(varchar(10), @@rowcount)
 delete m from LEGACYSPED.MAP_PrgGoalID m left join PrgGoal x on m.DestID = x.ID where x.ID is null ; print 'deleted MAP_PrgGoalID: '+convert(varchar(10), @@rowcount)
 delete m from LEGACYSPED.MAP_PrgGoalObjectiveID m left join PrgGoal x on m.DestID = x.ID where x.ID is null ; print 'deleted MAP_PrgGoalObjectiveID: '+convert(varchar(10), @@rowcount)

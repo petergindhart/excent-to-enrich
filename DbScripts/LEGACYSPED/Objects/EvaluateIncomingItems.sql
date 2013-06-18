@@ -195,7 +195,7 @@ from
 	PrgItem xci on xcm.DestID = xci.ID left join 
 
 -- EXISTING converted iep VERSION
-	LEGACYSPED.MAP_PrgVersionID xcv on xcm.IepRefID = xcv.IepRefID left join -- 55 records.  xcm null, xcv null.  good
+	LEGACYSPED.MAP_PrgVersionID xcv on xcm.IepRefID = xcv.IepRefID left join -- xcm null, xcv null.  ........................................ assumes the item has never been touched! (or that we are not acting on touched records)
 
 -- EXISTING non-conveted ITEM (IEP)
 	( 
