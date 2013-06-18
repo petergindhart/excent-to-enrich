@@ -40,6 +40,7 @@ AS
 select 
 	stu.StudentRefID, 
 	stu.EPRefID, 
+	stu.ItemDestID,
 -- PrgItem
 	DefID = '69942840-0E78-498D-ADE3-7454F69EA178', -- EP - Converted
 	StudentID = stu.DestID,
