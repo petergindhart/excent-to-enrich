@@ -7,7 +7,7 @@ GO
 CREATE TABLE x_LEGACYGIFT.GiftedService_Local(
 ServiceType    varchar(20) not null, 
 ServiceRefId    varchar(150) not null, 
-IepRefId    varchar(150) not null,
+EpRefId    varchar(150) not null,
 ServiceDefinitionCode    varchar(150) null,
 BeginDate    datetime not null, 
 EndDate    datetime null, 
