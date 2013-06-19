@@ -47,7 +47,8 @@ AS
 					-- CASE WHEN k.DisplayInUI = 'Y' THEN NULL -- User specified they want to see this in the UI.  Let them.
 				ELSE NULL
 			END,
-		IsOutOfState = cast(0 as bit)
+		IsOutOfState = cast(0 as bit),
+		ProgramID = 'F98A8EF2-98E2-4CAC-95AF-D7D89EF7F80C'
 	FROM
 		LEGACYSPED.SelectLists k LEFT JOIN
 		dbo.IepDisability s on isnull(k.StateCode,'kDisab') = isnull(s.StateCode,'sDisab') left join -- two NULLs does not a match make
