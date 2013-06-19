@@ -15,7 +15,6 @@
 --#include {SpedStateInclude}\Transform_IepGoalArea.sql
 --#include {SpedStateInclude}\Transform_IepGoalPostSchoolAreaDef.sql
 --#include {SpedStateInclude}\Transform_IepGoalSubGoalAreaDef.sql
---#include Transform_IepPlacementOption.sql
 ----#include Transform_IepServiceCategory.sql
 ----#include Transform_ServiceDef.sql
 ----#include Transform_ServiceProviderTitle.sql
