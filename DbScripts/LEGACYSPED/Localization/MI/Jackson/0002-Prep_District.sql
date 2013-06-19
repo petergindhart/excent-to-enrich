@@ -22,8 +22,8 @@ go
 declare @OrgUnit table (ID uniqueidentifier, Name varchar(200), Number varchar(10))
 insert @orgunit values ('44D84A2E-8ED0-4071-8973-A089A812EC7E','Addison Community Schools','46020')
 insert @orgunit values ('186D1AFA-D574-49E4-8C44-3AF4A1BE25A0','Columbia School District','38040')
---insert @orgunit values ('93C46867-4ECE-4FAD-8199-323B28F18D03','Concord Community Schools','')
---insert @orgunit values ('9C77BCD9-05F6-4CBB-A846-D0CC45D1FD31','daVinci Institute','')
+insert @orgunit values ('93C46867-4ECE-4FAD-8199-323B28F18D03','Concord Community Schools','38080')
+insert @orgunit values ('9C77BCD9-05F6-4CBB-A846-D0CC45D1FD31','daVinci Institute','')
 insert @orgunit values ('0624D3FE-52FA-4D40-86DE-2C5F3668752C','East Jackson Community Schools','38090')
 insert @orgunit values ('68B1FC8B-88B8-4E61-AF11-63A505969DCB','Grasslake Community Schools','38050')
 insert @orgunit values ('457ABE79-0236-4877-AE0E-D1333B299F74','Hanover Horton School District','38100')
@@ -81,6 +81,7 @@ insert @importPrgSections values (1, 'Sped Eligibility Determination', 'F050EF5E
 insert @importPrgSections values (1, 'IEP Goals', '84E5A67D-CC9A-4D5B-A7B8-C04E8C3B8E0A')
 insert @importPrgSections values (1, 'Sped Consent Services', 'D83A4710-A69F-4310-91F8-CB5BFFB1FE4C')
 insert @importPrgSections values (1, 'Sped Consent Evaluation', '47958E63-10C4-4124-A5BA-8C1077FB2D40')
+insert @importPrgSections values (1, 'IEP ESY', 'F60392DA-8EB3-49D0-822D-77A1618C1DAA')
 
 insert LEGACYSPED.ImportPrgSections
 select * from @importPrgSections
@@ -89,6 +90,8 @@ go
 -- insert the Consent for Eval section def in case it is missing
 if not exists (select * from PrgSectionDef where ID = '47958E63-10C4-4124-A5BA-8C1077FB2D40')
 insert PrgSectionDef (ID, TypeID, ItemDefID, Sequence, IsVersioned, DisplayPrevious, CanCopy) values ('47958E63-10C4-4124-A5BA-8C1077FB2D40', '31A1AE20-5F63-47FD-852A-4801595033ED', '8011D6A2-1014-454B-B83C-161CE678E3D3', 7, 0, 0, 0)
+if not exists (select * from PrgSectionDef where ID = 'F60392DA-8EB3-49D0-822D-77A1618C1DAA')
+INSERT PrgSectionDef (ID,TypeID,ItemDefID,Sequence,IsVersioned,Code,Title,VideoUrl,HelpTextLegal,HelpTextInfo,FormTemplateID,DisplayPrevious,CanCopy,HeaderFormTemplateID,HelpTextState) VALUES('F60392DA-8EB3-49D0-822D-77A1618C1DAA','9B10DCDE-15CC-4AA3-808A-DFD51CE91079','8011D6A2-1014-454B-B83C-161CE678E3D3',6,0,NULL,NULL,NULL,NULL,NULL,NULL,0,0,'29693CB4-F504-4E8D-9412-D2BACFBC5104',NULL)
 
 
 ---- #############################################################################
