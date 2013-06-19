@@ -1,6 +1,6 @@
 
-IF  EXISTS (SELECT 1 FROM sys.views WHERE object_id = OBJECT_ID(N'x_LEGACYGIFT.GiftedGoal_LOCAL'))  
-DROP VIEW x_LEGACYGIFT.GiftedGoal_LOCAL  
+IF  EXISTS (SELECT 1 FROM sys.views WHERE object_id = OBJECT_ID(N'x_LEGACYGIFT.GiftedGoal'))  
+DROP VIEW x_LEGACYGIFT.GiftedGoal
 GO  
 
 IF NOT EXISTS (SELECT 1 FROM sys.objects WHERE object_id = OBJECT_ID(N'x_LEGACYGIFT.GiftedGoal_LOCAL') AND type in (N'U'))
