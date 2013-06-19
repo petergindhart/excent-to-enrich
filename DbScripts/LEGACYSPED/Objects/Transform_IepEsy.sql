@@ -1,12 +1,11 @@
 
-if exists (select 1 from sys.schemas s join sys.objects o on s.schema_id = o.schema_id where s.name = 'LEGACYSPED' and o.name = 'MAP_IepEsyID')
-drop table LEGACYSPED.MAP_IepEsyID 
-go
-
+if not exists (select 1 from sys.schemas s join sys.objects o on s.schema_id = o.schema_id where s.name = 'LEGACYSPED' and o.name = 'MAP_IepEsyID')
+begin
 create table LEGACYSPED.MAP_IepEsyID (
 IepRefID	varchar(150) not null,
 DestID uniqueidentifier not null
 )
+end
 go
 
 if exists (select 1 from sys.schemas s join sys.objects o on s.schema_id = o.schema_id where s.name = 'LEGACYSPED' and o.name = 'Transform_IepESY')
@@ -35,7 +34,8 @@ select
 				else NULL
 			end
 		end,
-	TbdDate = s.EsyTBDDate
+	TbdDate = s.EsyTBDDate,
+	iv.DoNotTouch
 	-- VersionID = VersionDestID -- This section is pre-configured to be non-versionable
 from LEGACYSPED.EvaluateIncomingItems ev join
 LEGACYSPED.MAP_IEPStudentRefID ts on ev.StudentRefID = ts.StudentRefID join
