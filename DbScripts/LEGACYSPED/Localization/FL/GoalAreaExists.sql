@@ -1,4 +1,4 @@
--- CO version
+-- FL version
 if exists (select 1 from sys.objects where type = 'V' and name = 'GoalAreaExists')
 drop view LEGACYSPED.GoalAreaExists
 go
