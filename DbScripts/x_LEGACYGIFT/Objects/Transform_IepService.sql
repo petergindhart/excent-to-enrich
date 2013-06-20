@@ -1,3 +1,9 @@
+--#include {SpedObjectsInclude}\Transform_ServiceFrequency.sql
+--#include {SpedObjectsInclude}\Transform_ServiceProviderTitle.sql
+--#include {SpedObjectsInclude}\Transform_IepServiceCategory.sql
+
+-- GIFTED
+
 -- #############################################################################
 -- ServicePlan
 IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'x_LEGACYGIFT.MAP_ServicePlanID') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
