@@ -1,5 +1,5 @@
 -- FL version
-if exists (select 1 from sys.objects where type = 'V' and name = 'GoalAreaExists')
+if exists (select 1 from sys.schemas s join sys.objects o on s.schema_id = o.schema_id where s.name = 'LEGACYSPED' and o.type = 'V' and o.name = 'GoalAreaExists')
 drop view LEGACYSPED.GoalAreaExists
 go
 
