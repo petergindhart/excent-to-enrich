@@ -390,8 +390,6 @@ StudentRecordException x on n.StudentID = x.Student2ID
 
 -- end of cursor to delete manually added students from T_% tables
 
-
-
 delete x 
 -- select ManStud = s.ManuallyEntered, x.*
 from @delstudents n join
@@ -402,6 +400,17 @@ delete x
 from @delstudents n join
 ReportCardScore x on n.StudentID = x.Student
 
+
+	delete x
+	-- select x.*
+	from @delstudents n join
+	MedicaidAuthorization x on n.StudentID = x.StudentID 
+
+
+	delete x
+	-- select x.*
+	from @delstudents n join
+	StudentPhoto x on n.StudentID = x.StudentID 
 
 
 	delete x

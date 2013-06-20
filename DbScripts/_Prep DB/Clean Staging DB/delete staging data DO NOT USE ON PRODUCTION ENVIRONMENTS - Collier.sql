@@ -400,6 +400,11 @@ ReportCardScore x on n.StudentID = x.Student
 	delete x
 	-- select x.*
 	from @delstudents n join
+	StudentPhoto x on n.StudentID = x.StudentID
+
+	delete x
+	-- select x.*
+	from @delstudents n join
 	Student x on n.StudentID = x.ID
 
 delete x
