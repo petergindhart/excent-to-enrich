@@ -1,3 +1,4 @@
+--#include {SpedDistrictInclude}\0002-Prep_District.sql
 -- #############################################################################
 -- Schedule
 IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'x_LEGACYGIFT.MAP_ScheduleID') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
