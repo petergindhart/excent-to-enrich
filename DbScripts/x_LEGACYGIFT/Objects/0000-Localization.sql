@@ -19,6 +19,7 @@
 ----#include Transform_ServiceDef.sql
 ----#include Transform_ServiceProviderTitle.sql
 --#include Transform_Schedule.sql
+--#include {SpedObjectsInclude}\Transform_ServiceDef.sql
 --#include Transform_IepService.sql
 
 -- let's reset the counts for imported data so we know this script ran when we run dc from the ui
