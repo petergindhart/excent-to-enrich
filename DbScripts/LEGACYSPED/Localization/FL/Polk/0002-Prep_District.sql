@@ -47,6 +47,13 @@ ALTER TABLE LEGACYSPED.ImportPrgSections
 )
 GO
 
+--select * from FormTemplate where name like '%ESY%'
+
+-- use the FormTemplate for ESY Criteria for this district 
+if not exists (select 1 from PrgSectionDef where ID = 'F60392DA-8EB3-49D0-822D-77A1618C1DAA')
+insert PrgSectionDef (ID, TypeID, ItemDefID, Sequence, IsVersioned, DisplayPrevious, CanCopy, HeaderFormTemplateID) values ('F60392DA-8EB3-49D0-822D-77A1618C1DAA', '9B10DCDE-15CC-4AA3-808A-DFD51CE91079', '8011D6A2-1014-454B-B83C-161CE678E3D3', 6, 0, 0, 0, 'B97E7849-36B4-4181-8D03-241FDCA5105C')
+
+
 set nocount on;
 declare @importPrgSections table (Enabled bit not null, SectionDefName varchar(100) not null, SectionDefID uniqueidentifier not null)
 -- update the Enabled column below to 0 if the section is not required for this district
@@ -58,9 +65,10 @@ insert @importPrgSections values (1, 'Sped Eligibility Determination', 'F050EF5E
 insert @importPrgSections values (1, 'IEP Goals', '84E5A67D-CC9A-4D5B-A7B8-C04E8C3B8E0A')
 insert @importPrgSections values (1, 'Sped Consent Services', 'D83A4710-A69F-4310-91F8-CB5BFFB1FE4C')
 insert @importPrgSections values (1, 'Sped Consent Evaluation', '47958E63-10C4-4124-A5BA-8C1077FB2D40')
+insert @importPrgSections values (1, 'IEP ESY', 'F60392DA-8EB3-49D0-822D-77A1618C1DAA')
 
 insert LEGACYSPED.ImportPrgSections
-select * from @importPrgSections
+select * from @importPrgSections where SectionDefID not in (select SectionDefID from LEGACYSPED.ImportPrgSections)
 go
 
 
@@ -107,6 +115,26 @@ insert LEGACYSPED.MAP_IepSubGoalAreaDefID values ('GAOther', 'DEEB5A06-156D-43D0
 		For additional frequencies it may be possible to calculate the frequency based on an existing value 
 			i.e. 2 times Quarterly = 8 times yearly,  30 minutes per quarter = 2 hours per year or 120 minutes per year
 */
+
+
+--		Service Frequency
+IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.MAP_ServiceFrequencyID') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
+BEGIN
+CREATE TABLE LEGACYSPED.MAP_ServiceFrequencyID
+(
+	ServiceFrequencyCode	varchar(150) NOT NULL,
+	ServiceFrequencyName	varchar(50) not null,
+	DestID uniqueidentifier NOT NULL
+)
+ALTER TABLE LEGACYSPED.MAP_ServiceFrequencyID ADD CONSTRAINT
+PK_MAP_ServiceFrequencyID PRIMARY KEY CLUSTERED
+(
+	ServiceFrequencyName
+)
+CREATE INDEX IX_Map_ServiceFrequencyID_ServiceFrequencyName on LEGACYSPED.Map_ServiceFrequencyID (ServiceFrequencyName)
+END
+GO
+
 
 -- Lee County had a MAP_ServiceFrequencyID from a previouos ETL run that had bogus frequency data. delete that data and insert the good.
 declare @Map_ServiceFrequencyID table (ServiceFrequencyCode varchar(30), ServiceFrequencyName varchar(50), DestID uniqueidentifier)
