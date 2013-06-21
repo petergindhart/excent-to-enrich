@@ -1,5 +1,4 @@
 -- #############################################################################
--- This table will associate the FileDataId with IepRefID.  IepRefId will be the primary Key.
 
 IF  NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'x_LEGACYDOC.MAP_FileDataID') AND OBJECTPROPERTY(id, N'IsUserTable') = 1) -- drop table x_LEGACYDOC.MAP_FileDataID
 BEGIN 
@@ -22,7 +21,6 @@ GO
 if not exists (select 1 from sys.indexes where name = 'IX_x_LEGACYDOC_MAP_FileDataID_StudentRefID')
 create index IX_x_LEGACYDOC_MAP_FileDataID_StudentRefID on x_LEGACYDOC.MAP_FileDataID (StudentRefID)
 
---select * from x_LEGACYDOC.dbo.alldocs
 IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'x_LEGACYDOC.Transform_FileData') AND OBJECTPROPERTY(id, N'IsView') = 1)
 DROP VIEW x_LEGACYDOC.Transform_FileData
 GO
@@ -66,13 +64,3 @@ FROM
 	x_LEGACYDOC.MAP_FileDataID m ON d.DocumentRefID = m.DocumentRefID and d.DocumentType = m.DocumentType left join
 	dbo.FileData t ON m.DestID = t.ID
 go
-
---select * from VC3Deployment.Version where Module = 'SPEDDOC'
---select * from VC3Deployment.Version where Module = 'x_LEGACYDOC'
-
---insert VC3Deployment.Version (Module, ScriptNumber, ScriptName, DateApplied) values ('x_LEGACYDOC', 0, '0000-RegisterModule.sql', getdate())
---insert VC3Deployment.Version (Module, ScriptNumber, ScriptName, DateApplied) values ('x_LEGACYDOC', 0, '0001-Extract-AllDocs.sql', getdate())
-
-
-
-
