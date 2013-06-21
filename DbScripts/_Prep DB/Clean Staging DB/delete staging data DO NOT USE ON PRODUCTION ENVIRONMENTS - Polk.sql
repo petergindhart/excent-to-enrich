@@ -181,6 +181,11 @@ delete x from PrgSection x join PrgItem i on x.ItemID = i.ID where i.StudentID n
 delete x from IepDisability x where deleteddate is not null  ; print 'IepDisability : ' + convert(varchar(10), @@rowcount) -- maintained by config import
 delete x from IepPlacementOption x where DeletedDate is not null or Sequence = 99  ; print 'IepPlacementOption : ' + convert(varchar(10), @@rowcount)-- maintained by config import
 
+-- new 
+delete x from IepDisability x where x.DeterminationFormTemplateID is null 
+
+
+
 
 -- set nocount off;
 delete x from ServiceSchedule x where ID not in (select z.ID from ServiceSchedule z join ServiceScheduleServicePlan sssp on z.ID = sssp.ScheduleID join ServicePlan sp on sssp.ServicePlanID = sp.ID  where sp.StudentID in (select isnull(StudentID, @zg) from @SaveStudents) )  ; print 'ServiceSchedule : ' + convert(varchar(10), @@rowcount)-- ??
@@ -218,6 +223,7 @@ delete sd from ServiceDef sd where DeletedDate is not null and sd.ID in (select 
 --Msg 547, Level 16, State 0, Line 142
 --The DELETE statement conflicted with the REFERENCE constraint "FK_ServicePlan#Def#Plans". The conflict occurred in database "Enrich_DCB2_CO_Mesa51", table "dbo.ServicePlan", column 'DefID'.
 	-- we are handling this separately in Prepare DB ServiceDef
+
 
 delete PrgLocation where DeletedDate is not null ; print 'PrgLocation : ' + convert(varchar(10), @@rowcount) -- is there any benefit in attempting to delete Legacy data?
 --Msg 547, Level 16, State 0, Line 232
@@ -811,7 +817,7 @@ select 'print ''truncating : '+s.name+'.'+o.name+'''
 truncate table '+s.name+'.'+o.name 
 from sys.schemas s join
 sys.objects o on s.schema_id = o.schema_id
-where s.name in ('LEGACYSPED', 'SPEDDOC')
+where s.name in ('LEGACYSPED', 'SPEDDOC', 'x_LEGACYDOC', 'x_LEGACY504', 'x_LEGACYGIFT')
 and o.type in ('U') 
 order by s.name, case o.Type when 'P' then 0 when 'V' then 1 when 'U' then 2 end
 
@@ -896,19 +902,77 @@ close O
 deallocate O
 
 
+-- x_LEGACYDOC
+declare O cursor for 
+select o.name, o.type from sys.schemas s join sys.objects o on s.schema_id = o.schema_id where s.name = 'x_LEGACYDOC' and o.type in ('U', 'V') order by o.type desc, o.name
+
+open O
+fetch O into @o, @ut
+
+while @@fetch_status = 0
+begin
+
+set @q = 'if exists (select 1 from sys.schemas s join sys.objects o on s.schema_id = o.schema_id where s.name = ''x_LEGACYDOC'' and o.name = '''+@o+''')
+drop '+case when @ut = 'V' then 'view ' else 'table ' end+ 'x_LEGACYDOC.'+ @o+@n+@n
+
+exec (@q)
+
+fetch O into @o, @ut
+end
+close O
+deallocate O
+
+
+
+
+-- x_LEGACY504
+declare O cursor for 
+select o.name, o.type from sys.schemas s join sys.objects o on s.schema_id = o.schema_id where s.name = 'x_LEGACY504' and o.type in ('U', 'V') order by o.type desc, o.name
+
+open O
+fetch O into @o, @ut
+
+while @@fetch_status = 0
+begin
+
+set @q = 'if exists (select 1 from sys.schemas s join sys.objects o on s.schema_id = o.schema_id where s.name = ''x_LEGACY504'' and o.name = '''+@o+''')
+drop '+case when @ut = 'V' then 'view ' else 'table ' end+ 'x_LEGACY504.'+ @o+@n+@n
+
+exec (@q)
+
+fetch O into @o, @ut
+end
+close O
+deallocate O
+
+
+
+-- x_LEGACYGIFT
+declare O cursor for 
+select o.name, o.type from sys.schemas s join sys.objects o on s.schema_id = o.schema_id where s.name = 'x_LEGACYGIFT' and o.type in ('U', 'V') order by o.type desc, o.name
+
+open O
+fetch O into @o, @ut
+
+while @@fetch_status = 0
+begin
+
+set @q = 'if exists (select 1 from sys.schemas s join sys.objects o on s.schema_id = o.schema_id where s.name = ''x_LEGACYGIFT'' and o.name = '''+@o+''')
+drop '+case when @ut = 'V' then 'view ' else 'table ' end+ 'x_LEGACYGIFT.'+ @o+@n+@n
+
+exec (@q)
+
+fetch O into @o, @ut
+end
+close O
+deallocate O
+
+
 
 delete v
 -- select * 
 from VC3Deployment.Version v
-where Module = 'LEGACYSPED' 
-	and scriptnumber > 0
-
-
-
-delete v
--- select * 
-from VC3Deployment.Version v
-where Module = 'SPEDDOC' 
+where Module in ('LEGACYSPED', 'SPEDDOC', 'x_LEGACYDOC', 'x_LEGACY504', 'x_LEGACYGIFT')
 	and scriptnumber > 0
 
 UPDATE SystemSettings SET SecurityRebuiltDate = NULL
@@ -943,7 +1007,8 @@ union
 select 'PrgDocument'
 union
 select 'FormTemplate'
-order by DestTable
+union
+select DestTable from VC3ETL.LoadTable where ExtractDatabase = '35612529-9F3D-4971-A3DD-90E795E39080' and DestTable is not null and DestTable not like 'x_LEGACYGIFT%'
 
 open T 
 fetch T into @t
@@ -953,7 +1018,6 @@ begin
 
 set @q = 'DBCC DBREINDEX ('+@t+')'
 exec (@q)
-
 
 
 fetch T into @t
