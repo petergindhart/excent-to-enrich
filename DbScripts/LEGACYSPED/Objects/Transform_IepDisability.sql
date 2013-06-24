@@ -57,8 +57,3 @@ AS
 	WHERE
 		k.Type = 'Disab' 
 GO
-
-
-
-
-
