@@ -47,7 +47,7 @@ SELECT
 	ItemID = i.DestID,
     VersionID = i.VersionDestID,
     FileID = f.DestID,
-    Label = f.OriginalName,
+    Label = f.Label,
     UploadUserID = ISNULL(i.CreatedBy, 'EEE133BD-C557-47E1-AB67-EE413DD3D1AB') 
 FROM  
 	x_LEGACYDOC.Transform_FileData f JOIN
@@ -65,7 +65,7 @@ SELECT
 	ItemID = i.ItemDestID,
     VersionID = i.VersionDestID,
     FileID = f.DestID,
-    Label = f.OriginalName,
+    Label = f.Label,
     UploadUserID = ISNULL(i.CreatedBy, 'EEE133BD-C557-47E1-AB67-EE413DD3D1AB') 
 FROM  
 	x_LEGACYDOC.Transform_FileData f JOIN
@@ -83,7 +83,7 @@ SELECT
 	ItemID = i.ItemDestID,
     VersionID = i.VersionDestID,
     FileID = f.DestID,
-    Label = f.OriginalName,
+    Label = f.Label,
     UploadUserID = cast('EEE133BD-C557-47E1-AB67-EE413DD3D1AB' as uniqueidentifier)
 FROM  
 	x_LEGACYDOC.Transform_FileData f JOIN
