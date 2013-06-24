@@ -1,15 +1,4 @@
 
-IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.PrimaryGoalAreaPerGoal') AND OBJECTPROPERTY(id, N'IsView') = 1)
-DROP VIEW LEGACYSPED.PrimaryGoalAreaPerGoal
-GO
-
-create view LEGACYSPED.PrimaryGoalAreaPerGoal 
-as
-select GoalRefID, PrimaryGoalAreaDefIndex = min(GoalAreaDefIndex)
-from LEGACYSPED.MAP_GoalAreaPivot
-group by GoalRefID
-go
-
 -- no map table needed
 IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.Transform_IepGoalSecondaryGoalAreaDef') AND OBJECTPROPERTY(id, N'IsView') = 1)
 DROP VIEW LEGACYSPED.Transform_IepGoalSecondaryGoalAreaDef
@@ -33,4 +22,3 @@ where ga.GoalAreaDefIndex > (
 	where tg.GoalRefID = ming.GoalRefID
 	)
 go
-
