@@ -4,7 +4,7 @@ IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.MA
 BEGIN
 CREATE TABLE LEGACYSPED.MAP_IepGoalAreaID
 (
-	GoalRefID	varchar(150) not null,
+	IEPRefID	varchar(150) not null,
 	DefID uniqueidentifier NOT NULL,
 	DestID uniqueidentifier NOT NULL
 )
@@ -12,29 +12,11 @@ CREATE TABLE LEGACYSPED.MAP_IepGoalAreaID
 ALTER TABLE LEGACYSPED.MAP_IepGoalAreaID ADD CONSTRAINT 
 PK_MAP_IepGoalAreaID PRIMARY KEY CLUSTERED
 (
-	DefID, GoalRefID
+	DefID, IEPRefID
 )
 END
 GO
 
-
--- this MAP table will speed up the GoalArea queries considerably
-IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.MAP_GoalAreaPivot') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
-BEGIN
-create table LEGACYSPED.MAP_GoalAreaPivot 
-(
-	GoalRefID	varchar(150) not null,
-	GoalAreaCode varchar(150) not null,
-	GoalAreaDefIndex int not null
-)
-
-ALTER TABLE LEGACYSPED.MAP_GoalAreaPivot ADD CONSTRAINT 
-PK_MAP_GoalAreaPivot PRIMARY KEY CLUSTERED
-(
-	GoalRefID, GoalAreaDefIndex
-)
-END
-GO
 
 if not exists (select 1 from sys.indexes where name = 'IX_LEGACYSPED_MAP_GoalAreaPivot_GaolRefID_GoalAreaCode')
 create index IX_LEGACYSPED_MAP_GoalAreaPivot_GaolRefID_GoalAreaCode on LEGACYSPED.MAP_GoalAreaPivot (GoalRefID, GoalAreaCode)
@@ -88,8 +70,6 @@ GO
 
 -- #############################################################################
 --		Transform
-
-
 IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.Transform_PrgGoal') AND OBJECTPROPERTY(id, N'IsView') = 1)
 DROP VIEW LEGACYSPED.Transform_PrgGoal
 GO
@@ -128,11 +108,11 @@ AS
   LEGACYSPED.IEP iep join 
   LEGACYSPED.Goal g on iep.IepRefID = g.IepRefID JOIN
   LEGACYSPED.GoalAreaExists e on g.GoalRefID = e.GoalRefID left join
-  LEGACYSPED.MAP_IepGoalAreaID ga on g.GoalRefID = ga.GoalRefID left join ----------------- May be able to use MAP table for speed
+  LEGACYSPED.Transform_IepGoalArea_goals ga on g.GoalRefID = ga.GoalRefID left join ----------------- May be able to use MAP table for speed
 	(
 	select g.IepRefID, ga.DefID, gad.GoalAreaCode 
 	from LEGACYSPED.Goal g join
-	LEGACYSPED.MAP_IepGoalAreaID ga on g.GoalRefID = ga.GoalRefID join ----------------- May be able to use MAP table for speed
+	LEGACYSPED.Transform_IepGoalArea_goals ga on g.GoalRefID = ga.GoalRefID join ----------------- May be able to use MAP table for speed
 	LEGACYSPED.MAP_IepGoalAreaDefID gad on ga.DefID = gad.DestID
 	group by g.IepRefID, ga.DefID, gad.GoalAreaCode
 	) ga1 on g.IepRefId = ga1.IepRefID and ga.DefID = ga1.DefID LEFT JOIN 
@@ -142,7 +122,4 @@ AS
   dbo.PrgGoal pg on m.DestID = pg.ID 
  WHERE
   i.DestID is not null 
---AND
---  i.DoNotTouch = 0
-  -- and isnull(g.GACommunication,'')+isnull(g.GAEmotional,'')+isnull(g.GAHealth,'')+isnull(g.GAIndependent,'')+isnull(g.GAMath,'')+isnull(g.GAOther,'')+isnull(g.GAReading,'')+isnull(g.GAWriting,'') like '%Y%'
 GO
