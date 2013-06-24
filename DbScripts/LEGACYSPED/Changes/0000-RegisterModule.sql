@@ -8,4 +8,8 @@ exec VC3Deployment.CreateSchema 'LEGACYSPED'
 exec VC3Deployment.AddModule 'LEGACYSPED'
 exec VC3Deployment.AddModuleDependency @uses='LEGACYSPED', @usedBy='dbo'
 exec VC3Deployment.AddModuleDependency @uses='LEGACYSPED', @usedBy='VC3ETL'
+exec VC3Deployment.AddModuleDependency @uses='LEGACYSPED', @usedBy='x_LEGACY504'
+exec VC3Deployment.AddModuleDependency @uses='LEGACYSPED', @usedBy='x_LEGACYDOC'
+exec VC3Deployment.AddModuleDependency @uses='LEGACYSPED', @usedBy='x_LEGACYGIFT'
+
 --
