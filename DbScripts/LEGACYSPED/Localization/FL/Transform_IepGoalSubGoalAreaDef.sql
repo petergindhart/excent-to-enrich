@@ -52,7 +52,7 @@ select
 	ga.GoalRefID,
 	GoalID = pg.DestID,
 	DefID = m.DestID 
-from LEGACYSPED.Transform_IepGoalArea ga join 
+from LEGACYSPED.Transform_IepGoalArea_goals ga join 
 LEGACYSPED.Transform_PrgGoal pg on ga.GoalRefID = pg.GoalRefID join 
 LEGACYSPED.SubGoalAreaPivotView sg on ga.GoalRefID = sg.GoalRefID left join 
 LEGACYSPED.MAP_IepSubGoalAreaDefID m on sg.GoalAreaCode = m.SubGoalAreaCode left join 
