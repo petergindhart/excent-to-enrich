@@ -4,10 +4,13 @@
 		ConnectionString="${connection}"
 		IgnoreMissingModules="True"
 		ModulesDirectory="..\DbScripts"
-	
-	
 		Module="LEGACYSPED"
-		SpedStateInclude="..\Localization\${state}"
-		SpedDistrictInclude="..\Localization\${state}\${speddistrict}"/>
+		SpedObjectsInclude="..\..\LEGACYSPED\Objects"
+		SpedStateInclude="..\..\LEGACYSPED\Localization\${state}"
+		SpedDistrictInclude="..\..\LEGACYSPED\Localization\${state}\${speddistrict}"
+		GiftObjectsInclude="..\..\x_LEGACYGIFT\Objects"
+		GiftStateInclude="..\..\x_LEGACYGIFT\Localization\${state}"
+		GiftDistrictInclude="..\..\x_LEGACYGIFT\Localization\${state}\${speddistrict}"/>
+
 </project>
-<!-- paths are relative to the batch file -->
+<!-- paths are relative to the calling file -->
