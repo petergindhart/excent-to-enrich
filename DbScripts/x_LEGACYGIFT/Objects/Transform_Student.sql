@@ -48,18 +48,18 @@ CREATE TABLE x_LEGACYGIFT.MAP_EPStudentRefID
 )
 
 ALTER TABLE x_LEGACYGIFT.MAP_EPStudentRefID ADD CONSTRAINT
-PK_MAP_IEPStudentRefID PRIMARY KEY CLUSTERED
+PK_MAP_EPStudentRefID PRIMARY KEY CLUSTERED
 (
 	EPRefID
 )
 END
 
 
-IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'x_LEGACYGIFT.Transform_GiftedStudent') AND OBJECTPROPERTY(id, N'IsView') = 1)
-DROP VIEW x_LEGACYGIFT.Transform_GiftedStudent
+IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'x_LEGACYGIFT.Transform_Student') AND OBJECTPROPERTY(id, N'IsView') = 1)
+DROP VIEW x_LEGACYGIFT.Transform_Student
 GO
 
-CREATE VIEW x_LEGACYGIFT.Transform_GiftedStudent
+CREATE VIEW x_LEGACYGIFT.Transform_Student
 AS 
 select 
 	-- Student
@@ -84,11 +84,11 @@ left join x_LEGACYGIFT.MAP_EPStudentRefID me on x.EPRefID = me.EpRefID -- ep map
 left join dbo.PrgItem i on s.ID = i.StudentID and i.DefID = '69942840-0E78-498D-ADE3-7454F69EA178'
 GO
 
---if exists (select 1 from sys.schemas s join sys.objects o on s.schema_id = o.schema_id where s.name = 'x_LEGACYGIFT' and o.name = 'Transform_GiftedStudent')
+--if exists (select 1 from sys.schemas s join sys.objects o on s.schema_id = o.schema_id where s.name = 'x_LEGACYGIFT' and o.name = 'Transform_Student')
 --begin
 --	insert x_LEGACYGIFT.MAP_EPStudentRefID
 --	select distinct s.EPRefID, s.StudentRefID, s.DestID
---	from x_LEGACYGIFT.Transform_GiftedStudent s left join  
+--	from x_LEGACYGIFT.Transform_Student s left join  
 --	x_LEGACYGIFT.MAP_EPStudentRefID t on s.EPRefID = t.EPRefID
 --	where t.EPRefID is null 
 --end
