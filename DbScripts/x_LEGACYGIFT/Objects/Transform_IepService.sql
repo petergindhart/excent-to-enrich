@@ -91,7 +91,7 @@ select
 FROM
 	x_LEGACYGIFT.Transform_PrgItem iep JOIN
 	PrgSection sec ON
-		sec.ItemID = iep.ItemDestID AND
+		sec.ItemID = iep.DestID AND
 		iep.VersionDestID = sec.VersionID AND
 		sec.DefID = '9AC79680-7989-4CC9-8116-1CCDB1D0AE5F' JOIN --IEP Services ------------------------------------------------------------- change to gifted
 	x_LEGACYGIFT.GiftedService v on iep.EPRefID = v.EPRefID LEFT JOIN
