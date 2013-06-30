@@ -4,7 +4,7 @@ BEGIN
 
 create table x_LEGACYGIFT.Transform_IepService_Snapshot (
 ServiceRefId	varchar(150) NOT NULL,
-IepRefId	varchar(150),
+EpRefId	varchar(150),
 DestID	uniqueidentifier,
 DefId	uniqueidentifier,
 InstanceID	uniqueidentifier NOT NULL,
@@ -33,7 +33,7 @@ GO
 
 create view x_LEGACYGIFT.Transform_IepServicePlan_ss
 as
-select s.ServiceRefId, s.IepRefId, m.DestID, s.DefId, s.InstanceID, s.StudentID, s.StartDate, s.EndDate, s.Amount, s.FrequencyId, s.UnitID, s.ProviderTitleID, s.Sequence, s.ServiceTypeID, s.CategoryCode, s.CategoryID, s.DirectID, s.ExcludesID, s.EsyID, s.DeliveryStatement 
+select s.ServiceRefId, s.EpRefId, m.DestID, s.DefId, s.InstanceID, s.StudentID, s.StartDate, s.EndDate, s.Amount, s.FrequencyId, s.UnitID, s.ProviderTitleID, s.Sequence, s.ServiceTypeID, s.CategoryCode, s.CategoryID, s.DirectID, s.ExcludesID, s.EsyID, s.DeliveryStatement 
 from x_LEGACYGIFT.Transform_IepService_Snapshot s left join 
 x_LEGACYGIFT.MAP_ServicePlanID m on s.ServiceRefId = m.ServiceRefID
 go
