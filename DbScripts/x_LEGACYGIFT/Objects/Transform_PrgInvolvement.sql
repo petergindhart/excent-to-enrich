@@ -44,7 +44,7 @@ AS
 		-- PrgInvolvementStatus
 		StatusID = (select DestID from x_LEGACYGIFT.MAP_PrgStatus_ConvertedEP)
 	FROM
-		x_LEGACYGIFT.Transform_GiftedStudent stu LEFT JOIN 
+		x_LEGACYGIFT.Transform_Student stu LEFT JOIN 
 		x_LEGACYGIFT.MAP_PrgInvolvementID m on stu.StudentRefID = m.StudentRefID left join
 		dbo.PrgInvolvement x on m.DestID = x.ID and x.ProgramID = '2FF58E06-9E4A-4BE5-8274-E0FDE0012D4E' and dbo.DateInRange( stu.EPMeetingDate, x.StartDate, x.EndDate ) = 1 
 		-- assuming there are no students that already have a gifted invovlement that will overlap with this involvement
