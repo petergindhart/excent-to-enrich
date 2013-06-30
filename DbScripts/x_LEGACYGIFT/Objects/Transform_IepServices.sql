@@ -102,7 +102,7 @@ AS
 		IEP.EPRefID,
 		m.DestID,
 		DeliveryStatement = iep.ServiceDeliveryStatement, -- since Transform_IepServices is use in a lot of operations, leave the text field out of the transform for speed
-		ItemID = iep.ItemDestID,
+		ItemID = iep.DestID,
 	-- FormInstance
 		FormInstanceID = mfi.DestID, -- instance of form for this prgitem based on the template for IEP Section 13 Services (next column in this view)
 		TemplateID = '427C86E1-AB95-482A-B8A5-9801F309481A', -- FormTemplate for IEP Section 13 Services
