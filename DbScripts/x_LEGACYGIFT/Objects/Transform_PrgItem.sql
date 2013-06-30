@@ -40,27 +40,27 @@ AS
 select 
 	stu.StudentRefID, 
 	stu.EPRefID, 
-	stu.ItemDestID,
+	DestID = stu.ItemDestID,
 -- PrgItem
 	DefID = '69942840-0E78-498D-ADE3-7454F69EA178', -- EP - Converted
 	StudentID = stu.DestID,
 	MeetDate = stu.EPMeetingDate, 
 	StartDate = stu.EPMeetingDate,
 	EndDate = stu.DurationDate,
-	ItemOutcomeID = NULL, 
+	ItemOutcomeID = cast(NULL as uniqueidentifier), 
 	CreatedDate = '1/1/1970',
 	CreatedBy = 'EEE133BD-C557-47E1-AB67-EE413DD3D1AB', -- BuiltIn: Support
-	EndedDate = NULL,
-	EndedBy = NULL,
+	EndedDate = cast(NULL as datetime),
+	EndedBy = cast(NULL as uniqueidentifier), 
 	SchoolID = stu.CurrentSchoolID, 
 	GradeLevelID = stu.CurrentGradeLevelID,
 	InvolvementID = minv.DestID, 
 	StartStatusID = (select DestID from x_LEGACYGIFT.MAP_PrgStatus_ConvertedEP), 
-	EndStatusID = NULL,
+	EndStatusID = cast(NULL as uniqueidentifier), 
 	PlannedEndDate = stu.DurationDate,
-	IsEnded = 0,
-	Revision = 0,
-	IsApprovalPending = 0,
+	IsEnded = cast(0 as bit),
+	Revision = cast(0 as int),
+	IsApprovalPending = cast(0 as bit),
 	ApprovedDate = cast(t.ApprovedDate as datetime),
 	ApprovedByID = cast(t.ApprovedByID as uniqueidentifier),
 -- PrgIep
@@ -71,7 +71,7 @@ select
 	CreatedByID = 'EEE133BD-C557-47E1-AB67-EE413DD3D1AB',
 -- Additional Elements
 	ServiceDeliveryStatement = NULL
-from x_LEGACYGIFT.Transform_GiftedStudent stu left join 
+from x_LEGACYGIFT.Transform_Student stu left join 
 	x_LEGACYGIFT.MAP_PrgInvolvementID minv on stu.StudentRefID = minv.StudentRefID left join
 	x_LEGACYGIFT.MAP_PrgVersionID mver on stu.EPRefID = mver.EPRefID left join
 	dbo.PrgVersion v on mver.DestID = v.ID left join
