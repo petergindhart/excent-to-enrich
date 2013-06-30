@@ -42,6 +42,61 @@ select * from @importPrgSections
 go
 
 
+
+
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'x_LEGACYGIFT.ImportFormTemplates') AND type in (N'U'))
+DROP TABLE x_LEGACYGIFT.ImportFormTemplates
+GO
+
+
+CREATE TABLE x_LEGACYGIFT.ImportFormTemplates (
+Sequence	int	not null,
+SectionType		varchar(100)	not null,
+SectionDefID	uniqueidentifier not null,
+FooterFormID	uniqueidentifier null,
+HeaderFormID	uniqueidentifier null
+)
+
+
+
+ALTER TABLE x_LEGACYGIFT.ImportFormTemplates
+	ADD CONSTRAINT PK_ImportFormTemplates PRIMARY KEY CLUSTERED
+(
+	SectionDefID
+)
+GO
+set nocount on;
+insert x_LEGACYGIFT.ImportFormTemplates values (0, 'Custom Form / Dates', '49370EFB-E531-4B61-86A3-3D1C132AB480',  '1D2FD18F-9E14-4772-B728-1CA3E6EAE21E',  NULL) -- Custom Form   F: Dates   H:  (none)
+insert x_LEGACYGIFT.ImportFormTemplates values (1, 'Custom Form / EP Present Levels', 'DF806BE1-85C9-4A5C-A4D9-12D41D14147C',  'B659273D-D369-45BF-8F85-01B7857F0635',  NULL) -- Custom Form   F: EP Present Levels   H:  (none)
+insert x_LEGACYGIFT.ImportFormTemplates values (2, 'IEP Goals', 'F9BCB1A3-D7D2-43E8-9B92-E269B80A2C62',  NULL,  NULL) -- IEP Goals   F:  (none)   H:  (none)
+insert x_LEGACYGIFT.ImportFormTemplates values (3, 'IEP Services', '8EFD24A0-46F0-4734-999A-0B4CCE2C1519',  NULL,  NULL) -- IEP Services   F:  (none)   H:  (none)
+
+-- select * from x_LEGACYGIFT.ImportFormTemplates order by Sequence
+
+
+/*   use this query to determine which sections have header or footer forms
+
+select ItemDef = i.Name, SectionType = t.Name, SectionDefID = s.ID, s.Sequence, 
+	FooterFormCode = f.Code, FooterFormName = f.Name, FooterFormID = f.Id, 
+	HeaderFormCode = h.Code, HeaderFormName = h.Name, HeaderFormID = h.Id,
+	insertline = replace('insert x_LEGACYGIFT.ImportFormTemplates values ('+convert(varchar(3), s.Sequence)+', '''+t.Name+isnull(' / '+f.name,'')+isnull(' / '+h.name,'')+''', '''+convert(varchar(36),  s.ID)+''',  '''+isnull(convert(varchar(36), f.ID),'NULL')+''',  '''+isnull(convert(varchar(36), h.ID),'NULL'')'), '''NULL''', 'NULL')+' -- '+t.name+'   F: '+isnull(f.Name,' (none)') +'   H: '+isnull(h.Name,' (none)')
+from PrgItemDef i 
+join PrgSectionDef s on i.ID = s.ItemDefID
+join PrgSectionType t on s.TypeID = t.ID
+left join FormTemplate f on s.FormTemplateID = f.Id
+left join FormTemplate h on s.HeaderFormTemplateID = h.Id
+where i.ID = '69942840-0E78-498D-ADE3-7454F69EA178' -- EP - Converted
+order by s.Sequence
+
+
+*/
+
+
+
+
+
+
+
 ---- #############################################################################
 ----		Goal Area MAP
 IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'x_LEGACYGIFT.MAP_EPSubGoalAreaDefID') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
