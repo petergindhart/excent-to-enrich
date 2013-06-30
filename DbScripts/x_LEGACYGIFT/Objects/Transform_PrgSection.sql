@@ -33,10 +33,12 @@ GO
 CREATE VIEW x_LEGACYGIFT.Transform_PrgSection
 AS
 	SELECT
-		DestID = case when t.CanVersion = 1 then s.DestID else nvm.DestID end, 
-		ItemID = i.ItemDestID,
+	sDestID = s.DestID,
+	nvmDestID = nvm.DestID,
+		DestID = case when d.IsVersioned = 1 then s.DestID else nvm.DestID end, 
+		ItemID = i.DestID,
 		DefID = d.ID,
-		VersionID = CASE WHEN t.CanVersion = 1 THEN i.VersionDestID ELSE CAST(NULL as uniqueidentifier) END,
+		VersionID = CASE WHEN d.IsVersioned = 1 THEN i.VersionDestID ELSE CAST(NULL as uniqueidentifier) END,
 		FormInstanceID = case when d.ID = '9AC79680-7989-4CC9-8116-1CCDB1D0AE5F' then tsvc.FormInstanceID else NULL end, -- IEP Services
 		HeaderFormInstanceID =  CAST (NULL as UNIQUEIDENTIFIER),
 		OnLatestVersion = cast(1 as bit)
@@ -49,7 +51,7 @@ AS
 			isnull(s.VersionID,'00000000-0000-0000-0000-000000000000') = isnull(i.VersionDestID,'FFFFFFFF-FFFF-FFFF-FFFF-FFFFFFFFFFFF') AND
 			s.DefID = d.ID LEFT JOIN
 		x_LEGACYGIFT.MAP_PrgSectionID_NonVersioned nvm ON
-			nvm.ItemID = i.ItemDestID AND
+			nvm.ItemID = i.DestID AND
 			nvm.DefID = d.ID left join 
-		x_LEGACYGIFT.Transform_IepServices tsvc on i.ItemDestID = tsvc.ItemID
+		x_LEGACYGIFT.Transform_IepServices tsvc on i.DestID = tsvc.ItemID
 GO
