@@ -24,7 +24,7 @@ set ansi_warnings off;
   x_LEGACYGIFT.MAP_ScheduleID ssm on v.ServiceRefID = ssm.ServiceRefID LEFT JOIN
   x_LEGACYGIFT.GiftedService ser ON ser.ServiceRefId = v.ServiceRefID left join 
   LEGACYSPED.Transform_PrgLocation loc on ser.ServiceLocationCode = loc.ServiceLocationCode LEFT JOIN 
-  x_LEGACYGIFT.MAP_SpedStaffMemberView prv on isnull(ser.StaffEmail,'') = prv.StaffEmail
+  LEGACYSPED.MAP_SpedStaffMemberView prv on isnull(ser.StaffEmail,'') = prv.StaffEmail
 end
 set ansi_warnings on;
 
