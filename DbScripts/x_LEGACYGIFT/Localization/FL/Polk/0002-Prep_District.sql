@@ -8,48 +8,16 @@ drop table x_LEGACYGIFT.MAP_PrgStatus_ConvertedEP
 go
 
 create table x_LEGACYGIFT.MAP_PrgStatus_ConvertedEP (DestID uniqueidentifier not null)
-insert x_LEGACYGIFT.MAP_PrgStatus_ConvertedEP values ('DA52C2A1-5265-4DE6-9509-B4B97FCA3900') 
+insert x_LEGACYGIFT.MAP_PrgStatus_ConvertedEP values ('DA52C2A1-5265-4DE6-9509-B4B97FCA3900') -- should eventually coordinate with VC3 how the sequence should be coordinated.  
 go
 
-
+-- ImportPrgSections
 IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'x_LEGACYGIFT.ImportPrgSections') AND type in (N'U'))
 DROP TABLE x_LEGACYGIFT.ImportPrgSections
 GO
 
 CREATE TABLE x_LEGACYGIFT.ImportPrgSections (
-Enabled bit not null,
-SectionDefName varchar(100) not null,
-SectionDefID uniqueidentifier not null
-)
-GO
-
-ALTER TABLE x_LEGACYGIFT.ImportPrgSections
-	ADD CONSTRAINT PK_ImportPrgSections PRIMARY KEY CLUSTERED
-(
-	SectionDefID
-)
-GO
-
-set nocount on;
-declare @importPrgSections table (Enabled bit not null, SectionDefName varchar(100) not null, SectionDefID uniqueidentifier not null)
--- update the Enabled column below to 0 if the section is not required for this district
-insert @importPrgSections values (1, 'EP Services', '9AC79680-7989-4CC9-8116-1CCDB1D0AE5F')
-insert @importPrgSections values (1, 'EP Dates', 'EE479921-3ECB-409A-96D7-61C8E7BA0E7B')
-insert @importPrgSections values (1, 'EP Goals', '84E5A67D-CC9A-4D5B-A7B8-C04E8C3B8E0A')
-
-insert x_LEGACYGIFT.ImportPrgSections
-select * from @importPrgSections
-go
-
-
-
-
-IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'x_LEGACYGIFT.ImportFormTemplates') AND type in (N'U'))
-DROP TABLE x_LEGACYGIFT.ImportFormTemplates
-GO
-
-
-CREATE TABLE x_LEGACYGIFT.ImportFormTemplates (
+Enabled	bit	not null,
 Sequence	int	not null,
 SectionType		varchar(100)	not null,
 SectionDefID	uniqueidentifier not null,
@@ -59,27 +27,27 @@ HeaderFormID	uniqueidentifier null
 
 
 
-ALTER TABLE x_LEGACYGIFT.ImportFormTemplates
-	ADD CONSTRAINT PK_ImportFormTemplates PRIMARY KEY CLUSTERED
+ALTER TABLE x_LEGACYGIFT.ImportPrgSections
+	ADD CONSTRAINT PK_ImportPrgSectionss PRIMARY KEY CLUSTERED
 (
 	SectionDefID
 )
 GO
 set nocount on;
-insert x_LEGACYGIFT.ImportFormTemplates values (0, 'Custom Form / Dates', '49370EFB-E531-4B61-86A3-3D1C132AB480',  '1D2FD18F-9E14-4772-B728-1CA3E6EAE21E',  NULL) -- Custom Form   F: Dates   H:  (none)
-insert x_LEGACYGIFT.ImportFormTemplates values (1, 'Custom Form / EP Present Levels', 'DF806BE1-85C9-4A5C-A4D9-12D41D14147C',  'B659273D-D369-45BF-8F85-01B7857F0635',  NULL) -- Custom Form   F: EP Present Levels   H:  (none)
-insert x_LEGACYGIFT.ImportFormTemplates values (2, 'IEP Goals', 'F9BCB1A3-D7D2-43E8-9B92-E269B80A2C62',  NULL,  NULL) -- IEP Goals   F:  (none)   H:  (none)
-insert x_LEGACYGIFT.ImportFormTemplates values (3, 'IEP Services', '8EFD24A0-46F0-4734-999A-0B4CCE2C1519',  NULL,  NULL) -- IEP Services   F:  (none)   H:  (none)
+insert x_LEGACYGIFT.ImportPrgSections values (1, 0, 'Custom Form / Dates', '49370EFB-E531-4B61-86A3-3D1C132AB480',  '1D2FD18F-9E14-4772-B728-1CA3E6EAE21E',  NULL) -- Custom Form   F: Dates   H:  (none)
+insert x_LEGACYGIFT.ImportPrgSections values (1, 1, 'Custom Form / EP Present Levels', 'DF806BE1-85C9-4A5C-A4D9-12D41D14147C',  'B659273D-D369-45BF-8F85-01B7857F0635',  NULL) -- Custom Form   F: EP Present Levels   H:  (none)
+insert x_LEGACYGIFT.ImportPrgSections values (1, 2, 'IEP Goals', 'F9BCB1A3-D7D2-43E8-9B92-E269B80A2C62',  NULL,  NULL) -- IEP Goals   F:  (none)   H:  (none)
+insert x_LEGACYGIFT.ImportPrgSections values (1, 3, 'IEP Services', '8EFD24A0-46F0-4734-999A-0B4CCE2C1519',  NULL,  NULL) -- IEP Services   F:  (none)   H:  (none)
 
--- select * from x_LEGACYGIFT.ImportFormTemplates order by Sequence
+-- select * from x_LEGACYGIFT.ImportPrgSections order by Sequence
 
 
-/*   use this query to determine which sections have header or footer forms
+/*   use this query to create the ImportFormTemplates insert queries (copy the insertline column date and paste above.  Change the PrgItemDef ID in different states if necessary.  
 
 select ItemDef = i.Name, SectionType = t.Name, SectionDefID = s.ID, s.Sequence, 
 	FooterFormCode = f.Code, FooterFormName = f.Name, FooterFormID = f.Id, 
 	HeaderFormCode = h.Code, HeaderFormName = h.Name, HeaderFormID = h.Id,
-	insertline = replace('insert x_LEGACYGIFT.ImportFormTemplates values ('+convert(varchar(3), s.Sequence)+', '''+t.Name+isnull(' / '+f.name,'')+isnull(' / '+h.name,'')+''', '''+convert(varchar(36),  s.ID)+''',  '''+isnull(convert(varchar(36), f.ID),'NULL')+''',  '''+isnull(convert(varchar(36), h.ID),'NULL'')'), '''NULL''', 'NULL')+' -- '+t.name+'   F: '+isnull(f.Name,' (none)') +'   H: '+isnull(h.Name,' (none)')
+	insertline = replace('insert x_LEGACYGIFT.ImportPrgSections values ('+convert(char(1), 1)+', '+convert(varchar(3), s.Sequence)+', '''+t.Name+isnull(' / '+f.name,'')+isnull(' / '+h.name,'')+''', '''+convert(varchar(36),  s.ID)+''',  '''+isnull(convert(varchar(36), f.ID),'NULL')+''',  '''+isnull(convert(varchar(36), h.ID),'NULL'')'), '''NULL''', 'NULL')+' -- '+t.name+'   F: '+isnull(f.Name,' (none)') +'   H: '+isnull(h.Name,' (none)')
 from PrgItemDef i 
 join PrgSectionDef s on i.ID = s.ItemDefID
 join PrgSectionType t on s.TypeID = t.ID
@@ -87,6 +55,8 @@ left join FormTemplate f on s.FormTemplateID = f.Id
 left join FormTemplate h on s.HeaderFormTemplateID = h.Id
 where i.ID = '69942840-0E78-498D-ADE3-7454F69EA178' -- EP - Converted
 order by s.Sequence
+
+
 
 
 */
