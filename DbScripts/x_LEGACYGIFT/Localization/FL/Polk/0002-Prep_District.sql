@@ -21,8 +21,8 @@ Enabled	bit	not null,
 Sequence	int	not null,
 SectionType		varchar(100)	not null,
 SectionDefID	uniqueidentifier not null,
-FooterFormID	uniqueidentifier null,
-HeaderFormID	uniqueidentifier null
+FooterFormTemplateID	uniqueidentifier null,
+HeaderFormTemplateID	uniqueidentifier null
 )
 
 
@@ -62,6 +62,86 @@ order by s.Sequence
 */
 
 
+
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'x_LEGACYGIFT.FormInputValueFields') AND type in (N'U'))
+DROP TABLE x_LEGACYGIFT.FormInputValueFields
+GO
+
+create table x_LEGACYGIFT.FormInputValueFields (
+FormTemplateID	uniqueidentifier	not null,
+InputFieldID	uniqueidentifier	not null
+)
+
+
+ALTER TABLE x_LEGACYGIFT.FormInputValueFields
+	ADD CONSTRAINT PK_FormInputValueFields PRIMARY KEY CLUSTERED
+(
+	InputFieldID
+)
+
+create index IX_x_LEGACYGIFT_FormInputValueFields_FormTemplateID on x_LEGACYGIFT.FormInputValueFields (FormTemplateID)
+GO
+
+insert x_LEGACYGIFT.FormInputValueFields values ('1D2FD18F-9E14-4772-B728-1CA3E6EAE21E', '228379F1-0C95-4D69-95DA-BFB437FFB6C5') -- EP Meeting Date:
+insert x_LEGACYGIFT.FormInputValueFields values ('1D2FD18F-9E14-4772-B728-1CA3E6EAE21E', '63CB1358-9540-4469-8C2C-6DBFB6613037') -- EP Initiation Date:
+insert x_LEGACYGIFT.FormInputValueFields values ('1D2FD18F-9E14-4772-B728-1CA3E6EAE21E', '4C561605-316A-498F-8793-E74300782C9B') -- Last EP Date:
+insert x_LEGACYGIFT.FormInputValueFields values ('1D2FD18F-9E14-4772-B728-1CA3E6EAE21E', '94CD1E37-59A4-4B4C-B7AC-811E657F94FE') -- Duration Date:
+insert x_LEGACYGIFT.FormInputValueFields values ('1D2FD18F-9E14-4772-B728-1CA3E6EAE21E', '88558694-9018-4941-80BE-71D2D1BE5112') -- EP Level:
+
+insert x_LEGACYGIFT.FormInputValueFields values ('B659273D-D369-45BF-8F85-01B7857F0635', '4F8DA6FB-9CF6-4056-9D06-534A675E7380') -- Parents, student and other EP members contribute information in the following areas:
+insert x_LEGACYGIFT.FormInputValueFields values ('B659273D-D369-45BF-8F85-01B7857F0635', '2E21A087-BDA2-435E-8D70-2701D27C9C96') -- Strengths and interests of student.
+insert x_LEGACYGIFT.FormInputValueFields values ('B659273D-D369-45BF-8F85-01B7857F0635', '019D9A47-60B0-405C-B585-7C0616F18FAA') -- Needs beyond general curriculum as a result of student's giftedness.
+insert x_LEGACYGIFT.FormInputValueFields values ('B659273D-D369-45BF-8F85-01B7857F0635', '33A9E439-CD8C-4E3C-B334-9F8B37185695') -- Results of recent evaluations, state or district assessments, and class work.
+insert x_LEGACYGIFT.FormInputValueFields values ('B659273D-D369-45BF-8F85-01B7857F0635', '04E73B63-654F-4B20-88A1-BFF9D214E9F5') -- Language needs of LEP student.
+
+
+
+
+/*		use the following query to create the insert statements for the x_LEGACYGIFT.FormInputValueFields table
+
+
+select ft.Name, ftii.InputAreaID, ftc.IsRepeatable, ftii.Sequence, ftii.Label, ftl.TemplateID, FormTemplateInputItemID = ftii.ID,
+	insertline = 'insert x_LEGACYGIFT.FormInputValueFields values ('''+convert(varchar(36), ftl.TemplateID)+''', '''+convert(varchar(36), ftii.ID)+''') -- '+ftii.Label+''
+from dbo.FormTemplate ft 
+join dbo.FormTemplateLayout ftl on ft.ID = ftl.TemplateID
+join dbo.FormTemplateControl ftc on ftl.ControlID = ftc.ID
+join dbo.FormTemplateControlType ftct on ftc.TypeID = ftct.ID
+join dbo.FormTemplateInputItem ftii on ftc.ID = ftii.InputAreaID 
+join (select TemplateID = FooterFormTemplateID from x_LEGACYGIFT.ImportPrgSections where FooterFormTemplateID is not null
+	union all
+	select TemplateID = HeaderFormTemplateID from x_LEGACYGIFT.ImportPrgSections where HeaderFormTemplateID is not null
+	) s on ftl.TemplateID = s.TemplateID
+where ftct.Name = 'Input Area'
+order by ft.Name, ftii.Sequence
+
+
+
+This is an extract from the formletviewbuilder query that shows the input field ids that we will need to insert the date values
+
+	--	EP Meeting Date:     < Date1 >    (Date)
+	FormInputValue v_0_0 on
+		v_0_0.InputFieldId = '228379F1-0C95-4D69-95DA-BFB437FFB6C5' AND
+		v_0_0.Intervalid = i.ID JOIN
+	FormInputDateValue vv_0_0 on vv_0_0.ID = v_0_0.ID JOIN
+
+	--	EP Initiation Date:     < Date2 >    (Date)
+	FormInputValue v_0_1 on
+		v_0_1.InputFieldId = '63CB1358-9540-4469-8C2C-6DBFB6613037' AND
+		v_0_1.Intervalid = i.ID JOIN
+	FormInputDateValue vv_0_1 on vv_0_1.ID = v_0_1.ID JOIN
+
+	--	Last EP Date:     < Date3 >    (Date)
+	FormInputValue v_0_2 on
+		v_0_2.InputFieldId = '4C561605-316A-498F-8793-E74300782C9B' AND
+		v_0_2.Intervalid = i.ID JOIN
+	FormInputDateValue vv_0_2 on vv_0_2.ID = v_0_2.ID JOIN
+
+	--	Duration Date:     < Date5 >    (Date)
+	FormInputValue v_0_3 on
+		v_0_3.InputFieldId = '94CD1E37-59A4-4B4C-B7AC-811E657F94FE' AND
+		v_0_3.Intervalid = i.ID JOIN
+	FormInputDateValue vv_0_3 on vv_0_3.ID = v_0_3.ID JOIN
+*/
 
 
 
