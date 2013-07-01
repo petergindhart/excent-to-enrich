@@ -308,9 +308,8 @@ commit
 
 go
 
+--exec dbo.PrgInvolvement_RecalculateStatuses NULL
 
-
-select * from PrgItemDef where name like '%504%'
 
 
 
