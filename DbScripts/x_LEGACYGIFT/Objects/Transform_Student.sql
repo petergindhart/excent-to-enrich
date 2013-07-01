@@ -38,6 +38,25 @@
 --GO
 
 
+-- EP Dates
+-- #############################################################################
+IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'x_LEGACYGIFT.MAP_FormInstance_EPDates') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
+BEGIN
+CREATE TABLE x_LEGACYGIFT.MAP_FormInstance_EPDates
+(
+	EpRefID varchar(150) NOT NULL ,
+	DestID uniqueidentifier NOT NULL
+)
+
+ALTER TABLE x_LEGACYGIFT.MAP_FormInstance_EPDates ADD CONSTRAINT
+PK_MAP_FormInstance_EPDates PRIMARY KEY CLUSTERED
+(
+	EpRefID
+)
+END
+GO
+
+
 IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'x_LEGACYGIFT.MAP_EPStudentRefID') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
 BEGIN
 CREATE TABLE x_LEGACYGIFT.MAP_EPStudentRefID
