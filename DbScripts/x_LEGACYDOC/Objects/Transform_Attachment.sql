@@ -62,7 +62,7 @@ SELECT
 	f.StudentRefID,
 	DestID = coalesce(t.ID, ma.DestID),
 	i.StudentID,
-	ItemID = i.ItemDestID,
+	ItemID = i.DestID,
     VersionID = i.VersionDestID,
     FileID = f.DestID,
     Label = f.Label,
