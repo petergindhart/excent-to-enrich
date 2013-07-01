@@ -617,13 +617,31 @@ if exists (select 1 from sys.schemas where name = 'AURORAX')
 drop schema AURORAX
 go
 
+
 --if exists (select 1 from sys.schemas where name = 'LEGACYSPED')
 --drop schema LEGACYSPED
 --go
 
+-- set nocount off;
+-- drop schema x_LEGACY504
+
+-- set nocount off;
+-- delete x from VC3Deployment.ModuleDependency x where x.UsedBy = 'x_LEGACY504' or x.Uses = 'x_LEGACY504'
+
+
 
 -- select * from PrgSection
 -- select * from IEPDisability
+
+
+--exec VC3Deployment.AddModule 'x_LEGACY504'
+--exec VC3Deployment.AddModuleDependency @uses='x_LEGACY504', @usedBy='dbo'
+--exec VC3Deployment.AddModuleDependency @uses='x_LEGACY504', @usedBy='VC3ETL'
+--exec VC3Deployment.AddModuleDependency @uses='x_LEGACY504', @usedBy='LEGACYSPED'
+--exec VC3Deployment.AddModuleDependency @uses='x_LEGACY504', @usedBy='x_LEGACYDOC'
+--exec VC3Deployment.AddModuleDependency @uses='x_LEGACY504', @usedBy='x_LEGACYGIFT'
+
+
 
 
 -- delete orphaned map table records (mostly for lookups) -- select * from LEGACYSPED.MAP_IepRefID
@@ -977,6 +995,7 @@ where Module in ('LEGACYSPED', 'SPEDDOC', 'x_LEGACYDOC', 'x_LEGACY504', 'x_LEGAC
 
 UPDATE SystemSettings SET SecurityRebuiltDate = NULL
 
+--delete VC3Deployment.Version where Module = 'x_LEGACY504'
 
 ---- Poudre unneeded DistrictID
 --delete d
