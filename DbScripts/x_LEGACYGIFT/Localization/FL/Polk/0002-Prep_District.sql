@@ -43,6 +43,8 @@ insert x_LEGACYGIFT.ImportPrgSections values (1, 3, 'IEP Services', '8EFD24A0-46
 
 
 /*   use this query to create the ImportFormTemplates insert queries (copy the insertline column date and paste above.  Change the PrgItemDef ID in different states if necessary.  
+	
+		the method of using the insert lines instead of directly inserting from the query facilitates changing Enabled to False where required.
 
 select ItemDef = i.Name, SectionType = t.Name, SectionDefID = s.ID, s.Sequence, 
 	FooterFormCode = f.Code, FooterFormName = f.Name, FooterFormID = f.Id, 
@@ -82,17 +84,34 @@ ALTER TABLE x_LEGACYGIFT.FormInputValueFields
 create index IX_x_LEGACYGIFT_FormInputValueFields_FormTemplateID on x_LEGACYGIFT.FormInputValueFields (FormTemplateID)
 GO
 
-insert x_LEGACYGIFT.FormInputValueFields values ('1D2FD18F-9E14-4772-B728-1CA3E6EAE21E', '228379F1-0C95-4D69-95DA-BFB437FFB6C5') -- EP Meeting Date:
-insert x_LEGACYGIFT.FormInputValueFields values ('1D2FD18F-9E14-4772-B728-1CA3E6EAE21E', '63CB1358-9540-4469-8C2C-6DBFB6613037') -- EP Initiation Date:
-insert x_LEGACYGIFT.FormInputValueFields values ('1D2FD18F-9E14-4772-B728-1CA3E6EAE21E', '4C561605-316A-498F-8793-E74300782C9B') -- Last EP Date:
-insert x_LEGACYGIFT.FormInputValueFields values ('1D2FD18F-9E14-4772-B728-1CA3E6EAE21E', '94CD1E37-59A4-4B4C-B7AC-811E657F94FE') -- Duration Date:
-insert x_LEGACYGIFT.FormInputValueFields values ('1D2FD18F-9E14-4772-B728-1CA3E6EAE21E', '88558694-9018-4941-80BE-71D2D1BE5112') -- EP Level:
+insert x_LEGACYGIFT.FormInputValueFields
+select ftl.TemplateID, ftii.ID
+-- select ft.Name, ftii.InputAreaID, ftc.IsRepeatable, ftii.Sequence, ftii.Label, ftl.TemplateID, FormTemplateInputItemID = ftii.ID, insertline = 'insert x_LEGACYGIFT.FormInputValueFields values ('''+convert(varchar(36), ftl.TemplateID)+''', '''+convert(varchar(36), ftii.ID)+''') -- '+ftii.Label+''
+from dbo.FormTemplate ft 
+join dbo.FormTemplateLayout ftl on ft.ID = ftl.TemplateID
+join dbo.FormTemplateControl ftc on ftl.ControlID = ftc.ID
+join dbo.FormTemplateControlType ftct on ftc.TypeID = ftct.ID
+join dbo.FormTemplateInputItem ftii on ftc.ID = ftii.InputAreaID 
+join (select TemplateID = FooterFormTemplateID from x_LEGACYGIFT.ImportPrgSections where FooterFormTemplateID is not null
+	union all
+	select TemplateID = HeaderFormTemplateID from x_LEGACYGIFT.ImportPrgSections where HeaderFormTemplateID is not null
+	) s on ftl.TemplateID = s.TemplateID
+where ftct.Name = 'Input Area'
+and ftii.ID not in (select InputFieldID from x_LEGACYGIFT.FormInputValueFields)
+order by ft.Name, ftii.Sequence
 
-insert x_LEGACYGIFT.FormInputValueFields values ('B659273D-D369-45BF-8F85-01B7857F0635', '4F8DA6FB-9CF6-4056-9D06-534A675E7380') -- Parents, student and other EP members contribute information in the following areas:
-insert x_LEGACYGIFT.FormInputValueFields values ('B659273D-D369-45BF-8F85-01B7857F0635', '2E21A087-BDA2-435E-8D70-2701D27C9C96') -- Strengths and interests of student.
-insert x_LEGACYGIFT.FormInputValueFields values ('B659273D-D369-45BF-8F85-01B7857F0635', '019D9A47-60B0-405C-B585-7C0616F18FAA') -- Needs beyond general curriculum as a result of student's giftedness.
-insert x_LEGACYGIFT.FormInputValueFields values ('B659273D-D369-45BF-8F85-01B7857F0635', '33A9E439-CD8C-4E3C-B334-9F8B37185695') -- Results of recent evaluations, state or district assessments, and class work.
-insert x_LEGACYGIFT.FormInputValueFields values ('B659273D-D369-45BF-8F85-01B7857F0635', '04E73B63-654F-4B20-88A1-BFF9D214E9F5') -- Language needs of LEP student.
+
+--insert x_LEGACYGIFT.FormInputValueFields values ('1D2FD18F-9E14-4772-B728-1CA3E6EAE21E', '228379F1-0C95-4D69-95DA-BFB437FFB6C5') -- EP Meeting Date:
+--insert x_LEGACYGIFT.FormInputValueFields values ('1D2FD18F-9E14-4772-B728-1CA3E6EAE21E', '63CB1358-9540-4469-8C2C-6DBFB6613037') -- EP Initiation Date:
+--insert x_LEGACYGIFT.FormInputValueFields values ('1D2FD18F-9E14-4772-B728-1CA3E6EAE21E', '4C561605-316A-498F-8793-E74300782C9B') -- Last EP Date:
+--insert x_LEGACYGIFT.FormInputValueFields values ('1D2FD18F-9E14-4772-B728-1CA3E6EAE21E', '94CD1E37-59A4-4B4C-B7AC-811E657F94FE') -- Duration Date:
+--insert x_LEGACYGIFT.FormInputValueFields values ('1D2FD18F-9E14-4772-B728-1CA3E6EAE21E', '88558694-9018-4941-80BE-71D2D1BE5112') -- EP Level:
+
+--insert x_LEGACYGIFT.FormInputValueFields values ('B659273D-D369-45BF-8F85-01B7857F0635', '4F8DA6FB-9CF6-4056-9D06-534A675E7380') -- Parents, student and other EP members contribute information in the following areas:
+--insert x_LEGACYGIFT.FormInputValueFields values ('B659273D-D369-45BF-8F85-01B7857F0635', '2E21A087-BDA2-435E-8D70-2701D27C9C96') -- Strengths and interests of student.
+--insert x_LEGACYGIFT.FormInputValueFields values ('B659273D-D369-45BF-8F85-01B7857F0635', '019D9A47-60B0-405C-B585-7C0616F18FAA') -- Needs beyond general curriculum as a result of student's giftedness.
+--insert x_LEGACYGIFT.FormInputValueFields values ('B659273D-D369-45BF-8F85-01B7857F0635', '33A9E439-CD8C-4E3C-B334-9F8B37185695') -- Results of recent evaluations, state or district assessments, and class work.
+--insert x_LEGACYGIFT.FormInputValueFields values ('B659273D-D369-45BF-8F85-01B7857F0635', '04E73B63-654F-4B20-88A1-BFF9D214E9F5') -- Language needs of LEP student.
 
 
 
