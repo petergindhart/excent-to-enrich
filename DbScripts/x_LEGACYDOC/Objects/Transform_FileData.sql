@@ -43,8 +43,7 @@ from (
 		d.StudentRefID,
 		d.StudentLocalID,
 		DestID = coalesce(t.ID, m.DestID),
-		OriginalName = d.DocumentType+' - '+isnull(convert(varchar, d.DocumentDate,101), '') + '.' + replace(d.MimeType, 'document/', ''),
-		Label = d.DocumentType+' - '+isnull(convert(varchar, d.DocumentDate,101), ''),
+		OriginalName = d.DocumentType+' - '+isnull(convert(varchar, d.DocumentDate,101), ''),
 		ReceivedDate = GETDATE(),
 		d.MimeType,
 	-- 	d.Content,
@@ -62,8 +61,7 @@ from (
 		d.StudentRefID,
 		d.StudentLocalID,
 		DestID = coalesce(t.ID, m.DestID),
-		OriginalName = d.DocumentType+' - '+isnull(convert(varchar, d.DocumentDate,101), '') + '.' + replace(d.MimeType, 'document/', ''),
-		Label = d.DocumentType+' - '+isnull(convert(varchar, d.DocumentDate,101), ''),
+		OriginalName = d.DocumentType+' - '+isnull(convert(varchar, d.DocumentDate,101), ''),
 		ReceivedDate = GETDATE(),
 		d.MimeType,
 	--	d.Content,
@@ -82,8 +80,7 @@ from (
 		d.StudentRefID,
 		d.StudentLocalID,
 		DestID = coalesce(t.ID, m.DestID),
-		OriginalName = d.DocumentType+' - '+isnull(convert(varchar, d.DocumentDate,101), '') + '.' + replace(d.MimeType, 'document/', ''),
-		Label = d.DocumentType+' - '+isnull(convert(varchar, d.DocumentDate,101), ''),
+		OriginalName = d.DocumentType+' - '+isnull(convert(varchar, d.DocumentDate,101), ''),
 		ReceivedDate = GETDATE(),
 		d.MimeType,
 	-- 	d.Content,
@@ -94,14 +91,8 @@ from (
 		x_LEGACYDOC.MAP_FileDataID m ON d.DocumentRefID = m.DocumentRefID and d.DocumentType = m.DocumentType left join
 		dbo.FileData t ON m.DestID = t.ID
 ) x join 
-x_LEGACYDOC.AllDocs a on
+x_LEGACYDOC.AllDocs a on 
 	x.DocumentRefID = a.DocumentRefID and
 	x.DocumentType = a.DocumentType and
-	x.Label = a.DocumentType+' - '+isnull(convert(varchar, a.DocumentDate,101), '') 
+	x.OriginalName = a.DocumentType+' - '+isnull(convert(varchar, a.DocumentDate,101), '') 
 go
-
-
-
-
-
-
