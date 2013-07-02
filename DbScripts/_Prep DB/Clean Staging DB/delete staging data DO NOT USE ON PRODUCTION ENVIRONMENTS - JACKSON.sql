@@ -438,9 +438,28 @@ where x.ManuallyEntered = 1
 --Msg 547, Level 16, State 0, Line 423
 --The DELETE statement conflicted with the REFERENCE constraint "FK_AuthenticationContext#School#". The conflict occurred in database "Enrich_DC1_MI_Jackson_2005", table "dbo.AuthenticationContext", column 'SchoolID'.
 
+--Msg 547, Level 16, State 0, Line 443
+--The DELETE statement conflicted with the REFERENCE constraint "FK_UserProfileOrgUnit#OrgUnits". The conflict occurred in database "Enrich_DCB3_MI_Jackson", table "dbo.UserProfileOrgUnit", column 'UserProfileID'.
+delete upou
+from UserProfileOrgUnit upou join UserProfile up on up.ID = upou.UserProfileID join AuthenticationContext ac on up.LastLoginContextID = ac.ID join (select ID,Number from School where deleteddate is not null) n on ac.SchoolID = n.ID
+join School h on n.Number = h.Number and h.ManuallyEntered = 1 and h.ID not in (select SchoolID from dbo.T_FCAT_ReadingAndMath) ; print 'AuthenticationContext: ' + convert(varchar(10), @@rowcount)
+
+--Msg 547, Level 16, State 0, Line 447
+--The DELETE statement conflicted with the REFERENCE constraint "FK_UserProfile_AuthenticationContext#LastLoginContext#Users". The conflict occurred in database "Enrich_DCB3_MI_Jackson", table "dbo.UserProfile", column 'LastLoginContextID'.
+delete up
+from UserProfile up join AuthenticationContext ac on up.LastLoginContextID = ac.ID join (select ID,Number from School where deleteddate is not null) n on ac.SchoolID = n.ID
+join School h on n.Number = h.Number and h.ManuallyEntered = 1 and h.ID not in (select SchoolID from dbo.T_FCAT_ReadingAndMath) ; print 'AuthenticationContext: ' + convert(varchar(10), @@rowcount)
 
 --Msg 547, Level 16, State 0, Line 247
 --The DELETE statement conflicted with the REFERENCE constraint "FK_StudentRosterYearInformation#Student#StudentRosterYearInformations". The conflict occurred in database "Enrich_DC5_CO_Poudre", table "dbo.StudentRosterYear", column 'StudentId'.
+
+
+
+--Msg 547, Level 16, State 0, Line 445
+--The DELETE statement conflicted with the REFERENCE constraint "FK_AuthenticationContext#School#". The conflict occurred in database "Enrich_DCB3_MI_Jackson", table "dbo.AuthenticationContext", column 'SchoolID'.
+					delete ac 
+					from AuthenticationContext ac join (select ID,Number from School where deleteddate is not null) n on ac.SchoolID = n.ID
+					join School h on n.Number = h.Number and h.ManuallyEntered = 1 and h.ID not in (select SchoolID from dbo.T_FCAT_ReadingAndMath) ; print 'AuthenticationContext: ' + convert(varchar(10), @@rowcount)
 
 					delete h
 					-- select h.*
@@ -884,6 +903,13 @@ join LEGACYSPED.MAP_ServiceProviderTitleID m on u.ProviderTitleID = m.DestID
 join ServiceProviderTitle t on m.DestID = t.ID
 
 update UserProfile set ProviderTitleID = NULL where ProviderTitleID in (select distinct ProviderTitleID from UserProfile where ProviderTitleID is not null and ProviderTitleID in (select DestID from LEGACYSPED.MAP_ServiceProviderTitleID))
+
+--Msg 547, Level 16, State 0, Line 266
+--The DELETE statement conflicted with the REFERENCE constraint "FK_IepServiceDef#DefaultProviderTitle#ServiceDefsIsDefaultFor". The conflict occurred in database "Enrich_DCB3_MI_Jackson", table "dbo.IepServiceDef", column 'DefaultProviderTitleID'. 
+
+delete isd
+from IepServiceDef isd join ServiceProviderTitle x  on x.ID = isd.DefaultProviderTitleID
+join LEGACYSPED.MAP_ServiceProviderTitleID y on x.ID = y.DestID
 
 delete x
 from ServiceProviderTitle x 
