@@ -54,7 +54,8 @@ select
 from x_LEGACYGIFT.Transform_IepGoalArea ga join 
 x_LEGACYGIFT.Transform_PrgGoal pg on ga.GoalRefID = pg.GoalRefID join 
 x_LEGACYGIFT.SubGoalAreaPivotView sg on ga.GoalRefID = sg.GoalRefID left join 
-x_LEGACYGIFT.MAP_IepSubGoalAreaDefID m on sg.GoalAreaCode = m.SubGoalAreaCode left join 
+LEGACYSPED.MAP_IepSubGoalAreaDefID m on sg.GoalAreaCode = m.SubGoalAreaCode left join 
 IepGoalSubGoalAreaDef sgad on ga.DestID = sgad.GoalID and m.DestID = sgad.DefID
 where ga.GoalAreaCode = 'GACurriculum' -- assuming only one parent for now
 go
+
