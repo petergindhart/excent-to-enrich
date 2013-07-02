@@ -1,18 +1,10 @@
+-- select * from LEGACYSPED.IEP where IEPRefID = '84787' -- select * from LEGACYSPED.Student where StudentRefID = '8937'
 
-if not exists (select 1 from sys.schemas s join sys.objects o on s.schema_id = o.schema_id where s.name = 'LEGACYSPED' and o.name = 'MAP_IepEsyID')
-begin
-create table LEGACYSPED.MAP_IepEsyID (
-IepRefID	varchar(150) not null,
-DestID uniqueidentifier not null
-)
-end
-go
+IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.Transform_IepESY') AND OBJECTPROPERTY(id, N'IsView') = 1)
+DROP VIEW LEGACYSPED.Transform_IepESY
+GO
 
-if exists (select 1 from sys.schemas s join sys.objects o on s.schema_id = o.schema_id where s.name = 'LEGACYSPED' and o.name = 'Transform_IepESY')
-drop view LEGACYSPED.Transform_IepESY
-go
-
-create view LEGACYSPED.Transform_IepESY -- select * from LEGACYSPED.Transform_IepESY
+CREATE VIEW LEGACYSPED.Transform_IepESY -- select * from LEGACYSPED.Transform_IepESY
 as
 -- note:  it is possible to insert a stub record in IepEsy, with no data but the ID populated
 select 
@@ -43,5 +35,7 @@ LEGACYSPED.Transform_PrgIep iv on ts.IepRefID = iv.IEPRefID join
 LEGACYSPED.Student s on ts.StudentRefID = s.StudentRefID and ev.Touched = 0 left join
 LEGACYSPED.MAP_PrgSectionID_NonVersioned m on ts.DestID = m.ItemID and m.DefID = 'F60392DA-8EB3-49D0-822D-77A1618C1DAA' left join
 IepEsy t on m.DestID = t.ID
-where not (s.EsyElig is null and s.EsyTBDDate is null) 
-go
+--where  s.EsyTBDDate is not null
+
+
+--select * from IepEsy where ID  = '294BCD9C-1816-41A9-9511-7DD27613254A'
