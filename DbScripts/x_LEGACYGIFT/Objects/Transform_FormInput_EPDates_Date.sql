@@ -1,5 +1,8 @@
+IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'x_LEGACYGIFT.EPDatesPivot') AND OBJECTPROPERTY(id, N'IsView') = 1)
+DROP VIEW x_LEGACYGIFT.EPDatesPivot
+GO
 
-alter view x_LEGACYGIFT.EPDatesPivot
+create view x_LEGACYGIFT.EPDatesPivot
 as
 select u.*, InputItemType =  iit.Name, InputItemTypeID = iit.ID
 from (
@@ -22,8 +25,6 @@ FormTemplateInputItem ftii on u.InputFieldID = ftii.Id join
 FormTemplateInputItemType iit on ftii.TypeId = iit.Id
 go
 -- 22715
-
-select * from x_LEGACYGIFT.Transform_FormInput_EPDates_Date -- 71872
 
 -- select * from x_LEGACYGIFT.FormInputValueFields where InputFieldID = '94CD1E37-59A4-4B4C-B7AC-811E657F94FE' -- interesting table.   Is this a shortcut?
 
