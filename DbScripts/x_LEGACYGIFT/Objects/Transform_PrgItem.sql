@@ -46,7 +46,8 @@ select
 	StudentID = stu.DestID,
 	MeetDate = stu.EPMeetingDate, 
 	StartDate = stu.EPMeetingDate,
-	EndDate = stu.DurationDate,
+	EndDate = cast(Null as datetime), -- may need to set any with a duration date in the past to that date.
+	-- EndDate = case when stu.DurationDate < getdate() then stu.DurationDate else NULL end, -- have not decided to do this yet.
 	ItemOutcomeID = cast(NULL as uniqueidentifier), 
 	CreatedDate = '1/1/1970',
 	CreatedBy = 'EEE133BD-C557-47E1-AB67-EE413DD3D1AB', -- BuiltIn: Support
