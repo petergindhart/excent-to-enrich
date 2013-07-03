@@ -132,7 +132,7 @@ AS
 	select g.EPRefID, ga.DefID, gad.GoalAreaCode 
 	from x_LEGACYGIFT.GiftedGoal g join
 	x_LEGACYGIFT.MAP_IepGoalAreaID ga on g.GoalRefID = ga.GoalRefID join ----------------- May be able to use MAP table for speed
-	x_LEGACYGIFT.MAP_IepGoalAreaDefID gad on ga.DefID = gad.DestID
+	LEGACYSPED.MAP_IepGoalAreaDefID gad on ga.DefID = gad.DestID
 	group by g.EPRefID, ga.DefID, gad.GoalAreaCode
 	) ga1 on g.EPRefID = ga1.EPRefID and ga.DefID = ga1.DefID LEFT JOIN 
   x_LEGACYGIFT.MAP_PrgGoalID m on g.GoalRefID = m.GoalRefID LEFT JOIN 

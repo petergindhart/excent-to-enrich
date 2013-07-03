@@ -13,9 +13,9 @@ select
 	GoalID = tg.DestID,
  	DefID = m.DestID
 from 
-	x_LEGACYGIFT.Transform_PrgGoal tg join -- select * from x_LEGACYGIFT.Transform_PrgGoal 
-	x_LEGACYGIFT.MAP_GoalAreaPivot ga on tg.GoalRefID = ga.GoalRefID join -- select * from x_LEGACYGIFT.GoalAreaPivotView
-	x_LEGACYGIFT.MAP_IepGoalAreaDefID m on ga.GoalAreaCode = m.GoalAreaCode  -- select * from x_LEGACYGIFT.MAP_IepGoalAreaDefID
+	x_LEGACYGIFT.Transform_PrgGoal tg join
+	x_LEGACYGIFT.MAP_GoalAreaPivot ga on tg.GoalRefID = ga.GoalRefID join
+	LEGACYSPED.MAP_IepGoalAreaDefID m on ga.GoalAreaCode = m.GoalAreaCode
 where ga.GoalAreaDefIndex > (
 	select ming.PrimaryGoalAreaDefIndex
 	from x_LEGACYGIFT.PrimaryGoalAreaPerGoal ming
