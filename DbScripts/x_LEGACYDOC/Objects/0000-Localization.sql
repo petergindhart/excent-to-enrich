@@ -1,3 +1,4 @@
+--#include {Section504ObjectsInclude}\0000-Localization.sql
 --#include 0000-RunFirst.sql
 --#include Transform_FileData.sql
 --#include Transform_Attachment.sql
