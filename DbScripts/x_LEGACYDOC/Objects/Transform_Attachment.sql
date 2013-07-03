@@ -36,9 +36,21 @@ AS
 /*
 	This view is used to retrieve data needed for Attachment table.  
 	Here we are joining LEGACYSPED.IEP table with LEGACYSPED.Transform_PrgIep & x_LEGACYDOC.MAP_FileDataID tables.
+	By using the DocumentRefID and the DocumentType as primary key, we would get duplicates if a student were in 2 programs,
+	so we will arbitrarily chools one program as the primary (docs attached here) where the student is involved in more than 1 program.
+
+	Order of precedence:
+	1.  Sped
+	2.  Gifted
+	3.  504
+
 */
 -- SPED
+with CTE_ProgramDocs 
+as
+(
 SELECT 
+	ProgramIndex = cast(0 as int),
 	f.DocumentRefID,
 	f.DocumentType,
 	f.StudentRefID,
@@ -54,9 +66,12 @@ FROM
 	LEGACYSPED.Transform_PrgIep i on f.StudentRefID = i.StudentRefID LEFT JOIN
 	x_LEGACYDOC.MAP_AttachmentID ma	on f.DocumentRefID = ma.DocumentRefID and f.DocumentType = ma.DocumentType LEFT JOIN	
 	dbo.Attachment t ON ma.DestID = t.ID
+where f.DocumentRefID = '127862' and f.DocumentType = 'IEP'
+
 union
 -- GIFTED		2FF58E06-9E4A-4BE5-8274-E0FDE0012D4E
 SELECT 
+	ProgramIndex = cast(1 as int),
 	f.DocumentRefID,
 	f.DocumentType,
 	f.StudentRefID,
@@ -75,6 +90,7 @@ FROM
 union
 -- 504		A1F33015-4D93-4768-B273-EA0CA77274BE
 SELECT 
+	ProgramIndex = cast(2 as int),
 	f.DocumentRefID,
 	f.DocumentType,
 	f.StudentRefID,
@@ -91,4 +107,13 @@ FROM
 	x_LEGACYDOC.MAP_AttachmentID ma	on f.DocumentRefID = ma.DocumentRefID and f.DocumentType = ma.DocumentType LEFT JOIN	
 	dbo.Attachment t ON ma.DestID = t.ID
 	where i.ItemDestID = 'BA9F9637-E5FC-4156-9098-571C2F579EF0' -- student has 9 documents A3E27CA5-6C5D-4D30-9BA0-A32BBA6747C9
+)  
+
+select a.*
+from CTE_ProgramDocs a 
+where a.ProgramIndex = (
+	select min(b.ProgramIndex)
+	from CTE_ProgramDocs b 
+	where a.DocumentRefID = b.DocumentRefID and a.DocumentType = b.DocumentType 
+	)
 go
