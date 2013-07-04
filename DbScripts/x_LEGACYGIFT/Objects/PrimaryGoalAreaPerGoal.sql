@@ -16,7 +16,10 @@ PK_MAP_GoalAreaPivot PRIMARY KEY CLUSTERED
 )
 END
 GO
-select * from x_LEGACYGIFT.GoalAreaPivotView
+
+if not exists (select 1 from sys.indexes where name = 'IX_x_LEGACYGIFT_MAP_GoalAreaPivot_GoalRefID_GoalAreaCode')
+create index IX_x_LEGACYGIFT_MAP_GoalAreaPivot_GoalRefID_GoalAreaCode on x_LEGACYGIFT.MAP_GoalAreaPivot (GoalRefID, GoalAreaCode)
+go
 
 IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'x_LEGACYGIFT.PrimaryGoalAreaPerGoal') AND OBJECTPROPERTY(id, N'IsView') = 1)
 DROP VIEW x_LEGACYGIFT.PrimaryGoalAreaPerGoal
