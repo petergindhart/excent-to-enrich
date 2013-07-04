@@ -25,8 +25,6 @@ FooterFormTemplateID	uniqueidentifier null,
 HeaderFormTemplateID	uniqueidentifier null
 )
 
-
-
 ALTER TABLE x_LEGACYGIFT.ImportPrgSections
 	ADD CONSTRAINT PK_ImportPrgSectionss PRIMARY KEY CLUSTERED
 (
@@ -166,38 +164,38 @@ This is an extract from the formletviewbuilder query that shows the input field 
 
 
 
----- #############################################################################
-----		Goal Area MAP
-IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'x_LEGACYGIFT.MAP_EPSubGoalAreaDefID') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
-BEGIN
-CREATE TABLE x_LEGACYGIFT.MAP_EPSubGoalAreaDefID 
-(
-	SubGoalAreaCode	varchar(150) NOT NULL,
-	DestID uniqueidentifier NOT NULL,
-	ParentID uniqueidentifier not null
-)
+------ #############################################################################
+------		Goal Area MAP
+--IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'x_LEGACYGIFT.MAP_EPSubGoalAreaDefID') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
+--BEGIN
+--CREATE TABLE x_LEGACYGIFT.MAP_EPSubGoalAreaDefID 
+--(
+--	SubGoalAreaCode	varchar(150) NOT NULL,
+--	DestID uniqueidentifier NOT NULL,
+--	ParentID uniqueidentifier not null
+--)
 
-ALTER TABLE x_LEGACYGIFT.MAP_EPSubGoalAreaDefID ADD CONSTRAINT
-PK_MAP_EPSubGoalAreaDefID PRIMARY KEY CLUSTERED
-(
-	SubGoalAreaCode
-)
+--ALTER TABLE x_LEGACYGIFT.MAP_EPSubGoalAreaDefID ADD CONSTRAINT
+--PK_MAP_EPSubGoalAreaDefID PRIMARY KEY CLUSTERED
+--(
+--	SubGoalAreaCode
+--)
 
-END
-GO
+--END
+--GO
 
--- select 'insert x_LEGACYGIFT.MAP_EPSubGoalAreaDefID values ('''+SubGoalAreaCode+''', '''+convert(varchar(36), DestID)+''', '''+convert(varchar(36), ParentID)+''')' from x_LEGACYGIFT.Transform_EPSubGoalAreaDef
-if not exists (select 1 from x_LEGACYGIFT.MAP_EPSubGoalAreaDefID where SubGoalAreaCode = 'GAReading')
-insert x_LEGACYGIFT.MAP_EPSubGoalAreaDefID values ('GAReading', 'A7506FED-1F87-484C-97DF-99517AC26971', '35B32108-174B-4F7F-9B5A-B5AF106F06BC')
+---- select 'insert x_LEGACYGIFT.MAP_EPSubGoalAreaDefID values ('''+SubGoalAreaCode+''', '''+convert(varchar(36), DestID)+''', '''+convert(varchar(36), ParentID)+''')' from x_LEGACYGIFT.Transform_EPSubGoalAreaDef
+--if not exists (select 1 from x_LEGACYGIFT.MAP_EPSubGoalAreaDefID where SubGoalAreaCode = 'GAReading')
+--insert x_LEGACYGIFT.MAP_EPSubGoalAreaDefID values ('GAReading', 'A7506FED-1F87-484C-97DF-99517AC26971', '35B32108-174B-4F7F-9B5A-B5AF106F06BC')
 
-if not exists (select 1 from x_LEGACYGIFT.MAP_EPSubGoalAreaDefID where SubGoalAreaCode = 'GAWriting')
-insert x_LEGACYGIFT.MAP_EPSubGoalAreaDefID values ('GAWriting', '7099C2E7-02C9-4903-8A01-8F0774364E5B', '35B32108-174B-4F7F-9B5A-B5AF106F06BC')
+--if not exists (select 1 from x_LEGACYGIFT.MAP_EPSubGoalAreaDefID where SubGoalAreaCode = 'GAWriting')
+--insert x_LEGACYGIFT.MAP_EPSubGoalAreaDefID values ('GAWriting', '7099C2E7-02C9-4903-8A01-8F0774364E5B', '35B32108-174B-4F7F-9B5A-B5AF106F06BC')
 
-if not exists (select 1 from x_LEGACYGIFT.MAP_EPSubGoalAreaDefID where SubGoalAreaCode = 'GAMath')
-insert x_LEGACYGIFT.MAP_EPSubGoalAreaDefID values ('GAMath', 'D58C5141-DD5D-4C80-BB93-7CC88A234B2D', '35B32108-174B-4F7F-9B5A-B5AF106F06BC')
+--if not exists (select 1 from x_LEGACYGIFT.MAP_EPSubGoalAreaDefID where SubGoalAreaCode = 'GAMath')
+--insert x_LEGACYGIFT.MAP_EPSubGoalAreaDefID values ('GAMath', 'D58C5141-DD5D-4C80-BB93-7CC88A234B2D', '35B32108-174B-4F7F-9B5A-B5AF106F06BC')
 
-if not exists (select 1 from x_LEGACYGIFT.MAP_EPSubGoalAreaDefID where SubGoalAreaCode = 'GAOther')
-insert x_LEGACYGIFT.MAP_EPSubGoalAreaDefID values ('GAOther', 'DEEB5A06-156D-43D0-B976-4B30245C6784', '35B32108-174B-4F7F-9B5A-B5AF106F06BC')
+--if not exists (select 1 from x_LEGACYGIFT.MAP_EPSubGoalAreaDefID where SubGoalAreaCode = 'GAOther')
+--insert x_LEGACYGIFT.MAP_EPSubGoalAreaDefID values ('GAOther', 'DEEB5A06-156D-43D0-B976-4B30245C6784', '35B32108-174B-4F7F-9B5A-B5AF106F06BC')
 
 ---- Lee County had a MAP_ServiceFrequencyID from a previouos ETL run that had bogus frequency data. delete that data and insert the good.
 --declare @Map_ServiceFrequencyID table (ServiceFrequencyCode varchar(30), ServiceFrequencyName varchar(50), DestID uniqueidentifier)
