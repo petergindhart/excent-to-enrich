@@ -17,12 +17,6 @@ PK_MAP_IepGoalAreaID PRIMARY KEY CLUSTERED
 END
 GO
 
-
-if not exists (select 1 from sys.indexes where name = 'IX_LEGACYSPED_MAP_GoalAreaPivot_GaolRefID_GoalAreaCode')
-create index IX_LEGACYSPED_MAP_GoalAreaPivot_GaolRefID_GoalAreaCode on LEGACYSPED.MAP_GoalAreaPivot (GoalRefID, GoalAreaCode)
-go
-
-
 -- #############################################################################
 -- create a placeholder object since this view does not exist yet.  cannot create view within begin/end, so create a table instead
 IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.GoalAreaPivotView'))
@@ -42,7 +36,7 @@ go
 -- #############################################################################
 -- Goal
 IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.MAP_PrgGoalID') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
-BEGIN -- drop TABLE LEGACYSPED.MAP_PrgGoalID
+BEGIN
 CREATE TABLE LEGACYSPED.MAP_PrgGoalID
 	(
 	GoalRefID nvarchar(150) NOT NULL,
