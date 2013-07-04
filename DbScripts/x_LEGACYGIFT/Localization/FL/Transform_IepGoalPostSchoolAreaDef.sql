@@ -44,7 +44,7 @@ IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'x_LEGACYGIFT.Tra
 DROP VIEW x_LEGACYGIFT.Transform_IepGoalPostSchoolAreaDef
 GO
 
-create view x_LEGACYGIFT.Transform_IepGoalPostSchoolAreaDef -- select * from x_LEGACYGIFT.Transform_PrgGoals
+create view x_LEGACYGIFT.Transform_IepGoalPostSchoolAreaDef
 as
 	select 
 		ps.EPRefID,
@@ -54,18 +54,11 @@ as
 		PostSchoolAreaDefID = m.DestID,
 		Sequence = (select COUNT(*) from x_LEGACYGIFT.PostSchoolAreaPivotView where GoalRefID = ps.GoalRefID and PostSchoolAreaCode < ps.PostSchoolAreaCode)
 	from x_LEGACYGIFT.PostSchoolAreaPivotView ps JOIN 
-	x_LEGACYGIFT.Transform_PrgGoal pg on ps.GoalRefID = pg.GoalRefID join 
+	x_LEGACYGIFT.MAP_PrgGoalID pg on ps.GoalRefID = pg.GoalRefID join 
 	x_LEGACYGIFT.MAP_PostSchoolAreaDefID m on ps.PostSchoolAreaCode = m.PostSchoolAreaCode left join
 	dbo.IepGoalPostSchoolAreaDef t on 
 		pg.DestID = t.GoalID and 
 		m.DestID = t.PostSchoolAreaDefID
 	where 
 		t.GoalID is null
--- order by ps.GoalRefID, Sequence
 go
--- 17045
-
-
-
-
-
