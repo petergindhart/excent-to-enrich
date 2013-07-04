@@ -77,7 +77,7 @@ go
 
 
 IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'x_LEGACYGIFT.MAP_PrgGoalID') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
-BEGIN -- drop TABLE x_LEGACYGIFT.MAP_PrgGoalID
+BEGIN
 CREATE TABLE x_LEGACYGIFT.MAP_PrgGoalID
 	(
 	GoalRefID nvarchar(150) NOT NULL,
@@ -92,9 +92,11 @@ ALTER TABLE x_LEGACYGIFT.MAP_PrgGoalID ADD CONSTRAINT
 	)
 CREATE INDEX IX_x_LEGACYGIFT_MAP_PrgGoalID_DestID on x_LEGACYGIFT.MAP_PrgGoalID (DestID)
 END
-if not exists (select 1 from sys.indexes where name = 'IX_x_LEGACYGIFT_Goal_LOCAL_IEPRefID')
-CREATE NONCLUSTERED INDEX  IX_x_LEGACYGIFT_Goal_LOCAL_EPRefID ON [x_LEGACYGIFT].[Goal_LOCAL] ([EpRefID]) INCLUDE ([GoalRefID])
+
+if not exists (select 1 from sys.indexes where name = 'IX_x_LEGACYGIFT_GiftedGoal_LOCAL_EPRefID')
+CREATE NONCLUSTERED INDEX  IX_x_LEGACYGIFT_GiftedGoal_LOCAL_EPRefID ON x_LEGACYGIFT.GiftedGoal_LOCAL ([EpRefID]) INCLUDE ([GoalRefID])
 GO
+
 -- #############################################################################
 -- Transform_IepGoalArea (PRIMARY)
 IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'x_LEGACYGIFT.Transform_IepGoalArea_goals') AND OBJECTPROPERTY(id, N'IsView') = 1)
@@ -119,7 +121,7 @@ from x_LEGACYGIFT.GiftedGoal g join
 x_LEGACYGIFT.MAP_GoalAreaPivot p on g.GoalRefID = p.GoalRefID join -- in the where clause we will limit this to the primary goal area.  Another transform will insert subgoals, and yet another will insert secondary goals
 LEGACYSPED.MAP_IepGoalAreaDefID md on p.GoalAreaCode = md.GoalAreaCode left join
 x_LEGACYGIFT.MAP_PrgGoalID mg on g.GoalRefID = mg.GoalRefID left join
-x_LEGACYGIFT.Transform_PrgGoals gs on g.IepRefID = gs.IepRefId left join
+x_LEGACYGIFT.Transform_PrgGoals gs on g.EpRefID = gs.EpRefId left join
 x_LEGACYGIFT.MAP_IepGoalAreaID mga on g.EPRefID = mga.EPRefID and md.DestID = mga.DefID left join 
 IepGoalArea ga on mga.DestID = ga.ID
 where p.GoalAreaDefIndex = (
@@ -135,13 +137,12 @@ go
 
 create view x_LEGACYGIFT.Transform_IepGoalArea
 as
-select gap.IepRefID, gap.GoalAreaCode, DestID = isnull(ga.ID, mga.DestID), DefID = gad.DestID, InstanceID = gs.DestID, FormInstanceID = cast(NULL as uniqueidentifier)
+select gap.EpRefID, gap.GoalAreaCode, DestID = isnull(ga.ID, mga.DestID), DefID = gad.DestID, InstanceID = gs.DestID, FormInstanceID = cast(NULL as uniqueidentifier)
 from x_LEGACYGIFT.GoalAreaPivotView gap
 join x_LEGACYGIFT.PrimaryGoalAreaPerGoal pg on gap.GoalRefID = pg.GoalRefID and gap.GoalAreaDefIndex = pg.PrimaryGoalAreaDefIndex
 join LEGACYSPED.MAP_IepGoalAreaDefID gad on gap.GoalAreaCode = gad.GoalAreaCode
-join x_LEGACYGIFT.Transform_PrgGoals gs on gap.IepRefID = gs.IepRefId
-left join x_LEGACYGIFT.MAP_IepGoalAreaID mga on gap.IepRefID = mga.IEPRefID and gad.DestID = mga.DefID
+join x_LEGACYGIFT.Transform_PrgGoals gs on gap.EpRefID = gs.EpRefId
+left join x_LEGACYGIFT.MAP_IepGoalAreaID mga on gap.EpRefID = mga.EpRefID and gad.DestID = mga.DefID
 left join dbo.IepGoalArea ga on mga.DestID = ga.ID
-group by gap.IepRefID, gap.GoalAreaCode, gad.DestID, gs.DestID, isnull(ga.ID, mga.DestID)
+group by gap.EpRefID, gap.GoalAreaCode, gad.DestID, gs.DestID, isnull(ga.ID, mga.DestID)
 go
-
