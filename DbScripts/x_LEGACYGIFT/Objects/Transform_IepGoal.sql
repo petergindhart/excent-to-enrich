@@ -14,7 +14,7 @@ select
   GoalAreaID = ga.DestID,
   PostSchoolAreaDefID = psa.PostSchoolAreaDefID, 
   ga.EsyID 
-FROM x_LEGACYGIFT.Transform_IepGoalArea ga LEFT JOIN 
+FROM x_LEGACYGIFT.Transform_IepGoalArea_goals ga LEFT JOIN 
 	x_LEGACYGIFT.Transform_IepGoalPostSchoolAreaDef psa on ga.GoalRefID = psa.GoalRefID and psa.Sequence = 0 LEFT JOIN ---------- we cheated!
 	dbo.IepGoalArea tgt on ga.InstanceID = tgt.InstanceID and psa.PostSchoolAreaDefID = tgt.DefID 
 go
