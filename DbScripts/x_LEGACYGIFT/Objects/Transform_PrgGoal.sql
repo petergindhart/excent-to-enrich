@@ -19,17 +19,17 @@ GO
 
 -- #############################################################################
 -- create a placeholder object since this view does not exist yet.  cannot create view within begin/end, so create a table instead
-IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'x_LEGACYGIFT.GiftedGoalAreaPivotView'))
-begin
-create table x_LEGACYGIFT.GiftedGoalAreaPivotView (
-EPRefID varchar(150),
-GoalRefID varchar(150),
-GoalAreaCode varchar(20),
-GoalAreaDefIndex int
-)
-end
+-- IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'x_LEGACYGIFT.GiftedGoalAreaPivotView'))
+-- begin
+-- create table x_LEGACYGIFT.GiftedGoalAreaPivotView (
+-- EPRefID varchar(150),
+-- GoalRefID varchar(150),
+-- GoalAreaCode varchar(20),
+-- GoalAreaDefIndex int
+-- )
+-- end
 -- this object will be dropped when we create the view later
-go
+-- go
 
 ------------------------------------------------------------------------------------------- end code duplicated from Transform_IepGoalArea.sql
 
@@ -78,7 +78,7 @@ AS
   DestID = m.DestID,
   TypeID = cast('AB74929E-B03F-4A51-82CA-659CA90E291A'  as uniqueidentifier), 
   InstanceID = i.DestID,
-  Sequence = (select count(*) from x_LEGACYGIFT.GiftedGoalAreaPivotView gpvt where gpvt.EPRefID = ga1.EPRefID and gpvt.GoalAreaCode = ga1.GoalAreaCode and gpvt.GoalRefID < g.GoalRefID),												-- source
+  Sequence = (select count(*) from x_LEGACYGIFT.GoalAreaPivotView gpvt where gpvt.EPRefID = ga1.EPRefID and gpvt.GoalAreaCode = ga1.GoalAreaCode and gpvt.GoalRefID < g.GoalRefID),												-- source
   IsProbeGoal = cast(0 as bit),
   TargetDate = stu.DurationDate, 
   GoalStatement = cast(g.GoalStatement as text),	-- source
