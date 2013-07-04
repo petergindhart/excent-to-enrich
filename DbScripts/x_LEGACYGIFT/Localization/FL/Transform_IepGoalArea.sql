@@ -117,7 +117,8 @@ select
 	InstanceID = gs.DestID, 
 	FormInstanceID = cast(NULL as uniqueidentifier),
 	EsyID = case when g.IsEsy = 'Y' then 'B76DDCD6-B261-4D46-A98E-857B0A814A0C' else 'F7E20A86-2709-4170-9810-15B601C61B79' end
-from x_LEGACYGIFT.GiftedGoal g join 
+from x_LEGACYGIFT.MAP_EPStudentRefID mes join 
+x_LEGACYGIFT.GiftedGoal g on mes.EPRefID = g.EpRefID join 
 x_LEGACYGIFT.MAP_GoalAreaPivot p on g.GoalRefID = p.GoalRefID join -- in the where clause we will limit this to the primary goal area.  Another transform will insert subgoals, and yet another will insert secondary goals
 LEGACYSPED.MAP_IepGoalAreaDefID md on p.GoalAreaCode = md.GoalAreaCode left join
 x_LEGACYGIFT.MAP_PrgGoalID mg on g.GoalRefID = mg.GoalRefID left join
@@ -138,7 +139,8 @@ go
 create view x_LEGACYGIFT.Transform_IepGoalArea
 as
 select gap.EpRefID, gap.GoalAreaCode, DestID = isnull(ga.ID, mga.DestID), DefID = gad.DestID, InstanceID = gs.DestID, FormInstanceID = cast(NULL as uniqueidentifier)
-from x_LEGACYGIFT.GoalAreaPivotView gap
+from x_LEGACYGIFT.MAP_EPStudentRefID mes
+join x_LEGACYGIFT.GoalAreaPivotView gap on mes.EPRefID = gap.EpRefID 
 join x_LEGACYGIFT.PrimaryGoalAreaPerGoal pg on gap.GoalRefID = pg.GoalRefID and gap.GoalAreaDefIndex = pg.PrimaryGoalAreaDefIndex
 join LEGACYSPED.MAP_IepGoalAreaDefID gad on gap.GoalAreaCode = gad.GoalAreaCode
 join x_LEGACYGIFT.Transform_PrgGoals gs on gap.EpRefID = gs.EpRefId
