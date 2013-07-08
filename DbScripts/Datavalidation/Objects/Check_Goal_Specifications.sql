@@ -82,19 +82,19 @@ WHILE @Count<=@MaxCount
     BEGIN
     IF (@Txtdatalength = '' and (select isrequired from @tbldl WHERE ID=@Count)= 1)
     BEGIN
-    SET @Txtdatalength=@Txtdatalength+' WHERE (DATALENGTH('+'g.'+(select columnname from @tbldl WHERE ID=@Count) + ')/2) <= '+(select datalength from @tbldl WHERE ID=@Count)
+    SET @Txtdatalength=@Txtdatalength+' WHERE DATALENGTH(REPLACE('+'g.'+(select columnname from @tbldl WHERE ID=@Count) + ','''''''',''''))/2 <= '+(select datalength from @tbldl WHERE ID=@Count)
     END
     ELSE IF (@Txtdatalength = '' and (select isrequired from @tbldl WHERE ID=@Count)= 0)
     BEGIN
-    SET @Txtdatalength=@Txtdatalength+' WHERE ((DATALENGTH('+'g.'+(select columnname from @tbldl WHERE ID=@Count) + ')/2) <= '+(select datalength from @tbldl WHERE ID=@Count) +' OR (g.'+(select columnname from @tbldl WHERE ID=@Count)+' IS NULL))'
+    SET @Txtdatalength=@Txtdatalength+' WHERE DATALENGTH(REPLACE('+'g.'+(select columnname from @tbldl WHERE ID=@Count) + ','''''''',''''))/2 <= '+(select datalength from @tbldl WHERE ID=@Count) +' OR (g.'+(select columnname from @tbldl WHERE ID=@Count)+' IS NULL)'
     END
     ELSE IF (@Txtdatalength != '' and (select isrequired from @tbldl WHERE ID=@Count)= 0)
     BEGIN
-    SET @Txtdatalength=@Txtdatalength+' AND ((DATALENGTH('+'g.'+(select columnname from @tbldl WHERE ID=@Count) + ')/2) <= '+(select datalength from @tbldl WHERE ID=@Count) +' OR (g.'+(select columnname from @tbldl WHERE ID=@Count)+' IS NULL))'
+    SET @Txtdatalength=@Txtdatalength+' AND DATALENGTH(REPLACE('+'g.'+(select columnname from @tbldl WHERE ID=@Count) + ','''''''',''''))/2 <= '+(select datalength from @tbldl WHERE ID=@Count) +' OR (g.'+(select columnname from @tbldl WHERE ID=@Count)+' IS NULL)'
     END
     ELSE IF (@Txtdatalength != '' and (select isrequired from @tbldl WHERE ID=@Count)= 1)
     BEGIN
-    SET @Txtdatalength=@Txtdatalength+' AND (DATALENGTH('+'g.'+(select columnname from @tbldl WHERE ID=@Count) + ')/2) <= '+(select datalength from @tbldl WHERE ID=@Count)
+    SET @Txtdatalength=@Txtdatalength+' AND DATALENGTH(REPLACE('+'g.'+(select columnname from @tbldl WHERE ID=@Count) + ','''''''',''''))/2 <= '+(select datalength from @tbldl WHERE ID=@Count)
     END
     SET @Count=@Count+1
     END
@@ -331,7 +331,7 @@ BEGIN
 SET @vsql = 'INSERT Datavalidation.ValidationReport (TableName,ErrorMessage,LineNumber,Line)
 SELECT ''Goal'',''The issue is in the datalength of the field '+@columnname+'.'',Line_No,ISNULL(CONVERT(VARCHAR(max),GoalRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),IepRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),Sequence),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),GoalAreaCode),'''')+ISNULL(CONVERT(VARCHAR(max),PSEducation),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),PSEmployment),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),PSIndependent),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),IsEsy),'''')+ISNULL(CONVERT(VARCHAR(max),UNITOFMEASUREMENT),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),BASELINEDATAPOINT),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),EVALUATIONMETHOD),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),GoalStatement),'''') FROM Datavalidation.Goal_Local WHERE 1 = 1'
 
-SET @query  = ' AND ((DATALENGTH ('+@columnname+')/2) > '+@datalength+' AND '+@columnname+' IS NOT NULL)'
+SET @query  = ' AND ((DATALENGTH (REPLACE('+@columnname+','''''''',''''))/2) > '+@datalength+' AND '+@columnname+' IS NOT NULL)'
 SET @vsql = @vsql + @query
 EXEC sp_executesql @stmt=@vsql
 --PRINT @vsql
@@ -340,7 +340,7 @@ SET @sumsql = 'INSERT Datavalidation.ValidationSummaryReport (TableName,ErrorMes
 SELECT ''Goal'',''The issue is in the datalength of the field '+@columnname+'.'', COUNT(*)
 FROM Datavalidation.Goal_Local WHERE 1 = 1 '
 
-SET @query  = ' AND ((DATALENGTH ('+@columnname+')/2) > '+@datalength+' AND '+@columnname+' IS NOT NULL)'
+SET @query  = ' AND ((DATALENGTH (REPLACE('+@columnname+','''''''',''''))/2) > '+@datalength+' AND '+@columnname+' IS NOT NULL)'
 SET @sumsql = @sumsql + @query
 --PRINT @sumsql
 EXEC sp_executesql @stmt=@sumsql
