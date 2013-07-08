@@ -1,21 +1,21 @@
 
--- Not currently in LoadTable.  We are populating MAP_IepSubGoalAreaDefID in the state specific ETL Prep file.
-IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'x_LEGACYGIFT.MAP_IepSubGoalAreaDefID') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
-BEGIN
-CREATE TABLE x_LEGACYGIFT.MAP_IepSubGoalAreaDefID 
-(
-	SubGoalAreaCode	varchar(150) NOT NULL,
-	DestID uniqueidentifier NOT NULL
-)
+---- Not currently in LoadTable.  We are populating MAP_IepSubGoalAreaDefID in the state specific ETL Prep file.
+--IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'x_LEGACYGIFT.MAP_IepSubGoalAreaDefID') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
+--BEGIN
+--CREATE TABLE x_LEGACYGIFT.MAP_IepSubGoalAreaDefID 
+--(
+--	SubGoalAreaCode	varchar(150) NOT NULL,
+--	DestID uniqueidentifier NOT NULL
+--)
 
-ALTER TABLE x_LEGACYGIFT.MAP_IepSubGoalAreaDefID ADD CONSTRAINT
-PK_MAP_IepSubGoalAreaDefID PRIMARY KEY CLUSTERED
-(
-	SubGoalAreaCode
-)
+--ALTER TABLE x_LEGACYGIFT.MAP_IepSubGoalAreaDefID ADD CONSTRAINT
+--PK_MAP_IepSubGoalAreaDefID PRIMARY KEY CLUSTERED
+--(
+--	SubGoalAreaCode
+--)
 
-END
-GO
+--END
+--GO
 
 --- NEW VIEW 
 IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'x_LEGACYGIFT.SubGoalAreaPivotView') AND OBJECTPROPERTY(id, N'IsView') = 1)
@@ -51,10 +51,11 @@ select
 	ga.GoalRefID,
 	GoalID = pg.DestID,
 	DefID = m.DestID 
-from x_LEGACYGIFT.Transform_IepGoalArea ga join 
+from x_LEGACYGIFT.Transform_IepGoalArea_goals ga join 
 x_LEGACYGIFT.Transform_PrgGoal pg on ga.GoalRefID = pg.GoalRefID join 
 x_LEGACYGIFT.SubGoalAreaPivotView sg on ga.GoalRefID = sg.GoalRefID left join 
-x_LEGACYGIFT.MAP_IepSubGoalAreaDefID m on sg.GoalAreaCode = m.SubGoalAreaCode left join 
+LEGACYSPED.MAP_IepSubGoalAreaDefID m on sg.GoalAreaCode = m.SubGoalAreaCode left join 
 IepGoalSubGoalAreaDef sgad on ga.DestID = sgad.GoalID and m.DestID = sgad.DefID
 where ga.GoalAreaCode = 'GACurriculum' -- assuming only one parent for now
 go
+

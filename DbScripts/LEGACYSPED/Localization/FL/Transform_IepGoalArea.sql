@@ -39,8 +39,8 @@ PK_MAP_GoalAreaPivot PRIMARY KEY CLUSTERED
 END
 GO
 
-if not exists (select 1 from sys.indexes where name = 'IX_LEGACYSPED_MAP_GoalAreaPivot_GaolRefID_GoalAreaCode')
-create index IX_LEGACYSPED_MAP_GoalAreaPivot_GaolRefID_GoalAreaCode on LEGACYSPED.MAP_GoalAreaPivot (GoalRefID, GoalAreaCode)
+if not exists (select 1 from sys.indexes where name = 'IX_LEGACYSPED_MAP_GoalAreaPivot_GoalRefID_GoalAreaCode')
+create index IX_LEGACYSPED_MAP_GoalAreaPivot_GoalRefID_GoalAreaCode on LEGACYSPED.MAP_GoalAreaPivot (GoalRefID, GoalAreaCode)
 go
 
 IF exists (select 1 from sys.schemas s join sys.objects o on s.schema_id = o.schema_id where s.name = 'LEGACYSPED' and o.name = 'GoalAreaPivotView' and o.type = 'U')
@@ -77,7 +77,7 @@ go
 
 
 IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.MAP_PrgGoalID') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
-BEGIN -- drop TABLE LEGACYSPED.MAP_PrgGoalID
+BEGIN
 CREATE TABLE LEGACYSPED.MAP_PrgGoalID
 	(
 	GoalRefID nvarchar(150) NOT NULL,
@@ -96,46 +96,6 @@ END
 if not exists (select 1 from sys.indexes where name = 'IX_LEGACYSPED_Goal_LOCAL_IEPRefID')
 CREATE NONCLUSTERED INDEX  IX_LEGACYSPED_Goal_LOCAL_IEPRefID ON [LEGACYSPED].[Goal_LOCAL] ([IepRefID]) INCLUDE ([GoalRefID])
 GO
-
--- #############################################################################
-
---IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.GoalAreasPerGoalView') AND OBJECTPROPERTY(id, N'IsView') = 1)
---DROP VIEW LEGACYSPED.GoalAreasPerGoalView
---GO
-
---create view LEGACYSPED.GoalAreasPerGoalView ---------------------------- change name to minimum goal area per goal -- or -- goal area per goal view (not plural).  one primary area, possible multiple secondary areas.
---as
---/*
-
---	--Currently Enrich does not support more than 1 goal area per goal, so we need to arbitrarily but consistently pick one goal for now.
---	--In LEGACYSPED.GoalAreaPivotView we devised an Index that will allow us to select the minimum GoalAreaIndex per Goal, which this view provides.
---	--The output of this view will be the one GoalArea selected for each Goal.
---	--This filter will no longer be necessary after support for multiple areas (domains) per goal is added to Enrich.
----- The output of this view will be the one GoalArea selected for each Goal.
-
---	NOTE:  The above comment does not apply now that we can have more than one goal area per goal.  GG 20121213
-
---	Now the view should only return one goal area per goal, because the sub-goals are being split out.	
-
---*/
---select
---	tg.GoalRefID,
---	tg.IepRefID,
---	tg.InstanceID,
---	DefID = m.DestID,
---	ga.GoalAreaCode, 
---	GoalIndex = cast(0 as int) -- select ga.* 
---from 
---	LEGACYSPED.Transform_PrgGoal tg join -- select * from LEGACYSPED.Transform_PrgGoal 
---	LEGACYSPED.GoalAreaPivotView ga on tg.GoalRefID = ga.GoalRefID join -- select * from LEGACYSPED.GoalAreaPivotView
---	LEGACYSPED.MAP_IepGoalAreaDefID m on ga.GoalAreaCode = m.GoalAreaCode  -- select * from LEGACYSPED.MAP_IepGoalAreaDefID
---where ga.GoalAreaDefIndex = (
---	select min(minga.GoalAreaDefIndex)
---	from  LEGACYSPED.GoalAreaPivotView minga
---	where tg.GoalRefID = minga.GoalRefID
---	)
---GO
-
 
 -- #############################################################################
 -- Transform_IepGoalArea_goals (PRIMARY)

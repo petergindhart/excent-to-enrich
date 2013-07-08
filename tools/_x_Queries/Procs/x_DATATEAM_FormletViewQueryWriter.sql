@@ -165,7 +165,7 @@ select InputItemType, InputItemCode, ControlIsRepeatable, InputItemLabel, InputI
 			when t.leftTable = 'Person' then 'lft_'+convert(varchar(10), x.Sequence)+'_'+SeqChar+'.Firstname+'' ''+lft_'+convert(varchar(10), x.Sequence)+'_'+SeqChar+'.Lastname,'
 			else 'vv_'+convert(varchar(10), x.Sequence)+'_'+SeqChar+'.'+idColumn+','
 		end,
-		FromTable = '	--	'+InputItemCode+'   ('+InputItemType+')'+'
+		FromTable = '	--	'+InputItemLabel+'     < '+t.InputItemCode+' >    ('+InputItemType+')
 	FormInputValue v_'+convert(varchar(10), x.Sequence)+'_'+SeqChar+' on
 		v_'+convert(varchar(10), x.Sequence)+'_'+SeqChar+'.InputFieldId = '''
 		+InputItemID+''' AND

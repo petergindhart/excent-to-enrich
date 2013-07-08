@@ -1,25 +1,24 @@
 
 -- This transform is not currently in LoadTable.  We are populating MAP_GoalAreaDefID in the state specific ETL Prep file.
 
+------ #############################################################################
+------		Goal Area MAP
+--IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'x_LEGACYGIFT.MAP_IepGoalAreaDefID') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
+--BEGIN
+--CREATE TABLE x_LEGACYGIFT.MAP_IepGoalAreaDefID 
+--(
+--	GoalAreaCode	varchar(150) NOT NULL,
+--	DestID uniqueidentifier NOT NULL
+--)
 
----- #############################################################################
-----		Goal Area MAP
-IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'x_LEGACYGIFT.MAP_IepGoalAreaDefID') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
-BEGIN
-CREATE TABLE x_LEGACYGIFT.MAP_IepGoalAreaDefID 
-(
-	GoalAreaCode	varchar(150) NOT NULL,
-	DestID uniqueidentifier NOT NULL
-)
+--ALTER TABLE x_LEGACYGIFT.MAP_IepGoalAreaDefID ADD CONSTRAINT
+--PK_MAP_IepGoalAreaDefID PRIMARY KEY CLUSTERED
+--(
+--	GoalAreaCode
+--)
 
-ALTER TABLE x_LEGACYGIFT.MAP_IepGoalAreaDefID ADD CONSTRAINT
-PK_MAP_IepGoalAreaDefID PRIMARY KEY CLUSTERED
-(
-	GoalAreaCode
-)
-
-END
-GO
+--END
+--GO
 
 ---- #############################################################################
 ------ Transform

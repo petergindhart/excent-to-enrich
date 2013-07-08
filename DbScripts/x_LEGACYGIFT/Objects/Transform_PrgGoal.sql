@@ -4,7 +4,7 @@ IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'x_LEGACYGIFT.
 BEGIN
 CREATE TABLE x_LEGACYGIFT.MAP_IepGoalAreaID
 (
-	GoalRefID	varchar(150) not null,
+	EPRefID	varchar(150) not null,
 	DefID uniqueidentifier NOT NULL,
 	DestID uniqueidentifier NOT NULL
 )
@@ -12,55 +12,31 @@ CREATE TABLE x_LEGACYGIFT.MAP_IepGoalAreaID
 ALTER TABLE x_LEGACYGIFT.MAP_IepGoalAreaID ADD CONSTRAINT 
 PK_MAP_IepGoalAreaID PRIMARY KEY CLUSTERED
 (
-	DefID, GoalRefID
+	DefID, EPRefID
 )
 END
 GO
-
-
--- this MAP table will speed up the GoalArea queries considerably
-IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'x_LEGACYGIFT.MAP_GoalAreaPivot') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
-BEGIN
-create table x_LEGACYGIFT.MAP_GoalAreaPivot 
-(
-	GoalRefID	varchar(150) not null,
-	GoalAreaCode varchar(150) not null,
-	GoalAreaDefIndex int not null
-)
-
-ALTER TABLE x_LEGACYGIFT.MAP_GoalAreaPivot ADD CONSTRAINT 
-PK_MAP_GoalAreaPivot PRIMARY KEY CLUSTERED
-(
-	GoalRefID, GoalAreaDefIndex
-)
-END
-GO
-
-if not exists (select 1 from sys.indexes where name = 'IX_x_LEGACYGIFT_MAP_GoalAreaPivot_GaolRefID_GoalAreaCode')
-create index IX_x_LEGACYGIFT_MAP_GoalAreaPivot_GaolRefID_GoalAreaCode on x_LEGACYGIFT.MAP_GoalAreaPivot (GoalRefID, GoalAreaCode)
-go
-
 
 -- #############################################################################
 -- create a placeholder object since this view does not exist yet.  cannot create view within begin/end, so create a table instead
-IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'x_LEGACYGIFT.GiftedGoalAreaPivotView'))
-begin
-create table x_LEGACYGIFT.GiftedGoalAreaPivotView (
-EPRefID varchar(150),
-GoalRefID varchar(150),
-GoalAreaCode varchar(20),
-GoalAreaDefIndex int
-)
-end
+-- IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'x_LEGACYGIFT.GiftedGoalAreaPivotView'))
+-- begin
+-- create table x_LEGACYGIFT.GiftedGoalAreaPivotView (
+-- EPRefID varchar(150),
+-- GoalRefID varchar(150),
+-- GoalAreaCode varchar(20),
+-- GoalAreaDefIndex int
+-- )
+-- end
 -- this object will be dropped when we create the view later
-go
+-- go
 
 ------------------------------------------------------------------------------------------- end code duplicated from Transform_IepGoalArea.sql
 
 -- #############################################################################
 -- Goal
 IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'x_LEGACYGIFT.MAP_PrgGoalID') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
-BEGIN -- drop TABLE x_LEGACYGIFT.MAP_PrgGoalID
+BEGIN 
 CREATE TABLE x_LEGACYGIFT.MAP_PrgGoalID
 	(
 	GoalRefID nvarchar(150) NOT NULL,
@@ -88,8 +64,6 @@ GO
 
 -- #############################################################################
 --		Transform
-
-
 IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'x_LEGACYGIFT.Transform_PrgGoal') AND OBJECTPROPERTY(id, N'IsView') = 1)
 DROP VIEW x_LEGACYGIFT.Transform_PrgGoal
 GO
@@ -104,7 +78,7 @@ AS
   DestID = m.DestID,
   TypeID = cast('AB74929E-B03F-4A51-82CA-659CA90E291A'  as uniqueidentifier), 
   InstanceID = i.DestID,
-  Sequence = (select count(*) from x_LEGACYGIFT.GiftedGoalAreaPivotView gpvt where gpvt.EPRefID = ga1.EPRefID and gpvt.GoalAreaCode = ga1.GoalAreaCode and gpvt.GoalRefID < g.GoalRefID),												-- source
+  Sequence = (select count(*) from x_LEGACYGIFT.GoalAreaPivotView gpvt where gpvt.EPRefID = ga1.EPRefID and gpvt.GoalAreaCode = ga1.GoalAreaCode and gpvt.GoalRefID < g.GoalRefID),												-- source
   IsProbeGoal = cast(0 as bit),
   TargetDate = stu.DurationDate, 
   GoalStatement = cast(g.GoalStatement as text),	-- source
@@ -127,12 +101,12 @@ AS
   x_LEGACYGIFT.GiftedStudent stu join 
   x_LEGACYGIFT.GiftedGoal g on stu.EPRefID = g.EPRefID JOIN
   x_LEGACYGIFT.GoalAreaExists e on g.GoalRefID = e.GoalRefID left join
-  x_LEGACYGIFT.MAP_IepGoalAreaID ga on g.GoalRefID = ga.GoalRefID left join ----------------- May be able to use MAP table for speed
+  x_LEGACYGIFT.Transform_IepGoalArea_goals ga on g.GoalRefID = ga.GoalRefID left join ----------------- May be able to use MAP table for speed
 	(
 	select g.EPRefID, ga.DefID, gad.GoalAreaCode 
 	from x_LEGACYGIFT.GiftedGoal g join
-	x_LEGACYGIFT.MAP_IepGoalAreaID ga on g.GoalRefID = ga.GoalRefID join ----------------- May be able to use MAP table for speed
-	x_LEGACYGIFT.MAP_IepGoalAreaDefID gad on ga.DefID = gad.DestID
+	x_LEGACYGIFT.Transform_IepGoalArea_goals ga on g.GoalRefID = ga.GoalRefID join ----------------- May be able to use MAP table for speed
+	LEGACYSPED.MAP_IepGoalAreaDefID gad on ga.DefID = gad.DestID
 	group by g.EPRefID, ga.DefID, gad.GoalAreaCode
 	) ga1 on g.EPRefID = ga1.EPRefID and ga.DefID = ga1.DefID LEFT JOIN 
   x_LEGACYGIFT.MAP_PrgGoalID m on g.GoalRefID = m.GoalRefID LEFT JOIN 

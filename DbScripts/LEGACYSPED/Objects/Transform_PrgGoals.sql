@@ -18,7 +18,5 @@ AS
 	dbo.School h on iep.SchoolID = h.ID left join
 	LEGACYSPED.SchoolProgressFrequency sf on h.Number = sf.SchoolCode left join 
 	PrgGoalProgressFreq pf on sf.FrequencyName = pf.Name 
-	--left join
-	--PrgGoals gs on sec.ID = gs.ID  -- had considered using the target table freq, but it is often incorrect
 GO
 --

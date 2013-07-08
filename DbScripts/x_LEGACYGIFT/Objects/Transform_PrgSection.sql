@@ -33,23 +33,27 @@ GO
 CREATE VIEW x_LEGACYGIFT.Transform_PrgSection
 AS
 	SELECT
-		DestID = case when t.CanVersion = 1 then s.DestID else nvm.DestID end, 
-		ItemID = i.ItemDestID,
+		sDestID = s.DestID,
+		nvmDestID = nvm.DestID,
+		DestID = case when d.IsVersioned = 1 then s.DestID else nvm.DestID end, 
+		ItemID = i.DestID,
 		DefID = d.ID,
-		VersionID = CASE WHEN t.CanVersion = 1 THEN i.VersionDestID ELSE CAST(NULL as uniqueidentifier) END,
-		FormInstanceID = case when d.ID = '9AC79680-7989-4CC9-8116-1CCDB1D0AE5F' then tsvc.FormInstanceID else NULL end, -- IEP Services
-		HeaderFormInstanceID =  CAST (NULL as UNIQUEIDENTIFIER),
+		d.IsVersioned,
+		VersionID = CASE WHEN d.IsVersioned = 1 THEN i.VersionDestID ELSE CAST(NULL as uniqueidentifier) END,
+		FormInstanceID = mfi.FormInstanceID, -- does this map distinguish footer and header forms?
+		HeaderFormInstanceID =  cast(NULL as uniqueidentifier), 
 		OnLatestVersion = cast(1 as bit)
 	FROM
 		x_LEGACYGIFT.Transform_PrgItem i CROSS JOIN
 		PrgSectionDef d JOIN
 		PrgSectionType t on d.TypeID = t.ID JOIN
 		x_LEGACYGIFT.ImportPrgSections p on d.ID = p.SectionDefID and p.Enabled = 1 LEFT JOIN
+		x_LEGACYGIFT.MAP_FormInstanceID mfi on i.EPRefID = mfi.EPRefID and d.id = mfi.SectionDefID left JOIN
 		x_LEGACYGIFT.MAP_PrgSectionID s ON
 			isnull(s.VersionID,'00000000-0000-0000-0000-000000000000') = isnull(i.VersionDestID,'FFFFFFFF-FFFF-FFFF-FFFF-FFFFFFFFFFFF') AND
 			s.DefID = d.ID LEFT JOIN
 		x_LEGACYGIFT.MAP_PrgSectionID_NonVersioned nvm ON
-			nvm.ItemID = i.ItemDestID AND
+			nvm.ItemID = i.DestID AND
 			nvm.DefID = d.ID left join 
-		x_LEGACYGIFT.Transform_IepServices tsvc on i.ItemDestID = tsvc.ItemID
+		x_LEGACYGIFT.Transform_IepServices tsvc on i.DestID = tsvc.ItemID
 GO

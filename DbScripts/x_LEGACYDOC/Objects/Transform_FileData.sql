@@ -43,6 +43,7 @@ from (
 		d.StudentRefID,
 		d.StudentLocalID,
 		DestID = coalesce(t.ID, m.DestID),
+		Label = replace(d.DocumentType+' - '+isnull(convert(varchar, d.DocumentDate,101), ''), 'document/', ''),
 		OriginalName = d.DocumentType+' - '+isnull(convert(varchar, d.DocumentDate,101), ''),
 		ReceivedDate = GETDATE(),
 		d.MimeType,
@@ -61,6 +62,7 @@ from (
 		d.StudentRefID,
 		d.StudentLocalID,
 		DestID = coalesce(t.ID, m.DestID),
+		Label = replace(d.DocumentType+' - '+isnull(convert(varchar, d.DocumentDate,101), ''), 'document/', ''),
 		OriginalName = d.DocumentType+' - '+isnull(convert(varchar, d.DocumentDate,101), ''),
 		ReceivedDate = GETDATE(),
 		d.MimeType,
@@ -80,6 +82,7 @@ from (
 		d.StudentRefID,
 		d.StudentLocalID,
 		DestID = coalesce(t.ID, m.DestID),
+		Label = replace(d.DocumentType+' - '+isnull(convert(varchar, d.DocumentDate,101), ''), 'document/', ''),
 		OriginalName = d.DocumentType+' - '+isnull(convert(varchar, d.DocumentDate,101), ''),
 		ReceivedDate = GETDATE(),
 		d.MimeType,
@@ -96,9 +99,3 @@ x_LEGACYDOC.AllDocs a on
 	x.DocumentType = a.DocumentType and
 	x.OriginalName = a.DocumentType+' - '+isnull(convert(varchar, a.DocumentDate,101), '') 
 go
-
-
-
-
-
-
