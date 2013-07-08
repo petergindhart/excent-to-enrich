@@ -52,7 +52,7 @@ select
   Sequence = isnull(s.Sequence, t.Sequence) -- select * 
 from 	LEGACYSPED.DistrictSchoolLeadingZeros dz cross join
 	LEGACYSPED.District k left join 
-	dbo.OrgUnit s on k.DistrictCode = right(dz.Zeros+isnull(s.Number,''), len(dz.zeros)) left join -- DistrictCode and Number are synonymous with StateCode
+	dbo.OrgUnit s on right(dz.Zeros+isnull(k.DistrictCode,''), len(dz.zeros))  = right(dz.Zeros+isnull(s.Number,''), len(dz.zeros)) left join -- DistrictCode and Number are synonymous with StateCode
 	LEGACYSPED.MAP_OrgUnitID m on k.DistrictCode = m.DistrictCode left join 
 	dbo.OrgUnit t on m.DestID = t.ID
 where dz.Entity = 'District' 
