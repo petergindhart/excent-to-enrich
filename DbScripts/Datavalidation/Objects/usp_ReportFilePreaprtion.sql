@@ -13,30 +13,30 @@ DECLARE @sql nvarchar(max)
 --DECLARE @reportpath varchar(500)
 --SET @dbname= 'Enrich_DCB8_SC_Chesterfield'
 --SET @reportpath ='C:\ValidationSummaryReport'
-SET @sql = 'EXEC Xp_cmdShell ''bcp "select tablename+''''-''''+errormessage +''''=''''+ convert(varchar(10),NumberOfRecords) from '+@dbname+'.Datavalidation.vw_ValidationSummaryreport order by sequence,tablename,errormessage " queryout "'+@reportpath+'\ValidationSummaryReport.txt"  -T -c -t,''' 
+SET @sql = 'EXEC Xp_cmdShell ''bcp "select ''''""''''+tablename+''''""'''',''''""''''+errormessage +''''""'''',''''""''''+ convert(varchar(10),NumberOfRecords)+''''""'''' from '+@dbname+'.Datavalidation.vw_ValidationSummaryreport order by sequence,tablename,errormessage " queryout "'+@reportpath+'\ValidationSummaryReport.csv"  -T -c -t,''' 
 --print @sql
 EXEC sp_executesql @stmt=@sql
-SET @sql = 'EXEC Xp_cmdShell ''bcp "SELECT CONVERT(VARCHAR(10),LineNumber)+'''' - ''''+ errormessage +''''- "''''+Line+''''" '''' FROM '+@dbname+'.Datavalidation.Validationreport WHERE TableName= ''''SelectLists'''' order by CONVERT(int,LineNumber)" queryout "'+@reportpath+'\ValidationReport_SelectLists.txt"  -T -c -t,''' 
+SET @sql = 'EXEC Xp_cmdShell ''bcp "SELECT ''''""''''+CONVERT(VARCHAR(10),LineNumber)+''''""'''',''''""''''+errormessage+''''""'''',''''""''''+Line+''''""'''' FROM '+@dbname+'.Datavalidation.Validationreport WHERE TableName= ''''SelectLists'''' order by CONVERT(int,LineNumber)" queryout "'+@reportpath+'\ValidationReport_SelectLists.csv"  -T -c -t,''' 
 EXEC sp_executesql @stmt=@sql
-SET @sql = 'EXEC Xp_cmdShell ''bcp "SELECT CONVERT(VARCHAR(10),LineNumber)+'''' - ''''+ errormessage +''''- "''''+Line+''''" '''' FROM '+@dbname+'.Datavalidation.Validationreport WHERE TableName= ''''District'''' order by CONVERT(int,LineNumber)" queryout "'+@reportpath+'\ValidationReport_District.txt"  -T -c -t,''' 
+SET @sql = 'EXEC Xp_cmdShell ''bcp "SELECT ''''""''''+CONVERT(VARCHAR(10),LineNumber)+''''""'''',''''""''''+errormessage+''''""'''',''''""''''+Line+''''""'''' FROM '+@dbname+'.Datavalidation.Validationreport WHERE TableName= ''''District'''' order by CONVERT(int,LineNumber)" queryout "'+@reportpath+'\ValidationReport_District.csv"  -T -c -t,''' 
 EXEC sp_executesql @stmt=@sql
-SET @sql = 'EXEC Xp_cmdShell ''bcp "SELECT CONVERT(VARCHAR(10),LineNumber)+'''' - ''''+ errormessage +''''- "''''+Line+''''" '''' FROM '+@dbname+'.Datavalidation.Validationreport WHERE TableName= ''''School'''' order by CONVERT(int,LineNumber)" queryout "'+@reportpath+'\ValidationReport_School.txt"  -T -c -t,''' 
+SET @sql = 'EXEC Xp_cmdShell ''bcp "SELECT ''''""''''+CONVERT(VARCHAR(10),LineNumber)+''''""'''',''''""''''+errormessage+''''""'''',''''""''''+Line+''''""'''' FROM '+@dbname+'.Datavalidation.Validationreport WHERE TableName= ''''School'''' order by CONVERT(int,LineNumber)" queryout "'+@reportpath+'\ValidationReport_School.csv"  -T -c -t,''' 
 EXEC sp_executesql @stmt=@sql
-SET @sql = 'EXEC Xp_cmdShell ''bcp "SELECT CONVERT(VARCHAR(10),LineNumber)+'''' - ''''+ errormessage +''''- "''''+Line+''''" '''' FROM '+@dbname+'.Datavalidation.Validationreport WHERE TableName= ''''Student'''' order by CONVERT(int,LineNumber)" queryout "'+@reportpath+'\ValidationReport_Student.txt"  -T -c -t,''' 
+SET @sql = 'EXEC Xp_cmdShell ''bcp "SELECT ''''""''''+CONVERT(VARCHAR(10),LineNumber)+''''""'''',''''""''''+errormessage+''''""'''',''''""''''+Line+''''""'''' FROM '+@dbname+'.Datavalidation.Validationreport WHERE TableName= ''''Student'''' order by CONVERT(int,LineNumber)" queryout "'+@reportpath+'\ValidationReport_Student.csv"  -T -c -t,''' 
 EXEC sp_executesql @stmt=@sql
-SET @sql = 'EXEC Xp_cmdShell ''bcp "SELECT CONVERT(VARCHAR(10),LineNumber)+'''' - ''''+ errormessage +''''- "''''+Line+''''" '''' FROM '+@dbname+'.Datavalidation.Validationreport WHERE TableName= ''''IEP'''' order by CONVERT(int,LineNumber)" queryout "'+@reportpath+'\ValidationReport_IEP.txt"  -T -c -t,''' 
+SET @sql = 'EXEC Xp_cmdShell ''bcp "SELECT ''''""''''+CONVERT(VARCHAR(10),LineNumber)+''''""'''',''''""''''+errormessage+''''""'''',''''""''''+Line+''''""'''' FROM '+@dbname+'.Datavalidation.Validationreport WHERE TableName= ''''IEP'''' order by CONVERT(int,LineNumber)" queryout "'+@reportpath+'\ValidationReport_IEP.csv"  -T -c -t,''' 
 EXEC sp_executesql @stmt=@sql
-SET @sql = 'EXEC Xp_cmdShell ''bcp "SELECT CONVERT(VARCHAR(10),LineNumber)+'''' - ''''+ errormessage +''''- "''''+Line+''''" '''' FROM '+@dbname+'.Datavalidation.Validationreport WHERE TableName= ''''SpedStaffMember'''' order by CONVERT(int,LineNumber)" queryout "'+@reportpath+'\ValidationReport_SpedStaffMember.txt"  -T -c -t,''' 
+SET @sql = 'EXEC Xp_cmdShell ''bcp "SELECT ''''""''''+CONVERT(VARCHAR(10),LineNumber)+''''""'''',''''""''''+errormessage+''''""'''',''''""''''+Line+''''""'''' FROM '+@dbname+'.Datavalidation.Validationreport WHERE TableName= ''''SpedStaffMember'''' order by CONVERT(int,LineNumber)" queryout "'+@reportpath+'\ValidationReport_SpedStaffMember.csv"  -T -c -t,''' 
 EXEC sp_executesql @stmt=@sql
-SET @sql = 'EXEC Xp_cmdShell ''bcp "SELECT CONVERT(VARCHAR(10),LineNumber)+'''' - ''''+ errormessage +''''- "''''+Line+''''" '''' FROM '+@dbname+'.Datavalidation.Validationreport WHERE TableName= ''''Service'''' order by CONVERT(int,LineNumber)" queryout "'+@reportpath+'\ValidationReport_Service.txt"  -T -c -t,''' 
+SET @sql = 'EXEC Xp_cmdShell ''bcp "SELECT ''''""''''+CONVERT(VARCHAR(10),LineNumber)+''''""'''',''''""''''+errormessage+''''""'''',''''""''''+Line+''''""'''' FROM '+@dbname+'.Datavalidation.Validationreport WHERE TableName= ''''Service'''' order by CONVERT(int,LineNumber)" queryout "'+@reportpath+'\ValidationReport_Service.csv"  -T -c -t,''' 
 EXEC sp_executesql @stmt=@sql
-SET @sql = 'EXEC Xp_cmdShell ''bcp "SELECT CONVERT(VARCHAR(10),LineNumber)+'''' - ''''+ errormessage +''''- "''''+Line+''''" '''' FROM '+@dbname+'.Datavalidation.Validationreport WHERE TableName= ''''Goal'''' order by CONVERT(int,LineNumber)" queryout "'+@reportpath+'\ValidationReport_Goal.txt"  -T -c -t,''' 
+SET @sql = 'EXEC Xp_cmdShell ''bcp "SELECT ''''""''''+CONVERT(VARCHAR(10),LineNumber)+''''""'''',''''""''''+errormessage+''''""'''',''''""''''+Line+''''""'''' FROM '+@dbname+'.Datavalidation.Validationreport WHERE TableName= ''''Goal'''' order by CONVERT(int,LineNumber)" queryout "'+@reportpath+'\ValidationReport_Goal.csv"  -T -c -t,''' 
 EXEC sp_executesql @stmt=@sql
-SET @sql = 'EXEC Xp_cmdShell ''bcp "SELECT CONVERT(VARCHAR(10),LineNumber)+'''' - ''''+ errormessage +''''- "''''+Line+''''" '''' FROM '+@dbname+'.Datavalidation.Validationreport WHERE TableName= ''''Objective'''' order by CONVERT(int,LineNumber)" queryout "'+@reportpath+'\ValidationReport_Objective.txt"  -T -c -t,''' 
+SET @sql = 'EXEC Xp_cmdShell ''bcp "SELECT ''''""''''+CONVERT(VARCHAR(10),LineNumber)+''''""'''',''''""''''+errormessage+''''""'''',''''""''''+Line+''''""'''' FROM '+@dbname+'.Datavalidation.Validationreport WHERE TableName= ''''Objective'''' order by CONVERT(int,LineNumber)" queryout "'+@reportpath+'\ValidationReport_Objective.csv"  -T -c -t,''' 
 EXEC sp_executesql @stmt=@sql
-SET @sql = 'EXEC Xp_cmdShell ''bcp "SELECT CONVERT(VARCHAR(10),LineNumber)+'''' - ''''+ errormessage +''''- "''''+Line+''''" '''' FROM '+@dbname+'.Datavalidation.Validationreport WHERE TableName= ''''TeamMember'''' order by CONVERT(int,LineNumber)" queryout "'+@reportpath+'\ValidationReport_TeamMember.txt"  -T -c -t,''' 
+SET @sql = 'EXEC Xp_cmdShell ''bcp "SELECT ''''""''''+CONVERT(VARCHAR(10),LineNumber)+''''""'''',''''""''''+errormessage+''''""'''',''''""''''+Line+''''""'''' FROM '+@dbname+'.Datavalidation.Validationreport WHERE TableName= ''''TeamMember'''' order by CONVERT(int,LineNumber)" queryout "'+@reportpath+'\ValidationReport_TeamMember.csv"  -T -c -t,''' 
 EXEC sp_executesql @stmt=@sql
-SET @sql = 'EXEC Xp_cmdShell ''bcp "SELECT CONVERT(VARCHAR(10),LineNumber)+'''' - ''''+ errormessage +''''- "''''+Line+''''" '''' FROM '+@dbname+'.Datavalidation.Validationreport WHERE TableName= ''''StaffSchool'''' order by CONVERT(int,LineNumber)" queryout "'+@reportpath+'\ValidationReport_StaffSchool.txt"  -T -c -t,''' 
+SET @sql = 'EXEC Xp_cmdShell ''bcp "SELECT ''''""''''+CONVERT(VARCHAR(10),LineNumber)+''''""'''',''''""''''+errormessage+''''""'''',''''""''''+Line+''''""'''' FROM '+@dbname+'.Datavalidation.Validationreport WHERE TableName= ''''StaffSchool'''' order by CONVERT(int,LineNumber)" queryout "'+@reportpath+'\ValidationReport_StaffSchool.csv"  -T -c -t,''' 
 EXEC sp_executesql @stmt=@sql
 END
 
