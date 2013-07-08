@@ -141,13 +141,13 @@ WHILE @Count<=@MaxCount
     BEGIN
     SET @Txtlookup=@Txtlookup+' AND st.'+(SELECT columnname FROM @tbllookup WHERE ID= @Count)+' IN ( SELECT '+(SELECT lookupcolumn FROM @tbllookup WHERE ID= @Count)+' FROM Datavalidation.'+(SELECT lookuptable FROM @tbllookup WHERE ID= @Count)+' WHERE Type = '''+ (SELECT lookuptype FROM @tbllookup WHERE ID= @Count)+''')'
     END
-    ELSE IF ((select isrequired from @tbllookup WHERE ID=@Count)= 0 and (select lookuptable from @tbllookup WHERE ID=@Count) != 'SelectLists')
+     ELSE IF ((select isrequired from @tbllookup WHERE ID=@Count)= 0 and (select lookuptable from @tbllookup WHERE ID=@Count) != 'SelectLists')
     BEGIN
-    SET @Txtlookup=@Txtlookup+' AND (st.'+(SELECT columnname FROM @tbllookup WHERE ID= @Count)+' IN ( SELECT '+(SELECT lookupcolumn FROM @tbllookup WHERE ID= @Count)+' FROM Datavalidation.'+(SELECT lookuptable FROM @tbllookup WHERE ID= @Count)+' OR st.'+(SELECT columnname FROM @tbllookup WHERE ID= @Count)+' IS NULL)'
+    SET @Txtlookup=@Txtlookup+'  AND (st.'+(SELECT columnname FROM @tbllookup WHERE ID= @Count)+' IN ( SELECT '+(SELECT lookupcolumn FROM @tbllookup WHERE ID= @Count)+' FROM Datavalidation.'+(SELECT lookuptable FROM @tbllookup WHERE ID= @Count)+') OR st.'+(SELECT columnname FROM @tbllookup WHERE ID= @Count)+' IS NULL)'
     END
     ELSE IF ((select isrequired from @tbllookup WHERE ID=@Count)= 0 and (select lookuptable from @tbllookup WHERE ID=@Count) = 'SelectLists')
     BEGIN
-    SET @Txtlookup=@Txtlookup+' AND st.'+(SELECT columnname FROM @tbllookup WHERE ID= @Count)+' IN ( SELECT '+(SELECT lookupcolumn FROM @tbllookup WHERE ID= @Count)+' FROM Datavalidation.'+(SELECT lookuptable FROM @tbllookup WHERE ID= @Count)+' WHERE Type = '''+ (SELECT lookuptype FROM @tbllookup WHERE ID= @Count)+'''OR st.'+(SELECT columnname FROM @tbllookup WHERE ID= @Count)+' IS NULL)'
+    SET @Txtlookup=@Txtlookup+'AND (st.'+(SELECT columnname FROM @tbllookup WHERE ID= @Count)+' IN ( SELECT '+(SELECT lookupcolumn FROM @tbllookup WHERE ID= @Count)+' FROM Datavalidation.'+(SELECT lookuptable FROM @tbllookup WHERE ID= @Count)+' WHERE Type = '''+ (SELECT lookuptype FROM @tbllookup WHERE ID= @Count)+''') OR st.'+(SELECT columnname FROM @tbllookup WHERE ID= @Count)+' IS NULL)'
     END
     SET @Count=@Count+1
     END
@@ -199,8 +199,8 @@ WHILE @Count<=@MaxCount
     END
 --SELECT @Txtunique AS Txtq
 
-SET @sqlvalidated = @sqlvalidated +@Txtunique+@Txtfkrel +@TxtScAndDt+@Txtdatalength+@Txtreq+@Txtflag+@Txtdatatype
---print @sqlvalidated
+SET @sqlvalidated = @sqlvalidated +@Txtunique+@Txtfkrel +@TxtScAndDt+@Txtdatalength+@Txtreq+@Txtflag+@Txtdatatype +@Txtlookup
+print @sqlvalidated
 
 EXEC (@sqlvalidated)
 --EXEC sp_executesql @stmt = @sqlvalidated
