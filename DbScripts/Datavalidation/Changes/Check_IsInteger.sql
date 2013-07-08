@@ -1,7 +1,7 @@
-IF OBJECT_ID('Datavalidation.udf_IsInteger') IS NOT NULL
-  DROP FUNCTION Datavalidation.udf_IsInteger
+IF OBJECT_ID('x_DATAVALIDATION.udf_IsInteger') IS NOT NULL
+  DROP FUNCTION x_DATAVALIDATION.udf_IsInteger
 GO
-CREATE FUNCTION Datavalidation.udf_IsInteger(@Value VARCHAR(8))
+CREATE FUNCTION x_DATAVALIDATION.udf_IsInteger(@Value VARCHAR(8))
   RETURNS BIT
     AS
     BEGIN
