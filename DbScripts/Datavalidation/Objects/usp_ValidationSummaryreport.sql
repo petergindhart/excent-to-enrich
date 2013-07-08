@@ -1,13 +1,13 @@
-IF EXISTS (SELECT 1 FROM sys.schemas s join sys.objects o on s.schema_id = o.schema_id where s.name = 'Datavalidation' and o.name = 'Summaryreport')
-DROP PROC Datavalidation.Summaryreport
+IF EXISTS (SELECT 1 FROM sys.schemas s join sys.objects o on s.schema_id = o.schema_id where s.name = 'x_DATAVALIDATION' and o.name = 'Summaryreport')
+DROP PROC x_DATAVALIDATION.Summaryreport
 GO
 
-CREATE PROC Datavalidation.Summaryreport 
+CREATE PROC x_DATAVALIDATION.Summaryreport 
 AS
 BEGIN
 
-INSERT Datavalidation.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
+INSERT x_DATAVALIDATION.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
 SELECT TableName,ErrorMessage,COUNT(*) as NoofRecords 
-FROM Datavalidation.ValidationReport Group by TableName,ErrorMessage
+FROM x_DATAVALIDATION.ValidationReport Group by TableName,ErrorMessage
 
 END

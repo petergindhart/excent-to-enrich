@@ -11,8 +11,8 @@ DECLARE @VC3ETL_ExtractTable TABLE (ID uniqueidentifier, ExtractDatabase uniquei
 
 DECLARE @VC3ETL_LoadTable TABLE (ID uniqueidentifier, ExtractDatabase uniqueidentifier, Sequence int, SourceTable varchar(100), DestTable varchar(100), HasMapTable bit, MapTable varchar(100), KeyField varchar(250), DeleteKey varchar(50), ImportType int, DeleteTrans bit, UpdateTrans bit, InsertTrans bit, Enabled bit, SourceTableFilter varchar(1000), DestTableFilter varchar(1000), PurgeCondition varchar(1000), KeepMappingAfterDelete bit, StartNewTransaction bit, LastLoadDate datetime, MapTableMapID varchar(250), Comments varchar(1000))
 
-INSERT INTO @VC3ETL_LoadTable VALUES ('3FF708A9-9EB6-47D4-8264-68595A1C271D', 'FCDC15CE-526B-46FD-83DE-AE86B3BC7F50', 1, 'Datavalidation.ExtractData_FlatFile ''E:\SC\Test''', NULL, 0, NULL, NULL, NULL, 4, 0, 0, 0, 1, NULL, NULL, NULL, 0, 0, '12/17/2012 10:13:21 AM', NULL, NULL)
---INSERT INTO @VC3ETL_LoadTable VALUES ('4C41D579-9754-4B20-AE06-34492F73A04B', 'FCDC15CE-526B-46FD-83DE-AE86B3BC7F50', 2, 'Datavalidation.ReportFile_Preparation ''Enrich_DCB8_SC_Chesterfield'',''C:\ValidationSummaryReport''', NULL, 0, NULL, NULL, NULL, 4, 0, 0, 0, 1, NULL, NULL, NULL, 0, 0, '12/17/2012 10:13:21 AM', NULL, NULL)
+INSERT INTO @VC3ETL_LoadTable VALUES ('3FF708A9-9EB6-47D4-8264-68595A1C271D', 'FCDC15CE-526B-46FD-83DE-AE86B3BC7F50', 1, 'x_DATAVALIDATIONExtractData_FlatFile', NULL, 0, NULL, NULL, NULL, 4, 0, 0, 0, 1, NULL, NULL, NULL, 0, 0, '12/17/2012 10:13:21 AM', NULL, NULL)
+--INSERT INTO @VC3ETL_LoadTable VALUES ('4C41D579-9754-4B20-AE06-34492F73A04B', 'FCDC15CE-526B-46FD-83DE-AE86B3BC7F50', 2, 'x_DATAVALIDATIONReportFile_Preparation ''Enrich_DCB8_SC_Chesterfield'',''C:\ValidationSummaryReport''', NULL, 0, NULL, NULL, NULL, 4, 0, 0, 0, 1, NULL, NULL, NULL, 0, 0, '12/17/2012 10:13:21 AM', NULL, NULL)
 -- refactor 
 delete Destination 
 from VC3ETL.ExtractTable Destination left join 

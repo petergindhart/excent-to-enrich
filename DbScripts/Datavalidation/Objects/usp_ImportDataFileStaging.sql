@@ -1,8 +1,8 @@
-IF EXISTS (select 1 from sys.schemas s join sys.objects o on s.schema_id = o.schema_id where s.name = 'Datavalidation' and o.name = 'ImportDatafileToStaging')
-DROP PROC Datavalidation.ImportDatafileToStaging
+IF EXISTS (select 1 from sys.schemas s join sys.objects o on s.schema_id = o.schema_id where s.name = 'x_DATAVALIDATION' and o.name = 'ImportDatafileToStaging')
+DROP PROC x_DATAVALIDATION.ImportDatafileToStaging
 GO
 
-CREATE PROC Datavalidation.ImportDatafileToStaging
+CREATE PROC x_DATAVALIDATION.ImportDatafileToStaging
 (
 @path nvarchar(max),
 @tablename varchar(50)
@@ -64,9 +64,9 @@ BEGIN TRY
         END
         SET @col = @col + @tempstr + ' nvarchar(max)'
 
-		SET @table = 'IF Object_id(''Datavalidation.'+@stagingtablename+''') IS NOT NULL 
-					  DROP TABLE Datavalidation.'+@stagingtablename +'
-					  CREATE TABLE Datavalidation.'+@stagingtablename+'(Line_No INT, ' +@col+ ')'
+		SET @table = 'IF Object_id(''x_DATAVALIDATION.'+@stagingtablename+''') IS NOT NULL 
+					  DROP TABLE x_DATAVALIDATION.'+@stagingtablename +'
+					  CREATE TABLE x_DATAVALIDATION.'+@stagingtablename+'(Line_No INT, ' +@col+ ')'
 
       -- print @table
 
@@ -110,13 +110,13 @@ SELECT REPLACE(row,'''','''''') as row FROM #flatfile
        
 SELECT LINE_NO,REPLACE(row,'''','''''') as row INTO #flatfile_validrec FROM #flatfile_LineNo WHERE LEN(row) - LEN(REPLACE(row, '|', '')) = @no_of_field
 
-INSERT Datavalidation.ValidationSummaryReport
+INSERT x_DATAVALIDATION.ValidationSummaryReport
 SELECT @tablename,'Total Records',COUNT(*)as cnt FROM #flatfile
 
-INSERT Datavalidation.ValidationReport
+INSERT x_DATAVALIDATION.ValidationReport
 SELECT @tablename,'Number of fields in the row does not match with header',LINE_NO,REPLACE(row,'''','''''') as row FROM #flatfile_LineNo WHERE LEN(row) - LEN(REPLACE(row, '|', '')) != @no_of_field
 
-INSERT Datavalidation.ValidationSummaryReport 
+INSERT x_DATAVALIDATION.ValidationSummaryReport 
 SELECT @tablename, 'Number of fields in the row does not match with header', COUNT(*)
 FROM #flatfile_LineNo WHERE LEN(row) - LEN(REPLACE(row, '|', '')) != @no_of_field
  --select * from #flatfile_validrec
@@ -161,7 +161,7 @@ WHILE CHARINDEX('|',@linestr) > 0
 		--print @rowrec
 		--print @line_no
 		SET @rowrec = REPLACE(@rowrec,',''''',',NULL')
-		SET @sql = 'INSERT Datavalidation.'+@stagingtablename+' SELECT '+cast(@line_no as varchar(5))+','+@rowrec
+		SET @sql = 'INSERT x_DATAVALIDATION.'+@stagingtablename+' SELECT '+cast(@line_no as varchar(5))+','+@rowrec
 	   EXEC (@sql) 
 		--print @sql
 FETCH NEXT FROM curInsertcsv INTO @line_no,@line

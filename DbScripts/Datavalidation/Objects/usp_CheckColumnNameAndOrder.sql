@@ -1,8 +1,8 @@
-IF EXISTS (SELECT 1 from sys.schemas s join sys.objects o on s.schema_id = o.schema_id where s.name = 'Datavalidation' and o.name = 'CheckColumnNameAndOrder')
-DROP PROC Datavalidation.CheckColumnNameAndOrder
+IF EXISTS (SELECT 1 from sys.schemas s join sys.objects o on s.schema_id = o.schema_id where s.name = 'x_DATAVALIDATION' and o.name = 'CheckColumnNameAndOrder')
+DROP PROC x_DATAVALIDATION.CheckColumnNameAndOrder
 GO
 
-CREATE PROC Datavalidation.CheckColumnNameAndOrder
+CREATE PROC x_DATAVALIDATION.CheckColumnNameAndOrder
 (
 @tablename varchar(50)
 )
@@ -63,12 +63,12 @@ DECLARE @sumsql NVARCHAR(MAX)
 IF EXISTS (SELECT 1 FROM @format)
 	
 	BEGIN
-	SET @sql = 'INSERT Datavalidation.ValidationReport (TableName,ErrorMessage,LineNumber,Line)
+	SET @sql = 'INSERT x_DATAVALIDATION.ValidationReport (TableName,ErrorMessage,LineNumber,Line)
 	SELECT  '''+@tablename+''', ''The issue is in ''+ columnname + '' Field or in Field Order in the '+@tablename+'. Please correct this and check this column exist in specification'',''0'',''''
 	FROM #ValidationReport'
 	EXEC sp_executesql @stmt=@sql 
 	
-	SET @sumsql = 'INSERT Datavalidation.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
+	SET @sumsql = 'INSERT x_DATAVALIDATION.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
 	SELECT  '''+@tablename+''', ''The issue is in ''+ columnname + '' Field or in Field Order in the '+@tablename+'.'',''1''
 	FROM #ValidationReport'
 	EXEC sp_executesql @stmt=@sumsql 
@@ -78,7 +78,7 @@ IF EXISTS (SELECT 1 FROM @format)
 ELSE
 
     BEGIN
-SET @sql = 'INSERT Datavalidation.ValidationReport (TableName,ErrorMessage,LineNumber,Line) SELECT '''+@tablename+''', ''Field Names and Fields order are correct order in the '+@tablename+'.csv'',''0'','''''
+SET @sql = 'INSERT x_DATAVALIDATION.ValidationReport (TableName,ErrorMessage,LineNumber,Line) SELECT '''+@tablename+''', ''Field Names and Fields order are correct order in the '+@tablename+'.csv'',''0'','''''
 	EXEC sp_executesql @stmt=@sql 
 	RETURN 1
 	END
