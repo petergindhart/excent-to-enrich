@@ -3,15 +3,18 @@ DROP PROC Datavalidation.ExtractData_FlatFile
 GO
 
 CREATE PROC Datavalidation.ExtractData_FlatFile
-(
-@datafilelocationpath VARCHAR(100)
+--(
+--@datafilelocationpath VARCHAR(100)
 --,@dbname VARCHAR(150)
 --,@reportfilelocationpath VARCHAR(150)
-) 
+--) 
 AS
 BEGIN
 --declare @datafilelocationpath VARCHAR(100)
 DECLARE @sql NVARCHAR(MAX)
+DECLARE @datafilelocationpath VARCHAR(100)
+SELECT @datafilelocationpath = LocalCopyPath FROM VC3ETL.FlatFileExtractDatabase WHERE ID = 'FCDC15CE-526B-46FD-83DE-AE86B3BC7F50'
+print @datafilelocationpath
 --set @datafilelocationpath ='E:\SC\Test'
 --print @sql
 EXEC sp_executesql @stmt=@sql
