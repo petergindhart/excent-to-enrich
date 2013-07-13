@@ -20,6 +20,7 @@ GO
 
 if not exists (select 1 from sys.indexes where name = 'IX_x_LEGACYDOC_MAP_FileDataID_StudentRefID')
 create index IX_x_LEGACYDOC_MAP_FileDataID_StudentRefID on x_LEGACYDOC.MAP_FileDataID (StudentRefID)
+go
 
 IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'x_LEGACYDOC.Transform_FileData') AND OBJECTPROPERTY(id, N'IsView') = 1)
 DROP VIEW x_LEGACYDOC.Transform_FileData
@@ -34,68 +35,90 @@ AS
 	in 504, Gifted or Sped, we attach documents for them.
 
 */
-select x.*, a.Content
-from (
+
+with CTE_ProgramDocs 
+as
+(
 	-- SPED
 	SELECT 
+		ProgramIndex = cast(0 as int),
 		d.DocumentRefID,
 		d.DocumentType,
 		d.StudentRefID,
 		d.StudentLocalID,
+		StudentID = s.DestID,
 		DestID = coalesce(t.ID, m.DestID),
-		Label = replace(d.DocumentType+' - '+isnull(convert(varchar, d.DocumentDate,101), ''), 'document/', ''),
-		OriginalName = d.DocumentType+' - '+isnull(convert(varchar, d.DocumentDate,101), ''),
+		Label = d.DocumentType+' - '+isnull(convert(varchar, d.DocumentDate,101), ''),
+		OriginalName = d.DocumentType+' - '+isnull(convert(varchar, d.DocumentDate,101), '')+ '.'+replace(d.MimeType, 'document/',''),
 		ReceivedDate = GETDATE(),
 		d.MimeType,
 	-- 	d.Content,
 		isTemporary = 0
 	FROM 
 		x_LEGACYDOC.AllDocs d JOIN
-		LEGACYSPED.IEP s ON d.StudentRefID = s.StudentRefID LEFT JOIN 
+		LEGACYSPED.MAP_StudentRefIDAll s ON d.StudentRefID = s.StudentRefID LEFT JOIN 
+		dbo.Student stu on s.DestID = stu.ID LEFT JOIN -- ensure the student still exists
 		x_LEGACYDOC.MAP_FileDataID m ON d.DocumentRefID = m.DocumentRefID and d.DocumentType = m.DocumentType left join
 		dbo.FileData t ON m.DestID = t.ID
-	union 
-	-- 504
+	union all
+	-- GIFTED
 	SELECT 
+		ProgramIndex = cast(1 as int),
 		d.DocumentRefID,
 		d.DocumentType,
 		d.StudentRefID,
 		d.StudentLocalID,
+		i.StudentID,
 		DestID = coalesce(t.ID, m.DestID),
-		Label = replace(d.DocumentType+' - '+isnull(convert(varchar, d.DocumentDate,101), ''), 'document/', ''),
-		OriginalName = d.DocumentType+' - '+isnull(convert(varchar, d.DocumentDate,101), ''),
+		Label = d.DocumentType+' - '+isnull(convert(varchar, d.DocumentDate,101), ''),
+		OriginalName = d.DocumentType+' - '+isnull(convert(varchar, d.DocumentDate,101), '')+ '.'+replace(d.MimeType, 'document/',''),
+		ReceivedDate = GETDATE(),
+		d.MimeType,
+	-- 	d.Content,
+		isTemporary = 0
+	FROM 
+		x_LEGACYDOC.AllDocs d JOIN
+--		x_LEGACYGIFT.GiftedStudent s ON d.StudentRefID = s.StudentRefID LEFT JOIN 
+		x_LEGACYGIFT.MAP_EPStudentRefID s ON d.StudentRefID = s.StudentRefID JOIN 
+		dbo.PrgItem i on s.DestID = i.id left join -- this will be the gifted plan
+		x_LEGACYDOC.MAP_FileDataID m ON d.DocumentRefID = m.DocumentRefID and d.DocumentType = m.DocumentType left join
+		dbo.FileData t ON m.DestID = t.ID
+--where d.StudentRefID = 'D22C016A-E44E-44C8-BB6B-F63A966CBF9B' -- select * from Student where ID = '32CF0AC0-58DA-4DD0-AD1C-FE32006FF016'
+	union all
+	-- 504
+	SELECT 
+		ProgramIndex = cast(2 as int),
+		d.DocumentRefID,
+		d.DocumentType,
+		d.StudentRefID,
+		d.StudentLocalID,
+		StudentID = stu.ID, -- see note in the FROM clause
+		DestID = coalesce(t.ID, m.DestID),
+		Label = d.DocumentType+' - '+isnull(convert(varchar, d.DocumentDate,101), ''),
+		OriginalName = d.DocumentType+' - '+isnull(convert(varchar, d.DocumentDate,101), '')+ '.'+replace(d.MimeType, 'document/',''),
 		ReceivedDate = GETDATE(),
 		d.MimeType,
 	--	d.Content,
 		isTemporary = 0 
 	FROM 
 		x_LEGACYDOC.AllDocs d JOIN 
-		x_LEGACY504.Student504Dates s on d.StudentLocalID = s.StudentNumber JOIN 
+--		x_LEGACY504.Student504Dates s on d.StudentLocalID = s.StudentNumber JOIN 
+		x_LEGACY504.MAP_504data s on d.StudentLocalID = s.StudentNumber JOIN ------------------------- note:  RETHINK THIS - when a BOCES (or any other) type district has repeated LocalIDs, this will not work
 		dbo.Student stu on s.StudentNumber = stu.Number JOIN
 		x_LEGACYDOC.MAP_FileDataID m ON d.DocumentRefID = m.DocumentRefID and d.DocumentType = m.DocumentType left join
 		dbo.FileData t ON m.DestID = t.ID
-	union 
-	-- GIFTED
-	SELECT 
-		d.DocumentRefID,
-		d.DocumentType,
-		d.StudentRefID,
-		d.StudentLocalID,
-		DestID = coalesce(t.ID, m.DestID),
-		Label = replace(d.DocumentType+' - '+isnull(convert(varchar, d.DocumentDate,101), ''), 'document/', ''),
-		OriginalName = d.DocumentType+' - '+isnull(convert(varchar, d.DocumentDate,101), ''),
-		ReceivedDate = GETDATE(),
-		d.MimeType,
-	-- 	d.Content,
-		isTemporary = 0
-	FROM 
-		x_LEGACYDOC.AllDocs d JOIN
-		x_LEGACYGIFT.GiftedStudent s ON d.StudentRefID = s.StudentRefID LEFT JOIN 
-		x_LEGACYDOC.MAP_FileDataID m ON d.DocumentRefID = m.DocumentRefID and d.DocumentType = m.DocumentType left join
-		dbo.FileData t ON m.DestID = t.ID
-) x join 
-x_LEGACYDOC.AllDocs a on 
-	x.DocumentRefID = a.DocumentRefID and
-	x.DocumentType = a.DocumentType and
-	x.OriginalName = a.DocumentType+' - '+isnull(convert(varchar, a.DocumentDate,101), '') 
+)
+
+select pd.*, a.Content
+from CTE_ProgramDocs pd
+join x_LEGACYDOC.AllDocs a on 
+	pd.DocumentRefID = a.DocumentRefID and
+	pd.DocumentType = a.DocumentType and
+	pd.OriginalName = a.DocumentType+' - '+isnull(convert(varchar, a.DocumentDate,101), '')+ '.'+replace(a.MimeType, 'document/','')
+where pd.ProgramIndex = (
+	select min(b.ProgramIndex)
+	from CTE_ProgramDocs b 
+	where pd.DocumentRefID = b.DocumentRefID and pd.DocumentType = b.DocumentType 
+	)
 go
+
