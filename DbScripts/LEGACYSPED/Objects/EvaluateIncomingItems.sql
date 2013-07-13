@@ -172,7 +172,7 @@ from
 	LEGACYSPED.Transform_Student ts on s.StudentRefID = ts.StudentRefID left join -- does not include those students that were imported previously, but not in new data set
 
 -- EXISTING INVOLVEMENT (ACTIVE).  either created through ETL or UI.  consider isnull(xcmp.DestID, xp.ID).  check for involvement date range
-	PrgInvolvement xp on ts.DestID = xp.StudentID and 
+	PrgInvolvement xp on ts.DestID = xp.StudentID and xp.ProgramID = 'F98A8EF2-98E2-4CAC-95AF-D7D89EF7F80C' and 
 		isnull(xp.EndDate, DATEADD(DAY, DATEDIFF(DAY, 0, getdate()), 1)) > DATEADD(DAY, DATEDIFF(DAY, 0, getdate()), 0) left join  -- if involvement ended today, we don't need this record
 
 -- EXISTING INVOLVEMENT (ENDED).  either created through ETL or UI.  consider isnull(xcmp.DestID, xp.ID).  check for involvement date range
@@ -183,6 +183,7 @@ from
 			from PrgInvolvement xpemax 
 			where xpe.StudentID = xpemax.StudentID
 			and xpemax.EndDate is not null
+			and xpemax.ProgramID = 'F98A8EF2-98E2-4CAC-95AF-D7D89EF7F80C'
 			) left join  -- we want to know if the student had an involvement before, in case all involvements are ended.
 
 -- EXISTING Converted involvement. --------------------- change of thought:  look at all involvements.  see which ones were created through ETL by checking MAP.  
