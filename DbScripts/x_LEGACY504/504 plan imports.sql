@@ -55,7 +55,7 @@ order by s.name, o.name
 
 drop table LEGACYSPED.MAP_504data
 drop table LEGACY504.MAP_504data_Dates
---drop table x_ADHOCIMPORT.Polk504Students
+--drop table x_LEGACY504.Student504Dates
 
 drop view LEGACY504.Transform_504dates
 drop view LEGACYSPED.Transform_504Data
@@ -105,7 +105,7 @@ go
 
 alter view x_LEGACY504.Student504Dates
 as
-select StudentNumber = ID, StartDate = cast([504StartDate] as datetime), EndDate = cast([504EndDate] as datetime) from x_ADHOCIMPORT.Polk504Students where ID <> ''
+select StudentNumber = ID, StartDate = cast(StartDate as datetime), EndDate = cast(EndDate as datetime) from x_LEGACY504.Student504Dates where ID <> ''
 go
 
 
@@ -218,13 +218,13 @@ select
 	InputItemLabel = ii.Label,
 	InputItemSequence = ii.Sequence,
 	Sequence = cast(0 as int), -- this is the one that gets inserted into FormInptValue
-	Section504DateValue = cast(case when ii.Id = '2F086A80-58EB-4488-824F-126691F15F37' then pstart.[504StartDate] when ii.Id = '6B346762-B709-4187-B787-C1D3A0BEAB98' then pend.[504EndDate] end as datetime)
+	Section504DateValue = cast(case when ii.Id = '2F086A80-58EB-4488-824F-126691F15F37' then pstart.StartDate when ii.Id = '6B346762-B709-4187-B787-C1D3A0BEAB98' then pend.EndDate end as datetime)
 from x_LEGACY504.Transform_504Data x
 join dbo.FormTemplateLayout l on x.TemplateID = l.TemplateId and l.Id = '3D907906-D5E9-444E-86D2-0801271599EB' -- and x.StudentID = '2402D32B-03C7-4D10-B2E0-15788BD715E5' --- this particular view assumes one section in the layout
 --join dbo.FormTemplateControl c on l.ControlId = c.Id
 join dbo.FormTemplateInputItem ii on l.ControlId = ii.InputAreaId 
-left join x_ADHOCIMPORT.Polk504Students pstart on x.StudentNumber = pstart.ID and ii.Id = '2F086A80-58EB-4488-824F-126691F15F37' -- startdate
-left join x_ADHOCIMPORT.Polk504Students pend on x.StudentNumber = pend.ID and ii.Id = '6B346762-B709-4187-B787-C1D3A0BEAB98' -- enddate
+left join x_LEGACY504.Student504Dates pstart on x.StudentNumber = pstart.ID and ii.Id = '2F086A80-58EB-4488-824F-126691F15F37' -- startdate
+left join x_LEGACY504.Student504Dates pend on x.StudentNumber = pend.ID and ii.Id = '6B346762-B709-4187-B787-C1D3A0BEAB98' -- enddate
 left join x_LEGACY504.MAP_504data_Dates m on x.InstanceIntervalDestID = m.IntervalID and ii.ID = InputFieldID
 go
 
@@ -308,12 +308,7 @@ commit
 
 go
 
---exec dbo.PrgInvolvement_RecalculateStatuses NULL
-
-
-
-
-
+exec dbo.PrgInvolvement_RecalculateStatuses NULL
 
 
 --exec x_DATATEAM.FindGuid 'A72EE1D4-0E9F-463D-B38C-0B43DD3ED464'
@@ -369,7 +364,7 @@ go
 
 
 
---select * from x_ADHOCIMPORT.Polk504Students
+--select * from x_LEGACY504.Student504Dates
 
 -- Attempted to initialize PrgIep 46f337ed-6bf6-452b-bdbd-0ba2ad4d5109*A5990B5E-AFAD-4EF0-9CCA-DC3685296870, however it didn't initialize. This may be because it has been deleted. 
 
