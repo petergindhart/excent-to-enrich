@@ -30,6 +30,8 @@ go
 
 
 
+update GradeLevel set StateCode = case Name when 'K' then 'KG' when '00' then NULL else Name end
+go
 /*
 
 	Ensure IepDisability.StateCode is populated
