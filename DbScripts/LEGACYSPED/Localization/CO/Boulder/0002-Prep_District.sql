@@ -42,23 +42,26 @@ insert LEGACYSPED.MAP_PrgStatus_ConvertedDataPlan values ('0B5D5C72-5058-4BF5-A4
 go
 
 
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'LEGACYSPED.ImportPrgSections') AND type in (N'U'))
-BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'LEGACYSPED.ImportPrgSections') AND type in (N'U'))
+DROP TABLE LEGACYSPED.ImportPrgSections
+GO
 CREATE TABLE LEGACYSPED.ImportPrgSections (
 Enabled bit not null,
 SectionDefName varchar(100) not null,
 SectionDefID uniqueidentifier not null
 )
+GO
 
 ALTER TABLE LEGACYSPED.ImportPrgSections
 	ADD CONSTRAINT PK_ImportPrgSections PRIMARY KEY CLUSTERED
 (
 	SectionDefID
 )
-END
 GO
 
 
+if not exists (select 1 from PrgSectionDef where ID = 'F60392DA-8EB3-49D0-822D-77A1618C1DAA')
+insert PrgSectionDef (ID, TypeID, ItemDefID, Sequence, IsVersioned, DisplayPrevious, CanCopy, HeaderFormTemplateID) values ('F60392DA-8EB3-49D0-822D-77A1618C1DAA', '9B10DCDE-15CC-4AA3-808A-DFD51CE91079', '8011D6A2-1014-454B-B83C-161CE678E3D3', 6, 0, 0, 0, 'B97E7849-36B4-4181-8D03-241FDCA5105C')
 set nocount on;
 declare @importPrgSections table (Enabled bit not null, SectionDefName varchar(100) not null, SectionDefID uniqueidentifier not null)
 -- update the Enabled column below to 0 if the section is not required for this district
@@ -69,13 +72,28 @@ insert @importPrgSections values (1, 'IEP Demographics', '427AF47C-A2D2-47F0-805
 insert @importPrgSections values (1, 'Sped Eligibility Determination', 'F050EF5E-3ED8-43D5-8FE7-B122502DE86A')
 insert @importPrgSections values (1, 'IEP Goals', '84E5A67D-CC9A-4D5B-A7B8-C04E8C3B8E0A')
 insert @importPrgSections values (1, 'Sped Consent Services', 'D83A4710-A69F-4310-91F8-CB5BFFB1FE4C')
-insert @importPrgSections values (1, 'ESY', 'F60392DA-8EB3-49D0-822D-77A1618C1DAA')
+insert @importPrgSections values (1, 'Sped Consent Evaluation', '0FEB4F39-9450-43A4-BF09-A98C4D296916') -- BOULDER DID NOT PROVIDE THIS DATE!
+insert @importPrgSections values (1, 'IEP ESY', 'F60392DA-8EB3-49D0-822D-77A1618C1DAA')
 
 insert LEGACYSPED.ImportPrgSections
-select t.* 
-from @importPrgSections t left join
-LEGACYSPED.ImportPrgSections p on t.SectionDefID = p.SectionDefID
-where p.SectionDefID is null
+select * from @importPrgSections where SectionDefID not in (select SectionDefID from LEGACYSPED.ImportPrgSections)
+go
+---- #############################################################################
+----		SUB Goal Area MAP
+IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.MAP_IepSubGoalAreaDefID') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
+BEGIN
+CREATE TABLE LEGACYSPED.MAP_IepSubGoalAreaDefID 
+(
+	SubGoalAreaCode	varchar(150) NOT NULL,
+	DestID uniqueidentifier NOT NULL,
+	ParentID uniqueidentifier not null
+)
+ALTER TABLE LEGACYSPED.MAP_IepSubGoalAreaDefID ADD CONSTRAINT
+PK_MAP_IepSubGoalAreaDefID PRIMARY KEY CLUSTERED
+(
+	SubGoalAreaCode
+)
+END
 go
 
 -- Map_ServiceFrequencyID is created in the Transform script.
@@ -87,6 +105,24 @@ go
 		For additional frequencies it may be possible to calculate the frequency based on an existing value 
 			i.e. 2 times Quarterly = 8 times yearly,  30 minutes per quarter = 2 hours per year or 120 minutes per year
 */
+
+--		Service Frequency
+IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.MAP_ServiceFrequencyID') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
+BEGIN
+CREATE TABLE LEGACYSPED.MAP_ServiceFrequencyID
+(
+	ServiceFrequencyCode	varchar(150) NOT NULL,
+	ServiceFrequencyName	varchar(50) not null,
+	DestID uniqueidentifier NOT NULL
+)
+ALTER TABLE LEGACYSPED.MAP_ServiceFrequencyID ADD CONSTRAINT
+PK_MAP_ServiceFrequencyID PRIMARY KEY CLUSTERED
+(
+	ServiceFrequencyName
+)
+CREATE INDEX IX_Map_ServiceFrequencyID_ServiceFrequencyName on LEGACYSPED.Map_ServiceFrequencyID (ServiceFrequencyName)
+END
+GO
 
 declare @map_servicefrequencyid table (servicefrequencycode varchar(30), servicefrequencyname varchar(50), destid uniqueidentifier)
 set nocount on;
