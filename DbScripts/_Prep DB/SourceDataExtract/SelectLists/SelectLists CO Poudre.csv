@@ -1,0 +1,197 @@
+TYPE|SUBTYPE|ENRICHID|STATECODE|LEGACYSPEDCODE|ENRICHLABEL
+Ethnic||E1611EE9-7FC3-4CEF-80D6-D67EE6EE1F6F|01||Race: American Indian or Alaska Native
+Ethnic||953025B8-4102-4C8F-B8AB-766068ACC978|02||Race: Asian
+Ethnic||628814D0-09B4-4B77-A1A7-A9CEEC360C2B|03||Race: Black or African American
+Ethnic||68F95480-110E-45EB-84DC-566A930E8C67|04||Ethnicity: Hispanic or Latino
+Ethnic||3A074939-80D2-4138-97E9-149345528E9F|05||Race: White
+Ethnic||80034B85-658B-497E-8793-E2382CB6AF51|06||Race: Native Hawaiian or Other Pacific Islander
+Ethnic||E97F2925-C985-4C26-BC60-1F0B42C1719D|07||Race: Two or more races
+Grade||C808C991-CA93-4F51-AF41-A8BA494AC10F|002|002|Infant
+Grade||D90C08C8-683F-4C2B-9D1F-769D904CD060|004|004|Pre-kindergarten
+Grade||4B0ED575-7C9A-451D-A8E6-2D9F22F31349|006|006|Half Day Kindergarten
+Grade||ECC42A34-8B47-45EA-A533-AA13476BE299|007||Full Day Kindergarten
+Grade||1746A7BD-D878-423B-8B45-859F4B158F86|010|010|01
+Grade||81A1FD30-4FF0-4450-8337-941AB5ABEB3F|020|020|02
+Grade||63A534B6-D88D-4198-8CF2-D5D79D24AC7F|030|030|03
+Grade||88236013-C5C8-4E10-9DF3-9F2ABE22D908|040|040|04
+Grade||6CA10279-7AC4-452B-B518-A8A45D0C9539|050|050|05
+Grade||CA97A52A-7E87-46DD-8ED4-FA01C954CAA1|060|060|06
+Grade||8313E4F8-D6FB-4308-8EE0-F200C7481996|070|070|07
+Grade||F6B5A07F-D78A-4DCF-915A-1E924E019467|080|080|08
+Grade||E09CADF6-BAEF-4C78-810F-7949BB9A0CAD|090|090|09
+Grade||2D434E66-6638-4008-86E1-208E555ECED8|100|100|10
+Grade||AE342FDF-02DB-44A0-8916-161145D41D30|110|110|11
+Grade||86694A97-4DEB-44BE-9D22-6D7273B42319|120|120|12
+Gender||D0975FE1-D5CD-4E08-A396-E5FF1E9E7DF5|01|F|Female
+Gender||8486EF9D-001A-4ECB-9373-8FE53CBB778E|02|M|Male
+Disab||BBB4773F-4A8A-49E5-A0D4-952D2A0D1F18|13|13|Autism Spectrum Disorders
+Disab||0C02B702-D681-4C66-BA67-8F9D3847E6A9|05|05|Hearing Impairment, Including Deafness
+Disab||12F08D30-1ADA-4F9A-AD2A-EF5451BB2325|01|01|Intellectual Disability
+Disab||CA41A561-16BE-4E21-BE8A-BC59ED86C921|10|10|Multiple Disabilities
+Disab||07093979-0C3F-414D-9750-8080C6BB7C45|07|07|Physical Disability
+Disab||917D79C8-8604-49E5-A64F-0ADCFD85819B|11|11|Preschooler with a Disability
+Disab||41500452-3FEB-4EBF-87A0-BFC5F385A973|03|03|Serious Emotional Disability
+Disab||0E026822-6B22-43A1-BD6E-C1412E3A6FA3|04|04|Specific Learning Disability
+Disab||96A66C19-7AAB-4EE6-AA81-7CD8CD4FEB09|08|08|Speech or Language Impairment
+Disab||E65E6AAE-AE9B-4275-B547-9CE1A4B9EEF3|14|14|Traumatic Brain Injury
+Disab||E77D061F-0E5B-4CF8-AB46-A0D4042E8601|06|06|Vision Impairment, Including Blindness
+Exit||BF898F66-AD71-451F-AD11-3639155A431F|01|8|Reached Maximum Age For Services
+Exit||4878A47C-1AAA-4697-BE30-42106F214E7D|02|9|Death
+Exit||C425DBDE-4DBD-4A9D-B1F5-6C3D99262AFD|06|4|PK-6 Student Exited, not known to continue
+Exit||C2DF5F3F-D0EE-4493-BBA7-6D8327EA36D8|09|1|Transferred to Regular Education
+Exit||8DCBA0CA-9560-4E3A-88AB-805FD659C9C2|13|2|Transfer to a Public School in a Different District, known to continue
+Exit||05F914D8-2A29-489A-82ED-A7506341A83F|14||Transfer to a School in a Different State/Country
+Exit||DFBE9247-8EBC-447B-87C2-A8FAEB37A96D|15||Transfer to a Non-Public School
+Exit||3C35632F-8323-4CB7-8585-B7D3D4586152|16|D|Transfer to Home-Based Education
+Exit||2D966F92-A821-47EF-B785-DE1E32C84C3A|18||Transfer to a Career and Technical Education Program (Non-CO district or BOCES operated)
+Exit||BB19EFF0-AF1F-4F8A-A8F2-EC11F2A56711|21||Transfer to a Facility Operated by CO Dept of Youth Corrections
+Exit||E8959582-644B-4AAC-B3FF-0580B1BE158F|40|5|Discontinued Schooling/Dropped out
+Exit||59BBBBE9-BF7C-44E0-B9FB-0E376A26E0B8|50||Expulsion
+Exit||A24AEA49-735D-425F-B803-168769054306|60|A|Parent Revokes Consent for Services
+Exit||825305B4-0600-4098-8B17-381499942419|70||GED Transfer
+Exit||3A7DEAC1-7A66-42D6-B452-3A0529DA133D|90|6|Graduated with Regular Diploma
+Exit||2477C14E-7939-46D6-99E4-43F6E35701A4|92|7|Completed (non-diploma certificate)
+Exit||977D0FE7-B5EA-4656-B193-5B0BF784EDCC|93|E|General Education Development Certificate (GED)
+Exit||E6DB43DE-03DF-4C27-A61B-6B1277102B73|94||Student received GED certificate at Non-District Program same year of transfer.
+LRE|PK|0B2E63D7-6493-44A7-95B1-8DF327D77C38|204|204|Separate class
+LRE|PK|2E45FDA2-0767-43D0-892D-D1BB40AFCEC1|205|205|Separate school
+LRE|PK|0DA48AA5-183C-4434-91C1-AC3C9941BE15|206|206|Residential facility
+LRE|PK|0980382F-594C-453F-A0C9-77D54A0443B1|207|207|Home
+LRE|PK|1945D36A-8D62-4FDB-9F22-5836F553A958|208|208|Service Provider Location
+LRE|PK|DC20B53C-0559-44F6-A463-3A92D9D4F69A|209||Attending a regular early childhood program at least 10 hours per week AND receiving the majority of hours of special education and related services in the regular early childhood program.
+LRE|PK|E5741B2C-CE35-4F3B-8AD5-58774E31C531|210||Attending a regular early childhood program at least 10 hours per week AND receiving the majority of hours of special education and related services in some other location.
+LRE|PK|A3FA6E17-E828-4A7C-A002-0A49B834BD1E|211||Attending a regular early childhood program less than 10 hours per week AND receiving the majority of hours of special education and related services in the regular early childhood program.
+LRE|PK|5654E9A5-10A8-4B58-8A5C-79DA92674A27|212||Attending a regular early childhood program less than 10 hours per week AND receiving the majority of hours of special education and related services in some other location.
+LRE|K12|FEFF9910-F320-4097-AFC2-A3D9713470BD|301|301|General education class at least 80% of the time
+LRE|K12|521ACE5E-D04B-4E30-80E3-517516383536|302|302|General education class 40% to 79% of the time
+LRE|K12|9CD2726E-6461-4F6C-B65F-B4232FB4D36E|303|303|General education class less than 40% of the time
+LRE|K12|77E0EE80-143B-41E5-84B9-5076605CCC9A|304|304|Separate school
+LRE|K12|E4EE85F2-8307-4C8D-BA77-4EB5D12D8470|305|305|Residential facility
+LRE|K12|91EF0ECE-A770-4D05-8868-F19180A000DB|306|306|Homebound/hospital
+LRE|K12|84DAF081-F700-4F57-99DA-A2A983FDE919|307|307|Correctional facilities (including short-term detention)
+Service|Related|8C054380-B22F-4D2A-98DE-568498E06EAB|||Assistive Technology Services
+Service|Related|6C1EA4EC-C0F0-4C7D-99F2-7AFBB2DBB68C|||Audiology Services
+Service|Related|94C0C353-6595-4A7E-873E-CE77A52474FA|||Counseling
+Service|Related|E3A7E8E5-72C4-4871-8381-E081EC81D1D6|||Interpreting Services
+Service|Related|B874A136-2F0E-4955-AA1E-1F0D45F263FB|||Occupational Therapy
+Service|Related|CABB2C1E-BC93-4D52-9E2D-AF52A259AD17|||Orientation & Mobility Services
+Service|Related|AA695BB6-947F-44A8-8AB3-43E1B01B6877|||Parent Counseling and Training
+Service|Related|829EA69A-629D-4883-B2A1-446E3ED2872D|||Personal Care Services
+Service|Related|73107912-4959-4137-910B-B17E52076074|||Physical Therapy
+Service|Related|7BBAAB01-398D-4835-B4B0-13D543FAC564|||Psychological Services
+Service|Related|75D07F63-F586-4C55-8FDE-A5B6D0737157|||School Health Services
+Service|Related|B630AE87-E461-4DAC-B5B9-3FB85C78F56D|||Transportation Services
+Service|Special Education|52AD0E2D-3A97-499A-95F4-5B4BB02912DF|||Adapted Physical Education
+Service|Special Education|61D1B5E8-C054-4EA8-B9CB-F61EBDB1F629|||Consultation
+Service|Special Education|D4149322-3A4A-42C1-8590-5A5D919E7B28|||Indirect
+Service|Special Education|2991CDE7-FB2A-4FDA-AD00-6BF56DCD4D09|||Instruction-Co-Teach
+Service|Special Education|42176279-A1A0-4699-B01B-187FD0FF07E2|||Instruction-Direct In Gen Ed Class
+Service|Special Education|E2819193-5118-4DC9-8433-6F35851C14FC|||Instruction-Direct Outside Gen Ed Class
+Service|Special Education|9DE4CBF9-BD8D-490C-8E1B-34F5E73DEF11|||Specialized Instruction
+Service|Special Education|BF859DEF-67A2-4285-A871-E80315AF3BD5|||Speech/Language Services
+ServLoc||27D86DFE-218E-4E1B-A6DB-8B8E74D6F8BA|||General Education Classroom
+ServLoc||B21973A7-5A68-4D9A-B93D-18B0335D7257|||Outside General Classroom
+ServProv||D2130FB0-1E2A-4827-B1D0-92BC49E94A22|||Adapted PE Teacher
+ServProv||7F0EABB5-286D-473C-BFC2-79A2658D9879||Audiologist|Audiologist
+ServProv||56460F78-90AB-485A-B829-0C78B0332BA8||School Counselor|Counselor
+ServProv||0CDE139C-787F-4E30-9A74-E6535C85EDB0||Early Childhood SpEd Teacher|Early Childhood Special Educator
+ServProv||149F36E1-DF2D-4CD3-BA4B-96D58C52012A|||Educational Interpreter
+ServProv||385ABF0C-567E-44B0-9684-AFB27B5AE5B9|||Licensed Practical Nurse
+ServProv||6F563A7A-EBCA-4438-8819-F4266600F5E0||Occupational Therapist|Occupational Therapist
+ServProv||0FB24F63-7A71-42A7-ABCA-1B9E58093194||Itin. Vision Teacher/O & M Training|Orientation & Mobility Specialist
+ServProv||74DF6273-69EA-4CA3-AD38-510A457BAA25||Physical Therapist|Physical Therapist
+ServProv||839A1D38-EB55-474F-BF97-297FE372F866|||Registered Nurse
+ServProv||A3471353-6064-4C5C-9E24-8FDE3E05B084||School Psychologist|School Psychologist
+ServProv||0E23822F-678E-4532-A28A-B42BA569C617||School Social Worker|Social Worker
+ServProv||7F0195EC-B20A-443E-B13B-8DD0139FF115||Special Education Teacher|Special Education Teacher
+ServProv||5D0EB909-4245-40EE-94EA-11F7E9F0A42E||Speech/Language Pathologist|Speech Language Pathologist
+ServProv||12E058BB-7407-4CC9-AB5A-15ED8BACE440||Teacher of the Deaf/HH|Teacher of Deaf/Hard of Hearing
+ServProv||B4464F73-BEF2-4D84-88E4-23EB8D0CAE7D|||Teacher of the Blind/Visually Impaired
+ServFreq||69439D9D-B6C1-4B7A-9CAC-C69810ADFD31|||As needed
+ServFreq||836D1E97-CE4D-4FD5-9D0A-148924AC007B|||As needed for ESY
+ServFreq||71590A00-2C40-40FF-ABD9-E73B09AF46A1||01|daily
+ServFreq||3D4B557B-0C2E-4A41-9410-BA331F1D20DD||03|monthly
+ServFreq||C42C50ED-863B-44B8-BF68-B377C8B0FA95|||Not specified
+ServFreq||E2996A26-3DB5-42F3-907A-9F251F58AB09|||only once
+ServFreq||A2080478-1A03-4928-905B-ED25DEC259E6||02|weekly
+ServFreq||5F3A2822-56F3-49DA-9592-F604B0F202C3|||yearly
+GoalArea||51C976DF-DC56-4F89-BCA1-E9AB6A01FBE7|||Communication
+GoalArea||6BBAADD8-BD9D-4C8F-A573-80F136B0A9FB|||Emotions
+GoalArea||0E95D360-5CBE-4ECA-820F-CC25864D70D8|||Mathematics
+GoalArea||0C0783DD-3D11-47A2-A1C1-CFE2F8F1FB4C|||Organization
+GoalArea||702A94A6-9D11-408B-B003-11B9CCDE092E|||Other
+GoalArea||504CE0ED-537F-4EA0-BD97-0349FB1A4CA8|||Reading
+GoalArea||25D890C3-BCAE-4039-AC9D-2AE21686DEB0|||Self Advocacy
+GoalArea||4F131BE0-D2A9-4EB2-8639-D772E05F3D5E|||Time Management
+GoalArea||37EA0554-EC3F-4B95-AAD7-A52DECC7377C|||Writing
+PostSchArea||ADB5C7FD-C09F-41E3-9C0E-9AF403C741D1|||Post-School Education/Training Goal
+PostSchArea||823BA9DB-AF13-42BD-9CC2-EAA884701523|||Career Employment Goal
+PostSchArea||2B5D9C8A-7FA7-4E74-9F0C-53327209E751|||Independent Living Skills Goal (when appropriate)
+GoalArea||||ACE|ACE State Standards
+GoalArea||||LA2WS|Language Arts Standard 2
+GoalArea||||LA3LS|Language Arts Standard 3
+GoalArea||||LA4TV|Langauge Arts Standard 4
+GoalArea||||LA5RS|Language Arts Standard 5
+GoalArea||||M1NS|Math Standard 1
+GoalArea||||M2PA|Math Standard 2
+GoalArea||||M3SP|Math Standard 3
+GoalArea||||M4GEO|Math Standard 4
+GoalArea||||M5MEAS|Math Standard 5
+GoalArea||||M6COMP|Math Standard 6
+GoalArea||||ZZZ|Not specified
+ServFreq||||04|Quarter
+ServFreq||||ZZZ|Not specified
+Service|SpecialEd|||ZZZ|Manually Entered Service
+Grade||||148|148
+Disab||||09|Deaf-Blind Disability
+Disab||||12|Infant/Toddler with a Disability
+Disab||||16|Infant/Toddler with a Disability
+ServProv||||18-21 Program Specialist|18-21 Program Specialist
+ServProv||||ACE Coord/Special Populations|ACE Coord/Special Populations
+ServProv||||ACE Coord/SPED Teacher|ACE Coord/SPED Teacher
+ServProv||||ACE Coordinator|ACE Coordinator
+ServProv||||Behavior Specialist|Behavior Specialist
+ServProv||||COTA-Certified OT Assistant|COTA-Certified OT Assistant
+ServProv||||Counselor/Staffing Team Coordinator|Counselor/Staffing Team Coordinator
+ServProv||||ECSE Teacher/SPL Specialist|ECSE Teacher/SPL Specialist
+ServProv||||General Education Teacher|General Education Teacher
+ServProv||||IEP Coordinator|IEP Coordinator
+ServProv||||Integrated Services Coordinator|Integrated Services Coordinator
+ServProv||||Itinerant Teacher for the Deaf and hard of hearing|Itinerant Teacher for the Deaf and hard of hearing
+ServProv||||Paraprofessional|Paraprofessional
+ServProv||||Resource/ACE Coord.|Resource/ACE Coord.
+ServProv||||Special Education Coordinator|Special Education Coordinator
+ServProv||||Special Education Director|Special Education Director
+ServProv||||SpEd Teacher/ACE Coord.|SpEd Teacher/ACE Coord.
+ServProv||||SWAP Coordinator|SWAP Coordinator
+ServProv||||Teacher of the Deaf|Teacher of the Deaf
+ServProv||||Transition Specialist|Transition Specialist
+ServProv||||Transition Teacher|Transition Teacher
+ServProv||||ZZZ|Not specified
+Exit||||0|No Reason Given
+Exit||||B|Ineligible for Current Years Count - Still Receiving Special Education Services
+Exit||||C|Ineligible for Previous Years Count
+LRE|Infant|||101|Program Designed for Children with Disabilities
+LRE|Infant|||102|Program Designed for Typically Developing Children
+LRE|Infant|||103|Home (Birth through Two)
+LRE|Infant|||104|Hospital (inpatient)
+LRE|Infant|||105|Residential Facility (Birth through Two)
+LRE|Infant|||106|Service Provider Location (Birth through Two)
+LRE|Infant|||107|Other Setting
+LRE|PK|||201|In the Regular Early Childhood Program at Least 80% of the Time
+LRE|PK|||202|In the Regular Early Childhood Program 40% to 79% of the Time
+LRE|PK|||203|In the Regular Early Childhood Program Less than 40% of the Time
+LRE|K12|||308|Private/Parochial Student in ISP
+LRE|K12|||309|.
+GoalArea||||ACADEMIC|.
+GoalArea||||ECC_Adap|Early Childhood Curriculum: Adaptive Skills
+GoalArea||||ECC_Cog|Early Childhood Curriculum: Cognitive Skills
+GoalArea||||ECC_Exp|Early Childhood Curriculum: Expressive Language Skills
+GoalArea||||ECC_Fine|Early Childhood Curriculum: Fine Motor Skills
+GoalArea||||ECC_Gros|Early Childhood Curriculum: Gross Motor Skills
+GoalArea||||ECC_Pers|Early Childhood Curriculum: Personal Social Skills
+GoalArea||||ECC_Rec|Early Childhood Curriculum: Receptive Language Skills Bank
+GoalArea||||ECC_Spch|Early Childhood Curriculum: Speech Skills Bank
+GoalArea||||LA6LC|Language Arts Standard 5
+GoalArea||||LAST1R|Language Arts Standard 1
+ServLoc||||ZZZ|Manually Entered Service Location
