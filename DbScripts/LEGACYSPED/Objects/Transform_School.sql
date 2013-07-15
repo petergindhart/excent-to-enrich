@@ -60,7 +60,7 @@ select
 		end 
 from LEGACYSPED.DistrictSchoolLeadingZeros dz cross join LEGACYSPED.DistrictSchoolLeadingZeros sz cross join
 	LEGACYSPED.School k LEFT JOIN 
-	dbo.School s on k.SchoolCode = right(sz.Zeros+isnull(s.Number,''), len(sz.zeros)) and s.DeletedDate is null and -- assumes there is only one, and will insert new if any are soft-deleted
+	dbo.School s on right(sz.Zeros+isnull(k.SchoolCode,''), len(sz.zeros)) = right(sz.Zeros+isnull(s.Number,''), len(sz.zeros)) and s.DeletedDate is null and -- assumes there is only one, and will insert new if any are soft-deleted
 		-- AND s.IsLocalOrg = 1 
 	convert(varchar(36), s.ID) = ( -- we're doing this in the ON clause as opposed to the WHERE clause to get schools that don't come from SIS (Poudre "Expelled School")
 		select MIN(convert(varchar(36), smid.ID))
@@ -72,8 +72,8 @@ from LEGACYSPED.DistrictSchoolLeadingZeros dz cross join LEGACYSPED.DistrictScho
 			where right(sz.Zeros+isnull(smid.Number,''), len(sz.zeros)) = right(sz.Zeros+isnull(smin.Number,''), len(sz.zeros)) -- don't try to deal with null numbers.  how about real dups?
 			)
 		) LEFT JOIN
-	LEGACYSPED.MAP_SchoolID m on k.SchoolCode = m.SchoolCode and k.DistrictCode = m.DistrictCode  LEFT JOIN 
+	LEGACYSPED.MAP_SchoolID m on right(sz.Zeros+isnull(k.SchoolCode,''), len(sz.zeros)) = right(sz.Zeros+isnull(m.SchoolCode,''), len(sz.zeros)) and right(dz.Zeros+isnull(k.DistrictCode,''), len(dz.zeros)) = right(dz.Zeros+isnull(m.DistrictCode,''), len(dz.zeros))  LEFT JOIN 
 	dbo.School t on m.DestID = t.ID LEFT JOIN
-	LEGACYSPED.Transform_OrgUnit mo on k.DistrictCode = mo.DistrictCode 
+	LEGACYSPED.Transform_OrgUnit mo on right(dz.Zeros+isnull(k.DistrictCode,''), len(dz.zeros)) = right(dz.Zeros+isnull(mo.DistrictCode,''), len(dz.zeros)) 
 where dz.Entity = 'District' and sz.Entity = 'School'
 GO

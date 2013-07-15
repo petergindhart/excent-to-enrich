@@ -114,22 +114,37 @@ PK_MAP_IepSubGoalAreaDefID PRIMARY KEY CLUSTERED
 END
 GO
 
--- select 'insert LEGACYSPED.MAP_IepSubGoalAreaDefID values ('''+SubGoalAreaCode+''', '''+convert(varchar(36), DestID)+''', '''+convert(varchar(36), ParentID)+''')' from LEGACYSPED.Transform_IepSubGoalAreaDef
-if not exists (select 1 from LEGACYSPED.MAP_IepSubGoalAreaDefID where SubGoalAreaCode = 'GAReading')
-insert LEGACYSPED.MAP_IepSubGoalAreaDefID values ('GAReading', 'A7506FED-1F87-484C-97DF-99517AC26971', '35B32108-174B-4F7F-9B5A-B5AF106F06BC')
+---- select 'insert LEGACYSPED.MAP_IepSubGoalAreaDefID values ('''+SubGoalAreaCode+''', '''+convert(varchar(36), DestID)+''', '''+convert(varchar(36), ParentID)+''')' from LEGACYSPED.Transform_IepSubGoalAreaDef
+--if not exists (select 1 from LEGACYSPED.MAP_IepSubGoalAreaDefID where SubGoalAreaCode = 'GAReading')
+--insert LEGACYSPED.MAP_IepSubGoalAreaDefID values ('GAReading', 'A7506FED-1F87-484C-97DF-99517AC26971', '35B32108-174B-4F7F-9B5A-B5AF106F06BC')
 
-if not exists (select 1 from LEGACYSPED.MAP_IepSubGoalAreaDefID where SubGoalAreaCode = 'GAWriting')
-insert LEGACYSPED.MAP_IepSubGoalAreaDefID values ('GAWriting', '7099C2E7-02C9-4903-8A01-8F0774364E5B', '35B32108-174B-4F7F-9B5A-B5AF106F06BC')
+--if not exists (select 1 from LEGACYSPED.MAP_IepSubGoalAreaDefID where SubGoalAreaCode = 'GAWriting')
+--insert LEGACYSPED.MAP_IepSubGoalAreaDefID values ('GAWriting', '7099C2E7-02C9-4903-8A01-8F0774364E5B', '35B32108-174B-4F7F-9B5A-B5AF106F06BC')
 
-if not exists (select 1 from LEGACYSPED.MAP_IepSubGoalAreaDefID where SubGoalAreaCode = 'GAMath')
-insert LEGACYSPED.MAP_IepSubGoalAreaDefID values ('GAMath', 'D58C5141-DD5D-4C80-BB93-7CC88A234B2D', '35B32108-174B-4F7F-9B5A-B5AF106F06BC')
+--if not exists (select 1 from LEGACYSPED.MAP_IepSubGoalAreaDefID where SubGoalAreaCode = 'GAMath')
+--insert LEGACYSPED.MAP_IepSubGoalAreaDefID values ('GAMath', 'D58C5141-DD5D-4C80-BB93-7CC88A234B2D', '35B32108-174B-4F7F-9B5A-B5AF106F06BC')
 
-if not exists (select 1 from LEGACYSPED.MAP_IepSubGoalAreaDefID where SubGoalAreaCode = 'GAOther')
-insert LEGACYSPED.MAP_IepSubGoalAreaDefID values ('GAOther', 'DEEB5A06-156D-43D0-B976-4B30245C6784', '35B32108-174B-4F7F-9B5A-B5AF106F06BC')
+--if not exists (select 1 from LEGACYSPED.MAP_IepSubGoalAreaDefID where SubGoalAreaCode = 'GAOther')
+--insert LEGACYSPED.MAP_IepSubGoalAreaDefID values ('GAOther', 'DEEB5A06-156D-43D0-B976-4B30245C6784', '35B32108-174B-4F7F-9B5A-B5AF106F06BC')
 
 
 -- Map_ServiceFrequencyID is created in the Transform script. -- select * from IepSubGoalAreaDef
-
+IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.MAP_ServiceFrequencyID') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
+BEGIN
+CREATE TABLE LEGACYSPED.MAP_ServiceFrequencyID
+(
+	ServiceFrequencyCode	varchar(150) NOT NULL,
+	ServiceFrequencyName	varchar(50) not null,
+	DestID uniqueidentifier NOT NULL
+)
+ALTER TABLE LEGACYSPED.MAP_ServiceFrequencyID ADD CONSTRAINT
+PK_MAP_ServiceFrequencyID PRIMARY KEY CLUSTERED
+(
+	ServiceFrequencyName
+)
+CREATE INDEX IX_Map_ServiceFrequencyID_ServiceFrequencyName on LEGACYSPED.Map_ServiceFrequencyID (ServiceFrequencyName)
+END
+GO
 
 /*
 	ServiceFrequency is part of seed data in Enrich.  Thus it must be hard-mapped.  
@@ -141,11 +156,6 @@ insert LEGACYSPED.MAP_IepSubGoalAreaDefID values ('GAOther', 'DEEB5A06-156D-43D0
 -- Lee County had a MAP_ServiceFrequencyID from a previouos ETL run that had bogus frequency data. delete that data and insert the good.
 declare @Map_ServiceFrequencyID table (ServiceFrequencyCode varchar(30), ServiceFrequencyName varchar(50), DestID uniqueidentifier)
 set nocount on;
-insert @Map_ServiceFrequencyID values ('day', 'daily', '71590A00-2C40-40FF-ABD9-E73B09AF46A1')
-insert @Map_ServiceFrequencyID values ('week', 'weekly', 'A2080478-1A03-4928-905B-ED25DEC259E6')
-insert @Map_ServiceFrequencyID values ('month', 'monthly', '3D4B557B-0C2E-4A41-9410-BA331F1D20DD')
-insert @Map_ServiceFrequencyID values ('year', 'yearly', '5F3A2822-56F3-49DA-9592-F604B0F202C3')
-insert @Map_ServiceFrequencyID values ('ZZZ', 'unknown', 'C42C50ED-863B-44B8-BF68-B377C8B0FA95')
 
 if (select COUNT(*) from @Map_ServiceFrequencyID t join LEGACYSPED.MAP_ServiceFrequencyID m on t.DestID = m.DestID) <> 5
 	delete LEGACYSPED.MAP_ServiceFrequencyID
