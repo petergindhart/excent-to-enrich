@@ -1,4 +1,4 @@
-
+change this view to handle duplicate StudentLocalID  (Mountain BOCES)
 
 -- #############################################################################
 -- Student

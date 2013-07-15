@@ -10,7 +10,10 @@
 		SpedDistrictInclude="..\..\LEGACYSPED\Localization\${state}\${speddistrict}"
 		GiftObjectsInclude="..\..\x_LEGACYGIFT\Objects"
 		GiftStateInclude="..\..\x_LEGACYGIFT\Localization\${state}"
-		GiftDistrictInclude="..\..\x_LEGACYGIFT\Localization\${state}\${speddistrict}"/>
+		GiftDistrictInclude="..\..\x_LEGACYGIFT\Localization\${state}\${speddistrict}"
+		Section504ObjectsInclude="..\..\x_LEGACY504\Objects"
+		Section504StateInclude="..\..\x_LEGACY504\Localization\${state}"
+		Section504DistrictInclude="..\..\x_LEGACY504\Localization\${state}\${speddistrict}"/>
 
 </project>
 <!-- paths are relative to the calling file -->
