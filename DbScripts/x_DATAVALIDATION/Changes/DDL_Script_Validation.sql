@@ -206,6 +206,18 @@ CREATE TABLE x_DATAVALIDATION.StaffSchool_LOCAL(
 )  
 GO   
 
+IF  EXISTS (SELECT 1 FROM sys.objects WHERE object_id = OBJECT_ID(N'x_DATAVALIDATION.AccomMod_LOCAL') AND type in (N'U'))
+DROP TABLE x_DATAVALIDATION.AccomMod_LOCAL  
+GO  
+  
+CREATE TABLE x_DATAVALIDATION.AccomMod_LOCAL(
+  Line_No INT,  
+  IEPRefID	varchar(150)	not null,
+  AccomStatement	varchar(8000)   null,
+  ModStatement	varchar(8000)   null
+)  
+GO  
+
 /*
 Tables to store validated data
 */
@@ -413,6 +425,18 @@ CREATE TABLE x_DATAVALIDATION.StaffSchool(
   Line_No INT,  
   StaffEmail	varchar(150)	not null,
   SchoolCode	varchar(10)     not null
+)  
+GO  
+
+IF  EXISTS (SELECT 1 FROM sys.objects WHERE object_id = OBJECT_ID(N'x_DATAVALIDATION.AccomMod') AND type in (N'U'))
+DROP TABLE x_DATAVALIDATION.AccomMod  
+GO  
+  
+CREATE TABLE x_DATAVALIDATION.AccomMod(
+  Line_No INT,  
+  IEPRefID	varchar(150)	not null,
+  AccomStatement	varchar(8000)   null,
+  ModStatement	varchar(8000)   null
 )  
 GO  
 
