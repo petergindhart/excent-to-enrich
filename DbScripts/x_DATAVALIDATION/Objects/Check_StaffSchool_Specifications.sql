@@ -325,7 +325,7 @@ IF (@isFkRelation = 1)
 BEGIN
 
 SET @vsql = 'INSERT x_DATAVALIDATION.ValidationReport (TableName,ErrorMessage,LineNumber,Line)
-SELECT ''StaffSchool'',''The '+@columnname+' "''+CONVERT(VARCHAR(MAX),Staff.'+@columnname+')+''" does not exist in '+@parenttable+'  or were not validated successfully, but it existed in '+@tablename+'.'',staff.Line_No,ISNULL(CONVERT(VARCHAR(max),staff.StaffEmail),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),staff.SchoolCode),'''')
+SELECT ''StaffSchool'',''The '+@columnname+' ''''''+CONVERT(VARCHAR(MAX),Staff.'+@columnname+')+'''''' does not exist in '+@parenttable+'  or were not validated successfully, but it existed in '+@tablename+'.'',staff.Line_No,ISNULL(CONVERT(VARCHAR(max),staff.StaffEmail),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),staff.SchoolCode),'''')
 FROM x_DATAVALIDATION.StaffSchool_LOCAL staff '
 
 SET @query  = ' LEFT JOIN x_DATAVALIDATION.'+@parenttable+' dt ON staff.'+@columnname+' = dt.'+@parentcolumn+' WHERE dt.'+@parentcolumn+' IS NULL'
@@ -351,7 +351,7 @@ IF (@isFlagfield = 1)
 BEGIN
 
 SET @vsql = 'INSERT x_DATAVALIDATION.ValidationReport (TableName,ErrorMessage,LineNumber,Line)
-SELECT ''StaffSchool'',''The field '+@columnname+' should have one of the value in '''+LTRIM(REPLACE(@flagrecords,''',''','/'))+''', It has value as "''+'+@columnname+'+''".'',staff.Line_No,ISNULL(CONVERT(VARCHAR(max),staff.StaffEmail),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),staff.SchoolCode),'''')
+SELECT ''StaffSchool'',''The field '+@columnname+' should have one of the value in '''+LTRIM(REPLACE(@flagrecords,''',''','/'))+''', It has value as ''''''+'+@columnname+'+''''''.'',staff.Line_No,ISNULL(CONVERT(VARCHAR(max),staff.StaffEmail),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),staff.SchoolCode),'''')
 FROM x_DATAVALIDATION.StaffSchool_LOCAL staff '
 
 SET @query  = '  WHERE (staff.'+@columnname+' NOT IN  ('+@flagrecords+') AND staff.'+@columnname+' IS NOT NULL)'
@@ -394,7 +394,7 @@ IF (@islookupcolumn = 1 AND @lookuptable = 'SelectLists')
 BEGIN
 
 SET @vsql = 'INSERT x_DATAVALIDATION.ValidationReport (TableName,ErrorMessage,LineNumber,Line)
-SELECT ''StaffSchool'',''The '+@columnname+' "''+ staff.'+@columnname+'+''" does not exist in '+@lookuptable+', but it existed in '+@tablename+''',staff.Line_No,ISNULL(CONVERT(VARCHAR(max),staff.StaffEmail),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),staff.SchoolCode),'''')
+SELECT ''StaffSchool'',''The '+@columnname+' ''''''+ staff.'+@columnname+'+'''''' does not exist in '+@lookuptable+', but it existed in '+@tablename+''',staff.Line_No,ISNULL(CONVERT(VARCHAR(max),staff.StaffEmail),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),staff.SchoolCode),'''')
 FROM x_DATAVALIDATION.StaffSchool_LOCAL staff  '
 
 SET @query  = ' WHERE (staff.'+@columnname+' NOT IN ( SELECT '+@lookupcolumn+' FROM x_DATAVALIDATION.'+@lookuptable+' WHERE Type = '''+@lookuptype+''') AND staff.'+@columnname+' IS NOT NULL)'
@@ -416,7 +416,7 @@ IF (@islookupcolumn =1 AND @lookuptable != 'SelectLists')
 BEGIN
 
 SET @vsql = 'INSERT x_DATAVALIDATION.ValidationReport (TableName,ErrorMessage,LineNumber,Line)
-SELECT ''StaffSchool'',''The '+@columnname+' "''+ staff.'+@columnname+'+''" does not exist in '+@lookuptable+', but it existed in '+@tablename+''',staff.Line_No,ISNULL(CONVERT(VARCHAR(max),staff.StaffEmail),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),staff.SchoolCode),'''')
+SELECT ''StaffSchool'',''The '+@columnname+' ''''''+ staff.'+@columnname+'+'''''' does not exist in '+@lookuptable+', but it existed in '+@tablename+''',staff.Line_No,ISNULL(CONVERT(VARCHAR(max),staff.StaffEmail),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),staff.SchoolCode),'''')
 FROM x_DATAVALIDATION.StaffSchool_LOCAL staff  '
 
 SET @query  = '  WHERE (staff.'+@columnname+' NOT IN ( SELECT '+@lookupcolumn+' FROM x_DATAVALIDATION.'+@lookuptable+') AND staff.'+@columnname+' IS NOT NULL)'

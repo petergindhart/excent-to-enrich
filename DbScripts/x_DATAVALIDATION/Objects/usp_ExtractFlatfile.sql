@@ -42,6 +42,8 @@ SET @sql='EXEC x_DATAVALIDATION.ExtractData_From_Csv '''+ @datafilelocationpath 
 EXEC sp_executesql @stmt=@sql
 SET @sql='EXEC x_DATAVALIDATION.ExtractData_From_Csv '''+ @datafilelocationpath +'\StaffSchool.csv'',''StaffSchool'''
 EXEC sp_executesql @stmt=@sql
+SET @sql='EXEC x_DATAVALIDATION.ExtractData_From_Csv '''+ @datafilelocationpath +'\AccomMod.csv'',''AccomMod'''
+EXEC sp_executesql @stmt=@sql
 --EXEC x_DATAVALIDATION.Summaryreport
 DELETE x_DATAVALIDATION.ValidationSummaryReport WHERE NumberOfRecords = 0 AND ErrorMessage NOT IN ('SuccessfulRecords','TotalRecords')
 EXEC x_DATAVALIDATION.DataValidationReport_History

@@ -266,7 +266,7 @@ IF (@isFkRelation = 1)
 BEGIN
 
 SET @vsql = 'INSERT x_DATAVALIDATION.ValidationReport (TableName,ErrorMessage,LineNumber,Line)
-SELECT ''School'',''The '+@columnname+' "''+CONVERT(VARCHAR(MAX),tsch.'+@columnname+')+''" does not exist in '+@parenttable+'  or were not validated successfully, but it existed in '+@tablename+'.'',tsch.Line_No,(ISNULL(CONVERT(VARCHAR(max),tsch.SchoolCode),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),tsch.SchoolName),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),tsch.DistrictCode),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),tsch.MinutesPerWeek),'''')) as line FROM x_DATAVALIDATION.School_LOCAL tsch'
+SELECT ''School'',''The '+@columnname+' ''''''+CONVERT(VARCHAR(MAX),tsch.'+@columnname+')+'''''' does not exist in '+@parenttable+'  or were not validated successfully, but it existed in '+@tablename+'.'',tsch.Line_No,(ISNULL(CONVERT(VARCHAR(max),tsch.SchoolCode),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),tsch.SchoolName),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),tsch.DistrictCode),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),tsch.MinutesPerWeek),'''')) as line FROM x_DATAVALIDATION.School_LOCAL tsch'
 
 SET @query  = ' LEFT JOIN x_DATAVALIDATION.'+@parenttable+' dt ON tsch.'+@columnname+' = dt.'+@parentcolumn+' WHERE dt.'+@parentcolumn+' IS NULL'
 SET @vsql = @vsql + @query
@@ -327,7 +327,7 @@ DEALLOCATE chkSpecifications
 ----------------------------------------------------------------------------------------------
 --Is it important to check the combination of SchoolCode, DistrictCode?
 INSERT x_DATAVALIDATION.ValidationReport (TableName,ErrorMessage,LineNumber,Line)
-SELECT Distinct 'School','The combination SchoolCode ,DistrictCode "'+CONVERT(VARCHAR(MAX),tsch.DistrictCode)+','+CONVERT(VARCHAR(MAX),tsch.DistrictCode)+'" is duplicated.',tsch.Line_No,ISNULL(tsch.SCHOOLCODE,'')+'|'+ISNULL(tsch.SCHOOLNAME,'')+'|'+ISNULL(tsch.DISTRICTCODE,'')+'|'+ISNULL(convert(varchar(10),tsch.MINUTESPERWEEK),'')
+SELECT Distinct 'School','The combination SchoolCode ,DistrictCode '''+CONVERT(VARCHAR(MAX),tsch.DistrictCode)+','+CONVERT(VARCHAR(MAX),tsch.DistrictCode)+''' is duplicated.',tsch.Line_No,ISNULL(tsch.SCHOOLCODE,'')+'|'+ISNULL(tsch.SCHOOLNAME,'')+'|'+ISNULL(tsch.DISTRICTCODE,'')+'|'+ISNULL(convert(varchar(10),tsch.MINUTESPERWEEK),'')
 FROM x_DATAVALIDATION.School_LOCAL tsch
 JOIN (SELECT SchoolCode,DISTRICTCODE FROM x_DATAVALIDATION.School_LOCAL GROUP BY SchoolCode,DISTRICTCODE HAVING COUNT(*)>1) ucsch
 		 ON tsch.SCHOOLCODE = ucsch.SCHOOLCODE AND tsch.DistrictCode = ucsch.DistrictCode

@@ -326,7 +326,7 @@ IF (@isFkRelation = 1)
 BEGIN
 
 SET @vsql = 'INSERT x_DATAVALIDATION.ValidationReport (TableName,ErrorMessage,LineNumber,Line)
-SELECT ''TeamMember'',''The '+@columnname+' "''+CONVERT(VARCHAR(MAX),team.'+@columnname+')+''" does not exist in '+@parenttable+'  or were not validated successfully, but it existed in '+@tablename+'.'',team.Line_No,ISNULL(CONVERT(VARCHAR(max),team.StaffEmail),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),team.StudentRefId),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),team.IsCaseManager),'''')
+SELECT ''TeamMember'',''The '+@columnname+' ''''''+CONVERT(VARCHAR(MAX),team.'+@columnname+')+'''''' does not exist in '+@parenttable+'  or were not validated successfully, but it existed in '+@tablename+'.'',team.Line_No,ISNULL(CONVERT(VARCHAR(max),team.StaffEmail),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),team.StudentRefId),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),team.IsCaseManager),'''')
 FROM x_DATAVALIDATION.TeamMember_LOCAL team '
 
 SET @query  = ' LEFT JOIN x_DATAVALIDATION.'+@parenttable+' dt ON team.'+@columnname+' = dt.'+@parentcolumn+' WHERE dt.'+@parentcolumn+' IS NULL'
@@ -350,7 +350,7 @@ IF (@isFlagfield = 1)
 BEGIN
 
 SET @vsql = 'INSERT x_DATAVALIDATION.ValidationReport (TableName,ErrorMessage,LineNumber,Line)
-SELECT ''TeamMember'',''The field '+@columnname+' should have one of the value in '''+LTRIM(REPLACE(@flagrecords,''',''','/'))+''', It has value as "''+team.'+@columnname+'+''".'',team.Line_No,ISNULL(CONVERT(VARCHAR(max),team.StaffEmail),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),team.StudentRefId),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),team.IsCaseManager),'''')
+SELECT ''TeamMember'',''The field '+@columnname+' should have one of the value in '''+LTRIM(REPLACE(@flagrecords,''',''','/'))+''', It has value as ''''''+team.'+@columnname+'+''''''.'',team.Line_No,ISNULL(CONVERT(VARCHAR(max),team.StaffEmail),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),team.StudentRefId),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),team.IsCaseManager),'''')
 FROM x_DATAVALIDATION.TeamMember_LOCAL team '
 
 SET @query  = '  WHERE (team.'+@columnname+' NOT IN  ('+@flagrecords+') AND team.'+@columnname+' IS NOT NULL)'
@@ -375,7 +375,7 @@ IF (@isuniquefield = 1)
 BEGIN
 
 SET @vsql = 'INSERT x_DATAVALIDATION.ValidationReport (TableName,ErrorMessage,LineNumber,Line)
-SELECT ''TeamMember'',''The field '+@columnname+' is unique field, Here "''+CONVERT(VARCHAR(MAX),team.'+@columnname+')+''" record is repeated.'',team.Line_No,ISNULL(CONVERT(VARCHAR(max),team.StaffEmail),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),team.StudentRefId),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),team.IsCaseManager),'''')
+SELECT ''TeamMember'',''The field '+@columnname+' is unique field, Here ''''''+CONVERT(VARCHAR(MAX),team.'+@columnname+')+'''''' record is repeated.'',team.Line_No,ISNULL(CONVERT(VARCHAR(max),team.StaffEmail),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),team.StudentRefId),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),team.IsCaseManager),'''')
 FROM x_DATAVALIDATION.TeamMember_LOCAL team  JOIN'
 
 SET @query  = ' (SELECT StaffEmail,StudentRefId FROM x_DATAVALIDATION.TeamMember_LOCAL GROUP BY StaffEmail,StudentRefId HAVING COUNT(*)>1) ucteam ON (ucteam.StaffEmail = team.StaffEmail) AND (ucteam.StudentRefID = team.StudentRefID)'
@@ -403,7 +403,7 @@ IF (@islookupcolumn = 1 AND @lookuptable = 'SelectLists')
 BEGIN
 
 SET @vsql = 'INSERT x_DATAVALIDATION.ValidationReport (TableName,ErrorMessage,LineNumber,Line)
-SELECT ''TeamMember'',''The '+@columnname+' "''+ team.'+@columnname+'+''" does not exist in '+@lookuptable+', but it existed in '+@tablename+''',team.Line_No,ISNULL(CONVERT(VARCHAR(max),team.StaffEmail),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),team.StudentRefId),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),team.IsCaseManager),'''')
+SELECT ''TeamMember'',''The '+@columnname+' ''''''+ team.'+@columnname+'+'''''' does not exist in '+@lookuptable+', but it existed in '+@tablename+''',team.Line_No,ISNULL(CONVERT(VARCHAR(max),team.StaffEmail),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),team.StudentRefId),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),team.IsCaseManager),'''')
 FROM x_DATAVALIDATION.TeamMember_LOCAL team  '
 
 SET @query  = ' WHERE (team.'+@columnname+' NOT IN ( SELECT '+@lookupcolumn+' FROM x_DATAVALIDATION.'+@lookuptable+' WHERE Type = '''+@lookuptype+''') AND team.'+@columnname+' IS NOT NULL)'
@@ -425,7 +425,7 @@ IF (@islookupcolumn =1 AND @lookuptable != 'SelectLists')
 BEGIN
 
 SET @vsql = 'INSERT x_DATAVALIDATION.ValidationReport (TableName,ErrorMessage,LineNumber,Line)
-SELECT ''TeamMember'',''The '+@columnname+' "''+ team.'+@columnname+'+''" does not exist in '+@lookuptable+', but it existed in '+@tablename+''',team.Line_No,ISNULL(CONVERT(VARCHAR(max),team.StaffEmail),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),team.StudentRefId),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),team.IsCaseManager),'''')
+SELECT ''TeamMember'',''The '+@columnname+' ''''''+ team.'+@columnname+'+'''''' does not exist in '+@lookuptable+', but it existed in '+@tablename+''',team.Line_No,ISNULL(CONVERT(VARCHAR(max),team.StaffEmail),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),team.StudentRefId),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),team.IsCaseManager),'''')
 FROM x_DATAVALIDATION.TeamMember_LOCAL team '
 
 SET @query  = '  WHERE (team.'+@columnname+' NOT IN ( SELECT '+@lookupcolumn+' FROM x_DATAVALIDATION.'+@lookuptable+') AND team.'+@columnname+' IS NOT NULL)'

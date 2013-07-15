@@ -1,4 +1,5 @@
---#include Check_SelecLists_Specifications.sql
+--#include {SpedObjectsInclude}\0000-Localization.sql
+--#include Check_SelectLists_Specifications.sql
 --#include Check_District_Specifications.sql
 --#include Check_School_Specifications.sql
 --#include Check_Student_Specifications.sql

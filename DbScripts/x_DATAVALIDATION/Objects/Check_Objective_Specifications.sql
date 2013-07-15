@@ -331,7 +331,7 @@ IF (@isFkRelation = 1)
 BEGIN
 
 SET @vsql = 'INSERT x_DATAVALIDATION.ValidationReport (TableName,ErrorMessage,LineNumber,Line)
-SELECT ''Objective'',''The '+@columnname+' "''+CONVERT(VARCHAR(MAX),obj.'+@columnname+')+''" does not exist in '+@parenttable+'  or were not validated successfully, but it existed in '+@tablename+'.'',obj.Line_No,ISNULL(CONVERT(VARCHAR(max),obj.ObjectiveRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.GoalRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.Sequence),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.ObjText),'''') FROM x_DATAVALIDATION.Objective_LOCAL obj '
+SELECT ''Objective'',''The '+@columnname+' ''''''+CONVERT(VARCHAR(MAX),obj.'+@columnname+')+'''''' does not exist in '+@parenttable+'  or were not validated successfully, but it existed in '+@tablename+'.'',obj.Line_No,ISNULL(CONVERT(VARCHAR(max),obj.ObjectiveRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.GoalRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.Sequence),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.ObjText),'''') FROM x_DATAVALIDATION.Objective_LOCAL obj '
 
 SET @query  = ' LEFT JOIN x_DATAVALIDATION.'+@parenttable+' dt ON obj.'+@columnname+' = dt.'+@parentcolumn+' WHERE dt.'+@parentcolumn+' IS NULL'
 SET @vsql = @vsql + @query
@@ -354,7 +354,7 @@ IF (@isFlagfield = 1)
 BEGIN
 
 SET @vsql = 'INSERT x_DATAVALIDATION.ValidationReport (TableName,ErrorMessage,LineNumber,Line)
-SELECT ''Objective'',''The field '+@columnname+' should have one of the value in '''+LTRIM(REPLACE(@flagrecords,''',''','/'))+''', It has value as "''+goal.'+@columnname+'+''".'',obj.Line_No,ISNULL(CONVERT(VARCHAR(max),obj.ObjectiveRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.GoalRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.Sequence),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.ObjText),'''') FROM x_DATAVALIDATION.Objective_LOCAL obj '
+SELECT ''Objective'',''The field '+@columnname+' should have one of the value in '''+LTRIM(REPLACE(@flagrecords,''',''','/'))+''', It has value as ''''''+goal.'+@columnname+'+''''''.'',obj.Line_No,ISNULL(CONVERT(VARCHAR(max),obj.ObjectiveRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.GoalRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.Sequence),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.ObjText),'''') FROM x_DATAVALIDATION.Objective_LOCAL obj '
 
 SET @query  = '  WHERE (obj.'+@columnname+' NOT IN ('+@flagrecords+') AND obj.'+@columnname+' IS NOT NULL)'
 SET @vsql = @vsql + @query
@@ -377,7 +377,7 @@ IF (@isuniquefield = 1)
 BEGIN
 
 SET @vsql = 'INSERT x_DATAVALIDATION.ValidationReport (TableName,ErrorMessage,LineNumber,Line)
-SELECT ''Objective'',''The field '+@columnname+' is unique field, Here "''+CONVERT(VARCHAR(MAX),obj.'+@columnname+')+''" record is repeated.'',obj.Line_No,ISNULL(CONVERT(VARCHAR(max),obj.ObjectiveRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.GoalRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.Sequence),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.ObjText),'''') FROM x_DATAVALIDATION.Objective_LOCAL obj JOIN'
+SELECT ''Objective'',''The field '+@columnname+' is unique field, Here ''''''+CONVERT(VARCHAR(MAX),obj.'+@columnname+')+'''''' record is repeated.'',obj.Line_No,ISNULL(CONVERT(VARCHAR(max),obj.ObjectiveRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.GoalRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.Sequence),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.ObjText),'''') FROM x_DATAVALIDATION.Objective_LOCAL obj JOIN'
 
 SET @query  = ' (SELECT '+@columnname+' FROM x_DATAVALIDATION.Objective_LOCAL GROUP BY '+@columnname+' HAVING COUNT(*)>1) ucobj ON ucobj.'+@columnname+' = obj.'+@columnname+' '
 SET @vsql = @vsql + @query
@@ -399,7 +399,7 @@ IF (@islookupcolumn = 1 AND @lookuptable = 'SelectLists')
 BEGIN
 
 SET @vsql = 'INSERT x_DATAVALIDATION.ValidationReport (TableName,ErrorMessage,LineNumber,Line)
-SELECT ''Objective'',''The '+@columnname+' "''+ obj.'+@columnname+'+''" does not exist in '+@lookuptable+', but it existed in '+@tablename+''',obj.Line_No,ISNULL(CONVERT(VARCHAR(max),obj.ObjectiveRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.GoalRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.Sequence),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.ObjText),'''')
+SELECT ''Objective'',''The '+@columnname+' ''''''+ obj.'+@columnname+'+'''''' does not exist in '+@lookuptable+', but it existed in '+@tablename+''',obj.Line_No,ISNULL(CONVERT(VARCHAR(max),obj.ObjectiveRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.GoalRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.Sequence),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.ObjText),'''')
 FROM x_DATAVALIDATION.Objective_LOCAL obj '
 
 SET @query  = ' WHERE (obj.'+@columnname+' NOT IN ( SELECT '+@lookupcolumn+' FROM x_DATAVALIDATION.'+@lookuptable+' WHERE Type = '''+@lookuptype+''') AND obj.'+@columnname+' IS NOT NULL)'
@@ -422,7 +422,7 @@ IF (@islookupcolumn =1 AND @lookuptable != 'SelectLists')
 BEGIN
 
 SET @vsql = 'INSERT x_DATAVALIDATION.ValidationReport (TableName,ErrorMessage,LineNumber,Line)
-SELECT ''Objective'',''The '+@columnname+' "''+ obj.'+@columnname+'+''" does not exist in '+@lookuptable+', but it existed in '+@tablename+''',obj.Line_No,ISNULL(CONVERT(VARCHAR(max),obj.ObjectiveRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.GoalRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.Sequence),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.ObjText),'''')
+SELECT ''Objective'',''The '+@columnname+' ''''''+ obj.'+@columnname+'+'''''' does not exist in '+@lookuptable+', but it existed in '+@tablename+''',obj.Line_No,ISNULL(CONVERT(VARCHAR(max),obj.ObjectiveRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.GoalRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.Sequence),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.ObjText),'''')
 FROM x_DATAVALIDATION.Objective_LOCAL obj '
 
 SET @query  = ' WHERE (obj.'+@columnname+' NOT IN ( SELECT '+@lookupcolumn+' FROM x_DATAVALIDATION.'+@lookuptable+') AND obj.'+@columnname+' IS NOT NULL)'

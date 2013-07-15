@@ -321,7 +321,7 @@ IF (@isFkRelation = 1)
 BEGIN
 
 SET @vsql = 'INSERT x_DATAVALIDATION.ValidationReport (TableName,ErrorMessage,LineNumber,Line)
-SELECT ''SpedStaffMember'',''The '+@columnname+' "''+CONVERT(VARCHAR(MAX),sped.'+@columnname+')+''" does not exist in '+@parenttable+'  or were not validated successfully, but it existed in '+@tablename+'.'',Line_No,ISNULL(CONVERT(VARCHAR(max),sped.StaffEmail),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),sped.LASTNAME),'''')+ISNULL(CONVERT(VARCHAR(max),sped.Firstname),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),sped.EnrichRole),'''')
+SELECT ''SpedStaffMember'',''The '+@columnname+' ''''''+CONVERT(VARCHAR(MAX),sped.'+@columnname+')+'''''' does not exist in '+@parenttable+'  or were not validated successfully, but it existed in '+@tablename+'.'',Line_No,ISNULL(CONVERT(VARCHAR(max),sped.StaffEmail),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),sped.LASTNAME),'''')+ISNULL(CONVERT(VARCHAR(max),sped.Firstname),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),sped.EnrichRole),'''')
 FROM x_DATAVALIDATION.SpedStaffMember_LOCAL sped'
 
 SET @query  = ' LEFT JOIN x_DATAVALIDATION.'+@parenttable+' dt ON sped.'+@columnname+' = dt.'+@parentcolumn+' WHERE dt.'+@parentcolumn+' IS NULL'
@@ -344,7 +344,7 @@ IF (@isFlagfield = 1)
 BEGIN
 
 SET @vsql = 'INSERT x_DATAVALIDATION.ValidationReport (TableName,ErrorMessage,LineNumber,Line)
-SELECT ''SpedStaffMember'',''The field '+@columnname+' should have one of the value in '''+LTRIM(REPLACE(@flagrecords,''',''','/'))+''', It has value as "''+'+@columnname+'+''".'',Line_No,ISNULL(CONVERT(VARCHAR(max),StaffEmail),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),LASTNAME),'''')+ISNULL(CONVERT(VARCHAR(max),Firstname),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),EnrichRole),'''')
+SELECT ''SpedStaffMember'',''The field '+@columnname+' should have one of the value in '''+LTRIM(REPLACE(@flagrecords,''',''','/'))+''', It has value as ''''''+'+@columnname+'+''''''.'',Line_No,ISNULL(CONVERT(VARCHAR(max),StaffEmail),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),LASTNAME),'''')+ISNULL(CONVERT(VARCHAR(max),Firstname),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),EnrichRole),'''')
 FROM x_DATAVALIDATION.SpedStaffMember_LOCAL '
 
 SET @query  = '  WHERE ('+@columnname+' NOT IN  ('+@flagrecords+') AND '+@columnname+' IS NOT NULL)'
@@ -367,7 +367,7 @@ IF (@isuniquefield = 1)
 BEGIN
 
 SET @vsql = 'INSERT x_DATAVALIDATION.ValidationReport (TableName,ErrorMessage,LineNumber,Line)
-SELECT ''SpedStaffMember'',''The field '+@columnname+' is unique field, Here "''+CONVERT(VARCHAR(MAX),sped.'+@columnname+')+''" record is repeated.'',sped.Line_No,ISNULL(CONVERT(VARCHAR(max),sped.StaffEmail),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),sped.LASTNAME),'''')+ISNULL(CONVERT(VARCHAR(max),sped.Firstname),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),sped.EnrichRole),'''')
+SELECT ''SpedStaffMember'',''The field '+@columnname+' is unique field, Here ''''''+CONVERT(VARCHAR(MAX),sped.'+@columnname+')+'''''' record is repeated.'',sped.Line_No,ISNULL(CONVERT(VARCHAR(max),sped.StaffEmail),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),sped.LASTNAME),'''')+ISNULL(CONVERT(VARCHAR(max),sped.Firstname),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),sped.EnrichRole),'''')
 FROM x_DATAVALIDATION.SpedStaffMember_LOCAL sped JOIN'
 
 SET @query  = ' (SELECT '+@columnname+' FROM x_DATAVALIDATION.SpedStaffMember_LOCAL GROUP BY '+@columnname+' HAVING COUNT(*)>1) ucsped ON ucsped.'+@columnname+' = sped.'+@columnname+' '
@@ -389,7 +389,7 @@ IF (@islookupcolumn =1 AND @lookuptable = 'SelectLists')
 BEGIN
 
 SET @vsql = 'INSERT x_DATAVALIDATION.ValidationReport (TableName,ErrorMessage,LineNumber,Line)
-SELECT ''SpedStaffMember'',''The '+@columnname+' "''+ sped.'+@columnname+'+''" does not exist in '+@lookuptable+', but it existed in '+@tablename+''',sped.Line_No,ISNULL(CONVERT(VARCHAR(max),sped.StaffEmail),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),sped.LASTNAME),'''')+ISNULL(CONVERT(VARCHAR(max),sped.Firstname),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),sped.EnrichRole),'''')
+SELECT ''SpedStaffMember'',''The '+@columnname+' ''''''+ sped.'+@columnname+'+'''''' does not exist in '+@lookuptable+', but it existed in '+@tablename+''',sped.Line_No,ISNULL(CONVERT(VARCHAR(max),sped.StaffEmail),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),sped.LASTNAME),'''')+ISNULL(CONVERT(VARCHAR(max),sped.Firstname),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),sped.EnrichRole),'''')
 FROM x_DATAVALIDATION.SpedStaffMember_LOCAL sped '
 
 SET @query  = ' WHERE (sped.'+@columnname+' NOT IN ( SELECT '+@lookupcolumn+' FROM x_DATAVALIDATION.'+@lookuptable+' WHERE Type = '''+@lookuptype+''') AND sped.'+@columnname+' IS NOT NULL)'
@@ -411,7 +411,7 @@ IF (@islookupcolumn =1 AND @lookuptable != 'SelectLists')
 BEGIN
 
 SET @vsql = 'INSERT x_DATAVALIDATION.ValidationReport (TableName,ErrorMessage,LineNumber,Line)
-SELECT ''SpedStaffMember'',''The '+@columnname+' "''+ sped.'+@columnname+'+''" does not exist in '+@lookuptable+', but it existed in '+@tablename+''',sped.Line_No,ISNULL(CONVERT(VARCHAR(max),sped.StaffEmail),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),sped.LASTNAME),'''')+ISNULL(CONVERT(VARCHAR(max),sped.Firstname),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),sped.EnrichRole),'''')
+SELECT ''SpedStaffMember'',''The '+@columnname+' ''''''+ sped.'+@columnname+'+'''''' does not exist in '+@lookuptable+', but it existed in '+@tablename+''',sped.Line_No,ISNULL(CONVERT(VARCHAR(max),sped.StaffEmail),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),sped.LASTNAME),'''')+ISNULL(CONVERT(VARCHAR(max),sped.Firstname),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),sped.EnrichRole),'''')
 FROM x_DATAVALIDATION.SpedStaffMember_LOCAL sped '
 
 SET @query  = ' WHERE (sped.'+@columnname+' NOT IN ( SELECT '+@lookupcolumn+' FROM x_DATAVALIDATION.'+@lookuptable+') AND sped.'+@columnname+' IS NOT NULL)'
