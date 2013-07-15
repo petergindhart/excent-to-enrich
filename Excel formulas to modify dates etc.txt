@@ -1,0 +1,12 @@
+To make use of these Excel formulas, add a new column to spreadsheet just after the target column, apply the formula, then copy the VALUES ONLY to a new worksheet and delete the empty tabs.
+-- In the following formulas, columns E, G, I and L are derived values.  Where these columns appear in the following formulas, they may need to be adjusted where those columns were not derived.
+
+-- To derive start date (start date can be iep meeting date)
+=IF(ISBLANK(D2)|C2|D2)
+
+-- To derive end date (end date can be start date plus one year minus one day)
+=TEXT(DATE(YEAR(E2)+1|MONTH(E2)|DAY(E2)-1)|"MM/DD/YYYY")
+
+-- To derive Latest eval date from Next eval date where latest eval date is missing (latest eval date can be next eval minus 3 years)
+=IF(ISBLANK(K2)|IF(ISBLANK(M2)|""|TEXT(DATE(YEAR(M2)-3|MONTH(M2)|DAY(M2))|"MM/DD/YYYY"))|K2)
+
