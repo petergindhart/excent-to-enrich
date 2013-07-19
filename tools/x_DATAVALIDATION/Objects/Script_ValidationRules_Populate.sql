@@ -107,4 +107,6 @@ INSERT x_DATAVALIDATION.ValidationRules VALUES  ('x_DATAVALIDATION','TeamMember'
 INSERT x_DATAVALIDATION.ValidationRules VALUES  ('x_DATAVALIDATION','AccomMod','IEPRefID',1,'varchar','150','1','1','1','IEP','IEPRefID','0',NULL,NULL,NULL,'0',NULL)
 INSERT x_DATAVALIDATION.ValidationRules VALUES  ('x_DATAVALIDATION','AccomMod','AccomStatement',2,'varchar','8000','0','0','0',NULL,NULL,'0',NULL,NULL,NULL,'0',NULL)
 INSERT x_DATAVALIDATION.ValidationRules VALUES  ('x_DATAVALIDATION','AccomMod','ModStatement',3,'varchar','8000','0','0','0',NULL,NULL,'0',NULL,NULL,NULL,'0',NULL)
+INSERT x_DATAVALIDATION.ValidationRules VALUES  ('x_DATAVALIDATION','SchoolProgressFrequency','SchoolCode',1,'varchar','10','1','1','1','School','SchoolCode','0',NULL,NULL,NULL,'0',NULL)
+INSERT x_DATAVALIDATION.ValidationRules VALUES  ('x_DATAVALIDATION','SchoolProgressFrequency','FrequencyName',2,'varchar','50','0','0','0',NULL,NULL,'0',NULL,NULL,NULL,'0',NULL)
 --SELECT * FROM x_DATAVALIDATION.ValidationRules

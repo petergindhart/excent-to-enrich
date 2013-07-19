@@ -42,6 +42,8 @@ SET @sql='EXEC x_DATAVALIDATION.ExtractData_From_Csv '''+ @datafilelocationpath 
 EXEC sp_executesql @stmt=@sql
 SET @sql='EXEC x_DATAVALIDATION.ExtractData_From_Csv '''+ @datafilelocationpath +'\StaffSchool.csv'',''StaffSchool'''
 EXEC sp_executesql @stmt=@sql
+SET @sql='EXEC x_DATAVALIDATION.ExtractData_From_Csv '''+ @datafilelocationpath +'\SchoolProgressFrequency.csv'',''SchoolProgressFrequency'''
+EXEC sp_executesql @stmt=@sql
 SET @sql='EXEC x_DATAVALIDATION.ExtractData_From_Csv '''+ @datafilelocationpath +'\AccomMod.csv'',''AccomMod'''
 EXEC sp_executesql @stmt=@sql
 --EXEC x_DATAVALIDATION.Summaryreport
