@@ -11,6 +11,7 @@
 --#include Transform_Student.sql
 --#include Populate_MAP_StudentRefIDAll.sql
 --#include EvaluateIncomingItems.sql
+--#include {SpedDistrictInclude}\MAP_PrgStatus_ConvertedDataPlan.sql
 --#include Transform_PrgInvolvement.sql
 --#include Transform_PrgIep.sql
 --#include Transform_IepServices.sql
