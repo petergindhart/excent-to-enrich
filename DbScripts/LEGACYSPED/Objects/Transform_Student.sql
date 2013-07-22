@@ -1,4 +1,4 @@
-change this view to handle duplicate StudentLocalID  (Mountain BOCES)
+-- change this view to handle duplicate StudentLocalID  (Mountain BOCES)
 
 -- #############################################################################
 -- Student
@@ -117,12 +117,11 @@ AS
 
  -- match on StateID if possible
   LEGACYSPED.StudentView sst on isnull(src.StudentStateID,'x1') = isnull(sst.StudentStateID,'y1') and
- sst.ID = (
-  select max(convert(varchar(36), a.ID))
+	sst.ID = (
+  select max(convert(varchar(36), a.ID)) -- Arbitrary selection of single record in case of 2 with same stateID (here we need to account for district / school)
   from LEGACYSPED.StudentView a 
-  where
- a.StudentStateID is not null and
- a.StudentStateID = sst.StudentStateID) LEFT JOIN -- identifies students in legacy data that match students in Enrich
+  where a.StudentStateID is not null and
+		a.StudentStateID = sst.StudentStateID) LEFT JOIN -- identifies students in legacy data that match students in Enrich
 
   -- match on Local ID if State ID not available
   dbo.Student sloc on src.StudentLocalID = sloc.Number and 
