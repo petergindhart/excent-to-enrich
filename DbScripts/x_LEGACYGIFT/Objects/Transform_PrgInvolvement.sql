@@ -35,7 +35,7 @@ AS
 		StudentRefID = stu.StudentRefID,
 		DestID = coalesce(x.ID, m.DestID),
 		StudentID = stu.DestID,
-		ProgramID = '2FF58E06-9E4A-4BE5-8274-E0FDE0012D4E',   -- Gifted Education
+		ProgramID = (select DestID from x_LEGACYGIFT.MAP_GiftedProgramID),   -- Gifted Education
 		VariantID = '2FF8B34F-3337-4760-AC09-76F6AE09C610',   -- None
 		StartDate = stu.EPMeetingDate,   -- school start for this EP period
 		EndDate = NULL,
