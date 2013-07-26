@@ -11,9 +11,9 @@ AS
 	SELECT
 		iep.StudentRefID,
 		DestID = m.DestID,
-		ServiceDistrictID = dss.OrgUnitID,
+		ServiceDistrictID = ss.OrgUnitID,
 		ServiceSchoolID = ss.DestID,
-		HomeDistrictID = dsh.OrgUnitID,
+		HomeDistrictID = sh.OrgUnitID,
 		HomeSchoolID = sh.DestID,
 		iep.DoNotTouch
 	FROM
