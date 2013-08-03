@@ -6,9 +6,7 @@ exec VC3Deployment.CreateSchema 'x_LEGACYGIFT'
 
 -- Register module
 exec VC3Deployment.AddModule 'x_LEGACYGIFT'
---exec VC3Deployment.AddModuleDependency @uses='x_LEGACYGIFT', @usedBy='dbo'
---exec VC3Deployment.AddModuleDependency @uses='x_LEGACYGIFT', @usedBy='VC3ETL'
---exec VC3Deployment.AddModuleDependency @uses='x_LEGACYGIFT', @usedBy='LEGACYSPED'
---exec VC3Deployment.AddModuleDependency @uses='x_LEGACYGIFT', @usedBy='x_LEGACY504'
---exec VC3Deployment.AddModuleDependency @uses='x_LEGACYGIFT', @usedBy='x_LEGACYDOC'
+exec VC3Deployment.AddModuleDependency @usedBy='x_LEGACYGIFT', @uses='dbo'
+exec VC3Deployment.AddModuleDependency @usedBy='x_LEGACYGIFT', @uses='VC3ETL'
+exec VC3Deployment.AddModuleDependency @usedBy='x_LEGACYGIFT', @uses='LEGACYSPED'
 --
