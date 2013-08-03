@@ -39,7 +39,7 @@ from x_LEGACYGIFT.Transform_PrgSectionFormInstance f join
 	dbo.FormInputSingleSelectValue ssv on ftii.Id = ssv.ID and
 		dp.InputFieldID = v.InputFieldID left join
 	FormTemplateInputSelectFieldOption ssv1 on mv.DestID = ssv1.ID -- We are inserting a NULL, so this is not signifcant at this point.           should this be in a separate transform?
-where f.TemplateID = '1D2FD18F-9E14-4772-B728-1CA3E6EAE21E'
+where f.TemplateID = (select FooterFormTemplateID from x_LEGACYGIFT.ImportPrgSections where SectionType = 'Custom Form / Dates')
 and dp.InputItemType = 'SingleSelect'
 go
 
