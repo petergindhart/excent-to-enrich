@@ -37,10 +37,10 @@ ALTER TABLE x_LEGACYGIFT.ImportPrgSections
 )
 GO
 set nocount on;
-insert x_LEGACYGIFT.ImportPrgSections values (0, 0, 'Custom Form / Dates', '49370EFB-E531-4B61-86A3-3D1C132AB480',  '1D2FD18F-9E14-4772-B728-1CA3E6EAE21E',  NULL) -- Custom Form   F: Dates   H:  (none)
-insert x_LEGACYGIFT.ImportPrgSections values (0, 1, 'Custom Form / EP Present Levels', 'DF806BE1-85C9-4A5C-A4D9-12D41D14147C',  'B659273D-D369-45BF-8F85-01B7857F0635',  NULL) -- Custom Form   F: EP Present Levels   H:  (none)
-insert x_LEGACYGIFT.ImportPrgSections values (0, 2, 'IEP Goals', 'F9BCB1A3-D7D2-43E8-9B92-E269B80A2C62',  NULL,  NULL) -- IEP Goals   F:  (none)   H:  (none)
-insert x_LEGACYGIFT.ImportPrgSections values (0, 3, 'IEP Services', '8EFD24A0-46F0-4734-999A-0B4CCE2C1519',  NULL,  NULL) -- IEP Services   F:  (none)   H:  (none)
+insert x_LEGACYGIFT.ImportPrgSections values (1, 0, 'Custom Form / Dates', '65604BD1-01BD-4CD0-929F-A082BEE7CBC5',  'DC3596BD-8ECF-475A-966D-0D090C825580',  NULL) -- Custom Form   F: Dates   H:  (none)
+--insert x_LEGACYGIFT.ImportPrgSections values (0, 1, 'Custom Form / EP Present Levels', 'DF806BE1-85C9-4A5C-A4D9-12D41D14147C',  'B659273D-D369-45BF-8F85-01B7857F0635',  NULL) -- Custom Form   F: EP Present Levels   H:  (none)
+--insert x_LEGACYGIFT.ImportPrgSections values (0, 2, 'IEP Goals', 'F9BCB1A3-D7D2-43E8-9B92-E269B80A2C62',  NULL,  NULL) -- IEP Goals   F:  (none)   H:  (none)
+--insert x_LEGACYGIFT.ImportPrgSections values (0, 3, 'IEP Services', '8EFD24A0-46F0-4734-999A-0B4CCE2C1519',  NULL,  NULL) -- IEP Services   F:  (none)   H:  (none)
 
 -- select * from x_LEGACYGIFT.ImportPrgSections order by Sequence
 
@@ -104,22 +104,45 @@ and ftii.ID not in (select InputFieldID from x_LEGACYGIFT.FormInputValueFields)
 order by ft.Name, ftii.Sequence
 
 
---insert x_LEGACYGIFT.FormInputValueFields values ('1D2FD18F-9E14-4772-B728-1CA3E6EAE21E', '228379F1-0C95-4D69-95DA-BFB437FFB6C5') -- EP Meeting Date:
---insert x_LEGACYGIFT.FormInputValueFields values ('1D2FD18F-9E14-4772-B728-1CA3E6EAE21E', '63CB1358-9540-4469-8C2C-6DBFB6613037') -- EP Initiation Date:
---insert x_LEGACYGIFT.FormInputValueFields values ('1D2FD18F-9E14-4772-B728-1CA3E6EAE21E', '4C561605-316A-498F-8793-E74300782C9B') -- Last EP Date:
---insert x_LEGACYGIFT.FormInputValueFields values ('1D2FD18F-9E14-4772-B728-1CA3E6EAE21E', '94CD1E37-59A4-4B4C-B7AC-811E657F94FE') -- Duration Date:
---insert x_LEGACYGIFT.FormInputValueFields values ('1D2FD18F-9E14-4772-B728-1CA3E6EAE21E', '88558694-9018-4941-80BE-71D2D1BE5112') -- EP Level:
+-- since this will evidently always be different from district to district, create this view here with the hard-coded IDs
+IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'x_LEGACYGIFT.EPDatesPivot') AND OBJECTPROPERTY(id, N'IsView') = 1)
+DROP VIEW x_LEGACYGIFT.EPDatesPivot
+GO
 
---insert x_LEGACYGIFT.FormInputValueFields values ('B659273D-D369-45BF-8F85-01B7857F0635', '4F8DA6FB-9CF6-4056-9D06-534A675E7380') -- Parents, student and other EP members contribute information in the following areas:
---insert x_LEGACYGIFT.FormInputValueFields values ('B659273D-D369-45BF-8F85-01B7857F0635', '2E21A087-BDA2-435E-8D70-2701D27C9C96') -- Strengths and interests of student.
---insert x_LEGACYGIFT.FormInputValueFields values ('B659273D-D369-45BF-8F85-01B7857F0635', '019D9A47-60B0-405C-B585-7C0616F18FAA') -- Needs beyond general curriculum as a result of student's giftedness.
---insert x_LEGACYGIFT.FormInputValueFields values ('B659273D-D369-45BF-8F85-01B7857F0635', '33A9E439-CD8C-4E3C-B334-9F8B37185695') -- Results of recent evaluations, state or district assessments, and class work.
---insert x_LEGACYGIFT.FormInputValueFields values ('B659273D-D369-45BF-8F85-01B7857F0635', '04E73B63-654F-4B20-88A1-BFF9D214E9F5') -- Language needs of LEP student.
+create view x_LEGACYGIFT.EPDatesPivot
+as
+select u.*, InputItemType =  iit.Name, InputItemTypeID = iit.ID
+from (
+	select EPRefID, DateValue = EPMeetingDate, InputFieldID = '5A25FA40-9E96-4421-88C2-24C177CAF414' -- EP Meeting Date:
+	from x_LEGACYGIFT.GiftedStudent s
+	union all
+	select EPRefID, EPMeetingDate, InputFieldID = '9BD0C775-AD94-46C3-953D-2005854E2D13' -- EP Initiation Date:
+	from x_LEGACYGIFT.GiftedStudent s
+	union all
+	select EPRefID, s.LastEPDate, InputFieldID = '2C41063F-F8A1-45A9-9A7F-96794A77419B' -- Last EP Date:
+	from x_LEGACYGIFT.GiftedStudent s
+	union all
+--
+	select EPRefID, NULL, InputFieldID = 'FDD3B407-77D3-4FB2-8EAE-3DE0D35A6821' -- Special Review Date:
+	from x_LEGACYGIFT.GiftedStudent s
+	union all
+---
+	select EPRefID, s.DurationDate, InputFieldID = 'D022A416-7E74-4CF0-9007-4224949D1702' -- Duration Date:
+	from x_LEGACYGIFT.GiftedStudent s
+	union all
+	select EPRefID, NULL, InputFieldID = 'A2E3EB67-6A1F-4B88-99C9-4027B37D4ECA' -- EP Level: (SingleSelect)
+	from x_LEGACYGIFT.GiftedStudent s
+	) u join
+FormTemplateInputItem ftii on u.InputFieldID = ftii.Id join 
+FormTemplateInputItemType iit on ftii.TypeId = iit.Id
+go
 
 
 
 
-/*		use the following query to create the insert statements for the x_LEGACYGIFT.FormInputValueFields table
+
+
+/*		different approach (not automated): use the following query to create the insert statements for the x_LEGACYGIFT.FormInputValueFields table
 
 
 select ft.Name, ftii.InputAreaID, ftc.IsRepeatable, ftii.Sequence, ftii.Label, ftl.TemplateID, FormTemplateInputItemID = ftii.ID,
@@ -169,67 +192,6 @@ This is an extract from the formletviewbuilder query that shows the input field 
 
 
 
------- #############################################################################
-------		Goal Area MAP
---IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'x_LEGACYGIFT.MAP_EPSubGoalAreaDefID') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
---BEGIN
---CREATE TABLE x_LEGACYGIFT.MAP_EPSubGoalAreaDefID 
---(
---	SubGoalAreaCode	varchar(150) NOT NULL,
---	DestID uniqueidentifier NOT NULL,
---	ParentID uniqueidentifier not null
---)
-
---ALTER TABLE x_LEGACYGIFT.MAP_EPSubGoalAreaDefID ADD CONSTRAINT
---PK_MAP_EPSubGoalAreaDefID PRIMARY KEY CLUSTERED
---(
---	SubGoalAreaCode
---)
-
---END
---GO
-
----- select 'insert x_LEGACYGIFT.MAP_EPSubGoalAreaDefID values ('''+SubGoalAreaCode+''', '''+convert(varchar(36), DestID)+''', '''+convert(varchar(36), ParentID)+''')' from x_LEGACYGIFT.Transform_EPSubGoalAreaDef
---if not exists (select 1 from x_LEGACYGIFT.MAP_EPSubGoalAreaDefID where SubGoalAreaCode = 'GAReading')
---insert x_LEGACYGIFT.MAP_EPSubGoalAreaDefID values ('GAReading', 'A7506FED-1F87-484C-97DF-99517AC26971', '35B32108-174B-4F7F-9B5A-B5AF106F06BC')
-
---if not exists (select 1 from x_LEGACYGIFT.MAP_EPSubGoalAreaDefID where SubGoalAreaCode = 'GAWriting')
---insert x_LEGACYGIFT.MAP_EPSubGoalAreaDefID values ('GAWriting', '7099C2E7-02C9-4903-8A01-8F0774364E5B', '35B32108-174B-4F7F-9B5A-B5AF106F06BC')
-
---if not exists (select 1 from x_LEGACYGIFT.MAP_EPSubGoalAreaDefID where SubGoalAreaCode = 'GAMath')
---insert x_LEGACYGIFT.MAP_EPSubGoalAreaDefID values ('GAMath', 'D58C5141-DD5D-4C80-BB93-7CC88A234B2D', '35B32108-174B-4F7F-9B5A-B5AF106F06BC')
-
---if not exists (select 1 from x_LEGACYGIFT.MAP_EPSubGoalAreaDefID where SubGoalAreaCode = 'GAOther')
---insert x_LEGACYGIFT.MAP_EPSubGoalAreaDefID values ('GAOther', 'DEEB5A06-156D-43D0-B976-4B30245C6784', '35B32108-174B-4F7F-9B5A-B5AF106F06BC')
-
----- Lee County had a MAP_ServiceFrequencyID from a previouos ETL run that had bogus frequency data. delete that data and insert the good.
---declare @Map_ServiceFrequencyID table (ServiceFrequencyCode varchar(30), ServiceFrequencyName varchar(50), DestID uniqueidentifier)
---set nocount on;
---insert @Map_ServiceFrequencyID values ('day', 'daily', '71590A00-2C40-40FF-ABD9-E73B09AF46A1')
---insert @Map_ServiceFrequencyID values ('week', 'weekly', 'A2080478-1A03-4928-905B-ED25DEC259E6')
---insert @Map_ServiceFrequencyID values ('month', 'monthly', '3D4B557B-0C2E-4A41-9410-BA331F1D20DD')
---insert @Map_ServiceFrequencyID values ('year', 'yearly', '5F3A2822-56F3-49DA-9592-F604B0F202C3')
---insert @Map_ServiceFrequencyID values ('ZZZ', 'unknown', 'C42C50ED-863B-44B8-BF68-B377C8B0FA95')
-
---if (select COUNT(*) from @Map_ServiceFrequencyID t join x_LEGACYGIFT.MAP_ServiceFrequencyID m on t.DestID = m.DestID) <> 5
---	delete x_LEGACYGIFT.MAP_ServiceFrequencyID
-
---set nocount off;
---insert x_LEGACYGIFT.MAP_ServiceFrequencyID
---select m.ServiceFrequencyCode, m.ServiceFrequencyName, m.DestID
---from @Map_ServiceFrequencyID m left join
---	x_LEGACYGIFT.MAP_ServiceFrequencyID t on m.DestID = t.DestID
---where t.DestID is null
-
----- this is seed data, but maybe this is not the best place for this code.....
---insert ServiceFrequency (ID, Name, Sequence, WeekFactor)
---select DestID, m.ServiceFrequencyName, 99, 0
---from x_LEGACYGIFT.MAP_ServiceFrequencyID m left join
---	ServiceFrequency t on m.DestID = t.ID
---where t.ID is null
---GO
-
-
 if exists (select 1 from sys.schemas s join sys.objects o on s.schema_id = o.schema_id where s.name = 'x_LEGACYGIFT' and o.name = 'GiftedConversionWrapUp')
 drop procedure x_LEGACYGIFT.GiftedConversionWrapUp
 go
@@ -244,3 +206,5 @@ exec dbo.Util_VerifyProgramDataAssumptions 'AD9F855B-E054-46BF-ACA9-1884CBD6C8E1
 GO
 
 
+--select * from PrgMilestoneDef where ID in ('27C002AF-ED92-4152-8B8C-7CA1ADEA2C81', 'AC043E4C-55EC-4F10-BCED-7E9201D7D0E2')
+-- select * from PrgMilestoneDef where ProgramID = 'AD9F855B-E054-46BF-ACA9-1884CBD6C8E1'
