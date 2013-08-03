@@ -32,7 +32,7 @@ select
 	stu.EPRefID, 
 	DestID = stu.ItemDestID,
 -- PrgItem
-	DefID = '69942840-0E78-498D-ADE3-7454F69EA178', -- EP - Converted
+	DefID = (select ConvertedEPID from x_LEGACYGIFT.MAP_GiftedProgramID), -- EP - Converted
 	StudentID = stu.DestID,
 	MeetDate = stu.EPMeetingDate, 
 	StartDate = stu.EPMeetingDate,
