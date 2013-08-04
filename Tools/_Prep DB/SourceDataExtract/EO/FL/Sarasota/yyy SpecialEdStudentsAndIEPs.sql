@@ -59,7 +59,7 @@ select
    end -- sped
   end,  
  s.SpedStat, s.SpedExitDate, s.SpedExitCode, ic.Meetdate, ESY = isnull(ic.ESY,0) 
-from Student s   --- select s.StudentID from (select * from Student s where isnull(del_flag,0)=0 and SpedStat = 1 and EnrollStat = 1 /* and s.StudentID = '5300612818' */ ) s   -- 16207
+from Student s
 join (select ic.GStudentID, s.StudentID, ic.IEPSeqNum, ic.MeetDate, ic.InitDate, ic.CurEvalDate, ic.ReEvalDate, ic.ESY, ic.ep_iep from iepcompletetbl ic join student s on ic.gstudentid = s.gstudentid where isnull(ic.del_flag,0)=0 and isnull(s.del_flag,0)=0) ic  
  on s.gstudentid = ic.gstudentid and  
  ic.IEPSeqNum = (  
@@ -68,32 +68,26 @@ join (select ic.GStudentID, s.StudentID, ic.IEPSeqNum, ic.MeetDate, ic.InitDate,
   where ic.StudentID = maxrec.studentID and  
   maxrec.MeetDate = (  
    select max(maxdate.MeetDate)  
-   from (select s.StudentID, ic.IEPSeqNum, ic.MeetDate from iepcompletetbl ic join student s on ic.gstudentid = s.gstudentid where isnull(ic.del_flag,0)=0 and isnull(s.del_flag,0)=0 /* and ic.InitDate between '7/1/2010' and '4/2/2012' */ ) maxdate  
+   from (select s.StudentID, ic.IEPSeqNum, ic.MeetDate from iepcompletetbl ic join student s on ic.gstudentid = s.gstudentid where isnull(ic.del_flag,0)=0 and isnull(s.del_flag,0)=0) maxdate  
    where maxrec.studentid = maxdate.studentid  
    )  
-  )  -- 15774
-join ICAssessmentTbl a on ic.IEPSeqNum = a.IEPComplSeqNum -- 11598   
-where SpedStat = 1 /* or (SpedStat = 2 and SpedExitDate > '7/1/2011')*/ -- 11598  
---and isnull(spedexitcode,'0') = '0' -------- I don't trust this field
-and isnull(s.del_flag,0)=0  -- 11598  
-and s.enrollstat = 1 -- 11598  
-and ic.MeetDate is not null -- 11598
+  ) 
+left join ICAssessmentTbl a on ic.IEPSeqNum = a.IEPComplSeqNum
 and  a.AssessSeqNum = (  
  select max(ain.AssessSeqNum)   
- from icassessmenttbl ain  -- select * from icassessmenttbl 
+ from icassessmenttbl ain  
  where ain.gstudentid = a.gstudentid  
  and isnull(ain.del_flag,0)=0  
- ) -- 11598  
---and placement is not null -- 11404  
-and s.GStudentID in (select sd.GStudentID from StudDisability sd join DisabilityLook d on sd.DisabilityID = d.DisabilityID where isnull(sd.del_flag,0)=0 and sd.PrimaryDiasb = 1)  -- 11393
-and not (s.StudentID like 'Train%' or s.AlterID like 'Train%')  -- 11210
--- and ic.CurEvalDate is not null -- 11190
---and ic.InitDate is not null -- 11190
+ ) 
+where SpedStat = 1 
+and isnull(s.del_flag,0)=0  
+and s.enrollstat = 1 
+and ic.MeetDate is not null 
+and s.GStudentID in (select sd.GStudentID from StudDisability sd join DisabilityLook d on sd.DisabilityID = d.DisabilityID where isnull(sd.del_flag,0)=0 and sd.PrimaryDiasb = 1) 
+and not (s.StudentID like 'Train%' or s.AlterID like 'Train%')
  and (ic.EP_IEP = 0 or (ic.EP_IEP = 1 and ic.MeetDate > dateadd(mm, -18, getdate())))
---order by SpedOrGifted, ic.MeetDate
 -- 
 
--- select * from LK_PlacementDesc
 
 
 
