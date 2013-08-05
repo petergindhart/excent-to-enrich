@@ -1,6 +1,6 @@
 
 -- Colorado
--- Eagle						copied from Boulder
+-- Moffat						copied from Boulder
 if exists (select 1 from sys.schemas s join sys.objects o on s.schema_id = o.schema_id where s.name = 'x_LEGACYGIFT' and o.name = 'MAP_PrgStatus_ConvertedEP')
 drop table x_LEGACYGIFT.MAP_PrgStatus_ConvertedEP
 go
@@ -68,3 +68,30 @@ create index IX_x_LEGACYGIFT_FormInputValueFields_FormTemplateID on x_LEGACYGIFT
 GO
 
 
+-- since this will evidently always be different from district to district, create this view here with the hard-coded IDs
+IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'x_LEGACYGIFT.EPDatesPivot') AND OBJECTPROPERTY(id, N'IsView') = 1)
+DROP VIEW x_LEGACYGIFT.EPDatesPivot
+GO
+
+create view x_LEGACYGIFT.EPDatesPivot
+as
+select 
+	EPRefID = cast(NULL as varchar(150)), 
+	DateValue = cast(NULL as datetime), 
+	InputFieldID = cast(NULL as uniqueidentifier),
+	InputItemType = cast(NULL as varchar(50)),
+	InputItemTypeID = cast(NULL as uniqueidentifier)
+go
+if exists (select 1 from sys.schemas s join sys.objects o on s.schema_id = o.schema_id where s.name = 'x_LEGACYGIFT' and o.name = 'GiftedConversionWrapUp')
+drop procedure x_LEGACYGIFT.GiftedConversionWrapUp
+go
+
+create procedure x_LEGACYGIFT.GiftedConversionWrapUp
+as
+-- this should run for all districts in all states
+-- update d set IsReevaluationNeeded = 1, StartDate = dateadd(dd, -d.MaxDaysToComplete, dateadd(yy, -d.MaxYearsToComplete, getdate())) from PrgMilestoneDef d where d.ID in ('27C002AF-ED92-4152-8B8C-7CA1ADEA2C81', 'AC043E4C-55EC-4F10-BCED-7E9201D7D0E2')
+
+select Stat = 'Nothing to do in GiftedConversionWrapUp'
+
+
+GO
