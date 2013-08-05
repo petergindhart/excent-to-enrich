@@ -3,8 +3,8 @@
 --#include {GiftStateInclude}\GoalAreaExists.sql
 --#include {GiftStateInclude}\0001-Prep_State.sql
 --#include {GiftDistrictInclude}\0002-Prep_District.sql
---#include Transform_Student.sql
 --#include {GiftDistrictInclude}\MAP_GiftedProgramID.sql
+--#include Transform_Student.sql
 --#include {GiftDistrictInclude}\MAP_PrgStatus_ConvertedEP.sql
 --#include Transform_PrgInvolvement.sql
 --#include Transform_PrgItem.sql

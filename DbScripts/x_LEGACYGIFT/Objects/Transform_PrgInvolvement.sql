@@ -36,7 +36,7 @@ AS
 		DestID = coalesce(x.ID, m.DestID),
 		StudentID = stu.DestID,
 		ProgramID = (select DestID from x_LEGACYGIFT.MAP_GiftedProgramID),   -- Gifted Education
-		VariantID = '2FF8B34F-3337-4760-AC09-76F6AE09C610',   -- None
+		VariantID = (select VariantID from x_LEGACYGIFT.MAP_GiftedProgramID),   -- None
 		StartDate = stu.EPMeetingDate,   -- school start for this EP period
 		EndDate = NULL,
 		EndStatusID = NULL,
@@ -46,13 +46,9 @@ AS
 	FROM
 		x_LEGACYGIFT.Transform_Student stu LEFT JOIN 
 		x_LEGACYGIFT.MAP_PrgInvolvementID m on stu.StudentRefID = m.StudentRefID left join
-		dbo.PrgInvolvement x on m.DestID = x.ID and x.ProgramID = '2FF58E06-9E4A-4BE5-8274-E0FDE0012D4E' and dbo.DateInRange( stu.EPMeetingDate, x.StartDate, x.EndDate ) = 1 
+		dbo.PrgInvolvement x on m.DestID = x.ID and x.ProgramID = (select DestID from x_LEGACYGIFT.MAP_GiftedProgramID) and dbo.DateInRange( stu.EPMeetingDate, x.StartDate, x.EndDate ) = 1 
 		-- assuming there are no students that already have a gifted invovlement that will overlap with this involvement
 	WHERE 
 		stu.EPMeetingDate is not null 
 GO
 --
-
-
-
-

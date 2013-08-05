@@ -23,8 +23,9 @@ update ou set Number = '11' from OrgUnit ou where ID = '6531EF88-352D-4620-AF5D-
 go
 
 
-
-
+------------------------------------------------------------ specifically for Collier, who requested that no previously imported data be deleted
+update vc3etl.loadtable set Enabled = 0 where ID = '3EEBD21C-9A24-4634-B678-BF0211602446'
+go
 
 IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'LEGACYSPED.ImportPrgSections') AND type in (N'U'))
 DROP TABLE LEGACYSPED.ImportPrgSections
