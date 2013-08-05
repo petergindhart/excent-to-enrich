@@ -43,7 +43,13 @@ declare @zg uniqueidentifier ; select @zg = '00000000-0000-0000-0000-00000000000
 declare @SaveStudents table (StudentID uniqueidentifier null, OldNumber varchar(50) not null, OldFirstname varchar(50) not null, OldLastname varchar(50) not null, NewNumber varchar(50), NewFirstname varchar(50) not null, NewLastname varchar(50) not null) ; 
 -- insert @SaveStudents (OldNumber, OldLastname, OldFirstname, NewNumber, NewLastname, NewFirstname) values ('3632271715', 'Ceotto', 'Sara', '0000000001', 'Student', 'Samantha')
 insert @SaveStudents (StudentID, OldNumber, OldFirstname, OldLastname, NewNumber, NewFirstname, NewLastname) values ('3384C724-6449-411E-9A9A-45EDAE354F9F', '', '', '', '', 'Sam', 'Student')
-
+insert @SaveStudents (StudentID, OldNumber, OldFirstname, OldLastname, NewNumber, NewFirstname, NewLastname) values ('06429273-7522-41F6-A51E-173567281BB6','','','','','Baby','Nichol')
+insert @SaveStudents (StudentID, OldNumber, OldFirstname, OldLastname, NewNumber, NewFirstname, NewLastname) values ('B3E31863-68F5-48C4-803D-7C4B920E41BE','','','','','Another','Student')
+insert @SaveStudents (StudentID, OldNumber, OldFirstname, OldLastname, NewNumber, NewFirstname, NewLastname) values ('BC97B839-7F4C-4D54-BA7C-99323BE4F674','','','','','Charlie','Brown')
+insert @SaveStudents (StudentID, OldNumber, OldFirstname, OldLastname, NewNumber, NewFirstname, NewLastname) values ('D756F901-2BC5-454C-BEBB-B3CBFEA892D5','','','','','Ima','Student')
+insert @SaveStudents (StudentID, OldNumber, OldFirstname, OldLastname, NewNumber, NewFirstname, NewLastname) values ('183D1BA7-30AB-4C60-92B2-B4504CFABADD','','','','','John','Doe')
+insert @SaveStudents (StudentID, OldNumber, OldFirstname, OldLastname, NewNumber, NewFirstname, NewLastname) values ('92D94E80-A6EC-4769-81D8-EE00F2D440A3','','','','1234','IMA','Stamps')
+insert @SaveStudents (StudentID, OldNumber, OldFirstname, OldLastname, NewNumber, NewFirstname, NewLastname) values ('7DF0F929-7815-4BF5-A3BE-F2F97925BD2E','','','','','IMA Lilly','Tiger')
 
 -- declare @studentid varchar(36), @sch varchar(50), @tbl varchar(100), @col varchar(100), @q varchar(max), @tranname varchar(100)
 declare DS cursor for 
@@ -154,6 +160,7 @@ delete x from IepPlacementOption x where DeletedDate is not null or Sequence = 9
 
 
 -- set nocount off;
+delete pg from PrgGoal pg where pg.ProbeScheduleID in (select x.ID from Schedule x where ID not in (select ID from ServiceSchedule)) ; print 'PrgGoal : ' + convert(varchar(10), @@rowcount)-- ??
 delete x from ServiceSchedule x where ID not in (select z.ID from ServiceSchedule z join ServiceScheduleServicePlan sssp on z.ID = sssp.ScheduleID join ServicePlan sp on sssp.ServicePlanID = sp.ID  where sp.StudentID in (select isnull(StudentID, @zg) from @SaveStudents) )  ; print 'ServiceSchedule : ' + convert(varchar(10), @@rowcount)-- ??
 delete x from ServiceSchedule x where ID not in (select z.ID from ServiceSchedule z join PrgLocation pl on z.LocationID = pl.ID where pl.DeletedDate is not null) ; print 'ServiceSchedule (for PrgLocation) : ' + convert(varchar(10), @@rowcount)-- ??
 delete x from Schedule x where ID not in (select ID from ServiceSchedule) ; print 'Schedule : ' + convert(varchar(10), @@rowcount)-- ??
@@ -292,13 +299,30 @@ from (select Number from School where deleteddate is not null ) n
 join School h on n.Number = h.Number and h.ManuallyEntered = 1 
 join ProbeTypeSchool pts on h.ID = pts.SchoolID ; print 'ProbeTypeSchool : ' + convert(varchar(10), @@rowcount) 
 
+declare @SaveSchool table (StudentID uniqueidentifier null)
+insert @SaveSchool values ('08FEB70F-77D7-4CBF-B237-182486301687')
+insert @SaveSchool values ('79BA26FE-922D-4356-A1E4-19CD20F70FEC')
+insert @SaveSchool values ('51F7AD59-B08F-42EA-95F1-1E3E2A178902')
+insert @SaveSchool values ('ADC3E34B-06E5-40DC-A378-4D23F7455B39')
+insert @SaveSchool values ('7B810815-525A-4D90-B0AD-531F51263DA3')
+insert @SaveSchool values ('37959934-53EB-4C8F-911F-61AAC4F4337C')
+insert @SaveSchool values ('12D5E990-5F5C-4496-B786-64C92C3F8113')
+insert @SaveSchool values ('A5F98447-CF9F-49E8-A15A-7052CC1C0F3C')
+insert @SaveSchool values ('3E47F8AC-0676-493C-8B83-755AE42F0909')
+insert @SaveSchool values ('560FCAAC-FCEA-4AAB-98D6-9B4D3BB8745F')
+insert @SaveSchool values ('F9433501-134B-461B-97C4-9E3AC11654A8')
+insert @SaveSchool values ('97253DA1-AE0B-4D64-B876-B44DD062254C')
+insert @SaveSchool values ('1B649F1F-3A70-485F-83ED-C105A827C8AD')
+insert @SaveSchool values ('58935D7C-D7A6-4857-85A5-E7D8FBC3A76B')
+insert @SaveSchool values ('87DB9DCF-4A9A-41F5-A10B-EBF24F93B44B')
+insert @SaveSchool values ('FCB10D5F-A68A-49C7-B5BB-F164761D10EC')
 
 -- NEW - only necessary sometimes.   It may be necessary to exclude records that should be preserved.  
 declare @delstudents table (StudentID uniqueidentifier not null)
 insert @delstudents
 select x.ID
 from Student x 
-where x.ManuallyEntered = 1
+where x.ManuallyEntered = 1 and x.ID not in (select StudentID from @SaveStudents)
 
 delete x 
 -- select ManStud = s.ManuallyEntered, x.*
@@ -386,7 +410,7 @@ where s.ManuallyEntered = 1
 
 delete x
 from School x 
-where x.ManuallyEntered = 1
+where x.ManuallyEntered = 1 and x.ID not in (select ID from @SaveSchool)
 
 
 --Msg 547, Level 16, State 0, Line 247
