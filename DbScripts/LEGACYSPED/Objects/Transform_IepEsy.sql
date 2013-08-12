@@ -6,10 +6,16 @@ GO
 
 CREATE VIEW LEGACYSPED.Transform_IepESY -- select * from LEGACYSPED.Transform_IepESY
 as
--- note:  it is possible to insert a stub record in IepEsy, with no data but the ID populated
+-- note:  It is possible to insert a stub record in IepEsy, with no data but the ID populated
+/*
+	20130811 - There were PrgItems at Brevard that did not have a IepEsy record from the previous import (it was not impemented yet at the time of that import).
+	and ev.Touched = 0 was commented out in order to be able to import the section for these records.
+*/
 select 
 	m.DestID,
 	ts.IepRefID,
+	ItemID = iv.DestID,
+	SectionDefID = 'F60392DA-8EB3-49D0-822D-77A1618C1DAA',
 	s.EsyElig,
 	DecisionID = case 
 		when s.EsyTBDDate is not null 
@@ -27,15 +33,14 @@ select
 			end
 		end,
 	TbdDate = s.EsyTBDDate,
-	iv.DoNotTouch
-	-- VersionID = VersionDestID -- This section is pre-configured to be non-versionable
+	iv.DoNotTouch,
+	ev.Touched
+	-- VersionID = VersionDestID -- This section is pre-configured to be non-versionable --- select ev.StudentRefID
 from LEGACYSPED.EvaluateIncomingItems ev join
 LEGACYSPED.MAP_IEPStudentRefID ts on ev.StudentRefID = ts.StudentRefID join
 LEGACYSPED.Transform_PrgIep iv on ts.IepRefID = iv.IEPRefID join
-LEGACYSPED.Student s on ts.StudentRefID = s.StudentRefID and ev.Touched = 0 left join
+LEGACYSPED.Student s on ts.StudentRefID = s.StudentRefID  /* and ev.Touched = 0 */ left join
 LEGACYSPED.MAP_PrgSectionID_NonVersioned m on ts.DestID = m.ItemID and m.DefID = 'F60392DA-8EB3-49D0-822D-77A1618C1DAA' left join
 IepEsy t on m.DestID = t.ID
 --where  s.EsyTBDDate is not null
 
-
---select * from IepEsy where ID  = '294BCD9C-1816-41A9-9511-7DD27613254A'
