@@ -103,7 +103,8 @@ AS
   LinkedToAEPSi = cast(0 as bit),
   IsHispanic = case when src.IsHispanic = 'Y' then 1 else 0 end,
   MedicaidNumber = src.MedicaidNumber,
-  OID = (select DestID from LEGACYSPED.MAP_AdminUnitID), ------------------------------------------------- this is wrong!
+--  OID = (select DestID from LEGACYSPED.MAP_AdminUnitID), ------------------------------------------------- this is wrong!
+  OID = isnull(t.OID, (select ID from OrgUnit where Number = src.ServiceDistrictCode)), -- select * from LEGACYSPED.StudentView
   ImportPausedDate = cast(NULL as datetime),
   ImportPausedByID = cast(NULL as uniqueidentifier),
   IsActive = coalesce(sst.IsActive, sloc.IsActive, 1),
