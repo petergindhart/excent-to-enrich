@@ -90,7 +90,9 @@ LRECode	varchar(150),
 MinutesPerWeek	int,
 ConsentForServicesDate	datetime,
 ConsentForEvaluationDate	datetime,
-ServiceDeliveryStatement varchar(8000))
+ServiceDeliveryStatement varchar(8000),
+OID uniqueidentifier
+)
 
 insert @Transform_IepLeastRestrictiveEnvironment
 select * from LEGACYSPED.Transform_IepLeastRestrictiveEnvironment
