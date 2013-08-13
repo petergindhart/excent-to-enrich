@@ -29,16 +29,15 @@ delete VC3ETL.LoadTable where ExtractDatabase = '29D14961-928D-4BEE-9025-238496D
 declare @zg uniqueidentifier ; select @zg = '00000000-0000-0000-0000-000000000000'
 
 declare @SaveStudents table (StudentID uniqueidentifier null, OldNumber varchar(50) not null, OldFirstname varchar(50) not null, OldLastname varchar(50) not null, NewNumber varchar(50), NewFirstname varchar(50) not null, NewLastname varchar(50) not null) ; 
--- insert @SaveStudents (OldNumber, OldLastname, OldFirstname, NewNumber, NewLastname, NewFirstname) values ('3632271715', 'Ceotto', 'Sara', '0000000001', 'Student', 'Samantha')
--- select 'insert @SaveStudents (StudentID, OldNumber, OldFirstname, OldLastname, NewNumber, NewFirstname, NewLastname) values ('''+convert(varchar(36), ID)+''', '''', '''', '''', '''', '''+FirstName+''', '''+LastName+''')' from Student where LastName = 'Sample'
---insert @SaveStudents (StudentID, OldNumber, OldFirstname, OldLastname, NewNumber, NewFirstname, NewLastname) values ('4424BD98-0022-45FB-BDD5-E2B4F4E3CAF9', '', '', '', '', 'Early Childhood', 'Sample')
-
--- show students to be preserved.
---select isnull(StudentID, @zg) from @SaveStudents
-
-
-
-
+insert @SaveStudents 
+select StudentID = ID, 
+	OldNumber = Number, 
+	OldFirstname = Firstname, 
+	OldLastname = Lastname, 
+	NewNumber = Number, 
+	NewFirstname = Firstname, 
+	NewLastname = Lastname
+From Student 
 
 -- delete manual students from test tables
 
