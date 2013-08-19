@@ -24,10 +24,8 @@ go
 create proc LEGACYSPED.Populate_MAP_StudentRefIDAll 
 as
 insert LEGACYSPED.MAP_StudentRefIDAll
-select distinct t.StudentRefID, t.DestID 
+select distinct t.StudentRefID, t.DestID
 from LEGACYSPED.Transform_Student t left join
 LEGACYSPED.MAP_StudentRefIDAll m on t.StudentRefID = m.StudentRefID 
---and
---	t.DestID = m.DestID -- ?????
 where m.DestID is null
 go
