@@ -1,5 +1,5 @@
 -- CO version
-if exists (select 1 from sys.objects where type = 'V' and name = 'GoalAreaExists')
+if exists (select 1 from sys.objects where type = 'V' AND object_id = OBJECT_ID(N'LEGACYSPED.GoalAreaExists'))
 drop view LEGACYSPED.GoalAreaExists
 go
 
