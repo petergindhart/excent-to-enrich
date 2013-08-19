@@ -1,5 +1,3 @@
---#include ..\..\..\Objects\Transform_ServiceFrequency.sql
-
 -- Florida
 -- Brevard 
 
@@ -9,6 +7,18 @@ update ou set Number = '05' -- Brevard County State Reporting DistrictID
 from (select top 1 OrgUnitID from School group by OrgUnitID order by count(*) desc) m join dbo.OrgUnit ou on m.OrgUnitID = ou.ID
 
 */
+
+
+
+
+--declare @cs varchar(max) ; set @cs = ''
+--select @cs = @cs+c.name+ case when c.column_id = (select max(column_id) from sys.columns where object_id = o.object_id) then '' else ', ' end
+--from sys.objects o
+--join sys.columns c on o.object_id = c.object_id 
+--where o.name = 'IEP_Local'
+--print @cs
+
+
 
 if exists (select 1 from sys.schemas s join sys.objects o on s.schema_id = o.schema_id where s.name = 'LEGACYSPED' and o.name = 'MAP_AdminUnitID')
 drop table LEGACYSPED.MAP_AdminUnitID
@@ -28,15 +38,9 @@ update OrgUnit set Number = '05' where ID = '6531EF88-352D-4620-AF5D-CE34C54A9F5
 go
 
 
-if exists (select 1 from sys.schemas s join sys.objects o on s.schema_id = o.schema_id where s.name = 'LEGACYSPED' and o.name = 'MAP_PrgStatus_ConvertedDataPlan')
-drop table LEGACYSPED.MAP_PrgStatus_ConvertedDataPlan
+--------- specifically for Brevard, thousands of IEPs would be deleted without this 
+update vc3etl.loadtable set Enabled = 0 where ID = '3EEBD21C-9A24-4634-B678-BF0211602446'
 go
-
-create table LEGACYSPED.MAP_PrgStatus_ConvertedDataPlan (DestID uniqueidentifier not null)
-insert LEGACYSPED.MAP_PrgStatus_ConvertedDataPlan values ('0B5D5C72-5058-4BF5-A414-BDB27BD5DD94')
-go
-
-
 
 IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'LEGACYSPED.ImportPrgSections') AND type in (N'U'))
 DROP TABLE LEGACYSPED.ImportPrgSections
@@ -56,6 +60,8 @@ ALTER TABLE LEGACYSPED.ImportPrgSections
 )
 GO
 
+if not exists (select 1 from PrgSectionDef where ID = 'F60392DA-8EB3-49D0-822D-77A1618C1DAA')
+insert PrgSectionDef (ID, TypeID, ItemDefID, Sequence, IsVersioned, DisplayPrevious, CanCopy, HeaderFormTemplateID) values ('F60392DA-8EB3-49D0-822D-77A1618C1DAA', '9B10DCDE-15CC-4AA3-808A-DFD51CE91079', '8011D6A2-1014-454B-B83C-161CE678E3D3', 6, 0, 0, 0, 'B97E7849-36B4-4181-8D03-241FDCA5105C')
 set nocount on;
 declare @importPrgSections table (Enabled bit not null, SectionDefName varchar(100) not null, SectionDefID uniqueidentifier not null)
 -- update the Enabled column below to 0 if the section is not required for this district
@@ -67,22 +73,26 @@ insert @importPrgSections values (1, 'Sped Eligibility Determination', 'F050EF5E
 insert @importPrgSections values (0, 'IEP Goals', '84E5A67D-CC9A-4D5B-A7B8-C04E8C3B8E0A')
 insert @importPrgSections values (1, 'Sped Consent Services', 'D83A4710-A69F-4310-91F8-CB5BFFB1FE4C')
 insert @importPrgSections values (1, 'Sped Consent Evaluation', '47958E63-10C4-4124-A5BA-8C1077FB2D40')
+insert @importPrgSections values (1, 'IEP ESY', 'F60392DA-8EB3-49D0-822D-77A1618C1DAA')
 
 insert LEGACYSPED.ImportPrgSections
 select * from @importPrgSections
 go
 
 
-if exists (select 1 from sys.schemas s join sys.objects o on s.schema_id = o.schema_id where s.name = 'LEGACYSPED' and o.name = 'PrgItemOutcome_EndIEP')
-drop table LEGACYSPED.PrgItemOutcome_EndIEP
-go
+-- if exists (select 1 from sys.schemas s join sys.objects o on s.schema_id = o.schema_id where s.name = 'LEGACYSPED' and o.name = 'PrgItemOutcome_EndIEP')
+-- drop table LEGACYSPED.PrgItemOutcome_EndIEP
+-- go
 
-create table LEGACYSPED.PrgItemOutcome_EndIEP (
-PrgItemOutcomeID uniqueidentifier not null
-)
+-- create table LEGACYSPED.PrgItemOutcome_EndIEP (
+-- PrgItemOutcomeID uniqueidentifier not null
+-- )
 
-insert LEGACYSPED.PrgItemOutcome_EndIEP values ('0BA96EE2-EF98-4B5F-BBD4-BD407F12405F')
-go
+-- insert LEGACYSPED.PrgItemOutcome_EndIEP values ('0BA96EE2-EF98-4B5F-BBD4-BD407F12405F')
+-- go
+
+if not exists (select * from PrgSectionDef where ID = '47958E63-10C4-4124-A5BA-8C1077FB2D40')
+insert PrgSectionDef (ID, TypeID, ItemDefID, Sequence, IsVersioned, DisplayPrevious, CanCopy) values ('47958E63-10C4-4124-A5BA-8C1077FB2D40', '31A1AE20-5F63-47FD-852A-4801595033ED', '8011D6A2-1014-454B-B83C-161CE678E3D3', 7, 0, 0, 0)
 
 /*			 To find the appropriate PrgItemOutcome, see the following
 
@@ -113,64 +123,24 @@ select * from PrgItemOutcome where ID = 'B52A60EA-848D-4FFB-8CA1-27FD41765167'
 
 
 */
-
-
-
-
-
-
--- drop objects no longer needed
-
--- Florida
--- Lee County School District
-
--- All MAP tables have been moved to the transform script files.  This file contains drop table statements for MAP tables that are no longer used.
-
--- #############################################################################
--- ServiceDef
-IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'AURORAX.Map_ServiceDefIDstatic') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
-	DROP TABLE AURORAX.Map_ServiceDefIDstatic
+-- ############################################################################# 
+--		Service Frequency
+IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.MAP_ServiceFrequencyID') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
+BEGIN
+CREATE TABLE LEGACYSPED.MAP_ServiceFrequencyID
+(
+	ServiceFrequencyCode	varchar(150) NOT NULL,
+	ServiceFrequencyName	varchar(50) not null,
+	DestID uniqueidentifier NOT NULL
+)
+ALTER TABLE LEGACYSPED.MAP_ServiceFrequencyID ADD CONSTRAINT
+PK_MAP_ServiceFrequencyID PRIMARY KEY CLUSTERED
+(
+	ServiceFrequencyName
+)
+CREATE INDEX IX_Map_ServiceFrequencyID_ServiceFrequencyName on LEGACYSPED.Map_ServiceFrequencyID (ServiceFrequencyName)
+END
 GO
--- no longer used
-
--- #############################################################################
--- ExitReason
-IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'AURORAX.MAP_OutcomeID') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
-	DROP TABLE AURORAX.MAP_OutcomeID
-GO
--- we are using PrgStatus
-
--- #############################################################################
--- Service Location
-IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'AURORAX.MAP_ServiceLocationIDstatic') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
-	DROP TABLE AURORAX.MAP_ServiceLocationIDstatic
-GO
--- no longer used
-
--- #############################################################################
--- Service Location
-IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'AURORAX.MAP_ServiceLocationID') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
-	DROP TABLE AURORAX.MAP_ServiceLocationID
-GO
--- we are using PrgLocation
-
-
--- #############################################################################
--- School
-IF  EXISTS (SELECT 1 from sys.schemas s join sys.objects o on s.schema_id = o.schema_id where s.name = 'AURORAX' and o.name = 'MAP_SchoolView')
-	DROP VIEW AURORAX.MAP_SchoolView
-GO
--- no longer used
-
--- #############################################################################
--- ServiceDefID
-IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'AURORAX.Transform_ServiceDefID') AND OBJECTPROPERTY(id, N'IsView') = 1)
-DROP VIEW AURORAX.Transform_ServiceDefID
-GO
--- renamed this transform
-
-
-
 
 
 if exists (select 1 from sys.schemas s join sys.objects o on s.schema_id = o.schema_id where s.name = 'LEGACYSPED' and o.name = 'SpedConversionWrapUp')

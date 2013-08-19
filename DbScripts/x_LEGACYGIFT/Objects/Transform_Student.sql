@@ -40,7 +40,8 @@ select
 	-- Dates
 	x.EPMeetingDate,
 	x.LastEPDate, 
-	x.DurationDate 
+	x.DurationDate,
+	n.OID
 from x_LEGACYGIFT.GiftedStudent x
 left join dbo.Student s on x.StudentID = s.Number
 	and s.CurrentGradeLevelID is not null 

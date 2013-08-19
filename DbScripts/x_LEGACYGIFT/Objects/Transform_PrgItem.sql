@@ -61,7 +61,8 @@ select
 	VersionFinalizedDate = stu.EPMeetingDate, 
 	CreatedByID = 'EEE133BD-C557-47E1-AB67-EE413DD3D1AB',
 -- Additional Elements
-	ServiceDeliveryStatement = NULL
+	ServiceDeliveryStatement = NULL, 
+	stu.OID
 from x_LEGACYGIFT.Transform_Student stu left join 
 	x_LEGACYGIFT.MAP_PrgInvolvementID minv on stu.StudentRefID = minv.StudentRefID left join
 	x_LEGACYGIFT.MAP_PrgVersionID mver on stu.EPRefID = mver.EPRefID left join

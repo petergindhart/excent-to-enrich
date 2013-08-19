@@ -28,8 +28,8 @@ CREATE TABLE LEGACYSPED.MAP_IEPStudentRefID
 (
 	IepRefID varchar(150) NOT NULL ,
 	StudentRefID varchar(150) not null,
-	DestID uniqueidentifier NOT NULL
-)
+	SpecialEdStatus	char(1) NULL, -- this speeds up EvaluateIncomingItems by light years
+	DestID uniqueidentifier NOT NULL)
 
 ALTER TABLE LEGACYSPED.MAP_IEPStudentRefID ADD CONSTRAINT
 PK_MAP_IEPStudentRefID PRIMARY KEY CLUSTERED
@@ -47,9 +47,10 @@ PK_MAP_IEPStudentRefID PRIMARY KEY CLUSTERED
 if exists (select 1 from sys.schemas s join sys.objects o on s.schema_id = o.schema_id where s.name = 'LEGACYSPED' and o.name = 'Transform_PrgIep')
 begin
 	insert LEGACYSPED.MAP_IEPStudentRefID
-	select distinct m.IepRefID, s.StudentRefID, m.DestID
+	select distinct m.IepRefID, s.StudentRefID, m.DestID, stu.SpecialEdStatus
 	from LEGACYSPED.MAP_IepRefID m join --  we could have just used the transform, but using the MAP facilitates excluding NULLs
-	LEGACYSPED.Transform_PrgIep s on m.IepRefID = s.IepRefID left join  -- since this map table already exists, this is okay.
+	LEGACYSPED.Transform_PrgIep s on m.IepRefID = s.IepRefID join  -- since this map table already exists, this is okay.
+	LEGACYSPED.Student stu on s.StudentRefID = stu.StudentRefID left join
 	LEGACYSPED.MAP_IEPStudentRefID t on m.IepRefID = t.IepRefID
 	where t.IepRefID is null 
 end
@@ -103,7 +104,8 @@ AS
   LinkedToAEPSi = cast(0 as bit),
   IsHispanic = case when src.IsHispanic = 'Y' then 1 else 0 end,
   MedicaidNumber = src.MedicaidNumber,
-  OID = (select DestID from LEGACYSPED.MAP_AdminUnitID), ------------------------------------------------- this is wrong!
+--  OID = (select DestID from LEGACYSPED.MAP_AdminUnitID), ------------------------------------------------- this is wrong!
+  OID = isnull(t.OID, (select ID from OrgUnit where Number = src.ServiceDistrictCode)), -- select * from LEGACYSPED.StudentView
   ImportPausedDate = cast(NULL as datetime),
   ImportPausedByID = cast(NULL as uniqueidentifier),
   IsActive = coalesce(sst.IsActive, sloc.IsActive, 1),
@@ -156,7 +158,22 @@ AS
 	and i.ID = (select zb.DestID from LEGACYSPED.MAP_IEPStudentRefID zb where iep.StudentRefID = zb.StudentRefID) left join -- ensure that we don't act on Converted IEPs created through the UI
 	( 
 	select s.StudentRefID, i.StudentID, ItemID = i.ID, i.InvolvementID, i.IsEnded, i.Revision
-	from PrgItem i join (select StudentID = b.ID, a.StudentRefID from LEGACYSPED.Student a join LEGACYSPED.StudentView b on (a.StudentLocalID = b.Number or a.StudentStateID = b.StudentStateID or a.Firstname = b.FirstName and a.LastName = b.LastName and a.Birthdate = b.DOB) and b.IsActive = 1) s on i.StudentID = s.StudentID -- if items are eliminated by join to Transform_Student not to worry, because we are not importing them anyway
+	from PrgItem i join (
+-- 	select StudentID = b.ID, a.StudentRefID from LEGACYSPED.Student a join LEGACYSPED.StudentView b on (a.StudentLocalID = b.Number or a.StudentStateID = b.StudentStateID or a.Firstname = b.FirstName and a.LastName = b.LastName and a.Birthdate = b.DOB) and b.IsActive = 1
+	-- 14832 1:23
+			-- select studentrefid, count(*) tot from (
+			select distinct StudentID = coalesce(c.ID, b.ID, d.ID), a.StudentRefID 
+			from LEGACYSPED.Student a 
+			left join LEGACYSPED.StudentView b on a.StudentLocalID = b.Number and b.IsActive = 1
+			left join LEGACYSPED.StudentView c on a.StudentStateID = c.StudentStateID and c.IsActive = 1
+			left join LEGACYSPED.StudentView d on a.Firstname = d.FirstName and a.LastName = d.LastName and a.Birthdate = d.DOB and d.IsActive = 1
+			-- 17144	instant
+			where coalesce(c.ID, b.ID, d.ID) is not null
+			-- 14831	instant
+			--) d
+			--group by studentrefid
+			--having count(*) > 1
+		) s on i.StudentID = s.StudentID -- if items are eliminated by join to Transform_Student not to worry, because we are not importing them anyway
 	where i.ID = (
 		select max(convert(varchar(36), i2.ID)) -- we are arbitrarily selecting only one of the non-converted items of type "IEP", because we just need to know if one exists
 		from (select i3.ID, i3.StudentID from PrgItem i3 join PrgItemDef d3 on i3.DefID = d3.ID join PrgInvolvement v3 on i3.InvolvementID = v3.ID where d3.TypeID = 'A5990B5E-AFAD-4EF0-9CCA-DC3685296870' and i3.DefID <> '8011D6A2-1014-454B-B83C-161CE678E3D3' and v3.EndDate is null) i2 -- TypeID = IEP, non-converted
