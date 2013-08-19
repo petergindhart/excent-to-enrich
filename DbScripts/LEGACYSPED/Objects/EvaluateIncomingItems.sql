@@ -147,10 +147,11 @@ order
 
 */
 
-select distinct -- we are seeing 
+select  -- we are seeing 
 -- Student
 	s.StudentRefID, -- need a row for every student 
-	StudentID = coalesce(xci.StudentID, xp.StudentID, xni.StudentID),
+	StudentID = coalesce(xci.StudentID, xp.StudentID, xni.StudentID, ts.DestID),
+	xciStudentID = xci.StudentID, xpStudentID = xp.StudentID, xniStudentID = xni.StudentID, tsDestID = ts.DestID,
 -- Involvement
 	ExistingInvolvementID = isnull(xcpm.DestID, xp.ID), -- if no inv created through ETL, get the inv created through the UI.  DO NOT display the xpe.ID here.  We need it to fail if no active involvement.
 --	ExistingInvolvementIsEnded = isnull(case when xp.EndDate is null then 0 else 1 end, case when xp.EndDate is null then 0 else 1 end), -- (may not need this since we can ignore ended involvements).  don't want to resurrect one!
@@ -169,8 +170,9 @@ select distinct -- we are seeing
 from 
 -- All students, existing and incoming -- select ts.DestID, count(*) tot from 
 	(select StudentRefID from LEGACYSPED.MAP_IEPStudentRefID union select StudentRefID from LEGACYSPED.IEP ) s left join -- 12084
-	LEGACYSPED.Transform_Student ts on s.StudentRefID = ts.StudentRefID left join -- does not include those students that were imported previously, but not in new data set
-
+--	(select i.IepRefID, i.StudentRefID, i.SpecialEdStatus, ItemID = i.DestID, s.DestID from LEGACYSPED.MAP_IEPStudentRefID i join LEGACYSPED.MAP_StudentRefIDAll s on i.StudentRefID = s.studentrefID)  ts on s.StudentRefID = ts.StudentRefID left join -- does not include those students that were imported previously, but not in new data set
+	LEGACYSPED.Transform_Student ts on s.StudentRefID = ts.StudentRefID left join 
+		-- need to make sure MAP_IEPStudentRefID will be populated any time this view is used.
 -- EXISTING INVOLVEMENT (ACTIVE).  either created through ETL or UI.  consider isnull(xcmp.DestID, xp.ID).  check for involvement date range
 	PrgInvolvement xp on ts.DestID = xp.StudentID and xp.ProgramID = 'F98A8EF2-98E2-4CAC-95AF-D7D89EF7F80C' and 
 		isnull(xp.EndDate, DATEADD(DAY, DATEDIFF(DAY, 0, getdate()), 1)) > DATEADD(DAY, DATEDIFF(DAY, 0, getdate()), 0) left join  -- if involvement ended today, we don't need this record
@@ -191,8 +193,9 @@ from
 
 -- check for EXISTING converted ieps, non-converted ieps and incoming ieps (iep = ITEM).  Student may have 1 of each, so check for them separately (2 joins to PrgItem)
 
--- EXISTING converted ITEM   
+-- EXISTING converted ITEM
 	LEGACYSPED.MAP_IEPStudentRefID xcm on s.StudentRefID = xcm.StudentRefID left join 
+--	LEGACYSPED.Transform_PrgIep xcm on s.StudentRefID = xcm.StudentRefID left join 
 	PrgItem xci on xcm.DestID = xci.ID left join 
 
 -- EXISTING converted iep VERSION
@@ -218,9 +221,36 @@ from
 
 -- INCOMING (legacy) converted IEP 
 	LEGACYSPED.IEP gci on s.StudentRefID = gci.StudentRefID 
---	left join
----- INCOMING converted IEP version (map populated during import, of course)
---	LEGACYSPED.MAP_PrgVersionID gcv on gci.IepRefID = gcv.IepRefID ----------- was not using this, so removed from view
+--
+
+--where not (isnull(xcpm.DestID, xp.ID) is not null and xcm.DestID is not null) and not (isnull(xcpm.DestID, xp.ID) is null and xcm.DestID is null) order by case when isnull(xcpm.DestID, xp.ID)  is null then 0 else 1 end, case when xcm.DestID  is null then 0 else 1 end
+
+
 go 
 
--- set transaction isolation level read uncommitted
+
+---- has item and no involvement
+--select * from Prgitem where ID = 'A7DFCDE7-539B-4516-B69B-E0771627ECD0'
+--select * from PrgInvolvement where ID = 'DE62860A-4140-4E01-AED9-14475F1C1320'
+---- both look ok
+
+
+---- has involvement but no item
+
+--select * from PrgInvolvement where ID = 'CDC84637-FFA3-49CE-8671-F7AE453E2C7D'
+--select * from Prgitem where InvolvementID = 'CDC84637-FFA3-49CE-8671-F7AE453E2C7D' and DefID = '8011D6A2-1014-454B-B83C-161CE678E3D3' -- ended
+
+
+--select * from LEGACYSPED.Transform_PrgIep where StudentID = 'B20BB6CC-94F0-4D7E-9B1A-4879D8D7191D' -- not there
+--select * from LEGACYSPED.transform_student where DestID= 'B20BB6CC-94F0-4D7E-9B1A-4879D8D7191D' -- not there
+--select * from student where ID = 'B20BB6CC-94F0-4D7E-9B1A-4879D8D7191D' -- doesn''t have current school or gradelevel.         0810981
+--select * from student where ID = '54579728-873D-41D4-8A24-A1D0DE84DE71'
+
+--select * from LEGACYSPED.MAP_StudentRefIDAll where StudentRefID = '0810981'
+
+
+
+
+
+
+
