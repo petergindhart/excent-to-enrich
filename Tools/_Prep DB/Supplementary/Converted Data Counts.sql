@@ -1,4 +1,3 @@
-
 create table #TEMP_ConversionCounts (
 Tbl varchar(100) not null,
 Total int not null)
