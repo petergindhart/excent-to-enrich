@@ -533,6 +533,28 @@ EXEC sp_executesql @stmt=@sumsql
 END
 
 
+IF (@datatype = 'datetime')
+BEGIN
+
+SET @vsql = 'INSERT x_DATAVALIDATION.ValidationReport (TableName,ErrorMessage,LineNumber,Line)
+SELECT ''Student'',''The date format issue is in '+@columnname+'.'',Line_No,ISNULL(CONVERT(VARCHAR(max),StudentRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),StudentLocalID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),StudentStateID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),Firstname),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),MiddleName),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),LastName),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),Birthdate),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),Gender),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),MEDICAIDNUMBER),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),GRADELEVELCODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),SERVICEDISTRICTCODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),SERVICESCHOOLCODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),HOMEDISTRICTCODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),HOMESCHOOLCODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ISHISPANIC),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ISAMERICANINDIAN),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ISASIAN),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ISBLACKAFRICANAMERICAN),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ISHAWAIIANPACISLANDER),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ISWHITE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),DISABILITY1CODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),DISABILITY2CODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),DISABILITY3CODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),DISABILITY4CODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),DISABILITY5CODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),DISABILITY6CODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),DISABILITY7CODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),DISABILITY8CODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),DISABILITY9CODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ESYELIG),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ESYTBDDATE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),EXITDATE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),EXITCODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),SPECIALEDSTATUS),'''')  FROM x_DATAVALIDATION.Student_LOCAL WHERE 1 = 1 '
+
+SET @query  = ' AND (ISDATE('+@columnname+') = 0 AND ('+@columnname+' IS NOT NULL))'
+SET @vsql = @vsql + @query
+EXEC sp_executesql @stmt=@vsql
+--PRINT @vsql
+
+SET @sumsql = 'INSERT x_DATAVALIDATION.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
+SELECT ''Student'',''The date format issue is in '+@columnname+'.'', COUNT(*)
+FROM x_DATAVALIDATION.Student_LOCAL WHERE 1 = 1 '
+
+SET @query  = ' AND (ISDATE('+@columnname+') = 0 AND ('+@columnname+' IS NOT NULL))'
+SET @sumsql = @sumsql + @query
+--PRINT @sumsql
+EXEC sp_executesql @stmt=@sumsql
+
+END
+
 FETCH NEXT FROM chkSpecifications INTO  @tableschema,@tablename,@columnname,@datatype,@datalength,@isrequired,@isuniquefield,@isFkRelation,@parenttable,@parentcolumn,@islookupcolumn,@lookuptable,@lookupcolumn,@lookuptype,@isFlagfield,@flagrecords
 END
 CLOSE chkSpecifications

@@ -216,7 +216,20 @@ CREATE TABLE x_DATAVALIDATION.AccomMod_LOCAL(
   AccomStatement	varchar(8000)   null,
   ModStatement	varchar(8000)   null
 )  
+GO
+
+
+IF  EXISTS (SELECT 1 FROM sys.objects WHERE object_id = OBJECT_ID(N'x_DATAVALIDATION.SchoolProgressFrequency_LOCAL') AND type in (N'U'))
+DROP TABLE x_DATAVALIDATION.SchoolProgressFrequency_LOCAL  
 GO  
+  
+CREATE TABLE x_DATAVALIDATION.SchoolProgressFrequency_LOCAL(
+  Line_No INT,  
+  SchoolCode	varchar(10)	not null,
+  FrequencyName	varchar(50)   null
+)  
+GO  
+  
 
 /*
 Tables to store validated data
@@ -439,6 +452,17 @@ CREATE TABLE x_DATAVALIDATION.AccomMod(
   ModStatement	varchar(8000)   null
 )  
 GO  
+
+IF  EXISTS (SELECT 1 FROM sys.objects WHERE object_id = OBJECT_ID(N'x_DATAVALIDATION.SchoolProgressFrequency') AND type in (N'U'))
+DROP TABLE x_DATAVALIDATION.SchoolProgressFrequency  
+GO  
+  
+CREATE TABLE x_DATAVALIDATION.SchoolProgressFrequency(
+  Line_No INT,  
+  SchoolCode	varchar(10)	not null,
+  FrequencyName	varchar(50)  null
+)  
+GO 
 
 --=========================================================================================================
 --To store the validation reports of data files for that iteration
