@@ -14,6 +14,9 @@ PSEducation	varchar(1),
 PSEmployment	varchar(1),
 PSIndependent	varchar(1),
 IsEsy		  varchar(1),
+UnitOfMeasurement	varchar(100), 
+BaselineDataPoint	varchar(100), 
+EvaluationMethod	varchar(100),
 GoalStatement		  varchar(8000)
 )
 END
