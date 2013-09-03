@@ -32,8 +32,3 @@ select 'Student (manual)' Tbl, count(*) tot from Student where ManuallyEntered =
 
 select * from #TEMP_ConversionCounts
 drop table #TEMP_ConversionCounts
-
-
-
-
-
