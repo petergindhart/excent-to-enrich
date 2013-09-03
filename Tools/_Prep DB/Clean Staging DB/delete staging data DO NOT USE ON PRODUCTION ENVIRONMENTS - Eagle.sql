@@ -28,8 +28,52 @@ delete VC3ETL.LoadTable where ExtractDatabase = '29D14961-928D-4BEE-9025-238496D
 
 declare @zg uniqueidentifier ; select @zg = '00000000-0000-0000-0000-000000000000'
 
-declare @SaveStudents table (StudentID uniqueidentifier null, OldNumber varchar(50) not null, OldFirstname varchar(50) not null, OldLastname varchar(50) not null, NewNumber varchar(50), NewFirstname varchar(50) not null, NewLastname varchar(50) not null) ; 
 
+----------------------------------------------------- below we delete students with duplicate numbers, so we're going to make the duplicate ones unique here.
+/*
+
+select Number, count(*) 
+from student
+where ManuallyEntered = 1
+group by Number
+having count(*) > 1
+
+select Number, FI = left(firstname, 1), LI = left(lastname, 1), count(*) 
+from student
+where ManuallyEntered = 1
+group by Number, left(firstname, 1), left(lastname, 1)
+having count(*) > 1
+
+update student set Number = isnull(Number,'')+left(firstname, 1)+left(lastname, 1)
+where isnull(Number,'') in (
+	select isnull(Number,'')
+	from student
+	where ManuallyEntered = 1
+	group by Number
+	having count(*) > 1)
+--
+
+select Number, count(*) 
+from student
+where ManuallyEntered = 1
+group by Number
+having count(*) > 1
+
+*/
+
+
+declare @SaveStudents table (StudentID uniqueidentifier null, OldNumber varchar(50) not null, OldFirstname varchar(50) not null, OldLastname varchar(50) not null, NewNumber varchar(50), NewFirstname varchar(50) not null, NewLastname varchar(50) not null) ; 
+insert @SaveStudents 
+select StudentID = ID, 
+	OldNumber = isnull(Number,''), 
+	OldFirstname = Firstname, 
+	OldLastname = Lastname, 
+	NewNumber = isnull(Number,''), 
+	NewFirstname = Firstname, 
+	NewLastname = Lastname
+From Student 
+where ManuallyEntered = 1
+and MiddleName = 'test'
 -- delete manual students from test tables
 
 -- declare @studentid varchar(36), @sch varchar(50), @tbl varchar(100), @col varchar(100), @q varchar(max), @tranname varchar(100)
@@ -530,9 +574,42 @@ StudentGroupStudent sgs on s.ID = sgs.StudentID left join
 @SaveStudents z on s.ID = z.StudentID 
 where z.StudentID is null ; print 'StudentGroupStudent by Number : ' + convert(varchar(10), @@rowcount)
 
+
+--select * from PrgItemIntent where StudentID in (select StudentID from @SaveStudents)
+----select * from PrgItemIntent where StudentID not in (select StudentID from @SaveStudents)
+
+--select x.*
+--from PrgItemIntent x
+--left join @SaveStudents s on x.StudentId = s.StudentID
+--where s.StudentID is null ; print 'PrgItemIntent : ' + convert(varchar(10), @@rowcount)
+
+-- these would be deleted
+select z.studentid, s.ManuallyEntered, s.*
+from (select Number = isnull(Number,'') from Student group by isnull(Number,'') having COUNT(*) > 1 ) n join 
+Student s on n.Number = s.Number and s.ManuallyEntered = 1 and s.IsActive = 1 left join
+@SaveStudents z on s.ID = z.StudentID
+
+--select * from @SaveStudents
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ stop here	rollback
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+delete x
+from PrgItemIntent x
+left join @SaveStudents s on x.StudentId = s.StudentID
+where s.StudentID is null ; print 'PrgItemIntent : ' + convert(varchar(10), @@rowcount)
+
+--Msg 547, Level 16, State 0, Line 543
+--The DELETE statement conflicted with the REFERENCE constraint "FK_PrgItemIntent#Student#". The conflict occurred in database "Enrich_DC4_CO_Eagle_SQL2012", table "dbo.PrgItemIntent", column 'StudentId'.
+
+--Msg 547, Level 16, State 0, Line 552
+--The DELETE statement conflicted with the REFERENCE constraint "FK_PrgItemIntent#Student#". The conflict occurred in database "Enrich_DC4_CO_Eagle_SQL2012", table "dbo.PrgItemIntent", column 'StudentId'.
+
+
 delete s
 -- select s.ManuallyEntered, s.*
-from (select Number from Student group by Number having COUNT(*) > 1 ) n join 
+from (select Number = isnull(Number,'') from Student group by isnull(Number,'') having COUNT(*) > 1 ) n join 
 Student s on n.Number = s.Number and s.ManuallyEntered = 1 and s.IsActive = 1 left join
 @SaveStudents z on s.ID = z.StudentID ; print 'Student by Number : ' + convert(varchar(10), @@rowcount)
 
