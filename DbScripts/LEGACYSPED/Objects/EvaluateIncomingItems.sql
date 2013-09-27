@@ -147,26 +147,32 @@ order
 
 */
 
-select  -- we are seeing 
+select  
 -- Student
 	s.StudentRefID, -- need a row for every student 
 	StudentID = coalesce(xci.StudentID, xp.StudentID, xni.StudentID, ts.DestID),
-	xciStudentID = xci.StudentID, xpStudentID = xp.StudentID, xniStudentID = xni.StudentID, tsDestID = ts.DestID,
+	-- xciStudentID = xci.StudentID, xpStudentID = xp.StudentID, xniStudentID = xni.StudentID, tsDestID = ts.DestID,
 -- Involvement
-	ExistingInvolvementID = isnull(xcpm.DestID, xp.ID), -- if no inv created through ETL, get the inv created through the UI.  DO NOT display the xpe.ID here.  We need it to fail if no active involvement.
+-- 	xcpm = xcpm.DestID, xp = xp.ID, xci_inv = xci.InvolvementID,
+	ExistingInvolvementID = coalesce(xcpm.DestID, xp.ID, xci.InvolvementID), -- if no inv created through ETL, get the inv created through the UI.  DO NOT display the xpe.ID here.  We need it to fail if no active involvement.
 --	ExistingInvolvementIsEnded = isnull(case when xp.EndDate is null then 0 else 1 end, case when xp.EndDate is null then 0 else 1 end), -- (may not need this since we can ignore ended involvements).  don't want to resurrect one!
-	InvolvementStartDate = case when xp.StartDate > gci.IEPStartDate then gci.IEPStartDate else xp.StartDate end, -- reset to start date of IEP if inv start is after IEP start.  to use in Transform_PrgInvolvement
-	InvolvementEndDate = cast(case when ts.SpecialEdStatus = 'I' then gci.IEPEndDate else case when xp.EndDate > getdate() then NULL else xp.EndDate end end as datetime), -- reset to NULL if inv.EndDate is future.  This will be used in Transform_PrgInvolvement
+	InvolvementStartDate = case when isnull(xp.StartDate, xcip.StartDate) > gci.IEPStartDate then gci.IEPStartDate else isnull(xp.StartDate, xcip.StartDate) end, -- reset to start date of IEP if inv start is after IEP start.  to use in Transform_PrgInvolvement
+	InvolvementEndDate = cast(case when ts.SpecialEdStatus = 'I' then gci.IEPEndDate else case when isnull(xp.EndDate, xcip.EndDate) > getdate() then NULL else isnull(xp.EndDate, xcip.EndDate) end end as datetime), -- reset to NULL if inv.EndDate is future.  This will be used in Transform_PrgInvolvement
 -- Item
 	ExistingIEPRefID = xcm.IepRefID, 
-	IncomingIEPRefID = gci.IepRefID, Incoming = case when gci.IepRefID is null then 0 else 1 end, IncomingIsOlder = case when convert(datetime, gci.IEPStartDate) < convert(datetime,xci.StartDate) then 1 else 0 end,
+	IncomingIEPRefID = gci.IepRefID, 
+	Incoming = case when gci.IepRefID is null then 0 else 1 end, 
+	ExistingStartDate = xci.StartDate, -- convert(varchar, xci.StartDate, 101),
+	IncomingIEPStartDate = gci.IEPStartDate, -- convert(varchar, gci.IEPStartDate, 101), 
+	IncomingIsOlder = case when gci.IEPStartDate < xci.StartDate then 1 else 0 end,
 -- Exsting Converted
 	ExistingConvertedItemID = xcm.DestID, ExistingConvertedVersionID = xcv.DestID, ExistingConvertedItemIsEnded = xci.IsEnded, 
 -- Exsting Non-Converted
 	ExistingNonConvertedItemID = xni.ItemID, ExistingNonConvertedVersionID = xnv.ID, ExistingNonConvertedItemIsEnded = xni.IsEnded, NonConvertedIEPExists = case when xni.ItemID is null then 0 else 1 end, 
 -- if touched, we do nothing with the item (no update, no delete)
 	-- Touched = cast(isnull(xci.IsEnded,0) as int)+isnull(xci.Revision,0)+case when (xp.ID is null and xpe.ID is not null) then 1 else 0 end  -- + case when xni.ItemID is null then 0 else 1 end -- could be 2 different items.  Want this ??????????  no.  this causes incoming ieps not to be imported where a non-converted item exists
-	Touched = cast(case when ts.SpecialEdStatus='A' then isnull(xci.IsEnded,0) else 0 end as int)+isnull(xci.Revision,0)+case when (xp.ID is null and (ts.SpecialEdStatus='A' and xpe.ID is not null)) then 1 else 0 end  -- + case when xni.ItemID is null then 0 else 1 end -- could be 2 different items.  Want this ??????????  no.  this causes incoming ieps not to be imported where a non-converted item exists
+	Touched = cast(case when ts.SpecialEdStatus='A' then isnull(xci.IsEnded,0) else 0 end as int)+isnull(xci.Revision,0)+case when (isnull(xp.ID, xcip.ID) is null and (ts.SpecialEdStatus='A' and xpe.ID in (select DestID from LEGACYSPED.MAP_PrgInvolvementID))) then 1 else 0 end  -- + case when xni.ItemID is null then 0 else 1 end -- could be 2 different items.  Want this ??????????  no.  this causes incoming ieps not to be imported where a non-converted item exists
+-- select xp.*
 from 
 -- All students, existing and incoming -- select ts.DestID, count(*) tot from 
 	(select StudentRefID from LEGACYSPED.MAP_IEPStudentRefID union select StudentRefID from LEGACYSPED.IEP ) s left join -- 12084
@@ -174,7 +180,8 @@ from
 	LEGACYSPED.Transform_Student ts on s.StudentRefID = ts.StudentRefID left join 
 		-- need to make sure MAP_IEPStudentRefID will be populated any time this view is used.
 -- EXISTING INVOLVEMENT (ACTIVE).  either created through ETL or UI.  consider isnull(xcmp.DestID, xp.ID).  check for involvement date range
-	PrgInvolvement xp on ts.DestID = xp.StudentID and xp.ProgramID = 'F98A8EF2-98E2-4CAC-95AF-D7D89EF7F80C' and 
+	PrgInvolvement xp on ts.DestID = xp.StudentID and xp.ProgramID = 'F98A8EF2-98E2-4CAC-95AF-D7D89EF7F80C' 
+	and 
 		isnull(xp.EndDate, DATEADD(DAY, DATEDIFF(DAY, 0, getdate()), 1)) > DATEADD(DAY, DATEDIFF(DAY, 0, getdate()), 0) left join  -- if involvement ended today, we don't need this record
 
 -- EXISTING INVOLVEMENT (ENDED).  either created through ETL or UI.  consider isnull(xcmp.DestID, xp.ID).  check for involvement date range
@@ -196,7 +203,9 @@ from
 -- EXISTING converted ITEM
 	LEGACYSPED.MAP_IEPStudentRefID xcm on s.StudentRefID = xcm.StudentRefID left join 
 --	LEGACYSPED.Transform_PrgIep xcm on s.StudentRefID = xcm.StudentRefID left join 
-	PrgItem xci on xcm.DestID = xci.ID left join 
+	PrgItem xci on xcm.DestID = xci.ID and xci.DefID = '8011D6A2-1014-454B-B83C-161CE678E3D3' and xci.CreatedDate = '1/1/1970' left join 
+-- NEW:   get the existing converted item InvolvementID here.  Covers case where the involvement is represented in the MAP table but not in the incoming data.
+	PrgInvolvement xcip on xci.InvolvementID = xcip.ID left join 
 
 -- EXISTING converted iep VERSION
 	LEGACYSPED.MAP_PrgVersionID xcv on xcm.IepRefID = xcv.IepRefID left join -- xcm null, xcv null.  ........................................ assumes the item has never been touched! (or that we are not acting on touched records)
@@ -221,35 +230,7 @@ from
 
 -- INCOMING (legacy) converted IEP 
 	LEGACYSPED.IEP gci on s.StudentRefID = gci.StudentRefID 
---
-
---where not (isnull(xcpm.DestID, xp.ID) is not null and xcm.DestID is not null) and not (isnull(xcpm.DestID, xp.ID) is null and xcm.DestID is null) order by case when isnull(xcpm.DestID, xp.ID)  is null then 0 else 1 end, case when xcm.DestID  is null then 0 else 1 end
-
-
 go 
-
-
----- has item and no involvement
---select * from Prgitem where ID = 'A7DFCDE7-539B-4516-B69B-E0771627ECD0'
---select * from PrgInvolvement where ID = 'DE62860A-4140-4E01-AED9-14475F1C1320'
----- both look ok
-
-
----- has involvement but no item
-
---select * from PrgInvolvement where ID = 'CDC84637-FFA3-49CE-8671-F7AE453E2C7D'
---select * from Prgitem where InvolvementID = 'CDC84637-FFA3-49CE-8671-F7AE453E2C7D' and DefID = '8011D6A2-1014-454B-B83C-161CE678E3D3' -- ended
-
-
---select * from LEGACYSPED.Transform_PrgIep where StudentID = 'B20BB6CC-94F0-4D7E-9B1A-4879D8D7191D' -- not there
---select * from LEGACYSPED.transform_student where DestID= 'B20BB6CC-94F0-4D7E-9B1A-4879D8D7191D' -- not there
---select * from student where ID = 'B20BB6CC-94F0-4D7E-9B1A-4879D8D7191D' -- doesn''t have current school or gradelevel.         0810981
---select * from student where ID = '54579728-873D-41D4-8A24-A1D0DE84DE71'
-
---select * from LEGACYSPED.MAP_StudentRefIDAll where StudentRefID = '0810981'
-
-
-
 
 
 

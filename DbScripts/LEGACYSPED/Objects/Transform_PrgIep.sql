@@ -62,7 +62,7 @@ select
 	iep.ConsentForServicesDate,
 	iep.ConsentForEvaluationDate,
 	iep.ServiceDeliveryStatement, 
-	stu.OID,
+	OID = isnull(stu.OID, '6531EF88-352D-4620-AF5D-CE34C54A9F53'), 
 	stu.SpecialEdStatus
 from LEGACYSPED.EvaluateIncomingItems ev left join 
 	LEGACYSPED.Transform_Student stu on ev.StudentRefID = stu.StudentRefID left join 
@@ -72,4 +72,5 @@ from LEGACYSPED.EvaluateIncomingItems ev left join
 	dbo.PrgItem t on ev.ExistingConvertedItemID = t.ID left join
 	LEGACYSPED.MAP_PrgInvolvementID minv on iep.StudentRefID = minv.StudentRefID 
 go
+
 

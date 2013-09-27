@@ -29,4 +29,6 @@ insert PrgInvolvementStatus
 SELECT NEWID(), s.DestID, s.StatusID, s.StartDate, s.EndDate
 FROM (select * from @Transform_PrgInvolvement where DestID not in (select InvolvementID from PrgInvolvementStatus where StatusID = @StatusID)) s
 -- WHERE NOT EXISTS (SELECT * FROM PrgInvolvementStatus d WHERE NEWID()=d.ID) -- this came from the LoadTable_Run proc when we used the Transform View instead of this proc.
+left join PrgInvolvementStatus t on s.DestID = t.InvolvementID 
+where t.id is null
 go
