@@ -1,6 +1,6 @@
 
 -- Florida
--- Polk
+-- Bay
 
 if exists (select 1 from sys.schemas s join sys.objects o on s.schema_id = o.schema_id where s.name = 'LEGACYSPED' and o.name = 'MAP_AdminUnitID')
 drop table LEGACYSPED.MAP_AdminUnitID
@@ -16,8 +16,8 @@ insert LEGACYSPED.MAP_AdminUnitID values ('6531EF88-352D-4620-AF5D-CE34C54A9F53'
 -- INSERT ONLY ONE RECORD INTO THIS TABLE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 go
 
-update OrgUnit set Number = '999' where ID = '6531EF88-352D-4620-AF5D-CE34C54A9F53'
-go
+--update OrgUnit set Number = '999' where ID = '6531EF88-352D-4620-AF5D-CE34C54A9F53'
+--go
 
 
 if exists (select 1 from sys.schemas s join sys.objects o on s.schema_id = o.schema_id where s.name = 'LEGACYSPED' and o.name = 'MAP_PrgStatus_ConvertedDataPlan')
