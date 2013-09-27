@@ -12,13 +12,13 @@ insert x_LEGACYGIFT.MAP_PrgStatus_ConvertedEP values ('DA52C2A1-5265-4DE6-9509-B
 go
 
 declare @PrgStatusSeq int ;
-select @PrgStatusSeq = sequence from PrgStatus where ProgramID = '2FF58E06-9E4A-4BE5-8274-E0FDE0012D4E' and DeletedDate is null and Name = 'Eligible'
+select @PrgStatusSeq = sequence from PrgStatus where ProgramID = 'BBB09563-0211-488E-83C5-0C503B0951C3' and DeletedDate is null and Name = 'Eligible'
 If not exists (select 1 from PrgStatus where Name = 'Converted EP')
 begin
-	update PrgStatus set Sequence = Sequence+1 where ProgramID = '2FF58E06-9E4A-4BE5-8274-E0FDE0012D4E' and DeletedDate is null and Sequence > @PrgStatusSeq
+	update PrgStatus set Sequence = Sequence+1 where ProgramID = 'BBB09563-0211-488E-83C5-0C503B0951C3' and DeletedDate is null and Sequence > @PrgStatusSeq
 
 	insert PrgStatus (ID, ProgramID, Sequence, Name, IsExit, IsEntry,  StatusStyleID, StateCode, Description) 
-	values ('DA52C2A1-5265-4DE6-9509-B4B97FCA3900', '2FF58E06-9E4A-4BE5-8274-E0FDE0012D4E', 3, convert(varchar(50), 'Converted EP'), 0, 0, '85AAB540-503F-4613-9F1F-A14C72764285', NULL, NULL)
+	values ('DA52C2A1-5265-4DE6-9509-B4B97FCA3900', 'BBB09563-0211-488E-83C5-0C503B0951C3', 3, convert(varchar(50), 'Converted EP'), 0, 0, '85AAB540-503F-4613-9F1F-A14C72764285', NULL, NULL)
 end
 GO
 
@@ -44,10 +44,10 @@ ALTER TABLE x_LEGACYGIFT.ImportPrgSections
 )
 GO
 set nocount on;
-insert x_LEGACYGIFT.ImportPrgSections values (1, 0, 'Custom Form / Dates', '49370EFB-E531-4B61-86A3-3D1C132AB480',  '1D2FD18F-9E14-4772-B728-1CA3E6EAE21E',  NULL) -- Custom Form   F: Dates   H:  (none)
-insert x_LEGACYGIFT.ImportPrgSections values (1, 1, 'Custom Form / EP Present Levels', 'DF806BE1-85C9-4A5C-A4D9-12D41D14147C',  'B659273D-D369-45BF-8F85-01B7857F0635',  NULL) -- Custom Form   F: EP Present Levels   H:  (none)
-insert x_LEGACYGIFT.ImportPrgSections values (1, 2, 'IEP Goals', 'F9BCB1A3-D7D2-43E8-9B92-E269B80A2C62',  NULL,  NULL) -- IEP Goals   F:  (none)   H:  (none)
-insert x_LEGACYGIFT.ImportPrgSections values (1, 3, 'IEP Services', '8EFD24A0-46F0-4734-999A-0B4CCE2C1519',  NULL,  NULL) -- IEP Services   F:  (none)   H:  (none)
+insert x_LEGACYGIFT.ImportPrgSections values (1, 0, 'Custom Form / Dates', 'FF5C3D6E-D985-4292-A5FC-D3670CDD8AB0',  'EAAF0604-826B-4CDE-8477-6E83CD33CFD8',  NULL) -- Custom Form   F: Dates   H:  (none)
+insert x_LEGACYGIFT.ImportPrgSections values (1, 1, 'Custom Form / EP Present Levels', '7BE2D2D1-14E3-459D-B287-A7E749EAED01',  '347DBCFC-495B-43A9-89B3-12430552D080',  NULL) -- Custom Form   F: EP Present Levels   H:  (none)
+insert x_LEGACYGIFT.ImportPrgSections values (0, 2, 'IEP Goals', '43679573-0EB9-4E91-9E28-8FFDB685DE03',  NULL,  NULL) -- IEP Goals   F:  (none)   H:  (none)
+insert x_LEGACYGIFT.ImportPrgSections values (0, 3, 'IEP Services', '6C3C3592-3F2A-4AA4-8642-21F20346EEF3',  NULL,  NULL) -- IEP Services   F:  (none)   H:  (none)
 
 -- select * from x_LEGACYGIFT.ImportPrgSections order by Sequence
 
@@ -236,6 +236,23 @@ This is an extract from the formletviewbuilder query that shows the input field 
 --where t.ID is null
 --GO
 
+-- since this will evidently always be different from district to district, create this view here with the hard-coded IDs
+IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'x_LEGACYGIFT.EPDatesPivot') AND OBJECTPROPERTY(id, N'IsView') = 1)
+DROP VIEW x_LEGACYGIFT.EPDatesPivot
+GO
+
+create view x_LEGACYGIFT.EPDatesPivot
+as
+select 
+	EPRefID = cast(NULL as varchar(150)), 
+	DateValue = cast(NULL as datetime), 
+	InputFieldID = cast(NULL as uniqueidentifier),
+	InputItemType = cast(NULL as varchar(50)),
+	InputItemTypeID = cast(NULL as uniqueidentifier)
+go
+if exists (select 1 from sys.schemas s join sys.objects o on s.schema_id = o.schema_id where s.name = 'x_LEGACYGIFT' and o.name = 'GiftedConversionWrapUp')
+drop procedure x_LEGACYGIFT.GiftedConversionWrapUp
+go
 
 if exists (select 1 from sys.schemas s join sys.objects o on s.schema_id = o.schema_id where s.name = 'x_LEGACYGIFT' and o.name = 'GiftedConversionWrapUp')
 drop procedure x_LEGACYGIFT.GiftedConversionWrapUp
