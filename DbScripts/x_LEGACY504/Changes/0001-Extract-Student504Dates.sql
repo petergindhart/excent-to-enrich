@@ -5,8 +5,11 @@ GO
 
 CREATE TABLE x_LEGACY504.Student504Dates_LOCAL(	
 	StudentNumber	varchar(20) not null, -- remember this might be a GUID or something else in some other environement
-	StartDate	datetime not null,
-	EndDate	datetime	not null
+	StudentStateID varchar(20) not null,
+	FirstName varchar(20) null,
+	LastName varchar(20) null,
+	StartDate	datetime  null,
+	EndDate	datetime null
 )
 GO
 
