@@ -1,6 +1,6 @@
 
-set newsvc="VC3 TestView Scheduled Tasks (DCB4)"
-set exe="E:\Inetpub\Sites\Enrich_DCB4\TasksService\TestViewTasksService.exe"
+set newsvc="VC3 TestView Scheduled Tasks (vmdc6)"
+set exe="J:\Sites\DC6\TasksService\TestViewTasksService.exe"
 
 ..\ExecuteTask\ExecuteTask.exe installservice ServiceExe=%exe% ServiceName=%newsvc%
 

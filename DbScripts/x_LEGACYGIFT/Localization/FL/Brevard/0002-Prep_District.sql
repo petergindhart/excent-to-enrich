@@ -3,25 +3,30 @@
 -- Brevard
 -- GIFTED
 
-if exists (select 1 from sys.schemas s join sys.objects o on s.schema_id = o.schema_id where s.name = 'x_LEGACYGIFT' and o.name = 'MAP_PrgStatus_ConvertedEP')
-drop table x_LEGACYGIFT.MAP_PrgStatus_ConvertedEP
-go
+-- select * from PrgItemDef where ProgramID = '3B19FAD7-22BF-47CC-8FA6-2E0464EB6DC6'
 
-create table x_LEGACYGIFT.MAP_PrgStatus_ConvertedEP (DestID uniqueidentifier not null)
-insert x_LEGACYGIFT.MAP_PrgStatus_ConvertedEP values ('DA52C2A1-5265-4DE6-9509-B4B97FCA3900') -- should eventually coordinate with VC3 how the sequence should be coordinated.  
-go
+
+
+--
+--  NOTE:  Check this first section of code with the other 2 files in the Gifted District folder - MAP tables already have these IDs
+-- 
+
+
+
+
+declare @giftedProgramID varchar(36) ; select @giftedProgramID = '3B19FAD7-22BF-47CC-8FA6-2E0464EB6DC6'
+declare @convertedEPname varchar(50); set @convertedEPname = 'EP - Converted'
 
 declare @PrgStatusSeq int ;
-select @PrgStatusSeq = sequence from PrgStatus where ProgramID = 'BBB09563-0211-488E-83C5-0C503B0951C3' and DeletedDate is null and Name = 'Eligible'
-If not exists (select 1 from PrgStatus where Name = 'Converted EP')
+select @PrgStatusSeq = sequence from PrgStatus where ProgramID = @giftedProgramID and DeletedDate is null and Name = 'Eligible'
+If not exists (select 1 from PrgStatus where ProgramID = @giftedProgramID and Name = 'Converted EP')
 begin
-	update PrgStatus set Sequence = Sequence+1 where ProgramID = 'BBB09563-0211-488E-83C5-0C503B0951C3' and DeletedDate is null and Sequence > @PrgStatusSeq
+	update PrgStatus set Sequence = Sequence+1 where ProgramID = @giftedProgramID and DeletedDate is null and Sequence > @PrgStatusSeq
 
 	insert PrgStatus (ID, ProgramID, Sequence, Name, IsExit, IsEntry,  StatusStyleID, StateCode, Description) 
-	values ('DA52C2A1-5265-4DE6-9509-B4B97FCA3900', 'BBB09563-0211-488E-83C5-0C503B0951C3', 3, convert(varchar(50), 'Converted EP'), 0, 0, '85AAB540-503F-4613-9F1F-A14C72764285', NULL, NULL)
+	values ('DA52C2A1-5265-4DE6-9509-B4B97FCA3900', @giftedProgramID, 3, convert(varchar(50), 'Converted EP'), 0, 0, '85AAB540-503F-4613-9F1F-A14C72764285', NULL, NULL) -- DA5... used in other districts.
 end
 GO
-
 
 -- ImportPrgSections
 IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'x_LEGACYGIFT.ImportPrgSections') AND type in (N'U'))
@@ -44,12 +49,14 @@ ALTER TABLE x_LEGACYGIFT.ImportPrgSections
 )
 GO
 set nocount on;
-insert x_LEGACYGIFT.ImportPrgSections values (1, 0, 'Custom Form / Dates', 'FF5C3D6E-D985-4292-A5FC-D3670CDD8AB0',  'EAAF0604-826B-4CDE-8477-6E83CD33CFD8',  NULL) -- Custom Form   F: Dates   H:  (none)
-insert x_LEGACYGIFT.ImportPrgSections values (1, 1, 'Custom Form / EP Present Levels', '7BE2D2D1-14E3-459D-B287-A7E749EAED01',  '347DBCFC-495B-43A9-89B3-12430552D080',  NULL) -- Custom Form   F: EP Present Levels   H:  (none)
-insert x_LEGACYGIFT.ImportPrgSections values (0, 2, 'IEP Goals', '43679573-0EB9-4E91-9E28-8FFDB685DE03',  NULL,  NULL) -- IEP Goals   F:  (none)   H:  (none)
-insert x_LEGACYGIFT.ImportPrgSections values (0, 3, 'IEP Services', '6C3C3592-3F2A-4AA4-8642-21F20346EEF3',  NULL,  NULL) -- IEP Services   F:  (none)   H:  (none)
+-- run the query below to produce the insert lines 
+insert x_LEGACYGIFT.ImportPrgSections values (1, 0, 'Custom Form / Dates', '9018DAAB-EE41-44C6-BE47-1E3F344BAE98',  '4F15C29C-8CBB-49E4-A5B5-258E80ACFC2D',  NULL) -- Custom Form   F: Dates   H:  (none)
+insert x_LEGACYGIFT.ImportPrgSections values (0, 1, 'IEP Goals', '06578702-1A1D-4CA0-8E5C-FAF7578F3033',  NULL,  NULL) -- IEP Goals   F:  (none)   H:  (none)
+insert x_LEGACYGIFT.ImportPrgSections values (0, 2, 'IEP Services', '5DB15BC0-2FFD-48E3-9769-9A8138CEFDFE',  NULL,  NULL) -- IEP Services   F:  (none)   H:  (none)
 
 -- select * from x_LEGACYGIFT.ImportPrgSections order by Sequence
+
+--delete x_LEGACYGIFT.ImportPrgSections 
 
 
 /*   use this query to create the ImportFormTemplates insert queries (copy the insertline column date and paste above.  Change the PrgItemDef ID in different states if necessary.  
@@ -65,7 +72,7 @@ join PrgSectionDef s on i.ID = s.ItemDefID
 join PrgSectionType t on s.TypeID = t.ID
 left join FormTemplate f on s.FormTemplateID = f.Id
 left join FormTemplate h on s.HeaderFormTemplateID = h.Id
-where i.ID = '69942840-0E78-498D-ADE3-7454F69EA178' -- EP - Converted
+where i.ID = '698AB523-C815-4776-A0EA-4CF796A314A9' -- EP - Converted
 order by s.Sequence
 
 
@@ -111,22 +118,47 @@ and ftii.ID not in (select InputFieldID from x_LEGACYGIFT.FormInputValueFields)
 order by ft.Name, ftii.Sequence
 
 
---insert x_LEGACYGIFT.FormInputValueFields values ('1D2FD18F-9E14-4772-B728-1CA3E6EAE21E', '228379F1-0C95-4D69-95DA-BFB437FFB6C5') -- EP Meeting Date:
---insert x_LEGACYGIFT.FormInputValueFields values ('1D2FD18F-9E14-4772-B728-1CA3E6EAE21E', '63CB1358-9540-4469-8C2C-6DBFB6613037') -- EP Initiation Date:
---insert x_LEGACYGIFT.FormInputValueFields values ('1D2FD18F-9E14-4772-B728-1CA3E6EAE21E', '4C561605-316A-498F-8793-E74300782C9B') -- Last EP Date:
---insert x_LEGACYGIFT.FormInputValueFields values ('1D2FD18F-9E14-4772-B728-1CA3E6EAE21E', '94CD1E37-59A4-4B4C-B7AC-811E657F94FE') -- Duration Date:
---insert x_LEGACYGIFT.FormInputValueFields values ('1D2FD18F-9E14-4772-B728-1CA3E6EAE21E', '88558694-9018-4941-80BE-71D2D1BE5112') -- EP Level:
+-- since this will evidently always be different from district to district, create this view here with the hard-coded IDs
+IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'x_LEGACYGIFT.EPDatesPivot') AND OBJECTPROPERTY(id, N'IsView') = 1)
+DROP VIEW x_LEGACYGIFT.EPDatesPivot
+GO
 
---insert x_LEGACYGIFT.FormInputValueFields values ('B659273D-D369-45BF-8F85-01B7857F0635', '4F8DA6FB-9CF6-4056-9D06-534A675E7380') -- Parents, student and other EP members contribute information in the following areas:
---insert x_LEGACYGIFT.FormInputValueFields values ('B659273D-D369-45BF-8F85-01B7857F0635', '2E21A087-BDA2-435E-8D70-2701D27C9C96') -- Strengths and interests of student.
---insert x_LEGACYGIFT.FormInputValueFields values ('B659273D-D369-45BF-8F85-01B7857F0635', '019D9A47-60B0-405C-B585-7C0616F18FAA') -- Needs beyond general curriculum as a result of student's giftedness.
---insert x_LEGACYGIFT.FormInputValueFields values ('B659273D-D369-45BF-8F85-01B7857F0635', '33A9E439-CD8C-4E3C-B334-9F8B37185695') -- Results of recent evaluations, state or district assessments, and class work.
---insert x_LEGACYGIFT.FormInputValueFields values ('B659273D-D369-45BF-8F85-01B7857F0635', '04E73B63-654F-4B20-88A1-BFF9D214E9F5') -- Language needs of LEP student.
+create view x_LEGACYGIFT.EPDatesPivot
+as
+select u.*, InputItemType =  iit.Name, InputItemTypeID = iit.ID
+from (
+	select EPRefID, DateValue = EPMeetingDate, InputFieldID = '9560E498-B842-49CE-B634-C2A0FB96D4B6' -- EP Meeting Date:
+	from x_LEGACYGIFT.GiftedStudent s
+	union all
+	select EPRefID, EPMeetingDate, InputFieldID = 'B74C211B-8DE0-404A-AB7E-4D1744C89506' -- EP Initiation Date:
+	from x_LEGACYGIFT.GiftedStudent s
+	union all
+	select EPRefID, s.LastEPDate, InputFieldID = '13A5F33B-537C-4F0E-A8EA-A9C6E42D107F' -- Last EP Date:
+	from x_LEGACYGIFT.GiftedStudent s
+	union all
+--
+	select EPRefID, NULL, InputFieldID = '0073518B-C8BE-4726-94F4-72DD1DD97CB9' -- Special Review Date:
+	from x_LEGACYGIFT.GiftedStudent s
+	union all
+---
+	select EPRefID, s.DurationDate, InputFieldID = 'F4024E5D-8DEE-4B73-8079-0036B1EC618A' -- Duration Date:
+	from x_LEGACYGIFT.GiftedStudent s
+	union all
+	select EPRefID, NULL, InputFieldID = 'AF24267B-E081-478E-B29B-2475E92D1AAB' -- EP Level: (SingleSelect)
+	from x_LEGACYGIFT.GiftedStudent s
+	) u join
+FormTemplateInputItem ftii on u.InputFieldID = ftii.Id join 
+FormTemplateInputItemType iit on ftii.TypeId = iit.Id
+go
 
 
 
 
-/*		use the following query to create the insert statements for the x_LEGACYGIFT.FormInputValueFields table
+
+
+
+
+/*		different approach (not automated): use the following query to create the insert statements for the x_LEGACYGIFT.FormInputValueFields table
 
 
 select ft.Name, ftii.InputAreaID, ftc.IsRepeatable, ftii.Sequence, ftii.Label, ftl.TemplateID, FormTemplateInputItemID = ftii.ID,
@@ -147,112 +179,60 @@ order by ft.Name, ftii.Sequence
 
 This is an extract from the formletviewbuilder query that shows the input field ids that we will need to insert the date values
 
+exec x_DATATEAM.FormletViewBuilder '4F15C29C-8CBB-49E4-A5B5-258E80ACFC2D', 1, 'Date1
+Date2
+Date3
+Date4
+Date5
+Single1'
+
+
 	--	EP Meeting Date:     < Date1 >    (Date)
 	FormInputValue v_0_0 on
-		v_0_0.InputFieldId = '228379F1-0C95-4D69-95DA-BFB437FFB6C5' AND
+		v_0_0.InputFieldId = '9560E498-B842-49CE-B634-C2A0FB96D4B6' AND
 		v_0_0.Intervalid = i.ID JOIN
 	FormInputDateValue vv_0_0 on vv_0_0.ID = v_0_0.ID JOIN
 
 	--	EP Initiation Date:     < Date2 >    (Date)
 	FormInputValue v_0_1 on
-		v_0_1.InputFieldId = '63CB1358-9540-4469-8C2C-6DBFB6613037' AND
+		v_0_1.InputFieldId = 'B74C211B-8DE0-404A-AB7E-4D1744C89506' AND
 		v_0_1.Intervalid = i.ID JOIN
 	FormInputDateValue vv_0_1 on vv_0_1.ID = v_0_1.ID JOIN
 
 	--	Last EP Date:     < Date3 >    (Date)
 	FormInputValue v_0_2 on
-		v_0_2.InputFieldId = '4C561605-316A-498F-8793-E74300782C9B' AND
+		v_0_2.InputFieldId = '13A5F33B-537C-4F0E-A8EA-A9C6E42D107F' AND
 		v_0_2.Intervalid = i.ID JOIN
 	FormInputDateValue vv_0_2 on vv_0_2.ID = v_0_2.ID JOIN
 
-	--	Duration Date:     < Date5 >    (Date)
+	--	Special Review Date:     < Date4 >    (Date)
 	FormInputValue v_0_3 on
-		v_0_3.InputFieldId = '94CD1E37-59A4-4B4C-B7AC-811E657F94FE' AND
+		v_0_3.InputFieldId = '0073518B-C8BE-4726-94F4-72DD1DD97CB9' AND
 		v_0_3.Intervalid = i.ID JOIN
 	FormInputDateValue vv_0_3 on vv_0_3.ID = v_0_3.ID JOIN
+
+	--	Duration Date:     < Date5 >    (Date)
+	FormInputValue v_0_4 on
+		v_0_4.InputFieldId = 'F4024E5D-8DEE-4B73-8079-0036B1EC618A' AND
+		v_0_4.Intervalid = i.ID JOIN
+	FormInputDateValue vv_0_4 on vv_0_4.ID = v_0_4.ID JOIN
+
+	--	EP Level:     < Single1 >    (SingleSelect)
+	FormInputValue v_0_5 on
+		v_0_5.InputFieldId = 'AF24267B-E081-478E-B29B-2475E92D1AAB' AND
+		v_0_5.Intervalid = i.ID JOIN
+	FormInputSingleSelectValue vv_0_5 on vv_0_5.ID = v_0_5.ID LEFT JOIN
+
+	--### LEFT join actual value tables where needed ###
+
+	FormTemplateInputSelectFieldOption lft_0_5 on vv_0_5.SelectedOptionID = lft_0_5.ID
+go
+
 */
 
 
 
 
-
------- #############################################################################
-------		Goal Area MAP
---IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'x_LEGACYGIFT.MAP_EPSubGoalAreaDefID') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
---BEGIN
---CREATE TABLE x_LEGACYGIFT.MAP_EPSubGoalAreaDefID 
---(
---	SubGoalAreaCode	varchar(150) NOT NULL,
---	DestID uniqueidentifier NOT NULL,
---	ParentID uniqueidentifier not null
---)
-
---ALTER TABLE x_LEGACYGIFT.MAP_EPSubGoalAreaDefID ADD CONSTRAINT
---PK_MAP_EPSubGoalAreaDefID PRIMARY KEY CLUSTERED
---(
---	SubGoalAreaCode
---)
-
---END
---GO
-
----- select 'insert x_LEGACYGIFT.MAP_EPSubGoalAreaDefID values ('''+SubGoalAreaCode+''', '''+convert(varchar(36), DestID)+''', '''+convert(varchar(36), ParentID)+''')' from x_LEGACYGIFT.Transform_EPSubGoalAreaDef
---if not exists (select 1 from x_LEGACYGIFT.MAP_EPSubGoalAreaDefID where SubGoalAreaCode = 'GAReading')
---insert x_LEGACYGIFT.MAP_EPSubGoalAreaDefID values ('GAReading', 'A7506FED-1F87-484C-97DF-99517AC26971', '35B32108-174B-4F7F-9B5A-B5AF106F06BC')
-
---if not exists (select 1 from x_LEGACYGIFT.MAP_EPSubGoalAreaDefID where SubGoalAreaCode = 'GAWriting')
---insert x_LEGACYGIFT.MAP_EPSubGoalAreaDefID values ('GAWriting', '7099C2E7-02C9-4903-8A01-8F0774364E5B', '35B32108-174B-4F7F-9B5A-B5AF106F06BC')
-
---if not exists (select 1 from x_LEGACYGIFT.MAP_EPSubGoalAreaDefID where SubGoalAreaCode = 'GAMath')
---insert x_LEGACYGIFT.MAP_EPSubGoalAreaDefID values ('GAMath', 'D58C5141-DD5D-4C80-BB93-7CC88A234B2D', '35B32108-174B-4F7F-9B5A-B5AF106F06BC')
-
---if not exists (select 1 from x_LEGACYGIFT.MAP_EPSubGoalAreaDefID where SubGoalAreaCode = 'GAOther')
---insert x_LEGACYGIFT.MAP_EPSubGoalAreaDefID values ('GAOther', 'DEEB5A06-156D-43D0-B976-4B30245C6784', '35B32108-174B-4F7F-9B5A-B5AF106F06BC')
-
----- Lee County had a MAP_ServiceFrequencyID from a previouos ETL run that had bogus frequency data. delete that data and insert the good.
---declare @Map_ServiceFrequencyID table (ServiceFrequencyCode varchar(30), ServiceFrequencyName varchar(50), DestID uniqueidentifier)
---set nocount on;
---insert @Map_ServiceFrequencyID values ('day', 'daily', '71590A00-2C40-40FF-ABD9-E73B09AF46A1')
---insert @Map_ServiceFrequencyID values ('week', 'weekly', 'A2080478-1A03-4928-905B-ED25DEC259E6')
---insert @Map_ServiceFrequencyID values ('month', 'monthly', '3D4B557B-0C2E-4A41-9410-BA331F1D20DD')
---insert @Map_ServiceFrequencyID values ('year', 'yearly', '5F3A2822-56F3-49DA-9592-F604B0F202C3')
---insert @Map_ServiceFrequencyID values ('ZZZ', 'unknown', 'C42C50ED-863B-44B8-BF68-B377C8B0FA95')
-
---if (select COUNT(*) from @Map_ServiceFrequencyID t join x_LEGACYGIFT.MAP_ServiceFrequencyID m on t.DestID = m.DestID) <> 5
---	delete x_LEGACYGIFT.MAP_ServiceFrequencyID
-
---set nocount off;
---insert x_LEGACYGIFT.MAP_ServiceFrequencyID
---select m.ServiceFrequencyCode, m.ServiceFrequencyName, m.DestID
---from @Map_ServiceFrequencyID m left join
---	x_LEGACYGIFT.MAP_ServiceFrequencyID t on m.DestID = t.DestID
---where t.DestID is null
-
----- this is seed data, but maybe this is not the best place for this code.....
---insert ServiceFrequency (ID, Name, Sequence, WeekFactor)
---select DestID, m.ServiceFrequencyName, 99, 0
---from x_LEGACYGIFT.MAP_ServiceFrequencyID m left join
---	ServiceFrequency t on m.DestID = t.ID
---where t.ID is null
---GO
-
--- since this will evidently always be different from district to district, create this view here with the hard-coded IDs
-IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'x_LEGACYGIFT.EPDatesPivot') AND OBJECTPROPERTY(id, N'IsView') = 1)
-DROP VIEW x_LEGACYGIFT.EPDatesPivot
-GO
-
-create view x_LEGACYGIFT.EPDatesPivot
-as
-select 
-	EPRefID = cast(NULL as varchar(150)), 
-	DateValue = cast(NULL as datetime), 
-	InputFieldID = cast(NULL as uniqueidentifier),
-	InputItemType = cast(NULL as varchar(50)),
-	InputItemTypeID = cast(NULL as uniqueidentifier)
-go
-if exists (select 1 from sys.schemas s join sys.objects o on s.schema_id = o.schema_id where s.name = 'x_LEGACYGIFT' and o.name = 'GiftedConversionWrapUp')
-drop procedure x_LEGACYGIFT.GiftedConversionWrapUp
-go
 
 if exists (select 1 from sys.schemas s join sys.objects o on s.schema_id = o.schema_id where s.name = 'x_LEGACYGIFT' and o.name = 'GiftedConversionWrapUp')
 drop procedure x_LEGACYGIFT.GiftedConversionWrapUp
@@ -263,8 +243,10 @@ as
 -- this should run for all districts in all states
 update d set IsReevaluationNeeded = 1, StartDate = dateadd(dd, -d.MaxDaysToComplete, dateadd(yy, -d.MaxYearsToComplete, getdate())) from PrgMilestoneDef d where d.ID in ('27C002AF-ED92-4152-8B8C-7CA1ADEA2C81', 'AC043E4C-55EC-4F10-BCED-7E9201D7D0E2')
 
-exec dbo.Util_VerifyProgramDataAssumptions '2FF58E06-9E4A-4BE5-8274-E0FDE0012D4E'
+exec dbo.Util_VerifyProgramDataAssumptions 'AD9F855B-E054-46BF-ACA9-1884CBD6C8E1'
 
 GO
 
 
+--select * from PrgMilestoneDef where ID in ('27C002AF-ED92-4152-8B8C-7CA1ADEA2C81', 'AC043E4C-55EC-4F10-BCED-7E9201D7D0E2')
+-- select * from PrgMilestoneDef where ProgramID = 'AD9F855B-E054-46BF-ACA9-1884CBD6C8E1'

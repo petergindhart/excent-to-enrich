@@ -3,5 +3,6 @@ drop table x_LEGACYGIFT.MAP_PrgStatus_ConvertedEP
 go
 
 create table x_LEGACYGIFT.MAP_PrgStatus_ConvertedEP (DestID uniqueidentifier not null)
-insert x_LEGACYGIFT.MAP_PrgStatus_ConvertedEP values ('DA52C2A1-5265-4DE6-9509-B4B97FCA3900') -- should eventually coordinate with VC3 how the sequence should be coordinated.  
+insert x_LEGACYGIFT.MAP_PrgStatus_ConvertedEP values ('F2862A3D-A795-4EDF-9C26-B5CD2AEDFAA4') -- should eventually coordinate with VC3 how the sequence should be coordinated.  
 go
+
