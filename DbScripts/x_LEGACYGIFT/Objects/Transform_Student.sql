@@ -41,15 +41,15 @@ select
 	x.EPMeetingDate,
 	x.LastEPDate, 
 	x.DurationDate,
-	n.OID
+	s.OID
 from x_LEGACYGIFT.GiftedStudent x
-left join dbo.Student s on x.StudentID = s.Number
+left join dbo.Student s on x.StudentRefID = s.Number
 	and s.CurrentGradeLevelID is not null 
 	and s.CurrentSchoolID is not null
 left join dbo.Student n on 
 	x.Firstname = n.FirstName and 
 	x.Lastname = n.LastName and
-	x.Birthdate = n.DOB
+	isnull(x.Birthdate,'1970-01-01') = n.DOB
 --left join x_LEGACYGIFT.MAP_StudentRefID ms on x.StudentRefID = ms.StudentRefID 
 left join x_LEGACYGIFT.MAP_EPStudentRefID me on x.EPRefID = me.EpRefID -- ep map
 left join dbo.PrgItem i on s.ID = i.StudentID and i.DefID = (select ConvertedEPID from x_LEGACYGIFT.MAP_GiftedProgramID)

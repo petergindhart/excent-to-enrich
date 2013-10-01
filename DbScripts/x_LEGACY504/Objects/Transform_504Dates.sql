@@ -29,7 +29,7 @@ select
 	Sequence = cast(0 as int), -- this is the one that gets inserted into FormInptValue
 	Section504DateValue = cast(case when ii.Id = '2F086A80-58EB-4488-824F-126691F15F37' then pstart.StartDate when ii.Id = '6B346762-B709-4187-B787-C1D3A0BEAB98' then pend.EndDate end as datetime)
 from x_LEGACY504.Transform_504Data x
-join dbo.FormTemplateLayout l on x.TemplateID = l.TemplateId and l.Id = 'D0FF6EA9-0D59-4301-ADEE-2BC30BB353B2' -- and x.StudentID = '2402D32B-03C7-4D10-B2E0-15788BD715E5' --- this particular view assumes one section in the layout
+join dbo.FormTemplateLayout l on x.TemplateID = l.TemplateId and l.Id = '32163F19-4A96-4C96-AAB5-74206932B175' -- and x.StudentID = '2402D32B-03C7-4D10-B2E0-15788BD715E5' --- this particular view assumes one section in the layout
 --join dbo.FormTemplateControl c on l.ControlId = c.Id
 join dbo.FormTemplateInputItem ii on l.ControlId = ii.InputAreaId 
 left join x_LEGACY504.Student504Dates pstart on x.StudentNumber = pstart.StudentNumber and ii.Id = '2F086A80-58EB-4488-824F-126691F15F37' -- startdate

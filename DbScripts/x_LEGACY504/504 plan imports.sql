@@ -251,8 +251,8 @@ insert PrgInvolvement (ID, StudentID, ProgramID, VariantID, StartDate, IsManuall
 select x.InvolvementDestID, x.StudentID, x.ProgramID, x.VariantID, x.StartDate, x.IsManuallyEnded from x_LEGACY504.Transform_504Data x 
 left join PrgInvolvement y on x.InvolvementDestID = y.ID where y.ID is null
 
-insert PrgItem (ID, DefID, StudentID, StartDate, CreatedDate, CreatedBy, SchoolID, GradeLevelID, InvolvementID, StartStatusID, PlannedEndDate, IsEnded, LastModifiedDate, LastModifiedByID, Revision, IsApprovalPending)
-select x.ItemDestID, x.ItemDefID, x.StudentID, x.StartDate, x.TodayDate, x.AdminID, x.SchoolID, x.GradeLevelID, x.InvolvementDestID, x.StartStatusID, x.EndDate, x.IsEnded, x.TodayDate, x.AdminID, x.Revision, x.IsApprovalPending from x_LEGACY504.Transform_504Data x
+insert PrgItem (ID, DefID, StudentID, StartDate, CreatedDate, CreatedBy, SchoolID, GradeLevelID, InvolvementID, StartStatusID, PlannedEndDate, IsEnded, LastModifiedDate, LastModifiedByID, Revision, IsApprovalPending,OID)
+select x.ItemDestID, x.ItemDefID, x.StudentID, x.StartDate, x.TodayDate, x.AdminID, x.SchoolID, x.GradeLevelID, x.InvolvementDestID, x.StartStatusID, x.EndDate, x.IsEnded, x.TodayDate, x.AdminID, x.Revision, x.IsApprovalPending,x.OID from x_LEGACY504.Transform_504Data x
 left join PrgItem y on x.ItemDestID = y.ID where y.ID is null
 
 -- new

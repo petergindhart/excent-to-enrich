@@ -59,7 +59,7 @@ from x_LEGACYGIFT.Transform_PrgSectionFormInstance f join
 	x_LEGACYGIFT.EPPresentLevelsPivot plp on f.EPRefID = plp.EPRefID and ftii.id = plp.InputFieldID left join 
 		x_LEGACYGIFT.MAP_FormInputValueID mv on plp.InputFieldID = mv.InputFieldID and f.FormInstanceIntervalID = mv.IntervalID left join 
 	dbo.FormInputTextValue tv on mv.DestID = tv.Id
-where f.TemplateID = 'B659273D-D369-45BF-8F85-01B7857F0635'
+where f.TemplateID = '347DBCFC-495B-43A9-89B3-12430552D080' --Bay
 and plp.InputItemType = 'Text'
 go
 -- 

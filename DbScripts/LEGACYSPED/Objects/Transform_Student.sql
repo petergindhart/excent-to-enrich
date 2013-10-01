@@ -86,8 +86,8 @@ AS
   src.SpecialEdStatus,
   CurrentSchoolID = sch.DestID,
   CurrentGradeLevelID = g.DestID,
-  --EthnicityID = CAST(NULL as uniqueidentifier),
-  GenderID = (select TOP 1 v.ID from EnumValue v where v.Type = 'D6194389-17AC-494C-9C37-FD911DA2DD4B' and v.StateCode = src.Gender and v.IsActive = 1), -- will error if more than one value
+  EthnicityID = CAST(NULL as uniqueidentifier),
+--  GenderID = (select TOP 1 v.ID from EnumValue v where v.Type = 'D6194389-17AC-494C-9C37-FD911DA2DD4B' and v.StateCode = src.Gender and v.IsActive = 1), -- will error if more than one value
   Number = src.StudentLocalID,
   src.FirstName,
   src.MiddleName,
@@ -104,13 +104,14 @@ AS
   LinkedToAEPSi = cast(0 as bit),
   IsHispanic = case when src.IsHispanic = 'Y' then 1 else 0 end,
   MedicaidNumber = src.MedicaidNumber,
---  OID = (select DestID from LEGACYSPED.MAP_AdminUnitID), ------------------------------------------------- this is wrong!
+----  OID = (select DestID from LEGACYSPED.MAP_AdminUnitID), ------------------------------------------------- this is wrong!
   OID = isnull(t.OID, (select ID from OrgUnit where Number = src.ServiceDistrictCode)), -- select * from LEGACYSPED.StudentView
   ImportPausedDate = cast(NULL as datetime),
   ImportPausedByID = cast(NULL as uniqueidentifier),
   IsActive = coalesce(sst.IsActive, sloc.IsActive, 1),
   ManuallyEntered = ISNULL(m.LegacyData, case when coalesce(sst.ID, sloc.ID, snam.ID, m.DestID) IS NULL then 1 else 0 end), -- cast(case when dest.ID is null then 1 else 0 end as bit),
-  Touched = isnull(cast(i.IsEnded as int)+i.Revision/* + case when i.StudentID is not null then 1 else 0 end*/, 0) -- what is the purpose of this?  gg 20120618 
+  Touched = isnull(cast(i.isended as int)+i.revision, 0)--isnull(cast(i.IsEnded as int)/* + case when i.StudentID is not null then 1 else 0 end*/, 0) -- what is the purpose of this?  gg 20120618 
+ -- select src.StudentRefID, Touched = cast(i.IsEnded as int)+i.Revision
  FROM
   LEGACYSPED.IEP iep join -- this is to ensure a 1:1 relationship on imported students and IEPs (some IEPs may have failed vailidation.  avoid importing Student without IEP).
   LEGACYSPED.Student src on iep.StudentRefID = src.StudentRefID LEFT JOIN
@@ -153,9 +154,11 @@ AS
   LEGACYSPED.MAP_StudentRefID m on src.StudentRefID = m.StudentRefID LEFT JOIN
   dbo.Student t on m.DestID = t.ID left join 
   -- on subsequent imports, verify whether records associated with the manually entered student have been modified.  I don't remember why this was necessary.  the query below checks for existance of a non-converted iep.
-  PrgItem i on coalesce(sst.ID, sloc.ID, snam.ID, m.DestID) = i.StudentID and i.DefID = '8011D6A2-1014-454B-B83C-161CE678E3D3' and i.IsEnded = 0 
+  PrgItem i on coalesce(sst.ID, sloc.ID, snam.ID, m.DestID) = i.StudentID and i.DefID = '8011D6A2-1014-454B-B83C-161CE678E3D3' and i.CreatedDate = '1/1/1970' and i.IsEnded = 0 
 	--and i.StudentID not in (select zb.StudentID from PrgItem zb where zb.DefID = '8011D6A2-1014-454B-B83C-161CE678E3D3' and zb.IsEnded = 0 group by zb.StudentID having count(*) > 1) 
-	and i.ID = (select zb.DestID from LEGACYSPED.MAP_IEPStudentRefID zb where iep.StudentRefID = zb.StudentRefID) left join -- ensure that we don't act on Converted IEPs created through the UI
+	and i.ID = (select top 1 zb.DestID from LEGACYSPED.MAP_IEPStudentRefID zb where iep.StudentRefID = zb.StudentRefID) 
+	
+	left join -- ensure that we don't act on Converted IEPs created through the UI
 	( 
 	select s.StudentRefID, i.StudentID, ItemID = i.ID, i.InvolvementID, i.IsEnded, i.Revision
 	from PrgItem i join (
@@ -180,4 +183,3 @@ AS
 			where i.StudentID = i2.StudentID) 
 			) xni on src.StudentRefID = xni.StudentRefID
 GO
-

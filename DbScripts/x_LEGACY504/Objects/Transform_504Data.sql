@@ -43,14 +43,14 @@ select
 	AdminID = 'EEE133BD-C557-47E1-AB67-EE413DD3D1AB',
 	IsApprovalPending = 0,
 -- PrgInvolvement (ID, StudentID, ProgramID, VariantID, StartDate, IsManuallyEnded)
-	ProgramID = 'A1F33015-4D93-4768-B273-EA0CA77274BE', -- programid -- select * from Program
-	VariantID = '759C6054-DF3B-452E-AF68-A8EAC2EEA182', -- variantid
+	ProgramID = 'CCE3AC71-DF9D-47F6-97BD-217CCA054FFB', -- programid -- select * from Program
+	VariantID = '6EFE9798-08F6-4121-8999-18A208C438E2', -- variantid
 	IsManuallyEnded = 0,
 -- PrgItem (ID, DefID, StudentID, StartDate, CreatedDate, CreatedBy, SchoolID, GradeLevelID, InvolvementID, StartStatusID, PlannedEndDate, IsEnded, LastModifiedDate, LastModifiedByID, Revision, IsApprovalPending)
-	ItemDefID = 'FE2248C1-8BD6-4010-B02F-79C9F830E5AC',
+	ItemDefID = '7EF6FD12-F800-489D-A5FC-44A13802FE02',
 	SchoolID = sch.SchoolID,
 	GradeLevelID = gr.GradeLevelID,
-	StartStatusID = '63E39991-4C5A-48A4-B1B4-93062EA02B89', ---------------------------------------------------------------------------------- eligible.  this may be wrong
+	StartStatusID = 'ECBEBB56-6EF6-4D1C-9366-0107A3AF1A2C', ---------------------------------------------------------------------------------- eligible.  this may be wrong
 	IsEnded = 0,
 	Revision = 1, 
 -- PrgVersion (ID, ItemID, DateCreated, DateFinalized, IsApprovalPending, CreatedByID)  -- all of these fields already available inthe view
@@ -61,10 +61,11 @@ select
 -- FormInstanceInterval (ID, InstanceID, IntervalID)
 	IntervalID = 'FBE8314C-E0A0-4C5A-9361-7201081BD47D', ------------------ this is the real IntervalID.   the FormInstanceInterval.ID is also called IntervalID in the FormInputValue table !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 -- PrgSection (ID, DefID, ItemID, FormInstanceID, OnLatestVersion)
-	SectionDefID = '4BC1459E-3B35-4D6D-A8B2-1A639E897A40',
-	OnLatestVersion = 1
+	SectionDefID = '43DEA8E1-1334-44C5-9C52-061BA3ACF3A3',
+	OnLatestVersion = 1,
+	s.OID
 from x_LEGACY504.Student504Dates x
-join dbo.Student s on x.StudentNumber = s.Number
+join dbo.Student s on RIGHT(x.StudentNumber,9) = s.Number
 left join dbo.PrgInvolvement inv on s.ID = inv.StudentID and inv.ProgramID = 'A1F33015-4D93-4768-B273-EA0CA77274BE' -- select * from Program
 left join dbo.PrgItem item on s.ID = item.StudentID and item.DefID = 'FE2248C1-8BD6-4010-B02F-79C9F830E5AC' -- select * from PrgItemDef where ID = 'FE2248C1-8BD6-4010-B02F-79C9F830E5AC' -- Converted 504 Placeholder
 left join dbo.PrgVersion ver on item.ID = ver.ItemID -- check the latest version
