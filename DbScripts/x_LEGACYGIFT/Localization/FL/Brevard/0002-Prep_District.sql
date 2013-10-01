@@ -5,6 +5,15 @@
 
 -- select * from PrgItemDef where ProgramID = '3B19FAD7-22BF-47CC-8FA6-2E0464EB6DC6'
 
+
+
+--
+--  NOTE:  Check this first section of code with the other 2 files in the Gifted District folder - MAP tables already have these IDs
+-- 
+
+
+
+
 declare @giftedProgramID varchar(36) ; select @giftedProgramID = '3B19FAD7-22BF-47CC-8FA6-2E0464EB6DC6'
 declare @convertedEPname varchar(50); set @convertedEPname = 'EP - Converted'
 
