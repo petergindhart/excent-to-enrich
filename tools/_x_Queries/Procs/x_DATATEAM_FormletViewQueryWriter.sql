@@ -1,4 +1,4 @@
-alter proc x_DATATEAM.FormletViewBuilder
+create proc x_DATATEAM.FormletViewBuilder
  @formTemplateID uniqueidentifier,
  @createview bit,
  @requiredcolumns varchar(max) = NULL
