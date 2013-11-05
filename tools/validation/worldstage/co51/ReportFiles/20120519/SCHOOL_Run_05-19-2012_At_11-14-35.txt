@@ -1,9 +1,0 @@
-Field List: SCHOOLCODE|SCHOOLNAME|DISTRICTCODE|MINUTESPERWEEK
-____________________________________________________________________________________________________
-
-Line Number: 34
-Line Text: 1111|Hilltop Youth Services|1111|1800
-Error Message: E_DISTRICTCODE field value: '1111' does not exists in DISTRICT table.
-Error Type: Data Integrity
-____________________________________________________________________________________________________
-

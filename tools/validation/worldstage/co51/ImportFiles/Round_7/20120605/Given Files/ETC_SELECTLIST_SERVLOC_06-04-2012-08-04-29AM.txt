@@ -1,8 +1,0 @@
-Report Name: CODES- SERVICE LOCATION EXPORT
-
-Report Date:06/04/12       Export Start:08:04:29 AM    Export End:08:04:29 AM
-Report Mode:Mannual Mode    Status:Not Finished - Data Error
-
-Messages:
-There was no EXCENT Tera data found ( ETC_SELECTLIST_SERVLOC).
-
