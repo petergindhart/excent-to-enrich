@@ -5,7 +5,7 @@ as
 set nocount on;
 declare @s varchar(100), @t varchar(100), @c varchar(100), @txt varchar(100) ;
 
-select @txt = @yyy
+select @txt = '%'+@yyy+'%'
 
 declare TC cursor for
 select s.name, o.name, c.name
