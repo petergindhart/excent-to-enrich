@@ -22,7 +22,8 @@ CategoryID	uniqueidentifier,
 DirectID	varchar(36) NOT NULL,
 ExcludesID	varchar(36) NOT NULL,
 EsyID	varchar(36) NOT NULL,
-DeliveryStatement	varchar(254)
+DeliveryStatement	varchar(254),
+UseAmountRange	bit
 )
 
 END
@@ -33,7 +34,7 @@ GO
 
 create view LEGACYSPED.Transform_IepServicePlan_ss
 as
-select s.ServiceRefId, s.IepRefId, m.DestID, s.DefId, s.InstanceID, s.StudentID, s.StartDate, s.EndDate, s.Amount, s.FrequencyId, s.UnitID, s.ProviderTitleID, s.Sequence, s.ServiceTypeID, s.CategoryCode, s.CategoryID, s.DirectID, s.ExcludesID, s.EsyID, s.DeliveryStatement 
+select s.ServiceRefId, s.IepRefId, m.DestID, s.DefId, s.InstanceID, s.StudentID, s.StartDate, s.EndDate, s.Amount, s.FrequencyId, s.UnitID, s.ProviderTitleID, s.Sequence, s.ServiceTypeID, s.CategoryCode, s.CategoryID, s.DirectID, s.ExcludesID, s.EsyID, s.DeliveryStatement, s.UseAmountRange
 from LEGACYSPED.Transform_IepService_Snapshot s left join 
 LEGACYSPED.MAP_ServicePlanID m on s.ServiceRefId = m.ServiceRefID
 go
