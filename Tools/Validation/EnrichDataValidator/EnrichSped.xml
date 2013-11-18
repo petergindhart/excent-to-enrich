@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<FileFormat FieldDelimiter='|' FieldQualifier='"' FieldQualifierRequired="false" >
+	<Files>
+
+		<File Name="SelectLists.csv" Required="true" Include="true">
+			<Columns>
+				<Column Required="true" Name="Type" DataType="varchar" DataLength="20"  />
+				<Column Required="false" Name="SubType" DataType="varchar" DataLength="20"  />
+				<Column Required="false" Name="EnrichID" DataType="varchar" DataLength="150"  />
+				<Column Required="false" Name="StateCode" DataType="varchar" DataLength="20"  />
+				<Column Required="false" Name="LegacySpedCode" DataType="varchar" DataLength="150"  />
+				<Column Required="true" Name="EnrichLabel" DataType="varchar" DataLength="254"  />
+			</Columns>
+		</File>
+
+
+		<File Name="District.csv" Required="true" Include="true">
+			<Columns>
+				<Column Required="true" Name="DistrictCode" DataType="varchar" DataLength="10"  />
+				<Column Required="true" Name="DistrictName" DataType="varchar" DataLength="255"  />
+			</Columns>
+		</File>
+
+
+		<File Name="School.csv" Required="true" Include="true">
+			<Columns>
+				<Column Required="true" Name="SchoolCode" DataType="varchar" DataLength="10"  />
+				<Column Required="true" Name="SchoolName" DataType="varchar" DataLength="255"  />
+				<Column Required="true" Name="DistrictCode" DataType="varchar" DataLength="10"  />
+				<Column Required="true" Name="MinutesPerWeek" DataType="int" DataLength="0"  />
+			</Columns>
+		</File>
+
+
+		<File Name="Student.csv" Required="true" Include="true">
+			<Columns>
+				<Column Required="true" Name="StudentRefID" DataType="varchar" DataLength="150"  />
+				<Column Required="true" Name="StudentLocalID" DataType="varchar" DataLength="50"  />
+				<Column Required="true" Name="StudentStateID" DataType="varchar" DataLength="50"  />
+				<Column Required="false" Name="MedicaidNumber" DataType="varchar" DataLength="50"  />
+				<Column Required="true" Name="Firstname" DataType="varchar" DataLength="50"  />
+				<Column Required="false" Name="MiddleName" DataType="varchar" DataLength="50"  />
+				<Column Required="true" Name="LastName" DataType="varchar" DataLength="50"  />
+				<Column Required="true" Name="Birthdate" DataType="datetime" DataLength="0"  />
+				<Column Required="true" Name="Gender" DataType="varchar" DataLength="150"  />
+				<Column Required="true" Name="GradeLevelCode" DataType="varchar" DataLength="150"  />
+				<Column Required="true" Name="ServiceDistrictCode" DataType="varchar" DataLength="10"  />
+				<Column Required="true" Name="ServiceSchoolCode" DataType="varchar" DataLength="10"  />
+				<Column Required="true" Name="HomeDistrictCode" DataType="varchar" DataLength="10"  />
+				<Column Required="true" Name="HomeSchoolCode" DataType="varchar" DataLength="10"  />
+				<Column Required="false" Name="IsHispanic" DataType="varchar" DataLength="1"  />
+				<Column Required="false" Name="IsAmericanIndian" DataType="varchar" DataLength="1"  />
+				<Column Required="false" Name="IsAsian" DataType="varchar" DataLength="1"  />
+				<Column Required="false" Name="IsBlackAfricanAmerican" DataType="varchar" DataLength="1"  />
+				<Column Required="false" Name="IsHawaiianPacIslander" DataType="varchar" DataLength="1"  />
+				<Column Required="false" Name="IsWhite" DataType="varchar" DataLength="1"  />
+				<Column Required="true" Name="Disability1Code" DataType="varchar" DataLength="150"  />
+				<Column Required="false" Name="Disability2Code" DataType="varchar" DataLength="150"  />
+				<Column Required="false" Name="Disability3Code" DataType="varchar" DataLength="150"  />
+				<Column Required="false" Name="Disability4Code" DataType="varchar" DataLength="150"  />
+				<Column Required="false" Name="Disability5Code" DataType="varchar" DataLength="150"  />
+				<Column Required="false" Name="Disability6Code" DataType="varchar" DataLength="150"  />
+				<Column Required="false" Name="Disability7Code" DataType="varchar" DataLength="150"  />
+				<Column Required="false" Name="Disability8Code" DataType="varchar" DataLength="150"  />
+				<Column Required="false" Name="Disability9Code" DataType="varchar" DataLength="150"  />
+				<Column Required="false" Name="EsyElig" DataType="varchar" DataLength="1"  />
+				<Column Required="false" Name="EsyTBDDate" DataType="datetime" DataLength="0"  />
+				<Column Required="false" Name="ExitDate" DataType="datetime" DataLength="0"  />
+				<Column Required="false" Name="ExitCode" DataType="varchar" DataLength="150"  />
+				<Column Required="true" Name="SpecialEdStatus" DataType="char" DataLength="1"  />
+			</Columns>
+		</File>
+
+
+		<File Name="IEP.csv" Required="true" Include="true">
+			<Columns>
+				<Column Required="true" Name="IepRefID" DataType="varchar" DataLength="150"  />
+				<Column Required="true" Name="StudentRefID" DataType="varchar" DataLength="150"  />
+				<Column Required="true" Name="IEPMeetDate" DataType="datetime" DataLength="0"  />
+				<Column Required="true" Name="IEPStartDate" DataType="datetime" DataLength="0"  />
+				<Column Required="true" Name="IEPEndDate" DataType="datetime" DataLength="0"  />
+				<Column Required="true" Name="NextReviewDate" DataType="datetime" DataLength="0"  />
+				<Column Required="false" Name="InitialEvaluationDate" DataType="datetime" DataLength="0"  />
+				<Column Required="true" Name="LatestEvaluationDate" DataType="datetime" DataLength="0"  />
+				<Column Required="true" Name="NextEvaluationDate" DataType="datetime" DataLength="0"  />
+				<Column Required="false" Name="EligibilityDate" DataType="datetime" DataLength="0"  />
+				<Column Required="true" Name="ConsentForServicesDate" DataType="datetime" DataLength="0"  />
+				<Column Required="false" Name="LREAgeGroup" DataType="varchar" DataLength="3"  />
+				<Column Required="true" Name="LRECode" DataType="varchar" DataLength="150"  />
+				<Column Required="true" Name="MinutesPerWeek" DataType="int" DataLength="0"  />
+				<Column Required="false" Name="ServiceDeliveryStatement" DataType="varchar" DataLength="8000"  />
+			</Columns>
+		</File>
+
+
+		<File Name="Service.csv" Required="false" Include="true">
+			<Columns>
+				<Column Required="true" Name="ServiceType" DataType="varchar" DataLength="20"  />
+				<Column Required="true" Name="ServiceRefId" DataType="varchar" DataLength="150"  />
+				<Column Required="true" Name="IepRefId" DataType="varchar" DataLength="150"  />
+				<Column Required="false" Name="ServiceDefinitionCode" DataType="varchar" DataLength="150"  />
+				<Column Required="true" Name="BeginDate" DataType="datetime" DataLength="0"  />
+				<Column Required="false" Name="EndDate" DataType="datetime" DataLength="0"  />
+				<Column Required="true" Name="IsRelated" DataType="varchar" DataLength="1"  />
+				<Column Required="true" Name="IsDirect" DataType="varchar" DataLength="1"  />
+				<Column Required="true" Name="ExcludesFromGenEd" DataType="varchar" DataLength="1"  />
+				<Column Required="true" Name="ServiceLocationCode" DataType="varchar" DataLength="150"  />
+				<Column Required="true" Name="ServiceProviderTitleCode" DataType="varchar" DataLength="150"  />
+				<Column Required="false" Name="Sequence" DataType="int" DataLength="0"  />
+				<Column Required="false" Name="IsESY" DataType="varchar" DataLength="1"  />
+				<Column Required="true" Name="ServiceTime" DataType="int" DataLength="0"  />
+				<Column Required="true" Name="ServiceFrequencyCode" DataType="varchar" DataLength="150"  />
+				<Column Required="false" Name="ServiceProviderSSN" DataType="varchar" DataLength="11"  />
+				<Column Required="false" Name="StaffEmail" DataType="varchar" DataLength="150"  />
+				<Column Required="false" Name="ServiceAreaText" DataType="varchar" DataLength="254"  />
+			</Columns>
+		</File>
+
+
+		<File Name="SpedStaffMember.csv" Required="false" Include="true">
+			<Columns>
+				<Column Required="true" Name="StaffEmail" DataType="varchar" DataLength="150"  />
+				<Column Required="true" Name="Lastname" DataType="varchar" DataLength="50"  />
+				<Column Required="true" Name="Firstname" DataType="varchar" DataLength="50"  />
+				<Column Required="false" Name="EnrichRole" DataType="varchar" DataLength="50"  />
+			</Columns>
+		</File>
+
+
+		<File Name="Objective.csv" Required="false" Include="true">
+			<Columns>
+				<Column Required="true" Name="ObjectiveRefID" DataType="varchar" DataLength="150"  />
+				<Column Required="true" Name="GoalRefID" DataType="varchar" DataLength="150"  />
+				<Column Required="false" Name="Sequence" DataType="int" DataLength="0"  />
+				<Column Required="false" Name="ObjText" DataType="varchar" DataLength="8000"  />
+			</Columns>
+		</File>
+
+
+		<File Name="TeamMember.csv" Required="false" Include="true">
+			<Columns>
+				<Column Required="true" Name="StaffEmail" DataType="varchar" DataLength="150"  />
+				<Column Required="true" Name="StudentRefId" DataType="varchar" DataLength="150"  />
+				<Column Required="true" Name="IsCaseManager" DataType="varchar" DataLength="1"  />
+			</Columns>
+		</File>
+
+
+		<File Name="StaffSchool.csv" Required="false" Include="true">
+			<Columns>
+				<Column Required="true" Name="StaffEmail" DataType="varchar" DataLength="150"  />
+				<Column Required="true" Name="SchoolCode" DataType="varchar" DataLength="10"  />
+			</Columns>
+		</File>
+
+	</Files>
+</FileFormat>
