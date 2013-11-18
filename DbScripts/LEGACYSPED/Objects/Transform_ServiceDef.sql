@@ -56,7 +56,7 @@ select
 	DeletedDate = case when k.EnrichID is not null then NULL else coalesce(i.DeletedDate, n.DeletedDate, t.DeletedDate) end,
 	UserDefined = cast(1 as Bit),
 	PhysicianReferralRequired = cast(0 as Bit),
-	NotTiedToIep = cast(0 as bit)
+	NotTiedToIep = CAST(0 as BIT)
 from LEGACYSPED.SelectLists k left join 
 	dbo.ServiceDef i on k.EnrichID = i.ID left join (
 	select sd.ID, ServiceDefName = sd.Name, sd.StateCode, sd.DeletedDate, ServiceCategoryName = isc.Name, sd.Description, sd.DefaultLocationID 
@@ -67,7 +67,7 @@ from LEGACYSPED.SelectLists k left join
 	LEGACYSPED.MAP_ServiceDefID m on ISNULL(k.LegacySpedCode,convert(varchar(150), k.EnrichLabel)) = m.ServiceDefCode   
 	and isnull(k.SubType,'x') = isnull(m.ServiceCategoryCode,'y') left join 
 	dbo.ServiceDef t on m.DestID = t.ID
-where k.Type = 'Service' and k.SubType is not null
+where k.Type = 'Service' and k.SubType is not null and n.DeletedDate is null
 	--and k.LegacySpedCode is not null -- there is nothing to do if this is null
 GO
 --

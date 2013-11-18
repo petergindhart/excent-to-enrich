@@ -226,7 +226,6 @@ Single1'
 	--### LEFT join actual value tables where needed ###
 
 	FormTemplateInputSelectFieldOption lft_0_5 on vv_0_5.SelectedOptionID = lft_0_5.ID
-go
 
 */
 

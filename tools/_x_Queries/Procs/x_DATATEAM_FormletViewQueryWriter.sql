@@ -1,3 +1,4 @@
+-- bogus - I cannot get this change to work.  Tried reverting and other stuff.  nothing works.
 create proc x_DATATEAM.FormletViewBuilder
  @formTemplateID uniqueidentifier,
  @createview bit,
