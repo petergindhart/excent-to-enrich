@@ -6,8 +6,8 @@ exec Util_VerifyProgramDataAssumptions @spedprog
 
 -- select Enabled, * from vc3etl.LoadTable where ExtractDatabase = '29D14961-928D-4BEE-9025-238496D144C6' order by Sequence
 
-if (select count(*) from LEGACYSPED.MAP_ServiceFrequencyID) = 0
-update VC3ETL.LoadTable set Enabled = 0 where ID = '28B98FE4-A7FF-42BE-AC0D-A05A728BBDB8' -- service frequency (re-think this later)
+-- if (select count(*) from LEGACYSPED.MAP_ServiceFrequencyID) = 0
+-- update VC3ETL.LoadTable set Enabled = 0 where ID = '28B98FE4-A7FF-42BE-AC0D-A05A728BBDB8' -- service frequency (re-think this later)
 
 if (select Enabled from legacysped.ImportPrgSections where SectionDefID = '9AC79680-7989-4CC9-8116-1CCDB1D0AE5F') = 0 -- services
 begin
