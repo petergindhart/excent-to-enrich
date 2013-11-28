@@ -1,5 +1,3 @@
-USE [x_NEBOCES_EO_20131003]
-GO
 
 /****** Object:  View [dbo].[ReportIEPCompleteTbl]    Script Date: 10/17/2013 1:57:56 PM ******/
 SET ANSI_NULLS ON
