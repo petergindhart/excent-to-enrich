@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<project name="Special Education Configuration">
+	<upgradedb
+		ConnectionString="${connection}"
+		IgnoreMissingModules="True"
+		ModulesDirectory="..\DbScripts"
+		Module="LEGACYSPED"
+		SpedObjectsInclude="..\..\LEGACYSPED\Objects"
+		SpedStateInclude="..\..\LEGACYSPED\Localization\${state}"
+		SpedDistrictInclude="..\..\LEGACYSPED\Localization\${state}\${speddistrict}"
+/>
+
+</project>
+<!-- paths are relative to the calling file -->
