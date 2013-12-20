@@ -1,7 +1,7 @@
 --#include {SpedStateInclude}\0010-Extract-Goal.sql
 --#include {SpedStateInclude}\GoalAreaExists.sql
 --#include {SpedStateInclude}\0001-Prep_State.sql
---#include {SpedStateInclude}\Transform_IepGoalAreaDef.sql
+--#include {SpedStateInclude}\Transform_PrgGoalAreaDef.sql
 --#include {SpedDistrictInclude}\0002-Prep_District.sql
 --#include Transform_ServiceFrequency.sql
 --#include {SpedStateInclude}\StudentView.sql
@@ -18,7 +18,7 @@
 --#include Transform_PrgSection.sql
 --#include Transform_PrgGoals.sql
 --#include PrimaryGoalAreaPerGoal.sql
---#include {SpedStateInclude}\Transform_IepGoalArea.sql
+--#include {SpedStateInclude}\Transform_PrgGoalArea.sql
 --#include Transform_PrgGoal.sql
 --#include {SpedStateInclude}\Transform_IepGoalPostSchoolAreaDef.sql
 --#include {SpedStateInclude}\Transform_IepGoalSubGoalAreaDef.sql
