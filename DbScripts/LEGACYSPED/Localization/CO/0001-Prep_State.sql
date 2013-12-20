@@ -93,32 +93,32 @@ IF EXISTS (SELECT * FROM sys.objects WHERE Name = 'LEGACYSPED.MAP_GoalAreaDefID'
 drop table LEGACYSPED.MAP_GoalAreaDefID
 GO
 
-IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.MAP_IepGoalAreaDefID') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
+IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.MAP_PrgGoalAreaDefID') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
 BEGIN
-CREATE TABLE LEGACYSPED.MAP_IepGoalAreaDefID
+CREATE TABLE LEGACYSPED.MAP_PrgGoalAreaDefID
 (
 	GoalAreaCode	varchar(150) NOT NULL,
 	DestID uniqueidentifier NOT NULL
 )
 
-ALTER TABLE LEGACYSPED.MAP_IepGoalAreaDefID ADD CONSTRAINT
-PK_MAP_IepGoalAreaDefID PRIMARY KEY CLUSTERED
+ALTER TABLE LEGACYSPED.MAP_PrgGoalAreaDefID ADD CONSTRAINT
+PK_MAP_PrgGoalAreaDefID PRIMARY KEY CLUSTERED
 (
 	GoalAreaCode
 )
 
 
-insert LEGACYSPED.MAP_IepGoalAreaDefID values ('ZZZ', 'FED37909-91FF-43F6-8772-C7D5513F1A01')
+insert LEGACYSPED.MAP_PrgGoalAreaDefID values ('ZZZ', 'FED37909-91FF-43F6-8772-C7D5513F1A01')
 
-if not exists (select 1 from IepGoalAreaDef where ID = 'FED37909-91FF-43F6-8772-C7D5513F1A01')
-insert IepGoalAreaDef (ID, Sequence, Name, AllowCustomProbes, RequireGoal) values ('FED37909-91FF-43F6-8772-C7D5513F1A01', 99, 'Not Defined', 0, 0)
+if not exists (select 1 from PrgGoalAreaDef where ID = 'FED37909-91FF-43F6-8772-C7D5513F1A01')
+insert PrgGoalAreaDef (ID, Sequence, Name, AllowCustomProbes, RequireGoal) values ('FED37909-91FF-43F6-8772-C7D5513F1A01', 99, 'Not Defined', 0, 0)
 
 
 
 END
 GO
 
--- select * from iepgoalareadef
+-- select * from PrgGoalAreadef
 
 
 
