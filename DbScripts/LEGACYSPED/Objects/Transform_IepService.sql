@@ -43,7 +43,7 @@ select
 	EndDate = cast(v.EndDate as datetime),
 	Amount = case v.ServiceTime when 0 then 1 else v.ServiceTime end, 
 	FrequencyId = freq.DestID,
-	UnitID = case v.ServiceTime when 0 then 'B4A83345-B362-4158-AAAD-21756D40857B' else '347548AB-489D-47C4-BE54-63FCF3859FD7' end, -- we request time from customer in minutes -- select * from ServiceUnit where ID = '347548AB-489D-47C4-BE54-63FCF3859FD7'
+	UnitID = case v.ServiceTime when 0 then '0C533776-6FC3-49D4-A518-30151CE19948' else '347548AB-489D-47C4-BE54-63FCF3859FD7' end, -- we request time from customer in minutes -- select * from ServiceUnit where ID = '347548AB-489D-47C4-BE54-63FCF3859FD7'
 	ProviderTitleID = ttl.DestID,
 	Sequence = (
 		SELECT count(*)
