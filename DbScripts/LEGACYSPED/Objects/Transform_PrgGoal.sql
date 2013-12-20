@@ -1,16 +1,16 @@
--- ############################################################################# ------- duplicated in Transform_IepGoalArea.sql
+-- ############################################################################# ------- duplicated in Transform_PrgGoalArea.sql
 --		Iep Goal Area MAP
-IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.MAP_IepGoalAreaID') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
+IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.MAP_PrgGoalAreaID') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
 BEGIN
-CREATE TABLE LEGACYSPED.MAP_IepGoalAreaID
+CREATE TABLE LEGACYSPED.MAP_PrgGoalAreaID
 (
 	IEPRefID	varchar(150) not null,
 	DefID uniqueidentifier NOT NULL,
 	DestID uniqueidentifier NOT NULL
 )
 
-ALTER TABLE LEGACYSPED.MAP_IepGoalAreaID ADD CONSTRAINT 
-PK_MAP_IepGoalAreaID PRIMARY KEY CLUSTERED
+ALTER TABLE LEGACYSPED.MAP_PrgGoalAreaID ADD CONSTRAINT 
+PK_MAP_PrgGoalAreaID PRIMARY KEY CLUSTERED
 (
 	DefID, IEPRefID
 )
@@ -31,7 +31,7 @@ end
 -- this object will be dropped when we create the view later
 go
 
-------------------------------------------------------------------------------------------- end code duplicated from Transform_IepGoalArea.sql
+------------------------------------------------------------------------------------------- end code duplicated from Transform_PrgGoalArea.sql
 
 -- #############################################################################
 -- Goal
@@ -56,8 +56,8 @@ if not exists (select 1 from sys.indexes where name = 'IX_LEGACYSPED_Goal_LOCAL_
 CREATE NONCLUSTERED INDEX  IX_LEGACYSPED_Goal_LOCAL_IEPRefID ON [LEGACYSPED].[Goal_LOCAL] ([IepRefID]) INCLUDE ([GoalRefID])
 
 -- belongs in a different file
-if not exists (select 1 from sys.indexes where name = 'IX_LEGACYSPED_IepGoalArea_DefID_InstanceID')
-CREATE NONCLUSTERED INDEX IX_LEGACYSPED_IepGoalArea_DefID_InstanceID ON [dbo].[IepGoalArea] ([DefID],[InstanceID])
+if not exists (select 1 from sys.indexes where name = 'IX_LEGACYSPED_PrgGoalArea_DefID_InstanceID')
+CREATE NONCLUSTERED INDEX IX_LEGACYSPED_PrgGoalArea_DefID_InstanceID ON [dbo].[PrgGoalArea] ([DefID],[InstanceID])
 
 GO
 
@@ -88,12 +88,14 @@ AS
   RatioPartTarget = cast(0 as float),
   RatioOutOfTarget = cast(0 as float),
   BaselineScoreID = cast(NULL as uniqueidentifier),
-  IndDefID = cast(NULL as uniqueidentifier),
-  IndTarget = cast(0 as float),
+  --IndDefID = cast(NULL as uniqueidentifier),
+  --IndTarget = cast(0 as float),
   ProbeScheduleID = cast(NULL as uniqueidentifier), 
   ParentID = CAST(NULL as uniqueidentifier),
   FormInstanceID = CAST(NULL as uniqueidentifier),
   StartDate = iep.IEPStartDate,
+  GoalAreaID = ga.DestID,
+  GoalDefID = 'D7C3ECB1-8FAD-4CCB-A46C-82E37783385C', --Probe Target
 -- IepGoal
   EsyID = case when g.IsEsy = 'Y' then 'B76DDCD6-B261-4D46-A98E-857B0A814A0C' else 'F7E20A86-2709-4170-9810-15B601C61B79' end, -- source.    Consider getting PrgGoal.ID from PrgGoal table
   i.DoNotTouch,
@@ -102,12 +104,13 @@ AS
   LEGACYSPED.IEP iep join 
   LEGACYSPED.Goal g on iep.IepRefID = g.IepRefID JOIN
   LEGACYSPED.GoalAreaExists e on g.GoalRefID = e.GoalRefID left join
-  LEGACYSPED.Transform_IepGoalArea_goals ga on g.GoalRefID = ga.GoalRefID left join ----------------- May be able to use MAP table for speed
+  LEGACYSPED.Transform_PrgGoalArea garea on garea.IEPRefID = g.IEPRefID and garea.GoalAreaCode = g.GoalAreaCode left join
+  LEGACYSPED.Transform_PrgGoalArea_goals ga on g.GoalRefID = ga.GoalRefID left join ----------------- May be able to use MAP table for speed
 	(
 	select g.IepRefID, ga.DefID, gad.GoalAreaCode 
 	from LEGACYSPED.Goal g join
-	LEGACYSPED.Transform_IepGoalArea_goals ga on g.GoalRefID = ga.GoalRefID join ----------------- May be able to use MAP table for speed
-	LEGACYSPED.MAP_IepGoalAreaDefID gad on ga.DefID = gad.DestID
+	LEGACYSPED.Transform_PrgGoalArea_goals ga on g.GoalRefID = ga.GoalRefID join ----------------- May be able to use MAP table for speed
+	LEGACYSPED.MAP_PrgGoalAreaDefID gad on ga.DefID = gad.DestID
 	group by g.IepRefID, ga.DefID, gad.GoalAreaCode
 	) ga1 on g.IepRefId = ga1.IepRefID and ga.DefID = ga1.DefID LEFT JOIN 
   LEGACYSPED.MAP_PrgGoalID m on g.GoalRefID = m.GoalRefID LEFT JOIN 
