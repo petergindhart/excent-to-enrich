@@ -1,0 +1,50 @@
+Microsoft (R) SQL Server Execute Package Utility
+Version 10.50.1600.1 for 64-bit
+Copyright (C) Microsoft Corporation 2010. All rights reserved.
+
+Started:  3:44:30 AM
+Progress: 2013-12-03 03:44:30.55
+   Source: Transfer ValidationReport_District 
+   Validating: 0% complete
+End Progress
+Progress: 2013-12-03 03:44:30.56
+   Source: Transfer ValidationReport_District 
+   Validating: 33% complete
+End Progress
+Progress: 2013-12-03 03:44:30.56
+   Source: Transfer ValidationReport_District 
+   Validating: 66% complete
+End Progress
+Error: 2013-12-03 03:44:30.56
+   Code: 0xC00F9304
+   Source: ValidationReportGeneration Connection manager "Excel_ValidationReportFilelocation"
+   Description: SSIS Error Code DTS_E_OLEDB_EXCEL_NOT_SUPPORTED: The Excel Connection Manager is not supported in the 64-bit version of SSIS, as no OLE DB provider is available.
+End Error
+Error: 2013-12-03 03:44:30.56
+   Code: 0xC020801C
+   Source: Transfer ValidationReport_District Excel Destination [44]
+   Description: SSIS Error Code DTS_E_CANNOTACQUIRECONNECTIONFROMCONNECTIONMANAGER.  The AcquireConnection method call to the connection manager "Excel_ValidationReportFilelocation" failed with error code 0xC00F9304.  There may be error messages posted before this with more information on why the AcquireConnection method call failed.
+End Error
+Error: 2013-12-03 03:44:30.56
+   Code: 0xC0047017
+   Source: Transfer ValidationReport_District SSIS.Pipeline
+   Description: component "Excel Destination" (44) failed validation and returned error code 0xC020801C.
+End Error
+Progress: 2013-12-03 03:44:30.56
+   Source: Transfer ValidationReport_District 
+   Validating: 100% complete
+End Progress
+Error: 2013-12-03 03:44:30.56
+   Code: 0xC004700C
+   Source: Transfer ValidationReport_District SSIS.Pipeline
+   Description: One or more component failed validation.
+End Error
+Error: 2013-12-03 03:44:30.56
+   Code: 0xC0024107
+   Source: Transfer ValidationReport_District 
+   Description: There were errors during task validation.
+End Error
+DTExec: The package execution returned DTSER_FAILURE (1).
+Started:  3:44:30 AM
+Finished: 3:44:30 AM
+Elapsed:  0.281 seconds
