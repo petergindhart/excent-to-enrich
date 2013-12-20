@@ -1,5 +1,5 @@
 
--- IepGoalAreaDef is currently populated in the state-specific localization file.  
+-- PrgGoalAreaDef is currently populated in the state-specific localization file.  
 -- IepSubGoalAreaDef may need to be in the district-specific localization file for now...
 
 ---- #############################################################################
@@ -32,24 +32,24 @@ create view LEGACYSPED.Transform_IepSubGoalAreaDef
 as
 select 
 	SubGoalAreaCode = ks.LegacySpedCode,
-	DestID = coalesce(i.ID, n.ID, t.ID, m.DestID),
+	DestID = m.DestID,--coalesce(i.ID, n.ID, m.DestID),
 	ParentID = kp.EnrichID,
-	Sequence = coalesce(i.sequence, n.sequence, t.sequence, 
-	case ks.LegacySpedCode ----------- this will have to do for now.  we may need to set all to 99 or something (for re-use with other districts/states).
+	Sequence = --coalesce(i.sequence, n.sequence, t.sequence), 
+	(case ks.LegacySpedCode ----------- this will have to do for now.  we may need to set all to 99 or something (for re-use with other districts/states).
 		when 'GAReading' then 0
 		when 'GAWriting' then 1
 		when 'GAMath' then 2
 		when 'GAOther' then 3
 	end),
-	Name = coalesce(i.name, n.name, t.name, ks.EnrichLabel), 
+	Name =  ks.EnrichLabel, --coalesce(i.name, n.name, t.name, ks.EnrichLabel), 
 	StateCode = cast(NULL as varchar(10)),
 	DeletedDate = cast(NULL as datetime)
 from LEGACYSPED.SelectLists kp cross join
-LEGACYSPED.SelectLists ks left join 
-dbo.IepSubGoalAreaDef i on ks.EnrichID = i.ID left join
-dbo.IepSubGoalAreaDef n on ks.EnrichLabel = n.Name left join 
-LEGACYSPED.MAP_IepSubGoalAreaDefID m on ks.LegacySpedCode = m.SubGoalAreaCode left join 
-dbo.IepSubGoalAreaDef t on m.DestID = t.ID
+LEGACYSPED.SelectLists ks 
+--left join dbo.IepSubGoalAreaDef i on ks.EnrichID = i.ID left join
+--dbo.IepSubGoalAreaDef n on ks.EnrichLabel = n.Name 
+left join LEGACYSPED.MAP_IepSubGoalAreaDefID m on ks.LegacySpedCode = m.SubGoalAreaCode 
+-- left join  dbo.IepSubGoalAreaDef t on m.DestID = t.ID --new release 9.2.2.x doesn't have this table
 where ks.Type = 'GoalArea' and ks.SubType = 'sub'
 and kp.Type = 'GoalArea' and kp.SubType = 'parent'
 go
