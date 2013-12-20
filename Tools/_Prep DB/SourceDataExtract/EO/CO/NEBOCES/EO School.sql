@@ -5,8 +5,8 @@ set nocount on;
 set ansi_warnings off;
 
 
---declare @md table (EODistrictCode varchar(4), StateDistrictCode varchar(4))
---insert @md values ('1000', '2862')
+declare @md table (EODistrictCode varchar(4), StateDistrictCode varchar(4))
+insert @md values ('1000', '2862')
 
 
 declare @ms table (EOSchoolCode varchar(4), StateSchoolCode varchar(4))
@@ -49,14 +49,15 @@ insert @stdistinct
 select distinct 
 	SchoolCode = isnull(ms.StateSchoolCode, sch.SchoolID),
 	SchoolName = sch.SchoolName, 
-	DistrictCode = st.DistCode, 
+	DistrictCode =isnull( cast(md.StateDistrictCode as varchar(10)), st.DistCode) , 
 	MinutesPerWeek = cast (0 as int)
 from @stdistinct h2
 join SchoolTbl st on h2.RecNum = st.RecNum
 join School sch on st.SchoolID = sch.SchoolID
 left join @ms ms on sch.SchoolID = ms.EOSchoolCode
+left join @md md on sch.DistrictID = md.EODistrictCode
 --left join @md md on st.DistCode = md.EODistrictCode
--- order by st.DistCode, sch.SchoolID
+order by SchoolCode
 
 GO
 

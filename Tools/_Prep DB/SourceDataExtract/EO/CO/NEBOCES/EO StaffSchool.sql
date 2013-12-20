@@ -1,6 +1,6 @@
 set nocount on;
-declare @ms table (EOSchoolCode varchar(10), StateSchoolCode varchar(10))
 
+declare @ms table (EOSchoolCode varchar(10), StateSchoolCode varchar(10))
 insert @ms values ('1001', '4369')
 insert @ms values ('5223', '5221')
 insert @ms values ('9790', '9791')
@@ -18,8 +18,8 @@ insert @ms values ('9732', '9733')
 
 --CREATE VIEW dbo.StaffSchool_EO
 --AS
-SELECT distinct StaffEmail = s.Email, SchoolCode = isnull(ms.StateSchoolCode, ss.SchoolID), ms.StateSchoolCode, ssSchoolID = ss.SchoolID, hSchoolID = h.SchoolID, h.DistrictID, h.SchoolName
-FROM dbo.StaffSchool ss 
+SELECT distinct StaffEmail = s.Email, SchoolCode = isnull(ms.StateSchoolCode, ss.SchoolID)
+FROM dbo.StaffSchool ss
 JOIN dbo.Staff s ON s.StaffGID = ss.StaffGID 
 left join @ms ms on ss.SchoolID = ms.eoschoolcode
 left join school h on ss.SchoolID = h.SchoolID

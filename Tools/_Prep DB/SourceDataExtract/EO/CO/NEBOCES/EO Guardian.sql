@@ -17,7 +17,8 @@ set nocount on;
 select ID = c.RecNum, c.Firstname, c.Lastname, EmailAddress = isnull(c.Email,''), 
 	Street = isnull(c.Addr1,'')+isnull(' '+c.addr2, ''), isnull(c.City,''), State = isnull(c.StateCode,''), ZipCode = isnull(c.Zip,''), 
 	HomePoneNumber = isnull(c.ResPh,''), WorkPHoneNumber = isnull(c.OffPh,''), CellPhoneNumber = isnull(c.CellPh,'')
-from Contacts c
+from SpecialEdStudentsAndIEPs x
+join Contacts c on x.GStudentID = c.GStudentID
 where isnull(c.del_flag,0)=0
 and not isnull(c.Firstname + c.Lastname, '') = ''
 

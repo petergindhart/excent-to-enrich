@@ -1,9 +1,25 @@
 set nocount on;
 
+
+declare @md table (EODistrictCode varchar(4), StateDistrictCode varchar(4))
+insert @md values ('1000', '2862')
+
+declare @ms table (EOSchoolCode varchar(4), StateSchoolCode varchar(4))
+
+insert @ms values ('1001', '4369')
+insert @ms values ('5223', '5221')
+insert @ms values ('9790', '9791')
+insert @ms values ('9794', '9795')
+insert @ms values ('9798', '9799')
+insert @ms values ('9724', '9725')
+insert @ms values ('9728', '9729')
+insert @ms values ('9732', '9733')
+
+
 select  
 	StudentRefID = s.GStudentID,
 	StudentLocalID = s.StudentID,
-	StudentStateID = s.AlterID, -- select top 10 s.* from student s join SpecialEdStudentsAndIEPs x on s.gstudentid = x.gstudentid
+	StudentStateID = s.AlterID, 
 	s.Firstname,
 	MiddleName = isnull(s.MiddleName,''),
 	s.LastName,
@@ -11,12 +27,25 @@ select
 	Gender = left(s.Sex, 1),
 	MedicaidNumber = isnull(s.medicaidnum,''),
 	GradeLevelCode = case isnull(s.Grade,'') when 'Kdg' then '006' when 'Pre' then '004' else isnull(s.Grade,'') end, -- find out if this is current
-	ServiceDistrictCode = coalesce(h.ServiceDistCode, h.ResidDistCode,''), -- select top 10 * from reportstudentschools
-	ServiceSchoolCode = coalesce(h.ServiceSchCode, h.ResidSchCode, ''),
-	HomeDistrictCode = case isnull(h.ResidDistCode, h.ServiceDistCode) when 'SAR' then '58' else isnull(h.ResidDistCode, h.ServiceDistCode) end,
-	HomeSchoolCode = isnull(h.ResidSchCode, h.ServiceSchCode),
---	s.Ethnic,
-	IsHispanic = cast(case when HispanicLatino = 1 then 'Y' else 'N' end as varchar(1)), -- select top 10 * from student
+----oSvcDist = h.ServiceDistCode, 
+----	msEODist = mds.EODistrictCode, 
+----	mds.StateDistrictCode,
+	ServiceDistrictCode = coalesce(mds.StateDistrictCode, h.ServiceDistCode, h.ResidDistCode,''), 
+----oSvcSch = h.ServiceSchCode, 
+----	msEOSch = mss.EOSchoolCode, 
+----	mss.StateSchoolCode,
+	ServiceSchoolCode = coalesce(mss.StateSchoolCode, h.ServiceSchCode, h.ResidSchCode, ''),
+----oHomDist = h.ResidDistCode, 
+----	oSvcDist = h.ServiceDistCode,
+----	mhEODist = mdh.EODistrictCode, 
+----	mhStDist = mdh.StateDistrictCode, 
+----	msStDist = mds.StateDistrictCode,
+	HomeDistrictCode = coalesce(mdh.StateDistrictCode, h.ResidDistCode, h.ServiceDistCode),
+----oHomSch = h.ResidSchCode,
+----	oSvcSch = h.ServiceSchCode, 
+----	mhStSch = msh.StateSchoolCode, 
+	HomeSchoolCode = coalesce(msh.StateSchoolCode, h.ResidSchCode, h.ServiceSchCode),
+	IsHispanic = cast(case when HispanicLatino = 1 then 'Y' else 'N' end as varchar(1)), 
 	IsAmericanIndian = cast(case when AmerIndOrALNatRace = 1 then 'Y' else 'N' end as varchar(1)),
 	IsAsian = cast(case when AsianRace = 1 then 'Y' else 'N' end as varchar(1)),
 	IsBlackAfricanAmerican = cast(case when BlackOrAfrAmerRace = 1 then 'Y' else 'N' end as varchar(1)),
@@ -36,7 +65,7 @@ select
 	ExitDate = isnull(convert(varchar, s.SpedExitDate, 101),''),
 	ExitCode = case isnull(s.SpedExitCode,'') when '0' then '' else isnull(s.SpedExitCode,'') end,
 	SpecialEdStatus = case when s.SpedStat = 1 then 'A' else 'I' end
-from SpecialEdStudentsAndIEPs x -- 2451 -- select * from SpecialEdStudentsAndIEPs -- select * from IEPTbl
+from SpecialEdStudentsAndIEPs x 
 JOIN Student s on x.GStudentID = s.GStudentID
 JOIN ReportStudentSchools h on s.gstudentid = h.gstudentid
 JOIN (
@@ -70,96 +99,16 @@ JOIN (
 		DisabilityLook d on sd.DisabilityID = d.DisabilityID
 		where isnull(sd.del_flag,0)=0
 		and sd.primarydiasb = 0
-		-- order by sd.gstudentid, sequence
 	) disab
 	group by disab.GStudentID
 	) d on s.gstudentid = d.gstudentid
---where x.SpedOrGifted = 'SpEd'
--- and d.gstudentid = 'A603252D-AFB3-411B-BA0E-C837102631C7'
+left join @md mds on isnull(h.ServiceDistCode, h.ResidDistCode) = mds.EODistrictCode
+left join @ms mss on isnull(h.ServiceSchCode, h.ResidSchCode) = mss.EOSchoolCode
+left join @md mdh on isnull(h.ResidDistCode, h.ServiceDistCode) = mdh.EODistrictCode
+left join @ms msh on isnull(h.ResidSchCode, h.ServiceSchCode) = msh.EOSchoolCode
+--where h.ResidDistCode = '1000' or h.ServiceDistCode = '1000'
+--where s.StudentID = '4603433577'
+--where firstname = 'Dylan' and lastname= 'Simpson'
 order by ServiceDistCode, ServiceSchCode
 GO
---select * from Grade
-
---select * from ReportStudentSchools where gstudentid = '0F19E3A6-A41C-43D4-9E86-96F759E5184B'
-
---select * from SchoolTbl s where GStudentID = '0F19E3A6-A41C-43D4-9E86-96F759E5184B' and s.Deletedate is null
-
---sp_helptext ReportStudentSchools
-
-
-
---Text
-
-
-----	The ReportStudentSchools view depends on the ReportStudentSchoolTypes view, which is specific to each state and which was first created in the CO project.
---select 
---	h2.gstudentid, 
---	h2.ServiceSchCode, hs.SchoolName ServiceSchName, 
----- 	hs.SchoolRegion ServiceSchRegion, hs.SchoolType ServiceSchoolType, 
---	h2.ServiceDistCode, ds.districtname ServiceDistName, 
---	--h2.ResidSchCode, hr.SchoolName ResidSchName, hr.SchoolRegion ResidSchRegion, hr.SchoolType ResidSchoolType, h2.ResidDistCode, dr.DistrictName ResidDistName	
---	bogus = 0
---from (  
--- select s.GStudentID,   
---  ha.SchoolID ServiceSchCode, ha.DistCode ServiceDistCode, 
---  hb.SchoolID ResidSchCode, hb.DistCode ResidDistCode
--- from StudentActive s  
--- -- the following max queries are designed to avoid duplicate rows in the output of this view query.  Sometimes students will have multiple rows per school in SchoolTbl  
--- left join (
---  select gstudentid, max(recnum) recnum   
---  from schooltbl h  
---  join ReportStudentSchoolTypes t on h.schtype = t.schtype and t.schtypeorder in (1, 3)
---  where isnull(del_flag,0) = 0  
---  and GStudentID = '0F19E3A6-A41C-43D4-9E86-96F759E5184B'
---  group by gstudentid  
---  ) ha2 on s.gstudentid = ha2.gstudentid  
--- left join SchoolTbl ha on ha2.recnum = ha.recnum -- include gstudentid if nec to improve performance  
--- left join (
---  select gstudentid, max(recnum) recnum   
---  from schooltbl h  
---  join ReportStudentSchoolTypes t on h.schtype = t.schtype and t.schtypeorder in (2, 3)
---  where isnull(del_flag,0) = 0  
---  and GStudentID = '0F19E3A6-A41C-43D4-9E86-96F759E5184B'
---  group by gstudentid
--- ) hb2 on s.gstudentid = hb2.gstudentid
--- left join SchoolTbl hb on hb2.recnum = hb.recnum
--- ) h2
---left join School hs on h2.ServiceSchCode = hs.SchoolID and isnull(hs.del_flag,0)=0
-----left join School hr on h2.ResidSchCode = hr.SchoolID and isnull(hr.del_flag,0)=0
---left join district ds on h2.ServiceDistCode = ds.DistrictID
---le--ft join district dr on h2.ResidDistCode = dr.DistrictID
---where GStudentID = '0F19E3A6-A41C-43D4-9E86-96F759E5184B'
-
-
---select * from ReportStudentSchoolTypes
-
---  select gstudentid, max(recnum) recnum   
---  from schooltbl h  
---  join ReportStudentSchoolTypes t on h.schtype = t.schtype and t.schtypeorder in (1, 3) -- school of attendance
---  where isnull(del_flag,0) = 0  
---  and GStudentID = '0F19E3A6-A41C-43D4-9E86-96F759E5184B'
---  group by gstudentid  
-
---  select gstudentid, max(recnum) recnum   
---  from schooltbl h  
---  join ReportStudentSchoolTypes t on h.schtype = t.schtype and t.schtypeorder in (2, 3)
---  where isnull(del_flag,0) = 0  
---  and GStudentID = '0F19E3A6-A41C-43D4-9E86-96F759E5184B'
---  group by gstudentid
-
---select * from ReportStudentSchoolTypes
-
-
---select * from SchoolTbl where GStudentID = '0F19E3A6-A41C-43D4-9E86-96F759E5184B' and Deletedate is null 
-
-
---select s.SchType, t.SchTypeOrder, count(*)
---from SpecialEdStudentsAndIEPs x
---join SchoolTbl s on x.GStudentID = s.GStudentID
---join ReportStudentSchoolTypes t on s.SchType = t.SchType
---group by s.SchType, t.SchTypeOrder
-
-
-
---sp_helptext ReportStudentSchoolTypes
 
