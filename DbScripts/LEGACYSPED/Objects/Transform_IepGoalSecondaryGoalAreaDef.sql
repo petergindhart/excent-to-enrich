@@ -15,7 +15,7 @@ select
 from 
 	LEGACYSPED.Transform_PrgGoal tg join -- select * from LEGACYSPED.Transform_PrgGoal 
 	LEGACYSPED.MAP_GoalAreaPivot ga on tg.GoalRefID = ga.GoalRefID join -- select * from LEGACYSPED.GoalAreaPivotView
-	LEGACYSPED.MAP_IepGoalAreaDefID m on ga.GoalAreaCode = m.GoalAreaCode  -- select * from LEGACYSPED.MAP_IepGoalAreaDefID
+	LEGACYSPED.MAP_PrgGoalAreaDefID m on ga.GoalAreaCode = m.GoalAreaCode  -- select * from LEGACYSPED.MAP_PrgGoalAreaDefID
 where ga.GoalAreaDefIndex > (
 	select ming.PrimaryGoalAreaDefIndex
 	from LEGACYSPED.PrimaryGoalAreaPerGoal ming
