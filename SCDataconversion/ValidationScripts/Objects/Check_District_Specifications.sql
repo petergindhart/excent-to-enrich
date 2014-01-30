@@ -149,7 +149,7 @@ IF (@isrequired=1)
 BEGIN
 
 SET @vsql = 'INSERT x_DATAVALIDATION.ValidationReport (TableName,ErrorMessage,LineNumber,Line)
-SELECT ''District'',''The field '+@columnname+' is required field.'',Line_No,(ISNULL(CONVERT(VARCHAR(max),DISTRICTCODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),DISTRICTNAME),'''')) as line
+SELECT ''District'','''+@columnname+' is required but not found.'',Line_No,(ISNULL(CONVERT(VARCHAR(max),DISTRICTCODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),DISTRICTNAME),'''')) as line
 FROM x_DATAVALIDATION.District_Local WHERE 1 = 1 '
 
 SET @query  = ' AND ('+@columnname+' IS NULL)'
@@ -158,7 +158,7 @@ SET @vsql = @vsql + @query
 EXEC sp_executesql @stmt=@vsql
 
 SET @sumsql = 'INSERT x_DATAVALIDATION.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
-SELECT ''District'',''The field '+@columnname+' is required field, it cannot be empty.'', COUNT(*)
+SELECT ''District'','''+@columnname+' is required but not found.'', COUNT(*)
 FROM x_DATAVALIDATION.District_Local WHERE 1 = 1 '
 
 SET @query  = ' AND ('+@columnname+' IS NULL)'
@@ -171,7 +171,7 @@ IF (1=1)
 BEGIN
 
 SET @vsql = 'INSERT x_DATAVALIDATION.ValidationReport (TableName,ErrorMessage,LineNumber,Line)
-SELECT ''District'',''The issue is in the datalength of the field '+@columnname+'.'',Line_No,(ISNULL(CONVERT(VARCHAR(max),DISTRICTCODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),DISTRICTNAME),'''')) as line
+SELECT ''District'','''+@columnname+' cannnot be greater than X characters.'',Line_No,(ISNULL(CONVERT(VARCHAR(max),DISTRICTCODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),DISTRICTNAME),'''')) as line
 FROM x_DATAVALIDATION.District_Local WHERE 1 = 1'
 
 SET @query  = ' AND ((DATALENGTH ('+@columnname+')/2) > '+@datalength+' AND '+@columnname+' IS NOT NULL)'
@@ -180,7 +180,7 @@ EXEC sp_executesql @stmt=@vsql
 --PRINT @vsql
 
 SET @sumsql = 'INSERT x_DATAVALIDATION.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
-SELECT ''District'',''The issue is in the datalength of the field '+@columnname+'.'', COUNT(*)
+SELECT ''District'','''+@columnname+' cannnot be greater than X characters.'', COUNT(*)
 FROM x_DATAVALIDATION.District_Local WHERE 1 = 1 '
 
 SET @query  = ' AND ((DATALENGTH ('+@columnname+')/2) > '+@datalength+' AND '+@columnname+' IS NOT NULL)'
@@ -194,7 +194,7 @@ IF (@isuniquefield = 1 )
 BEGIN
 
 SET @vsql = 'INSERT x_DATAVALIDATION.ValidationReport (TableName,ErrorMessage,LineNumber,Line)
-SELECT ''District'',''The field '+@columnname+' is unique field, Here the record "''+dt.'+@columnname+'+''"is repeated.'',dt.Line_No,(ISNULL(CONVERT(VARCHAR(max),dt.DISTRICTCODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),dt.DISTRICTNAME),'''')) as line
+SELECT ''District'','''+@columnname+' is duplicated.'',dt.Line_No,(ISNULL(CONVERT(VARCHAR(max),dt.DISTRICTCODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),dt.DISTRICTNAME),'''')) as line
 FROM x_DATAVALIDATION.District_Local dt JOIN '
 
 SET @query  = ' (SELECT '+@columnname+' FROM x_DATAVALIDATION.District_Local GROUP BY '+@columnname+' HAVING COUNT(*)>1) uctd ON uctd.'+@columnname+' =dt.'+@columnname+''
@@ -203,7 +203,7 @@ EXEC sp_executesql @stmt=@vsql
 --PRINT @vsql
 
 SET @sumsql = 'INSERT x_DATAVALIDATION.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
-SELECT ''District'',''The field '+@columnname+' is unique field, It cannot be repeated.'', COUNT(*)
+SELECT ''District'','''+@columnname+' is duplicated.'', COUNT(*)
 FROM x_DATAVALIDATION.District_Local dt JOIN '
 
 SET @query  = ' (SELECT '+@columnname+' FROM x_DATAVALIDATION.District_Local GROUP BY '+@columnname+' HAVING COUNT(*)>1) uctd ON uctd.'+@columnname+' =dt.'+@columnname+''

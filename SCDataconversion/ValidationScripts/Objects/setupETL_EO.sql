@@ -25,6 +25,8 @@ INSERT INTO @VC3ETL_ExtractTable VALUES ('B379A9C8-7476-4027-9E3F-E795D139C6DA',
 DECLARE @VC3ETL_LoadTable TABLE (ID uniqueidentifier, ExtractDatabase uniqueidentifier, Sequence int, SourceTable varchar(100), DestTable varchar(100), HasMapTable bit, MapTable varchar(100), KeyField varchar(250), DeleteKey varchar(50), ImportType int, DeleteTrans bit, UpdateTrans bit, InsertTrans bit, Enabled bit, SourceTableFilter varchar(1000), DestTableFilter varchar(1000), PurgeCondition varchar(1000), KeepMappingAfterDelete bit, StartNewTransaction bit, LastLoadDate datetime, MapTableMapID varchar(250), Comments varchar(1000))
 
 INSERT INTO @VC3ETL_LoadTable VALUES ('D25B860A-C22E-45EB-B330-254A5B9E9FFF', '54DD3C28-8F7F-4A54-BCF1-975173CB485C', 1, 'x_DATAVALIDATION.ExtractDataFile_EO', NULL, 0, NULL, NULL, NULL, 4, 0, 0, 0, 1, NULL, NULL, NULL, 0, 0, '12/17/2012 10:13:21 AM', NULL, NULL)
+INSERT INTO @VC3ETL_LoadTable VALUES ('1103D091-4A94-41E9-B7E2-83030A8D20AD', '54DD3C28-8F7F-4A54-BCF1-975173CB485C', 1, 
+'x_DATAVALIDATION.usp_GenerateValidationReport', NULL, 0, NULL, NULL, NULL, 4, 0, 0, 0, 1, NULL, NULL, NULL, 0, 0, '12/17/2012 10:13:21 AM', NULL, NULL)
 
 -- refactor 
 delete Destination 

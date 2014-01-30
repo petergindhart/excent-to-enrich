@@ -215,7 +215,7 @@ IF (@isrequired=1)
 BEGIN
 
 SET @vsql = 'INSERT x_DATAVALIDATION.ValidationReport (TableName,ErrorMessage,LineNumber,Line)
-SELECT ''School'',''The field '+@columnname+' is required field.'',Line_No,(ISNULL(CONVERT(VARCHAR(max),SchoolCode),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),SchoolName),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),DistrictCode),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),MinutesPerWeek),'''')) as line
+SELECT ''School'','''+@columnname+' is required but not found.'',Line_No,(ISNULL(CONVERT(VARCHAR(max),SchoolCode),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),SchoolName),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),DistrictCode),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),MinutesPerWeek),'''')) as line
 FROM x_DATAVALIDATION.School_LOCAL  WHERE 1 = 1'
 
 SET @query  = ' AND ('+@columnname+' IS NULL)'
@@ -225,7 +225,7 @@ EXEC sp_executesql @stmt=@vsql
 
 
 SET @sumsql = 'INSERT x_DATAVALIDATION.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
-SELECT ''School'',''The field '+@columnname+' is required field.'', COUNT(*)
+SELECT ''School'','''+@columnname+' is required but not found.'', COUNT(*)
 FROM x_DATAVALIDATION.School_LOCAL  WHERE 1 = 1 '
 
 SET @query  = ' AND ('+@columnname+' IS NULL)'
@@ -241,7 +241,7 @@ IF (1=1)
 BEGIN
 
 SET @vsql = 'INSERT x_DATAVALIDATION.ValidationReport (TableName,ErrorMessage,LineNumber,Line)
-SELECT ''School'',''The issue is in the datalength of the field '+@columnname+'.'',Line_No,(ISNULL(CONVERT(VARCHAR(max),SchoolCode),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),SchoolName),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),DistrictCode),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),MinutesPerWeek),'''')) as line
+SELECT ''School'','''+@columnname+' cannot be greater than X characters.'',Line_No,(ISNULL(CONVERT(VARCHAR(max),SchoolCode),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),SchoolName),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),DistrictCode),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),MinutesPerWeek),'''')) as line
 FROM x_DATAVALIDATION.School_LOCAL  WHERE 1 = 1'
 
 SET @query  = ' AND ((DATALENGTH ('+@columnname+')/2) > '+@datalength+' AND '+@columnname+' IS NOT NULL)'
@@ -251,7 +251,7 @@ EXEC sp_executesql @stmt=@vsql
 
 
 SET @sumsql = 'INSERT x_DATAVALIDATION.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
-SELECT ''School'',''The issue is in the datalength of the field '+@columnname+'.'', COUNT(*)
+SELECT ''School'','''+@columnname+' cannot be greater than X characters.'', COUNT(*)
 FROM x_DATAVALIDATION.School_LOCAL  WHERE 1 = 1 '
 
 SET @query  = ' AND ((DATALENGTH ('+@columnname+')/2) > '+@datalength+' AND '+@columnname+' IS NOT NULL)'
@@ -266,7 +266,8 @@ IF (@isFkRelation = 1)
 BEGIN
 
 SET @vsql = 'INSERT x_DATAVALIDATION.ValidationReport (TableName,ErrorMessage,LineNumber,Line)
-SELECT ''School'',''The '+@columnname+' ''''''+CONVERT(VARCHAR(MAX),tsch.'+@columnname+')+'''''' does not exist in '+@parenttable+'  or were not validated successfully, but it existed in '+@tablename+'.'',tsch.Line_No,(ISNULL(CONVERT(VARCHAR(max),tsch.SchoolCode),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),tsch.SchoolName),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),tsch.DistrictCode),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),tsch.MinutesPerWeek),'''')) as line FROM x_DATAVALIDATION.School_LOCAL tsch'
+SELECT ''School'',''No '+@parenttable+' record found for this '+@tablename+'.'',tsch.Line_No,(ISNULL(CONVERT(VARCHAR(max),tsch.SchoolCode),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),tsch.SchoolName),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),tsch.DistrictCode),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),tsch.MinutesPerWeek),'''')) as line 
+FROM x_DATAVALIDATION.School_LOCAL tsch'
 
 SET @query  = ' LEFT JOIN x_DATAVALIDATION.'+@parenttable+' dt ON tsch.'+@columnname+' = dt.'+@parentcolumn+' WHERE dt.'+@parentcolumn+' IS NULL'
 SET @vsql = @vsql + @query
@@ -275,7 +276,7 @@ EXEC sp_executesql @stmt=@vsql
 
 
 SET @sumsql = 'INSERT x_DATAVALIDATION.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
-SELECT ''School'',''Some of the '+@parentcolumn+' does not exist in '+@parenttable+' File or were not validated successfully, but it existed in School.'', COUNT(*)
+SELECT ''School'',''No '+@parenttable+' record found for this '+@tablename+'.'', COUNT(*)
 FROM x_DATAVALIDATION.School_LOCAL tsch '
 
 SET @query  = ' LEFT JOIN x_DATAVALIDATION.'+@parenttable+' dt ON tsch.'+@columnname+' = dt.'+@parentcolumn+' WHERE dt.'+@parentcolumn+' IS NULL'
@@ -289,7 +290,7 @@ IF (@datatype = 'int')
 BEGIN
 
 SET @vsql = 'INSERT x_DATAVALIDATION.ValidationReport (TableName,ErrorMessage,LineNumber,Line)
-SELECT ''School'',''The field '+@columnname+' should have integer records.'',Line_No,(ISNULL(CONVERT(VARCHAR(max),SchoolCode),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),SchoolName),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),DistrictCode),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),MinutesPerWeek),'''')) as line FROM x_DATAVALIDATION.School_LOCAL WHERE 1 = 1 '
+SELECT ''School'',''Expected integer value in '+@columnname+'.'',Line_No,(ISNULL(CONVERT(VARCHAR(max),SchoolCode),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),SchoolName),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),DistrictCode),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),MinutesPerWeek),'''')) as line FROM x_DATAVALIDATION.School_LOCAL WHERE 1 = 1 '
 
 SET @query  = ' AND (x_DATAVALIDATION.udf_IsInteger('+@columnname+') = 0 AND '+@columnname+' IS NOT NULL)'
 SET @vsql = @vsql + @query
@@ -297,7 +298,7 @@ EXEC sp_executesql @stmt=@vsql
 --PRINT @vsql
 
 SET @sumsql = 'INSERT x_DATAVALIDATION.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
-SELECT ''School'',''The field '+@columnname+' should have integer records.'', COUNT(*)
+SELECT ''School'',''Expected integer value in '+@columnname+'.'', COUNT(*)
 FROM x_DATAVALIDATION.School_LOCAL WHERE 1 = 1 '
 
 SET @query  = ' AND (x_DATAVALIDATION.udf_IsInteger('+@columnname+') = 0 AND '+@columnname+' IS NOT NULL)'
@@ -327,13 +328,13 @@ DEALLOCATE chkSpecifications
 ----------------------------------------------------------------------------------------------
 --Is it important to check the combination of SchoolCode, DistrictCode?
 INSERT x_DATAVALIDATION.ValidationReport (TableName,ErrorMessage,LineNumber,Line)
-SELECT Distinct 'School','The combination SchoolCode ,DistrictCode '''+CONVERT(VARCHAR(MAX),tsch.DistrictCode)+','+CONVERT(VARCHAR(MAX),tsch.DistrictCode)+''' is duplicated.',tsch.Line_No,ISNULL(tsch.SCHOOLCODE,'')+'|'+ISNULL(tsch.SCHOOLNAME,'')+'|'+ISNULL(tsch.DISTRICTCODE,'')+'|'+ISNULL(convert(varchar(10),tsch.MINUTESPERWEEK),'')
+SELECT Distinct 'School','The combination SchoolCode and DistrictCode '''+CONVERT(VARCHAR(MAX),tsch.DistrictCode)+','+CONVERT(VARCHAR(MAX),tsch.DistrictCode)+''' is duplicated.',tsch.Line_No,ISNULL(tsch.SCHOOLCODE,'')+'|'+ISNULL(tsch.SCHOOLNAME,'')+'|'+ISNULL(tsch.DISTRICTCODE,'')+'|'+ISNULL(convert(varchar(10),tsch.MINUTESPERWEEK),'')
 FROM x_DATAVALIDATION.School_LOCAL tsch
 JOIN (SELECT SchoolCode,DISTRICTCODE FROM x_DATAVALIDATION.School_LOCAL GROUP BY SchoolCode,DISTRICTCODE HAVING COUNT(*)>1) ucsch
 		 ON tsch.SCHOOLCODE = ucsch.SCHOOLCODE AND tsch.DistrictCode = ucsch.DistrictCode
 		 
 INSERT x_DATAVALIDATION.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
-SELECT 'School','The combination SchoolCode ,DistrictCode is duplicated.',COUNT(*)
+SELECT 'School','The combination SchoolCode and DistrictCode is duplicated.',COUNT(*)
 FROM x_DATAVALIDATION.School_LOCAL tsch
 JOIN (SELECT SchoolCode,DISTRICTCODE FROM x_DATAVALIDATION.School_LOCAL GROUP BY SchoolCode,DISTRICTCODE HAVING COUNT(*)>1) ucsch
 		 ON tsch.SCHOOLCODE = ucsch.SCHOOLCODE AND tsch.DistrictCode = ucsch.DistrictCode

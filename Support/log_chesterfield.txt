@@ -1,0 +1,104 @@
+
+E:\GIT\excent-to-enrich\Support>set state=SC 
+
+E:\GIT\excent-to-enrich\Support>set speddistrict=Chesterfield 
+
+E:\GIT\excent-to-enrich\Support>echo DB Upgrade SC Chesterfield 
+DB Upgrade SC Chesterfield
+
+E:\GIT\excent-to-enrich\Support>set connection=server=10.0.1.30;uid=enrich_db_user;pwd=vc3go!!;database=Enrich_DCB8_SC_Chesterfield 
+
+E:\GIT\excent-to-enrich\Support>ExecuteTask\ExecuteTask.exe project projectfile="upgrade_db_project.xml" $connection="server=10.0.1.30;uid=enrich_db_user;pwd=vc3go!!;database=Enrich_DCB8_SC_Chesterfield" $state="SC" $speddistrict="Chesterfield" 
+Comment:  Transaction started
+Comment:  Processing VC3Deployment object scripts.
+Debug:  Module found: LEGACYSPED
+Debug:  Module found: VC3Deployment
+Comment:  Registering module _Prep DB
+Debug:  Module found: _Prep DB
+Comment:  Processing database scripts. Only new scripts will be applied.
+Comment:  Module: LEGACYSPED
+Comment:  Module: VC3Deployment
+Comment:  Module: _Prep DB
+Debug:    E:\GIT\excent-to-enrich\DbScripts\LEGACYSPED\Changes\0003-Extract-SelectLists.sql
+Debug:    E:\GIT\excent-to-enrich\DbScripts\LEGACYSPED\Changes\0004-Extract-District.sql
+Debug:    E:\GIT\excent-to-enrich\DbScripts\LEGACYSPED\Changes\0005-Extract-School.sql
+Debug:    E:\GIT\excent-to-enrich\DbScripts\LEGACYSPED\Changes\0006-Extract-Student.sql
+Debug:    E:\GIT\excent-to-enrich\DbScripts\LEGACYSPED\Changes\0007-Extract-Iep.sql
+Debug:    E:\GIT\excent-to-enrich\DbScripts\LEGACYSPED\Changes\0008-Extract-Service.sql
+Debug:    E:\GIT\excent-to-enrich\DbScripts\LEGACYSPED\Changes\0009-Extract-StudDisability.sql
+Debug:    E:\GIT\excent-to-enrich\DbScripts\LEGACYSPED\Changes\0011-Extract-SpedStaffMember.sql
+Debug:    E:\GIT\excent-to-enrich\DbScripts\LEGACYSPED\Changes\0012-Extract-Objective.sql
+Debug:    E:\GIT\excent-to-enrich\DbScripts\LEGACYSPED\Changes\0013-Extract-TeamMember.sql
+Debug:    E:\GIT\excent-to-enrich\DbScripts\LEGACYSPED\Changes\0014-Extract-StaffSchool.sql
+Debug:    E:\GIT\excent-to-enrich\DbScripts\LEGACYSPED\Changes\0015-Extract-SchoolProgressFrequency.sql
+Debug:    E:\GIT\excent-to-enrich\DbScripts\LEGACYSPED\Objects\0000-Localization.sql
+    E:\GIT\excent-to-enrich\DbScripts\LEGACYSPED\Localization\SC\0010-Extract-Goal.sql
+    E:\GIT\excent-to-enrich\DbScripts\LEGACYSPED\Localization\SC\GoalAreaExists.sql
+    E:\GIT\excent-to-enrich\DbScripts\LEGACYSPED\Localization\SC\0001-Prep_State.sql
+    E:\GIT\excent-to-enrich\DbScripts\LEGACYSPED\Localization\SC\Transform_IepGoalAreaDef.sql
+    E:\GIT\excent-to-enrich\DbScripts\LEGACYSPED\Objects\Transform_ServiceFrequency.sql
+    E:\GIT\excent-to-enrich\DbScripts\LEGACYSPED\Localization\SC\Chesterfield\0002-Prep_District.sql
+      E:\GIT\excent-to-enrich\DbScripts\LEGACYSPED\Objects\Transform_ServiceFrequency.sql
+    E:\GIT\excent-to-enrich\DbScripts\LEGACYSPED\Localization\SC\StudentView.sql
+    E:\GIT\excent-to-enrich\DbScripts\LEGACYSPED\Objects\Transform_OrgUnit.sql
+    E:\GIT\excent-to-enrich\DbScripts\LEGACYSPED\Objects\Transform_School.sql
+    E:\GIT\excent-to-enrich\DbScripts\LEGACYSPED\Objects\Transform_GradeLevel.sql
+    E:\GIT\excent-to-enrich\DbScripts\LEGACYSPED\Objects\Transform_Student.sql
+    E:\GIT\excent-to-enrich\DbScripts\LEGACYSPED\Objects\Populate_MAP_StudentRefIDAll.sql
+    E:\GIT\excent-to-enrich\DbScripts\LEGACYSPED\Objects\EvaluateIncomingItems.sql
+    E:\GIT\excent-to-enrich\DbScripts\LEGACYSPED\Objects\Transform_PrgInvolvement.sql
+    E:\GIT\excent-to-enrich\DbScripts\LEGACYSPED\Objects\Transform_PrgIep.sql
+    E:\GIT\excent-to-enrich\DbScripts\LEGACYSPED\Objects\Transform_IepServices.sql
+    E:\GIT\excent-to-enrich\DbScripts\LEGACYSPED\Objects\Transform_PrgSection.sql
+    E:\GIT\excent-to-enrich\DbScripts\LEGACYSPED\Objects\Transform_PrgGoals.sql
+    E:\GIT\excent-to-enrich\DbScripts\LEGACYSPED\Objects\Transform_PrgGoal.sql
+    E:\GIT\excent-to-enrich\DbScripts\LEGACYSPED\Localization\SC\Transform_IepGoalArea.sql
+    E:\GIT\excent-to-enrich\DbScripts\LEGACYSPED\Localization\SC\Transform_IepGoalPostSchoolAreaDef.sql
+    E:\GIT\excent-to-enrich\DbScripts\LEGACYSPED\Localization\SC\Transform_IepGoalSubGoalAreaDef.sql
+    E:\GIT\excent-to-enrich\DbScripts\LEGACYSPED\Objects\Transform_IepPlacementOption.sql
+    E:\GIT\excent-to-enrich\DbScripts\LEGACYSPED\Objects\Transform_IepLeastRestrictiveEnvironment.sql
+    E:\GIT\excent-to-enrich\DbScripts\LEGACYSPED\Objects\Transform_IepPlacement.sql
+    E:\GIT\excent-to-enrich\DbScripts\LEGACYSPED\Objects\Transform_PrgLocation.sql
+    E:\GIT\excent-to-enrich\DbScripts\LEGACYSPED\Objects\Transform_IepServiceCategory.sql
+    E:\GIT\excent-to-enrich\DbScripts\LEGACYSPED\Objects\Transform_ServiceDef.sql
+    E:\GIT\excent-to-enrich\DbScripts\LEGACYSPED\Objects\Transform_ServiceProviderTitle.sql
+    E:\GIT\excent-to-enrich\DbScripts\LEGACYSPED\Objects\Transform_Schedule.sql
+    E:\GIT\excent-to-enrich\DbScripts\LEGACYSPED\Objects\Transform_PrgItemTeamMember.sql
+    E:\GIT\excent-to-enrich\DbScripts\LEGACYSPED\Objects\Transform_IepService.sql
+Error:  An error occured while executing E:\GIT\excent-to-enrich\DbScripts\LEGACYSPED\Objects\0000-Localization.sql: VC3.Data.DatasourceException: A database error occured.  The command was:  create view LEGACYSPED.GoalAreaPivotView
+as
+select g.IepRefID, g.GoalRefID, g.GoalAreaCode, GoalAreaDefIndex = k.Sequence
+from LEGACYSPED.Goal g join (
+	select k.Type, k.LegacySpedCode, k.EnrichLabel, Sequence = (
+		select count(*) 
+		from LEGACYSPED.SelectLists ki 
+		where ki.Type = 'GoalArea' 
+		and ki.EnrichLabel < k.EnrichLabel
+		) 
+	from LEGACYSPED.SelectLists k 
+	where k.Type = 'GoalArea'
+	) k on g.GoalAreaCode = k.LegacySpedCode.  The error is: There is already an object named 'GoalAreaPivotView' in the database. ---> System.Data.SqlClient.SqlException: There is already an object named 'GoalAreaPivotView' in the database.
+   at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection)
+   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj)
+   at System.Data.SqlClient.TdsParser.Run(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj)
+   at System.Data.SqlClient.SqlCommand.RunExecuteNonQueryTds(String methodName, Boolean async)
+   at System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(DbAsyncResult result, String methodName, Boolean sendToPipe)
+   at System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   at VC3.Data.Datasource.ExecuteNonQuery(IDbCommand command) in C:\Users\gindharp\TeamProjects\VC3.Shared\Transitional\VC3\Source\Data\Datasource.cs:line 1104
+   --- End of inner exception stack trace ---
+   at VC3.Data.Datasource.ExecuteNonQuery(IDbCommand command) in C:\Users\gindharp\TeamProjects\VC3.Shared\Transitional\VC3\Source\Data\Datasource.cs:line 1128
+   at VC3.Data.Datasource.ExecuteBatches(String connectionString, String sql, Int32 timeout, String scope, Boolean joinTransaction) in C:\Users\gindharp\TeamProjects\VC3.Shared\Transitional\VC3\Source\Data\Datasource.cs:line 723
+   at VC3.Data.Datasource.ExecuteBatches(String connectionString, String sql, Int32 timeout, Boolean joinTransaction) in C:\Users\gindharp\TeamProjects\VC3.Shared\Transitional\VC3\Source\Data\Datasource.cs:line 669
+   at VC3.Deployment.Database.ScriptFile.Execute() in C:\Users\gindharp\TeamProjects\VC3.Shared\Transitional\VC3.Deployment\Source\Database\ScriptFile.cs:line 403
+Error:  The following error occurred while running script 'E:\GIT\excent-to-enrich\DbScripts\LEGACYSPED\Objects\0000-Localization.sql':
+Error:  Exception of type 'VC3.Deployment.Database.ScriptFileException' was thrown.
+Exception of type 'VC3.Deployment.Database.ScriptFileException' was thrown.
+ VC3.Deployment.Database.ScriptFileException
+   at VC3.Deployment.Database.ApplyScripts.RunScript(ScriptFile sFile, TemplateEvaluator variablesEvaluator) in C:\Users\gindharp\TeamProjects\VC3.Shared\Transitional\VC3.Deployment\Source\Database\ApplyScripts.cs:line 324
+   at VC3.Deployment.Database.ApplyScripts.Execute() in C:\Users\gindharp\TeamProjects\VC3.Shared\Transitional\VC3.Deployment\Source\Database\ApplyScripts.cs:line 419
+
+
+Error:  Transaction has been rolled back
+Error:  An error occurred after processing 12 scripts
+Comment:  Transaction rolled back
+Execution failed for project.

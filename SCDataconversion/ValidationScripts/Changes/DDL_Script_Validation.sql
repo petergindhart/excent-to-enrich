@@ -284,7 +284,7 @@ CREATE TABLE x_DATAVALIDATION.Student(
 Line_No INT,
 StudentRefID    varchar(150) not null,
 StudentLocalID	varchar(50) not null,
-StudentStateID    varchar(50) not null,
+StudentStateID    varchar(50) null, --StudentStateID    varchar(50) not null,
 Firstname    varchar(50) not null,
 MiddleName    varchar(50) null, 
 LastName    varchar(50) not null,

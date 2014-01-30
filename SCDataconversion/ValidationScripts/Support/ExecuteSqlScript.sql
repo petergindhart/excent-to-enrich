@@ -78,4 +78,6 @@ GO
 GO
 :r E:\GIT\excent-to-enrich\SCDataconversion\ValidationScripts\SourceScripts_enrich\Source_TeamMemeber.sql
 GO
+:r E:\GIT\excent-to-enrich\SCDataconversion\ValidationScripts\Objects\usp_GenerateValidationReport.sql
+GO
 
