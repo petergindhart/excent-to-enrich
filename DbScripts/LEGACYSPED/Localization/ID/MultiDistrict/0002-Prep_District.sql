@@ -142,6 +142,32 @@ from legacysped.map_servicefrequencyid m left join
 where t.id is null
 go
 
+-- custom setup
+declare @customsetup table (
+LoadTable	varchar(100),
+Enabled	bit
+)
+
+insert @customsetup values ('Person', 0)
+insert @customsetup values ('UserProfile', 0)
+insert @customsetup values ('UserProfileOrgUnit', 0)
+insert @customsetup values ('UserProfileSchool', 0)
+insert @customsetup values ('FormInstance', 0)
+insert @customsetup values ('PrgItemForm', 0)
+insert @customsetup values ('FormInstanceInterval', 0)
+insert @customsetup values ('FormInputValue', 0)
+insert @customsetup values ('FormInputTextValue', 0)
+insert @customsetup values ('PrgDocument', 0)
+
+if (select count(*) from LEGACYSPED.MAP_ServiceFrequencyID) = 0
+insert @customsetup values ('ServiceFrequency', 0)
+
+
+-- select t.*
+update t set Enabled = c.Enabled
+from @customsetup c
+join VC3ETL.LoadTable t on c.LoadTable = t.DestTable and t.ExtractDatabase = '29D14961-928D-4BEE-9025-238496D144C6'
+
 
 if not exists (select * from PrgItemOutcome where Text = 'IEP Ended' and CurrentDefID = '8011D6A2-1014-454B-B83C-161CE678E3D3')
 begin

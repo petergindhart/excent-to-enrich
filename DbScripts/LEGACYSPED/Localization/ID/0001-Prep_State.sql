@@ -84,20 +84,20 @@ go
 -- #############################################################################
 --		Goal Area Def MAP
 
-IF EXISTS (SELECT * FROM sys.objects WHERE Name = 'LEGACYSPED.MAP_IepGoalAreaDefID')
+IF EXISTS (SELECT * FROM sys.objects WHERE Name = 'LEGACYSPED.MAP_PrgGoalAreaDefID')
 drop table LEGACYSPED.MAP_GoalAreaDefID
 GO
 
-IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.MAP_IepGoalAreaDefID') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
+IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.MAP_PrgGoalAreaDefID') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
 BEGIN
-CREATE TABLE LEGACYSPED.MAP_IepGoalAreaDefID
+CREATE TABLE LEGACYSPED.MAP_PrgGoalAreaDefID
 (
 	GoalAreaCode	varchar(150) NOT NULL,
 	DestID uniqueidentifier NOT NULL
 )
 
-ALTER TABLE LEGACYSPED.MAP_IepGoalAreaDefID ADD CONSTRAINT
-PK_MAP_IepGoalAreaDefID PRIMARY KEY CLUSTERED
+ALTER TABLE LEGACYSPED.MAP_PrgGoalAreaDefID ADD CONSTRAINT
+PK_MAP_PrgGoalAreaDefID PRIMARY KEY CLUSTERED
 (
 	GoalAreaCode
 )
@@ -116,13 +116,13 @@ set nocount on;
 --insert @ga values ('', '702A94A6-9D11-408B-B003-11B9CCDE092E') -- Other
 insert @ga values ('ZZZ', '2CFF6386-49FD-4BC2-AA0C-C8474C2DEE69') -- Not defined
 
-insert LEGACYSPED.MAP_IepGoalAreaDefID 
-select ga.* from @ga ga where GoalAreaCode not in (select GoalAreaCode from LEGACYSPED.MAP_IepGoalAreaDefID)
+insert LEGACYSPED.MAP_PrgGoalAreaDefID 
+select ga.* from @ga ga where GoalAreaCode not in (select GoalAreaCode from LEGACYSPED.MAP_PrgGoalAreaDefID)
 
 END
 GO
 
--- select * from iepgoalareadef
+-- select * from PrgGoalAreadef
 
 
 
