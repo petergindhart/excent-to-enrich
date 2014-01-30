@@ -36,9 +36,9 @@ select
 	SchoolID = isnull(stu.CurrentSchoolID, t.SchoolID),
 	GradeLevelID = isnull(stu.CurrentGradeLevelID, t.GradeLevelID),
 	InvolvementID = isnull(minv.DestID, ev.ExistingInvolvementID), 
-	StartStatusID =  case when stu.SpecialEdStatus = 'E' then '64736B6C-4C2C-4CE0-BED1-3EA7D825B2D6' else -- select * from PrgStatus where ID = '72E79F66-A103-4F72-B8BE-364B586FAF35'
+	StartStatusID =  case when stu.SpecialEdStatus = 'E' then 'B138F86D-85C7-49C1-B913-CDA409E5F9FA' else -- select * from PrgStatus where ID = '72E79F66-A103-4F72-B8BE-364B586FAF35'
 		(select DestID from LEGACYSPED.MAP_PrgStatus_ConvertedDataPlan) end, --- 64736B6C-4C2C-4CE0-BED1-3EA7D825B2D6 (Eligible) -- 0B5D5C72-5058-4BF5-A414-BDB27BD5DD94 (Converted Data Plan)
-	EndStatusID = cast(case when stu.SpecialEdStatus = 'E' then '12086FE0-B509-4F9F-ABD0-569681C59EE2' else NULL end as uniqueidentifier), -- Exited After Eligibility
+	EndStatusID = cast(case when stu.SpecialEdStatus = 'E' then '75489662-F5C9-4EFB-AEF3-02E943EEC6F5' else NULL end as uniqueidentifier), -- Exited After Eligibility
 	PlannedEndDate = isnull(convert(datetime, iep.IEPEndDate), dateadd(yy, 1, dateadd(dd, -1, convert(datetime, iep.IEPStartDate)))),
 	IsEnded = cast(case when stu.SpecialEdStatus = 'E' then 1 else 0 end as Bit),
 	Revision = cast(isnull(t.Revision,0) as bigint),

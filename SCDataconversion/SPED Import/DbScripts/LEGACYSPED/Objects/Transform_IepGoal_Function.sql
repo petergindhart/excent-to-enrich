@@ -70,7 +70,7 @@
 --)
 
 ---- #3
---declare @Transform_IepGoalArea table (
+--declare @Transform_PrgGoalarea table (
 --IepRefID	varchar(150),
 --GoalRefID	varchar(150),
 --GoalAreaCode	varchar(150) NOT NULL,
@@ -116,9 +116,9 @@
 ----print '		complete	'+convert(varchar(50), getdate(), 108)
 
 ---- #3
-----print 'insert @Transform_IepGoalArea '+convert(varchar(50), getdate(), 108)
---insert @Transform_IepGoalArea 
---select * from LEGACYSPED.Transform_IepGoalArea 
+----print 'insert @Transform_PrgGoalarea '+convert(varchar(50), getdate(), 108)
+--insert @Transform_PrgGoalarea 
+--select * from LEGACYSPED.Transform_PrgGoalarea 
 ----print '		complete	'+convert(varchar(50), getdate(), 108)
 
 ---- #4
@@ -130,9 +130,9 @@
 
 --select * from @Transform_PrgGoal
 --select * from @GoalAreasPerGoalView
---select * from @Transform_IepGoalArea
+--select * from @Transform_PrgGoalarea
 --select * from @Transform_IepGoalPostSchoolAreaDef
---select * from IepGoalAreaDef order by Sequence
+--select * from PrgGoalareaDef order by Sequence
 
 
 ---- #5
@@ -147,9 +147,9 @@
 --FROM 
 --	@Transform_PrgGoal pg JOIN
 --	@GoalAreasPerGoalView pgga ON pg.GoalRefID = pgga.GoalRefID JOIN
---	@Transform_IepGoalArea ga on pg.InstanceID = ga.InstanceID AND pgga.GoalAreaCode = ga.GoalAreaCode and pgga.GoalRefID = ga.GoalRefID LEFT JOIN 
+--	@Transform_PrgGoalarea ga on pg.InstanceID = ga.InstanceID AND pgga.GoalAreaCode = ga.GoalAreaCode and pgga.GoalRefID = ga.GoalRefID LEFT JOIN 
 --	@Transform_IepGoalPostSchoolAreaDef psa on pg.GoalRefID = psa.GoalRefID and psa.Sequence = 0 LEFT JOIN 
---	dbo.IepGoalArea tgt on ga.InstanceID = tgt.InstanceID and psa.PostSchoolAreaDefID = tgt.DefID 
+--	dbo.PrgGoalarea tgt on ga.InstanceID = tgt.InstanceID and psa.PostSchoolAreaDefID = tgt.DefID 
 ----print '		complete	'+convert(varchar(50), getdate(), 108)
 
 ----Msg 2627, Level 14, State 1, Line 116

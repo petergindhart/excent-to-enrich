@@ -13,7 +13,7 @@ AS
 		DestID = coalesce(x.ID, t.ID, m.DestID, ev.ExistingInvolvementID),
 		StudentID = stu.DestID,
 		ProgramID = 'F98A8EF2-98E2-4CAC-95AF-D7D89EF7F80C',   -- Special Education
-		VariantID = '6DD95EA1-A265-4E04-8EE9-78AE04B5DB9A',   -- Special Education
+		VariantID = '11E57D56-0080-4580-B7F0-A991751B44A3',--'6DD95EA1-A265-4E04-8EE9-78AE04B5DB9A',   -- Special Education
 		StartDate = iep.IEPStartDate,   -- school start for this IEP period
 		EndDate = isnull(t.EndDate, 
 			case when stu.SpecialEdStatus = 'E' then 
@@ -21,7 +21,7 @@ AS
 				else
 				case when t.EndDate > getdate() then NULL else t.EndDate end
 			end),
-		EndStatusID = case when stu.SpecialEdStatus = 'E' then '12086FE0-B509-4F9F-ABD0-569681C59EE2' else t.EndStatus end,
+		EndStatusID = case when stu.SpecialEdStatus = 'E' then '75489662-F5C9-4EFB-AEF3-02E943EEC6F5' else t.EndStatus end,--'12086FE0-B509-4F9F-ABD0-569681C59EE2'
 		IsManuallyEnded = cast(case when stu.SpecialEdStatus = 'E' then 1 else isnull(t.IsManuallyEnded,0) end as tinyint),
 		Touched = isnull(cast(t.IsManuallyEnded as int),0) -- select ev.StudentRefID
 		,
