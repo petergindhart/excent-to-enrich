@@ -32,7 +32,7 @@ UNION ALL
 		StateCode = OldGrade, 
 		Sequence = 0
 	from Grade
-
+WHERE OldGrade != 'K'
 -- *************** Gender *****************************************************          
 UNION ALL
 	select 
@@ -114,7 +114,9 @@ UNION ALL
 	from CodeDescLook
 	where usageid like 'LREplacePK' and LookDesc is not null
 UNION ALL
-SELECT LookupOrder = cast (6 as int), 'LRE', NULL, 'ZZZ', 'Not specified', 'ZZZ', 0
+SELECT LookupOrder = cast (6 as int), 'LRE', 'PK', 'ZZZ', 'Not specified', 'ZZZ', 0
+UNION ALL
+SELECT LookupOrder = cast (6 as int), 'LRE', 'K12', 'ZZZ', 'Not specified', 'ZZZ', 0
 -- *************** Service *****************************************************          
 UNION ALL
     select 
@@ -131,11 +133,20 @@ UNION ALL
     select 
     	LookupOrder = cast(7 as int),
 		Type = 'Service', 
-		SubType = NULL, 
+		SubType = 'SpecialEd', 
 		Code = 'ZZZ',
 		Label = 'Manually Entered Service', 
 		StateCode = 'ZZZ',
 		Sequence = cast(0 as int) 
+    UNION ALL
+    select 
+    	LookupOrder = cast(7 as int),
+		Type = 'Service', 
+		SubType = 'Related', 
+		Code = 'ZZZ',
+		Label = 'Manually Entered Service', 
+		StateCode = 'ZZZ',
+		Sequence = cast(0 as int) 		
 
 -- *************** ServiceLocationCode *****************************************************          
  UNION ALL
@@ -185,6 +196,17 @@ UNION ALL
 		Sequence = cast(0 as int) 
 	from CodeDescLook 
 	where UsageID = 'ServPer'
+union all
+	    select 
+    	LookupOrder = cast(9 as int),
+		Type = 'ServFreq',  -- these are already in the database but we need to map to them
+		SubType = NULL, 
+		Code,
+		Label = LookDesc, 
+		StateCode = StateCode,
+		Sequence = cast(0 as int) 
+	from CodeDescLook 
+	where UsageID = 'SuppFrequency'
     union all
     select LookupOrder = cast (9 as int), 'ServFreq', NULL, 'ZZZ', 'Not specified', 'ZZZ', 0
 

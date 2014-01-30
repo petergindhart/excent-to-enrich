@@ -13,13 +13,17 @@ SELECT
 	IEPStartDate = convert(varchar, i.MeetDate, 101),  --replIEPStartDate
 	IEPEndDate = convert(varchar, dateadd(dd, -1, dateadd(yy, 1, i.MeetDate)), 101),
 	NextReviewDate = convert(varchar, i.ReviewDate, 101),
-	InitialEvaluationDate = convert(varchar, i.CurrEvalDate, 101), -- elig = eval?   InitConsentForEvalDate not InitEligibilityDate
-	LatestEvaluationDate =  convert(varchar, dateadd(yy, -3, i.LastIEPDate), 101), -- fudging this for now
+	InitialEvaluationDate = convert(varchar, pet.receivedate, 101), -- elig = eval?   InitConsentForEvalDate not InitEligibilityDate
+	LatestEvaluationDate =  convert(varchar, cr.receivedate, 101), -- fudging this for now
 	NextEvaluationDate = convert(varchar, i.ReEvalDate, 101), 
 	EligibilityDate = NULL,
 	ConsentForServicesDate = convert(varchar, i.MeetDate, 101), --replIEPStartDate
 	ConsentForEvaluationDate = NULL,
-	LREAgeGroup = NULL,
+	LREAgeGroup = case 
+					when pb.PrePlacement is null and pb.EdPlacement is not null then 'K12'
+					when pb.PrePlacement is not null and pb.EdPlacement is null then 'PK'
+					else NULL
+				  end,
 	/*
 	case 
 			when p.SchPrimInstrCode between '100' and '199' then 'Infant'
@@ -28,13 +32,32 @@ SELECT
 			-- else ''
 		end,
 		*/
-	LRECode = ISNULL(p.LRECode,'ZZZ'),
+	LRECode = case 
+					when pb.PrePlacement is null and pb.EdPlacement is not null then cast(pb.EdPlacement as varchar(2))
+					when pb.PrePlacement is not null and pb.EdPlacement is null then cast(pb.PrePlacement as varchar(2))
+					else NULL
+				  end,
 	MinutesPerWeek = cast (0 as int), -- cast(cast(ep.TotalSchoolHoursPerWeek*60 as int)as varchar(4)),
 	ServiceDeliveryStatement = NULL
 	--ServiceDeliveryStatement = replace(isnull(convert(varchar(8000), t.servdeliv),''), char(13)+char(10), char(240)+'^') -- note :  will have to remove line breaks
 FROM SpecialEdStudentsAndIEPs x
 JOIN IEPCompleteTbl i on x.IEPSeqNum = i.IEPSeqNum
 join ICIEPLRETbl p on i.IEPSeqNum = p.IEPComplSeqNum and x.IEPLRESeqNum = p.IEPLRESeqNum
+join ICIEPLRETbl_SC pb on p.IEPLRESeqNum = pb.IEPLRESeqNum and p.IEPComplSeqNum = pb.IEPComplSeqNum 
+LEFT JOIN SC_ConsentReEvalTbl cr on x.GStudentID = cr.GStudentID 
+  and cr.ConsentReevalSeqNum = (
+    select max(maxp.ConsentReevalSeqNum) 
+    from SC_ConsentReEvalTbl maxp 
+    where cr.GStudentID = maxp.GStudentID
+    and isnull(maxp.del_flag,0)=0
+    ) -- 2137
+LEFT JOIN SC_PermEvalTbl pet on x.GStudentID = pet.GStudentID 
+and pet.PermEvalSeqNum = (
+  select max(maxp.PermEvalSeqNum) 
+  from SC_PermEvalTbl maxp 
+  where pet.GStudentID = maxp.GStudentID
+  and isnull(maxp.del_flag,0)=0
+  )
 --left join ICTransServTbl t on i.IEPSeqNum = t.IEPComplSeqNum and x.TranSeqNum = t.TranSeqNum
 
 

@@ -8,7 +8,7 @@ select
     Line_No=Row_Number() OVER (ORDER BY (SELECT 1)), 
 	StudentRefID = s.GStudentID,
 	StudentLocalID = s.StudentID,
-	StudentStateID = s.AlterID, -- select top 10 s.* from student s join SpecialEdStudentsAndIEPs x on s.gstudentid = x.gstudentid
+	StudentStateID = s.SCDOE, --s.AlterID, -- select top 10 s.* from student s join SpecialEdStudentsAndIEPs x on s.gstudentid = x.gstudentid
 	s.Firstname,
 	MiddleName = s.MiddleName,
 	s.LastName,

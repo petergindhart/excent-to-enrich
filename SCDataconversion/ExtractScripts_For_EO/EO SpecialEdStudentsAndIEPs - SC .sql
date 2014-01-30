@@ -1,3 +1,6 @@
+IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'SpecialEdStudentsAndIEPs') AND OBJECTPROPERTY(id, N'IsView') = 1)
+DROP VIEW SpecialEdStudentsAndIEPs
+GO
 -- Colorado
 create view SpecialEdStudentsAndIEPs
 as
@@ -7,7 +10,7 @@ as
 select distinct
 	s.GStudentID, ic.IEPSeqNum, 
 	-- p.SchPrimInstrCode, 
-	case when p.AgeGroup = '6+' then 'K12' else p.AgeGroup end+'_'+convert(varchar(5), p.LREPlacement),
+	case when p.AgeGroup = '6+' then 'K12' else p.AgeGroup end+'_'+convert(varchar(5), p.LREPlacement)as LREPlacement,
 	s.SpedStat, s.SpedExitDate, s.SpedExitCode, 
 	ic.Meetdate, 
 	ESY = ic.ESYElig,
@@ -32,7 +35,7 @@ where ic.IEPSeqNum = ( -- select top 10 * from iepcompletetbl
 		)
 	)
 and 	(s.SpedStat = 1 or (s.SpedStat = 2 and s.SpedExitDate > convert(char(4), datepart(yy, getdate() ) - case when datepart(mm, getdate()) < 7 then 1 else 0 end)))  
-and ic.MeetDate > dateadd(mm, -18, getdate())
+and ic.MeetDate > dateadd(mm, -18, getdate()) -- !!!!This line has been commented out just for DEMO!!!!
 and s.gstudentid in (select gstudentid from reportstudentschools)
 and s.GStudentID in (select sd.GStudentID from StudDisability sd join DisabilityLook d on sd.DisabilityID = d.DisabilityID where isnull(sd.del_flag,0)=0 and sd.PrimaryDiasb = 1) -- 2641
 and isnull(s.del_flag,0)=0
