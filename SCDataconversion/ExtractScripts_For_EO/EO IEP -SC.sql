@@ -4,68 +4,82 @@ GO
 
 CREATE VIEW dbo.IEP_EO
 AS
--- select StudentRefId, count(*) tot from (
+
 SELECT 
     Line_No=Row_Number() OVER (ORDER BY (SELECT 1)), 
     IepRefId = i.IEPSeqNum, 
 	StudentRefId = x.gstudentid, 
 	IEPMeetDate = convert(varchar, i.MeetDate, 101), 
-	IEPStartDate = convert(varchar, i.MeetDate, 101),  --replIEPStartDate
-	IEPEndDate = convert(varchar, dateadd(dd, -1, dateadd(yy, 1, i.MeetDate)), 101),
+	IEPStartDate = convert(varchar, i2.IEPInitDate, 101),  
+	IEPEndDate = convert(varchar, i2.IEPEndDate, 101), -- 
 	NextReviewDate = convert(varchar, i.ReviewDate, 101),
-	InitialEvaluationDate = convert(varchar, pet.receivedate, 101), -- elig = eval?   InitConsentForEvalDate not InitEligibilityDate
-	LatestEvaluationDate =  convert(varchar, cr.receivedate, 101), -- fudging this for now
-	NextEvaluationDate = convert(varchar, i.ReEvalDate, 101), 
-	EligibilityDate = NULL,
-	ConsentForServicesDate = convert(varchar, i.MeetDate, 101), --replIEPStartDate
-	ConsentForEvaluationDate = NULL,
+	InitialEvaluationDate = convert(varchar, pMin.LastEvalDate, 101),  --- ( Eligibility/Revaluation Determination Date ? ) -- MIN
+	LatestEvaluationDate =  convert(varchar, pMax.LastEvalDate, 101), -- Eligibility/Reevaluation Determination Date ...  SC_PlaceHistoryTbl.LastEvalDate ... max teammeetingdate
+	NextEvaluationDate = convert(varchar, pMax.AnticipatedDate, 101),  -- Anticipated date of 3 year Reevaluation ... SC_PlaceHistoryTbl.AnticipatedDate
+	EligibilityDate = convert(varchar, pMin.InitialEligDate, 101), -- SC_PlaceConsentTbl.InitialEligDate (min TeamMeetingDate ) -------------------------------------------------- look for the initial flag, also
+	ConsentForServicesDate = convert(varchar, cMin.ReceiveDate, 101), -- SC_PlaceConsentTbl.ReceiveDate
+	ConsentForEvaluationDate = convert(varchar, pMax.ParentalConsentToEvalDate, 101), -- MeetingTbl.ParRespDate  (MeetingTbl_SC, where Reason2 = 1)  ---   SC_PlaceHistoryTbl.ParentalConsentToEvalDate (for one student found this on the MOST RECENT ph record)
 	LREAgeGroup = case 
 					when pb.PrePlacement is null and pb.EdPlacement is not null then 'K12'
 					when pb.PrePlacement is not null and pb.EdPlacement is null then 'PK'
 					else NULL
 				  end,
-	/*
-	case 
-			when p.SchPrimInstrCode between '100' and '199' then 'Infant'
-			when p.SchPrimInstrCode between '200' and '299' then 'PK'
-			when p.SchPrimInstrCode between '300' and '399' then 'K12'
-			-- else ''
-		end,
-		*/
 	LRECode = case 
 					when pb.PrePlacement is null and pb.EdPlacement is not null then cast(pb.EdPlacement as varchar(2))
 					when pb.PrePlacement is not null and pb.EdPlacement is null then cast(pb.PrePlacement as varchar(2))
 					else NULL
 				  end,
 	MinutesPerWeek = cast (0 as int), -- cast(cast(ep.TotalSchoolHoursPerWeek*60 as int)as varchar(4)),
-	ServiceDeliveryStatement = NULL
-	--ServiceDeliveryStatement = replace(isnull(convert(varchar(8000), t.servdeliv),''), char(13)+char(10), char(240)+'^') -- note :  will have to remove line breaks
+ 	ServiceDeliveryStatement = NULL
 FROM SpecialEdStudentsAndIEPs x
 JOIN IEPCompleteTbl i on x.IEPSeqNum = i.IEPSeqNum
-join ICIEPLRETbl p on i.IEPSeqNum = p.IEPComplSeqNum and x.IEPLRESeqNum = p.IEPLRESeqNum
-join ICIEPLRETbl_SC pb on p.IEPLRESeqNum = pb.IEPLRESeqNum and p.IEPComplSeqNum = pb.IEPComplSeqNum 
-LEFT JOIN SC_ConsentReEvalTbl cr on x.GStudentID = cr.GStudentID 
-  and cr.ConsentReevalSeqNum = (
-    select max(maxp.ConsentReevalSeqNum) 
-    from SC_ConsentReEvalTbl maxp 
-    where cr.GStudentID = maxp.GStudentID
-    and isnull(maxp.del_flag,0)=0
-    ) -- 2137
-LEFT JOIN SC_PermEvalTbl pet on x.GStudentID = pet.GStudentID 
-and pet.PermEvalSeqNum = (
-  select max(maxp.PermEvalSeqNum) 
-  from SC_PermEvalTbl maxp 
-  where pet.GStudentID = maxp.GStudentID
-  and isnull(maxp.del_flag,0)=0
-  )
---left join ICTransServTbl t on i.IEPSeqNum = t.IEPComplSeqNum and x.TranSeqNum = t.TranSeqNum
+join ICIEPTbl_SC i2 on i.IEPSeqNum = i2.IEPComplSeqNum
+join ICIEPLRETbl p on x.IEPSeqNum = p.IEPComplSeqNum and x.IEPLRESeqNum = p.IEPLRESeqNum -- 2137
+left join ICIEPLRETbl_SC pb on p.IEPLRESeqNum = pb.IEPLRESeqNum and p.IEPComplSeqNum = pb.IEPComplSeqNum  --- full join eliminated 1 record in test
+join SC_PlaceHistoryTbl pmax on x.GStudentID = pmax.GStudentID 
+	and pmax.RecNum = (
+		select max(nmax.RecNum)
+		from SC_PlaceHistoryTbl nmax
+		where isnull(nmax.del_flag,0)=0 
+		and pMax.GStudentID = nMax.GStudentID 
+		and nmax.PlaceDate = (
+			select max(tMax.PlaceDate)
+			from SC_PlaceHistoryTbl tMax
+			where isnull(tmax.del_flag,0)=0 
+			and nMax.GStudentID = tMax.GStudentID 
+			and isnull(tmax.TeamMeetingDate, tmax.PlaceDate) = (
+				select max(isnull(maxr.TeamMeetingDate, maxr.PlaceDate))
+				from SC_PlaceHistoryTbl maxr
+				where tMax.GStudentID = maxr.gstudentid and isnull(maxr.del_flag,0)=0   ) 
+			) 
+		) 
+join SC_PlaceHistoryTbl pmin on x.GStudentID = pmin.GStudentID 
+	and pmin.RecNum = (
+		select min(nmin.RecNum)
+		from SC_PlaceHistoryTbl nmin
+		where isnull(nmin.del_flag,0)=0 
+		and pmin.GStudentID = nmin.GStudentID 
+		and nmin.PlaceDate = (
+			select min(tmin.PlaceDate)
+			from SC_PlaceHistoryTbl tmin
+			where isnull(tmin.del_flag,0)=0 
+			and nmin.GStudentID = tmin.GStudentID 
+			and isnull(tmin.TeamMeetingDate, tmin.PlaceDate) = (
+				select min(isnull(minr.TeamMeetingDate, minr.PlaceDate))
+				from SC_PlaceHistoryTbl minr
+				where tmin.GStudentID = minr.gstudentid and isnull(minr.del_flag,0)=0   ) 
+			) 
+		) 
 
-
---select * from IEPCompleteTbl
---select * from ICIEPLRETbl
---select * from IEPTbl_SC
---select * from IEPTbl
---select * from ReportIEPTbl
---select * from ReportIEPCompleteTbl
---select * FROM IEPLRETbl
---select * from EligibilityTbl
+left join SC_PlaceConsentTbl cMin on x.GStudentID = cMin.GStudentID
+	and cmin.PlaceConsentSeqNum = (
+		select min(qMin.PlaceConsentSeqNum)
+		from SC_PlaceConsentTbl qmin
+		where cMin.GStudentID = qMin.GStudentID and isnull(qMin.del_flag,0)=0 
+		and qMin.InitialDate = (
+			select min(xMin.InitialDate)
+			from SC_PlaceConsentTbl xMin
+			where qMin.GStudentID = xMin.GStudentID and isnull(xMin.del_flag,0)=0 
+		) 
+	)
+GO
