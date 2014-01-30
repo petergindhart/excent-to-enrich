@@ -1,27 +1,22 @@
 IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'SpecialEdStudentsAndIEPs') AND OBJECTPROPERTY(id, N'IsView') = 1)
 DROP VIEW SpecialEdStudentsAndIEPs
 GO
--- Colorado
+-- South Carolina
 create view SpecialEdStudentsAndIEPs
 as
---alter view SpecialEdStudentsAndIEPs
---as
--- Exposing the lre and trans seqnums to facilitate access in later queries.  why not expose the elements required?   idunno.
 select distinct
 	s.GStudentID, ic.IEPSeqNum, 
-	-- p.SchPrimInstrCode, 
-	case when p.AgeGroup = '6+' then 'K12' else p.AgeGroup end+'_'+convert(varchar(5), p.LREPlacement)as LREPlacement,
+	p.AgeGroup,
+	LRE = p.Placement,
 	s.SpedStat, s.SpedExitDate, s.SpedExitCode, 
 	ic.Meetdate, 
 	ESY = ic.ESYElig,
-	IEPLRESeqNum,
-	TranSeqNum = NULL -- select s.GStudentID, ic.IEPSeqNum
+	TranSeqNum = NULL 
 from Student s 
-join ReportIEPCompleteTbl ic on s.gstudentid = ic.gstudentid -- select top 10 * from ReportIEPCompleteTbl 
-join ReportICIEPLRETblPlace p on ic.IEPSeqNum = p.IEPComplSeqNum -- select top 10 * from ReportICIEPLRETblPlace 
+join ReportIEPCompleteTbl ic on s.gstudentid = ic.gstudentid 
+join LREDataConversion p on ic.IEPSeqNum = p.IEPComplSeqNum 
 join StudDisability d on s.GStudentID = d.GStudentID and d.PrimaryDiasb = 1 and isnull(d.del_flag,0)=0
---left join ICTransServTbl t on ic.IEPSeqNum = t.IEPComplSeqNum
-where ic.IEPSeqNum = ( -- select top 10 * from iepcompletetbl
+where ic.IEPSeqNum = ( 
 	select max(icRec.IEPSeqNum)
 	from IEPCompleteTbl icRec
 	where isnull(icRec.del_flag,0)=0
@@ -40,24 +35,9 @@ and s.gstudentid in (select gstudentid from reportstudentschools)
 and s.GStudentID in (select sd.GStudentID from StudDisability sd join DisabilityLook d on sd.DisabilityID = d.DisabilityID where isnull(sd.del_flag,0)=0 and sd.PrimaryDiasb = 1) -- 2641
 and isnull(s.del_flag,0)=0
 and s.enrollstat = 1
---and t.TranSeqNum = (
---	select min(tmin.transeqnum)
---	from ICTransServTbl tmin 
---	where t.IEPComplSeqNum = tmin.IEPComplSeqNum
---	and isnull(t.del_flag,0)=0
---	)
-and p.IEPLRESeqNum = (
-	select min(pmin.IEPLRESeqNum)
-	from ICIEPLRETbl pmin 
-	where p.IEPComplSeqNum = pmin.IEPComplSeqNum
-	-- and isnull(p.del_flag,0)=0
-	)
 go
 
 
---select * from ReportICIEPLRETblPlace
-
--- select * from CodeDescLook where UsageID like '%LREPlace%' order by code -- LREplace, LREplaceHosp, LREplacePK
 
 
 
