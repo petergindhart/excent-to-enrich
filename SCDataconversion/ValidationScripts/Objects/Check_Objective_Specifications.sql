@@ -281,7 +281,7 @@ IF (@isrequired=1)
 BEGIN
 
 SET @vsql = 'INSERT x_DATAVALIDATION.ValidationReport (TableName,ErrorMessage,LineNumber,Line)
-SELECT ''Objective'',''The field '+@columnname+' is required field.'',obj.Line_No,ISNULL(CONVERT(VARCHAR(max),st.studentLocalID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.FirstName),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.LastName),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.ObjectiveRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.GoalRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.Sequence),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.ObjText),'''') 
+SELECT ''Objective'',''The field '+@columnname+' is required but not found.'',obj.Line_No,ISNULL(CONVERT(VARCHAR(max),st.studentLocalID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.FirstName),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.LastName),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.ObjectiveRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.GoalRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.Sequence),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.ObjText),'''') 
 FROM x_DATAVALIDATION.Objective_LOCAL obj JOIN x_DATAVALIDATION.Goal_LOCAL goal ON goal.GoalRefID = obj.GoalRefID JOIN x_DATAVALIDATION.IEP_LOCAL iep ON iep.IEPRefID = goal.IEPRefID JOIN x_DATAVALIDATION.Student_LOCAL st ON st.StudentRefID = iep.StudentRefID WHERE 1 = 1'
 
 SET @query  = ' AND (obj.'+@columnname+' IS NULL)'
@@ -290,7 +290,7 @@ SET @vsql = @vsql + @query
 EXEC sp_executesql @stmt=@vsql
 
 SET @sumsql = 'INSERT x_DATAVALIDATION.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
-SELECT ''Objective'',''The field '+@columnname+' is required field.'', COUNT(*)
+SELECT ''Objective'',''The field '+@columnname+' is required but not found.'', COUNT(*)
 FROM x_DATAVALIDATION.Objective_LOCAL WHERE 1 = 1 '
 
 SET @query  = ' AND ('+@columnname+' IS NULL)'
@@ -306,7 +306,7 @@ IF (1=1)
 BEGIN
 
 SET @vsql = 'INSERT x_DATAVALIDATION.ValidationReport (TableName,ErrorMessage,LineNumber,Line)
-SELECT ''Objective'',''The issue is in the datalength of the field '+@columnname+'.'',obj.Line_No,ISNULL(CONVERT(VARCHAR(max),st.studentLocalID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.FirstName),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.LastName),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.ObjectiveRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.GoalRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.Sequence),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.ObjText),'''') 
+SELECT ''Objective'','''+@columnname+' cannot be greater than X characters.'',obj.Line_No,ISNULL(CONVERT(VARCHAR(max),st.studentLocalID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.FirstName),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.LastName),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.ObjectiveRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.GoalRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.Sequence),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.ObjText),'''') 
 FROM x_DATAVALIDATION.Objective_LOCAL obj JOIN x_DATAVALIDATION.Goal_LOCAL goal ON goal.GoalRefID = obj.GoalRefID JOIN x_DATAVALIDATION.IEP_LOCAL iep ON iep.IEPRefID = goal.IEPRefID JOIN x_DATAVALIDATION.Student_LOCAL st ON st.StudentRefID = iep.StudentRefID WHERE 1 = 1'
 
 SET @query  = ' AND ((DATALENGTH (obj.'+@columnname+')/2) > '+@datalength+' AND obj.'+@columnname+' IS NOT NULL)'
@@ -315,7 +315,7 @@ EXEC sp_executesql @stmt=@vsql
 --PRINT @vsql
 
 SET @sumsql = 'INSERT x_DATAVALIDATION.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
-SELECT ''Objective'',''The issue is in the datalength of the field '+@columnname+'.'', COUNT(*)
+SELECT ''Objective'','''+@columnname+' cannot be greater than X characters.'', COUNT(*)
 FROM x_DATAVALIDATION.Objective_LOCAL WHERE 1 = 1 '
 
 SET @query  = ' AND ((DATALENGTH ('+@columnname+')/2) > '+@datalength+' AND '+@columnname+' IS NOT NULL)'
@@ -331,7 +331,7 @@ IF (@isFkRelation = 1)
 BEGIN
 
 SET @vsql = 'INSERT x_DATAVALIDATION.ValidationReport (TableName,ErrorMessage,LineNumber,Line)
-SELECT ''Objective'',''The '+@columnname+' ''''''+CONVERT(VARCHAR(MAX),obj.'+@columnname+')+'''''' does not exist in '+@parenttable+'  or were not validated successfully, but it existed in '+@tablename+'.'',obj.Line_No,ISNULL(CONVERT(VARCHAR(max),st.studentLocalID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.FirstName),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.LastName),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.ObjectiveRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.GoalRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.Sequence),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.ObjText),'''') 
+SELECT ''Objective'',''No '+@parenttable+' record found for '+@tablename+'.'',obj.Line_No,ISNULL(CONVERT(VARCHAR(max),st.studentLocalID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.FirstName),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.LastName),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.ObjectiveRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.GoalRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.Sequence),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.ObjText),'''') 
 FROM x_DATAVALIDATION.Objective_LOCAL obj JOIN x_DATAVALIDATION.Goal_LOCAL goal ON goal.GoalRefID = obj.GoalRefID JOIN x_DATAVALIDATION.IEP_LOCAL iep ON iep.IEPRefID = goal.IEPRefID JOIN x_DATAVALIDATION.Student_LOCAL st ON st.StudentRefID = iep.StudentRefID '
 
 SET @query  = ' LEFT JOIN x_DATAVALIDATION.'+@parenttable+' dt ON obj.'+@columnname+' = dt.'+@parentcolumn+' WHERE dt.'+@parentcolumn+' IS NULL'
@@ -340,7 +340,7 @@ EXEC sp_executesql @stmt=@vsql
 --PRINT @vsql
 
 SET @sumsql = 'INSERT x_DATAVALIDATION.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
-SELECT ''Objective'',''Some of the '+@parentcolumn+' does not exist in '+@parenttable+' File or were not validated successfully, but it existed in '+@tablename+'.'', COUNT(*)
+SELECT ''Objective'',''No '+@parenttable+' record found for '+@tablename+'.'', COUNT(*)
 FROM x_DATAVALIDATION.Objective_LOCAL obj '
 
 SET @query  = ' LEFT JOIN x_DATAVALIDATION.'+@parenttable+' dt ON obj.'+@columnname+' = dt.'+@parentcolumn+' WHERE dt.'+@parentcolumn+' IS NULL'
@@ -355,7 +355,7 @@ IF (@isFlagfield = 1)
 BEGIN
 
 SET @vsql = 'INSERT x_DATAVALIDATION.ValidationReport (TableName,ErrorMessage,LineNumber,Line)
-SELECT ''Objective'',''The field '+@columnname+' should have one of the value in '''+LTRIM(REPLACE(@flagrecords,''',''','/'))+''', It has value as ''''''+goal.'+@columnname+'+''''''.'',obj.Line_No,ISNULL(CONVERT(VARCHAR(max),st.studentLocalID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.FirstName),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.LastName),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.ObjectiveRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.GoalRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.Sequence),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.ObjText),'''') FROM x_DATAVALIDATION.Objective_LOCAL obj JOIN x_DATAVALIDATION.Goal_LOCAL goal ON goal.GoalRefID = obj.GoalRefID JOIN x_DATAVALIDATION.IEP_LOCAL iep ON iep.IEPRefID = goal.IEPRefID JOIN x_DATAVALIDATION.Student_LOCAL st ON st.StudentRefID = iep.StudentRefID '
+SELECT ''Objective'',''Invalid value in '+@columnname+' it must be Y or N.'',obj.Line_No,ISNULL(CONVERT(VARCHAR(max),st.studentLocalID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.FirstName),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.LastName),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.ObjectiveRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.GoalRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.Sequence),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.ObjText),'''') FROM x_DATAVALIDATION.Objective_LOCAL obj JOIN x_DATAVALIDATION.Goal_LOCAL goal ON goal.GoalRefID = obj.GoalRefID JOIN x_DATAVALIDATION.IEP_LOCAL iep ON iep.IEPRefID = goal.IEPRefID JOIN x_DATAVALIDATION.Student_LOCAL st ON st.StudentRefID = iep.StudentRefID '
 
 SET @query  = '  WHERE (obj.'+@columnname+' NOT IN ('+@flagrecords+') AND obj.'+@columnname+' IS NOT NULL)'
 SET @vsql = @vsql + @query
@@ -364,7 +364,7 @@ EXEC sp_executesql @stmt=@vsql
 
 
 SET @sumsql = 'INSERT x_DATAVALIDATION.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
-SELECT ''Objective'',''The field '+@columnname+' should have one of the value in '''+LTRIM(REPLACE(@flagrecords,''',''','/'))+''''', COUNT(*)
+SELECT ''Objective'',''Invalid value in '+@columnname+' it must be Y or N.'', COUNT(*)
 FROM x_DATAVALIDATION.Objective_LOCAL obj '
 
 SET @query  = '  WHERE (obj.'+@columnname+' NOT IN ('+@flagrecords+') AND obj.'+@columnname+' IS NOT NULL)'
@@ -378,7 +378,7 @@ IF (@isuniquefield = 1)
 BEGIN
 
 SET @vsql = 'INSERT x_DATAVALIDATION.ValidationReport (TableName,ErrorMessage,LineNumber,Line)
-SELECT ''Objective'',''The field '+@columnname+' is unique field, Here ''''''+CONVERT(VARCHAR(MAX),obj.'+@columnname+')+'''''' record is repeated.'',obj.Line_No,ISNULL(CONVERT(VARCHAR(max),st.studentLocalID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.FirstName),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.LastName),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.ObjectiveRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.GoalRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.Sequence),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.ObjText),'''') FROM x_DATAVALIDATION.Objective_LOCAL obj JOIN x_DATAVALIDATION.Goal_LOCAL goal ON goal.GoalRefID = obj.GoalRefID JOIN x_DATAVALIDATION.IEP_LOCAL iep ON iep.IEPRefID = goal.IEPRefID JOIN x_DATAVALIDATION.Student_LOCAL st ON st.StudentRefID = iep.StudentRefID '
+SELECT ''Objective'','''+@columnname+' is duplicated.'',obj.Line_No,ISNULL(CONVERT(VARCHAR(max),st.studentLocalID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.FirstName),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.LastName),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.ObjectiveRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.GoalRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.Sequence),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.ObjText),'''') FROM x_DATAVALIDATION.Objective_LOCAL obj JOIN x_DATAVALIDATION.Goal_LOCAL goal ON goal.GoalRefID = obj.GoalRefID JOIN x_DATAVALIDATION.IEP_LOCAL iep ON iep.IEPRefID = goal.IEPRefID JOIN x_DATAVALIDATION.Student_LOCAL st ON st.StudentRefID = iep.StudentRefID '
 
 SET @query  = ' JOIN (SELECT '+@columnname+' FROM x_DATAVALIDATION.Objective_LOCAL GROUP BY '+@columnname+' HAVING COUNT(*)>1) ucobj ON ucobj.'+@columnname+' = obj.'+@columnname+' '
 SET @vsql = @vsql + @query
@@ -387,7 +387,7 @@ EXEC sp_executesql @stmt=@vsql
 
 
 SET @sumsql = 'INSERT x_DATAVALIDATION.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
-SELECT ''Objective'',''The field '+@columnname+' is unique field, Here '+@columnname+' record is repeated.'', COUNT(*)
+SELECT ''Objective'','''+@columnname+' is duplicated.'', COUNT(*)
 FROM x_DATAVALIDATION.Objective_LOCAL obj JOIN '
 
 SET @query  = ' (SELECT '+@columnname+' FROM x_DATAVALIDATION.Objective_LOCAL GROUP BY '+@columnname+' HAVING COUNT(*)>1) ucobj ON ucobj.'+@columnname+' = obj.'+@columnname+' '
@@ -400,7 +400,7 @@ IF (@islookupcolumn = 1 AND @lookuptable = 'SelectLists')
 BEGIN
 
 SET @vsql = 'INSERT x_DATAVALIDATION.ValidationReport (TableName,ErrorMessage,LineNumber,Line)
-SELECT ''Objective'',''The '+@columnname+' ''''''+ obj.'+@columnname+'+'''''' does not exist in '+@lookuptable+', but it existed in '+@tablename+''',obj.Line_No,ISNULL(CONVERT(VARCHAR(max),st.studentLocalID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.FirstName),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.LastName),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.ObjectiveRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.GoalRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.Sequence),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.ObjText),'''')
+SELECT ''Objective'',''No lookup value found for '+@columnname+'.  Contact ExcentDataTeam@excent.com .'',obj.Line_No,ISNULL(CONVERT(VARCHAR(max),st.studentLocalID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.FirstName),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.LastName),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.ObjectiveRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.GoalRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.Sequence),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.ObjText),'''')
 FROM x_DATAVALIDATION.Objective_LOCAL obj JOIN x_DATAVALIDATION.Goal_LOCAL goal ON goal.GoalRefID = obj.GoalRefID JOIN x_DATAVALIDATION.IEP_LOCAL iep ON iep.IEPRefID = goal.IEPRefID JOIN x_DATAVALIDATION.Student_LOCAL st ON st.StudentRefID = iep.StudentRefID '
 
 SET @query  = ' WHERE (obj.'+@columnname+' NOT IN ( SELECT '+@lookupcolumn+' FROM x_DATAVALIDATION.'+@lookuptable+' WHERE Type = '''+@lookuptype+''') AND obj.'+@columnname+' IS NOT NULL)'
@@ -410,7 +410,7 @@ EXEC sp_executesql @stmt=@vsql
 
 
 SET @sumsql = 'INSERT x_DATAVALIDATION.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
-SELECT ''Objective'',''Some of the '+@columnname+' does not exist in '+@lookuptable+', but it existed in '+@tablename+''', COUNT(*)
+SELECT ''Objective'',''No lookup value found for '+@columnname+'.'', COUNT(*)
 FROM x_DATAVALIDATION.Objective_LOCAL obj '
 
 SET @query  = ' WHERE (obj.'+@columnname+' NOT IN ( SELECT '+@lookupcolumn+' FROM x_DATAVALIDATION.'+@lookuptable+' WHERE Type = '''+@lookuptype+''') AND obj.'+@columnname+' IS NOT NULL)'
@@ -423,7 +423,7 @@ IF (@islookupcolumn =1 AND @lookuptable != 'SelectLists')
 BEGIN
 
 SET @vsql = 'INSERT x_DATAVALIDATION.ValidationReport (TableName,ErrorMessage,LineNumber,Line)
-SELECT ''Objective'',''The '+@columnname+' ''''''+ obj.'+@columnname+'+'''''' does not exist in '+@lookuptable+', but it existed in '+@tablename+''',obj.Line_No,ISNULL(CONVERT(VARCHAR(max),st.studentLocalID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.FirstName),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.LastName),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.ObjectiveRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.GoalRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.Sequence),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.ObjText),'''')
+SELECT ''Objective'',''No lookup value found for '+@columnname+'.  Contact ExcentDataTeam@excent.com .'',obj.Line_No,ISNULL(CONVERT(VARCHAR(max),st.studentLocalID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.FirstName),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.LastName),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.ObjectiveRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.GoalRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.Sequence),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.ObjText),'''')
 FROM x_DATAVALIDATION.Objective_LOCAL obj JOIN x_DATAVALIDATION.Goal_LOCAL goal ON goal.GoalRefID = obj.GoalRefID JOIN x_DATAVALIDATION.IEP_LOCAL iep ON iep.IEPRefID = goal.IEPRefID JOIN x_DATAVALIDATION.Student_LOCAL st ON st.StudentRefID = iep.StudentRefID '
 
 SET @query  = ' WHERE (obj.'+@columnname+' NOT IN ( SELECT '+@lookupcolumn+' FROM x_DATAVALIDATION.'+@lookuptable+') AND obj.'+@columnname+' IS NOT NULL)'
@@ -432,7 +432,7 @@ EXEC sp_executesql @stmt=@vsql
 --PRINT @vsql
 
 SET @sumsql = 'INSERT x_DATAVALIDATION.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
-SELECT ''Objective'',''Some of the '+@columnname+' does not exist in '+@lookuptable+', but it existed in '+@tablename+''', COUNT(*)
+SELECT ''Objective'',''No lookup value found for '+@columnname+'.'', COUNT(*)
 FROM x_DATAVALIDATION.Objective_LOCAL obj '
 
 SET @query  = ' WHERE (obj.'+@columnname+' NOT IN ( SELECT '+@lookupcolumn+' FROM x_DATAVALIDATION.'+@lookuptable+') AND obj.'+@columnname+' IS NOT NULL)'
@@ -446,7 +446,7 @@ IF (@datatype = 'datetime')
 BEGIN
 
 SET @vsql = 'INSERT x_DATAVALIDATION.ValidationReport (TableName,ErrorMessage,LineNumber,Line)
-SELECT ''Objective'',''The date format issue is in '+@columnname+'.'',obj.Line_No,ISNULL(CONVERT(VARCHAR(max),st.studentLocalID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.FirstName),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.LastName),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.ObjectiveRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.GoalRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.Sequence),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.ObjText),'''') 
+SELECT ''Objective'',''Expected date value in '+@columnname+'.'',obj.Line_No,ISNULL(CONVERT(VARCHAR(max),st.studentLocalID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.FirstName),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.LastName),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.ObjectiveRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.GoalRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.Sequence),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.ObjText),'''') 
 FROM x_DATAVALIDATION.Objective_LOCAL obj JOIN x_DATAVALIDATION.Goal_LOCAL goal ON goal.GoalRefID = obj.GoalRefID JOIN x_DATAVALIDATION.IEP_LOCAL iep ON iep.IEPRefID = goal.IEPRefID JOIN x_DATAVALIDATION.Student_LOCAL st ON st.StudentRefID = iep.StudentRefID WHERE 1 = 1 '
 
 SET @query  = ' AND (ISDATE(obj.'+@columnname+') = 0 AND obj.'+@columnname+' IS NOT NULL)'
@@ -455,7 +455,7 @@ EXEC sp_executesql @stmt=@vsql
 --PRINT @vsql
 
 SET @sumsql = 'INSERT x_DATAVALIDATION.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
-SELECT ''Objective'',''The date format issue is in '+@columnname+'.'', COUNT(*)
+SELECT ''Objective'',''Expected date value in '+@columnname+'.'', COUNT(*)
 FROM x_DATAVALIDATION.Objective_LOCAL obj WHERE 1 = 1 '
 
 SET @query  = ' AND (ISDATE(obj.'+@columnname+') = 0 AND obj.'+@columnname+' IS NOT NULL)'
@@ -469,7 +469,7 @@ IF (@datatype = 'int')
 BEGIN
 
 SET @vsql = 'INSERT x_DATAVALIDATION.ValidationReport (TableName,ErrorMessage,LineNumber,Line)
-SELECT ''Objective'',''The field '+@columnname+' should have integer records.'',obj.Line_No,ISNULL(CONVERT(VARCHAR(max),st.studentLocalID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.FirstName),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.LastName),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.ObjectiveRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.GoalRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.Sequence),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.ObjText),'''') 
+SELECT ''Objective'',''Expected integer value in '+@columnname+'.'',obj.Line_No,ISNULL(CONVERT(VARCHAR(max),st.studentLocalID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.FirstName),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.LastName),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.ObjectiveRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.GoalRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.Sequence),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.ObjText),'''') 
 FROM x_DATAVALIDATION.Objective_LOCAL obj JOIN x_DATAVALIDATION.Goal_LOCAL goal ON goal.GoalRefID = obj.GoalRefID JOIN x_DATAVALIDATION.IEP_LOCAL iep ON iep.IEPRefID = goal.IEPRefID JOIN x_DATAVALIDATION.Student_LOCAL st ON st.StudentRefID = iep.StudentRefID WHERE 1 = 1 '
 
 SET @query  = ' AND (x_DATAVALIDATION.udf_IsInteger(obj.'+@columnname+') = 0 AND obj.'+@columnname+' IS NOT NULL)'
@@ -478,7 +478,7 @@ EXEC sp_executesql @stmt=@vsql
 --PRINT @vsql
 
 SET @sumsql = 'INSERT x_DATAVALIDATION.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
-SELECT ''Objective'',''The field '+@columnname+' should have integer records.'', COUNT(*)
+SELECT ''Objective'',''Expected integer value in '+@columnname+'.'', COUNT(*)
 FROM x_DATAVALIDATION.Objective_LOCAL obj WHERE 1 = 1 '
 
 SET @query  = ' AND (x_DATAVALIDATION.udf_IsInteger('+@columnname+') = 0 AND '+@columnname+' IS NOT NULL)'
