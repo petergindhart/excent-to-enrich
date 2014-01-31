@@ -278,7 +278,7 @@ IF (@isrequired=1)
 BEGIN
 
 SET @vsql = 'INSERT x_DATAVALIDATION.ValidationReport (TableName,ErrorMessage,LineNumber,Line)
-SELECT ''AccomMod'',''The field '+@columnname+' is required field.'',Line_No,ISNULL(CONVERT(VARCHAR(max),IEPRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),AccomStatement),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ModStatement),'''')
+SELECT ''AccomMod'',''The field '+@columnname+' is required but not found.'',Line_No,ISNULL(CONVERT(VARCHAR(max),IEPRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),AccomStatement),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ModStatement),'''')
 FROM x_DATAVALIDATION.AccomMod_LOCAL WHERE 1 = 1'
 
 SET @query  = ' AND ('+@columnname+' IS NULL)'
@@ -287,7 +287,7 @@ SET @vsql = @vsql + @query
 EXEC sp_executesql @stmt=@vsql
 
 SET @sumsql = 'INSERT x_DATAVALIDATION.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
-SELECT ''AccomMod'',''The field '+@columnname+' is required field.'', COUNT(*)
+SELECT ''AccomMod'',''The field '+@columnname+' is required but not found.'', COUNT(*)
 FROM x_DATAVALIDATION.AccomMod_LOCAL WHERE 1 = 1 '
 
 SET @query  = ' AND ('+@columnname+' IS NULL)'
@@ -302,7 +302,7 @@ IF (1=1)
 BEGIN
 
 SET @vsql = 'INSERT x_DATAVALIDATION.ValidationReport (TableName,ErrorMessage,LineNumber,Line)
-SELECT ''AccomMod'',''The issue is in the datalength of the field '+@columnname+'.'',Line_No,ISNULL(IEPRefID,'''')+''|''+ISNULL(CONVERT(VARCHAR(max),AccomStatement),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ModStatement),'''')
+SELECT ''AccomMod'','''+@columnname+' cannot be greater than X characters.'',Line_No,ISNULL(IEPRefID,'''')+''|''+ISNULL(CONVERT(VARCHAR(max),AccomStatement),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ModStatement),'''')
 FROM x_DATAVALIDATION.AccomMod_LOCAL WHERE 1 = 1'
 
 SET @query  = ' AND ((DATALENGTH ('+@columnname+')/2) > '+@datalength+' AND '+@columnname+' IS NOT NULL)'
@@ -311,7 +311,7 @@ EXEC sp_executesql @stmt=@vsql
 --PRINT @vsql
 
 SET @sumsql = 'INSERT x_DATAVALIDATION.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
-SELECT ''AccomMod'',''The issue is in the datalength of the field '+@columnname+'.'', COUNT(*)
+SELECT ''AccomMod'','''+@columnname+' cannot be greater than X characters.'', COUNT(*)
 FROM x_DATAVALIDATION.AccomMod_LOCAL WHERE 1 = 1 '
 
 SET @query  = ' AND ((DATALENGTH ('+@columnname+')/2) > '+@datalength+' AND '+@columnname+' IS NOT NULL)'
@@ -326,7 +326,7 @@ IF (@isFkRelation = 1)
 BEGIN
 
 SET @vsql = 'INSERT x_DATAVALIDATION.ValidationReport (TableName,ErrorMessage,LineNumber,Line)
-SELECT ''AccomMod'',''The '+@columnname+' ''''''+CONVERT(VARCHAR(MAX),ac.'+@columnname+')+'''''' does not exist in '+@parenttable+'  or were not validated successfully, but it existed in '+@tablename+'.'',ac.Line_No,ISNULL(CONVERT(VARCHAR(max),ac.IEPRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ac.AccomStatement),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ac.ModStatement),'''')
+SELECT ''AccomMod'',''No '+@parenttable+' record found for '+@tablename+'.'',ac.Line_No,ISNULL(CONVERT(VARCHAR(max),ac.IEPRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ac.AccomStatement),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ac.ModStatement),'''')
 FROM x_DATAVALIDATION.AccomMod_LOCAL ac '
 
 SET @query  = ' LEFT JOIN x_DATAVALIDATION.'+@parenttable+' dt ON ac.'+@columnname+' = dt.'+@parentcolumn+' WHERE dt.'+@parentcolumn+' IS NULL'
@@ -335,7 +335,7 @@ EXEC sp_executesql @stmt=@vsql
 --PRINT @vsql
 
 SET @sumsql = 'INSERT x_DATAVALIDATION.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
-SELECT ''AccomMod'',''Some of the '+@parentcolumn+' does not exist in '+@parenttable+' File or were not validated successfully, but it existed in '+@tablename+'.'', COUNT(*)
+SELECT ''AccomMod'',''No '+@parenttable+' record found for '+@tablename+'.'', COUNT(*)
 FROM x_DATAVALIDATION.AccomMod_LOCAL ac '
 
 SET @query  = ' LEFT JOIN x_DATAVALIDATION.'+@parenttable+' dt ON ac.'+@columnname+' = dt.'+@parentcolumn+' WHERE dt.'+@parentcolumn+' IS NULL'
@@ -350,7 +350,7 @@ IF (@isFlagfield = 1)
 BEGIN
 
 SET @vsql = 'INSERT x_DATAVALIDATION.ValidationReport (TableName,ErrorMessage,LineNumber,Line)
-SELECT ''AccomMod'',''The field '+@columnname+' should have one of the value in '''+LTRIM(REPLACE(@flagrecords,''',''','/'))+''', It has value as ''''''+ac.'+@columnname+'+''''''.'',ac.Line_No,ISNULL(CONVERT(VARCHAR(max),ac.IEPRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ac.AccomStatement),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ac.ModStatement),'''')
+SELECT ''AccomMod'',''Invalid value in '+@columnname+' it must be Y or N.'',ac.Line_No,ISNULL(CONVERT(VARCHAR(max),ac.IEPRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ac.AccomStatement),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ac.ModStatement),'''')
 FROM x_DATAVALIDATION.AccomMod_LOCAL ac '
 
 SET @query  = '  WHERE (ac.'+@columnname+' NOT IN  ('+@flagrecords+') AND ac.'+@columnname+' IS NOT NULL)'
@@ -359,7 +359,7 @@ EXEC sp_executesql @stmt=@vsql
 --PRINT @vsql
 
 SET @sumsql = 'INSERT x_DATAVALIDATION.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
-SELECT ''AccomMod'',''The field '+@columnname+' should have one of the value in '''+LTRIM(REPLACE(@flagrecords,''',''','/'))+''''', COUNT(*)
+SELECT ''AccomMod'',''Invalid value in '+@columnname+' it must be Y or N.'', COUNT(*)
 FROM x_DATAVALIDATION.AccomMod_LOCAL ac '
 
 SET @query  = '  WHERE (ac.'+@columnname+' NOT IN  ('+@flagrecords+') AND ac.'+@columnname+' IS NOT NULL)'
@@ -375,7 +375,7 @@ IF (@isuniquefield = 1)
 BEGIN
 
 SET @vsql = 'INSERT x_DATAVALIDATION.ValidationReport (TableName,ErrorMessage,LineNumber,Line)
-SELECT ''AccomMod'',''The field '+@columnname+' is unique field, Here ''''''+CONVERT(VARCHAR(MAX),ac.'+@columnname+')+'''''' record is repeated.'',ac.Line_No,ISNULL(CONVERT(VARCHAR(max),ac.IEPRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ac.AccomStatement),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ac.ModStatement),'''')
+SELECT ''AccomMod'','''+@columnname+' is duplicated.'',ac.Line_No,ISNULL(CONVERT(VARCHAR(max),ac.IEPRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ac.AccomStatement),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ac.ModStatement),'''')
 FROM x_DATAVALIDATION.AccomMod_LOCAL ac  JOIN'
 
 SET @query  = ' (SELECT IEPRefId FROM x_DATAVALIDATION.AccomMod_LOCAL GROUP BY IEPRefId HAVING COUNT(*)>1) ucac ON (ucac.IEPRefID = ac.IEPRefID)'
@@ -386,7 +386,7 @@ EXEC sp_executesql @stmt=@vsql
 
 
 SET @sumsql = 'INSERT x_DATAVALIDATION.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
-SELECT ''AccomMod'',''The field '+@columnname+' is unique field, Here '+@columnname+' record is repeated.'', COUNT(*)
+SELECT ''AccomMod'','''+@columnname+' is duplicated.'', COUNT(*)
 FROM x_DATAVALIDATION.AccomMod_LOCAL ac JOIN '
 
 SET @query  = ' (SELECT IEPRefId FROM x_DATAVALIDATION.AccomMod_LOCAL GROUP BY IEPRefId HAVING COUNT(*)>1) ucac ON (ucac.IEPRefID = ac.IEPRefID)'
@@ -404,7 +404,7 @@ IF (@islookupcolumn = 1 AND @lookuptable = 'SelectLists')
 BEGIN
 
 SET @vsql = 'INSERT x_DATAVALIDATION.ValidationReport (TableName,ErrorMessage,LineNumber,Line)
-SELECT ''AccomMod'',''The '+@columnname+' ''''''+ ac.'+@columnname+'+'''''' does not exist in '+@lookuptable+', but it existed in '+@tablename+''',ac.Line_No,ISNULL(CONVERT(VARCHAR(max),ac.IEPRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ac.AccomStatement),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ac.ModStatement),'''')
+SELECT ''AccomMod'',''No lookup value found for '+@columnname+'.  Contact ExcentDataTeam@excent.com .'',ac.Line_No,ISNULL(CONVERT(VARCHAR(max),ac.IEPRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ac.AccomStatement),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ac.ModStatement),'''')
 FROM x_DATAVALIDATION.AccomMod_LOCAL ac  '
 
 SET @query  = ' WHERE (ac.'+@columnname+' NOT IN ( SELECT '+@lookupcolumn+' FROM x_DATAVALIDATION.'+@lookuptable+' WHERE Type = '''+@lookuptype+''') AND ac.'+@columnname+' IS NOT NULL)'
@@ -413,7 +413,7 @@ EXEC sp_executesql @stmt=@vsql
 --PRINT @vsql
 
 SET @sumsql = 'INSERT x_DATAVALIDATION.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
-SELECT ''AccomMod'',''The '+@columnname+' does not exist in '+@lookuptable+', but it existed in '+@tablename+''', COUNT(*)
+SELECT ''AccomMod'',''No lookup value found for '+@columnname+'.'', COUNT(*)
 FROM x_DATAVALIDATION.AccomMod_LOCAL ac JOIN '
 
 SET @query  = ' WHERE (ac.'+@columnname+' NOT IN ( SELECT '+@lookupcolumn+' FROM x_DATAVALIDATION.'+@lookuptable+' WHERE Type = '''+@lookuptype+''') AND ac.'+@columnname+' IS NOT NULL)'
@@ -426,7 +426,7 @@ IF (@islookupcolumn =1 AND @lookuptable != 'SelectLists')
 BEGIN
 
 SET @vsql = 'INSERT x_DATAVALIDATION.ValidationReport (TableName,ErrorMessage,LineNumber,Line)
-SELECT ''AccomMod'',''The '+@columnname+' ''''''+ ac.'+@columnname+'+'''''' does not exist in '+@lookuptable+', but it existed in '+@tablename+''',ac.Line_No,ISNULL(CONVERT(VARCHAR(max),ac.IEPRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ac.AccomStatement),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ac.ModStatement),'''')
+SELECT ''AccomMod'',''No lookup value found for '+@columnname+'.  Contact ExcentDataTeam@excent.com .'',ac.Line_No,ISNULL(CONVERT(VARCHAR(max),ac.IEPRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ac.AccomStatement),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ac.ModStatement),'''')
 FROM x_DATAVALIDATION.AccomMod_LOCAL ac '
 
 SET @query  = '  WHERE (ac.'+@columnname+' NOT IN ( SELECT '+@lookupcolumn+' FROM x_DATAVALIDATION.'+@lookuptable+') AND ac.'+@columnname+' IS NOT NULL)'
@@ -435,7 +435,7 @@ EXEC sp_executesql @stmt=@vsql
 --PRINT @vsql
 
 SET @sumsql = 'INSERT x_DATAVALIDATION.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
-SELECT ''AccomMod'',''The '+@columnname+' does not exist in '+@lookuptable+', but it existed in '+@tablename+''', COUNT(*)
+SELECT ''AccomMod'',''No lookup value found for '+@columnname+'.'', COUNT(*)
 FROM x_DATAVALIDATION.AccomMod_LOCAL ac '
 
 SET @query  = '  WHERE (ac.'+@columnname+' NOT IN ( SELECT '+@lookupcolumn+' FROM x_DATAVALIDATION.'+@lookuptable+') AND ac.'+@columnname+' IS NOT NULL)'
@@ -449,7 +449,7 @@ IF (@datatype = 'datetime')
 BEGIN
 
 SET @vsql = 'INSERT x_DATAVALIDATION.ValidationReport (TableName,ErrorMessage,LineNumber,Line)
-SELECT ''AccomMod'',''The date format issue is in '+@columnname+'.'',Line_No,ISNULL(CONVERT(VARCHAR(max),IEPRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),AccomStatement),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ModStatement),'''')
+SELECT ''AccomMod'',''Expected date value in '+@columnname+'.'',Line_No,ISNULL(CONVERT(VARCHAR(max),IEPRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),AccomStatement),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ModStatement),'''')
 FROM x_DATAVALIDATION.AccomMod_LOCAL WHERE 1 = 1 '
 
 SET @query  = ' AND (ISDATE('''+@columnname+''') = 0 AND '+@columnname+' IS NOT NULL)'
@@ -458,7 +458,7 @@ EXEC sp_executesql @stmt=@vsql
 --PRINT @vsql
 
 SET @sumsql = 'INSERT x_DATAVALIDATION.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
-SELECT ''AccomMod'',''The date format issue is in '+@columnname+'.'', COUNT(*)
+SELECT ''AccomMod'',''Expected date value in '+@columnname+'.'', COUNT(*)
 FROM x_DATAVALIDATION.AccomMod_LOCAL WHERE 1 = 1 '
 
 SET @query  = ' AND (ISDATE('''+@columnname+''') = 0 AND '+@columnname+' IS NOT NULL)'
@@ -471,7 +471,7 @@ IF (@datatype = 'int')
 BEGIN
 
 SET @vsql = 'INSERT x_DATAVALIDATION.ValidationReport (TableName,ErrorMessage,LineNumber,Line)
-SELECT ''AccomMod'',''The field '+@columnname+' should have integer records.'',Line_No,ISNULL(CONVERT(VARCHAR(max),IEPRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),AccomStatement),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ModStatement),'''')
+SELECT ''AccomMod'',''Expected integer value in '+@columnname+'.'',Line_No,ISNULL(CONVERT(VARCHAR(max),IEPRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),AccomStatement),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ModStatement),'''')
 FROM x_DATAVALIDATION.AccomMod_LOCAL WHERE 1 = 1 '
 
 SET @query  = ' AND (x_DATAVALIDATION.udf_IsInteger('+@columnname+') = 0 AND '+@columnname+' IS NOT NULL)'
@@ -480,7 +480,7 @@ EXEC sp_executesql @stmt=@vsql
 --PRINT @vsql
 
 SET @sumsql = 'INSERT x_DATAVALIDATION.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
-SELECT ''AccomMod'',''The field '+@columnname+' should have integer records.'', COUNT(*)
+SELECT ''AccomMod'',''Expected integer value in '+@columnname+'.'', COUNT(*)
 FROM x_DATAVALIDATION.AccomMod_LOCAL WHERE 1 = 1 '
 
 SET @query  = ' AND (x_DATAVALIDATION.udf_IsInteger('+@columnname+') = 0 AND '+@columnname+' IS NOT NULL)'

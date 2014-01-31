@@ -272,7 +272,7 @@ IF (@isrequired=1)
 BEGIN
 
 SET @vsql = 'INSERT x_DATAVALIDATION.ValidationReport (TableName,ErrorMessage,LineNumber,Line)
-SELECT ''SpedStaffMember'',''The field '+@columnname+' is required field.'',Line_No,ISNULL(CONVERT(VARCHAR(max),StaffEmail),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),LASTNAME),'''')+ISNULL(CONVERT(VARCHAR(max),Firstname),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),EnrichRole),'''')
+SELECT ''SpedStaffMember'',''The field '+@columnname+' is required but not found.'',Line_No,ISNULL(CONVERT(VARCHAR(max),StaffEmail),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),LASTNAME),'''')+ISNULL(CONVERT(VARCHAR(max),Firstname),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),EnrichRole),'''')
 FROM x_DATAVALIDATION.SpedStaffMember_LOCAL WHERE 1 = 1 '
 
 SET @query  = ' AND ('+@columnname+' IS NULL)'
@@ -281,7 +281,7 @@ SET @vsql = @vsql + @query
 EXEC sp_executesql @stmt=@vsql
 
 SET @sumsql = 'INSERT x_DATAVALIDATION.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
-SELECT ''SpedStaffMember'',''The field '+@columnname+' is required field.'', COUNT(*)
+SELECT ''SpedStaffMember'',''The field '+@columnname+' is required but not found.'', COUNT(*)
 FROM x_DATAVALIDATION.SpedStaffMember_LOCAL WHERE 1 = 1 '
 
 SET @query  = ' AND ('+@columnname+' IS NULL)'
@@ -296,7 +296,7 @@ IF (1=1)
 BEGIN
 
 SET @vsql = 'INSERT x_DATAVALIDATION.ValidationReport (TableName,ErrorMessage,LineNumber,Line)
-SELECT ''SpedStaffMember'',''The issue is in the datalength of the field '+@columnname+'.'',Line_No,ISNULL(CONVERT(VARCHAR(max),StaffEmail),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),LASTNAME),'''')+ISNULL(CONVERT(VARCHAR(max),Firstname),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),EnrichRole),'''')
+SELECT ''SpedStaffMember'','''+@columnname+' cannot be greater than X characters.'',Line_No,ISNULL(CONVERT(VARCHAR(max),StaffEmail),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),LASTNAME),'''')+ISNULL(CONVERT(VARCHAR(max),Firstname),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),EnrichRole),'''')
 FROM x_DATAVALIDATION.SpedStaffMember_LOCAL WHERE 1 = 1'
 
 SET @query  = ' AND ((DATALENGTH ('+@columnname+')/2) > '+@datalength+' AND '+@columnname+' IS NOT NULL)'
@@ -305,7 +305,7 @@ EXEC sp_executesql @stmt=@vsql
 --PRINT @vsql
 
 SET @sumsql = 'INSERT x_DATAVALIDATION.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
-SELECT ''SpedStaffMember'',''The issue is in the datalength of the field '+@columnname+'.'', COUNT(*)
+SELECT ''SpedStaffMember'','''+@columnname+' cannot be greater than X characters.'', COUNT(*)
 FROM x_DATAVALIDATION.SpedStaffMember_LOCAL WHERE 1 = 1 '
 
 SET @query  = ' AND ((DATALENGTH ('+@columnname+')/2) > '+@datalength+' AND '+@columnname+' IS NOT NULL)'
@@ -321,7 +321,7 @@ IF (@isFkRelation = 1)
 BEGIN
 
 SET @vsql = 'INSERT x_DATAVALIDATION.ValidationReport (TableName,ErrorMessage,LineNumber,Line)
-SELECT ''SpedStaffMember'',''The '+@columnname+' ''''''+CONVERT(VARCHAR(MAX),sped.'+@columnname+')+'''''' does not exist in '+@parenttable+'  or were not validated successfully, but it existed in '+@tablename+'.'',Line_No,ISNULL(CONVERT(VARCHAR(max),sped.StaffEmail),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),sped.LASTNAME),'''')+ISNULL(CONVERT(VARCHAR(max),sped.Firstname),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),sped.EnrichRole),'''')
+SELECT ''SpedStaffMember'',''No '+@parenttable+' record found for '+@tablename+'.'',Line_No,ISNULL(CONVERT(VARCHAR(max),sped.StaffEmail),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),sped.LASTNAME),'''')+ISNULL(CONVERT(VARCHAR(max),sped.Firstname),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),sped.EnrichRole),'''')
 FROM x_DATAVALIDATION.SpedStaffMember_LOCAL sped'
 
 SET @query  = ' LEFT JOIN x_DATAVALIDATION.'+@parenttable+' dt ON sped.'+@columnname+' = dt.'+@parentcolumn+' WHERE dt.'+@parentcolumn+' IS NULL'
@@ -330,7 +330,7 @@ EXEC sp_executesql @stmt=@vsql
 --PRINT @vsql
 
 SET @sumsql = 'INSERT x_DATAVALIDATION.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
-SELECT ''SpedStaffMember'',''Some of the '+@parentcolumn+' does not exist in '+@parenttable+' File or were not validated successfully, but it existed in SpedStaffMember.'', COUNT(*)
+SELECT ''SpedStaffMember'',''No '+@parenttable+' record found for '+@tablename+'.'', COUNT(*)
 FROM x_DATAVALIDATION.SpedStaffMember_LOCAL sped'
 
 SET @query  = ' LEFT JOIN x_DATAVALIDATION.'+@parenttable+' dt ON sped.'+@columnname+' = dt.'+@parentcolumn+' WHERE dt.'+@parentcolumn+' IS NULL'
@@ -344,7 +344,7 @@ IF (@isFlagfield = 1)
 BEGIN
 
 SET @vsql = 'INSERT x_DATAVALIDATION.ValidationReport (TableName,ErrorMessage,LineNumber,Line)
-SELECT ''SpedStaffMember'',''The field '+@columnname+' should have one of the value in '''+LTRIM(REPLACE(@flagrecords,''',''','/'))+''', It has value as ''''''+'+@columnname+'+''''''.'',Line_No,ISNULL(CONVERT(VARCHAR(max),StaffEmail),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),LASTNAME),'''')+ISNULL(CONVERT(VARCHAR(max),Firstname),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),EnrichRole),'''')
+SELECT ''SpedStaffMember'',''Invalid value in '+@columnname+' it must be Y or N.'',Line_No,ISNULL(CONVERT(VARCHAR(max),StaffEmail),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),LASTNAME),'''')+ISNULL(CONVERT(VARCHAR(max),Firstname),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),EnrichRole),'''')
 FROM x_DATAVALIDATION.SpedStaffMember_LOCAL '
 
 SET @query  = '  WHERE ('+@columnname+' NOT IN  ('+@flagrecords+') AND '+@columnname+' IS NOT NULL)'
@@ -353,7 +353,7 @@ EXEC sp_executesql @stmt=@vsql
 --PRINT @vsql
 
 SET @sumsql = 'INSERT x_DATAVALIDATION.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
-SELECT ''SpedStaffMember'',''The field '+@columnname+' should have one of the value in '''+LTRIM(REPLACE(@flagrecords,''',''','/'))+''''', COUNT(*)
+SELECT ''SpedStaffMember'',''Invalid value in '+@columnname+' it must be Y or N.'', COUNT(*)
 FROM x_DATAVALIDATION.SpedStaffMember_LOCAL '
 
 SET @query  = '  WHERE ('+@columnname+' NOT IN  ('+@flagrecords+') AND '+@columnname+' IS NOT NULL)'
@@ -367,7 +367,7 @@ IF (@isuniquefield = 1)
 BEGIN
 
 SET @vsql = 'INSERT x_DATAVALIDATION.ValidationReport (TableName,ErrorMessage,LineNumber,Line)
-SELECT ''SpedStaffMember'',''The field '+@columnname+' is unique field, Here ''''''+CONVERT(VARCHAR(MAX),sped.'+@columnname+')+'''''' record is repeated.'',sped.Line_No,ISNULL(CONVERT(VARCHAR(max),sped.StaffEmail),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),sped.LASTNAME),'''')+ISNULL(CONVERT(VARCHAR(max),sped.Firstname),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),sped.EnrichRole),'''')
+SELECT ''SpedStaffMember'','''+@columnname+' is duplicated.'',sped.Line_No,ISNULL(CONVERT(VARCHAR(max),sped.StaffEmail),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),sped.LASTNAME),'''')+ISNULL(CONVERT(VARCHAR(max),sped.Firstname),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),sped.EnrichRole),'''')
 FROM x_DATAVALIDATION.SpedStaffMember_LOCAL sped JOIN'
 
 SET @query  = ' (SELECT '+@columnname+' FROM x_DATAVALIDATION.SpedStaffMember_LOCAL GROUP BY '+@columnname+' HAVING COUNT(*)>1) ucsped ON ucsped.'+@columnname+' = sped.'+@columnname+' '
@@ -376,7 +376,7 @@ EXEC sp_executesql @stmt=@vsql
 --PRINT @vsql
 
 SET @sumsql = 'INSERT x_DATAVALIDATION.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
-SELECT ''SpedStaffMember'',''The field '+@columnname+' is unique field, Here '+@columnname+' record is repeated.'', COUNT(*)
+SELECT ''SpedStaffMember'','''+@columnname+' is duplicated.'', COUNT(*)
 FROM x_DATAVALIDATION.SpedStaffMember_LOCAL sped JOIN'
 
 SET @query  = ' (SELECT '+@columnname+' FROM x_DATAVALIDATION.SpedStaffMember_LOCAL GROUP BY '+@columnname+' HAVING COUNT(*)>1) ucsped ON ucsped.'+@columnname+' = sped.'+@columnname+' '
@@ -389,7 +389,7 @@ IF (@islookupcolumn =1 AND @lookuptable = 'SelectLists')
 BEGIN
 
 SET @vsql = 'INSERT x_DATAVALIDATION.ValidationReport (TableName,ErrorMessage,LineNumber,Line)
-SELECT ''SpedStaffMember'',''The '+@columnname+' ''''''+ sped.'+@columnname+'+'''''' does not exist in '+@lookuptable+', but it existed in '+@tablename+''',sped.Line_No,ISNULL(CONVERT(VARCHAR(max),sped.StaffEmail),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),sped.LASTNAME),'''')+ISNULL(CONVERT(VARCHAR(max),sped.Firstname),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),sped.EnrichRole),'''')
+SELECT ''SpedStaffMember'',''No lookup value found for '+@columnname+'.  Contact ExcentDataTeam@excent.com .'',sped.Line_No,ISNULL(CONVERT(VARCHAR(max),sped.StaffEmail),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),sped.LASTNAME),'''')+ISNULL(CONVERT(VARCHAR(max),sped.Firstname),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),sped.EnrichRole),'''')
 FROM x_DATAVALIDATION.SpedStaffMember_LOCAL sped '
 
 SET @query  = ' WHERE (sped.'+@columnname+' NOT IN ( SELECT '+@lookupcolumn+' FROM x_DATAVALIDATION.'+@lookuptable+' WHERE Type = '''+@lookuptype+''') AND sped.'+@columnname+' IS NOT NULL)'
@@ -398,7 +398,7 @@ EXEC sp_executesql @stmt=@vsql
 --PRINT @vsql
 
 SET @sumsql = 'INSERT x_DATAVALIDATION.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
-SELECT ''SpedStaffMember'',''The '+@columnname+' does not exist in '+@lookuptable+', but it existed in '+@tablename+''', COUNT(*)
+SELECT ''SpedStaffMember'',''No lookup value found for '+@columnname+'.'', COUNT(*)
 FROM x_DATAVALIDATION.SpedStaffMember_LOCAL sped JOIN'
 
 SET @query  = ' WHERE (sped.'+@columnname+' NOT IN ( SELECT '+@lookupcolumn+' FROM x_DATAVALIDATION.'+@lookuptable+' WHERE Type = '''+@lookuptype+''') AND sped.'+@columnname+' IS NOT NULL)'
@@ -411,7 +411,7 @@ IF (@islookupcolumn =1 AND @lookuptable != 'SelectLists')
 BEGIN
 
 SET @vsql = 'INSERT x_DATAVALIDATION.ValidationReport (TableName,ErrorMessage,LineNumber,Line)
-SELECT ''SpedStaffMember'',''The '+@columnname+' ''''''+ sped.'+@columnname+'+'''''' does not exist in '+@lookuptable+', but it existed in '+@tablename+''',sped.Line_No,ISNULL(CONVERT(VARCHAR(max),sped.StaffEmail),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),sped.LASTNAME),'''')+ISNULL(CONVERT(VARCHAR(max),sped.Firstname),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),sped.EnrichRole),'''')
+SELECT ''SpedStaffMember'',''No lookup value found for '+@columnname+'.  Contact ExcentDataTeam@excent.com .'',sped.Line_No,ISNULL(CONVERT(VARCHAR(max),sped.StaffEmail),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),sped.LASTNAME),'''')+ISNULL(CONVERT(VARCHAR(max),sped.Firstname),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),sped.EnrichRole),'''')
 FROM x_DATAVALIDATION.SpedStaffMember_LOCAL sped '
 
 SET @query  = ' WHERE (sped.'+@columnname+' NOT IN ( SELECT '+@lookupcolumn+' FROM x_DATAVALIDATION.'+@lookuptable+') AND sped.'+@columnname+' IS NOT NULL)'
@@ -420,7 +420,7 @@ EXEC sp_executesql @stmt=@vsql
 --PRINT @vsql
 
 SET @sumsql = 'INSERT x_DATAVALIDATION.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
-SELECT ''SpedStaffMember'',''The '+@columnname+' does not exist in '+@lookuptable+', but it existed in '+@tablename+''' COUNT(*)
+SELECT ''SpedStaffMember'',''No lookup value found for '+@columnname+'.'' COUNT(*)
 FROM x_DATAVALIDATION.SpedStaffMember_LOCAL sped JOIN'
 
 SET @query  = ' WHERE (sped.'+@columnname+' NOT IN ( SELECT '+@lookupcolumn+' FROM x_DATAVALIDATION.'+@lookuptable+') AND sped.'+@columnname+' IS NOT NULL)'
@@ -433,7 +433,7 @@ IF (@datatype = 'int')
 BEGIN
 
 SET @vsql = 'INSERT x_DATAVALIDATION.ValidationReport (TableName,ErrorMessage,LineNumber,Line)
-SELECT ''SpedStaffMember'',''The field '+@columnname+' should have integer records.'',Line_No,ISNULL(CONVERT(VARCHAR(max),StaffEmail),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),LASTNAME),'''')+ISNULL(CONVERT(VARCHAR(max),Firstname),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),EnrichRole),'''')
+SELECT ''SpedStaffMember'',''Expected integer value in '+@columnname+'.'',Line_No,ISNULL(CONVERT(VARCHAR(max),StaffEmail),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),LASTNAME),'''')+ISNULL(CONVERT(VARCHAR(max),Firstname),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),EnrichRole),'''')
 FROM x_DATAVALIDATION.SpedStaffMember_LOCAL WHERE 1 = 1 '
 
 SET @query  = ' AND (x_DATAVALIDATION.udf_IsInteger('+@columnname+') = 0 AND '+@columnname+' IS NOT NULL)'
@@ -442,7 +442,7 @@ EXEC sp_executesql @stmt=@vsql
 --PRINT @vsql
 
 SET @sumsql = 'INSERT x_DATAVALIDATION.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
-SELECT ''SpedStaffMember'',''The field '+@columnname+' should have integer records.'',COUNT(*)
+SELECT ''SpedStaffMember'',''Expected integer value in '+@columnname+'.'',COUNT(*)
 FROM x_DATAVALIDATION.SpedStaffMember_LOCAL WHERE 1 = 1 '
 
 SET @query  = ' AND (x_DATAVALIDATION.udf_IsInteger('+@columnname+') = 0 AND '+@columnname+' IS NOT NULL)'
