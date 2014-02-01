@@ -350,7 +350,7 @@ IF (@isFlagfield = 1)
 BEGIN
 
 SET @vsql = 'INSERT x_DATAVALIDATION.ValidationReport (TableName,ErrorMessage,LineNumber,Line)
-SELECT ''TeamMember'',''Invalid value in '+@columnname+' it must be Y or N.'', It has value as ''''''+team.'+@columnname+'+''''''.'',team.Line_No,ISNULL(CONVERT(VARCHAR(max),team.StaffEmail),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),team.StudentRefId),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),team.IsCaseManager),'''')
+SELECT ''TeamMember'',''Invalid value in '+@columnname+' it must be Y or N.'',team.Line_No,ISNULL(CONVERT(VARCHAR(max),team.StaffEmail),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),team.StudentRefId),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),team.IsCaseManager),'''')
 FROM x_DATAVALIDATION.TeamMember_LOCAL team '
 
 SET @query  = '  WHERE (team.'+@columnname+' NOT IN  ('+@flagrecords+') AND team.'+@columnname+' IS NOT NULL)'
