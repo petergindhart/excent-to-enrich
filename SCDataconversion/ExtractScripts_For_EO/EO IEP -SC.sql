@@ -17,25 +17,16 @@ SELECT
 	LatestEvaluationDate =  convert(varchar, pMax.LastEvalDate, 101), -- Eligibility/Reevaluation Determination Date ...  SC_PlaceHistoryTbl.LastEvalDate ... max teammeetingdate
 	NextEvaluationDate = convert(varchar, pMax.AnticipatedDate, 101),  -- Anticipated date of 3 year Reevaluation ... SC_PlaceHistoryTbl.AnticipatedDate
 	EligibilityDate = convert(varchar, pMin.InitialEligDate, 101), -- SC_PlaceConsentTbl.InitialEligDate (min TeamMeetingDate ) -------------------------------------------------- look for the initial flag, also
-	ConsentForServicesDate = convert(varchar, cMin.ReceiveDate, 101), -- SC_PlaceConsentTbl.ReceiveDate
+	ConsentForServicesDate = ISNULL(convert(varchar, cMin.ReceiveDate, 101),'01/01/1970'), -- SC_PlaceConsentTbl.ReceiveDate
 	ConsentForEvaluationDate = convert(varchar, pMax.ParentalConsentToEvalDate, 101), -- MeetingTbl.ParRespDate  (MeetingTbl_SC, where Reason2 = 1)  ---   SC_PlaceHistoryTbl.ParentalConsentToEvalDate (for one student found this on the MOST RECENT ph record)
-	LREAgeGroup = case 
-					when pb.PrePlacement is null and pb.EdPlacement is not null then 'K12'
-					when pb.PrePlacement is not null and pb.EdPlacement is null then 'PK'
-					else NULL
-				  end,
-	LRECode = case 
-					when pb.PrePlacement is null and pb.EdPlacement is not null then cast(pb.EdPlacement as varchar(2))
-					when pb.PrePlacement is not null and pb.EdPlacement is null then cast(pb.PrePlacement as varchar(2))
-					else NULL
-				  end,
+	LREAgeGroup = lre.AgeGroup,
+	LRECode = x.LRE,
 	MinutesPerWeek = cast (0 as int), -- cast(cast(ep.TotalSchoolHoursPerWeek*60 as int)as varchar(4)),
  	ServiceDeliveryStatement = NULL
 FROM SpecialEdStudentsAndIEPs x
 JOIN IEPCompleteTbl i on x.IEPSeqNum = i.IEPSeqNum
 join ICIEPTbl_SC i2 on i.IEPSeqNum = i2.IEPComplSeqNum
-join ICIEPLRETbl p on x.IEPSeqNum = p.IEPComplSeqNum and x.IEPLRESeqNum = p.IEPLRESeqNum -- 2137
-left join ICIEPLRETbl_SC pb on p.IEPLRESeqNum = pb.IEPLRESeqNum and p.IEPComplSeqNum = pb.IEPComplSeqNum  --- full join eliminated 1 record in test
+JOIN LREDataConversion lre ON lre.GstudentID = x.GstudentID AND lre.IEPComplSeqNum = x.IEPSeqNum
 join SC_PlaceHistoryTbl pmax on x.GStudentID = pmax.GStudentID 
 	and pmax.RecNum = (
 		select max(nmax.RecNum)
