@@ -70,6 +70,7 @@ WHILE @Count<=@MaxCount
     END
 --SELECT @Txtreq AS Txt
 
+
 DECLARE @Txtdatalength VARCHAR(MAX)
 DECLARE @tbldl table (id int, columnname varchar(50),datalength varchar(10),isrequired bit)
 INSERT @tbldl
@@ -82,19 +83,19 @@ WHILE @Count<=@MaxCount
     BEGIN
     IF (@Txtdatalength = '' and (select isrequired from @tbldl WHERE ID=@Count)= 1)
     BEGIN
-    SET @Txtdatalength=@Txtdatalength+' WHERE DATALENGTH(REPLACE('+'g.'+(select columnname from @tbldl WHERE ID=@Count) + ','''''''',''''))/2 <= '+(select datalength from @tbldl WHERE ID=@Count)
+    SET @Txtdatalength=@Txtdatalength+' WHERE (DATALENGTH('+'g.'+(select columnname from @tbldl WHERE ID=@Count) + ')/2) <= '+(select datalength from @tbldl WHERE ID=@Count)
     END
     ELSE IF (@Txtdatalength = '' and (select isrequired from @tbldl WHERE ID=@Count)= 0)
     BEGIN
-    SET @Txtdatalength=@Txtdatalength+' WHERE DATALENGTH(REPLACE('+'g.'+(select columnname from @tbldl WHERE ID=@Count) + ','''''''',''''))/2 <= '+(select datalength from @tbldl WHERE ID=@Count) +' OR (g.'+(select columnname from @tbldl WHERE ID=@Count)+' IS NULL)'
+    SET @Txtdatalength=@Txtdatalength+' WHERE ((DATALENGTH('+'g.'+(select columnname from @tbldl WHERE ID=@Count) + ')/2) <= '+(select datalength from @tbldl WHERE ID=@Count) +' OR (g.'+(select columnname from @tbldl WHERE ID=@Count)+' IS NULL))'
     END
     ELSE IF (@Txtdatalength != '' and (select isrequired from @tbldl WHERE ID=@Count)= 0)
     BEGIN
-    SET @Txtdatalength=@Txtdatalength+' AND DATALENGTH(REPLACE('+'g.'+(select columnname from @tbldl WHERE ID=@Count) + ','''''''',''''))/2 <= '+(select datalength from @tbldl WHERE ID=@Count) +' OR (g.'+(select columnname from @tbldl WHERE ID=@Count)+' IS NULL)'
+    SET @Txtdatalength=@Txtdatalength+' AND ((DATALENGTH('+'g.'+(select columnname from @tbldl WHERE ID=@Count) + ')/2) <= '+(select datalength from @tbldl WHERE ID=@Count) +' OR (g.'+(select columnname from @tbldl WHERE ID=@Count)+' IS NULL))'
     END
     ELSE IF (@Txtdatalength != '' and (select isrequired from @tbldl WHERE ID=@Count)= 1)
     BEGIN
-    SET @Txtdatalength=@Txtdatalength+' AND DATALENGTH(REPLACE('+'g.'+(select columnname from @tbldl WHERE ID=@Count) + ','''''''',''''))/2 <= '+(select datalength from @tbldl WHERE ID=@Count)
+    SET @Txtdatalength=@Txtdatalength+' AND (DATALENGTH('+'g.'+(select columnname from @tbldl WHERE ID=@Count) + ')/2) <= '+(select datalength from @tbldl WHERE ID=@Count)
     END
     SET @Count=@Count+1
     END
@@ -158,11 +159,11 @@ WHILE @Count<=@MaxCount
     END
     ELSE IF ((select isrequired from @tbllookup WHERE ID=@Count)= 0 and (select lookuptable from @tbllookup WHERE ID=@Count) != 'SelectLists')
     BEGIN
-    SET @Txtlookup=@Txtlookup+' AND (g.'+(SELECT columnname FROM @tbllookup WHERE ID= @Count)+' IN ( SELECT '+(SELECT lookupcolumn FROM @tbllookup WHERE ID= @Count)+' FROM x_DATAVALIDATION.'+(SELECT lookuptable FROM @tbllookup WHERE ID= @Count)+' OR g.'+(SELECT columnname FROM @tbllookup WHERE ID= @Count)+' IS NULL)'
+    SET @Txtlookup=@Txtlookup+' AND (g.'+(SELECT columnname FROM @tbllookup WHERE ID= @Count)+' IN ( SELECT '+(SELECT lookupcolumn FROM @tbllookup WHERE ID= @Count)+' FROM x_DATAVALIDATION.'+(SELECT lookuptable FROM @tbllookup WHERE ID= @Count)+') OR g.'+(SELECT columnname FROM @tbllookup WHERE ID= @Count)+' IS NULL)'
     END
     ELSE IF ((select isrequired from @tbllookup WHERE ID=@Count)= 0 and (select lookuptable from @tbllookup WHERE ID=@Count) = 'SelectLists')
     BEGIN
-    SET @Txtlookup=@Txtlookup+' AND g.'+(SELECT columnname FROM @tbllookup WHERE ID= @Count)+' IN ( SELECT '+(SELECT lookupcolumn FROM @tbllookup WHERE ID= @Count)+' FROM x_DATAVALIDATION.'+(SELECT lookuptable FROM @tbllookup WHERE ID= @Count)+' WHERE Type = '''+ (SELECT lookuptype FROM @tbllookup WHERE ID= @Count)+'''OR g.'+(SELECT columnname FROM @tbllookup WHERE ID= @Count)+' IS NULL)'
+      SET @Txtlookup=@Txtlookup+' AND ( g.'+(SELECT columnname FROM @tbllookup WHERE ID= @Count)+' IN (SELECT '+(SELECT lookupcolumn FROM @tbllookup WHERE ID= @Count)+' FROM x_DATAVALIDATION.'+(SELECT lookuptable FROM @tbllookup WHERE ID= @Count)+' WHERE Type = '''+ (SELECT lookuptype FROM @tbllookup WHERE ID= @Count)+''') OR g.'+(SELECT columnname FROM @tbllookup WHERE ID= @Count)+' IS NULL)'
     END
     SET @Count=@Count+1
     END
@@ -215,7 +216,7 @@ WHILE @Count<=@MaxCount
     END
 --SELECT @Txtunique AS Txtq
 
-SET @sqlvalidated = @sqlvalidated +@Txtunique+@Txtfkrel+@Txtdatalength+@Txtreq+@Txtflag+@Txtdatatype
+SET @sqlvalidated = @sqlvalidated +@Txtunique+@Txtfkrel+@Txtdatalength+@Txtreq+@Txtflag+@Txtdatatype+@Txtlookup
 print @sqlvalidated
 
 EXEC (@sqlvalidated)

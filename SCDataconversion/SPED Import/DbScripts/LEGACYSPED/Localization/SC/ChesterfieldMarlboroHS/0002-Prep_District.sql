@@ -56,13 +56,14 @@ GO
 set nocount on;
 declare @importPrgSections table (Enabled bit not null, SectionDefName varchar(100) not null, SectionDefID uniqueidentifier not null)
 -- update the Enabled column below to 0 if the section is not required for this district
-insert @importPrgSections values (1, 'IEP Services', '9AC79680-7989-4CC9-8116-1CCDB1D0AE5F')
-insert @importPrgSections values (1, 'IEP LRE', '0CBA436F-8043-4D22-8F3D-289E057F1AAB')
-insert @importPrgSections values (1, 'IEP Dates', 'EE479921-3ECB-409A-96D7-61C8E7BA0E7B')
-insert @importPrgSections values (1, 'IEP Demographics', '427AF47C-A2D2-47F0-8057-7040725E3D89')
-insert @importPrgSections values (1, 'Sped Eligibility Determination', 'F050EF5E-3ED8-43D5-8FE7-B122502DE86A')
-insert @importPrgSections values (1, 'IEP Goals', '84E5A67D-CC9A-4D5B-A7B8-C04E8C3B8E0A')
-insert @importPrgSections values (1, 'Sped Consent Services', 'D83A4710-A69F-4310-91F8-CB5BFFB1FE4C')
+insert @importPrgSections values (1, 'IEP Services', 'F8261D6C-2528-4461-8E28-E70C40C417B2')
+insert @importPrgSections values (1, 'IEP LRE', '3727E5F0-762F-44D8-B303-068B99A90475')
+insert @importPrgSections values (1, 'IEP Dates', 'D32860C0-9F4A-44B8-9925-A2E34241B5A0')
+insert @importPrgSections values (1, 'IEP Demographics', '3BD3B039-2805-4983-948A-F3BFA86A72C9')
+insert @importPrgSections values (1, 'Sped Eligibility Determination', 'DC3BE88C-7BA4-4041-A8FB-BCC96D2D4C29')
+insert @importPrgSections values (1, 'IEP Goals', 'A9DF977C-088E-47E8-9CEF-550D8A42AF58')
+insert @importPrgSections values (1, 'Sped Consent Services', '91D56FAB-554E-4F5C-9E84-55A85DAD30F0')
+insert @importPrgSections values (1, 'IEP ESY', 'F60392DA-8EB3-49D0-822D-77A1618C1DAA')
 
 insert LEGACYSPED.ImportPrgSections
 select t.* 
