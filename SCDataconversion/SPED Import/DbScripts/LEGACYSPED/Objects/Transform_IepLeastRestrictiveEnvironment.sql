@@ -15,7 +15,7 @@ AS
 		LEGACYSPED.Transform_PrgIep iep JOIN
 		PrgSection sec ON
 			sec.VersionID = iep.VersionDestID AND
-			sec.DefID = '0CBA436F-8043-4D22-8F3D-289E057F1AAB'  --IEP LRE
+			sec.DefID = '3727E5F0-762F-44D8-B303-068B99A90475'  --IEP LRE
 	WHERE IEPRefID is not null -- Need to exclude NULL.  Found this when students that were imported previously were not imported subsequently
 GO
 -- 

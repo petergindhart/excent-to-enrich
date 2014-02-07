@@ -19,7 +19,7 @@ AS
 	FROM
 		LEGACYSPED.Transform_PrgIep iep LEFT JOIN
 		LEGACYSPED.MAP_PrgSectionID m on 
-			m.DefID = '427AF47C-A2D2-47F0-8057-7040725E3D89' and
+			m.DefID = '3BD3B039-2805-4983-948A-F3BFA86A72C9' and
 			m.VersionID = iep.VersionDestID LEFT JOIN
 		LEGACYSPED.Student s on s.StudentRefID = iep.StudentRefID LEFT JOIN
 		LEGACYSPED.Transform_School ss on s.ServiceSchoolCode = ss.SchoolCode and s.ServiceDistrictCode = ss.DistrictCode/* and ss.DeletedDate is null */ LEFT JOIN

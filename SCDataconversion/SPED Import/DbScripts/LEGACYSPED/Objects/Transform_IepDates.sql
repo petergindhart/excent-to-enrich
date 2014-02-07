@@ -22,7 +22,7 @@ AS
 		LEGACYSPED.IEP iep on i.IepRefID = iep.IepRefID LEFT JOIN
 		LEGACYSPED.MAP_PrgSectionID m on 
 			i.VersionDestID = m.VersionID and
-			m.DefID = 'EE479921-3ECB-409A-96D7-61C8E7BA0E7B' 
+			m.DefID = 'D32860C0-9F4A-44B8-9925-A2E34241B5A0' 
 GO
 --
 

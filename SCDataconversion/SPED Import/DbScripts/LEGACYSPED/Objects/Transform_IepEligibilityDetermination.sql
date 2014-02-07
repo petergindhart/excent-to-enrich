@@ -14,7 +14,7 @@ FROM
 	LEGACYSPED.EvaluateIncomingItems iep JOIN 
 	LEGACYSPED.IEP i on iep.ExistingIEPRefID = i.IepRefID LEFT JOIN
 	LEGACYSPED.MAP_PrgSectionID s on 
-		s.DefID = 'F050EF5E-3ED8-43D5-8FE7-B122502DE86A' and
+		s.DefID = 'DC3BE88C-7BA4-4041-A8FB-BCC96D2D4C29' and
 		s.VersionID = iep.ExistingConvertedVersionID 
 -- where s.VersionID is not null
 GO

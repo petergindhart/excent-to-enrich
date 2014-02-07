@@ -128,7 +128,7 @@ AS
 	FROM
 		LEGACYSPED.Transform_PrgIep iep JOIN 
 		LEGACYSPED.MAP_PrgSectionID m on 
-			m.DefID = '9AC79680-7989-4CC9-8116-1CCDB1D0AE5F' and 
+			m.DefID = 'F8261D6C-2528-4461-8E28-E70C40C417B2' and 
 			m.VersionID = iep.VersionDestID left join 
 		LEGACYSPED.MAP_FormInstance_Services mfi on iep.IepRefID = mfi.IEPRefID left join 
 		LEGACYSPED.MAP_FormInstanceInterval_Services mfii on iep.IepRefID = mfii.IepRefID left join 
