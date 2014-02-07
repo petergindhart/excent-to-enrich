@@ -49,11 +49,11 @@ from LEGACYSPED.Goal
 where 0 = 1
 go
 
-IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.Transform_IepGoalSubGoalAreaDef') AND OBJECTPROPERTY(id, N'IsView') = 1)
-DROP VIEW LEGACYSPED.Transform_IepGoalSubGoalAreaDef
+IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.Transform_PrgGoalSubGoalAreaDef') AND OBJECTPROPERTY(id, N'IsView') = 1)
+DROP VIEW LEGACYSPED.Transform_PrgGoalSubGoalAreaDef
 GO
 
-create view LEGACYSPED.Transform_IepGoalSubGoalAreaDef
+create view LEGACYSPED.Transform_PrgGoalSubGoalAreaDef
 as
 select 
 	ga.GoalRefID,
@@ -63,6 +63,6 @@ from LEGACYSPED.Transform_IepGoalArea_goals ga join
 LEGACYSPED.Transform_PrgGoal pg on ga.GoalRefID = pg.GoalRefID join 
 LEGACYSPED.SubGoalAreaPivotView sg on ga.GoalRefID = sg.GoalRefID left join 
 LEGACYSPED.MAP_IepSubGoalAreaDefID m on sg.GoalAreaCode = m.SubGoalAreaCode left join 
-IepGoalSubGoalAreaDef sgad on ga.DestID = sgad.GoalID and m.DestID = sgad.DefID
+PrgGoalSubGoalAreaDef sgad on ga.DestID = sgad.GoalID and m.DestID = sgad.DefID
 where ga.GoalAreaCode = 'GACurriculum' -- assuming only one parent for now
 go

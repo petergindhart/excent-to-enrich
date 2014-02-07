@@ -1,10 +1,10 @@
 
 -- no map table needed
-IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.Transform_IepGoalSecondaryGoalAreaDef') AND OBJECTPROPERTY(id, N'IsView') = 1)
-DROP VIEW LEGACYSPED.Transform_IepGoalSecondaryGoalAreaDef
+IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.Transform_PrgGoalSecondaryGoalAreaDef') AND OBJECTPROPERTY(id, N'IsView') = 1)
+DROP VIEW LEGACYSPED.Transform_PrgGoalSecondaryGoalAreaDef
 go
 
-create view LEGACYSPED.Transform_IepGoalSecondaryGoalAreaDef -- no map necessary.  just delete and insert
+create view LEGACYSPED.Transform_PrgGoalSecondaryGoalAreaDef -- no map necessary.  just delete and insert
 as
 -- The secondary goal areas are all those other than the goal area with the lowest GoalAreaDefIndex (per goal)
 select
