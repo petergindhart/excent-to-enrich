@@ -133,7 +133,7 @@ UNION ALL
 		StateCode = GoalAreaCode,
 		Label = GoalAreaDesc,
 		Sequence = cast(0 as int) 
-	from DataConversionGoalAreaView
+	from Goal_EO
 	group by GoalAreaCode, GoalAreaDesc
 
 ) t

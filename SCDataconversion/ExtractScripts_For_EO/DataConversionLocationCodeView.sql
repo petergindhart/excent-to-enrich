@@ -64,12 +64,12 @@ from (
 	--SDE12	Special Education Classroom
 	select IEPComplSeqNum, ServSeqNum, LocationCode = 'SDE12'
 	from ICServiceTbl 
-	where isnull(del_flag,0)=0 and LocationDesc like 'Spe% Ed% Class%'
+	where isnull(del_flag,0)=0 and LocationDesc = 'Special Education Classroom'
 	union all
 	--SDE13	Special Education Support Room
 	select IEPComplSeqNum, ServSeqNum, LocationCode = 'SDE13'
 	from ICServiceTbl 
-	where isnull(del_flag,0)=0 and LocationDesc like 'Spe% Ed% Sup%'
+	where isnull(del_flag,0)=0 and LocationDesc = 'Special Education Support Room'
 	union all
 	--SDE14	Speech Therapy Room
 	select IEPComplSeqNum, ServSeqNum, LocationCode = 'SDE14'
@@ -129,8 +129,8 @@ where isnull(del_flag,0)=0
 	and LocationDesc not like 'Occu% Ther%'
 	and LocationDesc not like 'Phys% Ther%'
 	and LocationDesc not like 'Sch% Env%'
-	and LocationDesc not like 'Spe% Ed% Class%'
-	and LocationDesc not like 'Spe% Ed% Sup%'
+	and LocationDesc <> 'Special Education Classroom'
+	and LocationDesc <> 'Special Education Support Room'
 	and LocationDesc not like 'Speech Ther%'
 	and LocationDesc not like 'Therapy R%'
 go

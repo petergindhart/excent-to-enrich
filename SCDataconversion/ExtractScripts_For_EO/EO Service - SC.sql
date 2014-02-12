@@ -57,43 +57,30 @@ select 	distinct
 	-- v.ServiceAreaCode, 
 	ServiceAreaText = convert(varchar(8000), v.ServiceAreaText)-- v.ServiceProviderRefId, v.ServiceProviderCode, v.ServiceProviderSSN
 FROM (
-	select 
-		Type = CASE WHEN v.Type = 'S' THEN 'SpecialEd' ELSE 'Related' END,
-		ServiceRefID = v.ServSeqNum, 
-		IepRefID = v.IEPComplSeqNum, 
-		ServiceDefinitionCode = ISNULL(v.ServCode,'ZZZ'), 
-		BeginDate = isnull(v.InitDate, dateadd(dd, 1, i.MeetDate)), -- select top 10 * from ServiceTbl where gstudentid = '0D2173AE-A416-4C12-A5F8-D6D4B016EFF2' -- select * from student where gstudentid = '0D2173AE-A416-4C12-A5F8-D6D4B016EFF2'
-		EndDate = isnull(v.EndDate, dateadd(dd, -1, dateadd(yy, 1, i.MeetDate))),
-		IsRelated = cast(0 as bit), -- there are no related services in EO CO Poudre
-		IsDirect = cast(0 as bit),
-		ExcludesFromGenEd = cast(0 as bit), 
-		ServiceLocationCode = ISNULL(sfloc.code, 'ZZZ'),
-		Sequence = ServOrder, 
-		IsEsy = cast(0 as bit), 
-		ServiceTime = cast(isnull(v.DirHr,0) as int), 
-		ServiceFrequencyCode = isnull(sffreq.Code,'ZZZ'), 
-		ServiceAreaText = NULL,--v.SpecInstruction,
-		StaffTypeCode = p.Code,
-		StaffEmail = t.StaffEmail
-from	( select x.IEPSeqNum, x.MeetDate from SpecialEdStudentsAndIEPs x) i 
-		JOIN ICServiceTbl v on i.IEPSeqNum = v.IEPComplSeqNum  and isnull(v.del_flag,0)=0 
--- 		LEFT JOIN ServiceTimeUnit tu on v.ServiceTimeUnitCode = tu.ServiceTimeUnitCode 
-		LEFT JOIN CodeDescLook sf on v.ServDesc = sf.LookDesc and sf.UsageID = 'ServPer'
-		LEFT JOIN CodeDescLook sfloc on v.LocationDesc = sfloc.LookDesc and sfloc.UsageID = 'SLogPlace'
-		LEFT JOIN CodeDescLook sffreq on v.Frequency = sffreq.LookDesc and sffreq.UsageID = 'SuppFrequency'
-		LEFT JOIN (select distinct k.LookupDesc as code, k.LookupDesc as label from (select x.IEPSeqNum, x.MeetDate from SpecialEdStudentsAndIEPs x) i join ICServiceTbl v on i.IEPSeqNum = v.IEPComplSeqNum join DescLook k on v.ProvDesc = k.LookupDesc where k.UsageID = 'Title'
-) p on v.ProvDesc = p.Label 
-		LEFT JOIN dbo.Staff_EO t on v.ProvCode = t.StaffId
+	select
+	Type = CASE v.Type when 'S' THEN 'SpecialEd' when 'R' then 'Related' else '' END,
+	ServiceRefID = v.ServSeqNum, 
+	IepRefID = v.IEPComplSeqNum, 
+	ServiceDefinitionCode = vd.ServCode,
+	BeginDate = x.StartDate, -- SC does not use ServiceTbl for this
+	EndDate = x.EndDate, -- SC does not use ServiceTbl for this
+	IsRelated = case when v.Type = 'R' then 1 else 0 end,
+	IsDirect = case when v.Type = 'S' then isnull(v.Include1,0) else 1 end,
+	ExcludesFromGenEd = cast(0 as bit), -- derive this from location?
+	ServiceLocationCode = vl.LocationCode,
+	Sequence = v.ServOrder, 
+	IsEsy = cast(0 as bit), -- not available in SC
+	ServiceTime = vm.Amount, ---------------------  this is approximated!!
+	ServiceFrequencyCode = vf.FrequencyCode, 
+	ServiceAreaText = v.ServDesc, -- perhaps put the original values that were parsed in this place !!!!!!!!!
+	StaffTypeCode = cast('ZZZ' as varchar(150)),
+	StaffEmail = cast(NULL as varchar(100))
+from SpecialEdStudentsAndIEPs x
+join ICServiceTbl v on x.IEPSeqNum = v.IEPComplSeqNum and isnull(v.del_flag,0)=0 -- 6449
+left join DataConversionServiceMinutesView vm on v.IEPComplSeqNum = vm.IEPComplSeqNum and v.ServSeqNum = vm.ServSeqNum
+left join DataConversionFrequencyCodeView vf on v.IEPComplSeqNum = vf.IEPComplSeqNum and v.ServSeqNum = vf.ServSeqNum
+left join DataConversionServiceDefCodeView vd on v.IEPComplSeqNum = vd.IEPComplSeqNum and v.ServSeqNum = vd.ServSeqNum
+left join DataConversionLocationCodeView vl on v.IEPComplSeqNum = vl.IEPComplSeqNum and v.ServSeqNum = vl.ServSeqNum
+
 ) v  ) service
 
-
---select v.iepcomplseqnum, v.servseqnum, count(*) tot
---from iepcompletetbl i join
---icservicetbl v on i.IEPSeqNum = v.IEPComplSeqNum
---where isnull(i.del_flag,0)=0
---group by v.iepcomplseqnum, v.servseqnum
---having count(*) > 1
-
---select * from ICServiceTbl
---select * from CodeDescLook 
---where UsageID = 'IEPServiceSC'

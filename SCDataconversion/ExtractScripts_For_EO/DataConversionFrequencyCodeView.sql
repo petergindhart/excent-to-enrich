@@ -9,7 +9,7 @@ from (
 --SDE01	Twice daily
 select IEPComplSeqNum, ServSeqNum, FrequencyCode = 'SDE01', Frequency
 from ICServiceTbl 
-where isnull(del_flag,0)=0 and Frequency like 'Twice%Da%'
+where isnull(del_flag,0)=0 and Frequency = 'Twice Daily'
 union all
 --SDE02	Alternating days as per schedu
 select IEPComplSeqNum, ServSeqNum, FrequencyCode = 'SDE02', Frequency
@@ -19,7 +19,7 @@ union all
 --SDE03	Twice weekly
 select IEPComplSeqNum, ServSeqNum, FrequencyCode = 'SDE03', Frequency
 from ICServiceTbl 
-where isnull(del_flag,0)=0 and Frequency like 'Twice%W%k%'
+where isnull(del_flag,0)=0 and Frequency = 'Twice Weekly'
 union all
 --SDE04	Three times per week
 select IEPComplSeqNum, ServSeqNum, FrequencyCode = 'SDE04', Frequency
@@ -134,15 +134,14 @@ select 'SDE17', 'Daily'
 union all
 select 'SDE18', 'Consultation' 
 ) k on t.FrequencyCode = k.FrequencyCode
-
 union all
-
 --all criteria above, negated
 select IEPComplSeqNum, ServSeqNum, FrequencyCode = 'ZZZ', Frequency = 'Manually Entered Frequency'
-from ICServiceTbl 
-where not (Frequency like 'Twice%Da%')
+from ICServiceTbl v
+--join SpecialEdStudentsAndIEPs x on v.IEPComplSeqNum = x.IEPSeqNum			-- does not provide benefit and slows query down.
+where not (Frequency = 'Twice Daily')
 and not (Frequency like 'Alternat%Da%')
-and not (Frequency like 'Twice%W%k%')
+and not (Frequency = 'Twice Weekly')
 and not (Frequency not like '%min%' and Frequency not like '%h%r%s%' and  (Frequency like 'Three%W%k%' or Frequency like '3%W%k%'))
 and not (Frequency not like '%min%' and Frequency not like '%h%r%s%' and  (Frequency like 'Four%W%k%' or Frequency like '4%W%k%'))
 and not (Frequency = 'Weekly')
