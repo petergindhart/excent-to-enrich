@@ -9,7 +9,7 @@ AS
 		ConsentGrantedID = CASE WHEN iep.ConsentForServicesDate IS NOT NULL THEN CAST('B76DDCD6-B261-4D46-A98E-857B0A814A0C' AS uniqueidentifier) ELSE NULL END,
 		ConsentDate = 
 			case m.DefID 
-				when 'D83A4710-A69F-4310-91F8-CB5BFFB1FE4C' then CAST(isnull(iep.ConsentForServicesDate, iep.StartDate) as DATETIME) -- sped consent services
+				when '91D56FAB-554E-4F5C-9E84-55A85DAD30F0' then CAST(isnull(iep.ConsentForServicesDate, iep.StartDate) as DATETIME) -- sped consent services
 				when (select SectionDefID from LEGACYSPED.ImportPrgSections where SectionDefName = 'Sped Consent Evaluation') then cast(iep.ConsentForEvaluationDate as datetime) -- consent for evaluation 
 			end, 
 		iep.DoNotTouch

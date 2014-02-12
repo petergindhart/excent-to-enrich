@@ -518,6 +518,19 @@ END
 CLOSE chkSpecifications
 DEALLOCATE chkSpecifications
 
+--------------------------------------------------------------------------------------------------------------
+--ComsentForServiceDate is required field
+--------------------------------------------------------------------------------------------------------------
+INSERT x_DATAVALIDATION.ValidationReport (TableName,ErrorMessage,LineNumber,Line)
+SELECT 'IEP','ConsentForServicesDate is blank. Default date will be imported if not corrected in Excent Online.',iep.Line_No,ISNULL(CONVERT(VARCHAR(max),st.studentLocalID),'')+'|'+ISNULL(CONVERT(VARCHAR(max),st.FirstName),'')+'|'+ISNULL(CONVERT(VARCHAR(max),st.LastName),'')+'|'+ISNULL(CONVERT(VARCHAR(max),iep.IepRefID),'')+'|'+ISNULL(CONVERT(VARCHAR(max),iep.StudentRefID),'')+'|'+ISNULL(CONVERT(VARCHAR(max),iep.IEPMeetDate),'')+'|'+ISNULL(CONVERT(VARCHAR(max),iep.IEPStartDate),'')+'|'+ISNULL(CONVERT(VARCHAR(max),iep.IEPEndDate),'')+'|'+ISNULL(CONVERT(VARCHAR(max),iep.NextReviewDate),'')+'|'+ISNULL(CONVERT(VARCHAR(max),iep.InitialEvaluationDate),'')+'|'+ISNULL(CONVERT(VARCHAR(max),iep.LatestEvaluationDate),'')+'|'+ISNULL(CONVERT(VARCHAR(max),iep.NextEvaluationDate),'')+'|'+ISNULL(CONVERT(VARCHAR(max),iep.EligibilityDate),'')+'|'+ISNULL(CONVERT(VARCHAR(max),iep.ConsentForServicesDate),'')+'|'+ISNULL(CONVERT(VARCHAR(max),iep.ConsentForEvaluationDate),'')+'|'+ISNULL(CONVERT(VARCHAR(max),iep.LREAgeGroup),'')+'|'+ISNULL(CONVERT(VARCHAR(max),iep.LRECode),'')+'|'+ISNULL(CONVERT(VARCHAR(max),iep.MinutesPerWeek),'')+'|'+ISNULL(CONVERT(VARCHAR(max),iep.ServiceDeliveryStatement),'')
+FROM x_DATAVALIDATION.IEP_LOCAL iep JOIN x_DATAVALIDATION.Student_LOCAL st ON st.StudentRefID = iep.StudentRefID 
+WHERE 1 = 1 AND ConsentForServicesDate = '01/01/1970'
+
+
+INSERT x_DATAVALIDATION.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
+SELECT 'IEP','ConsentForServicesDate is blank. Default date will be imported if not corrected in Excent Online.', COUNT(*)
+FROM x_DATAVALIDATION.IEP_LOCAL WHERE 1 = 1 AND ConsentForServicesDate = '01/01/1970'
+
 /*
 --To check the Datalength of the fields
 ---Required Fields

@@ -23,7 +23,7 @@ select
 -- PrgItem
 	-- notice:  if data previously imported and should not be touched, we need to derive t data where prev imp rec has been touched
 	-- better idea:  expose Touched to be used in the source table filter
-	DefID = '8011D6A2-1014-454B-B83C-161CE678E3D3', -- Converted IEP
+	DefID = '1984F017-51CB-4E3C-9B3A-338A9D409EC6', -- Converted IEP
 	StudentID = isnull(stu.DestID, ev.StudentID),
 	MeetDate = iep.iepmeetdate, 
 	StartDate = isnull(iep.IEPStartDate, convert(varchar, t.StartDate, 101)), -- logic :  if the iep coming in again, let's update with values coming in.  if it's not coming in and we didn't delete it, keep values the same
