@@ -17,7 +17,8 @@ SELECT
 	LatestEvaluationDate =  convert(varchar, pMax.LastEvalDate, 101), -- Eligibility/Reevaluation Determination Date ...  SC_PlaceHistoryTbl.LastEvalDate ... max teammeetingdate
 	NextEvaluationDate = convert(varchar, pMax.AnticipatedDate, 101),  -- Anticipated date of 3 year Reevaluation ... SC_PlaceHistoryTbl.AnticipatedDate
 	EligibilityDate = convert(varchar, pMin.InitialEligDate, 101), -- SC_PlaceConsentTbl.InitialEligDate (min TeamMeetingDate ) -------------------------------------------------- look for the initial flag, also
-	ConsentForServicesDate = convert(varchar, cMin.ReceiveDate, 101), -- SC_PlaceConsentTbl.ReceiveDate
+	ConsentForServicesDate = ISNULL(convert(varchar, cMin.ReceiveDate, 101),'01/01/1970'), -- SC_PlaceConsentTbl.ReceiveDate
+	--ConsentForServicesDate = convert(varchar, cMin.ReceiveDate, 101), -- SC_PlaceConsentTbl.ReceiveDate
 	ConsentForEvaluationDate = convert(varchar, pMax.ParentalConsentToEvalDate, 101), -- MeetingTbl.ParRespDate  (MeetingTbl_SC, where Reason2 = 1)  ---   SC_PlaceHistoryTbl.ParentalConsentToEvalDate (for one student found this on the MOST RECENT ph record)
 	LREAgeGroup = lre.AgeGroup,
 	LRECode = lre.Placement,

@@ -108,8 +108,8 @@ FROM @servfreq tfq
 JOIN ServiceFrequency sfq ON sfq.ID = tfq.ID
 
 
-insert ServiceFrequency table (ID , StateCode , Name ,sequence ,weekfactor)
-SELECT tfq.ID,tfq.StateCode,tfq.Name,tfq. 
+insert ServiceFrequency (ID , StateCode , Name ,sequence ,weekfactor)
+SELECT tfq.ID,tfq.StateCode,tfq.Name,tfq.sequence,tfq.weekfactor
 FROM @servfreq tfq 
 LEFT JOIN ServiceFrequency sfq ON sfq.ID = tfq.ID
 WHERE sfq.ID IS NULL 
@@ -257,6 +257,25 @@ ALTER TABLE LEGACYSPED.MAP_FederalRace ADD CONSTRAINT
 	StateRaceCode
 	)
 END
+GO
+
+
+DECLARE @ga table (ID uniqueidentifier,Name varchar(max),StateCode varchar(20))
+INSERT @ga VALUES ('973314EF-844B-455A-A261-15014BFF2A82','Behavior','Behavior')
+--INSERT @ga VALUES ('E457C745-FC98-423B-A13B-0DB7274C5AD2','Functional',NULL)
+INSERT @ga VALUES ('D2DEE272-E7CF-4C77-B06E-FF3FBEA5B2EC','Functional Skills','Funct')
+INSERT @ga VALUES ('504CE0ED-537F-4EA0-BD97-0349FB1A4CA8','Math','Math')
+--INSERT @ga VALUES ('37EA0554-EC3F-4B95-AAD7-A52DECC7377C','Reading',NULL)
+INSERT @ga VALUES ('0E95D360-5CBE-4ECA-820F-CC25864D70D8','Speech/Language/Communication','Speech')
+INSERT @ga VALUES ('E7D626B6-22FF-41E1-B7BA-6ACD55292F01','Transition','LTrans')
+--INSERT @ga VALUES ('590AAE80-4B49-4432-96BC-267701DD934B','Written Expression',NULL)
+
+UPDATE gad
+SET StateCode =g.StateCode
+--select * 
+FROM PrgGoalAreaDef  gad
+JOIN @ga g ON g.ID = gad.ID 
+
 GO
 
 --insert LEGACYSPED.MAP_FederalRace values ('A', 'Asian')

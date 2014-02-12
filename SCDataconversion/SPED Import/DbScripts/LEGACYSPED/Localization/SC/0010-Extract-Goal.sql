@@ -10,9 +10,9 @@ GoalRefID		  varchar(150),
 IepRefID		  varchar(150), 
 Sequence		  varchar(3),
 GoalAreaCode		varchar(150),
-PSEducation	varchar(1),
-PSEmployment	varchar(1),
-PSIndependent	varchar(1),
+SCInstructional	varchar(1),
+SCTransition	varchar(1),
+SCRelatedService varchar(1),
 IsEsy		  varchar(1),
 UnitOfMeasurement	varchar(100), 
 BaselineDataPoint	varchar(100), 
@@ -28,3 +28,10 @@ AS
  SELECT * FROM LEGACYSPED.Goal_LOCAL  
 GO
 --
+
+/*
+--For SubGoalAreaDef
+SCInstructional	varchar(1),
+SCTransition	varchar(1),
+SCRelatedService varchar(1),
+*/

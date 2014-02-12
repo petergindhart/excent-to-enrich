@@ -11,15 +11,15 @@ create view LEGACYSPED.PostSchoolAreaPivotView -- select GoalRefID, count(*) tot
 as
 	select IepRefID, GoalRefID, '01' PostSchoolAreaCode
 	from LEGACYSPED.Goal
-	where PSEducation = 'Y'
+	where SCInstructional = 'Y'
 	UNION ALL
 	select IepRefID, GoalRefID, '02' PostSchoolAreaCode
 	from LEGACYSPED.Goal
-	where  PSEmployment = 'Y'
+	where  SCTransition = 'Y'
 	UNION ALL
 	select IepRefID, GoalRefID, '03' PostSchoolAreaCode
 	from LEGACYSPED.Goal
-	where  PSIndependent = 'Y'
+	where  SCRelatedService = 'Y'
 GO
 
 

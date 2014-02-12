@@ -11,7 +11,7 @@ SELECT
 	IepRefID = g.IEPComplSeqNum, 
 	Sequence = g.GoalOrder,
 	GoalAreaCode = isnull(k.Code,'ZZZ'), 
-	GoalAreaDesc = isnull(k.LookDesc,'Not Provided'), ------------ this is new and facilitates using this view for the SelectLists
+	--GoalAreaDesc = isnull(k.LookDesc,'Not Provided'), ------------ this is new and facilitates using this view for the SelectLists
 	PSEducation = case when g.Domain1 = 1 then 'Y' else 'N' end,
 	PSEmployment = case when g.Domain2 = 1 then 'Y' else 'N' end,
 	PSIndependent = case when g.Domain3 = 1 then 'Y' else 'N' end,
@@ -42,5 +42,6 @@ join GoalTbl g on i.gstudentid = g.gstudentid and i.IEPRefID = g.iepcomplseqnum 
 		or
 		(i.IEPComplete = 'IEPComplete' and g.IEPStatus = 3 and g.del_flag=1)
 	)
-left join CodeDescLook k on g.BankDesc = k.LookDesc and k.UsageId like 'Banks'
+left join CodeDescLook k on g.BankDesc = k.LookDesc and k.UsageId like 'Banks' and g.GoalCode = k.code
+
 go

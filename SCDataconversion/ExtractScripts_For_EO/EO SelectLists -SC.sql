@@ -83,9 +83,9 @@ UNION ALL
 		SubType = case when v.Type = 'R' then 'Related' else 'SpecialEd' end,
 		Code = v.ServCode, 
 		StateCode = case when v.ServCode like 'SDE%' then v.ServCode else '' end, 
-		Label = v.ServDesc,
+		Label = LEFT(v.ServDesc,250),
 		Sequence = 0
-	from DataConversionServiceCodeView v
+	from DataConversionServiceDefCodeView v
 	group by v.Type, v.ServCode, v.ServDesc
 -- *************** ServiceLocationCode *****************************************************          
  UNION ALL
@@ -93,9 +93,9 @@ UNION ALL
         LookupOrder = cast(11 as int),
 		Type = 'ServLoc', 
 		SubType = NULL, 
-		v.LocationCode,
-		StateCode = v.LocationCode,
-		Label = v.LocationDesc, 
+		Code= LEFT(v.LocationCode,150),
+		StateCode = LEFT(v.LocationCode,10),
+		Label = LEFT(v.LocationDesc,250), 
 		Sequence = cast(0 as int) 
 	from DataConversionLocationCodeView v
 	group by v.LocationCode, v.LocationDesc
@@ -116,9 +116,9 @@ UNION ALL
     	LookupOrder = cast(9 as int),
 		Type = 'ServFreq', 
 		SubType = NULL, 
-		Code = FrequencyCode,
-		StateCode = FrequencyCode,
-		Label = FrequencyDesc, 
+		Code = LEFT(FrequencyCode,150),
+		StateCode = LEFT(FrequencyCode,10),
+		Label = LEFT(FrequencyDesc,250), 
 		Sequence = cast(0 as int) 
 	from DataConversionFrequencyCodeView 
 	group by FrequencyCode, FrequencyDesc
@@ -129,11 +129,11 @@ UNION ALL
     	LookupOrder = cast(10 as int),
 		Type = 'GoalArea', 
 		SubType = NULL, 
-		Code = GoalAreaCode,
-		StateCode = GoalAreaCode,
-		Label = GoalAreaDesc,
+		Code = LEFT(GoalAreaCode,150),
+		StateCode = LEFT(GoalAreaCode,10),
+		Label = LEFT(GoalAreaDesc,250),
 		Sequence = cast(0 as int) 
-	from Goal_EO
+	from DataConversionGoalAreaCodeCodeView
 	group by GoalAreaCode, GoalAreaDesc
 
 ) t
