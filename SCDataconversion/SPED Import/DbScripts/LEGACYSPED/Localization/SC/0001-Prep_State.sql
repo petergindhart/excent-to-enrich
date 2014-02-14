@@ -185,7 +185,24 @@ INSERT @servdef VALUES ('A7E0C2B7-2CA5-4838-BF7E-23E05CCB6564','D3945E9D-AA0E-45
 INSERT @servdef VALUES ('003CF444-D485-43B9-8508-8D3B7E27FCB4','D3945E9D-AA0E-4555-BCB2-F8CA95CC7784','Transportation','SDE10',0,0)
 INSERT @servdef VALUES ('B630AE87-E461-4DAC-B5B9-3FB85C78F56D','D3945E9D-AA0E-4555-BCB2-F8CA95CC7784','Transportation Services',NULL,15,1)
 
-select * from @servdef
+SDE01	Assistive Technology services
+SDE02	Audiological Services
+SDE03	Counseling
+SDE04	Nursing Services
+SDE05	Occupational Therapy
+SDE06	Orientation and Mobility
+SDE07	Physical Therapy
+SDE08	Rehabilitation Counseling
+SDE09	Social Work Services
+SDE10	Transportation
+SDE11	Speech-Language Services
+SDE12	Interpreting Services
+SDE13	Psychological Service
+SDE14	Recreation
+SDE15	School Health Services
+SDE16	Parent Counseling and Training
+
+--select * from @servdef
 /*
 SDE02	Audiological Services
 SDE04	Nursing Services
