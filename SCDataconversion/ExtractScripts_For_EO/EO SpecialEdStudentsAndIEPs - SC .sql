@@ -44,6 +44,11 @@ and exists (select 1 from StudDisability sd where sd.GStudentID = s.GStudentID a
 
 */
 
+
+if exists (select 1 from sys.objects where name = 'DataConvSpedStudentsAndIEPs')
+drop table DataConvSpedStudentsAndIEPs
+go
+
 select * 
 into DataConvSpedStudentsAndIEPs
 from (
@@ -87,6 +92,11 @@ and exists (select 1 from StudDisability sd where sd.GStudentID = s.GStudentID a
 alter table DataConvSpedStudentsAndIEPs 
 	add constraint PK_DataConvSpedStudentsAndIEPs_IEPSeqNum primary key (IEPSeqNum)
 --
+
+if exists (select 1 from sys.objects where name = 'DataConvICServiceTbl')
+drop table DataConvICServiceTbl
+go
+
 
 select v.*
 into DataConvICServiceTbl
