@@ -38,7 +38,7 @@ select
 	Sequence = msubga.Sequence,
 	Name = msubga.SubGoalAreaName,
 	StateCode = cast(NULL as varchar(10)),
-	DeletedDate = GETDATE()
+	DeletedDate = NULL --GETDATE()
 --select tpg.*,t.*
 from Legacysped.Transform_PrgGoalAreaDef tpg  --16
 cross join LEGACYSPED.Map_SubGoalArea msubga
