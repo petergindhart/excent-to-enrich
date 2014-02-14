@@ -20,57 +20,12 @@ go
 -- to consider:  in case these get deleted, have code that will insert them if they are not here.  Not necessary at this point.
 declare @OrgUnit table (ID uniqueidentifier, Name varchar(200), Number varchar(10))
  insert @OrgUnit values ('9371DC31-1793-4F49-B4A4-1E28DB4AFDE2', 'Dillon School District','1704')
--- insert @OrgUnit values ('DF3840AE-3BFF-407B-83EF-D2EAA0383530', 'Akron','3030')
--- insert @OrgUnit values ('E16721FA-A8BA-4EBA-A112-E8E64792F679', 'Buffalo','1860')
--- insert @OrgUnit values ('75A9F0C0-4FEA-46FA-AFEA-B186F5659CF2', 'Frenchman','1850')
--- insert @OrgUnit values ('BF0E2254-E779-4174-B19D-05F5A14417CB', 'Julesburg RE-1','2862')
--- insert @OrgUnit values ('CA0FC405-ACB1-4046-9C3B-1384F42E3FCA', 'Lone Star','3060')
--- insert @OrgUnit values ('4FB466A5-6780-40B0-BDE9-7B99846C5AB2', 'Wray','3210')
--- insert @OrgUnit values ('63A3333C-4CDB-49A0-A384-60EB41A2C909', 'Yuma','3200')
--- insert @OrgUnit values ('3DBB595B-C2FD-43F7-882E-9789605D0CB4', 'HAXTUN RE-2J', '2630')
--- insert @OrgUnit values ('8D4E138F-9EB0-40F1-BEA4-F7CF0688C244', 'HOLYOKE RE-1J', '2620')
--- insert @OrgUnit values ('AD5C9695-F9F1-4A0A-A18B-551750B9EC98', 'Insight of Colorado', '1000') -- was 2862??  That's julesburg
--- insert @OrgUnit values ('2D5C6812-658B-4460-A4B6-39BEE4D8AEE7', 'OTIS R-3', '3050')
--- insert @OrgUnit values ('D54B823B-8B92-4D75-BE68-9D1F40770471', 'PLATEAU SCHOOL DISTRICT RE-5', '1870')
--- insert @OrgUnit values ('0EA898FA-3AD5-45A0-AF94-E2DC4743D84A', 'PLATTE VALLEY RE-3', '2865')
--- insert @OrgUnit values ('402E5AB4-1AD3-4C5D-9D0E-4E1AB2B1A074', 'STERLING RE-1 VALLEY', 'ST R')
--- insert @OrgUnit values ('CA0FC405-ACB1-4046-9C3B-1384F42E3FCA', 'LONE STAR 101', '3060')
-
-
---HOLYOKE RE-1J
---HAXTUN RE-2J
---PLATTE VALLEY RE-3
-----OTIS R-3
---insert @OrgUnit values ('3DBB595B-C2FD-43F7-882E-9789605D0CB4', 'HAXTUN RE-2J', '2630')
---insert @OrgUnit values ('8D4E138F-9EB0-40F1-BEA4-F7CF0688C244', 'HOLYOKE RE-1J', '2620')
---insert @OrgUnit values ('2D5C6812-658B-4460-A4B6-39BEE4D8AEE7', 'OTIS R-3', '3050')
---insert @OrgUnit values ('0EA898FA-3AD5-45A0-AF94-E2DC4743D84A', 'PLATTE VALLEY RE-3', '2865')
 
 
 select newID(), t.Name, t.Number, '420A9663-FFE8-4FF1-B405-1DB1D42B6F8A'
 from @OrgUnit t 
 left join OrgUnit ou on t.Number = ou.Number
 where ou.ID is null
-
-
-
--- insert @OrgUnit values ('', 'AKRON R-1', '3030')
--- insert @OrgUnit values ('', 'BUFFALO RE-4', '1860')
--- insert @OrgUnit values ('', 'FRENCHMAN RE-3', '1850')
--- insert @OrgUnit values ('', 'JULESBURG RE-1', '2862')
--- insert @OrgUnit values ('', 'WRAY RD-2', '3210')
--- insert @OrgUnit values ('', 'YUMA', '3200')
-
--- not yet imported
--- insert @OrgUnit values ('', 'HAXTUN RE-2J', '2630')
--- insert @OrgUnit values ('', 'HOLYOKE RE-1J', '2620')
--- insert @OrgUnit values ('', 'Insight of Colorado', '2862')
--- insert @OrgUnit values ('', 'LONE STAR 101', '3060')
--- insert @OrgUnit values ('', 'OTIS R-3', '3050')
--- insert @OrgUnit values ('', 'PLATEAU SCHOOL DISTRICT RE-5', '1870')
--- insert @OrgUnit values ('', 'PLATTE VALLEY RE-3', '2865')
--- insert @OrgUnit values ('', 'STERLING RE-1 VALLEY', 'ST R')
-
 
 update ou set Number = t.Number
 -- select * 
@@ -143,12 +98,6 @@ GO
 declare @map_servicefrequencyid table (servicefrequencycode varchar(30), servicefrequencyname varchar(50), destid uniqueidentifier)
 set nocount on;
 --insert @map_servicefrequencyid values ('01', 'daily', '71590a00-2c40-40ff-abd9-e73b09af46a1')
---insert @map_servicefrequencyid values ('02', 'weekly', 'a2080478-1a03-4928-905b-ed25dec259e6')
---insert @map_servicefrequencyid values ('03', 'monthly', '3d4b557b-0c2e-4a41-9410-ba331f1d20dd')
---insert @map_servicefrequencyid values ('', 'yearly', '5f3a2822-56f3-49da-9592-f604b0f202c3')
---insert @map_servicefrequencyid values('an', 'as needed', '69439d9d-b6c1-4b7a-9cac-c69810adfd31')
---insert @map_servicefrequencyid values('esy', 'as needed for esy', '836d1e97-ce4d-4fd5-9d0a-148924ac007b')
---insert @map_servicefrequencyid values ('zzz', 'not specified', 'c42c50ed-863b-44b8-bf68-b377c8b0fa95')
 
 if (select count(*) from @map_servicefrequencyid t join legacysped.map_servicefrequencyid m on t.destid = m.destid) <> 5 ------ what is the purpose of this?
 	delete legacysped.map_servicefrequencyid
