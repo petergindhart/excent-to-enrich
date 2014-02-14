@@ -36,19 +36,20 @@ SELECT
 	GoalAreaCode = isnull(k.LegacySpedCode, left(k.EnrichLabel, 150)),
 	ProgramID = 'F98A8EF2-98E2-4CAC-95AF-D7D89EF7F80C', --SpecialEducation
 	k.SubType,
-	DestID = coalesce(i.ID, n.ID, t.ID,  m.DestID, k.EnrichID),
-	Sequence = coalesce(i.Sequence, n.Sequence, t.Sequence, 99),
-	Name = coalesce(i.Name, n.Name, t.Name, cast(k.EnrichLabel as varchar(50))),
+	DestID = coalesce(i.ID, n.ID, t.ID,s.ID ,m.DestID, k.EnrichID),
+	Sequence = coalesce(i.Sequence, n.Sequence,s.sequence, t.Sequence, 99),
+	Name = coalesce(i.Name, n.Name, t.Name,s.name, cast(k.EnrichLabel as varchar(50))),
 	AllowCustomProbes = cast(0 as bit),
-	StateCode = coalesce(i.StateCode, n.StateCode, t.StateCode),
-	DeletedDate = case when k.EnrichID is not null then NULL else coalesce(i.DeletedDate, n.DeletedDate, t.DeletedDate) end,
+	StateCode = coalesce(i.StateCode, n.StateCode,s.statecode, t.StateCode),
+	DeletedDate = case when k.EnrichID is not null then NULL when coalesce(i.ID, n.ID, t.ID,s.ID , k.EnrichID)is null then GETDATE() else coalesce(i.DeletedDate, n.DeletedDate, s.deleteddate,t.DeletedDate) end,
 	RequireGoal = cast(1 as bit)
+  --select k.*,i.ID,s.statecode,n.Name
   FROM
 	LEGACYSPED.SelectLists k LEFT JOIN
 	dbo.PrgGoalareaDef i on k.EnrichID = i.ID left join
+	dbo.PrgGoalareaDef s on k.LegacySpedCode = s.StateCode left join
 	dbo.PrgGoalareaDef n on k.EnrichLabel = n.Name and n.DeletedDate is null left join -- only match on the name if not soft-deleted?
 	LEGACYSPED.MAP_PrgGoalareaDefID m on k.LegacySpedCode = m.GoalAreaCode LEFT JOIN 
 	dbo.PrgGoalareaDef t on m.DestID = t.ID 
 WHERE k.Type = 'GoalArea'
 GO
-

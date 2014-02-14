@@ -17,6 +17,7 @@
 --#include Transform_IepServices.sql
 --#include Transform_PrgSection.sql
 --#include Transform_PrgGoals.sql
+--#include Transform_PrgSubGoalAreaDef.sql
 --#include PrimaryGoalAreaPerGoal.sql
 --#include {SpedStateInclude}\Transform_PrgGoalarea.sql
 --#include Transform_PrgGoal.sql

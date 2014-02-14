@@ -47,24 +47,27 @@ AS
 select 
 	ServiceCategoryCode = k.SubType,
 	ServiceDefCode = isnull(k.LegacySpedCode, convert(varchar(150), k.EnrichLabel)),
-	DestID = coalesce(i.ID, n.ID, t.ID, m.DestID), -- give this some thought
+	DestID = coalesce(i.ID, n.ID,ssd.ID, t.ID,m.DestID), -- give this some thought
 	StateCode = coalesce(i.StateCode, n.StateCode, t.StateCode),
 	TypeID = 'D3945E9D-AA0E-4555-BCB2-F8CA95CC7784',
-	Name = coalesce(i.Name, n.ServiceDefName, t.Name, k.EnrichLabel),
-	Description = coalesce(i.Description, n.Description, t.Description), 
-	DefaultLocationID = coalesce(i.DefaultLocationID, n.DefaultLocationID, t.DefaultLocationID), 
-	DeletedDate = case when k.EnrichID is not null then NULL else coalesce(i.DeletedDate, n.DeletedDate, t.DeletedDate) end,
+	Name = coalesce(i.Name, n.ServiceDefName, ssd.Name,t.Name, k.EnrichLabel),
+	Description = coalesce(i.Description, n.Description,ssd.Description, t.Description), 
+	DefaultLocationID = coalesce(i.DefaultLocationID, n.DefaultLocationID,ssd.DefaultLocationID, t.DefaultLocationID), 
+	DeletedDate = case when k.EnrichID is not null then NULL when coalesce(i.ID, n.ID,ssd.ID, t.ID) is null then GETDATE() else coalesce(i.DeletedDate, n.DeletedDate,ssd.DeletedDate, t.DeletedDate) end,
 	UserDefined = cast(1 as Bit),
 	PhysicianReferralRequired = cast(0 as Bit),
 	NotTiedToIep = CAST(0 as BIT)
+--select k.*
 from LEGACYSPED.SelectLists k left join 
-	dbo.ServiceDef i on k.EnrichID = i.ID left join (
+	dbo.ServiceDef i on k.EnrichID = i.ID left join 
+	(
 	select sd.ID, ServiceDefName = sd.Name, sd.StateCode, sd.DeletedDate, ServiceCategoryName = isc.Name, sd.Description, sd.DefaultLocationID 
 	from dbo.ServiceDef sd join 
 		dbo.IepServiceDef isd on sd.ID = isd.ID left join 
 		dbo.IepServiceCategory isc on isd.CategoryID = isc.ID
-	) n on n.ServiceDefName = k.EnrichLabel and isnull(n.ServiceCategoryName,'') = case isnull(k.SubType,'') when 'SpecialEd' then 'Special Education' else isnull(k.SubType,'') end  left join 
-	LEGACYSPED.MAP_ServiceDefID m on ISNULL(k.LegacySpedCode,convert(varchar(150), k.EnrichLabel)) = m.ServiceDefCode   
+	) n on n.ServiceDefName = k.EnrichLabel and isnull(n.ServiceCategoryName,'') = case isnull(k.SubType,'') when 'SpecialEd' then 'Special Education' else isnull(k.SubType,'') end  
+	left join dbo.servicedef ssd on ssd.statecode = k.statecode
+	left join 	LEGACYSPED.MAP_ServiceDefID m on ISNULL(k.LegacySpedCode,convert(varchar(150), k.EnrichLabel)) = m.ServiceDefCode   
 	and isnull(k.SubType,'x') = isnull(m.ServiceCategoryCode,'y') left join 
 	dbo.ServiceDef t on m.DestID = t.ID
 where k.Type = 'Service' and k.SubType is not null and n.DeletedDate is null

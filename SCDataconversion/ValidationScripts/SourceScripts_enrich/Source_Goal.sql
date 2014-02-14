@@ -4,4 +4,4 @@ GO
 
 CREATE VIEW dbo.Goal_Enrich
 AS
-SELECT GoalRefID, IepRefID, Sequence, GoalAreaCode, PSEducation, PSEmployment, PSIndependent, IsEsy, UnitOfMeasurement, BaselineDataPoint, EvaluationMethod, GoalStatement FROM x_DATAVALIDATION.Goal
+SELECT GoalRefID, IepRefID, Sequence, GoalAreaCode, SCInstructional, SCTransition, SCRelatedService, IsEsy, UnitOfMeasurement, BaselineDataPoint, EvaluationMethod, GoalStatement FROM x_DATAVALIDATION.Goal

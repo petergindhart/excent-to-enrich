@@ -223,6 +223,13 @@ insert @p values ('D634CD6A-C22F-4B34-89A8-340A13891E24', '8c', 'Homebound/Hospi
 insert @p values ('5EE0CA16-1F59-4BC8-9AFA-BAED97D29B77', '8b', 'Homebound/Hospital - Hospital')
 insert @p values ('91EF0ECE-A770-4D05-8868-F19180A000DB', '8a', 'Homebound/Hospital - Medical Homebound')
 
+--select * from @p
+update plop
+set statecode = p.statecode 
+--select plop.* 
+From IepPlacementoption plop
+join @p p on p.ID = plop.ID
+
 ---- 
 --select UsageID, IEPCode, PlacementDesc
 --from [10.0.1.8\SQLServer2005].QASCConvert2005.dbo.LK_LREPlacements 
@@ -355,4 +362,29 @@ select * from @psa where PostSchoolAreaCode not in (select PostSchoolAreaCode fr
 END
 GO
 
+--Map_SubGoalArea
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'LEGACYSPED.Map_SubGoalArea') AND type in (N'U'))
+DROP TABLE LEGACYSPED.Map_SubGoalArea
+GO
+CREATE TABLE LEGACYSPED.Map_SubGoalArea (
+Sequence int not null,
+SubGoalAreaName varchar(100) not null,
+)
+GO
+
+ALTER TABLE LEGACYSPED.Map_SubGoalArea
+	ADD CONSTRAINT PK_Map_SubGoalArea PRIMARY KEY CLUSTERED
+(
+	Sequence,SubGoalAreaName
+)
+GO
+
+declare @map_subgoalarea table (Sequence int, Name varchar(100))
+insert @map_subgoalarea values (0, 'Instructional/Special Education')
+insert @map_subgoalarea values (1, 'Transition')
+insert @map_subgoalarea values (2, 'Related Service')
+
+insert LEGACYSPED.Map_SubGoalArea
+select * from @map_subgoalarea where Name not in (select Name from LEGACYSPED.Map_SubGoalArea)
+go
 -- last line

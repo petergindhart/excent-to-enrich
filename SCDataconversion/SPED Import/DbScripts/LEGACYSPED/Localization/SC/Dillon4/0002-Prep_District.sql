@@ -12,14 +12,14 @@ DestID uniqueidentifier not null
 
 -- select * from OrgUnit where ParentID is null
 --this line may be different for every district!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-insert LEGACYSPED.MAP_AdminUnitID values ('6531EF88-352D-4620-AF5D-CE34C54A9F53') -- INSERT ONLY ONE RECORD INTO THIS TABLE!!!!!!!!!!!!!!!!!!!!!!
+insert LEGACYSPED.MAP_AdminUnitID values ('9371DC31-1793-4F49-B4A4-1E28DB4AFDE2') -- INSERT ONLY ONE RECORD INTO THIS TABLE!!!!!!!!!!!!!!!!!!!!!!
 -- INSERT ONLY ONE RECORD INTO THIS TABLE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 go
 
 
 -- to consider:  in case these get deleted, have code that will insert them if they are not here.  Not necessary at this point.
 declare @OrgUnit table (ID uniqueidentifier, Name varchar(200), Number varchar(10))
--- insert @OrgUnit values ('6531EF88-352D-4620-AF5D-CE34C54A9F53', 'Northeast Colorado BOCES','1040')
+ insert @OrgUnit values ('9371DC31-1793-4F49-B4A4-1E28DB4AFDE2', 'Dillon School District','1704')
 -- insert @OrgUnit values ('DF3840AE-3BFF-407B-83EF-D2EAA0383530', 'Akron','3030')
 -- insert @OrgUnit values ('E16721FA-A8BA-4EBA-A112-E8E64792F679', 'Buffalo','1860')
 -- insert @OrgUnit values ('75A9F0C0-4FEA-46FA-AFEA-B186F5659CF2', 'Frenchman','1850')
@@ -115,57 +115,12 @@ insert @importPrgSections values (1, 'Sped Eligibility Determination', 'DC3BE88C
 insert @importPrgSections values (1, 'IEP Goals', 'A9DF977C-088E-47E8-9CEF-550D8A42AF58')
 insert @importPrgSections values (1, 'Sped Consent Services', '91D56FAB-554E-4F5C-9E84-55A85DAD30F0')
 --insert @importPrgSections values (1, 'Sped Consent Evaluation', '31A1AE20-5F63-47FD-852A-4801595033ED') -- BOULDER DID NOT PROVIDE THIS DATE!
---insert @importPrgSections values (1, 'IEP ESY', '9B10DCDE-15CC-4AA3-808A-DFD51CE91079')
+insert @importPrgSections values (1, 'IEP ESY', 'F60392DA-8EB3-49D0-822D-77A1618C1DAA' )
 
 insert LEGACYSPED.ImportPrgSections
 select * from @importPrgSections where SectionDefID not in (select SectionDefID from LEGACYSPED.ImportPrgSections)
 go
----- #############################################################################
-----		SUB Goal Area MAP
-IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.MAP_IepSubGoalAreaDefID') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
-BEGIN
-CREATE TABLE LEGACYSPED.MAP_IepSubGoalAreaDefID 
-(
-	SubGoalAreaCode	varchar(150) NOT NULL,
-	DestID uniqueidentifier NOT NULL,
-	ParentID uniqueidentifier not null
-)
-ALTER TABLE LEGACYSPED.MAP_IepSubGoalAreaDefID ADD CONSTRAINT
-PK_MAP_IepSubGoalAreaDefID PRIMARY KEY CLUSTERED
-(
-	SubGoalAreaCode
-)
-END
-go
 
-
-
-
-
-
-
-
-/*
-
-select enabled, DestTable, * 
-from VC3ETL.LoadTable t
-where ExtractDatabase = '29D14961-928D-4BEE-9025-238496D144C6'
-and Sequence < 100
-order by Sequence
-
-*/
-
-
-
--- Map_ServiceFrequencyID is created in the Transform script.
-
-
-/*
-	ServiceFrequency is part of seed data in Enrich.  Thus it must be hard-mapped.  
-	ServiceFrequency did not support hiding from UI at the time this code was written, so additional service frequencies are not supported.
-		For additional frequencies it may be possible to calculate the frequency based on an existing value 
-			i.e. 2 times Quarterly = 8 times yearly,  30 minutes per quarter = 2 hours per year or 120 minutes per year
-*/
 
 --		Service Frequency
 IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.MAP_ServiceFrequencyID') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)

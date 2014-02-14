@@ -12,9 +12,9 @@ SELECT
 	Sequence = g.GoalOrder,
 	GoalAreaCode = isnull(k.Code,'ZZZ'), 
 	--GoalAreaDesc = isnull(k.LookDesc,'Not Provided'), ------------ this is new and facilitates using this view for the SelectLists
-	PSEducation = case when g.Domain1 = 1 then 'Y' else 'N' end,
-	PSEmployment = case when g.Domain2 = 1 then 'Y' else 'N' end,
-	PSIndependent = case when g.Domain3 = 1 then 'Y' else 'N' end,
+	SCInstructional = case when g.Domain1 = 1 then 'Y' else 'N' end,
+	SCTransition = case when g.Domain2 = 1 then 'Y' else 'N' end,
+	SCRelatedService = case when g.Domain3 = 1 then 'Y' else 'N' end,
 	IsESY = 'N',
 	UnitOfMeasurement = NULL,
 	BaselineDataPoint = NULL,

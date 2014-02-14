@@ -79,7 +79,7 @@ AS
 		LEGACYSPED.Transform_PrgIep iep JOIN
 		LEGACYSPED.MAP_PrgSectionID m on 
 			iep.VersionDestID  = m.VersionID and
-			m.DefID = 'F050EF5E-3ED8-43D5-8FE7-B122502DE86A' JOIN
+			m.DefID = 'DC3BE88C-7BA4-4041-A8FB-BCC96D2D4C29' JOIN
 		LEGACYSPED.StudentDisabilitySequenced s on iep.StudentRefID = s.StudentRefID JOIN
 		LEGACYSPED.Transform_IepDisability d on s.DisabilityCode = d.DisabilityCode left join
 		LEGACYSPED.MAP_IepDisabilityEligibilityID me on 

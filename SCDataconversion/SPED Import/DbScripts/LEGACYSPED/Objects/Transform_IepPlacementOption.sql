@@ -57,26 +57,28 @@ GO
 create view LEGACYSPED.Transform_IepPlacementOption
 as
 select 
-	PlacementTypeCode = k.SubType, 
+	PlacementTypeCode = ISNULL(plty.PlacementTypeCode,k.SubType), 
 	PlacementOptionCode = k.LegacySpedCode, 
-	TypeID = my.DestID,
-	DestID = isnull(k.EnrichID, mo.DestID), 
-	StateCode = isnull(t.StateCode, k.StateCode),
-	Sequence = isnull(t.Sequence,99), -- t columns will be null until the map table is populated
-	Text = isnull(t.Text, k.EnrichLabel), -- t columns will be null until the map table is populated
+	TypeID = COALESCE(s.TypeID,t.TypeID,my.DestID),
+	DestID = COALESCE(k.EnrichID,s.ID, mo.DestID), 
+	StateCode = COALESCE(t.StateCode,s.StateCode, k.StateCode),
+	Sequence = COALESCE(t.Sequence,s.Sequence,99), -- t columns will be null until the map table is populated
+	Text = COALESCE(t.Text,s.Text, k.EnrichLabel), -- t columns will be null until the map table is populated
 	MinPercentGenEd = t.MinPercentGenEd,   -- t columns will be null until the map table is populated
 	MaxPercentGenEd = t.MaxPercentGenEd,   -- t columns will be null until the map table is populated
-	DeletedDate = cast(NULL as datetime)	
+	DeletedDate = case when k.EnrichID is not null then NULL when coalesce(s.ID, t.ID) is null then GETDATE() else coalesce(s.DeletedDate,t.DeletedDate) end
 	-- depends on when we want to hide from the UI
 from 
 	LEGACYSPED.SelectLists k LEFT JOIN
 	LEGACYSPED.MAP_IepPlacementTypeID my on k.SubType = my.PlacementTypeCode left join
 	LEGACYSPED.MAP_IepPlacementOptionID mo on k.SubType = mo.PlacementTypeCode and k.LegacySpedCode = mo.PlacementOptionCode LEFT JOIN 
 -- 	dbo.IepPlacementOption t on isnull(k.EnrichID, mo.DestID) = t.ID
+	dbo.IepPlacementOption s on k.LegacyspedCode = s.statecode LEFT JOIN
+	LEGACYSPED.MAP_IepPlacementTypeID plty on plty.DestID = s.TypeID LEFT JOIN
 	dbo.IepPlacementOption t on k.EnrichID = t.ID
 where k.Type = 'LRE' and
 	k.SubType in ('PK', 'K12')
-and LegacySpedCode is not null -- if the legacy sped code is null, there is nothing to do.  
+and LegacySpedCode is not null  -- if the legacy sped code is null, there is nothing to do.  
 go
 
 -- select * from IepPlacementOption

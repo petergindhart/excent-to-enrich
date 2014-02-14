@@ -46,20 +46,21 @@ AS
 	Will consider re-instating the DisplayInUI field for the SelectLists file		
 
 */
-
 	select 
 		ServiceLocationCode = isnull(k.LegacySpedCode, convert(varchar(150), k.EnrichLabel)),
-		DestID = coalesce(i.ID, n.ID, t.ID, m.DestID, k.EnrichID), -- we see instances where the assumed-to-exist EnrichID did not exist in the target database (Poudre).
-		Name = coalesce(i.Name, n.Name, t.Name, k.EnrichLabel), 
-		Description = isnull(i.Description, t.Description),
-		MedicaidLocationID = coalesce(i.MedicaidLocationID, n.MedicaidLocationID, t.MedicaidLocationID),
-		StateCode = coalesce(i.StateCode, n.StateCode, t.StateCode),
-		DeletedDate = case when k.EnrichID is not null then NULL when coalesce(i.ID, n.ID, t.ID) is null then NULL else coalesce(i.DeletedDate, n.DeletedDate, t.DeletedDate) end
+		DestID = coalesce(i.ID, n.ID, t.ID,s.ID, m.DestID, k.EnrichID), -- we see instances where the assumed-to-exist EnrichID did not exist in the target database (Poudre).
+		Name = coalesce(i.Name, n.Name, t.Name,s.Name, k.EnrichLabel), 
+		Description = coalesce(i.Description,n.Description, s.Description,t.Description),
+		MedicaidLocationID = coalesce(i.MedicaidLocationID, n.MedicaidLocationID,s.MedicaidLocationID, t.MedicaidLocationID),
+		StateCode = coalesce(i.StateCode, n.StateCode,s.StateCode, t.StateCode),
+		DeletedDate = case when k.EnrichID is not null then NULL when coalesce(i.ID, n.ID,s.ID, t.ID) is null then GETDATE() else coalesce(i.DeletedDate, n.DeletedDate,s.DeletedDate,t.DeletedDate) end
 	from LEGACYSPED.SelectLists k left join
 		dbo.PrgLocation i on k.EnrichID = i.ID left join 
 		dbo.PrgLocation n on k.EnrichLabel = n.Name left join 
+		dbo.PrgLocation s on k.LegacyspedCode = s.StateCode left join 
 		LEGACYSPED.MAP_PrgLocationID m on k.LegacySpedCode = m.ServiceLocationCode left join  
 		dbo.PrgLocation t on m.DestID = t.ID 
 	where k.Type = 'ServLoc'
+
 GO
 -- last line

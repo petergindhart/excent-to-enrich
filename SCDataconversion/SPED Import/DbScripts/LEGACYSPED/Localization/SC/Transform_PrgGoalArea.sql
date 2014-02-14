@@ -106,9 +106,11 @@ select
 	InstanceID = gs.DestID, 
 	FormInstanceID = cast(NULL as uniqueidentifier),
 	EsyID = case when g.IsEsy = 'Y' then 'B76DDCD6-B261-4D46-A98E-857B0A814A0C' else 'F7E20A86-2709-4170-9810-15B601C61B79' end
+--select g.*
 from LEGACYSPED.Goal g join 
-LEGACYSPED.MAP_GoalAreaPivot p on g.GoalRefID = p.GoalRefID join -- in the where clause we will limit this to the primary goal area.  Another transform will insert subgoals, and yet another will insert secondary goals
-LEGACYSPED.MAP_PrgGoalareaDefID md on p.GoalAreaCode = md.GoalAreaCode left join
+LEGACYSPED.MAP_GoalAreaPivot p on g.GoalRefID = p.GoalRefID left join -- in the where clause we will limit this to the primary goal area.  Another transform will insert subgoals, and yet another will insert secondary goals
+(select DestID =ISNULL(gadef.ID,md.DestID) ,GoalAreaCode= ISNULL(gadef.StateCode,md.GoalAreaCode) 
+ from PrgGoalAreaDef gadef left join LEGACYSPED.MAP_PrgGoalareaDefID md on md.DestID = gadef.ID) md on md.GoalAreaCode=g.GoalAreaCode left join
 LEGACYSPED.MAP_PrgGoalID mg on g.GoalRefID = mg.GoalRefID left join
 LEGACYSPED.Transform_PrgGoals gs on g.IepRefID = gs.IepRefId left join
 LEGACYSPED.MAP_PrgGoalareaID mga on g.IEPRefID = mga.IEPRefID and md.DestID = mga.DefID left join --------------- used to join on goalrefid.  can't now
