@@ -117,22 +117,22 @@ WHERE sfq.ID IS NULL
 
 --PrgLocation (ServiceLocationCode)
 DECLARE @prgloc table (ID uniqueidentifier, Name varchar(max),StateCode varchar(20))
-INSERT @prgloc VALUES ('7A691C77-B4D6-4D4D-8A29-131FC1E7A33A','Home','12')
-INSERT @prgloc VALUES ('465C097B-DEC0-4E20-ACDC-2ACF9E7F5DEF','Therapy Room',NULL)
-INSERT @prgloc VALUES ('2B72B8C6-01DC-47C5-8623-2F230225B300','School Environment','03')
-INSERT @prgloc VALUES ('2087ECC6-914C-486B-81C1-4A1C0A6F0552','Special Education Support Room',NULL)
-INSERT @prgloc VALUES ('B1DA5BF5-325B-496F-A0B2-4AEAA6085C64','Behavior Health Counselor Room',NULL)
-INSERT @prgloc VALUES ('F41868AE-61D1-48A7-8CE0-58B69E5725BD','Cafeteria',NULL)
-INSERT @prgloc VALUES ('52C74FE7-5685-4F8C-AAF2-63B40A8E4B51','Special Education Classroom',NULL)
-INSERT @prgloc VALUES ('6102B96C-1549-4C65-AD59-683FF00639BA','Occupational Therapy Room',NULL)
-INSERT @prgloc VALUES ('27D86DFE-218E-4E1B-A6DB-8B8E74D6F8BA','General Education Classroom',NULL)
-INSERT @prgloc VALUES ('87A9F34F-E5E3-414B-A3B9-91273AD606DF','Physical Therapy Room',NULL)
-INSERT @prgloc VALUES ('E9DD5433-BC4C-4817-BF1D-A0B9203BAB8B','Nurses Room',NULL)
-INSERT @prgloc VALUES ('2D48D839-511D-4CBA-9E72-BDE1348EDCFB','Bus/District Transportation',NULL)
-INSERT @prgloc VALUES ('AA221ED5-CCB4-4A76-B0C6-D0A2B7E2835E','Speech Therapy Room',NULL)
-INSERT @prgloc VALUES ('701DF30A-7C66-423D-9796-DE5B5CB97139','Guidance Counselor Room',NULL)
+INSERT @prgloc VALUES ('7A691C77-B4D6-4D4D-8A29-131FC1E7A33A','Home','SDE07')
+INSERT @prgloc VALUES ('465C097B-DEC0-4E20-ACDC-2ACF9E7F5DEF','Therapy Room','SDE15')
+INSERT @prgloc VALUES ('2B72B8C6-01DC-47C5-8623-2F230225B300','School Environment','SDE11')
+INSERT @prgloc VALUES ('2087ECC6-914C-486B-81C1-4A1C0A6F0552','Special Education Support Room','SDE13')
+INSERT @prgloc VALUES ('B1DA5BF5-325B-496F-A0B2-4AEAA6085C64','Behavior Health Counselor Room','SDE01')
+INSERT @prgloc VALUES ('F41868AE-61D1-48A7-8CE0-58B69E5725BD','Cafeteria','SDE03')
+INSERT @prgloc VALUES ('52C74FE7-5685-4F8C-AAF2-63B40A8E4B51','Special Education Classroom','SDE12')
+INSERT @prgloc VALUES ('6102B96C-1549-4C65-AD59-683FF00639BA','Occupational Therapy Room','SDE09')
+INSERT @prgloc VALUES ('27D86DFE-218E-4E1B-A6DB-8B8E74D6F8BA','General Education Classroom','SDE05')
+INSERT @prgloc VALUES ('87A9F34F-E5E3-414B-A3B9-91273AD606DF','Physical Therapy Room','SDE10')
+INSERT @prgloc VALUES ('E9DD5433-BC4C-4817-BF1D-A0B9203BAB8B','Nurses Room','SDE08')
+INSERT @prgloc VALUES ('2D48D839-511D-4CBA-9E72-BDE1348EDCFB','Bus/District Transportation','SDE02')
+INSERT @prgloc VALUES ('AA221ED5-CCB4-4A76-B0C6-D0A2B7E2835E','Speech Therapy Room','SDE14')
+INSERT @prgloc VALUES ('701DF30A-7C66-423D-9796-DE5B5CB97139','Guidance Counselor Room','SDE06')
 INSERT @prgloc VALUES ('1BE8AF70-A842-4ECF-9C50-E67C1F9A80C7','Vocational Rehabilitation Workshop',NULL)
-INSERT @prgloc VALUES ('8FC37445-260F-4185-8E43-F5EC8AFCDDB3','Community',NULL)
+INSERT @prgloc VALUES ('8FC37445-260F-4185-8E43-F5EC8AFCDDB3','Community','SDE04')
 
 --SDE01	Behavior Health Counselor Room
 --SDE02	Bus/District Transportation
@@ -159,11 +159,11 @@ SET StateCode = tloc.StateCode
 FROM @prgloc tloc 
 JOIN PrgLocation ploc ON ploc.ID = tloc.ID
 
-INSERT PrgLocation (ID,Name,StateCode)
-SELECT tloc.ID,tloc.Name,tloc.StateCode
-FROM @prgloc tloc 
-LEFT JOIN PrgLocation ploc ON ploc.ID = tloc.ID
-WHERE ploc.ID IS NULL
+--INSERT PrgLocation (ID,Name,StateCode)
+--SELECT tloc.ID,tloc.Name,tloc.StateCode
+--FROM @prgloc tloc 
+--LEFT JOIN PrgLocation ploc ON ploc.ID = tloc.ID
+--WHERE ploc.ID IS NULL
 
 
 
@@ -178,29 +178,29 @@ INSERT @servdef VALUES ('F71E1EB1-1322-4AA4-9267-F8039F888D74','D3945E9D-AA0E-45
 INSERT @servdef VALUES ('3427C7E6-0501-4860-8055-D284524BEEC7','D3945E9D-AA0E-4555-BCB2-F8CA95CC7784','Initial Comprehensive Assessment',NULL,15,1)
 INSERT @servdef VALUES ('B874A136-2F0E-4955-AA1E-1F0D45F263FB','D3945E9D-AA0E-4555-BCB2-F8CA95CC7784','Occupational Therapy','SDE05',15,1)
 INSERT @servdef VALUES ('73107912-4959-4137-910B-B17E52076074','D3945E9D-AA0E-4555-BCB2-F8CA95CC7784','Physical Therapy','SDE07',15,1)
-INSERT @servdef VALUES ('7BBAAB01-398D-4835-B4B0-13D543FAC564','D3945E9D-AA0E-4555-BCB2-F8CA95CC7784','Psychological Services',NULL,60,1)
-INSERT @servdef VALUES ('75D07F63-F586-4C55-8FDE-A5B6D0737157','D3945E9D-AA0E-4555-BCB2-F8CA95CC7784','School Health Services',NULL,15,1)
+INSERT @servdef VALUES ('7BBAAB01-398D-4835-B4B0-13D543FAC564','D3945E9D-AA0E-4555-BCB2-F8CA95CC7784','Psychological Services','SDE13',60,1)
+INSERT @servdef VALUES ('75D07F63-F586-4C55-8FDE-A5B6D0737157','D3945E9D-AA0E-4555-BCB2-F8CA95CC7784','School Health Services','SDE15',15,1)
 INSERT @servdef VALUES ('FF86821E-A810-4C91-B8FE-240D96278AAB','D3945E9D-AA0E-4555-BCB2-F8CA95CC7784','Service Plan Development',NULL,15,1)
 INSERT @servdef VALUES ('A7E0C2B7-2CA5-4838-BF7E-23E05CCB6564','D3945E9D-AA0E-4555-BCB2-F8CA95CC7784','Therapy Services',NULL,15,1)
 INSERT @servdef VALUES ('003CF444-D485-43B9-8508-8D3B7E27FCB4','D3945E9D-AA0E-4555-BCB2-F8CA95CC7784','Transportation','SDE10',0,0)
 INSERT @servdef VALUES ('B630AE87-E461-4DAC-B5B9-3FB85C78F56D','D3945E9D-AA0E-4555-BCB2-F8CA95CC7784','Transportation Services',NULL,15,1)
 
-SDE01	Assistive Technology services
-SDE02	Audiological Services
-SDE03	Counseling
-SDE04	Nursing Services
-SDE05	Occupational Therapy
-SDE06	Orientation and Mobility
-SDE07	Physical Therapy
-SDE08	Rehabilitation Counseling
-SDE09	Social Work Services
-SDE10	Transportation
-SDE11	Speech-Language Services
-SDE12	Interpreting Services
-SDE13	Psychological Service
-SDE14	Recreation
-SDE15	School Health Services
-SDE16	Parent Counseling and Training
+--SDE01	Assistive Technology services
+--SDE02	Audiological Services
+--SDE03	Counseling
+--SDE04	Nursing Services
+--SDE05	Occupational Therapy
+--SDE06	Orientation and Mobility
+--SDE07	Physical Therapy
+--SDE08	Rehabilitation Counseling
+--SDE09	Social Work Services
+--SDE10	Transportation
+--SDE11	Speech-Language Services
+--SDE12	Interpreting Services
+--SDE13	Psychological Service
+--SDE14	Recreation
+--SDE15	School Health Services
+--SDE16	Parent Counseling and Training
 
 --select * from @servdef
 /*
