@@ -89,7 +89,7 @@ left join DataConversionLocationCodeView vl on v.IEPComplSeqNum = vl.IEPComplSeq
 ) v  ) service
 go
 
-select * from Service_EO where IEPRefID = 16386
+--select * from Service_EO where IEPRefID = 16386
 
 --select * from DataConvICServiceTbl  where IEPComplSeqNum = 16386
 
