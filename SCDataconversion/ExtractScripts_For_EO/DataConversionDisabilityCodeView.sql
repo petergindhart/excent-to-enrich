@@ -102,13 +102,8 @@ right join DisabilityCTE d on
 where m.SDECode is null
 go
 
---select OriginalDisabilityCode, DisabilityCode, DisabilityDesc, count(*) tot
+--select DisabilityCode, DisabilityDesc, count(*) tot
 --from DataConversionDisabilityCodeView
---group by OriginalDisabilityCode, DisabilityCode, DisabilityDesc
---order by case when DisabilityCode like 'SDE%' then 0 else 1 end, DisabilityCode
-
-select DisabilityCode, DisabilityDesc, count(*) tot
-from DataConversionDisabilityCodeView
-group by DisabilityCode, DisabilityDesc
-order by 1
+--group by DisabilityCode, DisabilityDesc
+--order by 1
 
