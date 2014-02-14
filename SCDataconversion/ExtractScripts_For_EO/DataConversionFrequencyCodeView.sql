@@ -71,7 +71,7 @@ select
 		case when not (m.SDECode = isnull(v.FrequencyCode,'') or m.SDEDesc = isnull(v.FrequencyDesc,'')) and v.FrequencyDesc like m.FuzzyDesc then m.SDECode else NULL end
 		),
 	v.FrequencyDesc
-from DataConversionServiceDefCode m
+from DataConversionFrequencyCode m
 join ServiceCTE v on 
 	m.SDECode = v.FrequencyCode or 
 	m.SDEDesc = v.FrequencyDesc or
@@ -85,7 +85,7 @@ select
 	OriginalFrequencyCode = v.FrequencyCode,
 	FrequencyCode = isnull(v.FrequencyCode, 'ZZZ'),
 	FrequencyDesc = case when v.FrequencyCode is null then 'Other' else v.FrequencyDesc end
-from DataConversionServiceDefCode m
+from DataConversionFrequencyCode m
 right join ServiceCTE v on -------------------------------- right join
 	m.SDECode = v.FrequencyCode or 
 	m.SDEDesc = v.FrequencyDesc or
