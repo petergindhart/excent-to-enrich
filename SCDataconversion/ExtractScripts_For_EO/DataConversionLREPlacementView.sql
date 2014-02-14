@@ -20,7 +20,7 @@ select p.IEPComplSeqNum, p.IEPLRESeqNum,
 	when p2.PrePlacement is not null then kp.PlacementDesc
 	else NULL
 	end	
-from SpecialEdStudentsAndIEPs x
+from DataConvSpedStudentsAndIEPs x
 join ICIEPLRETbl p on x.IEPSeqNum = p.IEPComplSeqNum
 join ICIEPLRETbl_SC p2 on p.IEPComplSeqNum = p2.IEPComplSeqNum and p.IEPLRESeqNum = p2.IEPLRESeqNum
 left join LK_LREPlacements k on p2.EdPlacement = k.IEPCode and k.UsageID = 'LREplace' -- and p2.EdPlacement is not null

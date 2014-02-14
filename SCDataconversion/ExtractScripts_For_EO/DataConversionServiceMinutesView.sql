@@ -58,7 +58,7 @@ from (
 		end as int),
 	v.length,
 	Units = case when v.Length like '%min%' then 'minutes' when v.length like '%h[o][u]r%'  then 'hours' when v.length like '%hr%'  then 'hours' else 'times' end 
-	from ICServiceTbl v 
+	from DataConvICServiceTbl v 
 	where Type in ('R', 'S')
 	and isnull(v.del_flag,0)=0
 	) t

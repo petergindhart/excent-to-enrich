@@ -49,9 +49,7 @@ with ServiceCTE as
 		v.ServSeqNum, 
 		LocationCode = case when v.LocationCode like 'SDE%' then v.LocationCode else NULL end, 
 		v.LocationDesc
-	from SpecialEdStudentsAndIEPs x 
-	join ICServiceTbl v on x.IEPSeqNum = v.IEPComplSeqNum 
-		and isnull(v.del_flag,0)=0 
+	from DataConvICServiceTbl v
 )
 -- get exact matches and fuzzy matches
 select 

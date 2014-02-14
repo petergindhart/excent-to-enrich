@@ -76,7 +76,7 @@ FROM (
 	StaffTypeCode = cast('ZZZ' as varchar(150)),
 	StaffEmail = cast(NULL as varchar(100))
 from SpecialEdStudentsAndIEPs x
-join ICServiceTbl v on x.IEPSeqNum = v.IEPComplSeqNum and isnull(v.del_flag,0)=0 -- 6449
+join DataConvICServiceTbl v on x.IEPSeqNum = v.IEPComplSeqNum
 left join DataConversionServiceMinutesView vm on v.IEPComplSeqNum = vm.IEPComplSeqNum and v.ServSeqNum = vm.ServSeqNum
 left join DataConversionFrequencyCodeView vf on v.IEPComplSeqNum = vf.IEPComplSeqNum and v.ServSeqNum = vf.ServSeqNum
 left join DataConversionServiceDefCodeView vd on v.IEPComplSeqNum = vd.IEPComplSeqNum and v.ServSeqNum = vd.ServSeqNum

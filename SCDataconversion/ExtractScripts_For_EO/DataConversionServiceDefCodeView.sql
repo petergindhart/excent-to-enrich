@@ -50,10 +50,7 @@ with ServiceCTE as
 		ServCode = case when v.ServCode like 'SDE%' then v.ServCode else NULL end, 
 		v.ServDesc, 
 		v.Type
-	from SpecialEdStudentsAndIEPs x 
-	join ICServiceTbl v on x.IEPSeqNum = v.IEPComplSeqNum 
-		and isnull(v.del_flag,0)=0 
---		and v.Type = 'R'
+	from DataConvICServiceTbl v
 )
 -- get exact matches and fuzzy matches
 select 
@@ -105,8 +102,7 @@ select
 	ServCode = isnull(v.ServDesc, 'ZZZ'),
 	ServDesc = v.ServDesc,
 	v.Type
-from SpecialEdStudentsAndIEPs x
-join ICServiceTbl v on x.IEPSeqNum = v.IEPComplSeqNum and isnull(v.del_flag,0)=0
-where Type = 'S'
+from DataConvICServiceTbl v
+where v.Type = 'S'
 go
 
