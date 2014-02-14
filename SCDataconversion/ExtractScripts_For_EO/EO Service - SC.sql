@@ -70,12 +70,16 @@ FROM (
 	ServiceLocationCode = vl.LocationCode,
 	Sequence = v.ServOrder, 
 	IsEsy = cast(0 as bit), -- not available in SC
-	ServiceTime = vm.Amount, ---------------------  this is approximated!!
+	ServiceTime = vm.Minutes, ---------------------  this is exact now.  Is servicetime really assumed to be Minutes all the time?
 	ServiceFrequencyCode = vf.FrequencyCode, 
-	ServiceAreaText = v.ServDesc, -- perhaps put the original values that were parsed in this place !!!!!!!!!
+	ServiceAreaText = '	Original Service Description : '+isnull(vd.ServDesc,'')+'
+	Original Location : '+isnull(vl.LocationDesc,'')+'
+	Original Frequency : '+isnull(vf.FrequencyDesc,'')+'
+	Original Length : '+isnull(vm.LengthDesc,'')+'
+	Original Related Service : '+convert(varchar(max), isnull(v.RelServDesc,'')),
 	StaffTypeCode = cast('ZZZ' as varchar(150)),
 	StaffEmail = cast(NULL as varchar(100))
-from SpecialEdStudentsAndIEPs x
+from DataConvSpedStudentsAndIEPs x
 join DataConvICServiceTbl v on x.IEPSeqNum = v.IEPComplSeqNum
 left join DataConversionServiceMinutesView vm on v.IEPComplSeqNum = vm.IEPComplSeqNum and v.ServSeqNum = vm.ServSeqNum
 left join DataConversionFrequencyCodeView vf on v.IEPComplSeqNum = vf.IEPComplSeqNum and v.ServSeqNum = vf.ServSeqNum
@@ -83,4 +87,9 @@ left join DataConversionServiceDefCodeView vd on v.IEPComplSeqNum = vd.IEPComplS
 left join DataConversionLocationCodeView vl on v.IEPComplSeqNum = vl.IEPComplSeqNum and v.ServSeqNum = vl.ServSeqNum
 
 ) v  ) service
+go
+
+select * from Service_EO where IEPRefID = 16386
+
+--select * from DataConvICServiceTbl  where IEPComplSeqNum = 16386
 
