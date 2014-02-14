@@ -12,29 +12,14 @@ DestID uniqueidentifier not null
 
 -- select * from OrgUnit where ParentID is null
 --this line may be different for every district!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-insert LEGACYSPED.MAP_AdminUnitID values ('6531EF88-352D-4620-AF5D-CE34C54A9F53') -- INSERT ONLY ONE RECORD INTO THIS TABLE!!!!!!!!!!!!!!!!!!!!!!
+insert LEGACYSPED.MAP_AdminUnitID values ('EBAE3676-0CA9-4BB9-A7A7-CA35D35976BB') -- INSERT ONLY ONE RECORD INTO THIS TABLE!!!!!!!!!!!!!!!!!!!!!!
 -- INSERT ONLY ONE RECORD INTO THIS TABLE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 go
 
 
 -- to consider:  in case these get deleted, have code that will insert them if they are not here.  Not necessary at this point.
 declare @OrgUnit table (ID uniqueidentifier, Name varchar(200), Number varchar(10))
--- insert @OrgUnit values ('6531EF88-352D-4620-AF5D-CE34C54A9F53', 'Northeast Colorado BOCES','1040')
--- insert @OrgUnit values ('DF3840AE-3BFF-407B-83EF-D2EAA0383530', 'Akron','3030')
--- insert @OrgUnit values ('E16721FA-A8BA-4EBA-A112-E8E64792F679', 'Buffalo','1860')
--- insert @OrgUnit values ('75A9F0C0-4FEA-46FA-AFEA-B186F5659CF2', 'Frenchman','1850')
--- insert @OrgUnit values ('BF0E2254-E779-4174-B19D-05F5A14417CB', 'Julesburg RE-1','2862')
--- insert @OrgUnit values ('CA0FC405-ACB1-4046-9C3B-1384F42E3FCA', 'Lone Star','3060')
--- insert @OrgUnit values ('4FB466A5-6780-40B0-BDE9-7B99846C5AB2', 'Wray','3210')
--- insert @OrgUnit values ('63A3333C-4CDB-49A0-A384-60EB41A2C909', 'Yuma','3200')
--- insert @OrgUnit values ('3DBB595B-C2FD-43F7-882E-9789605D0CB4', 'HAXTUN RE-2J', '2630')
--- insert @OrgUnit values ('8D4E138F-9EB0-40F1-BEA4-F7CF0688C244', 'HOLYOKE RE-1J', '2620')
--- insert @OrgUnit values ('AD5C9695-F9F1-4A0A-A18B-551750B9EC98', 'Insight of Colorado', '1000') -- was 2862??  That's julesburg
--- insert @OrgUnit values ('2D5C6812-658B-4460-A4B6-39BEE4D8AEE7', 'OTIS R-3', '3050')
--- insert @OrgUnit values ('D54B823B-8B92-4D75-BE68-9D1F40770471', 'PLATEAU SCHOOL DISTRICT RE-5', '1870')
--- insert @OrgUnit values ('0EA898FA-3AD5-45A0-AF94-E2DC4743D84A', 'PLATTE VALLEY RE-3', '2865')
--- insert @OrgUnit values ('402E5AB4-1AD3-4C5D-9D0E-4E1AB2B1A074', 'STERLING RE-1 VALLEY', 'ST R')
--- insert @OrgUnit values ('CA0FC405-ACB1-4046-9C3B-1384F42E3FCA', 'LONE STAR 101', '3060')
+
 
 
 --HOLYOKE RE-1J

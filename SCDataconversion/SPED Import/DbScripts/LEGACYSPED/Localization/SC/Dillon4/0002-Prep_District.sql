@@ -1,6 +1,7 @@
 
 -- SC
--- Dillon4						
+-- Dillon4						copied from Boulder
+
 if exists (select 1 from sys.schemas s join sys.objects o on s.schema_id = o.schema_id where s.name = 'LEGACYSPED' and o.name = 'MAP_AdminUnitID')
 drop table LEGACYSPED.MAP_AdminUnitID
 go
@@ -21,13 +22,10 @@ declare @OrgUnit table (ID uniqueidentifier, Name varchar(200), Number varchar(1
  insert @OrgUnit values ('9371DC31-1793-4F49-B4A4-1E28DB4AFDE2', 'Dillon School District','1704')
 
 
-
 select newID(), t.Name, t.Number, '420A9663-FFE8-4FF1-B405-1DB1D42B6F8A'
 from @OrgUnit t 
 left join OrgUnit ou on t.Number = ou.Number
 where ou.ID is null
-
-
 
 update ou set Number = t.Number
 -- select * 
@@ -100,12 +98,6 @@ GO
 declare @map_servicefrequencyid table (servicefrequencycode varchar(30), servicefrequencyname varchar(50), destid uniqueidentifier)
 set nocount on;
 --insert @map_servicefrequencyid values ('01', 'daily', '71590a00-2c40-40ff-abd9-e73b09af46a1')
---insert @map_servicefrequencyid values ('02', 'weekly', 'a2080478-1a03-4928-905b-ed25dec259e6')
---insert @map_servicefrequencyid values ('03', 'monthly', '3d4b557b-0c2e-4a41-9410-ba331f1d20dd')
---insert @map_servicefrequencyid values ('', 'yearly', '5f3a2822-56f3-49da-9592-f604b0f202c3')
---insert @map_servicefrequencyid values('an', 'as needed', '69439d9d-b6c1-4b7a-9cac-c69810adfd31')
---insert @map_servicefrequencyid values('esy', 'as needed for esy', '836d1e97-ce4d-4fd5-9d0a-148924ac007b')
---insert @map_servicefrequencyid values ('zzz', 'not specified', 'c42c50ed-863b-44b8-bf68-b377c8b0fa95')
 
 if (select count(*) from @map_servicefrequencyid t join legacysped.map_servicefrequencyid m on t.destid = m.destid) <> 5 ------ what is the purpose of this?
 	delete legacysped.map_servicefrequencyid

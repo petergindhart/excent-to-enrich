@@ -5,7 +5,7 @@ GO
 
 create view LEGACYSPED.SubGoalAreaPivotView
 as
-	select IepRefID, GoalRefID,GoalAreaCode, CAST(0 as int) SubGoalDefIndex
+	select IepRefID, GoalRefID, GoalAreaCode, CAST(0 as int) SubGoalDefIndex
 	from LEGACYSPED.Goal
 	where SCInstructional = 'Y'  --'Instructional/Special Education' 
 	UNION ALL
