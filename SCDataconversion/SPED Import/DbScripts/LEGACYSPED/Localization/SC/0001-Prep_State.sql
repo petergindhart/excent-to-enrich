@@ -63,24 +63,42 @@ set nocount on;
 declare @Map_IepDisabilityID table (StateCode varchar(10), DestID uniqueidentifier)
 --
 insert @Map_IepDisabilityID values ('SDE01', '79450790-72A4-4F16-8840-6193DB199A1E')
-insert @Map_IepDisabilityID values ('SDE13', '555B1135-5B09-419D-9DA7-C7F316B71A3B')
 insert @Map_IepDisabilityID values ('SDE02', '52431290-0B16-4732-840B-10986A1FBE1E')
-insert @Map_IepDisabilityID values ('SDE11', 'AC7D83DA-B896-4A27-A983-A48243819BC6')
-insert @Map_IepDisabilityID values ('SDE15', '6ACBABEA-F128-4D52-A7C4-9478A9B9FACB')
+insert @Map_IepDisabilityID values ('SDE03', '5CEAB474-9E65-4190-82CA-C71387C3B03B')
+insert @Map_IepDisabilityID values ('SDE04', 'D31E4ED0-9A37-490F-B49B-FF18133644FE')
 insert @Map_IepDisabilityID values ('SDE05', 'A1504419-19F6-434B-B4A3-1E5A69E99A9B')
-insert @Map_IepDisabilityID values ('SDE12', '902770E8-02EE-4538-B6F4-1BB1A691A131')
 insert @Map_IepDisabilityID values ('SDE06', '607943A6-7CFA-4BD1-9044-6A3634AB1ED5')
 insert @Map_IepDisabilityID values ('SDE07', '3567F202-646F-4A7E-860A-2100242C7182')
 insert @Map_IepDisabilityID values ('SDE10', '2F8DD08D-00C6-4C23-859E-718B1E347722')
-insert @Map_IepDisabilityID values ('SDE03', '5CEAB474-9E65-4190-82CA-C71387C3B03B')
+insert @Map_IepDisabilityID values ('SDE11', 'AC7D83DA-B896-4A27-A983-A48243819BC6')
+insert @Map_IepDisabilityID values ('SDE12', '902770E8-02EE-4538-B6F4-1BB1A691A131')
+insert @Map_IepDisabilityID values ('SDE13', '555B1135-5B09-419D-9DA7-C7F316B71A3B')
 insert @Map_IepDisabilityID values ('SDE14', 'F1A19B97-8A22-4498-9E44-C07AB3963736')
-insert @Map_IepDisabilityID values ('SDE04', 'D31E4ED0-9A37-490F-B49B-FF18133644FE')
+insert @Map_IepDisabilityID values ('SDE15', '6ACBABEA-F128-4D52-A7C4-9478A9B9FACB')
 
 set nocount off;
 update d set StateCode = m.StateCode
 from @Map_IepDisabilityID m
 join IepDisability d on m.DestID = d.ID
 go
+-- from EO
+--SDE01	*Intellectual Disability
+--SDE01A	Intellectual Disability (mild)
+--SDE01B	Intellectual Disability (moderate)
+--SDE01C	Intellectual Disability (severe)
+--SDE02	Deaf and Hard of Hearing
+--SDE03	Speech or Language Impairment
+--SDE04	Visual Impairment
+--SDE05	Emotional Disability
+--SDE06	Orthopedic Impairment
+--SDE07	Other Health Impairment
+--SDE10	Specific Learning Disability
+--SDE11	Deafblindness
+--SDE12	Multiple Disabilities
+--SDE13	Autism
+--SDE14	Traumatic Brain Injury
+--SDE15	Developmental Delay
+--SDE21	 No Disability Currently Specified
 
 
 -- (comments after the insert line are the ServiceFrequency description from EO)
@@ -97,6 +115,25 @@ insert @servfreq values ('41A951D7-ED35-4AF4-945D-89F228624014', 'SDE07', 'Biwee
 insert @servfreq values ('71590A00-2C40-40FF-ABD9-E73B09AF46A1', 'SDE08', 'daily',0,5) -- daily
 insert @servfreq values ('9DE6A916-BC39-47BB-8D2B-15EDEC5C5FE3', 'SDE09', 'Consultation',9,1) -- Consultation
 insert @servfreq values ('5F3A2822-56F3-49DA-9592-F604B0F202C3', NULL, 'yearly',3,0.02) -- yearly
+
+--SDE01	Twice Daily
+--SDE02	Alternating days as per schedule
+--SDE03	Twice weekly
+--SDE04	Three times per week
+--SDE05	Four times per week
+--SDE06	Weekly
+--SDE07	Biweekly
+--SDE08	Monthly
+--SDE09	Quarterly
+--SDE10	One semester
+--SDE11	Semester
+--SDE12	Yearly
+--SDE13	One time
+--SDE14	Two times
+--SDE15	Three times
+--SDE16	Four times
+--SDE17	Daily
+--SDE18	Consultation
 
 
 --select * From @servfreq
