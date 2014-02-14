@@ -134,6 +134,22 @@ INSERT @prgloc VALUES ('701DF30A-7C66-423D-9796-DE5B5CB97139','Guidance Counselo
 INSERT @prgloc VALUES ('1BE8AF70-A842-4ECF-9C50-E67C1F9A80C7','Vocational Rehabilitation Workshop',NULL)
 INSERT @prgloc VALUES ('8FC37445-260F-4185-8E43-F5EC8AFCDDB3','Community',NULL)
 
+--SDE01	Behavior Health Counselor Room
+--SDE02	Bus/District Transportation
+--SDE03	Cafeteria
+--SDE04	Community
+--SDE05	General Education Classroom
+--SDE06	Guidance Counselor Room
+--SDE07	Home
+--SDE08	Nurse's Room
+--SDE09	Occupational Therapy Room
+--SDE10	Physical Therapy Room
+--SDE11	School Environment
+--SDE12	Special Education Classroom
+--SDE13	Special Education Support Room
+--SDE14	Speech Therapy Room
+--SDE15	Therapy Room
+
 --SELECT * FROM @prgloc
 
 
