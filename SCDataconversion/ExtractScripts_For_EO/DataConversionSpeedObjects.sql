@@ -6,6 +6,9 @@ go
 create proc DataConversionSpeedObjects 
 as
 
+begin 
+DELETE DataConvSpedStudentsAndIEPs
+
 select * 
 into DataConvSpedStudentsAndIEPs
 from (
@@ -59,6 +62,7 @@ where isnull(v.del_flag,0)=0
 alter table DataConvICServiceTbl
 	add constraint PK_DataConvICServiceTbl_IEPComplSeqNum_ServSeqNum primary key (IEPComplSeqNum, ServSeqNum)
 -- 
+END
 go
 
 
