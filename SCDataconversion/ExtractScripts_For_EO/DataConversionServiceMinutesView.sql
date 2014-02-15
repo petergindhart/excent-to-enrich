@@ -1,76 +1,112 @@
+
+if exists (select 1 from sys.objects where name = 'DataConversionServiceMinutes')
+drop table DataConversionServiceMinutes
+go
+
+create table DataConversionServiceMinutes (
+SDECode	varchar(100) not null,
+SDEDesc	varchar(100) not null,
+FuzzyDesc varchar(100) not null,
+Minutes	int	NULL
+)
+go
+
+alter table DataConversionServiceMinutes 
+	add constraint PK_DataConversionServiceMinutes_Code primary key (SDECode)
+go
+
+create index IX_DataConversionServiceMinutes_SDEDesc on DataConversionServiceMinutes (SDEDesc)
+go
+
+set nocount on;
+insert DataConversionServiceMinutes values ('SDE01', '1 period', '1 period', NULL)
+insert DataConversionServiceMinutes values ('SDE02', '2 periods', '2 periods', NULL)
+insert DataConversionServiceMinutes values ('SDE03', '3 periods', '3 periods', NULL)
+insert DataConversionServiceMinutes values ('SDE04', '5 minutes', '5 minutes', 5)
+insert DataConversionServiceMinutes values ('SDE05', '10 minutes', '10 minutes', 10)
+insert DataConversionServiceMinutes values ('SDE06', '15 minutes', '15 minutes', 15)
+insert DataConversionServiceMinutes values ('SDE07', '20 minutes', '20 minutes', 20)
+insert DataConversionServiceMinutes values ('SDE08', '30 minutes', '30 minutes', 30)
+insert DataConversionServiceMinutes values ('SDE09', '40 minutes', '40 minutes', 40)
+insert DataConversionServiceMinutes values ('SDE10', '45 minutes', '45 minutes', 45)
+insert DataConversionServiceMinutes values ('SDE11', '50 minutes', '50 minutes', 50)
+insert DataConversionServiceMinutes values ('SDE12', '1 hour', '1 hour', 60)
+insert DataConversionServiceMinutes values ('SDE13', '1 1/4 hours', '1 1/4 hours', 75)
+insert DataConversionServiceMinutes values ('SDE14', '1 1/2 hours', '1 1/2 hours', 90)
+insert DataConversionServiceMinutes values ('SDE15', '2 hours', '2 hours', 120)
+insert DataConversionServiceMinutes values ('SDE16', '2 1/2 hours', '2 1/2 hours', 150)
+insert DataConversionServiceMinutes values ('SDE17', '3 hours', '3 hours', 180)
+insert DataConversionServiceMinutes values ('SDE18', '1 quarter', '1 quarter', NULL)
+insert DataConversionServiceMinutes values ('SDE19', '1 semester', '1 semester', NULL)
+insert DataConversionServiceMinutes values ('SDE20', 'Len:', '[0-9]% Minutes', NULL)
+
 if exists (select 1 from sys.objects where name = 'DataConversionServiceMinutesView')
 drop view DataConversionServiceMinutesView
 go
 
 create view DataConversionServiceMinutesView
 as
-/*
-	Purpose of the view is to parce a text field with the minutes of service. 
-	Math is done to convert hours and fractions of hours to minutes.  
-	Some of this data will not be accurate.
-	This is a best-effort, and it should be understood that it will  not be 100% accurate.
-	Some code gleaned from http://social.msdn.microsoft.com/Forums/sqlserver/en-US/06eb934c-4082-4d12-ab9b-5fbe68855061/removing-nonnumeric-characters-from-alphanumeric-string?forum=transactsql
+with ServiceCTE as
+(
+	select v.IEPComplSeqNum, 
+		v.ServSeqNum, 
+		LengthCode = m.SDECode,
+		LengthDesc = v.Length,
+		m.Minutes
+	from DataConvICServiceTbl v
+	left join DataConversionServiceMinutes m on v.Length = m.SDEDesc
+)
+ --get exact matches and fuzzy matches
+select 
+	IEPComplSeqNum = isnull(convert(varchar(10), v.IEPComplSeqNum), ''), 
+	ServSeqNum = isnull(convert(varchar(10), v.ServSeqNum), ''), 
+	OriginalLengthCode = v.LengthCode,
+	 --Use original Code, if not, get code from Name match, if not get code from fuzzy match. 
+	LengthCode = coalesce(
+		v.LengthCode, 
+		case when v.LengthCode is null and m.SDEDesc = v.LengthDesc then m.SDECode else NULL end,
+		case when not (m.SDECode = isnull(v.LengthCode,'') or m.SDEDesc = isnull(v.LengthDesc,'')) and v.LengthDesc like m.FuzzyDesc then m.SDECode else NULL end
+		),
+	v.LengthDesc,
+	Minutes = 
+		case when coalesce(v.LengthCode, case when v.LengthCode is null and m.SDEDesc = v.LengthDesc then m.SDECode else NULL end, case when not (m.SDECode = isnull(v.LengthCode,'') or m.SDEDesc = isnull(v.LengthDesc,'')) and v.LengthDesc like m.FuzzyDesc then m.SDECode else NULL end) != 'SDE20' then v.Minutes 
+		else case when
+			(v.LengthDesc like '[0-9] Minutes' or v.LengthDesc like '[0-9][0-9] Minutes' or v.LengthDesc like '[0-9][0-9][0-9] Minutes') 
+			then left(v.LengthDesc, patindex('% %', v.LengthDesc)-1)
+			else NULL end
+		end
+from DataConversionServiceMinutes m
+join ServiceCTE v on 
+	m.SDECode = v.LengthCode or 
+	m.SDEDesc = v.LengthDesc or
+	v.LengthDesc like m.FuzzyDesc
 
-*/
+union all
 
-WITH Num1 (n) AS (SELECT 1 UNION ALL SELECT 1),
-Num2 (n) AS (SELECT 1 FROM Num1 AS X, Num1 AS Y),
-Num3 (n) AS (SELECT 1 FROM Num2 AS X, Num2 AS Y),
-Num4 (n) AS (SELECT 1 FROM Num3 AS X, Num3 AS Y),
-Nums (n) AS (SELECT ROW_NUMBER() OVER(ORDER BY n) FROM Num4),
-Cleaner AS (
-SELECT 
-	IEPComplSeqNum, 
-	ServSeqNum, 
-	LeftNum, 
-	Units, 
-	Amount = (SELECT CASE WHEN SUBSTRING(LeftNum, n, 1) NOT LIKE '[^0-9]' THEN SUBSTRING(LeftNum, n, 1) ELSE '' END + ''
-		FROM Nums
-		WHERE n <= LEN(LeftNum)
-		FOR XML PATH('')), 
-	Fraction,
-	Length
-from (
-	select IEPComplSeqNum, ServSeqNum, 
-	LeftNum = 
-		replace(
-		replace(
-		replace(
-			case when v.length like '%.%' then 
-				case when len(v.length) > 1 then
-						left(v.Length, patindex('%.%', v.Length)-1)
-				end
-			else
-				v.Length
-			end,
-		'1/4', ''),
-		'1/2', ''),
-		'3/4', ''),
-	Fraction = 
-		cast(case when v.Length like '% 1/4%' then 15
-			when v.length like '% 1/2%' then 30
-			when v.Length like '% 3/4%' then 45
-			when v.Length like '1/4%h%r%' then 15
-			when v.Length like '1/2%h%r%' then 30
-			when v.Length like '3/4%h%r%' then 45
-			when v.Length like '%[0-9].5%' then 30
-			else 0
-		end as int),
-	v.length,
-	Units = case when v.Length like '%min%' then 'minutes' when v.length like '%h[o][u]r%'  then 'hours' when v.length like '%hr%'  then 'hours' else 'times' end 
-	from DataConvICServiceTbl v 
-	where Type in ('R', 'S')
-	and isnull(v.del_flag,0)=0
-	) t
-) 
-
-select IEPComplSeqNum, ServSeqNum, 
-	Amount = case when Units = 'hours' then Amount*60 else Amount end+case when Units <> 'times' then Fraction else 0 end, Units = case when Units = 'hours' then 'minutes' else Units end, Length
-from (
-select IEPComplSeqNum, ServSeqNum, Amount = case when cast(isnull(Amount, '1') as int) > 1800 then 1 else cast(isnull(Amount, '1') as int) end, Fraction, Units, Length
-from cleaner
-) t
--- where Length like '%.5%'
--- group by case when Units = 'hours' then Amount*60 else Amount end+case when Units <> 'times' then Fraction else 0 end, Units, Length
-; 
+select 
+	convert(varchar(10), v.IEPComplSeqNum), 
+	convert(varchar(10), v.ServSeqNum), 
+	OriginalLengthCode = v.LengthCode,
+	LengthCode = isnull(v.LengthCode, 'ZZZ'),
+	LengthDesc = case when v.LengthCode is null then 'Other' else v.LengthDesc end,
+	Minutes = cast(NULL as int)
+from DataConversionServiceMinutes m
+right join ServiceCTE v on -------------------------------- right join
+	m.SDECode = v.LengthCode or 
+	m.SDEDesc = v.LengthDesc or
+	v.LengthDesc like m.FuzzyDesc
+where m.SDECode is null ------ this is the trick!
 go
+
+
+--select match, LengthCode, LengthDesc, Minutes, count(*) tot
+--from DataConversionServiceMinutesView
+--group by match, LengthCode, LengthDesc, Minutes
+--order by case when LengthCode like 'SDE%' then 0 else 1 end, LengthCode
+
+
+
+
+--declare @lengthdesc varchar(100) ; set @lengthdesc = '100 minutes'
+--select left(@LengthDesc, patindex('% %', @LengthDesc)-1)
+

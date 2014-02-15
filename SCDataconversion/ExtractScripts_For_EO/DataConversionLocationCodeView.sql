@@ -64,7 +64,7 @@ select
 		case when not (m.SDECode = isnull(v.LocationCode,'') or m.SDEDesc = isnull(v.LocationDesc,'')) and v.LocationDesc like m.FuzzyDesc then m.SDECode else NULL end
 		),
 	v.LocationDesc
-from DataConversionServiceDefCode m
+from DataConversionLocationCode m
 join ServiceCTE v on 
 	m.SDECode = v.LocationCode or 
 	m.SDEDesc = v.LocationDesc or
@@ -79,7 +79,7 @@ select
 	OriginalLocationCode = v.LocationCode,
 	LocationCode = isnull(v.LocationDesc, 'ZZZ'),
 	LocationDesc = isnull(v.LocationDesc, 'Not Provided')
-from DataConversionServiceDefCode m
+from DataConversionLocationCode m
 right join ServiceCTE v on -------------------------------- right join
 	m.SDECode = v.LocationCode or 
 	m.SDEDesc = v.LocationDesc or
