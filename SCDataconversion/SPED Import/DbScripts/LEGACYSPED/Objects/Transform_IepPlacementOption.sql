@@ -73,7 +73,7 @@ from
 	LEGACYSPED.MAP_IepPlacementTypeID my on k.SubType = my.PlacementTypeCode left join
 	LEGACYSPED.MAP_IepPlacementOptionID mo on k.SubType = mo.PlacementTypeCode and k.LegacySpedCode = mo.PlacementOptionCode LEFT JOIN 
 -- 	dbo.IepPlacementOption t on isnull(k.EnrichID, mo.DestID) = t.ID
-	dbo.IepPlacementOption s on k.LegacyspedCode = s.statecode LEFT JOIN
+	dbo.IepPlacementOption s on k.LegacyspedCode = s.statecode  and my.DestID = s.TypeID  LEFT JOIN
 	LEGACYSPED.MAP_IepPlacementTypeID plty on plty.DestID = s.TypeID LEFT JOIN
 	dbo.IepPlacementOption t on k.EnrichID = t.ID
 where k.Type = 'LRE' and

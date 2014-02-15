@@ -36,7 +36,6 @@ insert DataConversionServiceDefCode values ('SDE15', 'School Health Services', '
 insert DataConversionServiceDefCode values ('SDE16', 'Parent Counseling and Training', 'Parent%Couns%')
 go
 
-
 if exists (select 1 from sys.objects where name = 'DataConversionServiceDefCodeView')
 drop view DataConversionServiceDefCodeView
 go
@@ -64,7 +63,7 @@ select
 		case when v.ServCode is null and m.SDEDesc = v.ServDesc then m.SDECode else NULL end,
 		case when not (m.SDECode = isnull(v.ServCode,'') or m.SDEDesc = isnull(v.ServDesc,'')) and v.ServDesc like m.FuzzyDesc then m.SDECode else NULL end
 		),
-	ServDesc = v.ServDesc,
+	ServDesc = isnull(m.SDEDesc,v.ServDesc),  --v.ServDesc), changed to avoid duplicate!
 	v.Type
 from DataConversionServiceDefCode m
 join ServiceCTE v on 
@@ -72,6 +71,7 @@ join ServiceCTE v on
 	m.SDEDesc = v.ServDesc or
 	v.ServDesc like m.FuzzyDesc
 where v.Type = 'R'
+and m.SDECode is not null
 
 union all
 

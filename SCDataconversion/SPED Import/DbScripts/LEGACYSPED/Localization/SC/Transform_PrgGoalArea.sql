@@ -121,19 +121,19 @@ where p.GoalAreaDefIndex = (
 	where p.GoalRefID = pmin.GoalRefID)
 go
 
-
 IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.Transform_PrgGoalarea') AND OBJECTPROPERTY(id, N'IsView') = 1) ------- this is new to make distinct goal areas per IEP
 DROP VIEW LEGACYSPED.Transform_PrgGoalarea
 go
 
 create view LEGACYSPED.Transform_PrgGoalarea
 as
-select gap.IepRefID, gap.GoalAreaCode, DestID = isnull(ga.ID, mga.DestID), DefID = gad.DestID, InstanceID = gs.DestID, FormInstanceID = cast(NULL as uniqueidentifier)
+select gap.IepRefID, gap.GoalAreaCode, DestID = isnull(ga.ID, mga.DestID), DefID =  isnull(dgad.ID,gad.DestID), InstanceID = gs.DestID, FormInstanceID = cast(NULL as uniqueidentifier)
 from LEGACYSPED.GoalAreaPivotView gap
 join LEGACYSPED.PrimaryGoalAreaPerGoal pg on gap.GoalRefID = pg.GoalRefID and gap.GoalAreaDefIndex = pg.PrimaryGoalAreaDefIndex
-join LEGACYSPED.MAP_PrgGoalareaDefID gad on gap.GoalAreaCode = gad.GoalAreaCode
+left join LEGACYSPED.MAP_PrgGoalareaDefID gad on gap.GoalAreaCode = gad.GoalAreaCode
+left join PrgGoalAreaDef dgad on dgad.StateCode = gap.GoalAreaCode
 join LEGACYSPED.Transform_PrgGoals gs on gap.IepRefID = gs.IepRefId
 left join LEGACYSPED.MAP_PrgGoalareaID mga on gap.IepRefID = mga.IEPRefID and gad.DestID = mga.DefID
 left join dbo.PrgGoalarea ga on mga.DestID = ga.ID
-group by gap.IepRefID, gap.GoalAreaCode, gad.DestID, gs.DestID, isnull(ga.ID, mga.DestID)
+group by gap.IepRefID, gap.GoalAreaCode, isnull(dgad.ID,gad.DestID), gs.DestID, isnull(ga.ID, mga.DestID)
 go
