@@ -1,7 +1,6 @@
 
 
-
-if exists (select 1 from sys.objects where name = 'DataConversionFrequencyCode')
+/*if exists (select 1 from sys.objects where name = 'DataConversionFrequencyCode')
 drop table DataConversionFrequencyCode
 go
 
@@ -140,13 +139,13 @@ with ServiceCTE as
 		v.FrequencyDesc
 	from DataConvICServiceTbl v
 )
- get exact matches and fuzzy matches
+ --get exact matches and fuzzy matches
 select 
 	Match = 'Match 1',
 	IEPComplSeqNum = isnull(convert(varchar(10), v.IEPComplSeqNum), ''), 
 	ServSeqNum = isnull(convert(varchar(10), v.ServSeqNum), ''), 
 	OriginalFrequencyCode = v.FrequencyCode,
-	 Use original Code, if not, get code from Name match, if not get code from fuzzy match. 
+	-- Use original Code, if not, get code from Name match, if not get code from fuzzy match. 
 	FrequencyCode = coalesce(
 		v.FrequencyCode, 
 		case when v.FrequencyCode is null and m.SDEDesc = v.FrequencyDesc then m.SDECode else NULL end,
@@ -178,10 +177,7 @@ where m.SDECode is null ------ this is the trick!
 
 
 
-
-
-
-
+*/
 
 
 
