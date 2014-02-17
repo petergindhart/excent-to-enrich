@@ -7,7 +7,7 @@ create proc DataConversionSpeedObjects
 as
 
 begin 
-DELETE DataConvSpedStudentsAndIEPs
+DROP TABLE DataConvSpedStudentsAndIEPs
 
 select * 
 into DataConvSpedStudentsAndIEPs
@@ -52,6 +52,7 @@ and exists (select 1 from StudDisability sd where sd.GStudentID = s.GStudentID a
 alter table DataConvSpedStudentsAndIEPs 
 	add constraint PK_DataConvSpedStudentsAndIEPs_IEPSeqNum primary key (IEPSeqNum)
 --
+DROP TABLE DataConvICServiceTbl
 
 select v.*
 into DataConvICServiceTbl
