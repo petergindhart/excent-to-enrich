@@ -60,21 +60,19 @@ go
 
 */
 set nocount on;
-declare @Map_IepDisabilityID table (StateCode varchar(10), DestID uniqueidentifier)
---
-insert @Map_IepDisabilityID values ('SDE01', '79450790-72A4-4F16-8840-6193DB199A1E')
-insert @Map_IepDisabilityID values ('SDE02', '52431290-0B16-4732-840B-10986A1FBE1E')
-insert @Map_IepDisabilityID values ('SDE03', '5CEAB474-9E65-4190-82CA-C71387C3B03B')
-insert @Map_IepDisabilityID values ('SDE04', 'D31E4ED0-9A37-490F-B49B-FF18133644FE')
-insert @Map_IepDisabilityID values ('SDE05', 'A1504419-19F6-434B-B4A3-1E5A69E99A9B')
-insert @Map_IepDisabilityID values ('SDE06', '607943A6-7CFA-4BD1-9044-6A3634AB1ED5')
-insert @Map_IepDisabilityID values ('SDE07', '3567F202-646F-4A7E-860A-2100242C7182')
-insert @Map_IepDisabilityID values ('SDE10', '2F8DD08D-00C6-4C23-859E-718B1E347722')
-insert @Map_IepDisabilityID values ('SDE11', 'AC7D83DA-B896-4A27-A983-A48243819BC6')
-insert @Map_IepDisabilityID values ('SDE12', '902770E8-02EE-4538-B6F4-1BB1A691A131')
-insert @Map_IepDisabilityID values ('SDE13', '555B1135-5B09-419D-9DA7-C7F316B71A3B')
-insert @Map_IepDisabilityID values ('SDE14', 'F1A19B97-8A22-4498-9E44-C07AB3963736')
-insert @Map_IepDisabilityID values ('SDE15', '6ACBABEA-F128-4D52-A7C4-9478A9B9FACB')
+insert @Map_IepDisabilityID values ('SDE01', '79450790-72A4-4F16-8840-6193DB199A1E') -- Intellectual Disability
+insert @Map_IepDisabilityID values ('SDE02', '52431290-0B16-4732-840B-10986A1FBE1E') -- Deaf and Hard of Hearing
+insert @Map_IepDisabilityID values ('SDE03', '5CEAB474-9E65-4190-82CA-C71387C3B03B') -- Speech/Language Impaired
+insert @Map_IepDisabilityID values ('SDE04', 'D31E4ED0-9A37-490F-B49B-FF18133644FE') -- Visual Impairment
+insert @Map_IepDisabilityID values ('SDE05', 'A1504419-19F6-434B-B4A3-1E5A69E99A9B') -- Emotional Disability
+insert @Map_IepDisabilityID values ('SDE06', '607943A6-7CFA-4BD1-9044-6A3634AB1ED5') -- Orthopedic Impairment
+insert @Map_IepDisabilityID values ('SDE07', '3567F202-646F-4A7E-860A-2100242C7182') -- Other Health Impairment
+insert @Map_IepDisabilityID values ('SDE10', '2F8DD08D-00C6-4C23-859E-718B1E347722') -- Specific Learning Disability
+insert @Map_IepDisabilityID values ('SDE11', 'AC7D83DA-B896-4A27-A983-A48243819BC6') -- Deaf-Blindness
+insert @Map_IepDisabilityID values ('SDE12', '902770E8-02EE-4538-B6F4-1BB1A691A131') -- Multiple Disabilities
+insert @Map_IepDisabilityID values ('SDE13', '555B1135-5B09-419D-9DA7-C7F316B71A3B') -- Autism Spectrum Disorder
+insert @Map_IepDisabilityID values ('SDE14', 'F1A19B97-8A22-4498-9E44-C07AB3963736') -- Traumatic Brain Injury
+insert @Map_IepDisabilityID values ('SDE15', '6ACBABEA-F128-4D52-A7C4-9478A9B9FACB') -- Developmental Delay
 
 set nocount off;
 update d set StateCode = m.StateCode
