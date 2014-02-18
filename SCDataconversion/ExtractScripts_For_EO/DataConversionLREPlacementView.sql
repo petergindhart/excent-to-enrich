@@ -4,7 +4,6 @@ go
 
 create view DataConversionLREPlacementView
 as
-
 select p.IEPComplSeqNum, p.IEPLRESeqNum, 
 	AgeGroup = case when p2.EdPlacement is not null then 'K12' when p2.PrePlacement is not null then 'PK' else NULL end,
 	Placement = 
@@ -16,7 +15,10 @@ select p.IEPComplSeqNum, p.IEPLRESeqNum,
 	else NULL
 	end as varchar(2)),
 	PlacementDesc = 
-	case when p2.EdPlacement is not null then k.PlacementDesc + isnull(' - ' + kh.PlacementDesc, '')
+		case when p2.EdPlacement is not null then 
+			case when p2.EdPlacement <> 8 then k.PlacementDesc
+			else k.PlacementDesc + isnull(' - ' + kh.PlacementDesc, '')
+		end
 	when p2.PrePlacement is not null then kp.PlacementDesc
 	else NULL
 	end	
