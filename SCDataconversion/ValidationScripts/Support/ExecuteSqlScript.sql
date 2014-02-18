@@ -10,6 +10,30 @@ GO
 GO
 :r E:\GIT\excent-to-enrich\SCDataconversion\ValidationScripts\Objects\Script_ValidationRules_Populate.sql
 GO
+:r E:\GIT\excent-to-enrich\SCDataconversion\ValidationScripts\Objects\Populate_SpedObjects.sql
+Go
+:r E:\GIT\excent-to-enrich\SCDataconversion\ValidationScripts\Objects\Populate_DataConvSpedStudentsAndIEPs.sql
+Go
+:r E:\GIT\excent-to-enrich\SCDataconversion\ValidationScripts\Objects\Populate_SelectLists.sql
+Go
+:r E:\GIT\excent-to-enrich\SCDataconversion\ValidationScripts\Objects\Populate_District.sql
+Go
+:r E:\GIT\excent-to-enrich\SCDataconversion\ValidationScripts\Objects\Populate_School.sql
+Go
+:r E:\GIT\excent-to-enrich\SCDataconversion\ValidationScripts\Objects\Populate_Student.sql
+Go
+:r E:\GIT\excent-to-enrich\SCDataconversion\ValidationScripts\Objects\Populate_IEP.sql
+Go
+:r E:\GIT\excent-to-enrich\SCDataconversion\ValidationScripts\Objects\Populate_Service.sql
+Go
+:r E:\GIT\excent-to-enrich\SCDataconversion\ValidationScripts\Objects\Populate_Goal.sql
+Go
+:r E:\GIT\excent-to-enrich\SCDataconversion\ValidationScripts\Objects\Populate_Objective.sql
+Go
+:r E:\GIT\excent-to-enrich\SCDataconversion\ValidationScripts\Objects\Populate_TeamMember.sql
+Go
+:r E:\GIT\excent-to-enrich\SCDataconversion\ValidationScripts\Objects\Populate_StaffSchool.sql
+Go
 :r E:\GIT\excent-to-enrich\SCDataconversion\ValidationScripts\Objects\Check_SelectLists_Specifications.sql
 GO
 :r E:\GIT\excent-to-enrich\SCDataconversion\ValidationScripts\Objects\Check_District_Specifications.sql

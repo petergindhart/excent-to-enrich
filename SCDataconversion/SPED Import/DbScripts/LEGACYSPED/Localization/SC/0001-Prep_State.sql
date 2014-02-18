@@ -60,6 +60,8 @@ go
 
 */
 set nocount on;
+declare @Map_IepDisabilityID table (statecode varchar(50),DestID uniqueidentifier)
+
 insert @Map_IepDisabilityID values ('SDE01', '79450790-72A4-4F16-8840-6193DB199A1E') -- Intellectual Disability
 insert @Map_IepDisabilityID values ('SDE02', '52431290-0B16-4732-840B-10986A1FBE1E') -- Deaf and Hard of Hearing
 insert @Map_IepDisabilityID values ('SDE03', '5CEAB474-9E65-4190-82CA-C71387C3B03B') -- Speech/Language Impaired

@@ -63,7 +63,7 @@ select
 		case when v.LocationCode is null and m.SDEDesc = v.LocationDesc then m.SDECode else NULL end,
 		case when not (m.SDECode = isnull(v.LocationCode,'') or m.SDEDesc = isnull(v.LocationDesc,'')) and v.LocationDesc like m.FuzzyDesc then m.SDECode else NULL end
 		),
-	LocationDesc = ISNULL(v.LocationDesc,m.SDEDesc)
+	LocationDesc = ISNULL(m.SDEDesc,v.LocationDesc)
 from DataConversionLocationCode m
 join ServiceCTE v on 
 	m.SDECode = v.LocationCode or 

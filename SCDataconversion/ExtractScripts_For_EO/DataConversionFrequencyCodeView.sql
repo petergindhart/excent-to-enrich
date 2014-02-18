@@ -70,12 +70,13 @@ select
 		case when v.FrequencyCode is null and m.SDEDesc = v.FrequencyDesc then m.SDECode else NULL end,
 		case when not (m.SDECode = isnull(v.FrequencyCode,'') or m.SDEDesc = isnull(v.FrequencyDesc,'')) and v.FrequencyDesc like m.FuzzyDesc then m.SDECode else NULL end
 		),
-	v.FrequencyDesc
+	FrequencyDesc = isnull(m.SDEDesc,v.FrequencyDesc)
 from DataConversionFrequencyCode m
 join ServiceCTE v on 
 	m.SDECode = v.FrequencyCode or 
 	m.SDEDesc = v.FrequencyDesc or
 	v.FrequencyDesc like m.FuzzyDesc
+where m.SDECode is not null 
 
 union all
 

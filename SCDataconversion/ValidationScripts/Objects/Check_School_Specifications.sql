@@ -328,7 +328,7 @@ DEALLOCATE chkSpecifications
 ----------------------------------------------------------------------------------------------
 --Is it important to check the combination of SchoolCode, DistrictCode?
 INSERT x_DATAVALIDATION.ValidationReport (TableName,ErrorMessage,LineNumber,Line)
-SELECT Distinct 'School','The combination SchoolCode and DistrictCode '''+CONVERT(VARCHAR(MAX),tsch.DistrictCode)+','+CONVERT(VARCHAR(MAX),tsch.DistrictCode)+''' is duplicated.',tsch.Line_No,ISNULL(tsch.SCHOOLCODE,'')+'|'+ISNULL(tsch.SCHOOLNAME,'')+'|'+ISNULL(tsch.DISTRICTCODE,'')+'|'+ISNULL(convert(varchar(10),tsch.MINUTESPERWEEK),'')
+SELECT Distinct 'School','The combination SchoolCode and DistrictCode '''+CONVERT(VARCHAR(MAX),tsch.DistrictCode)+','+CONVERT(VARCHAR(MAX),tsch.DistrictCode)+''' is duplicated.',tsch.Line_No,COALESCE(tsch.SCHOOLCODE,'')+'|'+COALESCE(tsch.SCHOOLNAME,'')+'|'+COALESCE(tsch.DISTRICTCODE,'')+'|'+COALESCE(convert(varchar(10),tsch.MINUTESPERWEEK),'')
 FROM x_DATAVALIDATION.School_LOCAL tsch
 JOIN (SELECT SchoolCode,DISTRICTCODE FROM x_DATAVALIDATION.School_LOCAL GROUP BY SchoolCode,DISTRICTCODE HAVING COUNT(*)>1) ucsch
 		 ON tsch.SCHOOLCODE = ucsch.SCHOOLCODE AND tsch.DistrictCode = ucsch.DistrictCode
