@@ -6,6 +6,8 @@ CREATE PROC x_DATAVALIDATION.Populate_SpedObjects
 AS
 BEGIN
 
+EXEC master..xp_CMDShell 'E:\GIT\excent-to-enrich\SCDataconversion\ValidationScripts\Support\VPNConnect.bat'
+
 EXEC master..xp_CMDShell 'E:\GIT\excent-to-enrich\SCDataconversion\ValidationScripts\Support\PopulateDataconversionspeedobjects.bat'
 
 END
