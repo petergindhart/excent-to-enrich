@@ -1,0 +1,234 @@
+Microsoft (R) SQL Server Execute Package Utility
+Version 10.50.1600.1 for 32-bit
+Copyright (C) Microsoft Corporation 2010. All rights reserved.
+
+Started:  8:55:39 AM
+Warning: 2014-01-23 08:55:39.89
+   Code: 0x00000000
+   Source: Execute SQL Task 
+   Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
+End Warning
+Warning: 2014-01-23 08:55:39.89
+   Code: 0x00000000
+   Source: Execute SQL Task 
+   Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
+End Warning
+Progress: 2014-01-23 08:55:39.90
+   Source: Execute SQL Task 
+   Executing query "CREATE TABLE ValidationReport_SelectLists(
+LineNum...".: 7% complete
+End Progress
+Warning: 2014-01-23 08:55:39.90
+   Code: 0x00000000
+   Source: Execute SQL Task 
+   Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
+End Warning
+Warning: 2014-01-23 08:55:39.90
+   Code: 0x00000000
+   Source: Execute SQL Task 
+   Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
+End Warning
+Progress: 2014-01-23 08:55:39.90
+   Source: Execute SQL Task 
+   Executing query "
+CREATE TABLE ValidationReport_District(
+LineNumbe...".: 14% complete
+End Progress
+Warning: 2014-01-23 08:55:39.90
+   Code: 0x00000000
+   Source: Execute SQL Task 
+   Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
+End Warning
+Warning: 2014-01-23 08:55:39.90
+   Code: 0x00000000
+   Source: Execute SQL Task 
+   Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
+End Warning
+Progress: 2014-01-23 08:55:39.90
+   Source: Execute SQL Task 
+   Executing query "
+CREATE TABLE ValidationReport_School(
+LineNumber ...".: 21% complete
+End Progress
+Warning: 2014-01-23 08:55:39.90
+   Code: 0x00000000
+   Source: Execute SQL Task 
+   Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
+End Warning
+Warning: 2014-01-23 08:55:39.90
+   Code: 0x00000000
+   Source: Execute SQL Task 
+   Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
+End Warning
+Progress: 2014-01-23 08:55:39.90
+   Source: Execute SQL Task 
+   Executing query "
+CREATE TABLE ValidationReport_Student(
+LineNumber...".: 28% complete
+End Progress
+Warning: 2014-01-23 08:55:39.90
+   Code: 0x00000000
+   Source: Execute SQL Task 
+   Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
+End Warning
+Warning: 2014-01-23 08:55:39.90
+   Code: 0x00000000
+   Source: Execute SQL Task 
+   Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
+End Warning
+Progress: 2014-01-23 08:55:39.90
+   Source: Execute SQL Task 
+   Executing query "
+CREATE TABLE ValidationReport_IEP(
+LineNumber  Lo...".: 35% complete
+End Progress
+Warning: 2014-01-23 08:55:39.90
+   Code: 0x00000000
+   Source: Execute SQL Task 
+   Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
+End Warning
+Warning: 2014-01-23 08:55:39.90
+   Code: 0x00000000
+   Source: Execute SQL Task 
+   Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
+End Warning
+Progress: 2014-01-23 08:55:39.90
+   Source: Execute SQL Task 
+   Executing query "
+CREATE TABLE ValidationReport_SPEDStaffMember(
+Li...".: 42% complete
+End Progress
+Warning: 2014-01-23 08:55:39.90
+   Code: 0x00000000
+   Source: Execute SQL Task 
+   Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
+End Warning
+Warning: 2014-01-23 08:55:39.90
+   Code: 0x00000000
+   Source: Execute SQL Task 
+   Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
+End Warning
+Progress: 2014-01-23 08:55:39.90
+   Source: Execute SQL Task 
+   Executing query "
+
+CREATE TABLE ValidationReport_Service(
+LineNumbe...".: 50% complete
+End Progress
+Warning: 2014-01-23 08:55:39.90
+   Code: 0x00000000
+   Source: Execute SQL Task 
+   Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
+End Warning
+Warning: 2014-01-23 08:55:39.90
+   Code: 0x00000000
+   Source: Execute SQL Task 
+   Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
+End Warning
+Progress: 2014-01-23 08:55:39.91
+   Source: Execute SQL Task 
+   Executing query "
+
+CREATE TABLE ValidationReport_Goal(
+LineNumber  ...".: 57% complete
+End Progress
+Warning: 2014-01-23 08:55:39.91
+   Code: 0x00000000
+   Source: Execute SQL Task 
+   Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
+End Warning
+Warning: 2014-01-23 08:55:39.91
+   Code: 0x00000000
+   Source: Execute SQL Task 
+   Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
+End Warning
+Progress: 2014-01-23 08:55:39.91
+   Source: Execute SQL Task 
+   Executing query "
+CREATE TABLE ValidationReport_Objective(
+LineNumb...".: 64% complete
+End Progress
+Warning: 2014-01-23 08:55:39.91
+   Code: 0x00000000
+   Source: Execute SQL Task 
+   Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
+End Warning
+Warning: 2014-01-23 08:55:39.91
+   Code: 0x00000000
+   Source: Execute SQL Task 
+   Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
+End Warning
+Progress: 2014-01-23 08:55:39.91
+   Source: Execute SQL Task 
+   Executing query "
+CREATE TABLE ValidationReport_TeamMember(
+LineNum...".: 71% complete
+End Progress
+Warning: 2014-01-23 08:55:39.91
+   Code: 0x00000000
+   Source: Execute SQL Task 
+   Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
+End Warning
+Warning: 2014-01-23 08:55:39.91
+   Code: 0x00000000
+   Source: Execute SQL Task 
+   Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
+End Warning
+Progress: 2014-01-23 08:55:39.91
+   Source: Execute SQL Task 
+   Executing query "
+
+CREATE TABLE ValidationReport_StaffSchool(
+LineN...".: 78% complete
+End Progress
+Warning: 2014-01-23 08:55:39.91
+   Code: 0x00000000
+   Source: Execute SQL Task 
+   Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
+End Warning
+Warning: 2014-01-23 08:55:39.91
+   Code: 0x00000000
+   Source: Execute SQL Task 
+   Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
+End Warning
+Progress: 2014-01-23 08:55:39.91
+   Source: Execute SQL Task 
+   Executing query "
+CREATE TABLE ValidationReport_SchoolProgressFrequ...".: 85% complete
+End Progress
+Warning: 2014-01-23 08:55:39.91
+   Code: 0x00000000
+   Source: Execute SQL Task 
+   Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
+End Warning
+Warning: 2014-01-23 08:55:39.91
+   Code: 0x00000000
+   Source: Execute SQL Task 
+   Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
+End Warning
+Progress: 2014-01-23 08:55:39.91
+   Source: Execute SQL Task 
+   Executing query "
+CREATE TABLE ValidationReport_AccomMod(
+LineNumbe...".: 92% complete
+End Progress
+Warning: 2014-01-23 08:55:39.91
+   Code: 0x00000000
+   Source: Execute SQL Task 
+   Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
+End Warning
+Warning: 2014-01-23 08:55:39.91
+   Code: 0x00000000
+   Source: Execute SQL Task 
+   Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
+End Warning
+Progress: 2014-01-23 08:55:39.91
+   Source: Execute SQL Task 
+   Executing query "
+CREATE TABLE ValidationSummaryReport(
+TableName  ...".: 100% complete
+End Progress
+DTExec: The package execution returned DTSER_SUCCESS (0).
+Started:  8:55:39 AM
+Finished: 8:55:39 AM
+Elapsed:  0.422 seconds

@@ -1,0 +1,28 @@
+EXEC x_DATAVALIDATION.usp_ImportLegacyToEnrich
+GO
+/*
+EXEC x_DATAVALIDATION.Populate_DataConvSpedStudentsAndIEPs
+GO
+EXEC x_DATAVALIDATION.Populate_SelectLists
+GO
+EXEC x_DATAVALIDATION.Populate_District
+GO
+EXEC x_DATAVALIDATION.Populate_School
+GO
+EXEC x_DATAVALIDATION.Populate_Student
+GO
+EXEC x_DATAVALIDATION.Populate_IEP
+GO
+EXEC x_DATAVALIDATION.Populate_SpedStaffMember
+GO
+EXEC x_DATAVALIDATION.Populate_Service
+GO
+EXEC x_DATAVALIDATION.Populate_Goal
+GO
+EXEC x_DATAVALIDATION.Populate_Objective
+GO
+EXEC x_DATAVALIDATION.Populate_TeamMember
+GO
+EXEC x_DATAVALIDATION.Populate_StaffSchool
+GO
+*/

@@ -1,0 +1,2 @@
+Msg 137, Level 15, State 2, Server RENEGADE, Procedure Populate_SpeedObjects, Line 15
+Must declare the scalar variable "@VPNfileloc".

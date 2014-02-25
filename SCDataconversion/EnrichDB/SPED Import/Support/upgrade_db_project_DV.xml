@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<project name="Special Education Datavalidation">
+	<upgradedb
+		ConnectionString="${connection}"
+		IgnoreMissingModules="True"
+		ModulesDirectory="..\Tools"
+		Module="x_DATAVALIDATION"
+		DatavalidationObjectsInclude="..\..\x_DATAVALIDATION\Objects"
+		/>
+
+</project>
+<!-- paths are relative to the calling file -->
