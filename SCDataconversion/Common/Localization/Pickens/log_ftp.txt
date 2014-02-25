@@ -1,0 +1,871 @@
+. 2014-02-25 02:39:27.886 --------------------------------------------------------------------------
+. 2014-02-25 02:39:27.886 WinSCP Version 5.1.7 (Build 3446) (OS 6.1.7601 Service Pack 1)
+. 2014-02-25 02:39:27.886 Configuration: C:\Program Files (x86)\WinSCP\WinSCP.ini
+. 2014-02-25 02:39:27.887 Local account: RENEGADE\muthuv
+. 2014-02-25 02:39:27.887 Working directory: C:\Program Files (x86)\WinSCP
+. 2014-02-25 02:39:27.887 Process ID: 10740
+. 2014-02-25 02:39:27.887 Command-line: "C:\Program Files (x86)\WinSCP\WinSCP.exe" -script="E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Dillon4\ValidationReport_Upload_FTP.txt" /log="E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Dillon4\log.txt"
+. 2014-02-25 02:39:27.887 Time zone: Current: GMT-7, Standard: GMT-7, DST: GMT-6, DST Start: 3/9/2014, DST End: 11/2/2014
+. 2014-02-25 02:39:27.887 Login time: Tuesday, February 25, 2014 2:39:27 AM
+. 2014-02-25 02:39:27.887 --------------------------------------------------------------------------
+. 2014-02-25 02:39:27.887 Session name: dillon4@ftp.excent.com (Ad-Hoc session)
+. 2014-02-25 02:39:27.887 Host name: ftp.excent.com (Port: 21)
+. 2014-02-25 02:39:27.887 User name: dillon4 (Password: Yes, Key file: No)
+. 2014-02-25 02:39:27.887 Tunnel: No
+. 2014-02-25 02:39:27.887 Transfer Protocol: FTP
+. 2014-02-25 02:39:27.887 Ping type: C, Ping interval: 30 sec; Timeout: 15 sec
+. 2014-02-25 02:39:27.887 Proxy: none
+. 2014-02-25 02:39:27.887 FTP: FTPS: Explicit TLS; Passive: Yes [Force IP: A]; List all: A
+. 2014-02-25 02:39:27.887 Session reuse: Yes
+. 2014-02-25 02:39:27.887 Local directory: default, Remote directory: home, Update: Yes, Cache: Yes
+. 2014-02-25 02:39:27.887 Cache directory changes: Yes, Permanent: Yes
+. 2014-02-25 02:39:27.887 DST mode: 1; Timezone offset: 0h 0m
+. 2014-02-25 02:39:27.887 --------------------------------------------------------------------------
+. 2014-02-25 02:39:27.900 Connecting to ftp.excent.com ...
+. 2014-02-25 02:39:28.016 Connected with ftp.excent.com, negotiating SSL connection...
+< 2014-02-25 02:39:28.016 220-Welcome to Excent FTP.
+< 2014-02-25 02:39:28.016 220-
+< 2014-02-25 02:39:28.016 220 We monitor connections so please, no monkey business.
+> 2014-02-25 02:39:28.016 AUTH TLS
+< 2014-02-25 02:39:28.018 234 Using authentication type TLS
+. 2014-02-25 02:39:28.373 Using TLSv1, cipher TLSv1/SSLv3: AES256-SHA, 1024 bit RSA
+. 2014-02-25 02:39:28.373 SSL connection established. Waiting for welcome message...
+> 2014-02-25 02:39:28.373 USER dillon4
+< 2014-02-25 02:39:28.373 331 Password required for dillon4
+> 2014-02-25 02:39:28.373 PASS *******
+< 2014-02-25 02:39:28.374 230 Logged on
+> 2014-02-25 02:39:28.374 SYST
+< 2014-02-25 02:39:28.375 215 UNIX emulated by FileZilla
+> 2014-02-25 02:39:28.375 FEAT
+< 2014-02-25 02:39:28.376 211-Features:
+< 2014-02-25 02:39:28.376  MDTM
+< 2014-02-25 02:39:28.376  REST STREAM
+< 2014-02-25 02:39:28.376  SIZE
+< 2014-02-25 02:39:28.376  MLST type*;size*;modify*;
+< 2014-02-25 02:39:28.377  MLSD
+< 2014-02-25 02:39:28.377  AUTH SSL
+< 2014-02-25 02:39:28.377  AUTH TLS
+< 2014-02-25 02:39:28.377  PROT
+< 2014-02-25 02:39:28.377  PBSZ
+< 2014-02-25 02:39:28.377  UTF8
+< 2014-02-25 02:39:28.377  CLNT
+< 2014-02-25 02:39:28.377  MFMT
+< 2014-02-25 02:39:28.377 211 End
+> 2014-02-25 02:39:28.377 PBSZ 0
+< 2014-02-25 02:39:28.378 200 PBSZ=0
+> 2014-02-25 02:39:28.378 PROT P
+< 2014-02-25 02:39:28.379 200 Protection level set to P
+. 2014-02-25 02:39:28.379 Connected
+. 2014-02-25 02:39:28.379 --------------------------------------------------------------------------
+. 2014-02-25 02:39:28.380 Using FTP protocol.
+. 2014-02-25 02:39:28.380 Doing startup conversation with host.
+> 2014-02-25 02:39:28.380 PWD
+< 2014-02-25 02:39:28.381 257 "/" is current directory.
+. 2014-02-25 02:39:28.382 Getting current directory name.
+. 2014-02-25 02:39:28.382 Startup conversation with host finished.
+< 2014-02-25 02:39:28.382 Script: Active session: [1] dillon4@ftp.excent.com
+> 2014-02-25 02:39:28.382 Script: option transfer binary
+< 2014-02-25 02:39:28.382 Script: transfer        binary    
+> 2014-02-25 02:39:28.382 Script: lcd "E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Dillon4"
+< 2014-02-25 02:39:28.382 Script: E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Dillon4
+> 2014-02-25 02:39:28.382 Script: cd /
+. 2014-02-25 02:39:28.382 Cached directory change via "/" to "/".
+. 2014-02-25 02:39:28.382 Getting current directory name.
+< 2014-02-25 02:39:28.382 Script: /
+> 2014-02-25 02:39:28.382 Script: put "E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Dillon4\ValidationReport_Detail.xls"
+. 2014-02-25 02:39:28.383 Copying 1 files/directories to remote directory "/"
+. 2014-02-25 02:39:28.383   PrTime: Yes; PrRO: No; Rght: rw-r--r--; PrR: No (No); FnCs: N; RIC: 0100; Resume: S (102400); CalcS: No; Mask: 
+. 2014-02-25 02:39:28.383   TM: B; ClAr: No; CPS: 0; InclM: 
+. 2014-02-25 02:39:28.383   AscM: *.*html; *.htm; *.txt; *.php; *.php3; *.cgi; *.c; *.cpp; *.h; *.pas; *.bas; *.tex; *.pl; *.js; .htaccess; *.xtml; *.css; *.cfg; *.ini; *.sh; *.xml
+. 2014-02-25 02:39:28.383 File: "E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Dillon4\ValidationReport_Detail.xls"
+. 2014-02-25 02:39:28.383 Copying "E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Dillon4\ValidationReport_Detail.xls" to remote directory started.
+. 2014-02-25 02:39:28.383 Binary transfer mode selected.
+. 2014-02-25 02:39:28.383 Starting upload of E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Dillon4\ValidationReport_Detail.xls
+> 2014-02-25 02:39:28.384 TYPE A
+< 2014-02-25 02:39:28.384 200 Type set to A
+> 2014-02-25 02:39:28.384 PASV
+< 2014-02-25 02:39:28.386 227 Entering Passive Mode (10,0,1,27,199,49)
+> 2014-02-25 02:39:28.388 MLSD
+< 2014-02-25 02:39:28.391 150 Connection accepted
+. 2014-02-25 02:39:28.391 SSL connection established
+< 2014-02-25 02:39:28.392 226 Transfer OK
+. 2014-02-25 02:39:28.392 type=dir;modify=20121109170823; Config Files
+. 2014-02-25 02:39:28.392 type=dir;modify=20140203132848; Db Backups
+. 2014-02-25 02:39:28.392 type=dir;modify=20121109170823; SIS Data
+. 2014-02-25 02:39:28.393 type=dir;modify=20121109170823; Sped Data
+> 2014-02-25 02:39:28.393 TYPE I
+< 2014-02-25 02:39:28.393 200 Type set to I
+> 2014-02-25 02:39:28.393 PASV
+< 2014-02-25 02:39:28.394 227 Entering Passive Mode (10,0,1,27,199,50)
+> 2014-02-25 02:39:28.394 STOR ValidationReport_Detail.xls
+< 2014-02-25 02:39:28.396 150 Connection accepted
+. 2014-02-25 02:39:28.397 SSL connection established
+< 2014-02-25 02:39:29.016 226 Transfer OK
+> 2014-02-25 02:39:29.016 MFMT 20140225093926 ValidationReport_Detail.xls
+< 2014-02-25 02:39:29.017 213 modify=20140225093926; /ValidationReport_Detail.xls
+. 2014-02-25 02:39:29.017 Upload successful
+> 2014-02-25 02:39:29.017 Script: close
+. 2014-02-25 02:39:29.017 Disconnected from server
+. 2014-02-25 02:51:57.274 --------------------------------------------------------------------------
+. 2014-02-25 02:51:57.274 WinSCP Version 5.1.7 (Build 3446) (OS 6.1.7601 Service Pack 1)
+. 2014-02-25 02:51:57.274 Configuration: C:\Program Files (x86)\WinSCP\WinSCP.ini
+. 2014-02-25 02:51:57.275 Local account: RENEGADE\SQL2008User
+. 2014-02-25 02:51:57.275 Working directory: C:\Program Files (x86)\WinSCP
+. 2014-02-25 02:51:57.275 Process ID: 8924
+. 2014-02-25 02:51:57.275 Command-line: "C:\Program Files (x86)\WinSCP\WinSCP.exe" -script="E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Dillon4\ValidationReport_Upload_FTP.txt" /log="E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Dillon4\log.txt"
+. 2014-02-25 02:51:57.275 Time zone: Current: GMT-7, Standard: GMT-7, DST: GMT-6, DST Start: 3/9/2014, DST End: 11/2/2014
+. 2014-02-25 02:51:57.275 Login time: Tuesday, February 25, 2014 2:51:57 AM
+. 2014-02-25 02:51:57.275 --------------------------------------------------------------------------
+. 2014-02-25 02:51:57.275 Session name: dillon4@ftp.excent.com (Ad-Hoc session)
+. 2014-02-25 02:51:57.275 Host name: ftp.excent.com (Port: 21)
+. 2014-02-25 02:51:57.275 User name: dillon4 (Password: Yes, Key file: No)
+. 2014-02-25 02:51:57.275 Tunnel: No
+. 2014-02-25 02:51:57.275 Transfer Protocol: FTP
+. 2014-02-25 02:51:57.275 Ping type: C, Ping interval: 30 sec; Timeout: 15 sec
+. 2014-02-25 02:51:57.275 Proxy: none
+. 2014-02-25 02:51:57.275 FTP: FTPS: Explicit TLS; Passive: Yes [Force IP: A]; List all: A
+. 2014-02-25 02:51:57.275 Session reuse: Yes
+. 2014-02-25 02:51:57.275 Local directory: default, Remote directory: home, Update: Yes, Cache: Yes
+. 2014-02-25 02:51:57.275 Cache directory changes: Yes, Permanent: Yes
+. 2014-02-25 02:51:57.275 DST mode: 1; Timezone offset: 0h 0m
+. 2014-02-25 02:51:57.275 --------------------------------------------------------------------------
+. 2014-02-25 02:51:57.295 Connecting to ftp.excent.com ...
+. 2014-02-25 02:51:57.423 Connected with ftp.excent.com, negotiating SSL connection...
+< 2014-02-25 02:51:57.427 220-Welcome to Excent FTP.
+< 2014-02-25 02:51:57.427 220-
+< 2014-02-25 02:51:57.427 220 We monitor connections so please, no monkey business.
+> 2014-02-25 02:51:57.427 AUTH TLS
+< 2014-02-25 02:51:57.429 234 Using authentication type TLS
+. 2014-02-25 02:51:57.745 Using TLSv1, cipher TLSv1/SSLv3: AES256-SHA, 1024 bit RSA
+. 2014-02-25 02:51:57.745 SSL connection established. Waiting for welcome message...
+> 2014-02-25 02:51:57.745 USER dillon4
+< 2014-02-25 02:51:57.746 331 Password required for dillon4
+> 2014-02-25 02:51:57.746 PASS *******
+< 2014-02-25 02:51:57.747 230 Logged on
+> 2014-02-25 02:51:57.747 SYST
+< 2014-02-25 02:51:57.747 215 UNIX emulated by FileZilla
+> 2014-02-25 02:51:57.747 FEAT
+< 2014-02-25 02:51:57.749 211-Features:
+< 2014-02-25 02:51:57.749  MDTM
+< 2014-02-25 02:51:57.749  REST STREAM
+< 2014-02-25 02:51:57.749  SIZE
+< 2014-02-25 02:51:57.749  MLST type*;size*;modify*;
+< 2014-02-25 02:51:57.750  MLSD
+< 2014-02-25 02:51:57.750  AUTH SSL
+< 2014-02-25 02:51:57.750  AUTH TLS
+< 2014-02-25 02:51:57.750  PROT
+< 2014-02-25 02:51:57.750  PBSZ
+< 2014-02-25 02:51:57.750  UTF8
+< 2014-02-25 02:51:57.750  CLNT
+< 2014-02-25 02:51:57.750  MFMT
+< 2014-02-25 02:51:57.750 211 End
+> 2014-02-25 02:51:57.750 PBSZ 0
+< 2014-02-25 02:51:57.750 200 PBSZ=0
+> 2014-02-25 02:51:57.750 PROT P
+< 2014-02-25 02:51:57.751 200 Protection level set to P
+. 2014-02-25 02:51:57.751 Connected
+. 2014-02-25 02:51:57.752 --------------------------------------------------------------------------
+. 2014-02-25 02:51:57.752 Using FTP protocol.
+. 2014-02-25 02:51:57.753 Doing startup conversation with host.
+> 2014-02-25 02:51:57.753 PWD
+< 2014-02-25 02:51:57.754 257 "/" is current directory.
+. 2014-02-25 02:51:57.754 Getting current directory name.
+. 2014-02-25 02:51:57.754 Startup conversation with host finished.
+< 2014-02-25 02:51:57.754 Script: Active session: [1] dillon4@ftp.excent.com
+> 2014-02-25 02:51:57.754 Script: option transfer binary
+< 2014-02-25 02:51:57.754 Script: transfer        binary    
+> 2014-02-25 02:51:57.754 Script: lcd "E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Dillon4"
+< 2014-02-25 02:51:57.755 Script: E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Dillon4
+> 2014-02-25 02:51:57.755 Script: cd /
+. 2014-02-25 02:51:57.755 Cached directory change via "/" to "/".
+. 2014-02-25 02:51:57.755 Getting current directory name.
+< 2014-02-25 02:51:57.755 Script: /
+> 2014-02-25 02:51:57.755 Script: put "E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Dillon4\ValidationReport_Detail.xls"
+. 2014-02-25 02:51:57.755 Copying 1 files/directories to remote directory "/"
+. 2014-02-25 02:51:57.755   PrTime: Yes; PrRO: No; Rght: rw-r--r--; PrR: No (No); FnCs: N; RIC: 0100; Resume: S (102400); CalcS: No; Mask: 
+. 2014-02-25 02:51:57.755   TM: B; ClAr: No; CPS: 0; InclM: 
+. 2014-02-25 02:51:57.755   AscM: *.*html; *.htm; *.txt; *.php; *.php3; *.cgi; *.c; *.cpp; *.h; *.pas; *.bas; *.tex; *.pl; *.js; .htaccess; *.xtml; *.css; *.cfg; *.ini; *.sh; *.xml
+. 2014-02-25 02:51:57.755 File: "E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Dillon4\ValidationReport_Detail.xls"
+. 2014-02-25 02:51:57.759 Copying "E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Dillon4\ValidationReport_Detail.xls" to remote directory started.
+. 2014-02-25 02:51:57.760 Binary transfer mode selected.
+. 2014-02-25 02:51:57.760 Starting upload of E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Dillon4\ValidationReport_Detail.xls
+> 2014-02-25 02:51:57.760 TYPE A
+< 2014-02-25 02:51:57.761 200 Type set to A
+> 2014-02-25 02:51:57.761 PASV
+< 2014-02-25 02:51:57.762 227 Entering Passive Mode (10,0,1,27,199,51)
+> 2014-02-25 02:51:57.772 MLSD
+< 2014-02-25 02:51:57.774 150 Connection accepted
+. 2014-02-25 02:51:57.774 SSL connection established
+< 2014-02-25 02:51:57.776 226 Transfer OK
+. 2014-02-25 02:51:57.776 type=dir;modify=20121109170823; Config Files
+. 2014-02-25 02:51:57.776 type=dir;modify=20140203132848; Db Backups
+. 2014-02-25 02:51:57.776 type=dir;modify=20121109170823; SIS Data
+. 2014-02-25 02:51:57.776 type=dir;modify=20121109170823; Sped Data
+. 2014-02-25 02:51:57.776 type=file;modify=20140225093926;size=6953984; ValidationReport_Detail.xls
+> 2014-02-25 02:51:57.785 TYPE I
+< 2014-02-25 02:51:57.786 200 Type set to I
+> 2014-02-25 02:51:57.786 PASV
+< 2014-02-25 02:51:57.787 227 Entering Passive Mode (10,0,1,27,199,52)
+> 2014-02-25 02:51:57.787 STOR ValidationReport_Detail.xls
+< 2014-02-25 02:51:57.790 150 Connection accepted
+. 2014-02-25 02:51:57.801 SSL connection established
+< 2014-02-25 02:51:58.410 226 Transfer OK
+> 2014-02-25 02:51:58.410 MFMT 20140225095154 ValidationReport_Detail.xls
+< 2014-02-25 02:51:58.411 213 modify=20140225095154; /ValidationReport_Detail.xls
+. 2014-02-25 02:51:58.411 Upload successful
+> 2014-02-25 02:51:58.411 Script: close
+. 2014-02-25 02:51:58.411 Disconnected from server
+. 2014-02-25 02:53:26.403 --------------------------------------------------------------------------
+. 2014-02-25 02:53:26.403 WinSCP Version 5.1.7 (Build 3446) (OS 6.1.7601 Service Pack 1)
+. 2014-02-25 02:53:26.403 Configuration: C:\Program Files (x86)\WinSCP\WinSCP.ini
+. 2014-02-25 02:53:26.408 Local account: RENEGADE\SQL2008User
+. 2014-02-25 02:53:26.408 Working directory: C:\Program Files (x86)\WinSCP
+. 2014-02-25 02:53:26.408 Process ID: 10952
+. 2014-02-25 02:53:26.408 Command-line: "C:\Program Files (x86)\WinSCP\WinSCP.exe" -script="E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Dillon4\ValidationReport_Upload_FTP.txt" /log="E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Dillon4\log.txt"
+. 2014-02-25 02:53:26.408 Time zone: Current: GMT-7, Standard: GMT-7, DST: GMT-6, DST Start: 3/9/2014, DST End: 11/2/2014
+. 2014-02-25 02:53:26.408 Login time: Tuesday, February 25, 2014 2:53:26 AM
+. 2014-02-25 02:53:26.408 --------------------------------------------------------------------------
+. 2014-02-25 02:53:26.408 Session name: dillon4@ftp.excent.com (Ad-Hoc session)
+. 2014-02-25 02:53:26.408 Host name: ftp.excent.com (Port: 21)
+. 2014-02-25 02:53:26.408 User name: dillon4 (Password: Yes, Key file: No)
+. 2014-02-25 02:53:26.408 Tunnel: No
+. 2014-02-25 02:53:26.408 Transfer Protocol: FTP
+. 2014-02-25 02:53:26.408 Ping type: C, Ping interval: 30 sec; Timeout: 15 sec
+. 2014-02-25 02:53:26.408 Proxy: none
+. 2014-02-25 02:53:26.408 FTP: FTPS: Explicit TLS; Passive: Yes [Force IP: A]; List all: A
+. 2014-02-25 02:53:26.408 Session reuse: Yes
+. 2014-02-25 02:53:26.408 Local directory: default, Remote directory: home, Update: Yes, Cache: Yes
+. 2014-02-25 02:53:26.408 Cache directory changes: Yes, Permanent: Yes
+. 2014-02-25 02:53:26.408 DST mode: 1; Timezone offset: 0h 0m
+. 2014-02-25 02:53:26.408 --------------------------------------------------------------------------
+. 2014-02-25 02:53:26.409 Connecting to ftp.excent.com ...
+. 2014-02-25 02:53:26.412 Connected with ftp.excent.com, negotiating SSL connection...
+< 2014-02-25 02:53:26.414 220-Welcome to Excent FTP.
+< 2014-02-25 02:53:26.414 220-
+< 2014-02-25 02:53:26.414 220 We monitor connections so please, no monkey business.
+> 2014-02-25 02:53:26.414 AUTH TLS
+< 2014-02-25 02:53:26.415 234 Using authentication type TLS
+. 2014-02-25 02:53:26.680 Using TLSv1, cipher TLSv1/SSLv3: AES256-SHA, 1024 bit RSA
+. 2014-02-25 02:53:26.680 SSL connection established. Waiting for welcome message...
+> 2014-02-25 02:53:26.680 USER dillon4
+< 2014-02-25 02:53:26.680 331 Password required for dillon4
+> 2014-02-25 02:53:26.680 PASS *******
+< 2014-02-25 02:53:26.681 230 Logged on
+> 2014-02-25 02:53:26.681 SYST
+< 2014-02-25 02:53:26.682 215 UNIX emulated by FileZilla
+> 2014-02-25 02:53:26.682 FEAT
+< 2014-02-25 02:53:26.684 211-Features:
+< 2014-02-25 02:53:26.684  MDTM
+< 2014-02-25 02:53:26.684  REST STREAM
+< 2014-02-25 02:53:26.684  SIZE
+< 2014-02-25 02:53:26.684  MLST type*;size*;modify*;
+< 2014-02-25 02:53:26.684  MLSD
+< 2014-02-25 02:53:26.684  AUTH SSL
+< 2014-02-25 02:53:26.684  AUTH TLS
+< 2014-02-25 02:53:26.684  PROT
+< 2014-02-25 02:53:26.684  PBSZ
+< 2014-02-25 02:53:26.684  UTF8
+< 2014-02-25 02:53:26.684  CLNT
+< 2014-02-25 02:53:26.684  MFMT
+< 2014-02-25 02:53:26.684 211 End
+> 2014-02-25 02:53:26.684 PBSZ 0
+< 2014-02-25 02:53:26.685 200 PBSZ=0
+> 2014-02-25 02:53:26.685 PROT P
+< 2014-02-25 02:53:26.685 200 Protection level set to P
+. 2014-02-25 02:53:26.685 Connected
+. 2014-02-25 02:53:26.685 --------------------------------------------------------------------------
+. 2014-02-25 02:53:26.685 Using FTP protocol.
+. 2014-02-25 02:53:26.686 Doing startup conversation with host.
+> 2014-02-25 02:53:26.686 PWD
+< 2014-02-25 02:53:26.687 257 "/" is current directory.
+. 2014-02-25 02:53:26.687 Getting current directory name.
+. 2014-02-25 02:53:26.687 Startup conversation with host finished.
+< 2014-02-25 02:53:26.687 Script: Active session: [1] dillon4@ftp.excent.com
+> 2014-02-25 02:53:26.687 Script: option transfer binary
+< 2014-02-25 02:53:26.687 Script: transfer        binary    
+> 2014-02-25 02:53:26.687 Script: lcd "E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Dillon4"
+< 2014-02-25 02:53:26.687 Script: E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Dillon4
+> 2014-02-25 02:53:26.687 Script: cd /
+. 2014-02-25 02:53:26.687 Cached directory change via "/" to "/".
+. 2014-02-25 02:53:26.687 Getting current directory name.
+< 2014-02-25 02:53:26.687 Script: /
+> 2014-02-25 02:53:26.687 Script: put "E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Dillon4\ValidationReport_Detail.xls"
+. 2014-02-25 02:53:26.687 Copying 1 files/directories to remote directory "/"
+. 2014-02-25 02:53:26.687   PrTime: Yes; PrRO: No; Rght: rw-r--r--; PrR: No (No); FnCs: N; RIC: 0100; Resume: S (102400); CalcS: No; Mask: 
+. 2014-02-25 02:53:26.687   TM: B; ClAr: No; CPS: 0; InclM: 
+. 2014-02-25 02:53:26.687   AscM: *.*html; *.htm; *.txt; *.php; *.php3; *.cgi; *.c; *.cpp; *.h; *.pas; *.bas; *.tex; *.pl; *.js; .htaccess; *.xtml; *.css; *.cfg; *.ini; *.sh; *.xml
+. 2014-02-25 02:53:26.688 File: "E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Dillon4\ValidationReport_Detail.xls"
+. 2014-02-25 02:53:26.688 Copying "E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Dillon4\ValidationReport_Detail.xls" to remote directory started.
+. 2014-02-25 02:53:26.688 Binary transfer mode selected.
+. 2014-02-25 02:53:26.688 Starting upload of E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Dillon4\ValidationReport_Detail.xls
+> 2014-02-25 02:53:26.688 TYPE A
+< 2014-02-25 02:53:26.688 200 Type set to A
+> 2014-02-25 02:53:26.688 PASV
+< 2014-02-25 02:53:26.689 227 Entering Passive Mode (10,0,1,27,199,53)
+> 2014-02-25 02:53:26.690 MLSD
+< 2014-02-25 02:53:26.692 150 Connection accepted
+. 2014-02-25 02:53:26.692 SSL connection established
+< 2014-02-25 02:53:26.693 226 Transfer OK
+. 2014-02-25 02:53:26.693 type=dir;modify=20121109170823; Config Files
+. 2014-02-25 02:53:26.693 type=dir;modify=20140203132848; Db Backups
+. 2014-02-25 02:53:26.693 type=dir;modify=20121109170823; SIS Data
+. 2014-02-25 02:53:26.693 type=dir;modify=20121109170823; Sped Data
+. 2014-02-25 02:53:26.693 type=file;modify=20140225095154;size=6953984; ValidationReport_Detail.xls
+> 2014-02-25 02:53:26.700 TYPE I
+< 2014-02-25 02:53:26.701 200 Type set to I
+> 2014-02-25 02:53:26.701 PASV
+< 2014-02-25 02:53:26.702 227 Entering Passive Mode (10,0,1,27,199,54)
+> 2014-02-25 02:53:26.702 STOR ValidationReport_Detail.xls
+< 2014-02-25 02:53:26.705 150 Connection accepted
+. 2014-02-25 02:53:26.706 SSL connection established
+< 2014-02-25 02:53:27.322 226 Transfer OK
+> 2014-02-25 02:53:27.322 MFMT 20140225095325 ValidationReport_Detail.xls
+< 2014-02-25 02:53:27.323 213 modify=20140225095325; /ValidationReport_Detail.xls
+. 2014-02-25 02:53:27.323 Upload successful
+> 2014-02-25 02:53:27.323 Script: close
+. 2014-02-25 02:53:27.323 Disconnected from server
+. 2014-02-25 03:14:02.242 --------------------------------------------------------------------------
+. 2014-02-25 03:14:02.242 WinSCP Version 5.1.7 (Build 3446) (OS 6.1.7601 Service Pack 1)
+. 2014-02-25 03:14:02.242 Configuration: C:\Program Files (x86)\WinSCP\WinSCP.ini
+. 2014-02-25 03:14:02.243 Local account: RENEGADE\SQL2008User
+. 2014-02-25 03:14:02.243 Working directory: C:\Program Files (x86)\WinSCP
+. 2014-02-25 03:14:02.243 Process ID: 10684
+. 2014-02-25 03:14:02.243 Command-line: "C:\Program Files (x86)\WinSCP\WinSCP.exe" -script="E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Dillon4\ValidationReport_Upload_FTP.txt" /log="E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Dillon4\log.txt"
+. 2014-02-25 03:14:02.243 Time zone: Current: GMT-7, Standard: GMT-7, DST: GMT-6, DST Start: 3/9/2014, DST End: 11/2/2014
+. 2014-02-25 03:14:02.243 Login time: Tuesday, February 25, 2014 3:14:02 AM
+. 2014-02-25 03:14:02.243 --------------------------------------------------------------------------
+. 2014-02-25 03:14:02.243 Session name: dillon4@ftp.excent.com (Ad-Hoc session)
+. 2014-02-25 03:14:02.243 Host name: ftp.excent.com (Port: 21)
+. 2014-02-25 03:14:02.243 User name: dillon4 (Password: Yes, Key file: No)
+. 2014-02-25 03:14:02.243 Tunnel: No
+. 2014-02-25 03:14:02.243 Transfer Protocol: FTP
+. 2014-02-25 03:14:02.243 Ping type: C, Ping interval: 30 sec; Timeout: 15 sec
+. 2014-02-25 03:14:02.243 Proxy: none
+. 2014-02-25 03:14:02.243 FTP: FTPS: Explicit TLS; Passive: Yes [Force IP: A]; List all: A
+. 2014-02-25 03:14:02.243 Session reuse: Yes
+. 2014-02-25 03:14:02.243 Local directory: default, Remote directory: home, Update: Yes, Cache: Yes
+. 2014-02-25 03:14:02.243 Cache directory changes: Yes, Permanent: Yes
+. 2014-02-25 03:14:02.243 DST mode: 1; Timezone offset: 0h 0m
+. 2014-02-25 03:14:02.243 --------------------------------------------------------------------------
+. 2014-02-25 03:14:02.244 Connecting to ftp.excent.com ...
+. 2014-02-25 03:14:02.248 Connected with ftp.excent.com, negotiating SSL connection...
+< 2014-02-25 03:14:02.250 220-Welcome to Excent FTP.
+< 2014-02-25 03:14:02.250 220-
+< 2014-02-25 03:14:02.250 220 We monitor connections so please, no monkey business.
+> 2014-02-25 03:14:02.250 AUTH TLS
+< 2014-02-25 03:14:02.251 234 Using authentication type TLS
+. 2014-02-25 03:14:02.513 Using TLSv1, cipher TLSv1/SSLv3: AES256-SHA, 1024 bit RSA
+. 2014-02-25 03:14:02.513 SSL connection established. Waiting for welcome message...
+> 2014-02-25 03:14:02.513 USER dillon4
+< 2014-02-25 03:14:02.514 331 Password required for dillon4
+> 2014-02-25 03:14:02.514 PASS *******
+< 2014-02-25 03:14:02.515 230 Logged on
+> 2014-02-25 03:14:02.515 SYST
+< 2014-02-25 03:14:02.516 215 UNIX emulated by FileZilla
+> 2014-02-25 03:14:02.516 FEAT
+< 2014-02-25 03:14:02.517 211-Features:
+< 2014-02-25 03:14:02.518  MDTM
+< 2014-02-25 03:14:02.518  REST STREAM
+< 2014-02-25 03:14:02.518  SIZE
+< 2014-02-25 03:14:02.518  MLST type*;size*;modify*;
+< 2014-02-25 03:14:02.518  MLSD
+< 2014-02-25 03:14:02.518  AUTH SSL
+< 2014-02-25 03:14:02.518  AUTH TLS
+< 2014-02-25 03:14:02.518  PROT
+< 2014-02-25 03:14:02.518  PBSZ
+< 2014-02-25 03:14:02.518  UTF8
+< 2014-02-25 03:14:02.518  CLNT
+< 2014-02-25 03:14:02.518  MFMT
+< 2014-02-25 03:14:02.518 211 End
+> 2014-02-25 03:14:02.518 PBSZ 0
+< 2014-02-25 03:14:02.518 200 PBSZ=0
+> 2014-02-25 03:14:02.518 PROT P
+< 2014-02-25 03:14:02.519 200 Protection level set to P
+. 2014-02-25 03:14:02.519 Connected
+. 2014-02-25 03:14:02.519 --------------------------------------------------------------------------
+. 2014-02-25 03:14:02.519 Using FTP protocol.
+. 2014-02-25 03:14:02.520 Doing startup conversation with host.
+> 2014-02-25 03:14:02.520 PWD
+< 2014-02-25 03:14:02.520 257 "/" is current directory.
+. 2014-02-25 03:14:02.520 Getting current directory name.
+. 2014-02-25 03:14:02.520 Startup conversation with host finished.
+< 2014-02-25 03:14:02.521 Script: Active session: [1] dillon4@ftp.excent.com
+> 2014-02-25 03:14:02.521 Script: option transfer binary
+< 2014-02-25 03:14:02.521 Script: transfer        binary    
+> 2014-02-25 03:14:02.521 Script: lcd "E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Dillon4"
+< 2014-02-25 03:14:02.521 Script: E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Dillon4
+> 2014-02-25 03:14:02.521 Script: cd /
+. 2014-02-25 03:14:02.521 Cached directory change via "/" to "/".
+. 2014-02-25 03:14:02.521 Getting current directory name.
+< 2014-02-25 03:14:02.521 Script: /
+> 2014-02-25 03:14:02.521 Script: put "E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Dillon4\ValidationReport_Detail.xls"
+. 2014-02-25 03:14:02.521 Copying 1 files/directories to remote directory "/"
+. 2014-02-25 03:14:02.521   PrTime: Yes; PrRO: No; Rght: rw-r--r--; PrR: No (No); FnCs: N; RIC: 0100; Resume: S (102400); CalcS: No; Mask: 
+. 2014-02-25 03:14:02.521   TM: B; ClAr: No; CPS: 0; InclM: 
+. 2014-02-25 03:14:02.521   AscM: *.*html; *.htm; *.txt; *.php; *.php3; *.cgi; *.c; *.cpp; *.h; *.pas; *.bas; *.tex; *.pl; *.js; .htaccess; *.xtml; *.css; *.cfg; *.ini; *.sh; *.xml
+. 2014-02-25 03:14:02.521 File: "E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Dillon4\ValidationReport_Detail.xls"
+. 2014-02-25 03:14:02.521 Copying "E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Dillon4\ValidationReport_Detail.xls" to remote directory started.
+. 2014-02-25 03:14:02.521 Binary transfer mode selected.
+. 2014-02-25 03:14:02.521 Starting upload of E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Dillon4\ValidationReport_Detail.xls
+> 2014-02-25 03:14:02.521 TYPE A
+< 2014-02-25 03:14:02.522 200 Type set to A
+> 2014-02-25 03:14:02.522 PASV
+< 2014-02-25 03:14:02.523 227 Entering Passive Mode (10,0,1,27,199,55)
+> 2014-02-25 03:14:02.523 MLSD
+< 2014-02-25 03:14:02.526 150 Connection accepted
+. 2014-02-25 03:14:02.526 SSL connection established
+< 2014-02-25 03:14:02.527 226 Transfer OK
+. 2014-02-25 03:14:02.527 type=dir;modify=20121109170823; Config Files
+. 2014-02-25 03:14:02.527 type=dir;modify=20140203132848; Db Backups
+. 2014-02-25 03:14:02.527 type=dir;modify=20121109170823; SIS Data
+. 2014-02-25 03:14:02.527 type=dir;modify=20121109170823; Sped Data
+. 2014-02-25 03:14:02.527 type=file;modify=20140225095325;size=6952448; ValidationReport_Detail.xls
+> 2014-02-25 03:14:02.527 TYPE I
+< 2014-02-25 03:14:02.528 200 Type set to I
+> 2014-02-25 03:14:02.528 PASV
+< 2014-02-25 03:14:02.528 227 Entering Passive Mode (10,0,1,27,198,212)
+> 2014-02-25 03:14:02.529 STOR ValidationReport_Detail.xls
+< 2014-02-25 03:14:02.531 150 Connection accepted
+. 2014-02-25 03:14:02.534 SSL connection established
+< 2014-02-25 03:14:03.152 226 Transfer OK
+> 2014-02-25 03:14:03.152 MFMT 20140225101402 ValidationReport_Detail.xls
+< 2014-02-25 03:14:03.153 213 modify=20140225101402; /ValidationReport_Detail.xls
+. 2014-02-25 03:14:03.153 Upload successful
+> 2014-02-25 03:14:03.153 Script: close
+. 2014-02-25 03:14:03.153 Disconnected from server
+. 2014-02-25 03:19:03.792 --------------------------------------------------------------------------
+. 2014-02-25 03:19:03.792 WinSCP Version 5.1.7 (Build 3446) (OS 6.1.7601 Service Pack 1)
+. 2014-02-25 03:19:03.792 Configuration: C:\Program Files (x86)\WinSCP\WinSCP.ini
+. 2014-02-25 03:19:03.793 Local account: RENEGADE\SQL2008User
+. 2014-02-25 03:19:03.793 Working directory: C:\Program Files (x86)\WinSCP
+. 2014-02-25 03:19:03.793 Process ID: 12128
+. 2014-02-25 03:19:03.793 Command-line: "C:\Program Files (x86)\WinSCP\WinSCP.exe" -script="E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Dillon4\ValidationReport_Upload_FTP.txt" /log="E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Dillon4\log.txt"
+. 2014-02-25 03:19:03.793 Time zone: Current: GMT-7, Standard: GMT-7, DST: GMT-6, DST Start: 3/9/2014, DST End: 11/2/2014
+. 2014-02-25 03:19:03.793 Login time: Tuesday, February 25, 2014 3:19:03 AM
+. 2014-02-25 03:19:03.793 --------------------------------------------------------------------------
+. 2014-02-25 03:19:03.793 Session name: dillon4@ftp.excent.com (Ad-Hoc session)
+. 2014-02-25 03:19:03.793 Host name: ftp.excent.com (Port: 21)
+. 2014-02-25 03:19:03.793 User name: dillon4 (Password: Yes, Key file: No)
+. 2014-02-25 03:19:03.793 Tunnel: No
+. 2014-02-25 03:19:03.793 Transfer Protocol: FTP
+. 2014-02-25 03:19:03.793 Ping type: C, Ping interval: 30 sec; Timeout: 15 sec
+. 2014-02-25 03:19:03.793 Proxy: none
+. 2014-02-25 03:19:03.793 FTP: FTPS: Explicit TLS; Passive: Yes [Force IP: A]; List all: A
+. 2014-02-25 03:19:03.793 Session reuse: Yes
+. 2014-02-25 03:19:03.793 Local directory: default, Remote directory: home, Update: Yes, Cache: Yes
+. 2014-02-25 03:19:03.793 Cache directory changes: Yes, Permanent: Yes
+. 2014-02-25 03:19:03.793 DST mode: 1; Timezone offset: 0h 0m
+. 2014-02-25 03:19:03.793 --------------------------------------------------------------------------
+. 2014-02-25 03:19:03.794 Connecting to ftp.excent.com ...
+. 2014-02-25 03:19:03.797 Connected with ftp.excent.com, negotiating SSL connection...
+< 2014-02-25 03:19:03.799 220-Welcome to Excent FTP.
+< 2014-02-25 03:19:03.799 220-
+< 2014-02-25 03:19:03.799 220 We monitor connections so please, no monkey business.
+> 2014-02-25 03:19:03.799 AUTH TLS
+< 2014-02-25 03:19:03.801 234 Using authentication type TLS
+. 2014-02-25 03:19:04.070 Using TLSv1, cipher TLSv1/SSLv3: AES256-SHA, 1024 bit RSA
+. 2014-02-25 03:19:04.070 SSL connection established. Waiting for welcome message...
+> 2014-02-25 03:19:04.070 USER dillon4
+< 2014-02-25 03:19:04.071 331 Password required for dillon4
+> 2014-02-25 03:19:04.071 PASS *******
+< 2014-02-25 03:19:04.072 230 Logged on
+> 2014-02-25 03:19:04.072 SYST
+< 2014-02-25 03:19:04.072 215 UNIX emulated by FileZilla
+> 2014-02-25 03:19:04.072 FEAT
+< 2014-02-25 03:19:04.074 211-Features:
+< 2014-02-25 03:19:04.074  MDTM
+< 2014-02-25 03:19:04.074  REST STREAM
+< 2014-02-25 03:19:04.074  SIZE
+< 2014-02-25 03:19:04.074  MLST type*;size*;modify*;
+< 2014-02-25 03:19:04.074  MLSD
+< 2014-02-25 03:19:04.074  AUTH SSL
+< 2014-02-25 03:19:04.074  AUTH TLS
+< 2014-02-25 03:19:04.074  PROT
+< 2014-02-25 03:19:04.074  PBSZ
+< 2014-02-25 03:19:04.074  UTF8
+< 2014-02-25 03:19:04.075  CLNT
+< 2014-02-25 03:19:04.075  MFMT
+< 2014-02-25 03:19:04.075 211 End
+> 2014-02-25 03:19:04.075 PBSZ 0
+< 2014-02-25 03:19:04.075 200 PBSZ=0
+> 2014-02-25 03:19:04.075 PROT P
+< 2014-02-25 03:19:04.076 200 Protection level set to P
+. 2014-02-25 03:19:04.076 Connected
+. 2014-02-25 03:19:04.076 --------------------------------------------------------------------------
+. 2014-02-25 03:19:04.076 Using FTP protocol.
+. 2014-02-25 03:19:04.076 Doing startup conversation with host.
+> 2014-02-25 03:19:04.077 PWD
+< 2014-02-25 03:19:04.077 257 "/" is current directory.
+. 2014-02-25 03:19:04.077 Getting current directory name.
+. 2014-02-25 03:19:04.077 Startup conversation with host finished.
+< 2014-02-25 03:19:04.077 Script: Active session: [1] dillon4@ftp.excent.com
+> 2014-02-25 03:19:04.077 Script: option transfer binary
+< 2014-02-25 03:19:04.077 Script: transfer        binary    
+> 2014-02-25 03:19:04.077 Script: lcd "E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Dillon4"
+< 2014-02-25 03:19:04.077 Script: E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Dillon4
+> 2014-02-25 03:19:04.078 Script: cd /
+. 2014-02-25 03:19:04.078 Cached directory change via "/" to "/".
+. 2014-02-25 03:19:04.078 Getting current directory name.
+< 2014-02-25 03:19:04.078 Script: /
+> 2014-02-25 03:19:04.078 Script: put "E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Dillon4\ValidationReport_Detail.xls"
+. 2014-02-25 03:19:04.078 Copying 1 files/directories to remote directory "/"
+. 2014-02-25 03:19:04.078   PrTime: Yes; PrRO: No; Rght: rw-r--r--; PrR: No (No); FnCs: N; RIC: 0100; Resume: S (102400); CalcS: No; Mask: 
+. 2014-02-25 03:19:04.078   TM: B; ClAr: No; CPS: 0; InclM: 
+. 2014-02-25 03:19:04.078   AscM: *.*html; *.htm; *.txt; *.php; *.php3; *.cgi; *.c; *.cpp; *.h; *.pas; *.bas; *.tex; *.pl; *.js; .htaccess; *.xtml; *.css; *.cfg; *.ini; *.sh; *.xml
+. 2014-02-25 03:19:04.078 File: "E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Dillon4\ValidationReport_Detail.xls"
+. 2014-02-25 03:19:04.078 Copying "E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Dillon4\ValidationReport_Detail.xls" to remote directory started.
+. 2014-02-25 03:19:04.078 Binary transfer mode selected.
+. 2014-02-25 03:19:04.078 Starting upload of E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Dillon4\ValidationReport_Detail.xls
+> 2014-02-25 03:19:04.078 TYPE A
+< 2014-02-25 03:19:04.079 200 Type set to A
+> 2014-02-25 03:19:04.079 PASV
+< 2014-02-25 03:19:04.080 227 Entering Passive Mode (10,0,1,27,198,213)
+> 2014-02-25 03:19:04.080 MLSD
+. 2014-02-25 03:19:04.082 SSL connection established
+< 2014-02-25 03:19:04.082 150 Connection accepted
+< 2014-02-25 03:19:04.083 226 Transfer OK
+. 2014-02-25 03:19:04.083 type=dir;modify=20121109170823; Config Files
+. 2014-02-25 03:19:04.083 type=dir;modify=20140203132848; Db Backups
+. 2014-02-25 03:19:04.083 type=dir;modify=20121109170823; SIS Data
+. 2014-02-25 03:19:04.083 type=dir;modify=20121109170823; Sped Data
+. 2014-02-25 03:19:04.083 type=file;modify=20140225101402;size=6953472; ValidationReport_Detail.xls
+> 2014-02-25 03:19:04.083 TYPE I
+< 2014-02-25 03:19:04.083 200 Type set to I
+> 2014-02-25 03:19:04.083 PASV
+< 2014-02-25 03:19:04.084 227 Entering Passive Mode (10,0,1,27,198,214)
+> 2014-02-25 03:19:04.084 STOR ValidationReport_Detail.xls
+< 2014-02-25 03:19:04.087 150 Connection accepted
+. 2014-02-25 03:19:04.089 SSL connection established
+< 2014-02-25 03:19:04.689 226 Transfer OK
+> 2014-02-25 03:19:04.689 MFMT 20140225101903 ValidationReport_Detail.xls
+< 2014-02-25 03:19:04.690 213 modify=20140225101903; /ValidationReport_Detail.xls
+. 2014-02-25 03:19:04.690 Upload successful
+> 2014-02-25 03:19:04.690 Script: close
+. 2014-02-25 03:19:04.691 Disconnected from server
+. 2014-02-25 03:25:34.040 --------------------------------------------------------------------------
+. 2014-02-25 03:25:34.048 WinSCP Version 5.1.7 (Build 3446) (OS 6.1.7601 Service Pack 1)
+. 2014-02-25 03:25:34.048 Configuration: C:\Program Files (x86)\WinSCP\WinSCP.ini
+. 2014-02-25 03:25:34.049 Local account: RENEGADE\SQL2008User
+. 2014-02-25 03:25:34.049 Working directory: C:\Program Files (x86)\WinSCP
+. 2014-02-25 03:25:34.049 Process ID: 10988
+. 2014-02-25 03:25:34.049 Command-line: "C:\Program Files (x86)\WinSCP\WinSCP.exe" -script="E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Dillon4\ValidationReport_Upload_FTP.txt" /log="E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Dillon4\log.txt"
+. 2014-02-25 03:25:34.049 Time zone: Current: GMT-7, Standard: GMT-7, DST: GMT-6, DST Start: 3/9/2014, DST End: 11/2/2014
+. 2014-02-25 03:25:34.049 Login time: Tuesday, February 25, 2014 3:25:34 AM
+. 2014-02-25 03:25:34.049 --------------------------------------------------------------------------
+. 2014-02-25 03:25:34.049 Session name: dillon4@ftp.excent.com (Ad-Hoc session)
+. 2014-02-25 03:25:34.049 Host name: ftp.excent.com (Port: 21)
+. 2014-02-25 03:25:34.049 User name: dillon4 (Password: Yes, Key file: No)
+. 2014-02-25 03:25:34.049 Tunnel: No
+. 2014-02-25 03:25:34.049 Transfer Protocol: FTP
+. 2014-02-25 03:25:34.049 Ping type: C, Ping interval: 30 sec; Timeout: 15 sec
+. 2014-02-25 03:25:34.049 Proxy: none
+. 2014-02-25 03:25:34.049 FTP: FTPS: Explicit TLS; Passive: Yes [Force IP: A]; List all: A
+. 2014-02-25 03:25:34.049 Session reuse: Yes
+. 2014-02-25 03:25:34.049 Local directory: default, Remote directory: home, Update: Yes, Cache: Yes
+. 2014-02-25 03:25:34.049 Cache directory changes: Yes, Permanent: Yes
+. 2014-02-25 03:25:34.049 DST mode: 1; Timezone offset: 0h 0m
+. 2014-02-25 03:25:34.049 --------------------------------------------------------------------------
+. 2014-02-25 03:25:34.078 Connecting to ftp.excent.com ...
+. 2014-02-25 03:25:34.214 Connected with ftp.excent.com, negotiating SSL connection...
+< 2014-02-25 03:25:34.215 220-Welcome to Excent FTP.
+< 2014-02-25 03:25:34.216 220-
+< 2014-02-25 03:25:34.216 220 We monitor connections so please, no monkey business.
+> 2014-02-25 03:25:34.216 AUTH TLS
+< 2014-02-25 03:25:34.217 234 Using authentication type TLS
+. 2014-02-25 03:25:34.551 Using TLSv1, cipher TLSv1/SSLv3: AES256-SHA, 1024 bit RSA
+. 2014-02-25 03:25:34.552 SSL connection established. Waiting for welcome message...
+> 2014-02-25 03:25:34.552 USER dillon4
+< 2014-02-25 03:25:34.552 331 Password required for dillon4
+> 2014-02-25 03:25:34.552 PASS *******
+< 2014-02-25 03:25:34.553 230 Logged on
+> 2014-02-25 03:25:34.553 SYST
+< 2014-02-25 03:25:34.554 215 UNIX emulated by FileZilla
+> 2014-02-25 03:25:34.554 FEAT
+< 2014-02-25 03:25:34.555 211-Features:
+< 2014-02-25 03:25:34.555  MDTM
+< 2014-02-25 03:25:34.555  REST STREAM
+< 2014-02-25 03:25:34.555  SIZE
+< 2014-02-25 03:25:34.555  MLST type*;size*;modify*;
+< 2014-02-25 03:25:34.557  MLSD
+< 2014-02-25 03:25:34.557  AUTH SSL
+< 2014-02-25 03:25:34.557  AUTH TLS
+< 2014-02-25 03:25:34.557  PROT
+< 2014-02-25 03:25:34.557  PBSZ
+< 2014-02-25 03:25:34.557  UTF8
+< 2014-02-25 03:25:34.557  CLNT
+< 2014-02-25 03:25:34.557  MFMT
+< 2014-02-25 03:25:34.557 211 End
+> 2014-02-25 03:25:34.557 PBSZ 0
+< 2014-02-25 03:25:34.557 200 PBSZ=0
+> 2014-02-25 03:25:34.557 PROT P
+< 2014-02-25 03:25:34.558 200 Protection level set to P
+. 2014-02-25 03:25:34.558 Connected
+. 2014-02-25 03:25:34.559 --------------------------------------------------------------------------
+. 2014-02-25 03:25:34.559 Using FTP protocol.
+. 2014-02-25 03:25:34.560 Doing startup conversation with host.
+> 2014-02-25 03:25:34.560 PWD
+< 2014-02-25 03:25:34.560 257 "/" is current directory.
+. 2014-02-25 03:25:34.561 Getting current directory name.
+. 2014-02-25 03:25:34.561 Startup conversation with host finished.
+< 2014-02-25 03:25:34.561 Script: Active session: [1] dillon4@ftp.excent.com
+> 2014-02-25 03:25:34.561 Script: option transfer binary
+< 2014-02-25 03:25:34.561 Script: transfer        binary    
+> 2014-02-25 03:25:34.561 Script: lcd "E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Dillon4"
+< 2014-02-25 03:25:34.562 Script: E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Dillon4
+> 2014-02-25 03:25:34.562 Script: cd /
+. 2014-02-25 03:25:34.562 Cached directory change via "/" to "/".
+. 2014-02-25 03:25:34.562 Getting current directory name.
+< 2014-02-25 03:25:34.562 Script: /
+> 2014-02-25 03:25:34.562 Script: put "E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Dillon4\ValidationReport_Detail.xls"
+. 2014-02-25 03:25:34.562 Copying 1 files/directories to remote directory "/"
+. 2014-02-25 03:25:34.562   PrTime: Yes; PrRO: No; Rght: rw-r--r--; PrR: No (No); FnCs: N; RIC: 0100; Resume: S (102400); CalcS: No; Mask: 
+. 2014-02-25 03:25:34.562   TM: B; ClAr: No; CPS: 0; InclM: 
+. 2014-02-25 03:25:34.562   AscM: *.*html; *.htm; *.txt; *.php; *.php3; *.cgi; *.c; *.cpp; *.h; *.pas; *.bas; *.tex; *.pl; *.js; .htaccess; *.xtml; *.css; *.cfg; *.ini; *.sh; *.xml
+. 2014-02-25 03:25:34.562 File: "E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Dillon4\ValidationReport_Detail.xls"
+. 2014-02-25 03:25:34.565 Copying "E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Dillon4\ValidationReport_Detail.xls" to remote directory started.
+. 2014-02-25 03:25:34.566 Binary transfer mode selected.
+. 2014-02-25 03:25:34.566 Starting upload of E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Dillon4\ValidationReport_Detail.xls
+> 2014-02-25 03:25:34.566 TYPE A
+< 2014-02-25 03:25:34.567 200 Type set to A
+> 2014-02-25 03:25:34.567 PASV
+< 2014-02-25 03:25:34.568 227 Entering Passive Mode (10,0,1,27,198,215)
+> 2014-02-25 03:25:34.570 MLSD
+< 2014-02-25 03:25:34.571 150 Connection accepted
+. 2014-02-25 03:25:34.571 SSL connection established
+< 2014-02-25 03:25:34.573 226 Transfer OK
+. 2014-02-25 03:25:34.573 type=dir;modify=20121109170823; Config Files
+. 2014-02-25 03:25:34.573 type=dir;modify=20140203132848; Db Backups
+. 2014-02-25 03:25:34.573 type=dir;modify=20121109170823; SIS Data
+. 2014-02-25 03:25:34.573 type=dir;modify=20121109170823; Sped Data
+. 2014-02-25 03:25:34.573 type=file;modify=20140225101903;size=6953472; ValidationReport_Detail.xls
+> 2014-02-25 03:25:34.580 TYPE I
+< 2014-02-25 03:25:34.581 200 Type set to I
+> 2014-02-25 03:25:34.581 PASV
+< 2014-02-25 03:25:34.582 227 Entering Passive Mode (10,0,1,27,198,216)
+> 2014-02-25 03:25:34.582 STOR ValidationReport_Detail.xls
+< 2014-02-25 03:25:34.583 150 Connection accepted
+. 2014-02-25 03:25:34.585 SSL connection established
+< 2014-02-25 03:25:35.304 226 Transfer OK
+> 2014-02-25 03:25:35.304 MFMT 20140225102532 ValidationReport_Detail.xls
+< 2014-02-25 03:25:35.305 213 modify=20140225102532; /ValidationReport_Detail.xls
+. 2014-02-25 03:25:35.305 Upload successful
+> 2014-02-25 03:25:35.305 Script: close
+. 2014-02-25 03:25:35.305 Disconnected from server
+. 2014-02-25 04:14:30.336 --------------------------------------------------------------------------
+. 2014-02-25 04:14:30.343 WinSCP Version 5.1.7 (Build 3446) (OS 6.1.7601 Service Pack 1)
+. 2014-02-25 04:14:30.343 Configuration: C:\Program Files (x86)\WinSCP\WinSCP.ini
+. 2014-02-25 04:14:30.344 Local account: RENEGADE\SQL2008User
+. 2014-02-25 04:14:30.344 Working directory: C:\Program Files (x86)\WinSCP
+. 2014-02-25 04:14:30.344 Process ID: 308
+. 2014-02-25 04:14:30.344 Command-line: "C:\Program Files (x86)\WinSCP\WinSCP.exe" -script="E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Dillon4\ValidationReport_Upload_FTP.txt" /log="E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Dillon4\log.txt"
+. 2014-02-25 04:14:30.344 Time zone: Current: GMT-7, Standard: GMT-7, DST: GMT-6, DST Start: 3/9/2014, DST End: 11/2/2014
+. 2014-02-25 04:14:30.344 Login time: Tuesday, February 25, 2014 4:14:30 AM
+. 2014-02-25 04:14:30.344 --------------------------------------------------------------------------
+. 2014-02-25 04:14:30.344 Session name: dillon4@ftp.excent.com (Ad-Hoc session)
+. 2014-02-25 04:14:30.344 Host name: ftp.excent.com (Port: 21)
+. 2014-02-25 04:14:30.344 User name: dillon4 (Password: Yes, Key file: No)
+. 2014-02-25 04:14:30.344 Tunnel: No
+. 2014-02-25 04:14:30.344 Transfer Protocol: FTP
+. 2014-02-25 04:14:30.344 Ping type: C, Ping interval: 30 sec; Timeout: 15 sec
+. 2014-02-25 04:14:30.344 Proxy: none
+. 2014-02-25 04:14:30.344 FTP: FTPS: Explicit TLS; Passive: Yes [Force IP: A]; List all: A
+. 2014-02-25 04:14:30.344 Session reuse: Yes
+. 2014-02-25 04:14:30.344 Local directory: default, Remote directory: home, Update: Yes, Cache: Yes
+. 2014-02-25 04:14:30.344 Cache directory changes: Yes, Permanent: Yes
+. 2014-02-25 04:14:30.344 DST mode: 1; Timezone offset: 0h 0m
+. 2014-02-25 04:14:30.344 --------------------------------------------------------------------------
+. 2014-02-25 04:14:30.366 Connecting to ftp.excent.com ...
+. 2014-02-25 04:14:30.489 Connected with ftp.excent.com, negotiating SSL connection...
+< 2014-02-25 04:14:30.490 220-Welcome to Excent FTP.
+< 2014-02-25 04:14:30.490 220-
+< 2014-02-25 04:14:30.490 220 We monitor connections so please, no monkey business.
+> 2014-02-25 04:14:30.490 AUTH TLS
+< 2014-02-25 04:14:30.492 234 Using authentication type TLS
+. 2014-02-25 04:14:30.830 Using TLSv1, cipher TLSv1/SSLv3: AES256-SHA, 1024 bit RSA
+. 2014-02-25 04:14:30.830 SSL connection established. Waiting for welcome message...
+> 2014-02-25 04:14:30.830 USER dillon4
+< 2014-02-25 04:14:30.831 331 Password required for dillon4
+> 2014-02-25 04:14:30.831 PASS *******
+< 2014-02-25 04:14:30.832 230 Logged on
+> 2014-02-25 04:14:30.832 SYST
+< 2014-02-25 04:14:30.832 215 UNIX emulated by FileZilla
+> 2014-02-25 04:14:30.832 FEAT
+< 2014-02-25 04:14:30.833 211-Features:
+< 2014-02-25 04:14:30.833  MDTM
+< 2014-02-25 04:14:30.833  REST STREAM
+< 2014-02-25 04:14:30.833  SIZE
+< 2014-02-25 04:14:30.833  MLST type*;size*;modify*;
+< 2014-02-25 04:14:30.834  MLSD
+< 2014-02-25 04:14:30.834  AUTH SSL
+< 2014-02-25 04:14:30.834  AUTH TLS
+< 2014-02-25 04:14:30.834  PROT
+< 2014-02-25 04:14:30.834  PBSZ
+< 2014-02-25 04:14:30.834  UTF8
+< 2014-02-25 04:14:30.834  CLNT
+< 2014-02-25 04:14:30.834  MFMT
+< 2014-02-25 04:14:30.834 211 End
+> 2014-02-25 04:14:30.834 PBSZ 0
+< 2014-02-25 04:14:30.835 200 PBSZ=0
+> 2014-02-25 04:14:30.835 PROT P
+< 2014-02-25 04:14:30.836 200 Protection level set to P
+. 2014-02-25 04:14:30.836 Connected
+. 2014-02-25 04:14:30.837 --------------------------------------------------------------------------
+. 2014-02-25 04:14:30.837 Using FTP protocol.
+. 2014-02-25 04:14:30.838 Doing startup conversation with host.
+> 2014-02-25 04:14:30.838 PWD
+< 2014-02-25 04:14:30.838 257 "/" is current directory.
+. 2014-02-25 04:14:30.839 Getting current directory name.
+. 2014-02-25 04:14:30.839 Startup conversation with host finished.
+< 2014-02-25 04:14:30.839 Script: Active session: [1] dillon4@ftp.excent.com
+> 2014-02-25 04:14:30.839 Script: option transfer binary
+< 2014-02-25 04:14:30.839 Script: transfer        binary    
+> 2014-02-25 04:14:30.839 Script: lcd "E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Dillon4"
+< 2014-02-25 04:14:30.839 Script: E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Dillon4
+> 2014-02-25 04:14:30.840 Script: cd /
+. 2014-02-25 04:14:30.840 Cached directory change via "/" to "/".
+. 2014-02-25 04:14:30.840 Getting current directory name.
+< 2014-02-25 04:14:30.840 Script: /
+> 2014-02-25 04:14:30.840 Script: put "E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Dillon4\ValidationReport_Detail.xls"
+. 2014-02-25 04:14:30.840 Copying 1 files/directories to remote directory "/"
+. 2014-02-25 04:14:30.840   PrTime: Yes; PrRO: No; Rght: rw-r--r--; PrR: No (No); FnCs: N; RIC: 0100; Resume: S (102400); CalcS: No; Mask: 
+. 2014-02-25 04:14:30.840   TM: B; ClAr: No; CPS: 0; InclM: 
+. 2014-02-25 04:14:30.840   AscM: *.*html; *.htm; *.txt; *.php; *.php3; *.cgi; *.c; *.cpp; *.h; *.pas; *.bas; *.tex; *.pl; *.js; .htaccess; *.xtml; *.css; *.cfg; *.ini; *.sh; *.xml
+. 2014-02-25 04:14:30.840 File: "E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Dillon4\ValidationReport_Detail.xls"
+. 2014-02-25 04:14:30.842 Copying "E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Dillon4\ValidationReport_Detail.xls" to remote directory started.
+. 2014-02-25 04:14:30.842 Binary transfer mode selected.
+. 2014-02-25 04:14:30.842 Starting upload of E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Dillon4\ValidationReport_Detail.xls
+> 2014-02-25 04:14:30.843 TYPE A
+< 2014-02-25 04:14:30.843 200 Type set to A
+> 2014-02-25 04:14:30.843 PASV
+< 2014-02-25 04:14:30.844 227 Entering Passive Mode (10,0,1,27,198,217)
+> 2014-02-25 04:14:30.857 MLSD
+< 2014-02-25 04:14:30.859 150 Connection accepted
+. 2014-02-25 04:14:30.859 SSL connection established
+< 2014-02-25 04:14:30.861 226 Transfer OK
+. 2014-02-25 04:14:30.861 type=dir;modify=20121109170823; Config Files
+. 2014-02-25 04:14:30.861 type=dir;modify=20140203132848; Db Backups
+. 2014-02-25 04:14:30.861 type=dir;modify=20121109170823; SIS Data
+. 2014-02-25 04:14:30.861 type=dir;modify=20121109170823; Sped Data
+. 2014-02-25 04:14:30.861 type=file;modify=20140225102532;size=8096256; ValidationReport_Detail.xls
+> 2014-02-25 04:14:30.870 TYPE I
+< 2014-02-25 04:14:30.871 200 Type set to I
+> 2014-02-25 04:14:30.871 PASV
+< 2014-02-25 04:14:30.872 227 Entering Passive Mode (10,0,1,27,198,218)
+> 2014-02-25 04:14:30.872 STOR ValidationReport_Detail.xls
+< 2014-02-25 04:14:30.875 150 Connection accepted
+. 2014-02-25 04:14:30.887 SSL connection established
+< 2014-02-25 04:14:31.572 226 Transfer OK
+> 2014-02-25 04:14:31.573 MFMT 20140225111428 ValidationReport_Detail.xls
+< 2014-02-25 04:14:31.573 213 modify=20140225111428; /ValidationReport_Detail.xls
+. 2014-02-25 04:14:31.573 Upload successful
+> 2014-02-25 04:14:31.574 Script: close
+. 2014-02-25 04:14:31.574 Disconnected from server
+. 2014-02-25 07:25:26.841 --------------------------------------------------------------------------
+. 2014-02-25 07:25:26.845 WinSCP Version 5.1.7 (Build 3446) (OS 6.1.7601 Service Pack 1)
+. 2014-02-25 07:25:26.845 Configuration: C:\Program Files (x86)\WinSCP\WinSCP.ini
+. 2014-02-25 07:25:26.854 Local account: RENEGADE\SQL2008User
+. 2014-02-25 07:25:26.854 Working directory: C:\Program Files (x86)\WinSCP
+. 2014-02-25 07:25:26.854 Process ID: 14688
+. 2014-02-25 07:25:26.854 Command-line: "C:\Program Files (x86)\WinSCP\WinSCP.exe" -script="E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Pickens\ValidationReport_Upload_FTP.txt" /log="E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Pickens\log_ftp.txt"
+. 2014-02-25 07:25:26.854 Time zone: Current: GMT-7, Standard: GMT-7, DST: GMT-6, DST Start: 3/9/2014, DST End: 11/2/2014
+. 2014-02-25 07:25:26.854 Login time: Tuesday, February 25, 2014 7:25:26 AM
+. 2014-02-25 07:25:26.854 --------------------------------------------------------------------------
+. 2014-02-25 07:25:26.854 Session name: dillon4@ftp.excent.com (Ad-Hoc session)
+. 2014-02-25 07:25:26.854 Host name: ftp.excent.com (Port: 21)
+. 2014-02-25 07:25:26.854 User name: dillon4 (Password: Yes, Key file: No)
+. 2014-02-25 07:25:26.854 Tunnel: No
+. 2014-02-25 07:25:26.854 Transfer Protocol: FTP
+. 2014-02-25 07:25:26.854 Ping type: C, Ping interval: 30 sec; Timeout: 15 sec
+. 2014-02-25 07:25:26.854 Proxy: none
+. 2014-02-25 07:25:26.854 FTP: FTPS: Explicit TLS; Passive: Yes [Force IP: A]; List all: A
+. 2014-02-25 07:25:26.854 Session reuse: Yes
+. 2014-02-25 07:25:26.854 Local directory: default, Remote directory: home, Update: Yes, Cache: Yes
+. 2014-02-25 07:25:26.854 Cache directory changes: Yes, Permanent: Yes
+. 2014-02-25 07:25:26.854 DST mode: 1; Timezone offset: 0h 0m
+. 2014-02-25 07:25:26.854 --------------------------------------------------------------------------
+. 2014-02-25 07:25:26.906 Connecting to ftp.excent.com ...
+. 2014-02-25 07:25:27.066 Connected with ftp.excent.com, negotiating SSL connection...
+< 2014-02-25 07:25:27.066 220-Welcome to Excent FTP.
+< 2014-02-25 07:25:27.066 220-
+< 2014-02-25 07:25:27.066 220 We monitor connections so please, no monkey business.
+> 2014-02-25 07:25:27.066 AUTH TLS
+< 2014-02-25 07:25:27.067 234 Using authentication type TLS
+. 2014-02-25 07:25:27.404 Using TLSv1, cipher TLSv1/SSLv3: AES256-SHA, 1024 bit RSA
+. 2014-02-25 07:25:27.404 SSL connection established. Waiting for welcome message...
+> 2014-02-25 07:25:27.404 USER dillon4
+< 2014-02-25 07:25:27.404 331 Password required for dillon4
+> 2014-02-25 07:25:27.404 PASS *******
+< 2014-02-25 07:25:27.406 230 Logged on
+> 2014-02-25 07:25:27.406 SYST
+< 2014-02-25 07:25:27.406 215 UNIX emulated by FileZilla
+> 2014-02-25 07:25:27.406 FEAT
+< 2014-02-25 07:25:27.408 211-Features:
+< 2014-02-25 07:25:27.408  MDTM
+< 2014-02-25 07:25:27.408  REST STREAM
+< 2014-02-25 07:25:27.408  SIZE
+< 2014-02-25 07:25:27.408  MLST type*;size*;modify*;
+< 2014-02-25 07:25:27.409  MLSD
+< 2014-02-25 07:25:27.409  AUTH SSL
+< 2014-02-25 07:25:27.409  AUTH TLS
+< 2014-02-25 07:25:27.409  PROT
+< 2014-02-25 07:25:27.409  PBSZ
+< 2014-02-25 07:25:27.409  UTF8
+< 2014-02-25 07:25:27.409  CLNT
+< 2014-02-25 07:25:27.409  MFMT
+< 2014-02-25 07:25:27.409 211 End
+> 2014-02-25 07:25:27.409 PBSZ 0
+< 2014-02-25 07:25:27.410 200 PBSZ=0
+> 2014-02-25 07:25:27.410 PROT P
+< 2014-02-25 07:25:27.411 200 Protection level set to P
+. 2014-02-25 07:25:27.411 Connected
+. 2014-02-25 07:25:27.411 --------------------------------------------------------------------------
+. 2014-02-25 07:25:27.412 Using FTP protocol.
+. 2014-02-25 07:25:27.413 Doing startup conversation with host.
+> 2014-02-25 07:25:27.413 PWD
+< 2014-02-25 07:25:27.413 257 "/" is current directory.
+. 2014-02-25 07:25:27.414 Getting current directory name.
+. 2014-02-25 07:25:27.414 Startup conversation with host finished.
+< 2014-02-25 07:25:27.414 Script: Active session: [1] dillon4@ftp.excent.com
+> 2014-02-25 07:25:27.414 Script: option transfer binary
+< 2014-02-25 07:25:27.414 Script: transfer        binary    
+> 2014-02-25 07:25:27.414 Script: lcd "E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Pickens"
+< 2014-02-25 07:25:27.414 Script: E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Pickens
+> 2014-02-25 07:25:27.414 Script: cd /
+. 2014-02-25 07:25:27.414 Cached directory change via "/" to "/".
+. 2014-02-25 07:25:27.414 Getting current directory name.
+< 2014-02-25 07:25:27.414 Script: /
+> 2014-02-25 07:25:27.414 Script: put "E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Pickens\ValidationReport_Detail.xls"
+. 2014-02-25 07:25:27.415 Copying 1 files/directories to remote directory "/"
+. 2014-02-25 07:25:27.415   PrTime: Yes; PrRO: No; Rght: rw-r--r--; PrR: No (No); FnCs: N; RIC: 0100; Resume: S (102400); CalcS: No; Mask: 
+. 2014-02-25 07:25:27.415   TM: B; ClAr: No; CPS: 0; InclM: 
+. 2014-02-25 07:25:27.415   AscM: *.*html; *.htm; *.txt; *.php; *.php3; *.cgi; *.c; *.cpp; *.h; *.pas; *.bas; *.tex; *.pl; *.js; .htaccess; *.xtml; *.css; *.cfg; *.ini; *.sh; *.xml
+. 2014-02-25 07:25:27.415 File: "E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Pickens\ValidationReport_Detail.xls"
+. 2014-02-25 07:25:27.416 Copying "E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Pickens\ValidationReport_Detail.xls" to remote directory started.
+. 2014-02-25 07:25:27.416 Binary transfer mode selected.
+. 2014-02-25 07:25:27.416 Starting upload of E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Pickens\ValidationReport_Detail.xls
+> 2014-02-25 07:25:27.416 TYPE A
+< 2014-02-25 07:25:27.417 200 Type set to A
+> 2014-02-25 07:25:27.417 PASV
+< 2014-02-25 07:25:27.418 227 Entering Passive Mode (10,0,1,27,199,8)
+> 2014-02-25 07:25:27.427 MLSD
+< 2014-02-25 07:25:27.429 150 Connection accepted
+. 2014-02-25 07:25:27.429 SSL connection established
+< 2014-02-25 07:25:27.431 226 Transfer OK
+. 2014-02-25 07:25:27.431 type=dir;modify=20121109170823; Config Files
+. 2014-02-25 07:25:27.431 type=dir;modify=20140203132848; Db Backups
+. 2014-02-25 07:25:27.431 type=dir;modify=20121109170823; SIS Data
+. 2014-02-25 07:25:27.432 type=dir;modify=20121109170823; Sped Data
+. 2014-02-25 07:25:27.432 type=file;modify=20140225111428;size=8095744; ValidationReport_Detail.xls
+> 2014-02-25 07:25:27.440 TYPE I
+< 2014-02-25 07:25:27.441 200 Type set to I
+> 2014-02-25 07:25:27.441 PASV
+< 2014-02-25 07:25:27.442 227 Entering Passive Mode (10,0,1,27,199,9)
+> 2014-02-25 07:25:27.442 STOR ValidationReport_Detail.xls
+< 2014-02-25 07:25:27.445 150 Connection accepted
+. 2014-02-25 07:25:27.458 SSL connection established
+< 2014-02-25 07:25:28.167 226 Transfer OK
+> 2014-02-25 07:25:28.167 MFMT 20140225142524 ValidationReport_Detail.xls
+< 2014-02-25 07:25:28.168 213 modify=20140225142524; /ValidationReport_Detail.xls
+. 2014-02-25 07:25:28.168 Upload successful
+> 2014-02-25 07:25:28.168 Script: close
+. 2014-02-25 07:25:28.169 Disconnected from server

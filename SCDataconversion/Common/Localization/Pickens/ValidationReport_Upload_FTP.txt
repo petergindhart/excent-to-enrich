@@ -8,9 +8,9 @@ option confirm off
 open ftp://dillon4:g422t7k@ftp.excent.com:21 -explicittls
 # Force binary mode transfer
 option transfer binary
-lcd "E:\GIT\excent-to-enrich\SCDataconversion\ValidationScripts\Localization\Pickens"
+lcd "E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Pickens"
 cd /
-put "E:\GIT\excent-to-enrich\SCDataconversion\ValidationScripts\Localization\Pickens\ValidationReport_Detail.xls"
+put "E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Pickens\ValidationReport_Detail.xls"
 # Disconnect
 close
 # Exit WinSCP
