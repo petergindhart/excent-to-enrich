@@ -1,4 +1,0 @@
-
-(8519 rows affected)
-
-(1 rows affected)
