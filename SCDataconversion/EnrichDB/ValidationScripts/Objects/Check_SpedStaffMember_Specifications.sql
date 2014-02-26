@@ -211,7 +211,8 @@ WHILE @Count<=@MaxCount
     END
 --SELECT @Txtunique AS Txtq
 
-SET @sqlvalidated = @sqlvalidated +@Txtunique +@Txtfkrel+@Txtdatalength+@Txtreq+@Txtflag+@Txtdatatype
+SET @sqlvalidated = @sqlvalidated +@Txtunique +@Txtfkrel+@Txtreq+@Txtflag+@Txtdatatype
+--SET @sqlvalidated = @sqlvalidated +@Txtunique +@Txtfkrel+@Txtdatalength+@Txtreq+@Txtflag+@Txtdatatype
 print @sqlvalidated
 
 EXEC (@sqlvalidated)
@@ -296,7 +297,7 @@ IF (1=1)
 BEGIN
 
 SET @vsql = 'INSERT x_DATAVALIDATION.ValidationReport (TableName,ErrorMessage,LineNumber,Line)
-SELECT ''SpedStaffMember'','''+@columnname+' cannot be greater than X characters.'',Line_No,ISNULL(CONVERT(VARCHAR(max),StaffEmail),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),LASTNAME),'''')+ISNULL(CONVERT(VARCHAR(max),Firstname),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),EnrichRole),'''')
+SELECT ''SpedStaffMember'','''+@columnname+' field will be truncated at '+@datalength+' characters.'',Line_No,ISNULL(CONVERT(VARCHAR(max),StaffEmail),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),LASTNAME),'''')+ISNULL(CONVERT(VARCHAR(max),Firstname),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),EnrichRole),'''')
 FROM x_DATAVALIDATION.SpedStaffMember_LOCAL WHERE 1 = 1'
 
 SET @query  = ' AND ((DATALENGTH ('+@columnname+')/2) > '+@datalength+' AND '+@columnname+' IS NOT NULL)'
@@ -305,7 +306,7 @@ EXEC sp_executesql @stmt=@vsql
 --PRINT @vsql
 
 SET @sumsql = 'INSERT x_DATAVALIDATION.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
-SELECT ''SpedStaffMember'','''+@columnname+' cannot be greater than X characters.'', COUNT(*)
+SELECT ''SpedStaffMember'','''+@columnname+' field will be truncated at '+@datalength+' characters.'', COUNT(*)
 FROM x_DATAVALIDATION.SpedStaffMember_LOCAL WHERE 1 = 1 '
 
 SET @query  = ' AND ((DATALENGTH ('+@columnname+')/2) > '+@datalength+' AND '+@columnname+' IS NOT NULL)'

@@ -93,7 +93,8 @@ WHILE @Count<=@MaxCount
     END
 --SELECT @Txtunique AS Txtq
 
-SET @sqlvalidated = @sqlvalidated +@Txtunique +@Txtdatalength+@Txtreq
+SET @sqlvalidated = @sqlvalidated +@Txtunique +@Txtreq
+--SET @sqlvalidated = @sqlvalidated +@Txtunique +@Txtdatalength+@Txtreq
 --print @sqlvalidated
 
 EXEC sp_executesql @stmt = @sqlvalidated
@@ -171,7 +172,7 @@ IF (1=1)
 BEGIN
 
 SET @vsql = 'INSERT x_DATAVALIDATION.ValidationReport (TableName,ErrorMessage,LineNumber,Line)
-SELECT ''District'','''+@columnname+' cannnot be greater than X characters.'',Line_No,(ISNULL(CONVERT(VARCHAR(max),DISTRICTCODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),DISTRICTNAME),'''')) as line
+SELECT ''District'','''+@columnname+' field will be truncated at '+@datalength+' characters.'',Line_No,(ISNULL(CONVERT(VARCHAR(max),DISTRICTCODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),DISTRICTNAME),'''')) as line
 FROM x_DATAVALIDATION.District_Local WHERE 1 = 1'
 
 SET @query  = ' AND ((DATALENGTH ('+@columnname+')/2) > '+@datalength+' AND '+@columnname+' IS NOT NULL)'
@@ -180,7 +181,7 @@ EXEC sp_executesql @stmt=@vsql
 --PRINT @vsql
 
 SET @sumsql = 'INSERT x_DATAVALIDATION.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
-SELECT ''District'','''+@columnname+' cannnot be greater than X characters.'', COUNT(*)
+SELECT ''District'','''+@columnname+' field will be truncated at '+@datalength+' characters.'', COUNT(*)
 FROM x_DATAVALIDATION.District_Local WHERE 1 = 1 '
 
 SET @query  = ' AND ((DATALENGTH ('+@columnname+')/2) > '+@datalength+' AND '+@columnname+' IS NOT NULL)'

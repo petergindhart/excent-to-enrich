@@ -50,12 +50,12 @@ UPDATE Destination SET Destination.ExtractDatabase = Source.ExtractDatabase, Des
 UPDATE Destination SET Destination.ExtractDatabase = Source.ExtractDatabase, Destination.Sequence = Source.Sequence, Destination.SourceTable = Source.SourceTable, Destination.DestTable = Source.DestTable, Destination.HasMapTable = Source.HasMapTable, Destination.MapTable = Source.MapTable, Destination.KeyField = Source.KeyField, Destination.DeleteKey = Source.DeleteKey, Destination.ImportType = Source.ImportType, Destination.DeleteTrans = Source.DeleteTrans, Destination.UpdateTrans = Source.UpdateTrans, Destination.InsertTrans = Source.InsertTrans, Destination.Enabled = Source.Enabled, Destination.SourceTableFilter = Source.SourceTableFilter, Destination.DestTableFilter = Source.DestTableFilter, Destination.PurgeCondition = Source.PurgeCondition, Destination.KeepMappingAfterDelete = Source.KeepMappingAfterDelete, Destination.StartNewTransaction = Source.StartNewTransaction, Destination.LastLoadDate = Source.LastLoadDate, Destination.MapTableMapID = Source.MapTableMapID, Destination.Comments = Source.Comments FROM @VC3ETL_LoadTable Source JOIN VC3ETL.LoadTable Destination ON Source.ID = Destination.ID
 
 UPDATE VC3ETL.ExtractDatabase
-SET Server = (select ParamValue from x_DATAVALIDATION.ParamValues where ParamName = 'server'),
+SET Server = (select ParamValue from x_DATAVALIDATION.ParamValues where ParamName = 'linkedServerAddress'),
 DatabaseOwner = (select ParamValue from x_DATAVALIDATION.ParamValues where ParamName = 'databaseOwner'),
 DatabaseName = (select ParamValue from x_DATAVALIDATION.ParamValues where ParamName = 'databaseName'),
 UserName = (select ParamValue from x_DATAVALIDATION.ParamValues where ParamName = 'EOdatabaseUserName'),
 Password = (select ParamValue from x_DATAVALIDATION.ParamValues where ParamName = 'EOdatabasepwd'),
-LinkedServer = (select ParamValue from x_DATAVALIDATION.ParamValues where ParamName = 'linkedServer')
+LinkedServer = (select '['+ParamValue+']' from x_DATAVALIDATION.ParamValues where ParamName = 'linkedServerAlias')
 WHERE ID = '54DD3C28-8F7F-4A54-BCF1-000000000000'
 
 

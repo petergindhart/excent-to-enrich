@@ -216,7 +216,8 @@ WHILE @Count<=@MaxCount
     END
 --SELECT @Txtunique AS Txtq
 
-SET @sqlvalidated = @sqlvalidated +@Txtunique+@Txtfkrel+@Txtdatalength+@Txtreq+@Txtflag+@Txtdatatype+@Txtlookup
+SET @sqlvalidated = @sqlvalidated +@Txtunique+@Txtfkrel+@Txtreq+@Txtflag+@Txtdatatype+@Txtlookup
+--SET @sqlvalidated = @sqlvalidated +@Txtunique+@Txtfkrel+@Txtdatalength+@Txtreq+@Txtflag+@Txtdatatype+@Txtlookup
 print @sqlvalidated
 
 EXEC (@sqlvalidated)
@@ -329,7 +330,7 @@ IF (1=1)
 BEGIN
 
 SET @vsql = 'INSERT x_DATAVALIDATION.ValidationReport (TableName,ErrorMessage,LineNumber,Line)
-SELECT ''Goal'','''+@columnname+' cannot be greater than X characters.'',goal.Line_No,ISNULL(CONVERT(VARCHAR(max),st.studentLocalID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.FirstName),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.LastName),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),goal.GoalRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),goal.IepRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),goal.Sequence),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),goal.GoalAreaCode),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),goal.SCInstructional),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),goal.SCTransition),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),goal.SCRelatedService),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),goal.IsEsy),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),goal.UNITOFMEASUREMENT),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),goal.BASELINEDATAPOINT),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),goal.EVALUATIONMETHOD),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),goal.GoalStatement),'''') FROM x_DATAVALIDATION.Goal_Local goal JOIN x_DATAVALIDATION.Iep_local iep ON iep.IepRefID = goal.IepRefID JOIN x_DATAVALIDATION.Student_local st on st.StudentrefID = iep.StudentrefID WHERE 1 = 1'
+SELECT ''Goal'','''+@columnname+' field will be truncated at '+@datalength+' characters.'',goal.Line_No,ISNULL(CONVERT(VARCHAR(max),st.studentLocalID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.FirstName),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.LastName),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),goal.GoalRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),goal.IepRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),goal.Sequence),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),goal.GoalAreaCode),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),goal.SCInstructional),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),goal.SCTransition),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),goal.SCRelatedService),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),goal.IsEsy),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),goal.UNITOFMEASUREMENT),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),goal.BASELINEDATAPOINT),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),goal.EVALUATIONMETHOD),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),goal.GoalStatement),'''') FROM x_DATAVALIDATION.Goal_Local goal JOIN x_DATAVALIDATION.Iep_local iep ON iep.IepRefID = goal.IepRefID JOIN x_DATAVALIDATION.Student_local st on st.StudentrefID = iep.StudentrefID WHERE 1 = 1'
 
 SET @query  = ' AND ((DATALENGTH (REPLACE(goal.'+@columnname+','''''''',''''))/2) > '+@datalength+' AND goal.'+@columnname+' IS NOT NULL)'
 SET @vsql = @vsql + @query
@@ -337,7 +338,7 @@ EXEC sp_executesql @stmt=@vsql
 --PRINT @vsql
 
 SET @sumsql = 'INSERT x_DATAVALIDATION.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
-SELECT ''Goal'','''+@columnname+' cannot be greater than X characters.'', COUNT(*)
+SELECT ''Goal'','''+@columnname+' field will be truncated at '+@datalength+' characters.'', COUNT(*)
 FROM x_DATAVALIDATION.Goal_Local WHERE 1 = 1 '
 
 SET @query  = ' AND ((DATALENGTH (REPLACE('+@columnname+','''''''',''''))/2) > '+@datalength+' AND '+@columnname+' IS NOT NULL)'

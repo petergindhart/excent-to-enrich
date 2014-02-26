@@ -211,7 +211,8 @@ WHILE @Count<=@MaxCount
     END
 SELECT @Txtunique AS Txtq
 
-SET @sqlvalidated = @sqlvalidated +@Txtunique +@Txtfkrel+@Txtdatalength+@Txtreq+@Txtflag+@Txtdatatype+@Txtlookup
+SET @sqlvalidated = @sqlvalidated +@Txtunique +@Txtfkrel+@Txtreq+@Txtflag+@Txtdatatype+@Txtlookup
+--SET @sqlvalidated = @sqlvalidated +@Txtunique +@Txtfkrel+@Txtdatalength+@Txtreq+@Txtflag+@Txtdatatype+@Txtlookup
 print @sqlvalidated
 
 EXEC (@sqlvalidated)
@@ -348,7 +349,7 @@ IF (1=1)
 BEGIN
 
 SET @vsql = 'INSERT x_DATAVALIDATION.ValidationReport (TableName,ErrorMessage,LineNumber,Line)
-SELECT ''Service'','''+@columnname+' cannot be greater than X characters.'',ser.Line_No,ISNULL(CONVERT(VARCHAR(max),st.studentLocalID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.FirstName),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.LastName),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ser.ServiceType),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ser.ServiceRefId),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ser.IepRefId),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ser.ServiceDefinitionCode),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ser.BeginDate),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ser.EndDate),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ser.IsRelated),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ser.IsDirect),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ser.ExcludesFromGenEd),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ser.ServiceLocationCode),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ser.ServiceProviderTitleCode),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ser.Sequence),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ser.IsESY),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ser.ServiceTime),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ser.ServiceFrequencyCode),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ser.ServiceProviderSSN),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ser.StaffEmail),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ser.ServiceAreaText),'''')
+SELECT ''Service'','''+@columnname+' field will be truncated at '+@datalength+' characters.'',ser.Line_No,ISNULL(CONVERT(VARCHAR(max),st.studentLocalID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.FirstName),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.LastName),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ser.ServiceType),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ser.ServiceRefId),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ser.IepRefId),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ser.ServiceDefinitionCode),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ser.BeginDate),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ser.EndDate),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ser.IsRelated),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ser.IsDirect),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ser.ExcludesFromGenEd),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ser.ServiceLocationCode),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ser.ServiceProviderTitleCode),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ser.Sequence),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ser.IsESY),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ser.ServiceTime),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ser.ServiceFrequencyCode),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ser.ServiceProviderSSN),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ser.StaffEmail),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ser.ServiceAreaText),'''')
 FROM x_DATAVALIDATION.Service_LOCAL ser JOIN x_DATAVALIDATION.IEP_LOCAL iep ON iep.IEPRefID = ser.IEPRefID JOIN x_DATAVALIDATION.Student_LOCAL st ON st.StudentRefID = iep.StudentRefID WHERE 1 = 1 '
 
 SET @query  = ' AND ((DATALENGTH (ser.'+@columnname+')/2) > '+@datalength+' AND ser.'+@columnname+' IS NOT NULL)'
@@ -357,7 +358,7 @@ EXEC sp_executesql @stmt=@vsql
 --PRINT @vsql
 
 SET @sumsql = 'INSERT x_DATAVALIDATION.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
-SELECT ''Service'','''+@columnname+' cannot be greater than X characters.'', COUNT(*)
+SELECT ''Service'','''+@columnname+' field will be truncated at '+@datalength+' characters.'', COUNT(*)
 FROM x_DATAVALIDATION.Service_LOCAL WHERE 1 = 1 '
 
 SET @query  = ' AND ((DATALENGTH ('+@columnname+')/2) > '+@datalength+' AND '+@columnname+' IS NOT NULL)'

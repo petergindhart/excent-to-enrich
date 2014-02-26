@@ -14,7 +14,7 @@ rem Was not able to call this command from a batch file.  We can call rasdial /D
 rasphone -d "SC ExcentOnline" -f C:\ProgramData\Microsoft\Network\Connections\Pbk\rasphone.pbk 
 
 SQLCMD %remoteConnStr% -i ..\..\..\RemoteDB\ExtractScripts_For_EO\SQL2005\UpgradeRemoteDB.sql -o%locFolder%\log_UpgradeRemoteDB.txt
-SQLCMD %connStr% -i ..\..\..\Common\Localization\%speddistrict%\_UpgradeEnrichDVObjects.sql -o%locFolder%\log_UpgradeEnrichDVObjects.txt
+SQLCMD %connStr% -i %locFolder%\_UpgradeEnrichDVObjects.sql -o%locFolder%\log_UpgradeEnrichDVObjects.txt
 ExecuteTask\ExecuteTask.exe project projectfile="upgrade_db_project.xml" $connection="%connection%" $state="%state%" $speddistrict="%speddistrict%"
 
 VPNDisconnect.bat

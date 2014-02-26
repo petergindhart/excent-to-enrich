@@ -3,14 +3,14 @@ option batch abort
 # Disable overwrite confirmations that conflict with the previous
 option confirm off
 # Connect using a password
-# open ftp://dillon4:g422t7k@ftp.excent.com:21
+# open ftp://scdistrict:hgwmvc@ftp.excent.com:21
 # Connect
-open ftp://dillon4:g422t7k@ftp.excent.com:21 -explicittls
+open ftp://scdistrict:hgwmvc@ftp.excent.com:21 -explicittls
 # Force binary mode transfer
 option transfer binary
-lcd "E:\GIT\excent-to-enrich\SCDataconversion\ValidationScripts\Localization\Demo"
+lcd "E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Demo"
 cd /
-put "E:\GIT\excent-to-enrich\SCDataconversion\ValidationScripts\Localization\Demo\ValidationReport_Detail.xls"
+put "E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Demo\ValidationReport_Detail.xls"
 # Disconnect
 close
 # Exit WinSCP

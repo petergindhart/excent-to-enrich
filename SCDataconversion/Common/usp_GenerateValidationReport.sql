@@ -9,9 +9,7 @@ DECLARE @jobID uniqueidentifier, @cmd varchar(1000) ,@startdate int, @starttime 
 
 SET @startdate = CONVERT(INT,REPLACE(CONVERT(VARCHAR(10),GETDATE(),102),'.',''));
 SET @starttime = CONVERT(INT,REPLACE(CONVERT(VARCHAR(8),DATEADD(mi,2,GETDATE()),108),':',''));
---print @starttime
---print @startdate
---SET @cmd = 'E:\GIT\excent-to-enrich\SCDataconversion\ValidationScripts\Localization\Dillon4\validationreport.bat'
+
 select @cmd = ParamValue from x_DATAVALIDATION.ParamValues where ParamName='ValidationreportFile'
 select @district = ParamValue from x_DATAVALIDATION.ParamValues where ParamName='district'
 

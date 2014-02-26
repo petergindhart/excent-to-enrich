@@ -35,29 +35,33 @@ EnrichTable		varchar(100)	not null
 
 set nocount on;
 insert @ImportTables (RemoteObject, EnrichTable) values ('SELECTLISTS_EO', 'X_DATAVALIDATION.SelectLists_LOCAL')
-insert @ImportTables values ('DISTRICT_EO', 'X_DATAVALIDATION.District_LOCAL')
-insert @ImportTables values ('SCHOOL_EO', 'X_DATAVALIDATION.School_LOCAL')
-insert @ImportTables values ('STUDENT_EO', 'X_DATAVALIDATION.Student_LOCAL')
-insert @ImportTables values ('IEP_EO', 'X_DATAVALIDATION.IEP_LOCAL')
-insert @ImportTables values ('SPEDSTAFFMEMBER_EO', 'X_DATAVALIDATION.SpedStaffMember_LOCAL')
-insert @ImportTables values ('SERVICE_EO', 'X_DATAVALIDATION.Service_LOCAL')
-insert @ImportTables values ('GOAL_EO', 'X_DATAVALIDATION.Goal_LOCAL')
-insert @ImportTables values ('OBJECTIVE_EO', 'X_DATAVALIDATION.Objective_LOCAL')
-insert @ImportTables values ('TEAMMEMBER_EO', 'X_DATAVALIDATION.TeamMember_LOCAL')
-insert @ImportTables values ('STAFFSCHOOL_EO', 'X_DATAVALIDATION.StaffSchool_LOCAL')
+insert @ImportTables (RemoteObject, EnrichTable) values ('DISTRICT_EO', 'X_DATAVALIDATION.District_LOCAL')
+insert @ImportTables (RemoteObject, EnrichTable) values ('SCHOOL_EO', 'X_DATAVALIDATION.School_LOCAL')
+insert @ImportTables (RemoteObject, EnrichTable) values ('STUDENT_EO', 'X_DATAVALIDATION.Student_LOCAL')
+insert @ImportTables (RemoteObject, EnrichTable) values ('IEP_EO', 'X_DATAVALIDATION.IEP_LOCAL')
+insert @ImportTables (RemoteObject, EnrichTable) values ('SPEDSTAFFMEMBER_EO', 'X_DATAVALIDATION.SpedStaffMember_LOCAL')
+insert @ImportTables (RemoteObject, EnrichTable) values ('SERVICE_EO', 'X_DATAVALIDATION.Service_LOCAL')
+insert @ImportTables (RemoteObject, EnrichTable) values ('GOAL_EO', 'X_DATAVALIDATION.Goal_LOCAL')
+insert @ImportTables (RemoteObject, EnrichTable) values ('OBJECTIVE_EO', 'X_DATAVALIDATION.Objective_LOCAL')
+insert @ImportTables (RemoteObject, EnrichTable) values ('TEAMMEMBER_EO', 'X_DATAVALIDATION.TeamMember_LOCAL')
+insert @ImportTables (RemoteObject, EnrichTable) values ('STAFFSCHOOL_EO', 'X_DATAVALIDATION.StaffSchool_LOCAL')
+
+--select * from @ImportTables
 
 
-DECLARE @ro varchar(100), @et varchar(100), @dropq NVARCHAR(max), @insertq NVARCHAR(max), @Linkedserver VARCHAR(100), @DatabaseOwner VARCHAR(100), @DatabaseName VARCHAR(100), @newline varchar(5) ; set @newline = '
+DECLARE @ro varchar(100), @et varchar(100), @dropq NVARCHAR(max), @insertq NVARCHAR(max), @LinkedserverAddress VARCHAR(100), @DatabaseOwner VARCHAR(100), @DatabaseName VARCHAR(100), @newline varchar(5) ; set @newline = '
 '
 
-SELECT @Linkedserver = LinkedServer, @DatabaseOwner = DatabaseOwner, @DatabaseName = DatabaseName
+SELECT @LinkedserverAddress = LinkedServer, @DatabaseOwner = DatabaseOwner, @DatabaseName = DatabaseName -- select *
 FROM VC3ETL.ExtractDatabase 
 WHERE ID = '54DD3C28-8F7F-4A54-BCF1-000000000000'
 
 -- this is the only object populated with a stored procedure (on the remote server)
-SET @insertq='EXEC '+@Linkedserver+'.'+@DatabaseName+'.'+@DatabaseOwner+'.'+'DataConversionSpeedObjects'
+SET @insertq='EXEC '+@LinkedserverAddress+'.'+@DatabaseName+'.'+@DatabaseOwner+'.'+'DataConversionSpeedObjects'
 
 exec (@insertq)
+
+-- print @insertq
 
 declare T cursor for
 select RemoteObject, EnrichTable from @ImportTables order by RowNum
@@ -71,11 +75,14 @@ SET @dropq = 'DROP TABLE '+@et+''
 
 SET @insertq ='SELECT * 
 INTO  '+@et+' 
-FROM  '+isnull(@Linkedserver,'linkservhere')+'.'+isnull(@DatabaseName,'dbnamehere')+'.'+isnull(@DatabaseOwner,'dbohere')+'.'+''+@ro+''
+FROM  '+isnull(@LinkedserverAddress,'linkservhere')+'.'+isnull(@DatabaseName,'dbnamehere')+'.'+isnull(@DatabaseOwner,'dbohere')+'.'+''+@ro+''
 
 
 exec(@dropq)
 exec (@insertq)
+
+-- print @newline+@dropq+@newline+@newline+@insertq+@newline
+
 
 
 fetch T into @ro, @et

@@ -213,7 +213,8 @@ WHILE @Count<=@MaxCount
     END
 --SELECT @Txtunique AS Txtq
 
-SET @sqlvalidated = @sqlvalidated +@Txtunique+@Txtfkrel +@Txtdatalength+@Txtreq+@Txtflag+@Txtdatatype
+SET @sqlvalidated = @sqlvalidated +@Txtunique+@Txtfkrel+@Txtreq+@Txtflag+@Txtdatatype
+--SET @sqlvalidated = @sqlvalidated +@Txtunique+@Txtfkrel +@Txtdatalength+@Txtreq+@Txtflag+@Txtdatatype
 print @sqlvalidated
 
 EXEC (@sqlvalidated)
@@ -306,7 +307,7 @@ IF (1=1)
 BEGIN
 
 SET @vsql = 'INSERT x_DATAVALIDATION.ValidationReport (TableName,ErrorMessage,LineNumber,Line)
-SELECT ''Objective'','''+@columnname+' cannot be greater than X characters.'',obj.Line_No,ISNULL(CONVERT(VARCHAR(max),st.studentLocalID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.FirstName),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.LastName),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.ObjectiveRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.GoalRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.Sequence),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.ObjText),'''') 
+SELECT ''Objective'','''+@columnname+' field will be truncated at '+@datalength+' characters.'',obj.Line_No,ISNULL(CONVERT(VARCHAR(max),st.studentLocalID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.FirstName),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.LastName),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.ObjectiveRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.GoalRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.Sequence),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),obj.ObjText),'''') 
 FROM x_DATAVALIDATION.Objective_LOCAL obj JOIN x_DATAVALIDATION.Goal_LOCAL goal ON goal.GoalRefID = obj.GoalRefID JOIN x_DATAVALIDATION.IEP_LOCAL iep ON iep.IEPRefID = goal.IEPRefID JOIN x_DATAVALIDATION.Student_LOCAL st ON st.StudentRefID = iep.StudentRefID WHERE 1 = 1'
 
 SET @query  = ' AND ((DATALENGTH (obj.'+@columnname+')/2) > '+@datalength+' AND obj.'+@columnname+' IS NOT NULL)'
@@ -315,7 +316,7 @@ EXEC sp_executesql @stmt=@vsql
 --PRINT @vsql
 
 SET @sumsql = 'INSERT x_DATAVALIDATION.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
-SELECT ''Objective'','''+@columnname+' cannot be greater than X characters.'', COUNT(*)
+SELECT ''Objective'','''+@columnname+' field will be truncated at '+@datalength+' characters.'', COUNT(*)
 FROM x_DATAVALIDATION.Objective_LOCAL WHERE 1 = 1 '
 
 SET @query  = ' AND ((DATALENGTH ('+@columnname+')/2) > '+@datalength+' AND '+@columnname+' IS NOT NULL)'

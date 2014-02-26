@@ -212,7 +212,8 @@ WHILE @Count<=@MaxCount
     END
 --SELECT @Txtunique AS Txtq
 
-SET @sqlvalidated = @sqlvalidated +@Txtunique +@Txtfkrel+@Txtdatalength+@Txtreq+@Txtflag+@Txtdatatype
+SET @sqlvalidated = @sqlvalidated +@Txtunique +@Txtfkrel+@Txtreq+@Txtflag+@Txtdatatype
+--SET @sqlvalidated = @sqlvalidated +@Txtunique +@Txtfkrel+@Txtdatalength+@Txtreq+@Txtflag+@Txtdatatype
 --print @sqlvalidated
 
 EXEC (@sqlvalidated)
@@ -312,7 +313,7 @@ BEGIN
 IF (@isrequired=1)
 BEGIN
 SET @vsql = 'INSERT x_DATAVALIDATION.ValidationReport (TableName,ErrorMessage,LineNumber,Line)
-SELECT ''IEP'',''Expected date value in '+@columnname+'.'',iep.Line_No,ISNULL(CONVERT(VARCHAR(max),st.studentLocalID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.FirstName),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.LastName),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),iep.IepRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),iep.StudentRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),iep.IEPMeetDate),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),iep.IEPStartDate),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),iep.IEPEndDate),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),iep.NextReviewDate),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),iep.InitialEvaluationDate),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),iep.LatestEvaluationDate),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),iep.NextEvaluationDate),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),iep.EligibilityDate),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),iep.ConsentForServicesDate),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),iep.ConsentForEvaluationDate),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),iep.LREAgeGroup),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),iep.LRECode),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),iep.MinutesPerWeek),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),iep.ServiceDeliveryStatement),'''')
+SELECT ''IEP'',''The field '+@columnname+' is required but not found.'',iep.Line_No,ISNULL(CONVERT(VARCHAR(max),st.studentLocalID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.FirstName),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.LastName),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),iep.IepRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),iep.StudentRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),iep.IEPMeetDate),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),iep.IEPStartDate),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),iep.IEPEndDate),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),iep.NextReviewDate),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),iep.InitialEvaluationDate),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),iep.LatestEvaluationDate),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),iep.NextEvaluationDate),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),iep.EligibilityDate),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),iep.ConsentForServicesDate),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),iep.ConsentForEvaluationDate),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),iep.LREAgeGroup),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),iep.LRECode),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),iep.MinutesPerWeek),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),iep.ServiceDeliveryStatement),'''')
 FROM x_DATAVALIDATION.IEP_LOCAL iep JOIN x_DATAVALIDATION.Student_LOCAL st ON st.StudentRefID = iep.StudentRefID WHERE 1 = 1 '
 
 SET @query  = ' AND (iep.'+@columnname+' IS NULL)'
@@ -322,7 +323,7 @@ EXEC sp_executesql @stmt=@vsql
 
 
 SET @sumsql = 'INSERT x_DATAVALIDATION.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
-SELECT ''IEP'',''Expected date value in '+@columnname+'.'', COUNT(*)
+SELECT ''IEP'',''The field '+@columnname+' is required, but not found'', COUNT(*)
 FROM x_DATAVALIDATION.IEP_LOCAL WHERE 1 = 1 '
 
 SET @query  = ' AND ('+@columnname+' IS NULL)'
@@ -337,7 +338,7 @@ END
 IF (1=1)
 BEGIN
 SET @vsql = 'INSERT x_DATAVALIDATION.ValidationReport (TableName,ErrorMessage,LineNumber,Line)
-SELECT ''IEP'','''+@columnname+' cannot be greater than X characters.'',iep.Line_No,ISNULL(CONVERT(VARCHAR(max),st.studentLocalID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.FirstName),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.LastName),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),iep.IepRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),iep.StudentRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),iep.IEPMeetDate),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),iep.IEPStartDate),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),iep.IEPEndDate),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),iep.NextReviewDate),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),iep.InitialEvaluationDate),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),iep.LatestEvaluationDate),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),iep.NextEvaluationDate),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),iep.EligibilityDate),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),iep.ConsentForServicesDate),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),iep.ConsentForEvaluationDate),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),iep.LREAgeGroup),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),iep.LRECode),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),iep.MinutesPerWeek),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),iep.ServiceDeliveryStatement),'''')
+SELECT ''IEP'','''+@columnname+' field will be truncated at '+@datalength+' characters.'',iep.Line_No,ISNULL(CONVERT(VARCHAR(max),st.studentLocalID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.FirstName),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),st.LastName),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),iep.IepRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),iep.StudentRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),iep.IEPMeetDate),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),iep.IEPStartDate),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),iep.IEPEndDate),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),iep.NextReviewDate),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),iep.InitialEvaluationDate),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),iep.LatestEvaluationDate),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),iep.NextEvaluationDate),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),iep.EligibilityDate),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),iep.ConsentForServicesDate),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),iep.ConsentForEvaluationDate),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),iep.LREAgeGroup),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),iep.LRECode),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),iep.MinutesPerWeek),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),iep.ServiceDeliveryStatement),'''')
 FROM x_DATAVALIDATION.IEP_LOCAL iep JOIN x_DATAVALIDATION.Student_LOCAL st ON st.StudentRefID = iep.StudentRefID WHERE 1 = 1 '
 
 	
@@ -347,7 +348,7 @@ EXEC sp_executesql @stmt=@vsql
 --PRINT @vsql
 
 SET @sumsql = 'INSERT x_DATAVALIDATION.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
-SELECT ''IEP'','''+@columnname+' cannot be greater than X characters.'', COUNT(*)
+SELECT ''IEP'','''+@columnname+' field will be truncated at '+@datalength+' characters.'', COUNT(*)
 FROM x_DATAVALIDATION.IEP_LOCAL  WHERE 1 = 1 '
 
 SET @query  = ' AND ((DATALENGTH ('+@columnname+')/2) > '+@datalength+' AND '+@columnname+' IS NOT NULL)'

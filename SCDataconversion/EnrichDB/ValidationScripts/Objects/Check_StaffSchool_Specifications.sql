@@ -216,7 +216,9 @@ WHILE @Count<=@MaxCount
 
 DECLARE @Txtunique VARCHAR(MAX)
 SET @Txtunique = ' JOIN (SELECT StaffEmail,SchoolCode FROM x_DATAVALIDATION.StaffSchool_LOCAL GROUP BY StaffEmail,SchoolCode HAVING COUNT(*)=1) ucss ON (ucss.StaffEmail = ss.StaffEmail) AND (ucss.SchoolCode = ss.SchoolCode)'
-SET @sqlvalidated = @sqlvalidated +@Txtunique+@Txtfkrel+@Txtdatalength+@Txtreq+@Txtflag+@Txtdatatype
+
+SET @sqlvalidated = @sqlvalidated +@Txtunique+@Txtfkrel+@Txtreq+@Txtflag+@Txtdatatype
+--SET @sqlvalidated = @sqlvalidated +@Txtunique+@Txtfkrel+@Txtdatalength+@Txtreq+@Txtflag+@Txtdatatype
 --print @sqlvalidated
 
 EXEC (@sqlvalidated)
@@ -300,7 +302,7 @@ IF (1=1)
 BEGIN
 
 SET @vsql = 'INSERT x_DATAVALIDATION.ValidationReport (TableName,ErrorMessage,LineNumber,Line)
-SELECT ''StaffSchool'','''+@columnname+' cannot be greater than X characters.'',Line_No,ISNULL(CONVERT(VARCHAR(max),StaffEmail),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),SchoolCode),'''')
+SELECT ''StaffSchool'','''+@columnname+' field will be truncated at '+@datalength+' characters.'',Line_No,ISNULL(CONVERT(VARCHAR(max),StaffEmail),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),SchoolCode),'''')
 FROM x_DATAVALIDATION.StaffSchool_LOCAL WHERE 1 = 1'
 
 SET @query  = ' AND ((DATALENGTH ('+@columnname+')/2) > '+@datalength+' AND '+@columnname+' IS NOT NULL)'
@@ -310,7 +312,7 @@ EXEC sp_executesql @stmt=@vsql
 
 
 SET @sumsql = 'INSERT x_DATAVALIDATION.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
-SELECT ''StaffSchool'','''+@columnname+' cannot be greater than X characters.'', COUNT(*)
+SELECT ''StaffSchool'','''+@columnname+' field will be truncated at '+@datalength+' characters.'', COUNT(*)
 FROM x_DATAVALIDATION.StaffSchool_LOCAL WHERE 1 = 1 '
 
 SET @query  = ' AND ((DATALENGTH ('+@columnname+')/2) > '+@datalength+' AND '+@columnname+' IS NOT NULL)'

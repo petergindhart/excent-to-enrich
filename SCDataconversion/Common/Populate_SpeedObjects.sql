@@ -6,12 +6,14 @@ CREATE PROC x_DATAVALIDATION.Populate_SpeedObjects
 AS
 BEGIN
 
-declare @etlRoot varchar(255), @VpnConnectFile varchar(255), @VpnDisconnectFile varchar(255), @PopulateDCSpeedObj varchar(255), @q varchar(8000),@district varchar(50) ; 
+declare @etlRoot varchar(255), @VpnConnectFile varchar(255), @VpnDisconnectFile varchar(255), @PopulateDCSpeedObj varchar(255), @q varchar(8000),@district varchar(50), @vpnYN char(1) ; 
 select @etlRoot = ParamValue from x_DATAVALIDATION.ParamValues where ParamName='etlRoot'
 select @VpnConnectFile = ParamValue from x_DATAVALIDATION.ParamValues where ParamName='VpnConnectFile'
 select @VpnDisconnectFile = ParamValue from x_DATAVALIDATION.ParamValues where ParamName='VpnDisconnectFile'
 select @PopulateDCSpeedObj = ParamValue from x_DATAVALIDATION.ParamValues where ParamName='populateDVSpeedObj'
 select @district = ParamValue from x_DATAVALIDATION.ParamValues where ParamName='district'
+select @vpnYN = ParamValue from x_DATAVALIDATION.ParamValues where ParamName='vpnYN'
+
 set @q = 'cd '+@etlRoot
 set @VpnConnectFile = '"'+@VpnConnectFile+'"';
 set @PopulateDCSpeedObj = '"'+@PopulateDCSpeedObj+'"';
@@ -27,9 +29,11 @@ set @PopulateDCSpeedObj = @PopulateDCSpeedObj+' '+@district;
 --select * from x_DATAVALIDATION.ParamValues 
 
 
-
+if (@vpnYN = 'Y')
+begin
 EXEC master..xp_CMDShell @q
 EXEC master..xp_CMDShell @VpnConnectFile
+end
 
 -- Batch file must reference different parameters for each district.  Connection string and path
 

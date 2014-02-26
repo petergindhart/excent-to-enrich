@@ -216,7 +216,9 @@ WHILE @Count<=@MaxCount
 
 DECLARE @Txtunique VARCHAR(MAX)
 SET @Txtunique = ' JOIN (SELECT StaffEmail,StudentRefId FROM x_DATAVALIDATION.TeamMember_LOCAL GROUP BY StaffEmail,StudentRefId HAVING COUNT(*)=1) ucteam ON (ucteam.StaffEmail = team.StaffEmail) AND (ucteam.StudentRefID = team.StudentRefID)'
-SET @sqlvalidated = @sqlvalidated +@Txtunique+@Txtfkrel+@Txtdatalength+@Txtreq+@Txtflag+@Txtdatatype
+
+SET @sqlvalidated = @sqlvalidated +@Txtunique+@Txtfkrel+@Txtreq+@Txtflag+@Txtdatatype
+--SET @sqlvalidated = @sqlvalidated +@Txtunique+@Txtfkrel+@Txtdatalength+@Txtreq+@Txtflag+@Txtdatatype
 --print @sqlvalidated
 
 EXEC (@sqlvalidated)
@@ -302,7 +304,7 @@ IF (1=1)
 BEGIN
 
 SET @vsql = 'INSERT x_DATAVALIDATION.ValidationReport (TableName,ErrorMessage,LineNumber,Line)
-SELECT ''TeamMember'','''+@columnname+' cannot be greater than X characters.'',Line_No,ISNULL(StaffEmail,'''')+''|''+ISNULL(CONVERT(VARCHAR(max),StudentRefId),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),IsCaseManager),'''')
+SELECT ''TeamMember'','''+@columnname+' field will be truncated at '+@datalength+' characters.'',Line_No,ISNULL(StaffEmail,'''')+''|''+ISNULL(CONVERT(VARCHAR(max),StudentRefId),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),IsCaseManager),'''')
 FROM x_DATAVALIDATION.TeamMember_LOCAL WHERE 1 = 1'
 
 SET @query  = ' AND ((DATALENGTH ('+@columnname+')/2) > '+@datalength+' AND '+@columnname+' IS NOT NULL)'
@@ -311,7 +313,7 @@ EXEC sp_executesql @stmt=@vsql
 --PRINT @vsql
 
 SET @sumsql = 'INSERT x_DATAVALIDATION.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
-SELECT ''TeamMember'','''+@columnname+' cannot be greater than X characters.'', COUNT(*)
+SELECT ''TeamMember'','''+@columnname+' field will be truncated at '+@datalength+' characters.'', COUNT(*)
 FROM x_DATAVALIDATION.TeamMember_LOCAL WHERE 1 = 1 '
 
 SET @query  = ' AND ((DATALENGTH ('+@columnname+')/2) > '+@datalength+' AND '+@columnname+' IS NOT NULL)'

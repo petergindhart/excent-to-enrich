@@ -204,8 +204,8 @@ DECLARE @TxtPKStudentStateID VARCHAR(MAX)
 SET @TxtPKStudentStateID = ' AND (st.StudentStateID IS NOT NULL OR (st.StudentStateID IS NULL AND st.GradelevelCode = ''PK'' ))
 AND ((DATALENGTH(st.StudentStateID)/2) <= 50 OR (st.StudentStateID IS NULL AND st.GradelevelCode = ''PK''))'
 
-
-SET @sqlvalidated = @sqlvalidated +@Txtunique+@Txtfkrel +@TxtScAndDt+@Txtdatalength+@Txtreq+@Txtflag+@Txtdatatype +@Txtlookup+@TxtPKStudentStateID
+SET @sqlvalidated = @sqlvalidated +@Txtunique+@Txtfkrel +@TxtScAndDt+@Txtreq+@Txtflag+@Txtdatatype +@Txtlookup+@TxtPKStudentStateID
+--SET @sqlvalidated = @sqlvalidated +@Txtunique+@Txtfkrel +@TxtScAndDt+@Txtdatalength+@Txtreq+@Txtflag+@Txtdatatype +@Txtlookup+@TxtPKStudentStateID
 print @sqlvalidated
 
 EXEC (@sqlvalidated)
@@ -303,12 +303,12 @@ FROM x_DATAVALIDATION.Student_LOCAL stu
 		  --AND NOT EXISTS(SELECT StudentRefID FROM x_DATAVALIDATION.Student_LOCAL GROUP BY StudentRefID HAVING COUNT(*)>1)
 		  AND stu.Gender IN (SELECT LEGACYSPEDCODE FROM x_DATAVALIDATION.SelectLists WHERE TYPE= 'Gender')
 		  AND stu.GradeLevelCode IN (SELECT LEGACYSPEDCODE FROM x_DATAVALIDATION.SelectLists WHERE TYPE= 'Grade')
-		  /*
+		
 		  AND EXISTS(SELECT * FROM x_DATAVALIDATION.Student_LOCAL st JOIN School sc ON st.ServiceDistrictCode = sc.DistrictCode 
 		                 AND st.ServiceSchoolCode = sc.SchoolCode)
 		  AND EXISTS(SELECT * FROM x_DATAVALIDATION.Student_LOCAL st JOIN School sc ON st.HomeDistrictCode = sc.DistrictCode 
 		                 AND st.HomeSchoolCode = sc.SchoolCode)
-			*/
+			
 		  AND  stu.Disability1Code IN (SELECT LEGACYSPEDCODE FROM x_DATAVALIDATION.SelectLists WHERE TYPE= 'Disab')
 		  AND (stu.Disability2Code IN (SELECT LEGACYSPEDCODE FROM x_DATAVALIDATION.SelectLists WHERE TYPE= 'Disab')OR stu.Disability2Code IS NULL)
 		  AND (stu.Disability3Code IN (SELECT LEGACYSPEDCODE FROM x_DATAVALIDATION.SelectLists WHERE TYPE= 'Disab')OR stu.Disability3Code IS NULL)
@@ -383,7 +383,7 @@ IF (1=1 AND @columnname != 'StudentStateID')
 BEGIN
 
 SET @vsql = 'INSERT x_DATAVALIDATION.ValidationReport (TableName,ErrorMessage,LineNumber,Line)
-SELECT ''Student'','''+@columnname+' cannot be greater than X characters.'',Line_No,ISNULL(CONVERT(VARCHAR(max),StudentRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),StudentLocalID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),StudentStateID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),Firstname),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),MiddleName),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),LastName),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),Birthdate),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),Gender),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),MEDICAIDNUMBER),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),GRADELEVELCODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),SERVICEDISTRICTCODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),SERVICESCHOOLCODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),HOMEDISTRICTCODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),HOMESCHOOLCODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ISHISPANIC),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ISAMERICANINDIAN),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ISASIAN),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ISBLACKAFRICANAMERICAN),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ISHAWAIIANPACISLANDER),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ISWHITE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),DISABILITY1CODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),DISABILITY2CODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),DISABILITY3CODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),DISABILITY4CODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),DISABILITY5CODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),DISABILITY6CODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),DISABILITY7CODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),DISABILITY8CODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),DISABILITY9CODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ESYELIG),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ESYTBDDATE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),EXITDATE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),EXITCODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),SPECIALEDSTATUS),'''')
+SELECT ''Student'','''+@columnname+' field will be truncated at '+@datalength+' characters.'',Line_No,ISNULL(CONVERT(VARCHAR(max),StudentRefID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),StudentLocalID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),StudentStateID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),Firstname),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),MiddleName),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),LastName),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),Birthdate),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),Gender),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),MEDICAIDNUMBER),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),GRADELEVELCODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),SERVICEDISTRICTCODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),SERVICESCHOOLCODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),HOMEDISTRICTCODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),HOMESCHOOLCODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ISHISPANIC),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ISAMERICANINDIAN),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ISASIAN),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ISBLACKAFRICANAMERICAN),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ISHAWAIIANPACISLANDER),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ISWHITE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),DISABILITY1CODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),DISABILITY2CODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),DISABILITY3CODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),DISABILITY4CODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),DISABILITY5CODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),DISABILITY6CODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),DISABILITY7CODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),DISABILITY8CODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),DISABILITY9CODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ESYELIG),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ESYTBDDATE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),EXITDATE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),EXITCODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),SPECIALEDSTATUS),'''')
 FROM x_DATAVALIDATION.Student_LOCAL  WHERE 1 = 1'
 
 SET @query  = ' AND ((DATALENGTH ('+@columnname+')/2) > '+@datalength+' AND '+@columnname+' IS NOT NULL)'
@@ -392,7 +392,7 @@ EXEC sp_executesql @stmt=@vsql
 --PRINT @vsql
 
 SET @sumsql = 'INSERT x_DATAVALIDATION.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
-SELECT ''Student'','''+@columnname+' cannot be greater than X characters.'', COUNT(*)
+SELECT ''Student'','''+@columnname+' field will be truncated at'+@datalength+' characters.'', COUNT(*)
 FROM x_DATAVALIDATION.Student_LOCAL WHERE 1 = 1'
 
 SET @query  = ' AND ((DATALENGTH ('+@columnname+')/2) > '+@datalength+' AND '+@columnname+' IS NOT NULL)'

@@ -70,7 +70,7 @@ from LEGACYSPED.SelectLists k left join
 	left join 	LEGACYSPED.MAP_ServiceDefID m on ISNULL(k.LegacySpedCode,convert(varchar(150), k.EnrichLabel)) = m.ServiceDefCode   
 	and isnull(k.SubType,'x') = isnull(m.ServiceCategoryCode,'y') left join 
 	dbo.ServiceDef t on m.DestID = t.ID
-where k.Type = 'Service' and k.SubType is not null and n.DeletedDate is null
+where k.Type = 'Service' and k.SubType is not null --and n.DeletedDate is null
 	--and k.LegacySpedCode is not null -- there is nothing to do if this is null
 GO
 --

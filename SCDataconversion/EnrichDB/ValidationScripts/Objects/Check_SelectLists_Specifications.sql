@@ -19,12 +19,14 @@ SELECT sl.Line_No
 	  ,CONVERT(VARCHAR(150),sl.LEGACYSPEDCODE)
 	  ,CONVERT(VARCHAR(254),sl.ENRICHLABEL)
 FROM x_DATAVALIDATION.Selectlists_LOCAL sl
-WHERE ((DATALENGTH(sl.TYPE)/2)<=20) 
+WHERE 1=1
+/*((DATALENGTH(sl.TYPE)/2)<=20) 
 		  AND ((DATALENGTH(sl.SUBTYPE)/2)<=20 OR sl.SUBTYPE IS NULL) 
 		  AND ((DATALENGTH(sl.ENRICHID)/2)<=150 OR sl.ENRICHID IS NULL) 
 		  AND ((DATALENGTH(sl.STATECODE)/2)<=10 OR sl.STATECODE IS NULL)
 		  AND ((DATALENGTH(sl.LEGACYSPEDCODE)/2)<=150 OR sl.LEGACYSPEDCODE IS NULL) 
 		  AND ((DATALENGTH(sl.ENRICHLABEL)/2)<=254) 
+		  */
 		  AND sl.TYPE IN ('Ethnic','Grade','Gender','Disab','Exit','LRE','Service','ServLoc','ServProv','ServFreq','GoalArea','PostSchArea') 
 		  AND (sl.TYPE IS NOT NULL) 
 		  AND (sl.ENRICHLABEL IS NOT NULL)
@@ -92,7 +94,7 @@ IF (1=1)
 BEGIN
 
 SET @vsql = 'INSERT x_DATAVALIDATION.ValidationReport (TableName,ErrorMessage,LineNumber,Line)
-SELECT ''SelectLists'','''+@columnname+' cannot be greater than X characters.  Contact ExcentDataTeam@excent.com.'',Line_No,ISNULL(CONVERT(VARCHAR(max),TYPE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),SUBTYPE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ENRICHID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),STATECODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),LEGACYSPEDCODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),EnrichLabel),'''')
+SELECT ''SelectLists'','''+@columnname+' field will be truncated at '+@datalength+' characters.  Contact ExcentDataTeam@excent.com.'',Line_No,ISNULL(CONVERT(VARCHAR(max),TYPE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),SUBTYPE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),ENRICHID),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),STATECODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),LEGACYSPEDCODE),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),EnrichLabel),'''')
 FROM x_DATAVALIDATION.SelectLists_Local WHERE 1 = 1'
 
 SET @query  = ' AND ((DATALENGTH ('+@columnname+')/2) > '+@datalength+' AND '+@columnname+' IS NOT NULL)'
@@ -101,7 +103,7 @@ EXEC sp_executesql @stmt=@vsql
 --PRINT @vsql
 
 SET @sumsql = 'INSERT x_DATAVALIDATION.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
-SELECT ''SelectLists'','''+@columnname+' cannot be greater than X characters.'', COUNT(*)
+SELECT ''SelectLists'','''+@columnname+' field will be truncated at '+@datalength+' characters.'', COUNT(*)
 FROM x_DATAVALIDATION.SelectLists_Local WHERE 1 = 1'
 
 SET @query  = ' AND ((DATALENGTH ('+@columnname+')/2) > '+@datalength+' AND '+@columnname+' IS NOT NULL)'

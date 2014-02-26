@@ -1,26 +1,25 @@
 -- call this after creating usp_GetParams.sql, because the ParamValues table is created there.
-
 declare @etlRoot varchar(100), 
 	@locFolder varchar(500), 
 	@district varchar(100), 
-	@remoteServer varchar(100), 
+	@linkedServerAlias varchar(100), 
+	@linkedServerAddress varchar(100), 
 	@remoteDbUser varchar(50),
 	@remoteDbPwd varchar(20),
 	@ftpUser varchar(20),
-	@ftpPwd varchar(20),
-	@Server varchar(100)
+	@ftpPwd varchar(20)
 	; 
 select 	
 	@etlRoot='E:\GIT\excent-to-enrich', -- consider setting this dynamically by inserting x_DATAVALIDATION.ParamValues using batch command 
-	@district = 'Pickens', -- for simplicity with the majority of districts, this will be the name of the EO hosted database minus _SC_EO
-	@locFolder=@etlRoot+rtrim('\SCDataconversion\Common\Localization\ ')+@district -- backslash interpreted as escape character in this notepad++ highlighter, throwing off the highlighting
+	@district = 'pickens', -- for simplicity with the majority of districts, this will be the name of the EO hosted database minus _SC_EO
+	@locFolder=@etlRoot+rtrim('\SCDataconversion\Common\Localization\ ')+@district, -- backslash interpreted as escape character in this notepad++ highlighter, throwing off the highlighting
+	@linkedServerAddress = '10.10.10.124'
 select
-	@Server = '10.10.10.124',
-	@remoteServer = '[10.10.10.124]',
+	@linkedServerAlias = @linkedServerAddress+upper(@district),
 	@remoteDbUser = @district+'Conv',
 	@remoteDbPwd = 'qjdfot84', 
-	@ftpUser = 'dillon4',
-	@ftpPwd = 'g422t7k'
+	@ftpUser = 'pickens',
+	@ftpPwd = 'm2fwtoj'
 
 set nocount on;
 truncate table x_DATAVALIDATION.ParamValues 
@@ -28,14 +27,15 @@ insert x_DATAVALIDATION.ParamValues values ('district', @district)
 insert x_DATAVALIDATION.ParamValues values ('locFolder', @locFolder)
 insert x_DATAVALIDATION.ParamValues values ('etlRoot', @etlRoot)
 
-insert x_DATAVALIDATION.ParamValues values ('server', @Server)
-insert x_DATAVALIDATION.ParamValues values ('linkedServer', @remoteServer)
+--insert x_DATAVALIDATION.ParamValues values ('server', @Server)
+insert x_DATAVALIDATION.ParamValues values ('linkedServerAlias', @linkedServerAlias)
+insert x_DATAVALIDATION.ParamValues values ('linkedServerAddress', @linkedServerAddress)
 insert x_DATAVALIDATION.ParamValues values ('databaseOwner', 'dbo')
 insert x_DATAVALIDATION.ParamValues values ('databaseName', @district+'_SC_EO')
 insert x_DATAVALIDATION.ParamValues values ('EOdatabaseUserName', @remoteDbUser)
 insert x_DATAVALIDATION.ParamValues values ('EOdatabasepwd', @remoteDbPwd)
 
-insert x_DATAVALIDATION.ParamValues values ('remoteConnStr', '-S'+@remoteServer+' -U'+@remoteDbUser+' -P'+@remoteDbPwd+' -d'+@district+'_SC_EO')
+insert x_DATAVALIDATION.ParamValues values ('remoteConnStr', '-S'+@linkedServerAddress+' -U'+@remoteDbUser+' -P'+@remoteDbPwd+' -d'+@district+'_SC_EO')
 
 insert x_DATAVALIDATION.ParamValues values ('ftpUser', @ftpUser)
 insert x_DATAVALIDATION.ParamValues values ('ftpPassword', @ftpPwd)

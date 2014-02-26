@@ -130,7 +130,7 @@ as
 select gap.IepRefID, gap.GoalAreaCode, DestID = isnull(ga.ID, mga.DestID), DefID =  isnull(dgad.ID,gad.DestID), InstanceID = gs.DestID, FormInstanceID = cast(NULL as uniqueidentifier)
 from LEGACYSPED.GoalAreaPivotView gap
 join LEGACYSPED.PrimaryGoalAreaPerGoal pg on gap.GoalRefID = pg.GoalRefID and gap.GoalAreaDefIndex = pg.PrimaryGoalAreaDefIndex
-left join LEGACYSPED.MAP_PrgGoalareaDefID gad on gap.GoalAreaCode = gad.GoalAreaCode
+left join LEGACYSPED.Transform_PrgGoalAreaDef gad on gap.GoalAreaCode = gad.GoalAreaCode
 left join PrgGoalAreaDef dgad on dgad.StateCode = gap.GoalAreaCode
 join LEGACYSPED.Transform_PrgGoals gs on gap.IepRefID = gs.IepRefId
 left join LEGACYSPED.MAP_PrgGoalareaID mga on gap.IepRefID = mga.IEPRefID and gad.DestID = mga.DefID

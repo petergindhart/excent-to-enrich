@@ -216,7 +216,9 @@ WHILE @Count<=@MaxCount
 
 --DECLARE @Txtunique VARCHAR(MAX)
 --SET @Txtunique = ' JOIN (SELECT StaffEmail,StudentRefId FROM x_DATAVALIDATION.TeamMember_LOCAL GROUP BY StaffEmail,StudentRefId HAVING COUNT(*)=1) ucteam ON (ucteam.StaffEmail = team.StaffEmail) AND (ucteam.StudentRefID = team.StudentRefID)'
-SET @sqlvalidated = @sqlvalidated +@Txtunique+@Txtfkrel+@Txtdatalength+@Txtreq+@Txtflag+@Txtdatatype
+
+SET @sqlvalidated = @sqlvalidated +@Txtunique+@Txtfkrel+@Txtreq+@Txtflag+@Txtdatatype
+--SET @sqlvalidated = @sqlvalidated +@Txtunique+@Txtfkrel+@Txtdatalength+@Txtreq+@Txtflag+@Txtdatatype
 --print @sqlvalidated
 
 EXEC (@sqlvalidated)

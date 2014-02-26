@@ -148,7 +148,8 @@ DECLARE @Txtunique VARCHAR(MAX)
 SET @Txtunique = ' JOIN (SELECT SchoolCode,DISTRICTCODE FROM x_DATAVALIDATION.School_LOCAL GROUP BY SchoolCode,DISTRICTCODE HAVING COUNT(*)=1) ucsc ON sc.SCHOOLCODE = ucsc.SCHOOLCODE AND sc.DISTRICTCODE = ucsc.DISTRICTCODE'
 SELECT @Txtunique AS Txtq
 
-SET @sqlvalidated = @sqlvalidated +@Txtunique +@Txtfkrel+@Txtdatalength+@Txtreq+@Txtdatatype
+SET @sqlvalidated = @sqlvalidated +@Txtunique +@Txtfkrel+@Txtreq+@Txtdatatype
+--SET @sqlvalidated = @sqlvalidated +@Txtunique +@Txtfkrel+@Txtdatalength+@Txtreq+@Txtdatatype
 --print @sqlvalidated
 
 EXEC sp_executesql @stmt = @sqlvalidated
@@ -241,7 +242,7 @@ IF (1=1)
 BEGIN
 
 SET @vsql = 'INSERT x_DATAVALIDATION.ValidationReport (TableName,ErrorMessage,LineNumber,Line)
-SELECT ''School'','''+@columnname+' cannot be greater than X characters.'',Line_No,(ISNULL(CONVERT(VARCHAR(max),SchoolCode),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),SchoolName),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),DistrictCode),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),MinutesPerWeek),'''')) as line
+SELECT ''School'','''+@columnname+' field will be truncated at '+@datalength+' characters.'',Line_No,(ISNULL(CONVERT(VARCHAR(max),SchoolCode),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),SchoolName),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),DistrictCode),'''')+''|''+ISNULL(CONVERT(VARCHAR(max),MinutesPerWeek),'''')) as line
 FROM x_DATAVALIDATION.School_LOCAL  WHERE 1 = 1'
 
 SET @query  = ' AND ((DATALENGTH ('+@columnname+')/2) > '+@datalength+' AND '+@columnname+' IS NOT NULL)'
@@ -251,7 +252,7 @@ EXEC sp_executesql @stmt=@vsql
 
 
 SET @sumsql = 'INSERT x_DATAVALIDATION.ValidationSummaryReport (TableName,ErrorMessage,NumberOfRecords)
-SELECT ''School'','''+@columnname+' cannot be greater than X characters.'', COUNT(*)
+SELECT ''School'','''+@columnname+' field will be truncated at '+@datalength+' characters.'', COUNT(*)
 FROM x_DATAVALIDATION.School_LOCAL  WHERE 1 = 1 '
 
 SET @query  = ' AND ((DATALENGTH ('+@columnname+')/2) > '+@datalength+' AND '+@columnname+' IS NOT NULL)'
