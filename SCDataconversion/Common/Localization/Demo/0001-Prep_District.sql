@@ -6,6 +6,9 @@ declare @etlRoot varchar(100),
 	@linkedServerAddress varchar(100), 
 	@remoteDbUser varchar(50),
 	@remoteDbPwd varchar(20),
+	@enrichDbname varchar(50),
+	@enrichDbUser varchar(50),
+	@enrichDbPwd varchar(20),
 	@ftpUser varchar(20),
 	@ftpPwd varchar(20)
 	; 
@@ -17,7 +20,10 @@ select
 select
 	@linkedServerAlias = replace(@linkedServerAddress,'/','')+upper(@district),
 	@remoteDbUser = 'enrich_demo_user',
-	@remoteDbPwd = 'vc3go!!', 
+	@remoteDbPwd = 'vc3go!!',
+	@enrichDbname = 'Enrich_DCB8_SC_Demo',
+	@enrichDbUser = 'sa',
+	@enrichDbPwd = 'vc3go!!',	
 	@ftpUser = 'scdistrict',
 	@ftpPwd = 'hgwmvc'
 
@@ -34,6 +40,10 @@ insert x_DATAVALIDATION.ParamValues values ('databaseOwner', 'dbo')
 insert x_DATAVALIDATION.ParamValues values ('databaseName', 'QASCConvert2005')
 insert x_DATAVALIDATION.ParamValues values ('EOdatabaseUserName', @remoteDbUser)
 insert x_DATAVALIDATION.ParamValues values ('EOdatabasepwd', @remoteDbPwd)
+
+insert x_DATAVALIDATION.ParamValues values ('EnrichDbname', @enrichDbname)
+insert x_DATAVALIDATION.ParamValues values ('EnrichDbuser', @enrichDbUser)
+insert x_DATAVALIDATION.ParamValues values ('EnrichDbPwd', @enrichDbPwd)
 
 insert x_DATAVALIDATION.ParamValues values ('remoteConnStr', '-S'+@linkedServerAddress+' -U'+@remoteDbUser+' -P'+@remoteDbPwd+' -d'+'QASCConvert2005')
 

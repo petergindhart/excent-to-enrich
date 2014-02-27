@@ -44,7 +44,7 @@ from LEGACYSPED.Transform_PrgGoalAreaDef tpg  --16
 cross join LEGACYSPED.Map_SubGoalArea msubga
 left join LEGACYSPED.MAP_PrgSubGoalAreaDefID m on m.SubGoalAreaCode = tpg.GoalAreaCode and m.ParentID = tpg.DestID and m.Sequence = msubga.Sequence
 left join PrgSubGoalAreaDef subgadef on msubga.SubGoalAreaName = subgadef.Name and subgadef.ParentID = tpg.DestID
-where subgadef.ID is null and tpg.sequence = 99
+--where subgadef.ID is null and tpg.sequence = 99
 go
 
 --DROP TABLE LEGACYSPED.MAP_PrgSubGoalAreaDefID 

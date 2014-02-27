@@ -70,7 +70,7 @@ FROM (
 	ServiceLocationCode = vl.LocationCode,
 	Sequence = v.ServOrder, 
 	IsEsy = cast(0 as bit), -- not available in SC
-	ServiceTime = vm.Minutes, ---------------------  this is exact now.  Is servicetime really assumed to be Minutes all the time?
+	ServiceTime = isnull(vm.Minutes,0), ---------------------  this is exact now.  Is servicetime really assumed to be Minutes all the time?
 	ServiceFrequencyCode = vf.FrequencyCode, 
 	ServiceAreaText = '	Original Service Description : '+isnull(vd.ServDesc,'')+'
 	Original Location : '+isnull(vl.LocationDesc,'')+'

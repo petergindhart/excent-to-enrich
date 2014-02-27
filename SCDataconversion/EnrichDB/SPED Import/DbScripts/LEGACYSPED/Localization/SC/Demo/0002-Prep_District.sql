@@ -127,6 +127,7 @@ LoadTable	varchar(100),
 Enabled	bit
 )
 
+insert @customsetup values ('StudentRace', 0)
 insert @customsetup values ('Person', 0)
 insert @customsetup values ('UserProfile', 0)
 insert @customsetup values ('UserProfileOrgUnit', 0)

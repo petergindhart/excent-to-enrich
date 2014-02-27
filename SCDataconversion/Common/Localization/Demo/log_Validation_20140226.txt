@@ -2,52 +2,52 @@ Microsoft (R) SQL Server Execute Package Utility
 Version 10.50.1600.1 for 32-bit
 Copyright (C) Microsoft Corporation 2010. All rights reserved.
 
-Started:  6:43:35 AM
-Progress: 2014-02-26 06:43:39.05
+Started:  10:00:41 PM
+Progress: 2014-02-26 22:00:42.36
    Source: Transfer ValidationReport_AccomMod 
    Validating: 0% complete
 End Progress
-Progress: 2014-02-26 06:43:39.89
+Progress: 2014-02-26 22:00:42.41
    Source: Transfer ValidationReport_AccomMod 
    Validating: 20% complete
 End Progress
-Progress: 2014-02-26 06:43:39.89
+Progress: 2014-02-26 22:00:42.41
    Source: Transfer ValidationReport_AccomMod 
    Validating: 40% complete
 End Progress
-Progress: 2014-02-26 06:43:40.05
+Progress: 2014-02-26 22:00:42.42
    Source: Transfer ValidationReport_AccomMod 
    Validating: 60% complete
 End Progress
-Progress: 2014-02-26 06:43:40.05
+Progress: 2014-02-26 22:00:42.42
    Source: Transfer ValidationReport_AccomMod 
    Validating: 80% complete
 End Progress
-Progress: 2014-02-26 06:43:43.00
+Progress: 2014-02-26 22:00:42.69
    Source: Transfer ValidationReport_AccomMod 
    Validating: 100% complete
 End Progress
-Progress: 2014-02-26 06:43:43.00
+Progress: 2014-02-26 22:00:42.69
    Source: Transfer ValidationReport_District 
    Validating: 0% complete
 End Progress
-Progress: 2014-02-26 06:43:43.02
+Progress: 2014-02-26 22:00:42.70
    Source: Transfer ValidationReport_District 
    Validating: 20% complete
 End Progress
-Progress: 2014-02-26 06:43:43.02
+Progress: 2014-02-26 22:00:42.70
    Source: Transfer ValidationReport_District 
    Validating: 40% complete
 End Progress
-Progress: 2014-02-26 06:43:43.02
+Progress: 2014-02-26 22:00:42.70
    Source: Transfer ValidationReport_District 
    Validating: 60% complete
 End Progress
-Progress: 2014-02-26 06:43:43.02
+Progress: 2014-02-26 22:00:42.70
    Source: Transfer ValidationReport_District 
    Validating: 80% complete
 End Progress
-Warning: 2014-02-26 06:43:43.22
+Warning: 2014-02-26 22:00:42.91
    Code: 0x800470C8
    Source: Transfer ValidationReport_District Excel Destination [208]
    Description: The external columns for component "Excel Destination" (208) are out of synchronization with the data source columns. The external column "LineNumber" needs to be updated.
@@ -56,31 +56,31 @@ The column "Line" needs to be added to the external columns.
 The external column "DistrictCode" needs to be updated.
 The external column "DistrictName" needs to be updated.
 End Warning
-Progress: 2014-02-26 06:43:43.27
+Progress: 2014-02-26 22:00:42.95
    Source: Transfer ValidationReport_District 
    Validating: 100% complete
 End Progress
-Progress: 2014-02-26 06:43:43.27
+Progress: 2014-02-26 22:00:42.95
    Source: Transfer ValidationReport_Goal 
    Validating: 0% complete
 End Progress
-Progress: 2014-02-26 06:43:43.27
+Progress: 2014-02-26 22:00:42.96
    Source: Transfer ValidationReport_Goal 
    Validating: 20% complete
 End Progress
-Progress: 2014-02-26 06:43:43.27
+Progress: 2014-02-26 22:00:42.96
    Source: Transfer ValidationReport_Goal 
    Validating: 40% complete
 End Progress
-Progress: 2014-02-26 06:43:43.28
+Progress: 2014-02-26 22:00:42.96
    Source: Transfer ValidationReport_Goal 
    Validating: 60% complete
 End Progress
-Progress: 2014-02-26 06:43:43.28
+Progress: 2014-02-26 22:00:42.96
    Source: Transfer ValidationReport_Goal 
    Validating: 80% complete
 End Progress
-Warning: 2014-02-26 06:43:43.49
+Warning: 2014-02-26 22:00:43.17
    Code: 0x800470C8
    Source: Transfer ValidationReport_Goal Excel Destination [650]
    Description: The external columns for component "Excel Destination" (650) are out of synchronization with the data source columns. The external column "LineNumber" needs to be updated.
@@ -100,31 +100,31 @@ The external column "UNITOFMEASUREMENT" needs to be updated.
 The external column "BASELINEDATAPOINT" needs to be updated.
 The external column "EVALUATIONMETHOD" needs to be updated.
 End Warning
-Progress: 2014-02-26 06:43:43.53
+Progress: 2014-02-26 22:00:43.21
    Source: Transfer ValidationReport_Goal 
    Validating: 100% complete
 End Progress
-Progress: 2014-02-26 06:43:43.53
+Progress: 2014-02-26 22:00:43.22
    Source: Transfer ValidationReport_IEP 
    Validating: 0% complete
 End Progress
-Progress: 2014-02-26 06:43:43.54
+Progress: 2014-02-26 22:00:43.22
    Source: Transfer ValidationReport_IEP 
    Validating: 20% complete
 End Progress
-Progress: 2014-02-26 06:43:43.54
+Progress: 2014-02-26 22:00:43.22
    Source: Transfer ValidationReport_IEP 
    Validating: 40% complete
 End Progress
-Progress: 2014-02-26 06:43:43.54
+Progress: 2014-02-26 22:00:43.23
    Source: Transfer ValidationReport_IEP 
    Validating: 60% complete
 End Progress
-Progress: 2014-02-26 06:43:43.54
+Progress: 2014-02-26 22:00:43.23
    Source: Transfer ValidationReport_IEP 
    Validating: 80% complete
 End Progress
-Warning: 2014-02-26 06:43:43.77
+Warning: 2014-02-26 22:00:43.45
    Code: 0x800470C8
    Source: Transfer ValidationReport_IEP Excel Destination [1160]
    Description: The external columns for component "Excel Destination" (1160) are out of synchronization with the data source columns. The external column "LineNumber" needs to be updated.
@@ -149,55 +149,55 @@ The external column "LRECode" needs to be updated.
 The external column "MinutesPerWeek" needs to be updated.
 The external column "ServiceDeliveryStatement" needs to be updated.
 End Warning
-Progress: 2014-02-26 06:43:43.81
+Progress: 2014-02-26 22:00:43.49
    Source: Transfer ValidationReport_IEP 
    Validating: 100% complete
 End Progress
-Progress: 2014-02-26 06:43:43.81
+Progress: 2014-02-26 22:00:43.50
    Source: Transfer ValidationReport_Objective 
    Validating: 0% complete
 End Progress
-Progress: 2014-02-26 06:43:43.82
+Progress: 2014-02-26 22:00:43.50
    Source: Transfer ValidationReport_Objective 
    Validating: 20% complete
 End Progress
-Progress: 2014-02-26 06:43:43.82
+Progress: 2014-02-26 22:00:43.50
    Source: Transfer ValidationReport_Objective 
    Validating: 40% complete
 End Progress
-Progress: 2014-02-26 06:43:43.82
+Progress: 2014-02-26 22:00:43.50
    Source: Transfer ValidationReport_Objective 
    Validating: 60% complete
 End Progress
-Progress: 2014-02-26 06:43:43.82
+Progress: 2014-02-26 22:00:43.50
    Source: Transfer ValidationReport_Objective 
    Validating: 80% complete
 End Progress
-Progress: 2014-02-26 06:43:44.10
+Progress: 2014-02-26 22:00:43.75
    Source: Transfer ValidationReport_Objective 
    Validating: 100% complete
 End Progress
-Progress: 2014-02-26 06:43:44.10
+Progress: 2014-02-26 22:00:43.75
    Source: Transfer ValidationReport_School 
    Validating: 0% complete
 End Progress
-Progress: 2014-02-26 06:43:44.10
+Progress: 2014-02-26 22:00:43.76
    Source: Transfer ValidationReport_School 
    Validating: 20% complete
 End Progress
-Progress: 2014-02-26 06:43:44.10
+Progress: 2014-02-26 22:00:43.76
    Source: Transfer ValidationReport_School 
    Validating: 40% complete
 End Progress
-Progress: 2014-02-26 06:43:44.11
+Progress: 2014-02-26 22:00:43.76
    Source: Transfer ValidationReport_School 
    Validating: 60% complete
 End Progress
-Progress: 2014-02-26 06:43:44.11
+Progress: 2014-02-26 22:00:43.76
    Source: Transfer ValidationReport_School 
    Validating: 80% complete
 End Progress
-Warning: 2014-02-26 06:43:44.33
+Warning: 2014-02-26 22:00:43.98
    Code: 0x800470C8
    Source: Transfer ValidationReport_School Excel Destination [299]
    Description: The external columns for component "Excel Destination" (299) are out of synchronization with the data source columns. The external column "LineNumber" needs to be updated.
@@ -207,31 +207,31 @@ The external column "SchoolName" needs to be updated.
 The external column "DistrictCode" needs to be updated.
 The external column "MinutesPerWeek" needs to be updated.
 End Warning
-Progress: 2014-02-26 06:43:44.38
+Progress: 2014-02-26 22:00:44.03
    Source: Transfer ValidationReport_School 
    Validating: 100% complete
 End Progress
-Progress: 2014-02-26 06:43:44.38
+Progress: 2014-02-26 22:00:44.03
    Source: Transfer ValidationReport_SchoolProgressFrequency 
    Validating: 0% complete
 End Progress
-Progress: 2014-02-26 06:43:44.38
+Progress: 2014-02-26 22:00:44.03
    Source: Transfer ValidationReport_SchoolProgressFrequency 
    Validating: 20% complete
 End Progress
-Progress: 2014-02-26 06:43:44.38
+Progress: 2014-02-26 22:00:44.03
    Source: Transfer ValidationReport_SchoolProgressFrequency 
    Validating: 40% complete
 End Progress
-Progress: 2014-02-26 06:43:44.39
+Progress: 2014-02-26 22:00:44.04
    Source: Transfer ValidationReport_SchoolProgressFrequency 
    Validating: 60% complete
 End Progress
-Progress: 2014-02-26 06:43:44.39
+Progress: 2014-02-26 22:00:44.04
    Source: Transfer ValidationReport_SchoolProgressFrequency 
    Validating: 80% complete
 End Progress
-Warning: 2014-02-26 06:43:44.61
+Warning: 2014-02-26 22:00:44.24
    Code: 0x800470C8
    Source: Transfer ValidationReport_SchoolProgressFrequency Excel Destination [899]
    Description: The external columns for component "Excel Destination" (899) are out of synchronization with the data source columns. The external column "LineNumber" needs to be updated.
@@ -240,79 +240,79 @@ The external column "SchoolCode" needs to be updated.
 The column "FrequencyName" needs to be added to the external columns.
 The external column "StaffEmail" (917) needs to be removed from the external columns.
 End Warning
-Progress: 2014-02-26 06:43:44.66
+Progress: 2014-02-26 22:00:44.28
    Source: Transfer ValidationReport_SchoolProgressFrequency 
    Validating: 100% complete
 End Progress
-Progress: 2014-02-26 06:43:44.66
+Progress: 2014-02-26 22:00:44.28
    Source: Transfer ValidationReport_Selectlists 
    Validating: 0% complete
 End Progress
-Progress: 2014-02-26 06:43:44.66
+Progress: 2014-02-26 22:00:44.29
    Source: Transfer ValidationReport_Selectlists 
    Validating: 20% complete
 End Progress
-Progress: 2014-02-26 06:43:44.66
+Progress: 2014-02-26 22:00:44.29
    Source: Transfer ValidationReport_Selectlists 
    Validating: 40% complete
 End Progress
-Progress: 2014-02-26 06:43:44.93
+Progress: 2014-02-26 22:00:44.54
    Source: Transfer ValidationReport_Selectlists 
    Validating: 60% complete
 End Progress
-Progress: 2014-02-26 06:43:44.94
+Progress: 2014-02-26 22:00:44.54
    Source: Transfer ValidationReport_Selectlists 
    Validating: 80% complete
 End Progress
-Progress: 2014-02-26 06:43:44.94
+Progress: 2014-02-26 22:00:44.54
    Source: Transfer ValidationReport_Selectlists 
    Validating: 100% complete
 End Progress
-Progress: 2014-02-26 06:43:44.94
+Progress: 2014-02-26 22:00:44.54
    Source: Transfer ValidationReport_Service 
    Validating: 0% complete
 End Progress
-Progress: 2014-02-26 06:43:44.94
+Progress: 2014-02-26 22:00:44.55
    Source: Transfer ValidationReport_Service 
    Validating: 20% complete
 End Progress
-Progress: 2014-02-26 06:43:44.94
+Progress: 2014-02-26 22:00:44.55
    Source: Transfer ValidationReport_Service 
    Validating: 40% complete
 End Progress
-Progress: 2014-02-26 06:43:44.95
+Progress: 2014-02-26 22:00:44.55
    Source: Transfer ValidationReport_Service 
    Validating: 60% complete
 End Progress
-Progress: 2014-02-26 06:43:44.95
+Progress: 2014-02-26 22:00:44.55
    Source: Transfer ValidationReport_Service 
    Validating: 80% complete
 End Progress
-Progress: 2014-02-26 06:43:45.22
+Progress: 2014-02-26 22:00:44.80
    Source: Transfer ValidationReport_Service 
    Validating: 100% complete
 End Progress
-Progress: 2014-02-26 06:43:45.22
+Progress: 2014-02-26 22:00:44.80
    Source: Transfer ValidationReport_SPEDStaffMember 
    Validating: 0% complete
 End Progress
-Progress: 2014-02-26 06:43:45.23
+Progress: 2014-02-26 22:00:44.80
    Source: Transfer ValidationReport_SPEDStaffMember 
    Validating: 20% complete
 End Progress
-Progress: 2014-02-26 06:43:45.23
+Progress: 2014-02-26 22:00:44.80
    Source: Transfer ValidationReport_SPEDStaffMember 
    Validating: 40% complete
 End Progress
-Progress: 2014-02-26 06:43:45.23
+Progress: 2014-02-26 22:00:44.81
    Source: Transfer ValidationReport_SPEDStaffMember 
    Validating: 60% complete
 End Progress
-Progress: 2014-02-26 06:43:45.23
+Progress: 2014-02-26 22:00:44.81
    Source: Transfer ValidationReport_SPEDStaffMember 
    Validating: 80% complete
 End Progress
-Warning: 2014-02-26 06:43:45.46
+Warning: 2014-02-26 22:00:45.02
    Code: 0x800470C8
    Source: Transfer ValidationReport_SPEDStaffMember Excel Destination [367]
    Description: The external columns for component "Excel Destination" (367) are out of synchronization with the data source columns. The external column "LineNumber" needs to be updated.
@@ -322,55 +322,55 @@ The external column "Firstname" needs to be updated.
 The external column "Lastname" needs to be updated.
 The external column "EnrichRole" needs to be updated.
 End Warning
-Progress: 2014-02-26 06:43:45.50
+Progress: 2014-02-26 22:00:45.07
    Source: Transfer ValidationReport_SPEDStaffMember 
    Validating: 100% complete
 End Progress
-Progress: 2014-02-26 06:43:45.50
+Progress: 2014-02-26 22:00:45.07
    Source: Transfer ValidationReport_StaffSchool 
    Validating: 0% complete
 End Progress
-Progress: 2014-02-26 06:43:45.51
+Progress: 2014-02-26 22:00:45.08
    Source: Transfer ValidationReport_StaffSchool 
    Validating: 20% complete
 End Progress
-Progress: 2014-02-26 06:43:45.51
+Progress: 2014-02-26 22:00:45.08
    Source: Transfer ValidationReport_StaffSchool 
    Validating: 40% complete
 End Progress
-Progress: 2014-02-26 06:43:45.51
+Progress: 2014-02-26 22:00:45.08
    Source: Transfer ValidationReport_StaffSchool 
    Validating: 60% complete
 End Progress
-Progress: 2014-02-26 06:43:45.51
+Progress: 2014-02-26 22:00:45.08
    Source: Transfer ValidationReport_StaffSchool 
    Validating: 80% complete
 End Progress
-Progress: 2014-02-26 06:43:45.78
+Progress: 2014-02-26 22:00:45.34
    Source: Transfer ValidationReport_StaffSchool 
    Validating: 100% complete
 End Progress
-Progress: 2014-02-26 06:43:45.78
+Progress: 2014-02-26 22:00:45.34
    Source: Transfer ValidationReport_Student 
    Validating: 0% complete
 End Progress
-Progress: 2014-02-26 06:43:45.78
+Progress: 2014-02-26 22:00:45.35
    Source: Transfer ValidationReport_Student 
    Validating: 20% complete
 End Progress
-Progress: 2014-02-26 06:43:45.78
+Progress: 2014-02-26 22:00:45.35
    Source: Transfer ValidationReport_Student 
    Validating: 40% complete
 End Progress
-Progress: 2014-02-26 06:43:45.79
+Progress: 2014-02-26 22:00:45.35
    Source: Transfer ValidationReport_Student 
    Validating: 60% complete
 End Progress
-Progress: 2014-02-26 06:43:45.79
+Progress: 2014-02-26 22:00:45.35
    Source: Transfer ValidationReport_Student 
    Validating: 80% complete
 End Progress
-Warning: 2014-02-26 06:43:46.02
+Warning: 2014-02-26 22:00:45.58
    Code: 0x800470C8
    Source: Transfer ValidationReport_Student Excel Destination [542]
    Description: The external columns for component "Excel Destination" (542) are out of synchronization with the data source columns. The external column "LineNumber" needs to be updated.
@@ -410,464 +410,466 @@ The external column "ExitDate" needs to be updated.
 The external column "ExitCode" needs to be updated.
 The external column "SpecialEdStatus" needs to be updated.
 End Warning
-Progress: 2014-02-26 06:43:46.07
+Progress: 2014-02-26 22:00:45.62
    Source: Transfer ValidationReport_Student 
    Validating: 100% complete
 End Progress
-Progress: 2014-02-26 06:43:46.07
+Progress: 2014-02-26 22:00:45.62
    Source: Transfer ValidationReport_TeamMember 
    Validating: 0% complete
 End Progress
-Progress: 2014-02-26 06:43:46.07
+Progress: 2014-02-26 22:00:45.63
    Source: Transfer ValidationReport_TeamMember 
    Validating: 20% complete
 End Progress
-Progress: 2014-02-26 06:43:46.07
+Progress: 2014-02-26 22:00:45.63
    Source: Transfer ValidationReport_TeamMember 
    Validating: 40% complete
 End Progress
-Progress: 2014-02-26 06:43:46.08
+Progress: 2014-02-26 22:00:45.63
    Source: Transfer ValidationReport_TeamMember 
    Validating: 60% complete
 End Progress
-Progress: 2014-02-26 06:43:46.08
+Progress: 2014-02-26 22:00:45.63
    Source: Transfer ValidationReport_TeamMember 
    Validating: 80% complete
 End Progress
-Progress: 2014-02-26 06:43:46.35
+Progress: 2014-02-26 22:00:45.90
    Source: Transfer ValidationReport_TeamMember 
    Validating: 100% complete
 End Progress
-Progress: 2014-02-26 06:43:46.35
+Progress: 2014-02-26 22:00:45.90
    Source: Transfer ValidationSummaryReport 
    Validating: 0% complete
 End Progress
-Progress: 2014-02-26 06:43:46.37
+Progress: 2014-02-26 22:00:45.90
    Source: Transfer ValidationSummaryReport 
    Validating: 33% complete
 End Progress
-Progress: 2014-02-26 06:43:46.37
+Progress: 2014-02-26 22:00:45.90
    Source: Transfer ValidationSummaryReport 
    Validating: 66% complete
 End Progress
-Progress: 2014-02-26 06:43:46.62
+Progress: 2014-02-26 22:00:46.15
    Source: Transfer ValidationSummaryReport 
    Validating: 100% complete
 End Progress
-Warning: 2014-02-26 06:43:47.37
+Warning: 2014-02-26 22:00:46.49
    Code: 0x00000000
    Source: Drop ValidationSummary sheet 
    Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
 End Warning
-Warning: 2014-02-26 06:43:47.37
-   Code: 0x00000000
-   Source: Drop Selectlists sheet 
-   Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
-End Warning
-Warning: 2014-02-26 06:43:47.37
-   Code: 0x00000000
-   Source: Drop Goal sheet 
-   Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
-End Warning
-Warning: 2014-02-26 06:43:47.37
+Warning: 2014-02-26 22:00:46.49
    Code: 0x00000000
    Source: Drop StaffSchool  sheet 
    Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
 End Warning
-Warning: 2014-02-26 06:43:47.37
+Warning: 2014-02-26 22:00:46.49
+   Code: 0x00000000
+   Source: Drop District sheet 
+   Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
+End Warning
+Warning: 2014-02-26 22:00:46.49
+   Code: 0x00000000
+   Source: Drop Goal sheet 
+   Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
+End Warning
+Warning: 2014-02-26 22:00:46.49
    Code: 0x00000000
    Source: Drop ValidationSummary sheet 
    Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
 End Warning
-Warning: 2014-02-26 06:43:47.37
+Warning: 2014-02-26 22:00:46.49
    Code: 0x00000000
    Source: Drop Selectlists sheet 
    Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
 End Warning
-Warning: 2014-02-26 06:43:47.37
-   Code: 0x00000000
-   Source: Drop District sheet 
-   Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
-End Warning
-Warning: 2014-02-26 06:43:47.37
-   Code: 0x00000000
-   Source: Drop Goal sheet 
-   Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
-End Warning
-Warning: 2014-02-26 06:43:47.37
+Warning: 2014-02-26 22:00:46.49
    Code: 0x00000000
    Source: Drop StaffSchool  sheet 
    Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
 End Warning
-Warning: 2014-02-26 06:43:47.37
+Warning: 2014-02-26 22:00:46.49
    Code: 0x00000000
    Source: Drop District sheet 
    Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
 End Warning
-Warning: 2014-02-26 06:43:47.37
+Warning: 2014-02-26 22:00:46.49
    Code: 0x00000000
    Source: Drop AccomMod sheet 
    Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
 End Warning
-Warning: 2014-02-26 06:43:47.37
+Warning: 2014-02-26 22:00:46.49
+   Code: 0x00000000
+   Source: Drop Goal sheet 
+   Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
+End Warning
+Warning: 2014-02-26 22:00:46.49
+   Code: 0x00000000
+   Source: Drop Selectlists sheet 
+   Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
+End Warning
+Warning: 2014-02-26 22:00:46.49
    Code: 0x00000000
    Source: Drop AccomMod sheet 
    Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
 End Warning
-Progress: 2014-02-26 06:43:47.39
+Progress: 2014-02-26 22:00:46.50
    Source: Drop ValidationSummary sheet 
    Executing query "DROP TABLE ValidationSummaryReport".: 100% complete
 End Progress
-Progress: 2014-02-26 06:43:47.58
+Progress: 2014-02-26 22:00:46.70
    Source: Drop Goal sheet 
    Executing query "DROP TABLE ValidationReport_Goal".: 100% complete
 End Progress
-Progress: 2014-02-26 06:43:47.58
-   Source: Drop Selectlists sheet 
-   Executing query "DROP TABLE ValidationReport_SelectLists".: 100% complete
-End Progress
-Progress: 2014-02-26 06:43:47.58
+Progress: 2014-02-26 22:00:46.70
    Source: Drop District sheet 
    Executing query "DROP TABLE ValidationReport_District".: 100% complete
 End Progress
-Progress: 2014-02-26 06:43:47.58
+Progress: 2014-02-26 22:00:46.70
+   Source: Drop Selectlists sheet 
+   Executing query "DROP TABLE ValidationReport_SelectLists".: 100% complete
+End Progress
+Progress: 2014-02-26 22:00:46.70
    Source: Drop AccomMod sheet 
    Executing query "DROP TABLE ValidationReport_AccomMod".: 100% complete
 End Progress
-Progress: 2014-02-26 06:43:47.58
+Progress: 2014-02-26 22:00:46.71
    Source: Drop StaffSchool  sheet 
    Executing query "DROP TABLE ValidationReport_StaffSchool".: 100% complete
 End Progress
-Warning: 2014-02-26 06:43:48.42
+Warning: 2014-02-26 22:00:47.28
    Code: 0x00000000
    Source: Drop SchoolProgressFrequency sheet 
    Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
 End Warning
-Warning: 2014-02-26 06:43:48.42
+Warning: 2014-02-26 22:00:47.28
    Code: 0x00000000
    Source: Drop SchoolProgressFrequency sheet 
    Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
 End Warning
-Progress: 2014-02-26 06:43:48.42
+Warning: 2014-02-26 22:00:47.28
+   Code: 0x00000000
+   Source: Drop TeamMember sheet 
+   Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
+End Warning
+Warning: 2014-02-26 22:00:47.28
+   Code: 0x00000000
+   Source: Drop TeamMember sheet 
+   Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
+End Warning
+Progress: 2014-02-26 22:00:47.28
    Source: Drop SchoolProgressFrequency sheet 
    Executing query "DROP TABLE ValidationReport_SchoolProgressFrequenc...".: 100% complete
 End Progress
-Warning: 2014-02-26 06:43:48.42
-   Code: 0x00000000
-   Source: Drop Objective sheet 
-   Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
-End Warning
-Warning: 2014-02-26 06:43:48.42
+Warning: 2014-02-26 22:00:47.28
    Code: 0x00000000
    Source: Drop School sheet 
    Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
 End Warning
-Warning: 2014-02-26 06:43:48.42
-   Code: 0x00000000
-   Source: Drop Objective sheet 
-   Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
-End Warning
-Warning: 2014-02-26 06:43:48.42
+Warning: 2014-02-26 22:00:47.28
    Code: 0x00000000
    Source: Drop School sheet 
    Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
 End Warning
-Warning: 2014-02-26 06:43:48.42
-   Code: 0x00000000
-   Source: Drop TeamMember sheet 
-   Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
-End Warning
-Warning: 2014-02-26 06:43:48.42
-   Code: 0x00000000
-   Source: Drop TeamMember sheet 
-   Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
-End Warning
-Progress: 2014-02-26 06:43:48.44
-   Source: Drop Objective sheet 
-   Executing query "DROP TABLE ValidationReport_Objective".: 100% complete
-End Progress
-Progress: 2014-02-26 06:43:48.44
-   Source: Drop School sheet 
-   Executing query "DROP TABLE ValidationReport_School".: 100% complete
-End Progress
-Warning: 2014-02-26 06:43:48.44
-   Code: 0x00000000
-   Source: Drop Student sheet 
-   Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
-End Warning
-Warning: 2014-02-26 06:43:48.44
-   Code: 0x00000000
-   Source: Drop Student sheet 
-   Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
-End Warning
-Progress: 2014-02-26 06:43:48.98
-   Source: Drop Student sheet 
-   Executing query "DROP TABLE ValidationReport_Student".: 100% complete
-End Progress
-Progress: 2014-02-26 06:43:49.02
+Progress: 2014-02-26 22:00:47.32
    Source: Drop TeamMember sheet 
    Executing query "DROP TABLE ValidationReport_TeamMember".: 100% complete
 End Progress
-Warning: 2014-02-26 06:43:49.02
+Progress: 2014-02-26 22:00:47.32
+   Source: Drop School sheet 
+   Executing query "DROP TABLE ValidationReport_School".: 100% complete
+End Progress
+Warning: 2014-02-26 22:00:47.32
+   Code: 0x00000000
+   Source: Drop Objective sheet 
+   Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
+End Warning
+Warning: 2014-02-26 22:00:47.32
+   Code: 0x00000000
+   Source: Drop Objective sheet 
+   Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
+End Warning
+Progress: 2014-02-26 22:00:47.34
+   Source: Drop Objective sheet 
+   Executing query "DROP TABLE ValidationReport_Objective".: 100% complete
+End Progress
+Warning: 2014-02-26 22:00:47.34
+   Code: 0x00000000
+   Source: Drop Student sheet 
+   Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
+End Warning
+Warning: 2014-02-26 22:00:47.34
    Code: 0x00000000
    Source: Drop IEP sheet 
    Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
 End Warning
-Warning: 2014-02-26 06:43:49.02
+Warning: 2014-02-26 22:00:47.34
+   Code: 0x00000000
+   Source: Drop Student sheet 
+   Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
+End Warning
+Warning: 2014-02-26 22:00:47.34
    Code: 0x00000000
    Source: Drop IEP sheet 
    Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
 End Warning
-Progress: 2014-02-26 06:43:49.16
+Progress: 2014-02-26 22:00:47.79
+   Source: Drop Student sheet 
+   Executing query "DROP TABLE ValidationReport_Student".: 100% complete
+End Progress
+Progress: 2014-02-26 22:00:47.94
    Source: Drop IEP sheet 
    Executing query "DROP TABLE ValidationReport_IEP".: 100% complete
 End Progress
-Warning: 2014-02-26 06:43:49.16
+Warning: 2014-02-26 22:00:47.94
    Code: 0x00000000
    Source: Drop SPEDStaffMember sheet 
    Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
 End Warning
-Warning: 2014-02-26 06:43:49.16
+Warning: 2014-02-26 22:00:47.94
    Code: 0x00000000
    Source: Drop SPEDStaffMember sheet 
    Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
 End Warning
-Progress: 2014-02-26 06:43:49.16
+Progress: 2014-02-26 22:00:47.94
    Source: Drop SPEDStaffMember sheet 
    Executing query "DROP TABLE ValidationReport_spedstaffmember".: 100% complete
 End Progress
-Warning: 2014-02-26 06:43:49.16
-   Code: 0x00000000
-   Source: Drop Service sheet 
-   Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
-End Warning
-Warning: 2014-02-26 06:43:49.16
-   Code: 0x00000000
-   Source: Drop Service sheet 
-   Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
-End Warning
-Warning: 2014-02-26 06:43:49.16
+Warning: 2014-02-26 22:00:47.94
    Code: 0x00000000
    Source: Create District Sheet 
    Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
 End Warning
-Warning: 2014-02-26 06:43:49.16
+Warning: 2014-02-26 22:00:47.94
    Code: 0x00000000
    Source: Create District Sheet 
    Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
 End Warning
-Progress: 2014-02-26 06:43:49.52
-   Source: Drop Service sheet 
-   Executing query "DROP TABLE ValidationReport_Service".: 100% complete
-End Progress
-Progress: 2014-02-26 06:43:49.52
+Progress: 2014-02-26 22:00:47.94
    Source: Create District Sheet 
    Executing query "CREATE TABLE ValidationReport_District(
 LineNumber...".: 100% complete
 End Progress
-Warning: 2014-02-26 06:43:49.52
+Warning: 2014-02-26 22:00:47.94
    Code: 0x00000000
    Source: Create StaffSchool Sheet 
    Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
 End Warning
-Warning: 2014-02-26 06:43:49.52
+Warning: 2014-02-26 22:00:47.94
    Code: 0x00000000
    Source: Create StaffSchool Sheet 
    Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
 End Warning
-Warning: 2014-02-26 06:43:49.52
+Warning: 2014-02-26 22:00:47.94
+   Code: 0x00000000
+   Source: Drop Service sheet 
+   Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
+End Warning
+Warning: 2014-02-26 22:00:47.94
+   Code: 0x00000000
+   Source: Drop Service sheet 
+   Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
+End Warning
+Warning: 2014-02-26 22:00:47.94
    Code: 0x00000000
    Source: Create SelectLists Sheet 
    Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
 End Warning
-Warning: 2014-02-26 06:43:49.52
-   Code: 0x00000000
-   Source: Create SelectLists Sheet 
-   Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
-End Warning
-Progress: 2014-02-26 06:43:49.52
+Progress: 2014-02-26 22:00:47.94
    Source: Create StaffSchool Sheet 
    Executing query "CREATE TABLE ValidationReport_StaffSchool(
 LineNum...".: 100% complete
 End Progress
-Progress: 2014-02-26 06:43:49.52
+Warning: 2014-02-26 22:00:47.94
+   Code: 0x00000000
+   Source: Create SelectLists Sheet 
+   Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
+End Warning
+Progress: 2014-02-26 22:00:47.94
    Source: Create SelectLists Sheet 
    Executing query "CREATE TABLE ValidationReport_SelectLists(
 LineNum...".: 100% complete
 End Progress
-Warning: 2014-02-26 06:43:49.52
+Warning: 2014-02-26 22:00:47.94
    Code: 0x00000000
    Source: Create AccomMod Sheet 
    Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
 End Warning
-Warning: 2014-02-26 06:43:49.52
+Warning: 2014-02-26 22:00:47.94
    Code: 0x00000000
    Source: Create AccomMod Sheet 
    Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
 End Warning
-Progress: 2014-02-26 06:43:49.52
+Progress: 2014-02-26 22:00:48.22
+   Source: Drop Service sheet 
+   Executing query "DROP TABLE ValidationReport_Service".: 100% complete
+End Progress
+Warning: 2014-02-26 22:00:48.22
+   Code: 0x00000000
+   Source: Create ValidationSummaryReport Sheet 
+   Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
+End Warning
+Warning: 2014-02-26 22:00:48.22
+   Code: 0x00000000
+   Source: Create ValidationSummaryReport Sheet 
+   Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
+End Warning
+Progress: 2014-02-26 22:00:48.22
    Source: Create AccomMod Sheet 
    Executing query "CREATE TABLE ValidationReport_AccomMod(
 LineNumber...".: 100% complete
 End Progress
-Warning: 2014-02-26 06:43:49.52
-   Code: 0x00000000
-   Source: Create ValidationSummaryReport Sheet 
-   Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
-End Warning
-Warning: 2014-02-26 06:43:49.52
-   Code: 0x00000000
-   Source: Create ValidationSummaryReport Sheet 
-   Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
-End Warning
-Progress: 2014-02-26 06:43:49.52
+Progress: 2014-02-26 22:00:48.22
    Source: Create ValidationSummaryReport Sheet 
    Executing query "CREATE TABLE ValidationSummaryReport(
 TableName  L...".: 100% complete
 End Progress
-Warning: 2014-02-26 06:43:49.52
+Warning: 2014-02-26 22:00:48.22
    Code: 0x00000000
    Source: Create Goal Sheet 
    Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
 End Warning
-Warning: 2014-02-26 06:43:49.52
+Warning: 2014-02-26 22:00:48.22
    Code: 0x00000000
    Source: Create Goal Sheet 
    Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
 End Warning
-Progress: 2014-02-26 06:43:49.52
+Progress: 2014-02-26 22:00:48.22
    Source: Create Goal Sheet 
    Executing query "CREATE TABLE ValidationReport_Goal(
 LineNumber  Lo...".: 100% complete
 End Progress
-Warning: 2014-02-26 06:43:49.52
+Warning: 2014-02-26 22:00:48.22
    Code: 0x00000000
-   Source: Create School Sheet 
+   Source: Create TeamMember Sheet 
    Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
 End Warning
-Warning: 2014-02-26 06:43:49.52
+Warning: 2014-02-26 22:00:48.22
    Code: 0x00000000
-   Source: Create School Sheet 
+   Source: Create TeamMember Sheet 
    Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
 End Warning
-Warning: 2014-02-26 06:43:49.52
-   Code: 0x00000000
-   Source: Create Objective Sheet 
-   Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
-End Warning
-Warning: 2014-02-26 06:43:49.52
-   Code: 0x00000000
-   Source: Create Objective Sheet 
-   Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
-End Warning
-Progress: 2014-02-26 06:43:49.52
+Progress: 2014-02-26 22:00:48.22
+   Source: Create TeamMember Sheet 
+   Executing query "CREATE TABLE ValidationReport_TeamMember(
+LineNumb...".: 100% complete
+End Progress
+Progress: 2014-02-26 22:00:48.22
    Source: Transfer ValidationReport_District 
    Validating: 0% complete
 End Progress
-Progress: 2014-02-26 06:43:49.52
+Progress: 2014-02-26 22:00:48.22
    Source: Transfer ValidationReport_StaffSchool 
    Validating: 0% complete
 End Progress
-Progress: 2014-02-26 06:43:49.52
+Progress: 2014-02-26 22:00:48.22
+   Source: Transfer ValidationReport_Selectlists 
+   Validating: 0% complete
+End Progress
+Warning: 2014-02-26 22:00:48.22
+   Code: 0x00000000
+   Source: Create Objective Sheet 
+   Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
+End Warning
+Warning: 2014-02-26 22:00:48.22
+   Code: 0x00000000
+   Source: Create School Sheet 
+   Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
+End Warning
+Progress: 2014-02-26 22:00:48.22
+   Source: Transfer ValidationReport_AccomMod 
+   Validating: 0% complete
+End Progress
+Warning: 2014-02-26 22:00:48.22
+   Code: 0x00000000
+   Source: Create Objective Sheet 
+   Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
+End Warning
+Warning: 2014-02-26 22:00:48.22
+   Code: 0x00000000
+   Source: Create School Sheet 
+   Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
+End Warning
+Progress: 2014-02-26 22:00:48.22
    Source: Create Objective Sheet 
    Executing query "CREATE TABLE ValidationReport_Objective(
 LineNumbe...".: 100% complete
 End Progress
-Warning: 2014-02-26 06:43:49.52
-   Code: 0x00000000
-   Source: Create Student Sheet 
-   Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
-End Warning
-Warning: 2014-02-26 06:43:49.52
-   Code: 0x00000000
-   Source: Create Student Sheet 
-   Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
-End Warning
-Progress: 2014-02-26 06:43:49.52
-   Source: Transfer ValidationReport_Selectlists 
-   Validating: 0% complete
-End Progress
-Progress: 2014-02-26 06:43:49.52
-   Source: Transfer ValidationSummaryReport 
-   Validating: 0% complete
-End Progress
-Progress: 2014-02-26 06:43:49.53
-   Source: Create Student Sheet 
-   Executing query "CREATE TABLE ValidationReport_Student(
-LineNumber ...".: 100% complete
-End Progress
-Progress: 2014-02-26 06:43:49.53
+Progress: 2014-02-26 22:00:48.22
    Source: Create School Sheet 
    Executing query "CREATE TABLE ValidationReport_School(
 LineNumber  ...".: 100% complete
 End Progress
-Progress: 2014-02-26 06:43:49.54
-   Source: Transfer ValidationReport_StaffSchool 
-   Validating: 20% complete
+Progress: 2014-02-26 22:00:48.23
+   Source: Transfer ValidationSummaryReport 
+   Validating: 0% complete
 End Progress
-Progress: 2014-02-26 06:43:49.54
+Progress: 2014-02-26 22:00:48.24
    Source: Transfer ValidationReport_District 
    Validating: 20% complete
 End Progress
-Progress: 2014-02-26 06:43:49.54
+Progress: 2014-02-26 22:00:48.24
+   Source: Transfer ValidationReport_StaffSchool 
+   Validating: 20% complete
+End Progress
+Progress: 2014-02-26 22:00:48.24
    Source: Transfer ValidationReport_StaffSchool 
    Validating: 40% complete
 End Progress
-Progress: 2014-02-26 06:43:49.54
+Progress: 2014-02-26 22:00:48.24
    Source: Transfer ValidationReport_District 
    Validating: 40% complete
 End Progress
-Progress: 2014-02-26 06:43:49.54
+Progress: 2014-02-26 22:00:48.24
    Source: Transfer ValidationSummaryReport 
    Validating: 33% complete
 End Progress
-Progress: 2014-02-26 06:43:49.54
+Progress: 2014-02-26 22:00:48.24
    Source: Transfer ValidationSummaryReport 
    Validating: 66% complete
 End Progress
-Progress: 2014-02-26 06:43:49.54
+Progress: 2014-02-26 22:00:48.24
    Source: Transfer ValidationReport_Selectlists 
    Validating: 20% complete
 End Progress
-Progress: 2014-02-26 06:43:49.54
+Progress: 2014-02-26 22:00:48.24
    Source: Transfer ValidationReport_Selectlists 
    Validating: 40% complete
 End Progress
-Progress: 2014-02-26 06:43:49.54
+Progress: 2014-02-26 22:00:48.24
+   Source: Transfer ValidationReport_AccomMod 
+   Validating: 20% complete
+End Progress
+Progress: 2014-02-26 22:00:48.24
    Source: Transfer ValidationReport_StaffSchool 
    Validating: 60% complete
 End Progress
-Progress: 2014-02-26 06:43:49.54
+Progress: 2014-02-26 22:00:48.24
+   Source: Transfer ValidationReport_AccomMod 
+   Validating: 40% complete
+End Progress
+Progress: 2014-02-26 22:00:48.24
    Source: Transfer ValidationReport_District 
    Validating: 60% complete
 End Progress
-Progress: 2014-02-26 06:43:49.54
+Progress: 2014-02-26 22:00:48.24
    Source: Transfer ValidationReport_StaffSchool 
    Validating: 80% complete
 End Progress
-Progress: 2014-02-26 06:43:49.54
+Progress: 2014-02-26 22:00:48.24
    Source: Transfer ValidationReport_District 
    Validating: 80% complete
 End Progress
-Warning: 2014-02-26 06:43:50.12
-   Code: 0x00000000
-   Source: Create SchoolProgressFrequency Sheet 
-   Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
-End Warning
-Warning: 2014-02-26 06:43:50.12
-   Code: 0x00000000
-   Source: Create SchoolProgressFrequency Sheet 
-   Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
-End Warning
-Progress: 2014-02-26 06:43:50.12
-   Source: Create SchoolProgressFrequency Sheet 
-   Executing query "CREATE TABLE ValidationReport_SchoolProgressFreque...".: 100% complete
+Progress: 2014-02-26 22:00:48.24
+   Source: Transfer ValidationReport_AccomMod 
+   Validating: 60% complete
 End Progress
-Progress: 2014-02-26 06:43:50.13
-   Source: Transfer ValidationReport_StaffSchool 
-   Validating: 100% complete
+Progress: 2014-02-26 22:00:48.24
+   Source: Transfer ValidationReport_AccomMod 
+   Validating: 80% complete
 End Progress
-Warning: 2014-02-26 06:43:50.13
+Warning: 2014-02-26 22:00:48.45
    Code: 0x800470C8
    Source: Transfer ValidationReport_District Excel Destination [208]
    Description: The external columns for component "Excel Destination" (208) are out of synchronization with the data source columns. The external column "LineNumber" needs to be updated.
@@ -876,299 +878,482 @@ The column "Line" needs to be added to the external columns.
 The external column "DistrictCode" needs to be updated.
 The external column "DistrictName" needs to be updated.
 End Warning
-Progress: 2014-02-26 06:43:50.13
-   Source: Transfer ValidationReport_District 
-   Validating: 100% complete
-End Progress
-Warning: 2014-02-26 06:43:50.13
-   Code: 0x00000000
-   Source: Create TeamMember Sheet 
-   Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
-End Warning
-Warning: 2014-02-26 06:43:50.13
-   Code: 0x00000000
-   Source: Create TeamMember Sheet 
-   Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
-End Warning
-Warning: 2014-02-26 06:43:50.13
-   Code: 0x80047076
-   Source: Transfer ValidationReport_StaffSchool SSIS.Pipeline
-   Description: The output column "DC_ LineNumber" (32) on output "Data Conversion Output" (27) and component "Data Conversion UC_NUC" (25) is not subsequently used in the Data Flow task. Removing this unused output column can increase Data Flow task performance.
-End Warning
-Warning: 2014-02-26 06:43:50.13
-   Code: 0x80047076
-   Source: Transfer ValidationReport_StaffSchool SSIS.Pipeline
-   Description: The output column "DC_ errormessage" (35) on output "Data Conversion Output" (27) and component "Data Conversion UC_NUC" (25) is not subsequently used in the Data Flow task. Removing this unused output column can increase Data Flow task performance.
-End Warning
-Warning: 2014-02-26 06:43:50.13
-   Code: 0x80047076
-   Source: Transfer ValidationReport_District SSIS.Pipeline
-   Description: The output column "DC_ LineNumber" (32) on output "Data Conversion Output" (27) and component "Data Conversion UC_NUC" (25) is not subsequently used in the Data Flow task. Removing this unused output column can increase Data Flow task performance.
-End Warning
-Progress: 2014-02-26 06:43:50.13
-   Source: Create TeamMember Sheet 
-   Executing query "CREATE TABLE ValidationReport_TeamMember(
-LineNumb...".: 100% complete
-End Progress
-Warning: 2014-02-26 06:43:50.13
-   Code: 0x80047076
-   Source: Transfer ValidationReport_District SSIS.Pipeline
-   Description: The output column "DC_ errormessage" (35) on output "Data Conversion Output" (27) and component "Data Conversion UC_NUC" (25) is not subsequently used in the Data Flow task. Removing this unused output column can increase Data Flow task performance.
-End Warning
-Progress: 2014-02-26 06:43:50.13
-   Source: Transfer ValidationReport_StaffSchool 
-   Prepare for Execute: 0% complete
-End Progress
-Progress: 2014-02-26 06:43:50.13
-   Source: Transfer ValidationReport_StaffSchool 
-   Prepare for Execute: 20% complete
-End Progress
-Progress: 2014-02-26 06:43:50.13
-   Source: Transfer ValidationReport_StaffSchool 
-   Prepare for Execute: 40% complete
-End Progress
-Progress: 2014-02-26 06:43:50.13
-   Source: Transfer ValidationReport_StaffSchool 
-   Prepare for Execute: 60% complete
-End Progress
-Progress: 2014-02-26 06:43:50.13
-   Source: Transfer ValidationReport_StaffSchool 
-   Prepare for Execute: 80% complete
-End Progress
-Progress: 2014-02-26 06:43:50.13
-   Source: Transfer ValidationReport_StaffSchool 
-   Prepare for Execute: 100% complete
-End Progress
-Progress: 2014-02-26 06:43:50.13
-   Source: Transfer ValidationReport_District 
-   Prepare for Execute: 0% complete
-End Progress
-Progress: 2014-02-26 06:43:50.13
-   Source: Transfer ValidationReport_District 
-   Prepare for Execute: 20% complete
-End Progress
-Progress: 2014-02-26 06:43:50.13
-   Source: Transfer ValidationReport_District 
-   Prepare for Execute: 40% complete
-End Progress
-Progress: 2014-02-26 06:43:50.13
-   Source: Transfer ValidationReport_District 
-   Prepare for Execute: 60% complete
-End Progress
-Progress: 2014-02-26 06:43:50.13
-   Source: Transfer ValidationReport_District 
-   Prepare for Execute: 80% complete
-End Progress
-Progress: 2014-02-26 06:43:50.13
-   Source: Transfer ValidationReport_District 
-   Prepare for Execute: 100% complete
-End Progress
-Progress: 2014-02-26 06:43:50.13
+Progress: 2014-02-26 22:00:48.45
    Source: Transfer ValidationSummaryReport 
    Validating: 100% complete
 End Progress
-Warning: 2014-02-26 06:43:50.13
-   Code: 0x00000000
-   Source: Create IEP Sheet 
-   Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
-End Warning
-Warning: 2014-02-26 06:43:50.13
-   Code: 0x00000000
-   Source: Create IEP Sheet 
-   Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
-End Warning
-Progress: 2014-02-26 06:43:50.13
-   Source: Create IEP Sheet 
-   Executing query "CREATE TABLE ValidationReport_IEP(
-LineNumber  Lon...".: 100% complete
-End Progress
-Progress: 2014-02-26 06:43:50.13
+Progress: 2014-02-26 22:00:48.45
    Source: Transfer ValidationReport_Selectlists 
    Validating: 60% complete
 End Progress
-Warning: 2014-02-26 06:43:50.13
-   Code: 0x00000000
-   Source: Create SpedStaffMember Sheet 
-   Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
-End Warning
-Warning: 2014-02-26 06:43:50.13
-   Code: 0x00000000
-   Source: Create SpedStaffMember Sheet 
-   Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
-End Warning
-Progress: 2014-02-26 06:43:50.13
-   Source: Transfer ValidationSummaryReport 
-   Prepare for Execute: 0% complete
+Progress: 2014-02-26 22:00:48.45
+   Source: Transfer ValidationReport_AccomMod 
+   Validating: 100% complete
 End Progress
-Progress: 2014-02-26 06:43:50.13
-   Source: Transfer ValidationSummaryReport 
-   Prepare for Execute: 33% complete
-End Progress
-Progress: 2014-02-26 06:43:50.13
-   Source: Transfer ValidationSummaryReport 
-   Prepare for Execute: 66% complete
-End Progress
-Progress: 2014-02-26 06:43:50.13
-   Source: Transfer ValidationSummaryReport 
-   Prepare for Execute: 100% complete
-End Progress
-Progress: 2014-02-26 06:43:50.13
-   Source: Transfer ValidationReport_StaffSchool 
-   Pre-Execute: 0% complete
-End Progress
-Progress: 2014-02-26 06:43:50.13
+Progress: 2014-02-26 22:00:48.45
    Source: Transfer ValidationReport_District 
-   Pre-Execute: 0% complete
+   Validating: 100% complete
 End Progress
-Progress: 2014-02-26 06:43:50.13
+Progress: 2014-02-26 22:00:48.45
+   Source: Transfer ValidationReport_StaffSchool 
+   Validating: 100% complete
+End Progress
+Warning: 2014-02-26 22:00:48.45
+   Code: 0x00000000
+   Source: Create SchoolProgressFrequency Sheet 
+   Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
+End Warning
+Warning: 2014-02-26 22:00:48.45
+   Code: 0x00000000
+   Source: Create SchoolProgressFrequency Sheet 
+   Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
+End Warning
+Warning: 2014-02-26 22:00:48.45
+   Code: 0x80047076
+   Source: Transfer ValidationReport_District SSIS.Pipeline
+   Description: The output column "DC_ LineNumber" (32) on output "Data Conversion Output" (27) and component "Data Conversion UC_NUC" (25) is not subsequently used in the Data Flow task. Removing this unused output column can increase Data Flow task performance.
+End Warning
+Progress: 2014-02-26 22:00:48.45
+   Source: Create SchoolProgressFrequency Sheet 
+   Executing query "CREATE TABLE ValidationReport_SchoolProgressFreque...".: 100% complete
+End Progress
+Warning: 2014-02-26 22:00:48.45
+   Code: 0x80047076
+   Source: Transfer ValidationReport_District SSIS.Pipeline
+   Description: The output column "DC_ errormessage" (35) on output "Data Conversion Output" (27) and component "Data Conversion UC_NUC" (25) is not subsequently used in the Data Flow task. Removing this unused output column can increase Data Flow task performance.
+End Warning
+Warning: 2014-02-26 22:00:48.45
+   Code: 0x80047076
+   Source: Transfer ValidationReport_StaffSchool SSIS.Pipeline
+   Description: The output column "DC_ LineNumber" (32) on output "Data Conversion Output" (27) and component "Data Conversion UC_NUC" (25) is not subsequently used in the Data Flow task. Removing this unused output column can increase Data Flow task performance.
+End Warning
+Warning: 2014-02-26 22:00:48.45
+   Code: 0x80047076
+   Source: Transfer ValidationReport_StaffSchool SSIS.Pipeline
+   Description: The output column "DC_ errormessage" (35) on output "Data Conversion Output" (27) and component "Data Conversion UC_NUC" (25) is not subsequently used in the Data Flow task. Removing this unused output column can increase Data Flow task performance.
+End Warning
+Progress: 2014-02-26 22:00:48.45
    Source: Transfer ValidationReport_Selectlists 
    Validating: 80% complete
 End Progress
-Progress: 2014-02-26 06:43:50.13
+Warning: 2014-02-26 22:00:48.45
+   Code: 0x80047076
+   Source: Transfer ValidationReport_AccomMod SSIS.Pipeline
+   Description: The output column "DC_ LineNumber" (32) on output "Data Conversion Output" (27) and component "Data Conversion UC_NUC" (25) is not subsequently used in the Data Flow task. Removing this unused output column can increase Data Flow task performance.
+End Warning
+Progress: 2014-02-26 22:00:48.45
    Source: Transfer ValidationReport_Selectlists 
    Validating: 100% complete
 End Progress
-Progress: 2014-02-26 06:43:50.14
+Warning: 2014-02-26 22:00:48.45
+   Code: 0x80047076
+   Source: Transfer ValidationReport_AccomMod SSIS.Pipeline
+   Description: The output column "DC_ errormessage" (35) on output "Data Conversion Output" (27) and component "Data Conversion UC_NUC" (25) is not subsequently used in the Data Flow task. Removing this unused output column can increase Data Flow task performance.
+End Warning
+Warning: 2014-02-26 22:00:48.46
+   Code: 0x80047076
+   Source: Transfer ValidationReport_Selectlists SSIS.Pipeline
+   Description: The output column "DC_ LineNumber" (32) on output "Data Conversion Output" (27) and component "Data Conversion UC_NUC" (25) is not subsequently used in the Data Flow task. Removing this unused output column can increase Data Flow task performance.
+End Warning
+Warning: 2014-02-26 22:00:48.46
+   Code: 0x80047076
+   Source: Transfer ValidationReport_Selectlists SSIS.Pipeline
+   Description: The output column "DC_ errormessage" (35) on output "Data Conversion Output" (27) and component "Data Conversion UC_NUC" (25) is not subsequently used in the Data Flow task. Removing this unused output column can increase Data Flow task performance.
+End Warning
+Progress: 2014-02-26 22:00:48.46
+   Source: Transfer ValidationReport_StaffSchool 
+   Prepare for Execute: 0% complete
+End Progress
+Progress: 2014-02-26 22:00:48.46
+   Source: Transfer ValidationSummaryReport 
+   Prepare for Execute: 0% complete
+End Progress
+Progress: 2014-02-26 22:00:48.46
+   Source: Transfer ValidationReport_District 
+   Prepare for Execute: 0% complete
+End Progress
+Progress: 2014-02-26 22:00:48.46
+   Source: Transfer ValidationReport_StaffSchool 
+   Prepare for Execute: 20% complete
+End Progress
+Progress: 2014-02-26 22:00:48.46
+   Source: Transfer ValidationSummaryReport 
+   Prepare for Execute: 33% complete
+End Progress
+Progress: 2014-02-26 22:00:48.46
+   Source: Transfer ValidationReport_StaffSchool 
+   Prepare for Execute: 40% complete
+End Progress
+Progress: 2014-02-26 22:00:48.46
+   Source: Transfer ValidationReport_District 
+   Prepare for Execute: 20% complete
+End Progress
+Progress: 2014-02-26 22:00:48.46
+   Source: Transfer ValidationSummaryReport 
+   Prepare for Execute: 66% complete
+End Progress
+Progress: 2014-02-26 22:00:48.46
+   Source: Transfer ValidationReport_District 
+   Prepare for Execute: 40% complete
+End Progress
+Progress: 2014-02-26 22:00:48.46
+   Source: Transfer ValidationSummaryReport 
+   Prepare for Execute: 100% complete
+End Progress
+Progress: 2014-02-26 22:00:48.46
+   Source: Transfer ValidationReport_StaffSchool 
+   Prepare for Execute: 60% complete
+End Progress
+Progress: 2014-02-26 22:00:48.46
+   Source: Transfer ValidationReport_District 
+   Prepare for Execute: 60% complete
+End Progress
+Progress: 2014-02-26 22:00:48.46
+   Source: Transfer ValidationReport_District 
+   Prepare for Execute: 80% complete
+End Progress
+Progress: 2014-02-26 22:00:48.46
+   Source: Transfer ValidationReport_StaffSchool 
+   Prepare for Execute: 80% complete
+End Progress
+Progress: 2014-02-26 22:00:48.46
+   Source: Transfer ValidationReport_District 
+   Prepare for Execute: 100% complete
+End Progress
+Progress: 2014-02-26 22:00:48.46
+   Source: Transfer ValidationReport_StaffSchool 
+   Prepare for Execute: 100% complete
+End Progress
+Progress: 2014-02-26 22:00:48.46
+   Source: Transfer ValidationReport_AccomMod 
+   Prepare for Execute: 0% complete
+End Progress
+Progress: 2014-02-26 22:00:48.46
+   Source: Transfer ValidationReport_AccomMod 
+   Prepare for Execute: 20% complete
+End Progress
+Progress: 2014-02-26 22:00:48.46
+   Source: Transfer ValidationReport_AccomMod 
+   Prepare for Execute: 40% complete
+End Progress
+Progress: 2014-02-26 22:00:48.46
+   Source: Transfer ValidationReport_AccomMod 
+   Prepare for Execute: 60% complete
+End Progress
+Progress: 2014-02-26 22:00:48.46
+   Source: Transfer ValidationReport_AccomMod 
+   Prepare for Execute: 80% complete
+End Progress
+Progress: 2014-02-26 22:00:48.46
+   Source: Transfer ValidationReport_AccomMod 
+   Prepare for Execute: 100% complete
+End Progress
+Progress: 2014-02-26 22:00:48.46
+   Source: Transfer ValidationReport_Selectlists 
+   Prepare for Execute: 0% complete
+End Progress
+Progress: 2014-02-26 22:00:48.46
+   Source: Transfer ValidationReport_Selectlists 
+   Prepare for Execute: 20% complete
+End Progress
+Progress: 2014-02-26 22:00:48.46
+   Source: Transfer ValidationReport_Selectlists 
+   Prepare for Execute: 40% complete
+End Progress
+Progress: 2014-02-26 22:00:48.46
+   Source: Transfer ValidationReport_Selectlists 
+   Prepare for Execute: 60% complete
+End Progress
+Progress: 2014-02-26 22:00:48.46
+   Source: Transfer ValidationReport_Selectlists 
+   Prepare for Execute: 80% complete
+End Progress
+Progress: 2014-02-26 22:00:48.46
+   Source: Transfer ValidationReport_Selectlists 
+   Prepare for Execute: 100% complete
+End Progress
+Progress: 2014-02-26 22:00:48.67
    Source: Transfer ValidationSummaryReport 
    Pre-Execute: 0% complete
 End Progress
-Progress: 2014-02-26 06:43:50.14
+Progress: 2014-02-26 22:00:48.67
+   Source: Transfer ValidationReport_StaffSchool 
+   Pre-Execute: 0% complete
+End Progress
+Progress: 2014-02-26 22:00:48.67
+   Source: Transfer ValidationSummaryReport 
+   Pre-Execute: 33% complete
+End Progress
+Progress: 2014-02-26 22:00:48.67
+   Source: Transfer ValidationReport_District 
+   Pre-Execute: 0% complete
+End Progress
+Progress: 2014-02-26 22:00:48.67
+   Source: Transfer ValidationSummaryReport 
+   Pre-Execute: 66% complete
+End Progress
+Progress: 2014-02-26 22:00:48.67
+   Source: Transfer ValidationReport_AccomMod 
+   Pre-Execute: 0% complete
+End Progress
+Progress: 2014-02-26 22:00:48.67
+   Source: Transfer ValidationSummaryReport 
+   Pre-Execute: 100% complete
+End Progress
+Progress: 2014-02-26 22:00:48.68
+   Source: Transfer ValidationReport_Selectlists 
+   Pre-Execute: 0% complete
+End Progress
+Warning: 2014-02-26 22:00:48.68
+   Code: 0x00000000
+   Source: Create Student Sheet 
+   Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
+End Warning
+Warning: 2014-02-26 22:00:48.68
+   Code: 0x00000000
+   Source: Create Student Sheet 
+   Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
+End Warning
+Progress: 2014-02-26 22:00:48.68
+   Source: Transfer ValidationSummaryReport 
+   Post Execute: 0% complete
+End Progress
+Progress: 2014-02-26 22:00:48.68
+   Source: Transfer ValidationSummaryReport 
+   Post Execute: 33% complete
+End Progress
+Progress: 2014-02-26 22:00:48.68
+   Source: Transfer ValidationSummaryReport 
+   Post Execute: 66% complete
+End Progress
+Progress: 2014-02-26 22:00:48.68
+   Source: Transfer ValidationSummaryReport 
+   Post Execute: 100% complete
+End Progress
+Progress: 2014-02-26 22:00:48.68
+   Source: Create Student Sheet 
+   Executing query "CREATE TABLE ValidationReport_Student(
+LineNumber ...".: 100% complete
+End Progress
+Progress: 2014-02-26 22:00:48.68
+   Source: Transfer ValidationSummaryReport 
+   Cleanup: 0% complete
+End Progress
+Progress: 2014-02-26 22:00:48.68
+   Source: Transfer ValidationSummaryReport 
+   Cleanup: 33% complete
+End Progress
+Progress: 2014-02-26 22:00:48.68
+   Source: Transfer ValidationSummaryReport 
+   Cleanup: 66% complete
+End Progress
+Progress: 2014-02-26 22:00:48.68
+   Source: Transfer ValidationSummaryReport 
+   Cleanup: 100% complete
+End Progress
+Warning: 2014-02-26 22:00:48.68
+   Code: 0x00000000
+   Source: Create IEP Sheet 
+   Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
+End Warning
+Warning: 2014-02-26 22:00:48.68
+   Code: 0x00000000
+   Source: Create SpedStaffMember Sheet 
+   Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
+End Warning
+Warning: 2014-02-26 22:00:48.68
+   Code: 0x00000000
+   Source: Create SpedStaffMember Sheet 
+   Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
+End Warning
+Warning: 2014-02-26 22:00:48.68
+   Code: 0x00000000
+   Source: Create IEP Sheet 
+   Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
+End Warning
+Progress: 2014-02-26 22:00:48.68
    Source: Create SpedStaffMember Sheet 
    Executing query "CREATE TABLE ValidationReport_SPEDStaffMember(
 Lin...".: 100% complete
 End Progress
-Warning: 2014-02-26 06:43:50.14
-   Code: 0x80047076
-   Source: Transfer ValidationReport_Selectlists SSIS.Pipeline
-   Description: The output column "DC_ LineNumber" (32) on output "Data Conversion Output" (27) and component "Data Conversion UC_NUC" (25) is not subsequently used in the Data Flow task. Removing this unused output column can increase Data Flow task performance.
-End Warning
-Warning: 2014-02-26 06:43:50.14
-   Code: 0x80047076
-   Source: Transfer ValidationReport_Selectlists SSIS.Pipeline
-   Description: The output column "DC_ errormessage" (35) on output "Data Conversion Output" (27) and component "Data Conversion UC_NUC" (25) is not subsequently used in the Data Flow task. Removing this unused output column can increase Data Flow task performance.
-End Warning
-Progress: 2014-02-26 06:43:50.14
-   Source: Transfer ValidationReport_AccomMod 
-   Validating: 0% complete
+Progress: 2014-02-26 22:00:48.68
+   Source: Create IEP Sheet 
+   Executing query "CREATE TABLE ValidationReport_IEP(
+LineNumber  Lon...".: 100% complete
 End Progress
-Progress: 2014-02-26 06:43:50.14
-   Source: Transfer ValidationReport_Selectlists 
-   Prepare for Execute: 0% complete
-End Progress
-Progress: 2014-02-26 06:43:50.14
-   Source: Transfer ValidationReport_Selectlists 
-   Prepare for Execute: 20% complete
-End Progress
-Progress: 2014-02-26 06:43:50.14
-   Source: Transfer ValidationReport_Selectlists 
-   Prepare for Execute: 40% complete
-End Progress
-Progress: 2014-02-26 06:43:50.14
-   Source: Transfer ValidationReport_Selectlists 
-   Prepare for Execute: 60% complete
-End Progress
-Warning: 2014-02-26 06:43:50.14
-   Code: 0x00000000
-   Source: Create Service Sheet 
-   Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
-End Warning
-Progress: 2014-02-26 06:43:50.14
-   Source: Transfer ValidationReport_Selectlists 
-   Prepare for Execute: 80% complete
-End Progress
-Progress: 2014-02-26 06:43:50.14
-   Source: Transfer ValidationReport_Selectlists 
-   Prepare for Execute: 100% complete
-End Progress
-Warning: 2014-02-26 06:43:50.14
-   Code: 0x00000000
-   Source: Create Service Sheet 
-   Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
-End Warning
-Progress: 2014-02-26 06:43:50.14
-   Source: Create Service Sheet 
-   Executing query "CREATE TABLE ValidationReport_Service(
-LineNumber ...".: 100% complete
-End Progress
-Progress: 2014-02-26 06:43:50.14
+Progress: 2014-02-26 22:00:48.68
    Source: Transfer ValidationReport_Goal 
    Validating: 0% complete
 End Progress
-Progress: 2014-02-26 06:43:50.14
-   Source: Transfer ValidationReport_AccomMod 
-   Validating: 20% complete
+Progress: 2014-02-26 22:00:48.68
+   Source: Transfer ValidationReport_StaffSchool 
+   Pre-Execute: 20% complete
 End Progress
-Progress: 2014-02-26 06:43:50.14
-   Source: Transfer ValidationReport_AccomMod 
-   Validating: 40% complete
+Progress: 2014-02-26 22:00:48.68
+   Source: Transfer ValidationReport_StaffSchool 
+   Pre-Execute: 40% complete
 End Progress
-Progress: 2014-02-26 06:43:50.14
+Progress: 2014-02-26 22:00:48.68
+   Source: Transfer ValidationReport_SchoolProgressFrequency 
+   Validating: 0% complete
+End Progress
+Progress: 2014-02-26 22:00:48.69
+   Source: Transfer ValidationReport_StaffSchool 
+   Pre-Execute: 60% complete
+End Progress
+Progress: 2014-02-26 22:00:48.69
+   Source: Transfer ValidationReport_StaffSchool 
+   Pre-Execute: 80% complete
+End Progress
+Progress: 2014-02-26 22:00:48.69
+   Source: Transfer ValidationReport_District 
+   Pre-Execute: 20% complete
+End Progress
+Progress: 2014-02-26 22:00:48.69
+   Source: Transfer ValidationReport_StaffSchool 
+   Pre-Execute: 100% complete
+End Progress
+Progress: 2014-02-26 22:00:48.69
+   Source: Transfer ValidationReport_District 
+   Pre-Execute: 40% complete
+End Progress
+Progress: 2014-02-26 22:00:48.69
+   Source: Transfer ValidationReport_District 
+   Pre-Execute: 60% complete
+End Progress
+Progress: 2014-02-26 22:00:48.69
+   Source: Transfer ValidationReport_District 
+   Pre-Execute: 80% complete
+End Progress
+Progress: 2014-02-26 22:00:48.69
+   Source: Transfer ValidationReport_District 
+   Pre-Execute: 100% complete
+End Progress
+Progress: 2014-02-26 22:00:48.69
+   Source: Transfer ValidationReport_District 
+   Post Execute: 0% complete
+End Progress
+Progress: 2014-02-26 22:00:48.69
+   Source: Transfer ValidationReport_District 
+   Post Execute: 20% complete
+End Progress
+Progress: 2014-02-26 22:00:48.70
    Source: Transfer ValidationReport_Selectlists 
-   Pre-Execute: 0% complete
+   Pre-Execute: 20% complete
 End Progress
-Progress: 2014-02-26 06:43:50.14
+Progress: 2014-02-26 22:00:48.70
+   Source: Transfer ValidationReport_AccomMod 
+   Pre-Execute: 20% complete
+End Progress
+Progress: 2014-02-26 22:00:48.70
+   Source: Transfer ValidationReport_AccomMod 
+   Pre-Execute: 40% complete
+End Progress
+Progress: 2014-02-26 22:00:48.70
+   Source: Transfer ValidationReport_Selectlists 
+   Pre-Execute: 40% complete
+End Progress
+Progress: 2014-02-26 22:00:48.70
+   Source: Transfer ValidationReport_AccomMod 
+   Pre-Execute: 60% complete
+End Progress
+Progress: 2014-02-26 22:00:48.70
+   Source: Transfer ValidationReport_AccomMod 
+   Pre-Execute: 80% complete
+End Progress
+Progress: 2014-02-26 22:00:48.70
+   Source: Transfer ValidationReport_Selectlists 
+   Pre-Execute: 60% complete
+End Progress
+Progress: 2014-02-26 22:00:48.70
+   Source: Transfer ValidationReport_AccomMod 
+   Pre-Execute: 100% complete
+End Progress
+Progress: 2014-02-26 22:00:48.70
    Source: Transfer ValidationReport_Goal 
    Validating: 20% complete
 End Progress
-Progress: 2014-02-26 06:43:50.14
+Progress: 2014-02-26 22:00:48.70
+   Source: Transfer ValidationReport_Selectlists 
+   Pre-Execute: 80% complete
+End Progress
+Progress: 2014-02-26 22:00:48.70
    Source: Transfer ValidationReport_Goal 
    Validating: 40% complete
 End Progress
-Progress: 2014-02-26 06:43:50.14
-   Source: Transfer ValidationReport_AccomMod 
-   Validating: 60% complete
+Progress: 2014-02-26 22:00:48.70
+   Source: Transfer ValidationReport_District 
+   Post Execute: 40% complete
 End Progress
-Progress: 2014-02-26 06:43:50.14
-   Source: Transfer ValidationReport_AccomMod 
-   Validating: 80% complete
+Progress: 2014-02-26 22:00:48.70
+   Source: Transfer ValidationReport_Selectlists 
+   Pre-Execute: 100% complete
 End Progress
-Progress: 2014-02-26 06:43:50.15
-   Source: Transfer ValidationReport_AccomMod 
-   Validating: 100% complete
+Progress: 2014-02-26 22:00:48.70
+   Source: Transfer ValidationReport_District 
+   Post Execute: 60% complete
 End Progress
-Progress: 2014-02-26 06:43:50.15
+Progress: 2014-02-26 22:00:48.70
+   Source: Transfer ValidationReport_District 
+   Post Execute: 80% complete
+End Progress
+Progress: 2014-02-26 22:00:48.70
+   Source: Transfer ValidationReport_District 
+   Post Execute: 100% complete
+End Progress
+Progress: 2014-02-26 22:00:48.70
+   Source: Transfer ValidationReport_SchoolProgressFrequency 
+   Validating: 20% complete
+End Progress
+Progress: 2014-02-26 22:00:48.70
+   Source: Transfer ValidationReport_AccomMod 
+   Post Execute: 0% complete
+End Progress
+Progress: 2014-02-26 22:00:48.70
+   Source: Transfer ValidationReport_AccomMod 
+   Post Execute: 20% complete
+End Progress
+Progress: 2014-02-26 22:00:48.70
+   Source: Transfer ValidationReport_SchoolProgressFrequency 
+   Validating: 40% complete
+End Progress
+Progress: 2014-02-26 22:00:48.70
+   Source: Transfer ValidationReport_District 
+   Cleanup: 0% complete
+End Progress
+Progress: 2014-02-26 22:00:48.70
+   Source: Transfer ValidationReport_District 
+   Cleanup: 20% complete
+End Progress
+Progress: 2014-02-26 22:00:48.70
+   Source: Transfer ValidationReport_District 
+   Cleanup: 40% complete
+End Progress
+Progress: 2014-02-26 22:00:48.70
    Source: Transfer ValidationReport_Goal 
    Validating: 60% complete
 End Progress
-Warning: 2014-02-26 06:43:50.15
-   Code: 0x80047076
-   Source: Transfer ValidationReport_AccomMod SSIS.Pipeline
-   Description: The output column "DC_ LineNumber" (32) on output "Data Conversion Output" (27) and component "Data Conversion UC_NUC" (25) is not subsequently used in the Data Flow task. Removing this unused output column can increase Data Flow task performance.
-End Warning
-Warning: 2014-02-26 06:43:50.15
-   Code: 0x80047076
-   Source: Transfer ValidationReport_AccomMod SSIS.Pipeline
-   Description: The output column "DC_ errormessage" (35) on output "Data Conversion Output" (27) and component "Data Conversion UC_NUC" (25) is not subsequently used in the Data Flow task. Removing this unused output column can increase Data Flow task performance.
-End Warning
-Progress: 2014-02-26 06:43:50.15
+Progress: 2014-02-26 22:00:48.70
+   Source: Transfer ValidationReport_District 
+   Cleanup: 60% complete
+End Progress
+Progress: 2014-02-26 22:00:48.70
+   Source: Transfer ValidationReport_District 
+   Cleanup: 80% complete
+End Progress
+Progress: 2014-02-26 22:00:48.70
+   Source: Transfer ValidationReport_District 
+   Cleanup: 100% complete
+End Progress
+Progress: 2014-02-26 22:00:48.70
    Source: Transfer ValidationReport_Goal 
    Validating: 80% complete
 End Progress
-Progress: 2014-02-26 06:43:50.15
-   Source: Transfer ValidationReport_AccomMod 
-   Prepare for Execute: 0% complete
+Progress: 2014-02-26 22:00:48.70
+   Source: Transfer ValidationReport_TeamMember 
+   Validating: 0% complete
 End Progress
-Progress: 2014-02-26 06:43:50.15
-   Source: Transfer ValidationReport_AccomMod 
-   Prepare for Execute: 20% complete
-End Progress
-Progress: 2014-02-26 06:43:50.15
-   Source: Transfer ValidationReport_AccomMod 
-   Prepare for Execute: 40% complete
-End Progress
-Progress: 2014-02-26 06:43:50.15
-   Source: Transfer ValidationReport_AccomMod 
-   Prepare for Execute: 60% complete
-End Progress
-Progress: 2014-02-26 06:43:50.15
-   Source: Transfer ValidationReport_AccomMod 
-   Prepare for Execute: 80% complete
-End Progress
-Progress: 2014-02-26 06:43:50.15
-   Source: Transfer ValidationReport_AccomMod 
-   Prepare for Execute: 100% complete
-End Progress
-Warning: 2014-02-26 06:43:50.15
+Warning: 2014-02-26 22:00:48.70
    Code: 0x800470C8
    Source: Transfer ValidationReport_Goal Excel Destination [650]
    Description: The external columns for component "Excel Destination" (650) are out of synchronization with the data source columns. The external column "LineNumber" needs to be updated.
@@ -1188,385 +1373,113 @@ The external column "UNITOFMEASUREMENT" needs to be updated.
 The external column "BASELINEDATAPOINT" needs to be updated.
 The external column "EVALUATIONMETHOD" needs to be updated.
 End Warning
-Progress: 2014-02-26 06:43:50.15
+Progress: 2014-02-26 22:00:48.71
+   Source: Transfer ValidationReport_AccomMod 
+   Post Execute: 40% complete
+End Progress
+Progress: 2014-02-26 22:00:48.71
+   Source: Transfer ValidationReport_AccomMod 
+   Post Execute: 60% complete
+End Progress
+Progress: 2014-02-26 22:00:48.71
    Source: Transfer ValidationReport_Goal 
    Validating: 100% complete
 End Progress
-Warning: 2014-02-26 06:43:50.15
+Progress: 2014-02-26 22:00:48.71
+   Source: Transfer ValidationReport_AccomMod 
+   Post Execute: 80% complete
+End Progress
+Progress: 2014-02-26 22:00:48.71
+   Source: Transfer ValidationReport_AccomMod 
+   Post Execute: 100% complete
+End Progress
+Progress: 2014-02-26 22:00:48.71
+   Source: Transfer ValidationReport_SchoolProgressFrequency 
+   Validating: 60% complete
+End Progress
+Progress: 2014-02-26 22:00:48.71
+   Source: Transfer ValidationReport_SchoolProgressFrequency 
+   Validating: 80% complete
+End Progress
+Progress: 2014-02-26 22:00:48.71
+   Source: Transfer ValidationReport_AccomMod 
+   Cleanup: 0% complete
+End Progress
+Progress: 2014-02-26 22:00:48.71
+   Source: Transfer ValidationReport_AccomMod 
+   Cleanup: 20% complete
+End Progress
+Progress: 2014-02-26 22:00:48.71
+   Source: Transfer ValidationReport_AccomMod 
+   Cleanup: 40% complete
+End Progress
+Progress: 2014-02-26 22:00:48.71
+   Source: Transfer ValidationReport_AccomMod 
+   Cleanup: 60% complete
+End Progress
+Progress: 2014-02-26 22:00:48.71
+   Source: Transfer ValidationReport_AccomMod 
+   Cleanup: 80% complete
+End Progress
+Warning: 2014-02-26 22:00:48.71
    Code: 0x80047076
    Source: Transfer ValidationReport_Goal SSIS.Pipeline
    Description: The output column "DC_ LineNumber" (32) on output "Data Conversion Output" (27) and component "Data Conversion UC_NUC" (25) is not subsequently used in the Data Flow task. Removing this unused output column can increase Data Flow task performance.
 End Warning
-Warning: 2014-02-26 06:43:50.15
+Progress: 2014-02-26 22:00:48.71
+   Source: Transfer ValidationReport_AccomMod 
+   Cleanup: 100% complete
+End Progress
+Warning: 2014-02-26 22:00:48.71
    Code: 0x80047076
    Source: Transfer ValidationReport_Goal SSIS.Pipeline
    Description: The output column "DC_ errormessage" (35) on output "Data Conversion Output" (27) and component "Data Conversion UC_NUC" (25) is not subsequently used in the Data Flow task. Removing this unused output column can increase Data Flow task performance.
 End Warning
-Progress: 2014-02-26 06:43:50.15
-   Source: Transfer ValidationReport_AccomMod 
-   Pre-Execute: 0% complete
+Progress: 2014-02-26 22:00:48.71
+   Source: Transfer ValidationReport_School 
+   Validating: 0% complete
 End Progress
-Progress: 2014-02-26 06:43:50.15
+Progress: 2014-02-26 22:00:48.71
+   Source: Transfer ValidationReport_Selectlists 
+   Post Execute: 0% complete
+End Progress
+Progress: 2014-02-26 22:00:48.71
+   Source: Transfer ValidationReport_Selectlists 
+   Post Execute: 20% complete
+End Progress
+Progress: 2014-02-26 22:00:48.71
+   Source: Transfer ValidationReport_Selectlists 
+   Post Execute: 40% complete
+End Progress
+Progress: 2014-02-26 22:00:48.71
+   Source: Transfer ValidationReport_Selectlists 
+   Post Execute: 60% complete
+End Progress
+Progress: 2014-02-26 22:00:48.71
    Source: Transfer ValidationReport_Goal 
    Prepare for Execute: 0% complete
 End Progress
-Progress: 2014-02-26 06:43:50.15
+Progress: 2014-02-26 22:00:48.71
    Source: Transfer ValidationReport_Goal 
    Prepare for Execute: 20% complete
 End Progress
-Progress: 2014-02-26 06:43:50.15
+Progress: 2014-02-26 22:00:48.71
    Source: Transfer ValidationReport_Goal 
    Prepare for Execute: 40% complete
 End Progress
-Progress: 2014-02-26 06:43:50.15
+Progress: 2014-02-26 22:00:48.71
    Source: Transfer ValidationReport_Goal 
    Prepare for Execute: 60% complete
 End Progress
-Progress: 2014-02-26 06:43:50.15
+Progress: 2014-02-26 22:00:48.71
    Source: Transfer ValidationReport_Goal 
    Prepare for Execute: 80% complete
 End Progress
-Progress: 2014-02-26 06:43:50.15
+Progress: 2014-02-26 22:00:48.71
    Source: Transfer ValidationReport_Goal 
    Prepare for Execute: 100% complete
 End Progress
-Progress: 2014-02-26 06:43:50.16
-   Source: Transfer ValidationReport_Goal 
-   Pre-Execute: 0% complete
-End Progress
-Progress: 2014-02-26 06:43:50.16
-   Source: Transfer ValidationSummaryReport 
-   Pre-Execute: 33% complete
-End Progress
-Progress: 2014-02-26 06:43:50.16
-   Source: Transfer ValidationSummaryReport 
-   Pre-Execute: 66% complete
-End Progress
-Progress: 2014-02-26 06:43:50.16
-   Source: Transfer ValidationSummaryReport 
-   Pre-Execute: 100% complete
-End Progress
-Progress: 2014-02-26 06:43:50.19
-   Source: Transfer ValidationReport_StaffSchool 
-   Pre-Execute: 20% complete
-End Progress
-Progress: 2014-02-26 06:43:50.19
-   Source: Transfer ValidationReport_StaffSchool 
-   Pre-Execute: 40% complete
-End Progress
-Progress: 2014-02-26 06:43:50.19
-   Source: Transfer ValidationReport_StaffSchool 
-   Pre-Execute: 60% complete
-End Progress
-Progress: 2014-02-26 06:43:50.19
-   Source: Transfer ValidationReport_StaffSchool 
-   Pre-Execute: 80% complete
-End Progress
-Progress: 2014-02-26 06:43:50.19
-   Source: Transfer ValidationReport_StaffSchool 
-   Pre-Execute: 100% complete
-End Progress
-Progress: 2014-02-26 06:43:50.20
-   Source: Transfer ValidationReport_AccomMod 
-   Pre-Execute: 20% complete
-End Progress
-Progress: 2014-02-26 06:43:50.20
-   Source: Transfer ValidationReport_AccomMod 
-   Pre-Execute: 40% complete
-End Progress
-Progress: 2014-02-26 06:43:50.21
-   Source: Transfer ValidationReport_AccomMod 
-   Pre-Execute: 60% complete
-End Progress
-Progress: 2014-02-26 06:43:50.21
-   Source: Transfer ValidationReport_AccomMod 
-   Pre-Execute: 80% complete
-End Progress
-Progress: 2014-02-26 06:43:50.21
-   Source: Transfer ValidationReport_AccomMod 
-   Pre-Execute: 100% complete
-End Progress
-Progress: 2014-02-26 06:43:50.21
-   Source: Transfer ValidationReport_Selectlists 
-   Pre-Execute: 20% complete
-End Progress
-Progress: 2014-02-26 06:43:50.21
-   Source: Transfer ValidationReport_Selectlists 
-   Pre-Execute: 40% complete
-End Progress
-Progress: 2014-02-26 06:43:50.21
-   Source: Transfer ValidationReport_Selectlists 
-   Pre-Execute: 60% complete
-End Progress
-Progress: 2014-02-26 06:43:50.21
-   Source: Transfer ValidationReport_Selectlists 
-   Pre-Execute: 80% complete
-End Progress
-Progress: 2014-02-26 06:43:50.21
-   Source: Transfer ValidationReport_Selectlists 
-   Pre-Execute: 100% complete
-End Progress
-Progress: 2014-02-26 06:43:50.21
-   Source: Transfer ValidationReport_District 
-   Pre-Execute: 20% complete
-End Progress
-Progress: 2014-02-26 06:43:50.21
-   Source: Transfer ValidationReport_Selectlists 
-   Post Execute: 0% complete
-End Progress
-Progress: 2014-02-26 06:43:50.21
-   Source: Transfer ValidationReport_Selectlists 
-   Post Execute: 20% complete
-End Progress
-Progress: 2014-02-26 06:43:50.21
-   Source: Transfer ValidationReport_District 
-   Pre-Execute: 40% complete
-End Progress
-Progress: 2014-02-26 06:43:50.21
-   Source: Transfer ValidationReport_District 
-   Pre-Execute: 60% complete
-End Progress
-Progress: 2014-02-26 06:43:50.21
-   Source: Transfer ValidationReport_District 
-   Pre-Execute: 80% complete
-End Progress
-Progress: 2014-02-26 06:43:50.21
-   Source: Transfer ValidationReport_District 
-   Pre-Execute: 100% complete
-End Progress
-Progress: 2014-02-26 06:43:50.21
-   Source: Transfer ValidationReport_Selectlists 
-   Post Execute: 40% complete
-End Progress
-Progress: 2014-02-26 06:43:50.22
-   Source: Transfer ValidationReport_Selectlists 
-   Post Execute: 60% complete
-End Progress
-Progress: 2014-02-26 06:43:50.22
-   Source: Transfer ValidationReport_AccomMod 
-   Post Execute: 0% complete
-End Progress
-Progress: 2014-02-26 06:43:50.22
-   Source: Transfer ValidationReport_AccomMod 
-   Post Execute: 20% complete
-End Progress
-Progress: 2014-02-26 06:43:50.22
-   Source: Transfer ValidationReport_AccomMod 
-   Post Execute: 40% complete
-End Progress
-Progress: 2014-02-26 06:43:50.22
-   Source: Transfer ValidationReport_Selectlists 
-   Post Execute: 80% complete
-End Progress
-Progress: 2014-02-26 06:43:50.22
-   Source: Transfer ValidationReport_AccomMod 
-   Post Execute: 60% complete
-End Progress
-Progress: 2014-02-26 06:43:50.22
-   Source: Transfer ValidationReport_Selectlists 
-   Post Execute: 100% complete
-End Progress
-Progress: 2014-02-26 06:43:50.22
-   Source: Transfer ValidationReport_AccomMod 
-   Post Execute: 80% complete
-End Progress
-Progress: 2014-02-26 06:43:50.22
-   Source: Transfer ValidationReport_District 
-   Post Execute: 0% complete
-End Progress
-Progress: 2014-02-26 06:43:50.22
-   Source: Transfer ValidationReport_Selectlists 
-   Cleanup: 0% complete
-End Progress
-Progress: 2014-02-26 06:43:50.22
-   Source: Transfer ValidationReport_AccomMod 
-   Post Execute: 100% complete
-End Progress
-Progress: 2014-02-26 06:43:50.22
-   Source: Transfer ValidationReport_Selectlists 
-   Cleanup: 20% complete
-End Progress
-Progress: 2014-02-26 06:43:50.22
-   Source: Transfer ValidationReport_District 
-   Post Execute: 20% complete
-End Progress
-Progress: 2014-02-26 06:43:50.22
-   Source: Transfer ValidationReport_Selectlists 
-   Cleanup: 40% complete
-End Progress
-Progress: 2014-02-26 06:43:50.22
-   Source: Transfer ValidationReport_Selectlists 
-   Cleanup: 60% complete
-End Progress
-Progress: 2014-02-26 06:43:50.22
-   Source: Transfer ValidationReport_District 
-   Post Execute: 40% complete
-End Progress
-Progress: 2014-02-26 06:43:50.22
-   Source: Transfer ValidationReport_District 
-   Post Execute: 60% complete
-End Progress
-Progress: 2014-02-26 06:43:50.22
-   Source: Transfer ValidationReport_AccomMod 
-   Cleanup: 0% complete
-End Progress
-Progress: 2014-02-26 06:43:50.22
-   Source: Transfer ValidationReport_AccomMod 
-   Cleanup: 20% complete
-End Progress
-Progress: 2014-02-26 06:43:50.22
-   Source: Transfer ValidationReport_AccomMod 
-   Cleanup: 40% complete
-End Progress
-Progress: 2014-02-26 06:43:50.22
-   Source: Transfer ValidationReport_District 
-   Post Execute: 80% complete
-End Progress
-Progress: 2014-02-26 06:43:50.22
-   Source: Transfer ValidationReport_AccomMod 
-   Cleanup: 60% complete
-End Progress
-Progress: 2014-02-26 06:43:50.22
-   Source: Transfer ValidationReport_Selectlists 
-   Cleanup: 80% complete
-End Progress
-Progress: 2014-02-26 06:43:50.22
-   Source: Transfer ValidationReport_AccomMod 
-   Cleanup: 80% complete
-End Progress
-Progress: 2014-02-26 06:43:50.22
-   Source: Transfer ValidationReport_Selectlists 
-   Cleanup: 100% complete
-End Progress
-Progress: 2014-02-26 06:43:50.22
-   Source: Transfer ValidationReport_AccomMod 
-   Cleanup: 100% complete
-End Progress
-Progress: 2014-02-26 06:43:50.22
-   Source: Transfer ValidationReport_District 
-   Post Execute: 100% complete
-End Progress
-Progress: 2014-02-26 06:43:50.22
-   Source: Transfer ValidationReport_District 
-   Cleanup: 0% complete
-End Progress
-Progress: 2014-02-26 06:43:50.22
-   Source: Transfer ValidationReport_SchoolProgressFrequency 
-   Validating: 0% complete
-End Progress
-Progress: 2014-02-26 06:43:50.22
-   Source: Transfer ValidationReport_District 
-   Cleanup: 20% complete
-End Progress
-Progress: 2014-02-26 06:43:50.22
-   Source: Transfer ValidationReport_District 
-   Cleanup: 40% complete
-End Progress
-Progress: 2014-02-26 06:43:50.22
-   Source: Transfer ValidationReport_TeamMember 
-   Validating: 0% complete
-End Progress
-Progress: 2014-02-26 06:43:50.22
-   Source: Transfer ValidationReport_District 
-   Cleanup: 60% complete
-End Progress
-Progress: 2014-02-26 06:43:50.22
-   Source: Transfer ValidationReport_District 
-   Cleanup: 80% complete
-End Progress
-Progress: 2014-02-26 06:43:50.22
-   Source: Transfer ValidationReport_District 
-   Cleanup: 100% complete
-End Progress
-Progress: 2014-02-26 06:43:50.22
-   Source: Transfer ValidationSummaryReport 
-   Post Execute: 0% complete
-End Progress
-Progress: 2014-02-26 06:43:50.22
-   Source: Transfer ValidationSummaryReport 
-   Post Execute: 33% complete
-End Progress
-Progress: 2014-02-26 06:43:50.22
-   Source: Transfer ValidationReport_School 
-   Validating: 0% complete
-End Progress
-Progress: 2014-02-26 06:43:50.22
-   Source: Transfer ValidationSummaryReport 
-   Post Execute: 66% complete
-End Progress
-Progress: 2014-02-26 06:43:50.22
-   Source: Transfer ValidationSummaryReport 
-   Post Execute: 100% complete
-End Progress
-Progress: 2014-02-26 06:43:50.22
-   Source: Transfer ValidationSummaryReport 
-   Cleanup: 0% complete
-End Progress
-Progress: 2014-02-26 06:43:50.22
-   Source: Transfer ValidationSummaryReport 
-   Cleanup: 33% complete
-End Progress
-Progress: 2014-02-26 06:43:50.22
-   Source: Transfer ValidationSummaryReport 
-   Cleanup: 66% complete
-End Progress
-Progress: 2014-02-26 06:43:50.22
-   Source: Transfer ValidationSummaryReport 
-   Cleanup: 100% complete
-End Progress
-Progress: 2014-02-26 06:43:50.22
-   Source: Transfer ValidationReport_SchoolProgressFrequency 
-   Validating: 20% complete
-End Progress
-Progress: 2014-02-26 06:43:50.22
-   Source: Transfer ValidationReport_School 
-   Validating: 20% complete
-End Progress
-Progress: 2014-02-26 06:43:50.22
-   Source: Transfer ValidationReport_SchoolProgressFrequency 
-   Validating: 40% complete
-End Progress
-Progress: 2014-02-26 06:43:50.22
-   Source: Transfer ValidationReport_School 
-   Validating: 40% complete
-End Progress
-Progress: 2014-02-26 06:43:50.22
-   Source: Transfer ValidationReport_Objective 
-   Validating: 0% complete
-End Progress
-Progress: 2014-02-26 06:43:50.22
-   Source: Transfer ValidationReport_Objective 
-   Validating: 20% complete
-End Progress
-Progress: 2014-02-26 06:43:50.23
-   Source: Transfer ValidationReport_SchoolProgressFrequency 
-   Validating: 60% complete
-End Progress
-Progress: 2014-02-26 06:43:50.23
-   Source: Transfer ValidationReport_Objective 
-   Validating: 40% complete
-End Progress
-Progress: 2014-02-26 06:43:50.23
-   Source: Transfer ValidationReport_School 
-   Validating: 60% complete
-End Progress
-Progress: 2014-02-26 06:43:50.23
-   Source: Transfer ValidationReport_SchoolProgressFrequency 
-   Validating: 80% complete
-End Progress
-Progress: 2014-02-26 06:43:50.23
-   Source: Transfer ValidationReport_School 
-   Validating: 80% complete
-End Progress
-Progress: 2014-02-26 06:43:50.23
-   Source: Transfer ValidationReport_TeamMember 
-   Validating: 20% complete
-End Progress
-Progress: 2014-02-26 06:43:50.23
-   Source: Transfer ValidationReport_TeamMember 
-   Validating: 40% complete
-End Progress
-Warning: 2014-02-26 06:43:50.23
+Warning: 2014-02-26 22:00:48.71
    Code: 0x800470C8
    Source: Transfer ValidationReport_SchoolProgressFrequency Excel Destination [899]
    Description: The external columns for component "Excel Destination" (899) are out of synchronization with the data source columns. The external column "LineNumber" needs to be updated.
@@ -1575,51 +1488,123 @@ The external column "SchoolCode" needs to be updated.
 The column "FrequencyName" needs to be added to the external columns.
 The external column "StaffEmail" (917) needs to be removed from the external columns.
 End Warning
-Progress: 2014-02-26 06:43:50.23
+Progress: 2014-02-26 22:00:48.71
+   Source: Transfer ValidationReport_School 
+   Validating: 20% complete
+End Progress
+Progress: 2014-02-26 22:00:48.71
+   Source: Transfer ValidationReport_School 
+   Validating: 40% complete
+End Progress
+Progress: 2014-02-26 22:00:48.71
    Source: Transfer ValidationReport_SchoolProgressFrequency 
    Validating: 100% complete
 End Progress
-Progress: 2014-02-26 06:43:50.23
-   Source: Transfer ValidationReport_Objective 
-   Validating: 60% complete
-End Progress
-Progress: 2014-02-26 06:43:50.23
-   Source: Transfer ValidationReport_Objective 
-   Validating: 80% complete
-End Progress
-Warning: 2014-02-26 06:43:50.23
+Warning: 2014-02-26 22:00:48.71
    Code: 0x80047076
    Source: Transfer ValidationReport_SchoolProgressFrequency SSIS.Pipeline
    Description: The output column "DC_ LineNumber" (32) on output "Data Conversion Output" (27) and component "Data Conversion UC_NUC" (25) is not subsequently used in the Data Flow task. Removing this unused output column can increase Data Flow task performance.
 End Warning
-Progress: 2014-02-26 06:43:50.23
-   Source: Transfer ValidationReport_TeamMember 
-   Validating: 60% complete
-End Progress
-Warning: 2014-02-26 06:43:50.23
+Warning: 2014-02-26 22:00:48.71
    Code: 0x80047076
    Source: Transfer ValidationReport_SchoolProgressFrequency SSIS.Pipeline
    Description: The output column "DC_ errormessage" (35) on output "Data Conversion Output" (27) and component "Data Conversion UC_NUC" (25) is not subsequently used in the Data Flow task. Removing this unused output column can increase Data Flow task performance.
 End Warning
-Warning: 2014-02-26 06:43:50.23
+Warning: 2014-02-26 22:00:48.71
    Code: 0x80047076
    Source: Transfer ValidationReport_SchoolProgressFrequency SSIS.Pipeline
    Description: The output column "O_SchoolCode" (889) on output "Data Conversion Output" (878) and component "Data Conversion NUC_UC" (876) is not subsequently used in the Data Flow task. Removing this unused output column can increase Data Flow task performance.
 End Warning
-Warning: 2014-02-26 06:43:50.23
+Warning: 2014-02-26 22:00:48.71
    Code: 0x80047076
    Source: Transfer ValidationReport_SchoolProgressFrequency SSIS.Pipeline
    Description: The output column "O_FrequencyName" (892) on output "Data Conversion Output" (878) and component "Data Conversion NUC_UC" (876) is not subsequently used in the Data Flow task. Removing this unused output column can increase Data Flow task performance.
 End Warning
-Progress: 2014-02-26 06:43:50.23
+Progress: 2014-02-26 22:00:48.71
+   Source: Transfer ValidationReport_Goal 
+   Pre-Execute: 0% complete
+End Progress
+Progress: 2014-02-26 22:00:48.71
+   Source: Transfer ValidationReport_Selectlists 
+   Post Execute: 80% complete
+End Progress
+Progress: 2014-02-26 22:00:48.71
+   Source: Transfer ValidationReport_Selectlists 
+   Post Execute: 100% complete
+End Progress
+Progress: 2014-02-26 22:00:48.71
+   Source: Transfer ValidationReport_Selectlists 
+   Cleanup: 0% complete
+End Progress
+Progress: 2014-02-26 22:00:48.71
+   Source: Transfer ValidationReport_Selectlists 
+   Cleanup: 20% complete
+End Progress
+Progress: 2014-02-26 22:00:48.71
+   Source: Transfer ValidationReport_Selectlists 
+   Cleanup: 40% complete
+End Progress
+Progress: 2014-02-26 22:00:48.71
+   Source: Transfer ValidationReport_Selectlists 
+   Cleanup: 60% complete
+End Progress
+Progress: 2014-02-26 22:00:48.71
+   Source: Transfer ValidationReport_Selectlists 
+   Cleanup: 80% complete
+End Progress
+Progress: 2014-02-26 22:00:48.71
+   Source: Transfer ValidationReport_Selectlists 
+   Cleanup: 100% complete
+End Progress
+Progress: 2014-02-26 22:00:48.71
    Source: Transfer ValidationReport_TeamMember 
+   Validating: 20% complete
+End Progress
+Progress: 2014-02-26 22:00:48.71
+   Source: Transfer ValidationReport_Objective 
+   Validating: 0% complete
+End Progress
+Progress: 2014-02-26 22:00:48.71
+   Source: Transfer ValidationReport_TeamMember 
+   Validating: 40% complete
+End Progress
+Progress: 2014-02-26 22:00:48.71
+   Source: Transfer ValidationReport_School 
+   Validating: 60% complete
+End Progress
+Progress: 2014-02-26 22:00:48.72
+   Source: Transfer ValidationReport_School 
    Validating: 80% complete
 End Progress
-Progress: 2014-02-26 06:43:50.23
-   Source: Transfer ValidationReport_Objective 
-   Validating: 100% complete
+Progress: 2014-02-26 22:00:48.72
+   Source: Transfer ValidationReport_SchoolProgressFrequency 
+   Prepare for Execute: 0% complete
 End Progress
-Warning: 2014-02-26 06:43:50.24
+Progress: 2014-02-26 22:00:48.72
+   Source: Transfer ValidationReport_SchoolProgressFrequency 
+   Prepare for Execute: 20% complete
+End Progress
+Progress: 2014-02-26 22:00:48.72
+   Source: Transfer ValidationReport_SchoolProgressFrequency 
+   Prepare for Execute: 40% complete
+End Progress
+Progress: 2014-02-26 22:00:48.72
+   Source: Transfer ValidationReport_SchoolProgressFrequency 
+   Prepare for Execute: 60% complete
+End Progress
+Progress: 2014-02-26 22:00:48.72
+   Source: Transfer ValidationReport_SchoolProgressFrequency 
+   Prepare for Execute: 80% complete
+End Progress
+Progress: 2014-02-26 22:00:48.72
+   Source: Transfer ValidationReport_SchoolProgressFrequency 
+   Prepare for Execute: 100% complete
+End Progress
+Progress: 2014-02-26 22:00:48.72
+   Source: Transfer ValidationReport_TeamMember 
+   Validating: 60% complete
+End Progress
+Warning: 2014-02-26 22:00:48.72
    Code: 0x800470C8
    Source: Transfer ValidationReport_School Excel Destination [299]
    Description: The external columns for component "Excel Destination" (299) are out of synchronization with the data source columns. The external column "LineNumber" needs to be updated.
@@ -1629,385 +1614,305 @@ The external column "SchoolName" needs to be updated.
 The external column "DistrictCode" needs to be updated.
 The external column "MinutesPerWeek" needs to be updated.
 End Warning
-Progress: 2014-02-26 06:43:50.24
+Progress: 2014-02-26 22:00:48.72
+   Source: Transfer ValidationReport_TeamMember 
+   Validating: 80% complete
+End Progress
+Progress: 2014-02-26 22:00:48.72
    Source: Transfer ValidationReport_School 
    Validating: 100% complete
 End Progress
-Warning: 2014-02-26 06:43:50.24
-   Code: 0x80047076
-   Source: Transfer ValidationReport_School SSIS.Pipeline
-   Description: The output column "DC_ LineNumber" (32) on output "Data Conversion Output" (27) and component "Data Conversion UC_NUC" (25) is not subsequently used in the Data Flow task. Removing this unused output column can increase Data Flow task performance.
-End Warning
-Warning: 2014-02-26 06:43:50.24
-   Code: 0x80047076
-   Source: Transfer ValidationReport_School SSIS.Pipeline
-   Description: The output column "DC_ errormessage" (35) on output "Data Conversion Output" (27) and component "Data Conversion UC_NUC" (25) is not subsequently used in the Data Flow task. Removing this unused output column can increase Data Flow task performance.
-End Warning
-Progress: 2014-02-26 06:43:50.24
-   Source: Transfer ValidationReport_TeamMember 
-   Validating: 100% complete
-End Progress
-Warning: 2014-02-26 06:43:50.24
-   Code: 0x80047076
-   Source: Transfer ValidationReport_TeamMember SSIS.Pipeline
-   Description: The output column "DC_ LineNumber" (32) on output "Data Conversion Output" (27) and component "Data Conversion UC_NUC" (25) is not subsequently used in the Data Flow task. Removing this unused output column can increase Data Flow task performance.
-End Warning
-Warning: 2014-02-26 06:43:50.24
-   Code: 0x80047076
-   Source: Transfer ValidationReport_TeamMember SSIS.Pipeline
-   Description: The output column "DC_ errormessage" (35) on output "Data Conversion Output" (27) and component "Data Conversion UC_NUC" (25) is not subsequently used in the Data Flow task. Removing this unused output column can increase Data Flow task performance.
-End Warning
-Warning: 2014-02-26 06:43:50.24
-   Code: 0x80047076
-   Source: Transfer ValidationReport_Objective SSIS.Pipeline
-   Description: The output column "DC_ LineNumber" (32) on output "Data Conversion Output" (27) and component "Data Conversion UC_NUC" (25) is not subsequently used in the Data Flow task. Removing this unused output column can increase Data Flow task performance.
-End Warning
-Warning: 2014-02-26 06:43:50.24
-   Code: 0x80047076
-   Source: Transfer ValidationReport_Objective SSIS.Pipeline
-   Description: The output column "DC_ errormessage" (35) on output "Data Conversion Output" (27) and component "Data Conversion UC_NUC" (25) is not subsequently used in the Data Flow task. Removing this unused output column can increase Data Flow task performance.
-End Warning
-Progress: 2014-02-26 06:43:50.25
-   Source: Transfer ValidationReport_TeamMember 
-   Prepare for Execute: 0% complete
-End Progress
-Progress: 2014-02-26 06:43:50.25
-   Source: Transfer ValidationReport_TeamMember 
-   Prepare for Execute: 20% complete
-End Progress
-Progress: 2014-02-26 06:43:50.25
-   Source: Transfer ValidationReport_TeamMember 
-   Prepare for Execute: 40% complete
-End Progress
-Progress: 2014-02-26 06:43:50.25
-   Source: Transfer ValidationReport_TeamMember 
-   Prepare for Execute: 60% complete
-End Progress
-Progress: 2014-02-26 06:43:50.25
-   Source: Transfer ValidationReport_TeamMember 
-   Prepare for Execute: 80% complete
-End Progress
-Progress: 2014-02-26 06:43:50.25
-   Source: Transfer ValidationReport_TeamMember 
-   Prepare for Execute: 100% complete
-End Progress
-Progress: 2014-02-26 06:43:50.25
-   Source: Transfer ValidationReport_School 
-   Prepare for Execute: 0% complete
-End Progress
-Progress: 2014-02-26 06:43:50.25
-   Source: Transfer ValidationReport_School 
-   Prepare for Execute: 20% complete
-End Progress
-Progress: 2014-02-26 06:43:50.25
-   Source: Transfer ValidationReport_School 
-   Prepare for Execute: 40% complete
-End Progress
-Progress: 2014-02-26 06:43:50.25
-   Source: Transfer ValidationReport_School 
-   Prepare for Execute: 60% complete
-End Progress
-Progress: 2014-02-26 06:43:50.25
-   Source: Transfer ValidationReport_School 
-   Prepare for Execute: 80% complete
-End Progress
-Progress: 2014-02-26 06:43:50.25
-   Source: Transfer ValidationReport_School 
-   Prepare for Execute: 100% complete
-End Progress
-Progress: 2014-02-26 06:43:50.25
-   Source: Transfer ValidationReport_Objective 
-   Prepare for Execute: 0% complete
-End Progress
-Progress: 2014-02-26 06:43:50.25
-   Source: Transfer ValidationReport_Objective 
-   Prepare for Execute: 20% complete
-End Progress
-Progress: 2014-02-26 06:43:50.25
-   Source: Transfer ValidationReport_Objective 
-   Prepare for Execute: 40% complete
-End Progress
-Progress: 2014-02-26 06:43:50.25
-   Source: Transfer ValidationReport_Objective 
-   Prepare for Execute: 60% complete
-End Progress
-Progress: 2014-02-26 06:43:50.25
-   Source: Transfer ValidationReport_Objective 
-   Prepare for Execute: 80% complete
-End Progress
-Progress: 2014-02-26 06:43:50.25
-   Source: Transfer ValidationReport_Objective 
-   Prepare for Execute: 100% complete
-End Progress
-Progress: 2014-02-26 06:43:50.25
-   Source: Transfer ValidationReport_TeamMember 
-   Pre-Execute: 0% complete
-End Progress
-Progress: 2014-02-26 06:43:50.25
-   Source: Transfer ValidationReport_SchoolProgressFrequency 
-   Prepare for Execute: 0% complete
-End Progress
-Progress: 2014-02-26 06:43:50.25
-   Source: Transfer ValidationReport_SchoolProgressFrequency 
-   Prepare for Execute: 20% complete
-End Progress
-Progress: 2014-02-26 06:43:50.25
-   Source: Transfer ValidationReport_SchoolProgressFrequency 
-   Prepare for Execute: 40% complete
-End Progress
-Progress: 2014-02-26 06:43:50.25
-   Source: Transfer ValidationReport_SchoolProgressFrequency 
-   Prepare for Execute: 60% complete
-End Progress
-Progress: 2014-02-26 06:43:50.25
-   Source: Transfer ValidationReport_SchoolProgressFrequency 
-   Prepare for Execute: 80% complete
-End Progress
-Progress: 2014-02-26 06:43:50.25
-   Source: Transfer ValidationReport_SchoolProgressFrequency 
-   Prepare for Execute: 100% complete
-End Progress
-Progress: 2014-02-26 06:43:50.25
-   Source: Transfer ValidationReport_Objective 
-   Pre-Execute: 0% complete
-End Progress
-Progress: 2014-02-26 06:43:50.25
-   Source: Transfer ValidationReport_School 
-   Pre-Execute: 0% complete
-End Progress
-Progress: 2014-02-26 06:43:50.26
-   Source: Transfer ValidationReport_SchoolProgressFrequency 
-   Pre-Execute: 0% complete
-End Progress
-Progress: 2014-02-26 06:43:50.26
-   Source: Transfer ValidationReport_Goal 
-   Pre-Execute: 20% complete
-End Progress
-Progress: 2014-02-26 06:43:50.26
-   Source: Transfer ValidationReport_Goal 
-   Pre-Execute: 40% complete
-End Progress
-Progress: 2014-02-26 06:43:50.26
-   Source: Transfer ValidationReport_Goal 
-   Pre-Execute: 60% complete
-End Progress
-Progress: 2014-02-26 06:43:50.26
-   Source: Transfer ValidationReport_Goal 
-   Pre-Execute: 80% complete
-End Progress
-Progress: 2014-02-26 06:43:50.26
-   Source: Transfer ValidationReport_Goal 
-   Pre-Execute: 100% complete
-End Progress
-Progress: 2014-02-26 06:43:50.29
-   Source: Transfer ValidationReport_Objective 
-   Pre-Execute: 20% complete
-End Progress
-Progress: 2014-02-26 06:43:50.29
-   Source: Transfer ValidationReport_Objective 
-   Pre-Execute: 40% complete
-End Progress
-Progress: 2014-02-26 06:43:50.29
-   Source: Transfer ValidationReport_Objective 
-   Pre-Execute: 60% complete
-End Progress
-Progress: 2014-02-26 06:43:50.29
-   Source: Transfer ValidationReport_Objective 
-   Pre-Execute: 80% complete
-End Progress
-Progress: 2014-02-26 06:43:50.29
-   Source: Transfer ValidationReport_Objective 
-   Pre-Execute: 100% complete
-End Progress
-Progress: 2014-02-26 06:43:50.38
-   Source: Transfer ValidationReport_School 
-   Pre-Execute: 20% complete
-End Progress
-Progress: 2014-02-26 06:43:50.38
-   Source: Transfer ValidationReport_School 
-   Pre-Execute: 40% complete
-End Progress
-Progress: 2014-02-26 06:43:50.38
-   Source: Transfer ValidationReport_School 
-   Pre-Execute: 60% complete
-End Progress
-Progress: 2014-02-26 06:43:50.38
-   Source: Transfer ValidationReport_School 
-   Pre-Execute: 80% complete
-End Progress
-Progress: 2014-02-26 06:43:50.38
-   Source: Transfer ValidationReport_School 
-   Pre-Execute: 100% complete
-End Progress
-Progress: 2014-02-26 06:43:50.40
-   Source: Transfer ValidationReport_SchoolProgressFrequency 
-   Pre-Execute: 20% complete
-End Progress
-Progress: 2014-02-26 06:43:50.40
-   Source: Transfer ValidationReport_SchoolProgressFrequency 
-   Pre-Execute: 40% complete
-End Progress
-Progress: 2014-02-26 06:43:50.40
-   Source: Transfer ValidationReport_SchoolProgressFrequency 
-   Pre-Execute: 60% complete
-End Progress
-Progress: 2014-02-26 06:43:50.40
-   Source: Transfer ValidationReport_SchoolProgressFrequency 
-   Pre-Execute: 80% complete
-End Progress
-Progress: 2014-02-26 06:43:50.40
-   Source: Transfer ValidationReport_SchoolProgressFrequency 
-   Pre-Execute: 100% complete
-End Progress
-Progress: 2014-02-26 06:43:50.40
-   Source: Transfer ValidationReport_SchoolProgressFrequency 
+Progress: 2014-02-26 22:00:48.72
+   Source: Transfer ValidationReport_StaffSchool 
    Post Execute: 0% complete
 End Progress
-Progress: 2014-02-26 06:43:50.40
-   Source: Transfer ValidationReport_SchoolProgressFrequency 
+Progress: 2014-02-26 22:00:48.72
+   Source: Transfer ValidationReport_StaffSchool 
    Post Execute: 20% complete
 End Progress
-Progress: 2014-02-26 06:43:50.40
-   Source: Transfer ValidationReport_TeamMember 
-   Pre-Execute: 20% complete
+Warning: 2014-02-26 22:00:48.72
+   Code: 0x80047076
+   Source: Transfer ValidationReport_School SSIS.Pipeline
+   Description: The output column "DC_ LineNumber" (32) on output "Data Conversion Output" (27) and component "Data Conversion UC_NUC" (25) is not subsequently used in the Data Flow task. Removing this unused output column can increase Data Flow task performance.
+End Warning
+Warning: 2014-02-26 22:00:48.72
+   Code: 0x80047076
+   Source: Transfer ValidationReport_School SSIS.Pipeline
+   Description: The output column "DC_ errormessage" (35) on output "Data Conversion Output" (27) and component "Data Conversion UC_NUC" (25) is not subsequently used in the Data Flow task. Removing this unused output column can increase Data Flow task performance.
+End Warning
+Progress: 2014-02-26 22:00:48.72
+   Source: Transfer ValidationReport_Objective 
+   Validating: 20% complete
 End Progress
-Progress: 2014-02-26 06:43:50.40
-   Source: Transfer ValidationReport_TeamMember 
-   Pre-Execute: 40% complete
+Progress: 2014-02-26 22:00:48.72
+   Source: Transfer ValidationReport_Objective 
+   Validating: 40% complete
 End Progress
-Progress: 2014-02-26 06:43:50.40
-   Source: Transfer ValidationReport_SchoolProgressFrequency 
+Progress: 2014-02-26 22:00:48.72
+   Source: Transfer ValidationReport_StaffSchool 
    Post Execute: 40% complete
 End Progress
-Progress: 2014-02-26 06:43:50.40
-   Source: Transfer ValidationReport_TeamMember 
-   Pre-Execute: 60% complete
-End Progress
-Progress: 2014-02-26 06:43:50.40
+Progress: 2014-02-26 22:00:48.72
    Source: Transfer ValidationReport_SchoolProgressFrequency 
+   Pre-Execute: 0% complete
+End Progress
+Progress: 2014-02-26 22:00:48.72
+   Source: Transfer ValidationReport_StaffSchool 
    Post Execute: 60% complete
 End Progress
-Progress: 2014-02-26 06:43:50.40
-   Source: Transfer ValidationReport_SchoolProgressFrequency 
+Progress: 2014-02-26 22:00:48.72
+   Source: Transfer ValidationReport_StaffSchool 
    Post Execute: 80% complete
 End Progress
-Progress: 2014-02-26 06:43:50.40
-   Source: Transfer ValidationReport_TeamMember 
-   Pre-Execute: 80% complete
-End Progress
-Progress: 2014-02-26 06:43:50.40
-   Source: Transfer ValidationReport_SchoolProgressFrequency 
+Progress: 2014-02-26 22:00:48.72
+   Source: Transfer ValidationReport_StaffSchool 
    Post Execute: 100% complete
 End Progress
-Progress: 2014-02-26 06:43:50.41
+Progress: 2014-02-26 22:00:48.72
    Source: Transfer ValidationReport_TeamMember 
-   Pre-Execute: 100% complete
+   Validating: 100% complete
 End Progress
-Progress: 2014-02-26 06:43:50.41
-   Source: Transfer ValidationReport_SchoolProgressFrequency 
+Progress: 2014-02-26 22:00:48.72
+   Source: Transfer ValidationReport_School 
+   Prepare for Execute: 0% complete
+End Progress
+Progress: 2014-02-26 22:00:48.72
+   Source: Transfer ValidationReport_School 
+   Prepare for Execute: 20% complete
+End Progress
+Progress: 2014-02-26 22:00:48.72
+   Source: Transfer ValidationReport_School 
+   Prepare for Execute: 40% complete
+End Progress
+Progress: 2014-02-26 22:00:48.72
+   Source: Transfer ValidationReport_School 
+   Prepare for Execute: 60% complete
+End Progress
+Progress: 2014-02-26 22:00:48.72
+   Source: Transfer ValidationReport_School 
+   Prepare for Execute: 80% complete
+End Progress
+Progress: 2014-02-26 22:00:48.72
+   Source: Transfer ValidationReport_School 
+   Prepare for Execute: 100% complete
+End Progress
+Warning: 2014-02-26 22:00:48.72
+   Code: 0x80047076
+   Source: Transfer ValidationReport_TeamMember SSIS.Pipeline
+   Description: The output column "DC_ LineNumber" (32) on output "Data Conversion Output" (27) and component "Data Conversion UC_NUC" (25) is not subsequently used in the Data Flow task. Removing this unused output column can increase Data Flow task performance.
+End Warning
+Warning: 2014-02-26 22:00:48.72
+   Code: 0x80047076
+   Source: Transfer ValidationReport_TeamMember SSIS.Pipeline
+   Description: The output column "DC_ errormessage" (35) on output "Data Conversion Output" (27) and component "Data Conversion UC_NUC" (25) is not subsequently used in the Data Flow task. Removing this unused output column can increase Data Flow task performance.
+End Warning
+Progress: 2014-02-26 22:00:48.72
+   Source: Transfer ValidationReport_StaffSchool 
    Cleanup: 0% complete
 End Progress
-Progress: 2014-02-26 06:43:50.41
-   Source: Transfer ValidationReport_SchoolProgressFrequency 
+Progress: 2014-02-26 22:00:48.72
+   Source: Transfer ValidationReport_StaffSchool 
    Cleanup: 20% complete
 End Progress
-Progress: 2014-02-26 06:43:50.41
-   Source: Transfer ValidationReport_SchoolProgressFrequency 
+Progress: 2014-02-26 22:00:48.72
+   Source: Transfer ValidationReport_Objective 
+   Validating: 60% complete
+End Progress
+Progress: 2014-02-26 22:00:48.72
+   Source: Transfer ValidationReport_StaffSchool 
    Cleanup: 40% complete
 End Progress
-Progress: 2014-02-26 06:43:50.41
-   Source: Transfer ValidationReport_SchoolProgressFrequency 
+Progress: 2014-02-26 22:00:48.72
+   Source: Transfer ValidationReport_StaffSchool 
    Cleanup: 60% complete
 End Progress
-Progress: 2014-02-26 06:43:50.41
-   Source: Transfer ValidationReport_SchoolProgressFrequency 
+Progress: 2014-02-26 22:00:48.72
+   Source: Transfer ValidationReport_StaffSchool 
    Cleanup: 80% complete
 End Progress
-Progress: 2014-02-26 06:43:50.41
-   Source: Transfer ValidationReport_SchoolProgressFrequency 
+Progress: 2014-02-26 22:00:48.72
+   Source: Transfer ValidationReport_StaffSchool 
    Cleanup: 100% complete
 End Progress
-Progress: 2014-02-26 06:43:50.41
+Progress: 2014-02-26 22:00:48.72
+   Source: Transfer ValidationReport_Objective 
+   Validating: 80% complete
+End Progress
+Progress: 2014-02-26 22:00:48.72
    Source: Transfer ValidationReport_Student 
    Validating: 0% complete
 End Progress
-Progress: 2014-02-26 06:43:50.41
+Progress: 2014-02-26 22:00:48.72
+   Source: Transfer ValidationReport_School 
+   Pre-Execute: 0% complete
+End Progress
+Progress: 2014-02-26 22:00:48.72
+   Source: Transfer ValidationReport_TeamMember 
+   Prepare for Execute: 0% complete
+End Progress
+Progress: 2014-02-26 22:00:48.72
+   Source: Transfer ValidationReport_TeamMember 
+   Prepare for Execute: 20% complete
+End Progress
+Progress: 2014-02-26 22:00:48.72
+   Source: Transfer ValidationReport_TeamMember 
+   Prepare for Execute: 40% complete
+End Progress
+Progress: 2014-02-26 22:00:48.72
+   Source: Transfer ValidationReport_TeamMember 
+   Prepare for Execute: 60% complete
+End Progress
+Progress: 2014-02-26 22:00:48.72
+   Source: Transfer ValidationReport_TeamMember 
+   Prepare for Execute: 80% complete
+End Progress
+Progress: 2014-02-26 22:00:48.72
+   Source: Transfer ValidationReport_TeamMember 
+   Prepare for Execute: 100% complete
+End Progress
+Progress: 2014-02-26 22:00:48.73
+   Source: Transfer ValidationReport_Objective 
+   Validating: 100% complete
+End Progress
+Warning: 2014-02-26 22:00:48.73
+   Code: 0x80047076
+   Source: Transfer ValidationReport_Objective SSIS.Pipeline
+   Description: The output column "DC_ LineNumber" (32) on output "Data Conversion Output" (27) and component "Data Conversion UC_NUC" (25) is not subsequently used in the Data Flow task. Removing this unused output column can increase Data Flow task performance.
+End Warning
+Warning: 2014-02-26 22:00:48.73
+   Code: 0x80047076
+   Source: Transfer ValidationReport_Objective SSIS.Pipeline
+   Description: The output column "DC_ errormessage" (35) on output "Data Conversion Output" (27) and component "Data Conversion UC_NUC" (25) is not subsequently used in the Data Flow task. Removing this unused output column can increase Data Flow task performance.
+End Warning
+Progress: 2014-02-26 22:00:48.73
+   Source: Transfer ValidationReport_Goal 
+   Pre-Execute: 20% complete
+End Progress
+Progress: 2014-02-26 22:00:48.73
+   Source: Transfer ValidationReport_TeamMember 
+   Pre-Execute: 0% complete
+End Progress
+Progress: 2014-02-26 22:00:48.73
+   Source: Transfer ValidationReport_Goal 
+   Pre-Execute: 40% complete
+End Progress
+Progress: 2014-02-26 22:00:48.73
+   Source: Transfer ValidationReport_Objective 
+   Prepare for Execute: 0% complete
+End Progress
+Progress: 2014-02-26 22:00:48.73
+   Source: Transfer ValidationReport_Objective 
+   Prepare for Execute: 20% complete
+End Progress
+Progress: 2014-02-26 22:00:48.73
+   Source: Transfer ValidationReport_Objective 
+   Prepare for Execute: 40% complete
+End Progress
+Progress: 2014-02-26 22:00:48.73
+   Source: Transfer ValidationReport_Objective 
+   Prepare for Execute: 60% complete
+End Progress
+Progress: 2014-02-26 22:00:48.73
+   Source: Transfer ValidationReport_Objective 
+   Prepare for Execute: 80% complete
+End Progress
+Progress: 2014-02-26 22:00:48.73
+   Source: Transfer ValidationReport_Objective 
+   Prepare for Execute: 100% complete
+End Progress
+Progress: 2014-02-26 22:00:48.73
+   Source: Transfer ValidationReport_Goal 
+   Pre-Execute: 60% complete
+End Progress
+Progress: 2014-02-26 22:00:48.73
    Source: Transfer ValidationReport_Student 
    Validating: 20% complete
 End Progress
-Progress: 2014-02-26 06:43:50.41
+Progress: 2014-02-26 22:00:48.73
+   Source: Transfer ValidationReport_Goal 
+   Pre-Execute: 80% complete
+End Progress
+Progress: 2014-02-26 22:00:48.73
    Source: Transfer ValidationReport_Student 
    Validating: 40% complete
 End Progress
-Progress: 2014-02-26 06:43:50.41
+Progress: 2014-02-26 22:00:48.73
+   Source: Transfer ValidationReport_Goal 
+   Pre-Execute: 100% complete
+End Progress
+Progress: 2014-02-26 22:00:48.73
    Source: Transfer ValidationReport_Student 
    Validating: 60% complete
 End Progress
-Progress: 2014-02-26 06:43:50.42
+Progress: 2014-02-26 22:00:48.73
+   Source: Transfer ValidationReport_Objective 
+   Pre-Execute: 0% complete
+End Progress
+Progress: 2014-02-26 22:00:48.74
    Source: Transfer ValidationReport_Student 
    Validating: 80% complete
 End Progress
-Progress: 2014-02-26 06:43:50.42
-   Source: Transfer ValidationReport_School 
+Progress: 2014-02-26 22:00:48.74
+   Source: Transfer ValidationReport_SchoolProgressFrequency 
+   Pre-Execute: 20% complete
+End Progress
+Progress: 2014-02-26 22:00:48.74
+   Source: Transfer ValidationReport_SchoolProgressFrequency 
+   Pre-Execute: 40% complete
+End Progress
+Progress: 2014-02-26 22:00:48.74
+   Source: Transfer ValidationReport_TeamMember 
+   Pre-Execute: 20% complete
+End Progress
+Progress: 2014-02-26 22:00:48.74
+   Source: Transfer ValidationReport_TeamMember 
+   Pre-Execute: 40% complete
+End Progress
+Progress: 2014-02-26 22:00:48.74
+   Source: Transfer ValidationReport_SchoolProgressFrequency 
+   Pre-Execute: 60% complete
+End Progress
+Progress: 2014-02-26 22:00:48.74
+   Source: Transfer ValidationReport_SchoolProgressFrequency 
+   Pre-Execute: 80% complete
+End Progress
+Progress: 2014-02-26 22:00:48.74
+   Source: Transfer ValidationReport_TeamMember 
+   Pre-Execute: 60% complete
+End Progress
+Progress: 2014-02-26 22:00:48.74
+   Source: Transfer ValidationReport_TeamMember 
+   Pre-Execute: 80% complete
+End Progress
+Progress: 2014-02-26 22:00:48.74
+   Source: Transfer ValidationReport_SchoolProgressFrequency 
+   Pre-Execute: 100% complete
+End Progress
+Progress: 2014-02-26 22:00:48.74
+   Source: Transfer ValidationReport_TeamMember 
+   Pre-Execute: 100% complete
+End Progress
+Progress: 2014-02-26 22:00:48.74
+   Source: Transfer ValidationReport_Goal 
    Post Execute: 0% complete
 End Progress
-Progress: 2014-02-26 06:43:50.42
-   Source: Transfer ValidationReport_School 
+Progress: 2014-02-26 22:00:48.74
+   Source: Transfer ValidationReport_Goal 
    Post Execute: 20% complete
 End Progress
-Progress: 2014-02-26 06:43:50.42
-   Source: Transfer ValidationReport_School 
+Progress: 2014-02-26 22:00:48.74
+   Source: Transfer ValidationReport_Goal 
    Post Execute: 40% complete
 End Progress
-Progress: 2014-02-26 06:43:50.42
-   Source: Transfer ValidationReport_School 
+Progress: 2014-02-26 22:00:48.74
+   Source: Transfer ValidationReport_Goal 
    Post Execute: 60% complete
 End Progress
-Progress: 2014-02-26 06:43:50.42
-   Source: Transfer ValidationReport_School 
+Progress: 2014-02-26 22:00:48.74
+   Source: Transfer ValidationReport_Goal 
    Post Execute: 80% complete
 End Progress
-Progress: 2014-02-26 06:43:50.42
-   Source: Transfer ValidationReport_School 
-   Post Execute: 100% complete
-End Progress
-Progress: 2014-02-26 06:43:50.42
-   Source: Transfer ValidationReport_School 
-   Cleanup: 0% complete
-End Progress
-Progress: 2014-02-26 06:43:50.42
-   Source: Transfer ValidationReport_School 
-   Cleanup: 20% complete
-End Progress
-Progress: 2014-02-26 06:43:50.42
-   Source: Transfer ValidationReport_School 
-   Cleanup: 40% complete
-End Progress
-Progress: 2014-02-26 06:43:50.42
-   Source: Transfer ValidationReport_School 
-   Cleanup: 60% complete
-End Progress
-Progress: 2014-02-26 06:43:50.42
-   Source: Transfer ValidationReport_School 
-   Cleanup: 80% complete
-End Progress
-Progress: 2014-02-26 06:43:50.42
-   Source: Transfer ValidationReport_School 
-   Cleanup: 100% complete
-End Progress
-Progress: 2014-02-26 06:43:50.42
-   Source: Transfer ValidationReport_IEP 
-   Validating: 0% complete
-End Progress
-Progress: 2014-02-26 06:43:50.42
-   Source: Transfer ValidationReport_IEP 
-   Validating: 20% complete
-End Progress
-Progress: 2014-02-26 06:43:50.42
-   Source: Transfer ValidationReport_IEP 
-   Validating: 40% complete
-End Progress
-Warning: 2014-02-26 06:43:50.42
+Warning: 2014-02-26 22:00:48.74
    Code: 0x800470C8
    Source: Transfer ValidationReport_Student Excel Destination [542]
    Description: The external columns for component "Excel Destination" (542) are out of synchronization with the data source columns. The external column "LineNumber" needs to be updated.
@@ -2047,53 +1952,412 @@ The external column "ExitDate" needs to be updated.
 The external column "ExitCode" needs to be updated.
 The external column "SpecialEdStatus" needs to be updated.
 End Warning
-Progress: 2014-02-26 06:43:50.43
+Progress: 2014-02-26 22:00:48.74
+   Source: Transfer ValidationReport_Goal 
+   Post Execute: 100% complete
+End Progress
+Progress: 2014-02-26 22:00:48.74
+   Source: Transfer ValidationReport_Goal 
+   Cleanup: 0% complete
+End Progress
+Progress: 2014-02-26 22:00:48.74
+   Source: Transfer ValidationReport_Goal 
+   Cleanup: 20% complete
+End Progress
+Progress: 2014-02-26 22:00:48.74
+   Source: Transfer ValidationReport_Goal 
+   Cleanup: 40% complete
+End Progress
+Progress: 2014-02-26 22:00:48.74
+   Source: Transfer ValidationReport_Goal 
+   Cleanup: 60% complete
+End Progress
+Progress: 2014-02-26 22:00:48.74
+   Source: Transfer ValidationReport_Goal 
+   Cleanup: 80% complete
+End Progress
+Progress: 2014-02-26 22:00:48.74
+   Source: Transfer ValidationReport_Goal 
+   Cleanup: 100% complete
+End Progress
+Progress: 2014-02-26 22:00:48.74
+   Source: Transfer ValidationReport_SPEDStaffMember 
+   Validating: 0% complete
+End Progress
+Progress: 2014-02-26 22:00:48.74
    Source: Transfer ValidationReport_Student 
    Validating: 100% complete
 End Progress
-Progress: 2014-02-26 06:43:50.43
-   Source: Transfer ValidationReport_IEP 
-   Validating: 60% complete
-End Progress
-Warning: 2014-02-26 06:43:50.43
+Warning: 2014-02-26 22:00:48.74
    Code: 0x80047076
    Source: Transfer ValidationReport_Student SSIS.Pipeline
    Description: The output column "DC_ LineNumber" (32) on output "Data Conversion Output" (27) and component "Data Conversion UC_NUC" (25) is not subsequently used in the Data Flow task. Removing this unused output column can increase Data Flow task performance.
 End Warning
-Warning: 2014-02-26 06:43:50.43
+Warning: 2014-02-26 22:00:48.74
    Code: 0x80047076
    Source: Transfer ValidationReport_Student SSIS.Pipeline
    Description: The output column "DC_ errormessage" (35) on output "Data Conversion Output" (27) and component "Data Conversion UC_NUC" (25) is not subsequently used in the Data Flow task. Removing this unused output column can increase Data Flow task performance.
 End Warning
-Progress: 2014-02-26 06:43:50.43
-   Source: Transfer ValidationReport_IEP 
-   Validating: 80% complete
+Progress: 2014-02-26 22:00:48.74
+   Source: Transfer ValidationReport_SPEDStaffMember 
+   Validating: 20% complete
 End Progress
-Progress: 2014-02-26 06:43:50.43
+Progress: 2014-02-26 22:00:48.74
+   Source: Transfer ValidationReport_SPEDStaffMember 
+   Validating: 40% complete
+End Progress
+Progress: 2014-02-26 22:00:48.74
    Source: Transfer ValidationReport_Student 
    Prepare for Execute: 0% complete
 End Progress
-Progress: 2014-02-26 06:43:50.43
+Progress: 2014-02-26 22:00:48.74
    Source: Transfer ValidationReport_Student 
    Prepare for Execute: 20% complete
 End Progress
-Progress: 2014-02-26 06:43:50.43
+Progress: 2014-02-26 22:00:48.74
    Source: Transfer ValidationReport_Student 
    Prepare for Execute: 40% complete
 End Progress
-Progress: 2014-02-26 06:43:50.43
+Progress: 2014-02-26 22:00:48.74
    Source: Transfer ValidationReport_Student 
    Prepare for Execute: 60% complete
 End Progress
-Progress: 2014-02-26 06:43:50.43
+Progress: 2014-02-26 22:00:48.74
    Source: Transfer ValidationReport_Student 
    Prepare for Execute: 80% complete
 End Progress
-Progress: 2014-02-26 06:43:50.43
+Progress: 2014-02-26 22:00:48.74
    Source: Transfer ValidationReport_Student 
    Prepare for Execute: 100% complete
 End Progress
-Warning: 2014-02-26 06:43:50.43
+Progress: 2014-02-26 22:00:48.75
+   Source: Transfer ValidationReport_SPEDStaffMember 
+   Validating: 60% complete
+End Progress
+Progress: 2014-02-26 22:00:48.75
+   Source: Transfer ValidationReport_Objective 
+   Pre-Execute: 20% complete
+End Progress
+Progress: 2014-02-26 22:00:48.75
+   Source: Transfer ValidationReport_SPEDStaffMember 
+   Validating: 80% complete
+End Progress
+Progress: 2014-02-26 22:00:48.75
+   Source: Transfer ValidationReport_Objective 
+   Pre-Execute: 40% complete
+End Progress
+Progress: 2014-02-26 22:00:48.75
+   Source: Transfer ValidationReport_Student 
+   Pre-Execute: 0% complete
+End Progress
+Progress: 2014-02-26 22:00:48.75
+   Source: Transfer ValidationReport_Objective 
+   Pre-Execute: 60% complete
+End Progress
+Progress: 2014-02-26 22:00:48.75
+   Source: Transfer ValidationReport_Objective 
+   Pre-Execute: 80% complete
+End Progress
+Progress: 2014-02-26 22:00:48.75
+   Source: Transfer ValidationReport_School 
+   Pre-Execute: 20% complete
+End Progress
+Progress: 2014-02-26 22:00:48.75
+   Source: Transfer ValidationReport_School 
+   Pre-Execute: 40% complete
+End Progress
+Progress: 2014-02-26 22:00:48.75
+   Source: Transfer ValidationReport_School 
+   Pre-Execute: 60% complete
+End Progress
+Warning: 2014-02-26 22:00:48.75
+   Code: 0x800470C8
+   Source: Transfer ValidationReport_SPEDStaffMember Excel Destination [367]
+   Description: The external columns for component "Excel Destination" (367) are out of synchronization with the data source columns. The external column "LineNumber" needs to be updated.
+The external column "errormessage" needs to be updated.
+The external column "StaffEmail" needs to be updated.
+The external column "Firstname" needs to be updated.
+The external column "Lastname" needs to be updated.
+The external column "EnrichRole" needs to be updated.
+End Warning
+Progress: 2014-02-26 22:00:48.75
+   Source: Transfer ValidationReport_Objective 
+   Pre-Execute: 100% complete
+End Progress
+Progress: 2014-02-26 22:00:48.75
+   Source: Transfer ValidationReport_School 
+   Pre-Execute: 80% complete
+End Progress
+Progress: 2014-02-26 22:00:48.75
+   Source: Transfer ValidationReport_SchoolProgressFrequency 
+   Post Execute: 0% complete
+End Progress
+Progress: 2014-02-26 22:00:48.75
+   Source: Transfer ValidationReport_SchoolProgressFrequency 
+   Post Execute: 20% complete
+End Progress
+Progress: 2014-02-26 22:00:48.75
+   Source: Transfer ValidationReport_SPEDStaffMember 
+   Validating: 100% complete
+End Progress
+Progress: 2014-02-26 22:00:48.75
+   Source: Transfer ValidationReport_SchoolProgressFrequency 
+   Post Execute: 40% complete
+End Progress
+Progress: 2014-02-26 22:00:48.75
+   Source: Transfer ValidationReport_SchoolProgressFrequency 
+   Post Execute: 60% complete
+End Progress
+Progress: 2014-02-26 22:00:48.75
+   Source: Transfer ValidationReport_SchoolProgressFrequency 
+   Post Execute: 80% complete
+End Progress
+Progress: 2014-02-26 22:00:48.75
+   Source: Transfer ValidationReport_School 
+   Pre-Execute: 100% complete
+End Progress
+Progress: 2014-02-26 22:00:48.75
+   Source: Transfer ValidationReport_SchoolProgressFrequency 
+   Post Execute: 100% complete
+End Progress
+Warning: 2014-02-26 22:00:48.75
+   Code: 0x80047076
+   Source: Transfer ValidationReport_SPEDStaffMember SSIS.Pipeline
+   Description: The output column "DC_ LineNumber" (32) on output "Data Conversion Output" (27) and component "Data Conversion UC_NUC" (25) is not subsequently used in the Data Flow task. Removing this unused output column can increase Data Flow task performance.
+End Warning
+Warning: 2014-02-26 22:00:48.75
+   Code: 0x80047076
+   Source: Transfer ValidationReport_SPEDStaffMember SSIS.Pipeline
+   Description: The output column "DC_ errormessage" (35) on output "Data Conversion Output" (27) and component "Data Conversion UC_NUC" (25) is not subsequently used in the Data Flow task. Removing this unused output column can increase Data Flow task performance.
+End Warning
+Progress: 2014-02-26 22:00:48.75
+   Source: Transfer ValidationReport_SchoolProgressFrequency 
+   Cleanup: 0% complete
+End Progress
+Progress: 2014-02-26 22:00:48.75
+   Source: Transfer ValidationReport_SchoolProgressFrequency 
+   Cleanup: 20% complete
+End Progress
+Progress: 2014-02-26 22:00:48.75
+   Source: Transfer ValidationReport_SchoolProgressFrequency 
+   Cleanup: 40% complete
+End Progress
+Progress: 2014-02-26 22:00:48.75
+   Source: Transfer ValidationReport_SchoolProgressFrequency 
+   Cleanup: 60% complete
+End Progress
+Progress: 2014-02-26 22:00:48.75
+   Source: Transfer ValidationReport_SchoolProgressFrequency 
+   Cleanup: 80% complete
+End Progress
+Progress: 2014-02-26 22:00:48.75
+   Source: Transfer ValidationReport_SchoolProgressFrequency 
+   Cleanup: 100% complete
+End Progress
+Progress: 2014-02-26 22:00:48.75
+   Source: Transfer ValidationReport_School 
+   Post Execute: 0% complete
+End Progress
+Progress: 2014-02-26 22:00:48.75
+   Source: Transfer ValidationReport_School 
+   Post Execute: 20% complete
+End Progress
+Progress: 2014-02-26 22:00:48.75
+   Source: Transfer ValidationReport_SPEDStaffMember 
+   Prepare for Execute: 0% complete
+End Progress
+Progress: 2014-02-26 22:00:48.75
+   Source: Transfer ValidationReport_SPEDStaffMember 
+   Prepare for Execute: 20% complete
+End Progress
+Progress: 2014-02-26 22:00:48.75
+   Source: Transfer ValidationReport_SPEDStaffMember 
+   Prepare for Execute: 40% complete
+End Progress
+Progress: 2014-02-26 22:00:48.75
+   Source: Transfer ValidationReport_SPEDStaffMember 
+   Prepare for Execute: 60% complete
+End Progress
+Progress: 2014-02-26 22:00:48.75
+   Source: Transfer ValidationReport_SPEDStaffMember 
+   Prepare for Execute: 80% complete
+End Progress
+Progress: 2014-02-26 22:00:48.75
+   Source: Transfer ValidationReport_SPEDStaffMember 
+   Prepare for Execute: 100% complete
+End Progress
+Warning: 2014-02-26 22:00:48.75
+   Code: 0x00000000
+   Source: Create Service Sheet 
+   Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
+End Warning
+Progress: 2014-02-26 22:00:48.75
+   Source: Transfer ValidationReport_School 
+   Post Execute: 40% complete
+End Progress
+Warning: 2014-02-26 22:00:48.75
+   Code: 0x00000000
+   Source: Create Service Sheet 
+   Description: Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
+End Warning
+Progress: 2014-02-26 22:00:48.75
+   Source: Transfer ValidationReport_School 
+   Post Execute: 60% complete
+End Progress
+Progress: 2014-02-26 22:00:48.75
+   Source: Transfer ValidationReport_School 
+   Post Execute: 80% complete
+End Progress
+Progress: 2014-02-26 22:00:48.75
+   Source: Transfer ValidationReport_School 
+   Post Execute: 100% complete
+End Progress
+Progress: 2014-02-26 22:00:48.75
+   Source: Create Service Sheet 
+   Executing query "CREATE TABLE ValidationReport_Service(
+LineNumber ...".: 100% complete
+End Progress
+Progress: 2014-02-26 22:00:48.75
+   Source: Transfer ValidationReport_Objective 
+   Post Execute: 0% complete
+End Progress
+Progress: 2014-02-26 22:00:48.75
+   Source: Transfer ValidationReport_Objective 
+   Post Execute: 20% complete
+End Progress
+Progress: 2014-02-26 22:00:48.75
+   Source: Transfer ValidationReport_Objective 
+   Post Execute: 40% complete
+End Progress
+Progress: 2014-02-26 22:00:48.75
+   Source: Transfer ValidationReport_Objective 
+   Post Execute: 60% complete
+End Progress
+Progress: 2014-02-26 22:00:48.76
+   Source: Transfer ValidationReport_SPEDStaffMember 
+   Pre-Execute: 0% complete
+End Progress
+Progress: 2014-02-26 22:00:48.76
+   Source: Transfer ValidationReport_Objective 
+   Post Execute: 80% complete
+End Progress
+Progress: 2014-02-26 22:00:48.76
+   Source: Transfer ValidationReport_Objective 
+   Post Execute: 100% complete
+End Progress
+Progress: 2014-02-26 22:00:48.76
+   Source: Transfer ValidationReport_IEP 
+   Validating: 0% complete
+End Progress
+Progress: 2014-02-26 22:00:48.76
+   Source: Transfer ValidationReport_School 
+   Cleanup: 0% complete
+End Progress
+Progress: 2014-02-26 22:00:48.76
+   Source: Transfer ValidationReport_School 
+   Cleanup: 20% complete
+End Progress
+Progress: 2014-02-26 22:00:48.76
+   Source: Transfer ValidationReport_School 
+   Cleanup: 40% complete
+End Progress
+Progress: 2014-02-26 22:00:48.76
+   Source: Transfer ValidationReport_Objective 
+   Cleanup: 0% complete
+End Progress
+Progress: 2014-02-26 22:00:48.76
+   Source: Transfer ValidationReport_School 
+   Cleanup: 60% complete
+End Progress
+Progress: 2014-02-26 22:00:48.76
+   Source: Transfer ValidationReport_Objective 
+   Cleanup: 20% complete
+End Progress
+Progress: 2014-02-26 22:00:48.76
+   Source: Transfer ValidationReport_School 
+   Cleanup: 80% complete
+End Progress
+Progress: 2014-02-26 22:00:48.76
+   Source: Transfer ValidationReport_Objective 
+   Cleanup: 40% complete
+End Progress
+Progress: 2014-02-26 22:00:48.76
+   Source: Transfer ValidationReport_School 
+   Cleanup: 100% complete
+End Progress
+Progress: 2014-02-26 22:00:48.76
+   Source: Transfer ValidationReport_Objective 
+   Cleanup: 60% complete
+End Progress
+Progress: 2014-02-26 22:00:48.76
+   Source: Transfer ValidationReport_Objective 
+   Cleanup: 80% complete
+End Progress
+Progress: 2014-02-26 22:00:48.76
+   Source: Transfer ValidationReport_Objective 
+   Cleanup: 100% complete
+End Progress
+Progress: 2014-02-26 22:00:48.76
+   Source: Transfer ValidationReport_Service 
+   Validating: 0% complete
+End Progress
+Progress: 2014-02-26 22:00:48.76
+   Source: Transfer ValidationReport_Student 
+   Pre-Execute: 20% complete
+End Progress
+Progress: 2014-02-26 22:00:48.76
+   Source: Transfer ValidationReport_Student 
+   Pre-Execute: 40% complete
+End Progress
+Progress: 2014-02-26 22:00:48.76
+   Source: Transfer ValidationReport_IEP 
+   Validating: 20% complete
+End Progress
+Progress: 2014-02-26 22:00:48.76
+   Source: Transfer ValidationReport_IEP 
+   Validating: 40% complete
+End Progress
+Progress: 2014-02-26 22:00:48.76
+   Source: Transfer ValidationReport_Student 
+   Pre-Execute: 60% complete
+End Progress
+Progress: 2014-02-26 22:00:48.76
+   Source: Transfer ValidationReport_Student 
+   Pre-Execute: 80% complete
+End Progress
+Progress: 2014-02-26 22:00:48.76
+   Source: Transfer ValidationReport_Service 
+   Validating: 20% complete
+End Progress
+Progress: 2014-02-26 22:00:48.76
+   Source: Transfer ValidationReport_Service 
+   Validating: 40% complete
+End Progress
+Progress: 2014-02-26 22:00:48.76
+   Source: Transfer ValidationReport_Student 
+   Pre-Execute: 100% complete
+End Progress
+Progress: 2014-02-26 22:00:48.76
+   Source: Transfer ValidationReport_IEP 
+   Validating: 60% complete
+End Progress
+Progress: 2014-02-26 22:00:48.76
+   Source: Transfer ValidationReport_IEP 
+   Validating: 80% complete
+End Progress
+Progress: 2014-02-26 22:00:48.77
+   Source: Transfer ValidationReport_Service 
+   Validating: 60% complete
+End Progress
+Progress: 2014-02-26 22:00:48.77
+   Source: Transfer ValidationReport_SPEDStaffMember 
+   Pre-Execute: 20% complete
+End Progress
+Progress: 2014-02-26 22:00:48.77
+   Source: Transfer ValidationReport_SPEDStaffMember 
+   Pre-Execute: 40% complete
+End Progress
+Warning: 2014-02-26 22:00:48.77
    Code: 0x800470C8
    Source: Transfer ValidationReport_IEP Excel Destination [1160]
    Description: The external columns for component "Excel Destination" (1160) are out of synchronization with the data source columns. The external column "LineNumber" needs to be updated.
@@ -2118,659 +2382,395 @@ The external column "LRECode" needs to be updated.
 The external column "MinutesPerWeek" needs to be updated.
 The external column "ServiceDeliveryStatement" needs to be updated.
 End Warning
-Progress: 2014-02-26 06:43:50.43
+Progress: 2014-02-26 22:00:48.77
+   Source: Transfer ValidationReport_Service 
+   Validating: 80% complete
+End Progress
+Progress: 2014-02-26 22:00:48.77
+   Source: Transfer ValidationReport_SPEDStaffMember 
+   Pre-Execute: 60% complete
+End Progress
+Progress: 2014-02-26 22:00:48.77
+   Source: Transfer ValidationReport_Student 
+   Post Execute: 0% complete
+End Progress
+Progress: 2014-02-26 22:00:48.77
+   Source: Transfer ValidationReport_Student 
+   Post Execute: 20% complete
+End Progress
+Progress: 2014-02-26 22:00:48.77
+   Source: Transfer ValidationReport_SPEDStaffMember 
+   Pre-Execute: 80% complete
+End Progress
+Progress: 2014-02-26 22:00:48.77
+   Source: Transfer ValidationReport_Student 
+   Post Execute: 40% complete
+End Progress
+Progress: 2014-02-26 22:00:48.77
+   Source: Transfer ValidationReport_Student 
+   Post Execute: 60% complete
+End Progress
+Progress: 2014-02-26 22:00:48.77
+   Source: Transfer ValidationReport_Student 
+   Post Execute: 80% complete
+End Progress
+Progress: 2014-02-26 22:00:48.77
+   Source: Transfer ValidationReport_Student 
+   Post Execute: 100% complete
+End Progress
+Progress: 2014-02-26 22:00:48.77
+   Source: Transfer ValidationReport_Student 
+   Cleanup: 0% complete
+End Progress
+Progress: 2014-02-26 22:00:48.77
    Source: Transfer ValidationReport_IEP 
    Validating: 100% complete
 End Progress
-Warning: 2014-02-26 06:43:50.44
+Progress: 2014-02-26 22:00:48.77
+   Source: Transfer ValidationReport_Student 
+   Cleanup: 20% complete
+End Progress
+Progress: 2014-02-26 22:00:48.77
+   Source: Transfer ValidationReport_Student 
+   Cleanup: 40% complete
+End Progress
+Progress: 2014-02-26 22:00:48.77
+   Source: Transfer ValidationReport_Student 
+   Cleanup: 60% complete
+End Progress
+Progress: 2014-02-26 22:00:48.77
+   Source: Transfer ValidationReport_Student 
+   Cleanup: 80% complete
+End Progress
+Progress: 2014-02-26 22:00:48.77
+   Source: Transfer ValidationReport_Student 
+   Cleanup: 100% complete
+End Progress
+Progress: 2014-02-26 22:00:48.77
+   Source: Transfer ValidationReport_SPEDStaffMember 
+   Pre-Execute: 100% complete
+End Progress
+Warning: 2014-02-26 22:00:48.77
    Code: 0x80047076
    Source: Transfer ValidationReport_IEP SSIS.Pipeline
    Description: The output column "DC_ LineNumber" (32) on output "Data Conversion Output" (27) and component "Data Conversion UC_NUC" (25) is not subsequently used in the Data Flow task. Removing this unused output column can increase Data Flow task performance.
 End Warning
-Warning: 2014-02-26 06:43:50.44
+Warning: 2014-02-26 22:00:48.77
    Code: 0x80047076
    Source: Transfer ValidationReport_IEP SSIS.Pipeline
    Description: The output column "DC_ errormessage" (35) on output "Data Conversion Output" (27) and component "Data Conversion UC_NUC" (25) is not subsequently used in the Data Flow task. Removing this unused output column can increase Data Flow task performance.
 End Warning
-Progress: 2014-02-26 06:43:50.44
+Progress: 2014-02-26 22:00:48.77
    Source: Transfer ValidationReport_IEP 
    Prepare for Execute: 0% complete
 End Progress
-Progress: 2014-02-26 06:43:50.44
+Progress: 2014-02-26 22:00:48.77
    Source: Transfer ValidationReport_IEP 
    Prepare for Execute: 20% complete
 End Progress
-Progress: 2014-02-26 06:43:50.44
+Progress: 2014-02-26 22:00:48.77
    Source: Transfer ValidationReport_IEP 
    Prepare for Execute: 40% complete
 End Progress
-Progress: 2014-02-26 06:43:50.44
-   Source: Transfer ValidationReport_Student 
-   Pre-Execute: 0% complete
-End Progress
-Progress: 2014-02-26 06:43:50.44
+Progress: 2014-02-26 22:00:48.77
    Source: Transfer ValidationReport_IEP 
    Prepare for Execute: 60% complete
 End Progress
-Progress: 2014-02-26 06:43:50.44
+Progress: 2014-02-26 22:00:48.77
    Source: Transfer ValidationReport_IEP 
    Prepare for Execute: 80% complete
 End Progress
-Progress: 2014-02-26 06:43:50.44
+Progress: 2014-02-26 22:00:48.77
    Source: Transfer ValidationReport_IEP 
    Prepare for Execute: 100% complete
 End Progress
-Progress: 2014-02-26 06:43:50.47
-   Source: Transfer ValidationReport_IEP 
-   Pre-Execute: 0% complete
-End Progress
-Progress: 2014-02-26 06:43:50.61
-   Source: Transfer ValidationReport_IEP 
-   Pre-Execute: 20% complete
-End Progress
-Progress: 2014-02-26 06:43:50.61
-   Source: Transfer ValidationReport_IEP 
-   Pre-Execute: 40% complete
-End Progress
-Progress: 2014-02-26 06:43:50.62
-   Source: Transfer ValidationReport_IEP 
-   Pre-Execute: 60% complete
-End Progress
-Progress: 2014-02-26 06:43:50.62
-   Source: Transfer ValidationReport_IEP 
-   Pre-Execute: 80% complete
-End Progress
-Progress: 2014-02-26 06:43:50.62
-   Source: Transfer ValidationReport_IEP 
-   Pre-Execute: 100% complete
-End Progress
-Progress: 2014-02-26 06:43:50.65
-   Source: Transfer ValidationReport_Student 
-   Pre-Execute: 20% complete
-End Progress
-Progress: 2014-02-26 06:43:50.65
-   Source: Transfer ValidationReport_Student 
-   Pre-Execute: 40% complete
-End Progress
-Progress: 2014-02-26 06:43:50.65
-   Source: Transfer ValidationReport_Student 
-   Pre-Execute: 60% complete
-End Progress
-Progress: 2014-02-26 06:43:50.66
-   Source: Transfer ValidationReport_Student 
-   Pre-Execute: 80% complete
-End Progress
-Progress: 2014-02-26 06:43:50.67
-   Source: Transfer ValidationReport_Student 
-   Pre-Execute: 100% complete
-End Progress
-Progress: 2014-02-26 06:43:53.56
-   Source: Transfer ValidationReport_StaffSchool 
-   Post Execute: 0% complete
-End Progress
-Progress: 2014-02-26 06:43:53.56
-   Source: Transfer ValidationReport_StaffSchool 
-   Post Execute: 20% complete
-End Progress
-Progress: 2014-02-26 06:43:53.56
-   Source: Transfer ValidationReport_StaffSchool 
-   Post Execute: 40% complete
-End Progress
-Progress: 2014-02-26 06:43:53.56
-   Source: Transfer ValidationReport_StaffSchool 
-   Post Execute: 60% complete
-End Progress
-Progress: 2014-02-26 06:43:53.56
-   Source: Transfer ValidationReport_StaffSchool 
-   Post Execute: 80% complete
-End Progress
-Progress: 2014-02-26 06:43:53.56
-   Source: Transfer ValidationReport_StaffSchool 
-   Post Execute: 100% complete
-End Progress
-Progress: 2014-02-26 06:43:53.57
-   Source: Transfer ValidationReport_StaffSchool 
-   Cleanup: 0% complete
-End Progress
-Progress: 2014-02-26 06:43:53.57
-   Source: Transfer ValidationReport_StaffSchool 
-   Cleanup: 20% complete
-End Progress
-Progress: 2014-02-26 06:43:53.57
-   Source: Transfer ValidationReport_StaffSchool 
-   Cleanup: 40% complete
-End Progress
-Progress: 2014-02-26 06:43:53.57
-   Source: Transfer ValidationReport_StaffSchool 
-   Cleanup: 60% complete
-End Progress
-Progress: 2014-02-26 06:43:53.57
-   Source: Transfer ValidationReport_StaffSchool 
-   Cleanup: 80% complete
-End Progress
-Progress: 2014-02-26 06:43:53.57
-   Source: Transfer ValidationReport_StaffSchool 
-   Cleanup: 100% complete
-End Progress
-Progress: 2014-02-26 06:43:53.57
-   Source: Transfer ValidationReport_SPEDStaffMember 
-   Validating: 0% complete
-End Progress
-Progress: 2014-02-26 06:43:53.57
-   Source: Transfer ValidationReport_SPEDStaffMember 
-   Validating: 20% complete
-End Progress
-Progress: 2014-02-26 06:43:53.57
-   Source: Transfer ValidationReport_SPEDStaffMember 
-   Validating: 40% complete
-End Progress
-Progress: 2014-02-26 06:43:53.57
-   Source: Transfer ValidationReport_SPEDStaffMember 
-   Validating: 60% complete
-End Progress
-Progress: 2014-02-26 06:43:53.57
-   Source: Transfer ValidationReport_SPEDStaffMember 
-   Validating: 80% complete
-End Progress
-Warning: 2014-02-26 06:43:53.58
-   Code: 0x800470C8
-   Source: Transfer ValidationReport_SPEDStaffMember Excel Destination [367]
-   Description: The external columns for component "Excel Destination" (367) are out of synchronization with the data source columns. The external column "LineNumber" needs to be updated.
-The external column "errormessage" needs to be updated.
-The external column "StaffEmail" needs to be updated.
-The external column "Firstname" needs to be updated.
-The external column "Lastname" needs to be updated.
-The external column "EnrichRole" needs to be updated.
-End Warning
-Progress: 2014-02-26 06:43:53.58
-   Source: Transfer ValidationReport_SPEDStaffMember 
-   Validating: 100% complete
-End Progress
-Warning: 2014-02-26 06:43:53.58
-   Code: 0x80047076
-   Source: Transfer ValidationReport_SPEDStaffMember SSIS.Pipeline
-   Description: The output column "DC_ LineNumber" (32) on output "Data Conversion Output" (27) and component "Data Conversion UC_NUC" (25) is not subsequently used in the Data Flow task. Removing this unused output column can increase Data Flow task performance.
-End Warning
-Warning: 2014-02-26 06:43:53.58
-   Code: 0x80047076
-   Source: Transfer ValidationReport_SPEDStaffMember SSIS.Pipeline
-   Description: The output column "DC_ errormessage" (35) on output "Data Conversion Output" (27) and component "Data Conversion UC_NUC" (25) is not subsequently used in the Data Flow task. Removing this unused output column can increase Data Flow task performance.
-End Warning
-Progress: 2014-02-26 06:43:53.58
-   Source: Transfer ValidationReport_SPEDStaffMember 
-   Prepare for Execute: 0% complete
-End Progress
-Progress: 2014-02-26 06:43:53.58
-   Source: Transfer ValidationReport_SPEDStaffMember 
-   Prepare for Execute: 20% complete
-End Progress
-Progress: 2014-02-26 06:43:53.58
-   Source: Transfer ValidationReport_SPEDStaffMember 
-   Prepare for Execute: 40% complete
-End Progress
-Progress: 2014-02-26 06:43:53.58
-   Source: Transfer ValidationReport_SPEDStaffMember 
-   Prepare for Execute: 60% complete
-End Progress
-Progress: 2014-02-26 06:43:53.58
-   Source: Transfer ValidationReport_SPEDStaffMember 
-   Prepare for Execute: 80% complete
-End Progress
-Progress: 2014-02-26 06:43:53.58
-   Source: Transfer ValidationReport_SPEDStaffMember 
-   Prepare for Execute: 100% complete
-End Progress
-Progress: 2014-02-26 06:43:53.60
-   Source: Transfer ValidationReport_SPEDStaffMember 
-   Pre-Execute: 0% complete
-End Progress
-Progress: 2014-02-26 06:43:53.62
-   Source: Transfer ValidationReport_SPEDStaffMember 
-   Pre-Execute: 20% complete
-End Progress
-Progress: 2014-02-26 06:43:53.62
-   Source: Transfer ValidationReport_SPEDStaffMember 
-   Pre-Execute: 40% complete
-End Progress
-Progress: 2014-02-26 06:43:53.62
-   Source: Transfer ValidationReport_SPEDStaffMember 
-   Pre-Execute: 60% complete
-End Progress
-Progress: 2014-02-26 06:43:53.62
-   Source: Transfer ValidationReport_SPEDStaffMember 
-   Pre-Execute: 80% complete
-End Progress
-Progress: 2014-02-26 06:43:53.62
-   Source: Transfer ValidationReport_SPEDStaffMember 
-   Pre-Execute: 100% complete
-End Progress
-Progress: 2014-02-26 06:43:53.62
-   Source: Transfer ValidationReport_SPEDStaffMember 
-   Post Execute: 0% complete
-End Progress
-Progress: 2014-02-26 06:43:53.62
-   Source: Transfer ValidationReport_SPEDStaffMember 
-   Post Execute: 20% complete
-End Progress
-Progress: 2014-02-26 06:43:53.63
-   Source: Transfer ValidationReport_SPEDStaffMember 
-   Post Execute: 40% complete
-End Progress
-Progress: 2014-02-26 06:43:53.63
-   Source: Transfer ValidationReport_SPEDStaffMember 
-   Post Execute: 60% complete
-End Progress
-Progress: 2014-02-26 06:43:53.63
-   Source: Transfer ValidationReport_SPEDStaffMember 
-   Post Execute: 80% complete
-End Progress
-Progress: 2014-02-26 06:43:53.63
-   Source: Transfer ValidationReport_SPEDStaffMember 
-   Post Execute: 100% complete
-End Progress
-Progress: 2014-02-26 06:43:53.63
-   Source: Transfer ValidationReport_SPEDStaffMember 
-   Cleanup: 0% complete
-End Progress
-Progress: 2014-02-26 06:43:53.63
-   Source: Transfer ValidationReport_SPEDStaffMember 
-   Cleanup: 20% complete
-End Progress
-Progress: 2014-02-26 06:43:53.63
-   Source: Transfer ValidationReport_SPEDStaffMember 
-   Cleanup: 40% complete
-End Progress
-Progress: 2014-02-26 06:43:53.63
-   Source: Transfer ValidationReport_SPEDStaffMember 
-   Cleanup: 60% complete
-End Progress
-Progress: 2014-02-26 06:43:53.63
-   Source: Transfer ValidationReport_SPEDStaffMember 
-   Cleanup: 80% complete
-End Progress
-Progress: 2014-02-26 06:43:53.63
-   Source: Transfer ValidationReport_SPEDStaffMember 
-   Cleanup: 100% complete
-End Progress
-Progress: 2014-02-26 06:43:53.63
-   Source: Transfer ValidationReport_Service 
-   Validating: 0% complete
-End Progress
-Progress: 2014-02-26 06:43:53.63
-   Source: Transfer ValidationReport_Service 
-   Validating: 20% complete
-End Progress
-Progress: 2014-02-26 06:43:53.63
-   Source: Transfer ValidationReport_Service 
-   Validating: 40% complete
-End Progress
-Progress: 2014-02-26 06:43:53.63
-   Source: Transfer ValidationReport_Service 
-   Validating: 60% complete
-End Progress
-Progress: 2014-02-26 06:43:53.63
-   Source: Transfer ValidationReport_Service 
-   Validating: 80% complete
-End Progress
-Progress: 2014-02-26 06:43:53.64
+Progress: 2014-02-26 22:00:48.77
    Source: Transfer ValidationReport_Service 
    Validating: 100% complete
 End Progress
-Warning: 2014-02-26 06:43:53.64
+Progress: 2014-02-26 22:00:48.77
+   Source: Transfer ValidationReport_SPEDStaffMember 
+   Post Execute: 0% complete
+End Progress
+Progress: 2014-02-26 22:00:48.77
+   Source: Transfer ValidationReport_SPEDStaffMember 
+   Post Execute: 20% complete
+End Progress
+Progress: 2014-02-26 22:00:48.77
+   Source: Transfer ValidationReport_SPEDStaffMember 
+   Post Execute: 40% complete
+End Progress
+Progress: 2014-02-26 22:00:48.77
+   Source: Transfer ValidationReport_SPEDStaffMember 
+   Post Execute: 60% complete
+End Progress
+Progress: 2014-02-26 22:00:48.77
+   Source: Transfer ValidationReport_SPEDStaffMember 
+   Post Execute: 80% complete
+End Progress
+Progress: 2014-02-26 22:00:48.77
+   Source: Transfer ValidationReport_SPEDStaffMember 
+   Post Execute: 100% complete
+End Progress
+Warning: 2014-02-26 22:00:48.77
    Code: 0x80047076
    Source: Transfer ValidationReport_Service SSIS.Pipeline
    Description: The output column "DC_ LineNumber" (32) on output "Data Conversion Output" (27) and component "Data Conversion UC_NUC" (25) is not subsequently used in the Data Flow task. Removing this unused output column can increase Data Flow task performance.
 End Warning
-Warning: 2014-02-26 06:43:53.64
+Warning: 2014-02-26 22:00:48.77
    Code: 0x80047076
    Source: Transfer ValidationReport_Service SSIS.Pipeline
    Description: The output column "DC_ errormessage" (35) on output "Data Conversion Output" (27) and component "Data Conversion UC_NUC" (25) is not subsequently used in the Data Flow task. Removing this unused output column can increase Data Flow task performance.
 End Warning
-Progress: 2014-02-26 06:43:53.64
+Progress: 2014-02-26 22:00:48.77
+   Source: Transfer ValidationReport_SPEDStaffMember 
+   Cleanup: 0% complete
+End Progress
+Progress: 2014-02-26 22:00:48.77
+   Source: Transfer ValidationReport_SPEDStaffMember 
+   Cleanup: 20% complete
+End Progress
+Progress: 2014-02-26 22:00:48.77
+   Source: Transfer ValidationReport_SPEDStaffMember 
+   Cleanup: 40% complete
+End Progress
+Progress: 2014-02-26 22:00:48.77
+   Source: Transfer ValidationReport_SPEDStaffMember 
+   Cleanup: 60% complete
+End Progress
+Progress: 2014-02-26 22:00:48.77
+   Source: Transfer ValidationReport_SPEDStaffMember 
+   Cleanup: 80% complete
+End Progress
+Progress: 2014-02-26 22:00:48.77
+   Source: Transfer ValidationReport_SPEDStaffMember 
+   Cleanup: 100% complete
+End Progress
+Progress: 2014-02-26 22:00:48.77
    Source: Transfer ValidationReport_Service 
    Prepare for Execute: 0% complete
 End Progress
-Progress: 2014-02-26 06:43:53.64
+Progress: 2014-02-26 22:00:48.77
    Source: Transfer ValidationReport_Service 
    Prepare for Execute: 20% complete
 End Progress
-Progress: 2014-02-26 06:43:53.64
+Progress: 2014-02-26 22:00:48.77
    Source: Transfer ValidationReport_Service 
    Prepare for Execute: 40% complete
 End Progress
-Progress: 2014-02-26 06:43:53.64
+Progress: 2014-02-26 22:00:48.77
    Source: Transfer ValidationReport_Service 
    Prepare for Execute: 60% complete
 End Progress
-Progress: 2014-02-26 06:43:53.64
+Progress: 2014-02-26 22:00:48.77
    Source: Transfer ValidationReport_Service 
    Prepare for Execute: 80% complete
 End Progress
-Progress: 2014-02-26 06:43:53.64
+Progress: 2014-02-26 22:00:48.77
    Source: Transfer ValidationReport_Service 
    Prepare for Execute: 100% complete
 End Progress
-Progress: 2014-02-26 06:43:53.66
+Progress: 2014-02-26 22:00:48.77
+   Source: Transfer ValidationReport_IEP 
+   Pre-Execute: 0% complete
+End Progress
+Progress: 2014-02-26 22:00:48.78
    Source: Transfer ValidationReport_Service 
    Pre-Execute: 0% complete
 End Progress
-Progress: 2014-02-26 06:43:53.70
+Progress: 2014-02-26 22:00:48.78
+   Source: Transfer ValidationReport_TeamMember 
+   Post Execute: 0% complete
+End Progress
+Progress: 2014-02-26 22:00:48.78
+   Source: Transfer ValidationReport_TeamMember 
+   Post Execute: 20% complete
+End Progress
+Progress: 2014-02-26 22:00:48.78
+   Source: Transfer ValidationReport_TeamMember 
+   Post Execute: 40% complete
+End Progress
+Progress: 2014-02-26 22:00:48.78
+   Source: Transfer ValidationReport_TeamMember 
+   Post Execute: 60% complete
+End Progress
+Progress: 2014-02-26 22:00:48.78
+   Source: Transfer ValidationReport_TeamMember 
+   Post Execute: 80% complete
+End Progress
+Progress: 2014-02-26 22:00:48.78
+   Source: Transfer ValidationReport_TeamMember 
+   Post Execute: 100% complete
+End Progress
+Progress: 2014-02-26 22:00:48.78
+   Source: Transfer ValidationReport_TeamMember 
+   Cleanup: 0% complete
+End Progress
+Progress: 2014-02-26 22:00:48.78
+   Source: Transfer ValidationReport_TeamMember 
+   Cleanup: 20% complete
+End Progress
+Progress: 2014-02-26 22:00:48.78
+   Source: Transfer ValidationReport_TeamMember 
+   Cleanup: 40% complete
+End Progress
+Progress: 2014-02-26 22:00:48.78
+   Source: Transfer ValidationReport_TeamMember 
+   Cleanup: 60% complete
+End Progress
+Progress: 2014-02-26 22:00:48.79
+   Source: Transfer ValidationReport_TeamMember 
+   Cleanup: 80% complete
+End Progress
+Progress: 2014-02-26 22:00:48.79
+   Source: Transfer ValidationReport_TeamMember 
+   Cleanup: 100% complete
+End Progress
+Progress: 2014-02-26 22:00:48.79
+   Source: Transfer ValidationReport_IEP 
+   Pre-Execute: 20% complete
+End Progress
+Progress: 2014-02-26 22:00:48.79
+   Source: Transfer ValidationReport_IEP 
+   Pre-Execute: 40% complete
+End Progress
+Progress: 2014-02-26 22:00:48.79
+   Source: Transfer ValidationReport_IEP 
+   Pre-Execute: 60% complete
+End Progress
+Progress: 2014-02-26 22:00:48.79
+   Source: Transfer ValidationReport_IEP 
+   Pre-Execute: 80% complete
+End Progress
+Progress: 2014-02-26 22:00:48.79
+   Source: Transfer ValidationReport_IEP 
+   Pre-Execute: 100% complete
+End Progress
+Progress: 2014-02-26 22:00:48.80
    Source: Transfer ValidationReport_Service 
    Pre-Execute: 20% complete
 End Progress
-Progress: 2014-02-26 06:43:53.70
+Progress: 2014-02-26 22:00:48.80
    Source: Transfer ValidationReport_Service 
    Pre-Execute: 40% complete
 End Progress
-Progress: 2014-02-26 06:43:53.70
+Progress: 2014-02-26 22:00:48.80
    Source: Transfer ValidationReport_Service 
    Pre-Execute: 60% complete
 End Progress
-Progress: 2014-02-26 06:43:53.70
+Progress: 2014-02-26 22:00:48.80
    Source: Transfer ValidationReport_Service 
    Pre-Execute: 80% complete
 End Progress
-Progress: 2014-02-26 06:43:53.70
+Progress: 2014-02-26 22:00:48.80
    Source: Transfer ValidationReport_Service 
    Pre-Execute: 100% complete
 End Progress
-Progress: 2014-02-26 06:43:56.60
-   Source: Transfer ValidationReport_Objective 
-   Post Execute: 0% complete
-End Progress
-Progress: 2014-02-26 06:43:56.60
-   Source: Transfer ValidationReport_Objective 
-   Post Execute: 20% complete
-End Progress
-Progress: 2014-02-26 06:43:56.60
-   Source: Transfer ValidationReport_Objective 
-   Post Execute: 40% complete
-End Progress
-Progress: 2014-02-26 06:43:56.60
-   Source: Transfer ValidationReport_Objective 
-   Post Execute: 60% complete
-End Progress
-Progress: 2014-02-26 06:43:56.60
-   Source: Transfer ValidationReport_Objective 
-   Post Execute: 80% complete
-End Progress
-Progress: 2014-02-26 06:43:56.60
-   Source: Transfer ValidationReport_Objective 
-   Post Execute: 100% complete
-End Progress
-Progress: 2014-02-26 06:43:56.60
-   Source: Transfer ValidationReport_Objective 
-   Cleanup: 0% complete
-End Progress
-Progress: 2014-02-26 06:43:56.60
-   Source: Transfer ValidationReport_Objective 
-   Cleanup: 20% complete
-End Progress
-Progress: 2014-02-26 06:43:56.60
-   Source: Transfer ValidationReport_Objective 
-   Cleanup: 40% complete
-End Progress
-Progress: 2014-02-26 06:43:56.60
-   Source: Transfer ValidationReport_Objective 
-   Cleanup: 60% complete
-End Progress
-Progress: 2014-02-26 06:43:56.60
-   Source: Transfer ValidationReport_Objective 
-   Cleanup: 80% complete
-End Progress
-Progress: 2014-02-26 06:43:56.60
-   Source: Transfer ValidationReport_Objective 
-   Cleanup: 100% complete
-End Progress
-Progress: 2014-02-26 06:43:57.98
-   Source: Transfer ValidationReport_TeamMember 
-   Post Execute: 0% complete
-End Progress
-Progress: 2014-02-26 06:43:57.98
-   Source: Transfer ValidationReport_TeamMember 
-   Post Execute: 20% complete
-End Progress
-Progress: 2014-02-26 06:43:57.98
-   Source: Transfer ValidationReport_TeamMember 
-   Post Execute: 40% complete
-End Progress
-Progress: 2014-02-26 06:43:57.98
-   Source: Transfer ValidationReport_TeamMember 
-   Post Execute: 60% complete
-End Progress
-Progress: 2014-02-26 06:43:57.98
-   Source: Transfer ValidationReport_TeamMember 
-   Post Execute: 80% complete
-End Progress
-Progress: 2014-02-26 06:43:57.98
-   Source: Transfer ValidationReport_TeamMember 
-   Post Execute: 100% complete
-End Progress
-Progress: 2014-02-26 06:43:57.98
-   Source: Transfer ValidationReport_TeamMember 
-   Cleanup: 0% complete
-End Progress
-Progress: 2014-02-26 06:43:57.98
-   Source: Transfer ValidationReport_TeamMember 
-   Cleanup: 20% complete
-End Progress
-Progress: 2014-02-26 06:43:57.98
-   Source: Transfer ValidationReport_TeamMember 
-   Cleanup: 40% complete
-End Progress
-Progress: 2014-02-26 06:43:57.98
-   Source: Transfer ValidationReport_TeamMember 
-   Cleanup: 60% complete
-End Progress
-Progress: 2014-02-26 06:43:57.98
-   Source: Transfer ValidationReport_TeamMember 
-   Cleanup: 80% complete
-End Progress
-Progress: 2014-02-26 06:43:57.98
-   Source: Transfer ValidationReport_TeamMember 
-   Cleanup: 100% complete
-End Progress
-Progress: 2014-02-26 06:44:03.81
-   Source: Transfer ValidationReport_IEP 
-   Post Execute: 0% complete
-End Progress
-Progress: 2014-02-26 06:44:03.81
-   Source: Transfer ValidationReport_IEP 
-   Post Execute: 20% complete
-End Progress
-Progress: 2014-02-26 06:44:03.81
-   Source: Transfer ValidationReport_IEP 
-   Post Execute: 40% complete
-End Progress
-Progress: 2014-02-26 06:44:03.81
-   Source: Transfer ValidationReport_IEP 
-   Post Execute: 60% complete
-End Progress
-Progress: 2014-02-26 06:44:03.81
-   Source: Transfer ValidationReport_IEP 
-   Post Execute: 80% complete
-End Progress
-Progress: 2014-02-26 06:44:03.81
-   Source: Transfer ValidationReport_IEP 
-   Post Execute: 100% complete
-End Progress
-Progress: 2014-02-26 06:44:03.81
-   Source: Transfer ValidationReport_IEP 
-   Cleanup: 0% complete
-End Progress
-Progress: 2014-02-26 06:44:03.81
-   Source: Transfer ValidationReport_IEP 
-   Cleanup: 20% complete
-End Progress
-Progress: 2014-02-26 06:44:03.81
-   Source: Transfer ValidationReport_IEP 
-   Cleanup: 40% complete
-End Progress
-Progress: 2014-02-26 06:44:03.81
-   Source: Transfer ValidationReport_IEP 
-   Cleanup: 60% complete
-End Progress
-Progress: 2014-02-26 06:44:03.81
-   Source: Transfer ValidationReport_IEP 
-   Cleanup: 80% complete
-End Progress
-Progress: 2014-02-26 06:44:03.81
-   Source: Transfer ValidationReport_IEP 
-   Cleanup: 100% complete
-End Progress
-Progress: 2014-02-26 06:44:08.43
-   Source: Transfer ValidationReport_Student 
-   Post Execute: 0% complete
-End Progress
-Progress: 2014-02-26 06:44:08.43
-   Source: Transfer ValidationReport_Student 
-   Post Execute: 20% complete
-End Progress
-Progress: 2014-02-26 06:44:08.43
-   Source: Transfer ValidationReport_Student 
-   Post Execute: 40% complete
-End Progress
-Progress: 2014-02-26 06:44:08.43
-   Source: Transfer ValidationReport_Student 
-   Post Execute: 60% complete
-End Progress
-Progress: 2014-02-26 06:44:08.43
-   Source: Transfer ValidationReport_Student 
-   Post Execute: 80% complete
-End Progress
-Progress: 2014-02-26 06:44:08.43
-   Source: Transfer ValidationReport_Student 
-   Post Execute: 100% complete
-End Progress
-Progress: 2014-02-26 06:44:08.43
-   Source: Transfer ValidationReport_Student 
-   Cleanup: 0% complete
-End Progress
-Progress: 2014-02-26 06:44:08.43
-   Source: Transfer ValidationReport_Student 
-   Cleanup: 20% complete
-End Progress
-Progress: 2014-02-26 06:44:08.43
-   Source: Transfer ValidationReport_Student 
-   Cleanup: 40% complete
-End Progress
-Progress: 2014-02-26 06:44:08.43
-   Source: Transfer ValidationReport_Student 
-   Cleanup: 60% complete
-End Progress
-Progress: 2014-02-26 06:44:08.43
-   Source: Transfer ValidationReport_Student 
-   Cleanup: 80% complete
-End Progress
-Progress: 2014-02-26 06:44:08.43
-   Source: Transfer ValidationReport_Student 
-   Cleanup: 100% complete
-End Progress
-Progress: 2014-02-26 06:44:09.18
-   Source: Transfer ValidationReport_Goal 
-   Post Execute: 0% complete
-End Progress
-Progress: 2014-02-26 06:44:09.18
-   Source: Transfer ValidationReport_Goal 
-   Post Execute: 20% complete
-End Progress
-Progress: 2014-02-26 06:44:09.18
-   Source: Transfer ValidationReport_Goal 
-   Post Execute: 40% complete
-End Progress
-Progress: 2014-02-26 06:44:09.18
-   Source: Transfer ValidationReport_Goal 
-   Post Execute: 60% complete
-End Progress
-Progress: 2014-02-26 06:44:09.18
-   Source: Transfer ValidationReport_Goal 
-   Post Execute: 80% complete
-End Progress
-Progress: 2014-02-26 06:44:09.18
-   Source: Transfer ValidationReport_Goal 
-   Post Execute: 100% complete
-End Progress
-Progress: 2014-02-26 06:44:09.18
-   Source: Transfer ValidationReport_Goal 
-   Cleanup: 0% complete
-End Progress
-Progress: 2014-02-26 06:44:09.18
-   Source: Transfer ValidationReport_Goal 
-   Cleanup: 20% complete
-End Progress
-Progress: 2014-02-26 06:44:09.18
-   Source: Transfer ValidationReport_Goal 
-   Cleanup: 40% complete
-End Progress
-Progress: 2014-02-26 06:44:09.18
-   Source: Transfer ValidationReport_Goal 
-   Cleanup: 60% complete
-End Progress
-Progress: 2014-02-26 06:44:09.18
-   Source: Transfer ValidationReport_Goal 
-   Cleanup: 80% complete
-End Progress
-Progress: 2014-02-26 06:44:09.18
-   Source: Transfer ValidationReport_Goal 
-   Cleanup: 100% complete
-End Progress
-Progress: 2014-02-26 06:44:10.15
+Progress: 2014-02-26 22:00:48.81
    Source: Transfer ValidationReport_Service 
    Post Execute: 0% complete
 End Progress
-Progress: 2014-02-26 06:44:10.15
+Progress: 2014-02-26 22:00:48.81
    Source: Transfer ValidationReport_Service 
    Post Execute: 20% complete
 End Progress
-Progress: 2014-02-26 06:44:10.15
+Progress: 2014-02-26 22:00:48.81
    Source: Transfer ValidationReport_Service 
    Post Execute: 40% complete
 End Progress
-Progress: 2014-02-26 06:44:10.15
+Progress: 2014-02-26 22:00:48.81
    Source: Transfer ValidationReport_Service 
    Post Execute: 60% complete
 End Progress
-Progress: 2014-02-26 06:44:10.15
+Progress: 2014-02-26 22:00:48.81
    Source: Transfer ValidationReport_Service 
    Post Execute: 80% complete
 End Progress
-Progress: 2014-02-26 06:44:10.15
+Progress: 2014-02-26 22:00:48.81
    Source: Transfer ValidationReport_Service 
    Post Execute: 100% complete
 End Progress
-Progress: 2014-02-26 06:44:14.75
+Progress: 2014-02-26 22:00:48.81
    Source: Transfer ValidationReport_Service 
    Cleanup: 0% complete
 End Progress
-Progress: 2014-02-26 06:44:14.75
+Progress: 2014-02-26 22:00:48.81
    Source: Transfer ValidationReport_Service 
    Cleanup: 20% complete
 End Progress
-Progress: 2014-02-26 06:44:14.75
+Progress: 2014-02-26 22:00:48.81
    Source: Transfer ValidationReport_Service 
    Cleanup: 40% complete
 End Progress
-Progress: 2014-02-26 06:44:14.75
+Progress: 2014-02-26 22:00:48.81
    Source: Transfer ValidationReport_Service 
    Cleanup: 60% complete
 End Progress
-Progress: 2014-02-26 06:44:14.75
+Progress: 2014-02-26 22:00:48.81
    Source: Transfer ValidationReport_Service 
    Cleanup: 80% complete
 End Progress
-Progress: 2014-02-26 06:44:14.75
+Progress: 2014-02-26 22:00:48.81
    Source: Transfer ValidationReport_Service 
    Cleanup: 100% complete
 End Progress
-Progress: 2014-02-26 06:44:14.78
+Progress: 2014-02-26 22:00:49.81
+   Source: Transfer ValidationReport_IEP 
+   Post Execute: 0% complete
+End Progress
+Progress: 2014-02-26 22:00:49.81
+   Source: Transfer ValidationReport_IEP 
+   Post Execute: 20% complete
+End Progress
+Progress: 2014-02-26 22:00:49.81
+   Source: Transfer ValidationReport_IEP 
+   Post Execute: 40% complete
+End Progress
+Progress: 2014-02-26 22:00:49.81
+   Source: Transfer ValidationReport_IEP 
+   Post Execute: 60% complete
+End Progress
+Progress: 2014-02-26 22:00:49.81
+   Source: Transfer ValidationReport_IEP 
+   Post Execute: 80% complete
+End Progress
+Progress: 2014-02-26 22:00:49.81
+   Source: Transfer ValidationReport_IEP 
+   Post Execute: 100% complete
+End Progress
+Progress: 2014-02-26 22:00:50.01
+   Source: Transfer ValidationReport_IEP 
+   Cleanup: 0% complete
+End Progress
+Progress: 2014-02-26 22:00:50.01
+   Source: Transfer ValidationReport_IEP 
+   Cleanup: 20% complete
+End Progress
+Progress: 2014-02-26 22:00:50.01
+   Source: Transfer ValidationReport_IEP 
+   Cleanup: 40% complete
+End Progress
+Progress: 2014-02-26 22:00:50.01
+   Source: Transfer ValidationReport_IEP 
+   Cleanup: 60% complete
+End Progress
+Progress: 2014-02-26 22:00:50.01
+   Source: Transfer ValidationReport_IEP 
+   Cleanup: 80% complete
+End Progress
+Progress: 2014-02-26 22:00:50.01
+   Source: Transfer ValidationReport_IEP 
+   Cleanup: 100% complete
+End Progress
+Progress: 2014-02-26 22:00:50.01
    Source: Upload Validation Report To FTP Execute Process Task
    Operation Complete: 0% complete
 End Progress
-Progress: 2014-02-26 06:44:19.54
+Progress: 2014-02-26 22:00:53.30
    Source: Upload Validation Report To FTP Execute Process Task
    Operation Complete: 100% complete
 End Progress
 DTExec: The package execution returned DTSER_SUCCESS (0).
-Started:  6:43:35 AM
-Finished: 6:44:19 AM
-Elapsed:  44.187 seconds
+Started:  10:00:41 PM
+Finished: 10:00:53 PM
+Elapsed:  11.828 seconds
