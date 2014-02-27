@@ -16,22 +16,23 @@ select @district = ParamValue from x_DATAVALIDATION.ParamValues where ParamName=
 select @vpndisconnect=ParamValue from x_DATAVALIDATION.ParamValues where ParamName='VPNDisconnectFile'
 set @vpndisconnect = '"'+@vpndisconnect+'"';
 set @cmd=@cmd+' '+@district;
+set @job_name='_runValidationReport_'+@district;
 
 
-IF EXISTS (SELECT name FROM msdb.dbo.sysjobs WHERE name = '_runValidationReport')
+IF EXISTS (SELECT name FROM msdb.dbo.sysjobs WHERE name = @job_name)
 BEGIN
-     EXEC msdb.dbo.sp_delete_job @job_name = '_runValidationReport'
+     EXEC msdb.dbo.sp_delete_job @job_name = @job_name
 END
 
 
-EXEC msdb.dbo.sp_add_job @job_name = '_runValidationReport', @enabled  = 1, @start_step_id = 1, @owner_login_name='sa', @job_id = @jobID OUTPUT 
+EXEC msdb.dbo.sp_add_job @job_name = @job_name, @enabled  = 1, @start_step_id = 1, @owner_login_name='sa', @job_id = @jobID OUTPUT 
 
 EXEC msdb.dbo.sp_add_jobstep @job_id = @jobID, @step_name = 'Dissconnect VPN', @step_id = 1, @subsystem = 'CMDEXEC', @command = @vpndisconnect,
 @on_success_action=4,@on_success_step_id=2
 EXEC msdb.dbo.sp_add_jobstep @job_id = @jobID, @step_name = 'Run validation step', @step_id = 2, @subsystem = 'CMDEXEC', @command = @cmd
 
 EXEC msdb.dbo.sp_add_jobserver @job_id = @jobID
-SET @job_name = '_runValidationReport'
+--SET @job_name = '_runValidationReport'
 
 EXEC msdb.dbo.sp_add_jobschedule @job_name = @job_name,
 @name = 'ValidationReportSchedule',
