@@ -84,14 +84,14 @@ left join ICIEPSpecialFactorTbl sf on ic.IEPSeqNum = sf.IEPComplSeqNum
 where 1=1
 and s.enrollstat = 1
 and isnull(s.del_flag,0)=0
-and (s.SpedStat = 1 or (s.SpedStat = 2 and s.SpedExitDate > convert(char(4), datepart(yy, getdate() ) - case when datepart(mm, getdate()) < 7 then 1 else 0 end)))  
+and (s.SpedStat = 1 or (s.SpedStat = 2 and s.SpedExitDate >= '7/1/'+convert(char(4), datepart(yy, getdate() ) - case when datepart(mm, getdate()) < 7 then 1 else 0 end)))  
 and exists (select 1 from reportstudentschools sch where sch.GStudentID = s.GStudentID)
 and exists (select 1 from StudDisability sd where sd.GStudentID = s.GStudentID and isnull(sd.del_flag,0)=0 and sd.PrimaryDiasb = 1) 
 ) x
 
 alter table DataConvSpedStudentsAndIEPs 
 	add constraint PK_DataConvSpedStudentsAndIEPs_IEPSeqNum primary key (IEPSeqNum)
---
+go
 
 if exists (select 1 from sys.objects where name = 'DataConvICServiceTbl')
 drop table DataConvICServiceTbl
