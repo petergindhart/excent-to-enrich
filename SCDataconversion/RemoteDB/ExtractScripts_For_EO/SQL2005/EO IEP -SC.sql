@@ -14,8 +14,8 @@ SELECT
 	IEPEndDate = convert(varchar, x.EndDate, 101), -- 
 	NextReviewDate = convert(varchar, x.ReviewDate, 101),
 	InitialEvaluationDate = convert(varchar, pMin.LastEvalDate, 101),  --- ( Eligibility/Revaluation Determination Date ? ) -- MIN
-	LatestEvaluationDate =  convert(varchar, pMax.LastEvalDate, 101), -- Eligibility/Reevaluation Determination Date ...  SC_PlaceHistoryTbl.LastEvalDate ... max teammeetingdate
-	NextEvaluationDate = convert(varchar, pMax.AnticipatedDate, 101),  -- Anticipated date of 3 year Reevaluation ... SC_PlaceHistoryTbl.AnticipatedDate
+	LatestEvaluationDate =  convert(varchar, isnull(pMax.LastEvalDate, i.CurrEvalDate), 101), -- Eligibility/Reevaluation Determination Date ...  SC_PlaceHistoryTbl.LastEvalDate ... max teammeetingdate
+	NextEvaluationDate = convert(varchar, isnull(pMax.AnticipatedDate, i.ReEvalDate), 101),  -- Anticipated date of 3 year Reevaluation ... SC_PlaceHistoryTbl.AnticipatedDate
 	EligibilityDate = convert(varchar, pMin.InitialEligDate, 101), -- SC_PlaceConsentTbl.InitialEligDate (min TeamMeetingDate ) -------------------------------------------------- look for the initial flag, also
 	ConsentForServicesDate = ISNULL(convert(varchar, cMin.ReceiveDate, 101),'01/01/1970'), -- SC_PlaceConsentTbl.ReceiveDate
 	--ConsentForServicesDate = convert(varchar, cMin.ReceiveDate, 101), -- SC_PlaceConsentTbl.ReceiveDate

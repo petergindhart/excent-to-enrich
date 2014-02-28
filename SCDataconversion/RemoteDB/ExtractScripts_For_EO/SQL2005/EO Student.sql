@@ -15,7 +15,7 @@ select
 	Birthdate = convert(varchar, s.Birthdate, 101),
 	Gender = left(s.Sex, 1),
 	MedicaidNumber = s.medicaidnum,
-	GradeLevelCode = s.Grade, -- find out if this is current
+	GradeLevelCode = case s.Grade when 'K' then 'KG' else s.Grade end,
 	ServiceDistrictCode = h.ServiceDistCode, -- select top 10 * from reportstudentschools
 	ServiceSchoolCode = h.ServiceSchCode,
 	HomeDistrictCode = isnull(h.ResidDistCode, h.ServiceDistCode),

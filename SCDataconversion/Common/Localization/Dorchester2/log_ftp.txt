@@ -269,3 +269,819 @@
 . 2014-02-27 04:19:26.145 Upload successful
 > 2014-02-27 04:19:26.145 Script: close
 . 2014-02-27 04:19:26.146 Disconnected from server
+. 2014-02-27 11:55:50.920 --------------------------------------------------------------------------
+. 2014-02-27 11:55:50.924 WinSCP Version 5.1.7 (Build 3446) (OS 6.1.7601 Service Pack 1)
+. 2014-02-27 11:55:50.924 Configuration: C:\Program Files (x86)\WinSCP\WinSCP.ini
+. 2014-02-27 11:55:50.924 Local account: RENEGADE\SQL2008User
+. 2014-02-27 11:55:50.924 Working directory: C:\Program Files (x86)\WinSCP
+. 2014-02-27 11:55:50.924 Process ID: 15428
+. 2014-02-27 11:55:50.924 Command-line: "C:\Program Files (x86)\WinSCP\WinSCP.exe" -script="E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Dorchester2\ValidationReport_Upload_FTP.txt" /log="E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Dorchester2\log_ftp.txt"
+. 2014-02-27 11:55:50.924 Time zone: Current: GMT-7, Standard: GMT-7, DST: GMT-6, DST Start: 3/9/2014, DST End: 11/2/2014
+. 2014-02-27 11:55:50.924 Login time: Thursday, February 27, 2014 11:55:50 AM
+. 2014-02-27 11:55:50.924 --------------------------------------------------------------------------
+. 2014-02-27 11:55:50.924 Session name: dorchester2@ftp.excent.com (Ad-Hoc session)
+. 2014-02-27 11:55:50.925 Host name: ftp.excent.com (Port: 21)
+. 2014-02-27 11:55:50.925 User name: dorchester2 (Password: Yes, Key file: No)
+. 2014-02-27 11:55:50.925 Tunnel: No
+. 2014-02-27 11:55:50.925 Transfer Protocol: FTP
+. 2014-02-27 11:55:50.925 Ping type: C, Ping interval: 30 sec; Timeout: 15 sec
+. 2014-02-27 11:55:50.925 Proxy: none
+. 2014-02-27 11:55:50.925 FTP: FTPS: Explicit TLS; Passive: Yes [Force IP: A]; List all: A
+. 2014-02-27 11:55:50.925 Session reuse: Yes
+. 2014-02-27 11:55:50.925 Local directory: default, Remote directory: home, Update: Yes, Cache: Yes
+. 2014-02-27 11:55:50.925 Cache directory changes: Yes, Permanent: Yes
+. 2014-02-27 11:55:50.925 DST mode: 1; Timezone offset: 0h 0m
+. 2014-02-27 11:55:50.925 --------------------------------------------------------------------------
+. 2014-02-27 11:55:50.953 Connecting to ftp.excent.com ...
+. 2014-02-27 11:55:51.076 Connected with ftp.excent.com, negotiating SSL connection...
+< 2014-02-27 11:55:51.091 220-Welcome to Excent FTP.
+< 2014-02-27 11:55:51.091 220-
+< 2014-02-27 11:55:51.091 220 We monitor connections so please, no monkey business.
+> 2014-02-27 11:55:51.091 AUTH TLS
+< 2014-02-27 11:55:51.092 234 Using authentication type TLS
+. 2014-02-27 11:55:51.416 Using TLSv1, cipher TLSv1/SSLv3: AES256-SHA, 1024 bit RSA
+. 2014-02-27 11:55:51.416 SSL connection established. Waiting for welcome message...
+> 2014-02-27 11:55:51.416 USER dorchester2
+< 2014-02-27 11:55:51.416 331 Password required for dorchester2
+> 2014-02-27 11:55:51.416 PASS *******
+< 2014-02-27 11:55:51.418 230 Logged on
+> 2014-02-27 11:55:51.418 SYST
+< 2014-02-27 11:55:51.418 215 UNIX emulated by FileZilla
+> 2014-02-27 11:55:51.418 FEAT
+< 2014-02-27 11:55:51.420 211-Features:
+< 2014-02-27 11:55:51.420  MDTM
+< 2014-02-27 11:55:51.420  REST STREAM
+< 2014-02-27 11:55:51.420  SIZE
+< 2014-02-27 11:55:51.420  MLST type*;size*;modify*;
+< 2014-02-27 11:55:51.421  MLSD
+< 2014-02-27 11:55:51.421  AUTH SSL
+< 2014-02-27 11:55:51.421  AUTH TLS
+< 2014-02-27 11:55:51.421  PROT
+< 2014-02-27 11:55:51.421  PBSZ
+< 2014-02-27 11:55:51.421  UTF8
+< 2014-02-27 11:55:51.421  CLNT
+< 2014-02-27 11:55:51.421  MFMT
+< 2014-02-27 11:55:51.421 211 End
+> 2014-02-27 11:55:51.421 PBSZ 0
+< 2014-02-27 11:55:51.422 200 PBSZ=0
+> 2014-02-27 11:55:51.422 PROT P
+< 2014-02-27 11:55:51.423 200 Protection level set to P
+. 2014-02-27 11:55:51.423 Connected
+. 2014-02-27 11:55:51.423 --------------------------------------------------------------------------
+. 2014-02-27 11:55:51.424 Using FTP protocol.
+. 2014-02-27 11:55:51.425 Doing startup conversation with host.
+> 2014-02-27 11:55:51.425 PWD
+< 2014-02-27 11:55:51.426 257 "/" is current directory.
+. 2014-02-27 11:55:51.426 Getting current directory name.
+. 2014-02-27 11:55:51.426 Startup conversation with host finished.
+< 2014-02-27 11:55:51.427 Script: Active session: [1] dorchester2@ftp.excent.com
+> 2014-02-27 11:55:51.427 Script: option transfer binary
+< 2014-02-27 11:55:51.427 Script: transfer        binary    
+> 2014-02-27 11:55:51.427 Script: lcd "E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Dorchester2"
+< 2014-02-27 11:55:51.427 Script: E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Dorchester2
+> 2014-02-27 11:55:51.427 Script: cd /
+. 2014-02-27 11:55:51.427 Cached directory change via "/" to "/".
+. 2014-02-27 11:55:51.427 Getting current directory name.
+< 2014-02-27 11:55:51.427 Script: /
+> 2014-02-27 11:55:51.427 Script: put "E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Dorchester2\ValidationReport_Detail.xls"
+. 2014-02-27 11:55:51.427 Copying 1 files/directories to remote directory "/"
+. 2014-02-27 11:55:51.427   PrTime: Yes; PrRO: No; Rght: rw-r--r--; PrR: No (No); FnCs: N; RIC: 0100; Resume: S (102400); CalcS: No; Mask: 
+. 2014-02-27 11:55:51.427   TM: B; ClAr: No; CPS: 0; InclM: 
+. 2014-02-27 11:55:51.427   AscM: *.*html; *.htm; *.txt; *.php; *.php3; *.cgi; *.c; *.cpp; *.h; *.pas; *.bas; *.tex; *.pl; *.js; .htaccess; *.xtml; *.css; *.cfg; *.ini; *.sh; *.xml
+. 2014-02-27 11:55:51.427 File: "E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Dorchester2\ValidationReport_Detail.xls"
+. 2014-02-27 11:55:51.432 Copying "E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Dorchester2\ValidationReport_Detail.xls" to remote directory started.
+. 2014-02-27 11:55:51.433 Binary transfer mode selected.
+. 2014-02-27 11:55:51.433 Starting upload of E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Dorchester2\ValidationReport_Detail.xls
+> 2014-02-27 11:55:51.439 TYPE A
+< 2014-02-27 11:55:51.440 200 Type set to A
+> 2014-02-27 11:55:51.440 PASV
+< 2014-02-27 11:55:51.441 227 Entering Passive Mode (10,0,1,27,199,6)
+> 2014-02-27 11:55:51.443 MLSD
+< 2014-02-27 11:55:51.445 150 Connection accepted
+. 2014-02-27 11:55:51.445 SSL connection established
+< 2014-02-27 11:55:51.448 226 Transfer OK
+. 2014-02-27 11:55:51.448 type=file;modify=20130620205811;size=1333702; 504 Config Guide_Mar 2013_DRAFT.pdf
+. 2014-02-27 11:55:51.448 type=file;modify=20130830185417;size=548598; 8.30 504 Final Config.zip
+. 2014-02-27 11:55:51.448 type=file;modify=20130830183005;size=263273; 8.30 Final Config.zip
+. 2014-02-27 11:55:51.448 type=file;modify=20131108175728;size=1462; Checklist.xml
+. 2014-02-27 11:55:51.448 type=file;modify=20130913165747;size=1672; CommLog.xml
+. 2014-02-27 11:55:51.448 type=file;modify=20130913165747;size=35602; Communication Log.docx
+. 2014-02-27 11:55:51.448 type=file;modify=20130412031609;size=7246; DD2 Logo_A.jpg
+. 2014-02-27 11:55:51.448 type=file;modify=20140108204642;size=36958; ESOL.docx
+. 2014-02-27 11:55:51.448 type=file;modify=20130923014218;size=42518; Invitation to Meeting.docx
+. 2014-02-27 11:55:51.448 type=file;modify=20130923014212;size=1429; InvMeet.xml
+. 2014-02-27 11:55:51.448 type=dir;modify=20140210062255; New directory
+. 2014-02-27 11:55:51.448 type=file;modify=20131108175744;size=22559; Permission for Speech-Language Screening.docx
+. 2014-02-27 11:55:51.448 type=file;modify=20131003183438;size=40488; ReferralForDetermination.docx
+. 2014-02-27 11:55:51.448 type=file;modify=20131101134740;size=546; SpeechPerm.xml
+. 2014-02-27 11:55:51.448 type=file;modify=20131119185442;size=36789; SST Intervention Meeting.docx
+. 2014-02-27 11:55:51.448 type=file;modify=20131025152228;size=35089; SST Invitation to Meeting.docx
+. 2014-02-27 11:55:51.448 type=file;modify=20140110154543;size=38773; SST Referral.docx
+. 2014-02-27 11:55:51.448 type=file;modify=20131025152224;size=1045; SSTMeet.xml
+. 2014-02-27 11:55:51.448 type=file;modify=20131119185453;size=8275; SSTMeeting.xml
+. 2014-02-27 11:55:51.448 type=file;modify=20140110154027;size=8639; SSTReferral.xml
+. 2014-02-27 11:55:51.448 type=file;modify=20131101134754;size=32930; Teacher Report Form.docx
+. 2014-02-27 11:55:51.448 type=dir;modify=20131216141014; Update
+. 2014-02-27 11:55:51.448 type=file;modify=20131031191619;size=219602; Update 10.31.zip
+. 2014-02-27 11:55:51.448 type=file;modify=20131101000910;size=106929; Update 11.1.zip
+. 2014-02-27 11:55:51.448 type=file;modify=20131113172543;size=72186; Update 11.12.zip
+. 2014-02-27 11:55:51.448 type=file;modify=20131115174717;size=38368; Update 11.15a.zip
+. 2014-02-27 11:55:51.448 type=dir;modify=20131122183510; Update 11.22
+. 2014-02-27 11:55:51.448 type=file;modify=20131104134314;size=320367; Update 11.4.zip
+. 2014-02-27 11:55:51.448 type=file;modify=20130920153824;size=851768; Update 9.20.zip
+. 2014-02-27 11:55:51.448 type=file;modify=20130924132454;size=171329; Update 9.24.zip
+. 2014-02-27 11:55:51.448 type=file;modify=20140227111921;size=10747904; ValidationReport_Detail.xls
+. 2014-02-27 11:55:51.448 type=file;modify=20131101134740;size=333; VisScreen.xml
+> 2014-02-27 11:55:51.453 TYPE I
+< 2014-02-27 11:55:51.453 200 Type set to I
+> 2014-02-27 11:55:51.453 PASV
+< 2014-02-27 11:55:51.455 227 Entering Passive Mode (10,0,1,27,199,7)
+> 2014-02-27 11:55:51.455 STOR ValidationReport_Detail.xls
+< 2014-02-27 11:55:51.458 150 Connection accepted
+. 2014-02-27 11:55:51.462 SSL connection established
+< 2014-02-27 11:55:52.414 226 Transfer OK
+> 2014-02-27 11:55:52.414 MFMT 20140227185549 ValidationReport_Detail.xls
+< 2014-02-27 11:55:52.415 213 modify=20140227185549; /ValidationReport_Detail.xls
+. 2014-02-27 11:55:52.415 Upload successful
+> 2014-02-27 11:55:52.415 Script: close
+. 2014-02-27 11:55:52.415 Disconnected from server
+. 2014-02-27 13:27:52.665 --------------------------------------------------------------------------
+. 2014-02-27 13:27:52.669 WinSCP Version 5.1.7 (Build 3446) (OS 6.1.7601 Service Pack 1)
+. 2014-02-27 13:27:52.669 Configuration: C:\Program Files (x86)\WinSCP\WinSCP.ini
+. 2014-02-27 13:27:52.680 Local account: RENEGADE\SQL2008User
+. 2014-02-27 13:27:52.680 Working directory: C:\Program Files (x86)\WinSCP
+. 2014-02-27 13:27:52.680 Process ID: 13352
+. 2014-02-27 13:27:52.680 Command-line: "C:\Program Files (x86)\WinSCP\WinSCP.exe" -script="E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Dorchester2\ValidationReport_Upload_FTP.txt" /log="E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Dorchester2\log_ftp.txt"
+. 2014-02-27 13:27:52.680 Time zone: Current: GMT-7, Standard: GMT-7, DST: GMT-6, DST Start: 3/9/2014, DST End: 11/2/2014
+. 2014-02-27 13:27:52.680 Login time: Thursday, February 27, 2014 1:27:52 PM
+. 2014-02-27 13:27:52.680 --------------------------------------------------------------------------
+. 2014-02-27 13:27:52.680 Session name: dorchester2@ftp.excent.com (Ad-Hoc session)
+. 2014-02-27 13:27:52.680 Host name: ftp.excent.com (Port: 21)
+. 2014-02-27 13:27:52.680 User name: dorchester2 (Password: Yes, Key file: No)
+. 2014-02-27 13:27:52.680 Tunnel: No
+. 2014-02-27 13:27:52.680 Transfer Protocol: FTP
+. 2014-02-27 13:27:52.680 Ping type: C, Ping interval: 30 sec; Timeout: 15 sec
+. 2014-02-27 13:27:52.680 Proxy: none
+. 2014-02-27 13:27:52.680 FTP: FTPS: Explicit TLS; Passive: Yes [Force IP: A]; List all: A
+. 2014-02-27 13:27:52.680 Session reuse: Yes
+. 2014-02-27 13:27:52.680 Local directory: default, Remote directory: home, Update: Yes, Cache: Yes
+. 2014-02-27 13:27:52.680 Cache directory changes: Yes, Permanent: Yes
+. 2014-02-27 13:27:52.680 DST mode: 1; Timezone offset: 0h 0m
+. 2014-02-27 13:27:52.680 --------------------------------------------------------------------------
+. 2014-02-27 13:27:52.748 Connecting to ftp.excent.com ...
+. 2014-02-27 13:27:52.917 Connected with ftp.excent.com, negotiating SSL connection...
+< 2014-02-27 13:27:52.921 220-Welcome to Excent FTP.
+< 2014-02-27 13:27:52.921 220-
+< 2014-02-27 13:27:52.921 220 We monitor connections so please, no monkey business.
+> 2014-02-27 13:27:52.921 AUTH TLS
+< 2014-02-27 13:27:52.922 234 Using authentication type TLS
+. 2014-02-27 13:27:53.289 Using TLSv1, cipher TLSv1/SSLv3: AES256-SHA, 1024 bit RSA
+. 2014-02-27 13:27:53.289 SSL connection established. Waiting for welcome message...
+> 2014-02-27 13:27:53.289 USER dorchester2
+< 2014-02-27 13:27:53.290 331 Password required for dorchester2
+> 2014-02-27 13:27:53.290 PASS *******
+< 2014-02-27 13:27:53.291 230 Logged on
+> 2014-02-27 13:27:53.291 SYST
+< 2014-02-27 13:27:53.291 215 UNIX emulated by FileZilla
+> 2014-02-27 13:27:53.291 FEAT
+< 2014-02-27 13:27:53.292 211-Features:
+< 2014-02-27 13:27:53.292  MDTM
+< 2014-02-27 13:27:53.292  REST STREAM
+< 2014-02-27 13:27:53.292  SIZE
+< 2014-02-27 13:27:53.292  MLST type*;size*;modify*;
+< 2014-02-27 13:27:53.293  MLSD
+< 2014-02-27 13:27:53.293  AUTH SSL
+< 2014-02-27 13:27:53.293  AUTH TLS
+< 2014-02-27 13:27:53.293  PROT
+< 2014-02-27 13:27:53.293  PBSZ
+< 2014-02-27 13:27:53.293  UTF8
+< 2014-02-27 13:27:53.293  CLNT
+< 2014-02-27 13:27:53.293  MFMT
+< 2014-02-27 13:27:53.293 211 End
+> 2014-02-27 13:27:53.293 PBSZ 0
+< 2014-02-27 13:27:53.294 200 PBSZ=0
+> 2014-02-27 13:27:53.294 PROT P
+< 2014-02-27 13:27:53.294 200 Protection level set to P
+. 2014-02-27 13:27:53.294 Connected
+. 2014-02-27 13:27:53.301 --------------------------------------------------------------------------
+. 2014-02-27 13:27:53.302 Using FTP protocol.
+. 2014-02-27 13:27:53.302 Doing startup conversation with host.
+> 2014-02-27 13:27:53.302 PWD
+< 2014-02-27 13:27:53.303 257 "/" is current directory.
+. 2014-02-27 13:27:53.309 Getting current directory name.
+. 2014-02-27 13:27:53.309 Startup conversation with host finished.
+< 2014-02-27 13:27:53.310 Script: Active session: [1] dorchester2@ftp.excent.com
+> 2014-02-27 13:27:53.310 Script: option transfer binary
+< 2014-02-27 13:27:53.310 Script: transfer        binary    
+> 2014-02-27 13:27:53.310 Script: lcd "E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Dorchester2"
+< 2014-02-27 13:27:53.310 Script: E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Dorchester2
+> 2014-02-27 13:27:53.310 Script: cd /
+. 2014-02-27 13:27:53.310 Cached directory change via "/" to "/".
+. 2014-02-27 13:27:53.310 Getting current directory name.
+< 2014-02-27 13:27:53.310 Script: /
+> 2014-02-27 13:27:53.310 Script: put "E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Dorchester2\ValidationReport_Detail.xls"
+. 2014-02-27 13:27:53.310 Copying 1 files/directories to remote directory "/"
+. 2014-02-27 13:27:53.310   PrTime: Yes; PrRO: No; Rght: rw-r--r--; PrR: No (No); FnCs: N; RIC: 0100; Resume: S (102400); CalcS: No; Mask: 
+. 2014-02-27 13:27:53.310   TM: B; ClAr: No; CPS: 0; InclM: 
+. 2014-02-27 13:27:53.310   AscM: *.*html; *.htm; *.txt; *.php; *.php3; *.cgi; *.c; *.cpp; *.h; *.pas; *.bas; *.tex; *.pl; *.js; .htaccess; *.xtml; *.css; *.cfg; *.ini; *.sh; *.xml
+. 2014-02-27 13:27:53.310 File: "E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Dorchester2\ValidationReport_Detail.xls"
+. 2014-02-27 13:27:53.310 Copying "E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Dorchester2\ValidationReport_Detail.xls" to remote directory started.
+. 2014-02-27 13:27:53.311 Binary transfer mode selected.
+. 2014-02-27 13:27:53.311 Starting upload of E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Dorchester2\ValidationReport_Detail.xls
+> 2014-02-27 13:27:53.311 TYPE A
+< 2014-02-27 13:27:53.312 200 Type set to A
+> 2014-02-27 13:27:53.312 PASV
+< 2014-02-27 13:27:53.313 227 Entering Passive Mode (10,0,1,27,199,14)
+> 2014-02-27 13:27:53.315 MLSD
+< 2014-02-27 13:27:53.317 150 Connection accepted
+. 2014-02-27 13:27:53.317 SSL connection established
+< 2014-02-27 13:27:53.319 226 Transfer OK
+. 2014-02-27 13:27:53.319 type=file;modify=20130620205811;size=1333702; 504 Config Guide_Mar 2013_DRAFT.pdf
+. 2014-02-27 13:27:53.319 type=file;modify=20130830185417;size=548598; 8.30 504 Final Config.zip
+. 2014-02-27 13:27:53.319 type=file;modify=20130830183005;size=263273; 8.30 Final Config.zip
+. 2014-02-27 13:27:53.319 type=file;modify=20131108175728;size=1462; Checklist.xml
+. 2014-02-27 13:27:53.319 type=file;modify=20130913165747;size=1672; CommLog.xml
+. 2014-02-27 13:27:53.319 type=file;modify=20130913165747;size=35602; Communication Log.docx
+. 2014-02-27 13:27:53.319 type=file;modify=20130412031609;size=7246; DD2 Logo_A.jpg
+. 2014-02-27 13:27:53.319 type=file;modify=20140108204642;size=36958; ESOL.docx
+. 2014-02-27 13:27:53.319 type=file;modify=20130923014218;size=42518; Invitation to Meeting.docx
+. 2014-02-27 13:27:53.319 type=file;modify=20130923014212;size=1429; InvMeet.xml
+. 2014-02-27 13:27:53.319 type=dir;modify=20140210062255; New directory
+. 2014-02-27 13:27:53.319 type=file;modify=20131108175744;size=22559; Permission for Speech-Language Screening.docx
+. 2014-02-27 13:27:53.319 type=file;modify=20131003183438;size=40488; ReferralForDetermination.docx
+. 2014-02-27 13:27:53.319 type=file;modify=20131101134740;size=546; SpeechPerm.xml
+. 2014-02-27 13:27:53.319 type=file;modify=20131119185442;size=36789; SST Intervention Meeting.docx
+. 2014-02-27 13:27:53.319 type=file;modify=20131025152228;size=35089; SST Invitation to Meeting.docx
+. 2014-02-27 13:27:53.319 type=file;modify=20140110154543;size=38773; SST Referral.docx
+. 2014-02-27 13:27:53.319 type=file;modify=20131025152224;size=1045; SSTMeet.xml
+. 2014-02-27 13:27:53.320 type=file;modify=20131119185453;size=8275; SSTMeeting.xml
+. 2014-02-27 13:27:53.320 type=file;modify=20140110154027;size=8639; SSTReferral.xml
+. 2014-02-27 13:27:53.320 type=file;modify=20131101134754;size=32930; Teacher Report Form.docx
+. 2014-02-27 13:27:53.320 type=dir;modify=20131216141014; Update
+. 2014-02-27 13:27:53.320 type=file;modify=20131031191619;size=219602; Update 10.31.zip
+. 2014-02-27 13:27:53.320 type=file;modify=20131101000910;size=106929; Update 11.1.zip
+. 2014-02-27 13:27:53.320 type=file;modify=20131113172543;size=72186; Update 11.12.zip
+. 2014-02-27 13:27:53.320 type=file;modify=20131115174717;size=38368; Update 11.15a.zip
+. 2014-02-27 13:27:53.320 type=dir;modify=20131122183510; Update 11.22
+. 2014-02-27 13:27:53.320 type=file;modify=20131104134314;size=320367; Update 11.4.zip
+. 2014-02-27 13:27:53.320 type=file;modify=20130920153824;size=851768; Update 9.20.zip
+. 2014-02-27 13:27:53.320 type=file;modify=20130924132454;size=171329; Update 9.24.zip
+. 2014-02-27 13:27:53.320 type=file;modify=20140227185549;size=10764800; ValidationReport_Detail.xls
+. 2014-02-27 13:27:53.320 type=file;modify=20131101134740;size=333; VisScreen.xml
+> 2014-02-27 13:27:53.327 TYPE I
+< 2014-02-27 13:27:53.327 200 Type set to I
+> 2014-02-27 13:27:53.327 PASV
+< 2014-02-27 13:27:53.328 227 Entering Passive Mode (10,0,1,27,199,15)
+> 2014-02-27 13:27:53.328 STOR ValidationReport_Detail.xls
+< 2014-02-27 13:27:53.331 150 Connection accepted
+. 2014-02-27 13:27:53.335 SSL connection established
+< 2014-02-27 13:27:54.154 226 Transfer OK
+> 2014-02-27 13:27:54.154 MFMT 20140227202749 ValidationReport_Detail.xls
+< 2014-02-27 13:27:54.154 213 modify=20140227202749; /ValidationReport_Detail.xls
+. 2014-02-27 13:27:54.155 Upload successful
+> 2014-02-27 13:27:54.155 Script: close
+. 2014-02-27 13:27:54.155 Disconnected from server
+. 2014-02-27 13:49:57.973 --------------------------------------------------------------------------
+. 2014-02-27 13:49:57.978 WinSCP Version 5.1.7 (Build 3446) (OS 6.1.7601 Service Pack 1)
+. 2014-02-27 13:49:57.978 Configuration: C:\Program Files (x86)\WinSCP\WinSCP.ini
+. 2014-02-27 13:49:57.987 Local account: RENEGADE\SQL2008User
+. 2014-02-27 13:49:57.987 Working directory: C:\Program Files (x86)\WinSCP
+. 2014-02-27 13:49:57.987 Process ID: 11320
+. 2014-02-27 13:49:57.987 Command-line: "C:\Program Files (x86)\WinSCP\WinSCP.exe" -script="E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Dorchester2\ValidationReport_Upload_FTP.txt" /log="E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Dorchester2\log_ftp.txt"
+. 2014-02-27 13:49:57.987 Time zone: Current: GMT-7, Standard: GMT-7, DST: GMT-6, DST Start: 3/9/2014, DST End: 11/2/2014
+. 2014-02-27 13:49:57.987 Login time: Thursday, February 27, 2014 1:49:57 PM
+. 2014-02-27 13:49:57.987 --------------------------------------------------------------------------
+. 2014-02-27 13:49:57.987 Session name: dorchester2@ftp.excent.com (Ad-Hoc session)
+. 2014-02-27 13:49:57.987 Host name: ftp.excent.com (Port: 21)
+. 2014-02-27 13:49:57.987 User name: dorchester2 (Password: Yes, Key file: No)
+. 2014-02-27 13:49:57.987 Tunnel: No
+. 2014-02-27 13:49:57.987 Transfer Protocol: FTP
+. 2014-02-27 13:49:57.987 Ping type: C, Ping interval: 30 sec; Timeout: 15 sec
+. 2014-02-27 13:49:57.987 Proxy: none
+. 2014-02-27 13:49:57.987 FTP: FTPS: Explicit TLS; Passive: Yes [Force IP: A]; List all: A
+. 2014-02-27 13:49:57.987 Session reuse: Yes
+. 2014-02-27 13:49:57.987 Local directory: default, Remote directory: home, Update: Yes, Cache: Yes
+. 2014-02-27 13:49:57.987 Cache directory changes: Yes, Permanent: Yes
+. 2014-02-27 13:49:57.987 DST mode: 1; Timezone offset: 0h 0m
+. 2014-02-27 13:49:57.987 --------------------------------------------------------------------------
+. 2014-02-27 13:49:58.025 Connecting to ftp.excent.com ...
+. 2014-02-27 13:49:58.187 Connected with ftp.excent.com, negotiating SSL connection...
+< 2014-02-27 13:49:58.188 220-Welcome to Excent FTP.
+< 2014-02-27 13:49:58.188 220-
+< 2014-02-27 13:49:58.188 220 We monitor connections so please, no monkey business.
+> 2014-02-27 13:49:58.188 AUTH TLS
+< 2014-02-27 13:49:58.189 234 Using authentication type TLS
+. 2014-02-27 13:49:58.529 Using TLSv1, cipher TLSv1/SSLv3: AES256-SHA, 1024 bit RSA
+. 2014-02-27 13:49:58.529 SSL connection established. Waiting for welcome message...
+> 2014-02-27 13:49:58.529 USER dorchester2
+< 2014-02-27 13:49:58.530 331 Password required for dorchester2
+> 2014-02-27 13:49:58.530 PASS *******
+< 2014-02-27 13:49:58.531 230 Logged on
+> 2014-02-27 13:49:58.531 SYST
+< 2014-02-27 13:49:58.531 215 UNIX emulated by FileZilla
+> 2014-02-27 13:49:58.531 FEAT
+< 2014-02-27 13:49:58.533 211-Features:
+< 2014-02-27 13:49:58.533  MDTM
+< 2014-02-27 13:49:58.533  REST STREAM
+< 2014-02-27 13:49:58.533  SIZE
+< 2014-02-27 13:49:58.533  MLST type*;size*;modify*;
+< 2014-02-27 13:49:58.534  MLSD
+< 2014-02-27 13:49:58.534  AUTH SSL
+< 2014-02-27 13:49:58.534  AUTH TLS
+< 2014-02-27 13:49:58.534  PROT
+< 2014-02-27 13:49:58.534  PBSZ
+< 2014-02-27 13:49:58.534  UTF8
+< 2014-02-27 13:49:58.535  CLNT
+< 2014-02-27 13:49:58.535  MFMT
+< 2014-02-27 13:49:58.535 211 End
+> 2014-02-27 13:49:58.535 PBSZ 0
+< 2014-02-27 13:49:58.535 200 PBSZ=0
+> 2014-02-27 13:49:58.535 PROT P
+< 2014-02-27 13:49:58.536 200 Protection level set to P
+. 2014-02-27 13:49:58.536 Connected
+. 2014-02-27 13:49:58.536 --------------------------------------------------------------------------
+. 2014-02-27 13:49:58.537 Using FTP protocol.
+. 2014-02-27 13:49:58.537 Doing startup conversation with host.
+> 2014-02-27 13:49:58.538 PWD
+< 2014-02-27 13:49:58.538 257 "/" is current directory.
+. 2014-02-27 13:49:58.539 Getting current directory name.
+. 2014-02-27 13:49:58.539 Startup conversation with host finished.
+< 2014-02-27 13:49:58.539 Script: Active session: [1] dorchester2@ftp.excent.com
+> 2014-02-27 13:49:58.539 Script: option transfer binary
+< 2014-02-27 13:49:58.539 Script: transfer        binary    
+> 2014-02-27 13:49:58.539 Script: lcd "E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Dorchester2"
+< 2014-02-27 13:49:58.539 Script: E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Dorchester2
+> 2014-02-27 13:49:58.539 Script: cd /
+. 2014-02-27 13:49:58.539 Cached directory change via "/" to "/".
+. 2014-02-27 13:49:58.539 Getting current directory name.
+< 2014-02-27 13:49:58.539 Script: /
+> 2014-02-27 13:49:58.539 Script: put "E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Dorchester2\ValidationReport_Detail.xls"
+. 2014-02-27 13:49:58.540 Copying 1 files/directories to remote directory "/"
+. 2014-02-27 13:49:58.540   PrTime: Yes; PrRO: No; Rght: rw-r--r--; PrR: No (No); FnCs: N; RIC: 0100; Resume: S (102400); CalcS: No; Mask: 
+. 2014-02-27 13:49:58.540   TM: B; ClAr: No; CPS: 0; InclM: 
+. 2014-02-27 13:49:58.540   AscM: *.*html; *.htm; *.txt; *.php; *.php3; *.cgi; *.c; *.cpp; *.h; *.pas; *.bas; *.tex; *.pl; *.js; .htaccess; *.xtml; *.css; *.cfg; *.ini; *.sh; *.xml
+. 2014-02-27 13:49:58.540 File: "E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Dorchester2\ValidationReport_Detail.xls"
+. 2014-02-27 13:49:58.540 Copying "E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Dorchester2\ValidationReport_Detail.xls" to remote directory started.
+. 2014-02-27 13:49:58.540 Binary transfer mode selected.
+. 2014-02-27 13:49:58.540 Starting upload of E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Dorchester2\ValidationReport_Detail.xls
+> 2014-02-27 13:49:58.544 TYPE A
+< 2014-02-27 13:49:58.544 200 Type set to A
+> 2014-02-27 13:49:58.544 PASV
+< 2014-02-27 13:49:58.545 227 Entering Passive Mode (10,0,1,27,199,18)
+> 2014-02-27 13:49:58.548 MLSD
+< 2014-02-27 13:49:58.550 150 Connection accepted
+. 2014-02-27 13:49:58.550 SSL connection established
+< 2014-02-27 13:49:58.552 226 Transfer OK
+. 2014-02-27 13:49:58.552 type=file;modify=20130620205811;size=1333702; 504 Config Guide_Mar 2013_DRAFT.pdf
+. 2014-02-27 13:49:58.552 type=file;modify=20130830185417;size=548598; 8.30 504 Final Config.zip
+. 2014-02-27 13:49:58.552 type=file;modify=20130830183005;size=263273; 8.30 Final Config.zip
+. 2014-02-27 13:49:58.552 type=file;modify=20131108175728;size=1462; Checklist.xml
+. 2014-02-27 13:49:58.552 type=file;modify=20130913165747;size=1672; CommLog.xml
+. 2014-02-27 13:49:58.552 type=file;modify=20130913165747;size=35602; Communication Log.docx
+. 2014-02-27 13:49:58.552 type=file;modify=20130412031609;size=7246; DD2 Logo_A.jpg
+. 2014-02-27 13:49:58.552 type=file;modify=20140108204642;size=36958; ESOL.docx
+. 2014-02-27 13:49:58.552 type=file;modify=20130923014218;size=42518; Invitation to Meeting.docx
+. 2014-02-27 13:49:58.552 type=file;modify=20130923014212;size=1429; InvMeet.xml
+. 2014-02-27 13:49:58.552 type=dir;modify=20140210062255; New directory
+. 2014-02-27 13:49:58.552 type=file;modify=20131108175744;size=22559; Permission for Speech-Language Screening.docx
+. 2014-02-27 13:49:58.552 type=file;modify=20131003183438;size=40488; ReferralForDetermination.docx
+. 2014-02-27 13:49:58.552 type=file;modify=20131101134740;size=546; SpeechPerm.xml
+. 2014-02-27 13:49:58.552 type=file;modify=20131119185442;size=36789; SST Intervention Meeting.docx
+. 2014-02-27 13:49:58.552 type=file;modify=20131025152228;size=35089; SST Invitation to Meeting.docx
+. 2014-02-27 13:49:58.552 type=file;modify=20140110154543;size=38773; SST Referral.docx
+. 2014-02-27 13:49:58.552 type=file;modify=20131025152224;size=1045; SSTMeet.xml
+. 2014-02-27 13:49:58.552 type=file;modify=20131119185453;size=8275; SSTMeeting.xml
+. 2014-02-27 13:49:58.552 type=file;modify=20140110154027;size=8639; SSTReferral.xml
+. 2014-02-27 13:49:58.552 type=file;modify=20131101134754;size=32930; Teacher Report Form.docx
+. 2014-02-27 13:49:58.553 type=dir;modify=20131216141014; Update
+. 2014-02-27 13:49:58.553 type=file;modify=20131031191619;size=219602; Update 10.31.zip
+. 2014-02-27 13:49:58.553 type=file;modify=20131101000910;size=106929; Update 11.1.zip
+. 2014-02-27 13:49:58.553 type=file;modify=20131113172543;size=72186; Update 11.12.zip
+. 2014-02-27 13:49:58.553 type=file;modify=20131115174717;size=38368; Update 11.15a.zip
+. 2014-02-27 13:49:58.553 type=dir;modify=20131122183510; Update 11.22
+. 2014-02-27 13:49:58.553 type=file;modify=20131104134314;size=320367; Update 11.4.zip
+. 2014-02-27 13:49:58.553 type=file;modify=20130920153824;size=851768; Update 9.20.zip
+. 2014-02-27 13:49:58.553 type=file;modify=20130924132454;size=171329; Update 9.24.zip
+. 2014-02-27 13:49:58.553 type=file;modify=20140227202749;size=9552384; ValidationReport_Detail.xls
+. 2014-02-27 13:49:58.553 type=file;modify=20131101134740;size=333; VisScreen.xml
+> 2014-02-27 13:49:58.557 TYPE I
+< 2014-02-27 13:49:58.557 200 Type set to I
+> 2014-02-27 13:49:58.557 PASV
+< 2014-02-27 13:49:58.558 227 Entering Passive Mode (10,0,1,27,199,19)
+> 2014-02-27 13:49:58.558 STOR ValidationReport_Detail.xls
+< 2014-02-27 13:49:58.561 150 Connection accepted
+. 2014-02-27 13:49:58.564 SSL connection established
+< 2014-02-27 13:49:59.378 226 Transfer OK
+> 2014-02-27 13:49:59.378 MFMT 20140227204955 ValidationReport_Detail.xls
+< 2014-02-27 13:49:59.379 213 modify=20140227204955; /ValidationReport_Detail.xls
+. 2014-02-27 13:49:59.379 Upload successful
+> 2014-02-27 13:49:59.379 Script: close
+. 2014-02-27 13:49:59.380 Disconnected from server
+. 2014-02-27 14:30:29.663 --------------------------------------------------------------------------
+. 2014-02-27 14:30:29.669 WinSCP Version 5.1.7 (Build 3446) (OS 6.1.7601 Service Pack 1)
+. 2014-02-27 14:30:29.670 Configuration: C:\Program Files (x86)\WinSCP\WinSCP.ini
+. 2014-02-27 14:30:29.670 Local account: RENEGADE\SQL2008User
+. 2014-02-27 14:30:29.670 Working directory: C:\Program Files (x86)\WinSCP
+. 2014-02-27 14:30:29.670 Process ID: 15808
+. 2014-02-27 14:30:29.670 Command-line: "C:\Program Files (x86)\WinSCP\WinSCP.exe" -script="E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Dorchester2\ValidationReport_Upload_FTP.txt" /log="E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Dorchester2\log_ftp.txt"
+. 2014-02-27 14:30:29.670 Time zone: Current: GMT-7, Standard: GMT-7, DST: GMT-6, DST Start: 3/9/2014, DST End: 11/2/2014
+. 2014-02-27 14:30:29.670 Login time: Thursday, February 27, 2014 2:30:29 PM
+. 2014-02-27 14:30:29.670 --------------------------------------------------------------------------
+. 2014-02-27 14:30:29.670 Session name: dorchester2@ftp.excent.com (Ad-Hoc session)
+. 2014-02-27 14:30:29.670 Host name: ftp.excent.com (Port: 21)
+. 2014-02-27 14:30:29.670 User name: dorchester2 (Password: Yes, Key file: No)
+. 2014-02-27 14:30:29.670 Tunnel: No
+. 2014-02-27 14:30:29.670 Transfer Protocol: FTP
+. 2014-02-27 14:30:29.670 Ping type: C, Ping interval: 30 sec; Timeout: 15 sec
+. 2014-02-27 14:30:29.670 Proxy: none
+. 2014-02-27 14:30:29.671 FTP: FTPS: Explicit TLS; Passive: Yes [Force IP: A]; List all: A
+. 2014-02-27 14:30:29.671 Session reuse: Yes
+. 2014-02-27 14:30:29.671 Local directory: default, Remote directory: home, Update: Yes, Cache: Yes
+. 2014-02-27 14:30:29.671 Cache directory changes: Yes, Permanent: Yes
+. 2014-02-27 14:30:29.671 DST mode: 1; Timezone offset: 0h 0m
+. 2014-02-27 14:30:29.671 --------------------------------------------------------------------------
+. 2014-02-27 14:30:29.690 Connecting to ftp.excent.com ...
+. 2014-02-27 14:30:29.783 Connected with ftp.excent.com, negotiating SSL connection...
+< 2014-02-27 14:30:29.784 220-Welcome to Excent FTP.
+< 2014-02-27 14:30:29.784 220-
+< 2014-02-27 14:30:29.784 220 We monitor connections so please, no monkey business.
+> 2014-02-27 14:30:29.784 AUTH TLS
+< 2014-02-27 14:30:29.785 234 Using authentication type TLS
+. 2014-02-27 14:30:30.111 Using TLSv1, cipher TLSv1/SSLv3: AES256-SHA, 1024 bit RSA
+. 2014-02-27 14:30:30.111 SSL connection established. Waiting for welcome message...
+> 2014-02-27 14:30:30.111 USER dorchester2
+< 2014-02-27 14:30:30.112 331 Password required for dorchester2
+> 2014-02-27 14:30:30.112 PASS *******
+< 2014-02-27 14:30:30.113 230 Logged on
+> 2014-02-27 14:30:30.113 SYST
+< 2014-02-27 14:30:30.113 215 UNIX emulated by FileZilla
+> 2014-02-27 14:30:30.113 FEAT
+< 2014-02-27 14:30:30.115 211-Features:
+< 2014-02-27 14:30:30.115  MDTM
+< 2014-02-27 14:30:30.115  REST STREAM
+< 2014-02-27 14:30:30.115  SIZE
+< 2014-02-27 14:30:30.115  MLST type*;size*;modify*;
+< 2014-02-27 14:30:30.116  MLSD
+< 2014-02-27 14:30:30.116  AUTH SSL
+< 2014-02-27 14:30:30.116  AUTH TLS
+< 2014-02-27 14:30:30.116  PROT
+< 2014-02-27 14:30:30.116  PBSZ
+< 2014-02-27 14:30:30.116  UTF8
+< 2014-02-27 14:30:30.116  CLNT
+< 2014-02-27 14:30:30.116  MFMT
+< 2014-02-27 14:30:30.116 211 End
+> 2014-02-27 14:30:30.116 PBSZ 0
+< 2014-02-27 14:30:30.117 200 PBSZ=0
+> 2014-02-27 14:30:30.117 PROT P
+< 2014-02-27 14:30:30.118 200 Protection level set to P
+. 2014-02-27 14:30:30.118 Connected
+. 2014-02-27 14:30:30.118 --------------------------------------------------------------------------
+. 2014-02-27 14:30:30.119 Using FTP protocol.
+. 2014-02-27 14:30:30.120 Doing startup conversation with host.
+> 2014-02-27 14:30:30.120 PWD
+< 2014-02-27 14:30:30.120 257 "/" is current directory.
+. 2014-02-27 14:30:30.122 Getting current directory name.
+. 2014-02-27 14:30:30.122 Startup conversation with host finished.
+< 2014-02-27 14:30:30.122 Script: Active session: [1] dorchester2@ftp.excent.com
+> 2014-02-27 14:30:30.122 Script: option transfer binary
+< 2014-02-27 14:30:30.122 Script: transfer        binary    
+> 2014-02-27 14:30:30.122 Script: lcd "E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Dorchester2"
+< 2014-02-27 14:30:30.122 Script: E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Dorchester2
+> 2014-02-27 14:30:30.122 Script: cd /
+. 2014-02-27 14:30:30.122 Cached directory change via "/" to "/".
+. 2014-02-27 14:30:30.122 Getting current directory name.
+< 2014-02-27 14:30:30.122 Script: /
+> 2014-02-27 14:30:30.122 Script: put "E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Dorchester2\ValidationReport_Detail.xls"
+. 2014-02-27 14:30:30.123 Copying 1 files/directories to remote directory "/"
+. 2014-02-27 14:30:30.123   PrTime: Yes; PrRO: No; Rght: rw-r--r--; PrR: No (No); FnCs: N; RIC: 0100; Resume: S (102400); CalcS: No; Mask: 
+. 2014-02-27 14:30:30.123   TM: B; ClAr: No; CPS: 0; InclM: 
+. 2014-02-27 14:30:30.123   AscM: *.*html; *.htm; *.txt; *.php; *.php3; *.cgi; *.c; *.cpp; *.h; *.pas; *.bas; *.tex; *.pl; *.js; .htaccess; *.xtml; *.css; *.cfg; *.ini; *.sh; *.xml
+. 2014-02-27 14:30:30.123 File: "E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Dorchester2\ValidationReport_Detail.xls"
+. 2014-02-27 14:30:30.123 Copying "E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Dorchester2\ValidationReport_Detail.xls" to remote directory started.
+. 2014-02-27 14:30:30.127 Binary transfer mode selected.
+. 2014-02-27 14:30:30.127 Starting upload of E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Dorchester2\ValidationReport_Detail.xls
+> 2014-02-27 14:30:30.134 TYPE A
+< 2014-02-27 14:30:30.134 200 Type set to A
+> 2014-02-27 14:30:30.134 PASV
+< 2014-02-27 14:30:30.136 227 Entering Passive Mode (10,0,1,27,199,23)
+> 2014-02-27 14:30:30.138 MLSD
+< 2014-02-27 14:30:30.140 150 Connection accepted
+. 2014-02-27 14:30:30.140 SSL connection established
+< 2014-02-27 14:30:30.143 226 Transfer OK
+. 2014-02-27 14:30:30.143 type=file;modify=20130620205811;size=1333702; 504 Config Guide_Mar 2013_DRAFT.pdf
+. 2014-02-27 14:30:30.143 type=file;modify=20130830185417;size=548598; 8.30 504 Final Config.zip
+. 2014-02-27 14:30:30.143 type=file;modify=20130830183005;size=263273; 8.30 Final Config.zip
+. 2014-02-27 14:30:30.143 type=file;modify=20131108175728;size=1462; Checklist.xml
+. 2014-02-27 14:30:30.143 type=file;modify=20130913165747;size=1672; CommLog.xml
+. 2014-02-27 14:30:30.143 type=file;modify=20130913165747;size=35602; Communication Log.docx
+. 2014-02-27 14:30:30.143 type=file;modify=20130412031609;size=7246; DD2 Logo_A.jpg
+. 2014-02-27 14:30:30.143 type=file;modify=20140108204642;size=36958; ESOL.docx
+. 2014-02-27 14:30:30.143 type=file;modify=20130923014218;size=42518; Invitation to Meeting.docx
+. 2014-02-27 14:30:30.143 type=file;modify=20130923014212;size=1429; InvMeet.xml
+. 2014-02-27 14:30:30.143 type=dir;modify=20140210062255; New directory
+. 2014-02-27 14:30:30.143 type=file;modify=20131108175744;size=22559; Permission for Speech-Language Screening.docx
+. 2014-02-27 14:30:30.143 type=file;modify=20131003183438;size=40488; ReferralForDetermination.docx
+. 2014-02-27 14:30:30.143 type=file;modify=20131101134740;size=546; SpeechPerm.xml
+. 2014-02-27 14:30:30.143 type=file;modify=20131119185442;size=36789; SST Intervention Meeting.docx
+. 2014-02-27 14:30:30.143 type=file;modify=20131025152228;size=35089; SST Invitation to Meeting.docx
+. 2014-02-27 14:30:30.143 type=file;modify=20140110154543;size=38773; SST Referral.docx
+. 2014-02-27 14:30:30.143 type=file;modify=20131025152224;size=1045; SSTMeet.xml
+. 2014-02-27 14:30:30.143 type=file;modify=20131119185453;size=8275; SSTMeeting.xml
+. 2014-02-27 14:30:30.143 type=file;modify=20140110154027;size=8639; SSTReferral.xml
+. 2014-02-27 14:30:30.143 type=file;modify=20131101134754;size=32930; Teacher Report Form.docx
+. 2014-02-27 14:30:30.143 type=dir;modify=20131216141014; Update
+. 2014-02-27 14:30:30.143 type=file;modify=20131031191619;size=219602; Update 10.31.zip
+. 2014-02-27 14:30:30.143 type=file;modify=20131101000910;size=106929; Update 11.1.zip
+. 2014-02-27 14:30:30.143 type=file;modify=20131113172543;size=72186; Update 11.12.zip
+. 2014-02-27 14:30:30.143 type=file;modify=20131115174717;size=38368; Update 11.15a.zip
+. 2014-02-27 14:30:30.143 type=dir;modify=20131122183510; Update 11.22
+. 2014-02-27 14:30:30.143 type=file;modify=20131104134314;size=320367; Update 11.4.zip
+. 2014-02-27 14:30:30.143 type=file;modify=20130920153824;size=851768; Update 9.20.zip
+. 2014-02-27 14:30:30.143 type=file;modify=20130924132454;size=171329; Update 9.24.zip
+. 2014-02-27 14:30:30.143 type=file;modify=20140227204955;size=9551872; ValidationReport_Detail.xls
+. 2014-02-27 14:30:30.143 type=file;modify=20131101134740;size=333; VisScreen.xml
+> 2014-02-27 14:30:30.149 TYPE I
+< 2014-02-27 14:30:30.150 200 Type set to I
+> 2014-02-27 14:30:30.150 PASV
+< 2014-02-27 14:30:30.151 227 Entering Passive Mode (10,0,1,27,199,24)
+> 2014-02-27 14:30:30.151 STOR ValidationReport_Detail.xls
+< 2014-02-27 14:30:30.154 150 Connection accepted
+. 2014-02-27 14:30:30.157 SSL connection established
+< 2014-02-27 14:30:30.900 226 Transfer OK
+> 2014-02-27 14:30:30.900 MFMT 20140227213027 ValidationReport_Detail.xls
+< 2014-02-27 14:30:30.901 213 modify=20140227213027; /ValidationReport_Detail.xls
+. 2014-02-27 14:30:30.901 Upload successful
+> 2014-02-27 14:30:30.901 Script: close
+. 2014-02-27 14:30:30.902 Disconnected from server
+. 2014-02-27 15:41:11.133 --------------------------------------------------------------------------
+. 2014-02-27 15:41:11.138 WinSCP Version 5.1.7 (Build 3446) (OS 6.1.7601 Service Pack 1)
+. 2014-02-27 15:41:11.138 Configuration: C:\Program Files (x86)\WinSCP\WinSCP.ini
+. 2014-02-27 15:41:11.139 Local account: RENEGADE\SQL2008User
+. 2014-02-27 15:41:11.139 Working directory: C:\Program Files (x86)\WinSCP
+. 2014-02-27 15:41:11.139 Process ID: 17248
+. 2014-02-27 15:41:11.139 Command-line: "C:\Program Files (x86)\WinSCP\WinSCP.exe" -script="E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Dorchester2\ValidationReport_Upload_FTP.txt" /log="E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Dorchester2\log_ftp.txt"
+. 2014-02-27 15:41:11.139 Time zone: Current: GMT-7, Standard: GMT-7, DST: GMT-6, DST Start: 3/9/2014, DST End: 11/2/2014
+. 2014-02-27 15:41:11.139 Login time: Thursday, February 27, 2014 3:41:11 PM
+. 2014-02-27 15:41:11.139 --------------------------------------------------------------------------
+. 2014-02-27 15:41:11.139 Session name: dorchester2@ftp.excent.com (Ad-Hoc session)
+. 2014-02-27 15:41:11.139 Host name: ftp.excent.com (Port: 21)
+. 2014-02-27 15:41:11.139 User name: dorchester2 (Password: Yes, Key file: No)
+. 2014-02-27 15:41:11.139 Tunnel: No
+. 2014-02-27 15:41:11.139 Transfer Protocol: FTP
+. 2014-02-27 15:41:11.139 Ping type: C, Ping interval: 30 sec; Timeout: 15 sec
+. 2014-02-27 15:41:11.139 Proxy: none
+. 2014-02-27 15:41:11.139 FTP: FTPS: Explicit TLS; Passive: Yes [Force IP: A]; List all: A
+. 2014-02-27 15:41:11.139 Session reuse: Yes
+. 2014-02-27 15:41:11.139 Local directory: default, Remote directory: home, Update: Yes, Cache: Yes
+. 2014-02-27 15:41:11.139 Cache directory changes: Yes, Permanent: Yes
+. 2014-02-27 15:41:11.139 DST mode: 1; Timezone offset: 0h 0m
+. 2014-02-27 15:41:11.139 --------------------------------------------------------------------------
+. 2014-02-27 15:41:11.161 Connecting to ftp.excent.com ...
+. 2014-02-27 15:41:11.254 Connected with ftp.excent.com, negotiating SSL connection...
+< 2014-02-27 15:41:11.255 220-Welcome to Excent FTP.
+< 2014-02-27 15:41:11.255 220-
+< 2014-02-27 15:41:11.255 220 We monitor connections so please, no monkey business.
+> 2014-02-27 15:41:11.255 AUTH TLS
+< 2014-02-27 15:41:11.256 234 Using authentication type TLS
+. 2014-02-27 15:41:11.579 Using TLSv1, cipher TLSv1/SSLv3: AES256-SHA, 1024 bit RSA
+. 2014-02-27 15:41:11.579 SSL connection established. Waiting for welcome message...
+> 2014-02-27 15:41:11.579 USER dorchester2
+< 2014-02-27 15:41:11.579 331 Password required for dorchester2
+> 2014-02-27 15:41:11.579 PASS *******
+< 2014-02-27 15:41:11.580 230 Logged on
+> 2014-02-27 15:41:11.580 SYST
+< 2014-02-27 15:41:11.581 215 UNIX emulated by FileZilla
+> 2014-02-27 15:41:11.581 FEAT
+< 2014-02-27 15:41:11.582 211-Features:
+< 2014-02-27 15:41:11.582  MDTM
+< 2014-02-27 15:41:11.582  REST STREAM
+< 2014-02-27 15:41:11.582  SIZE
+< 2014-02-27 15:41:11.583  MLST type*;size*;modify*;
+< 2014-02-27 15:41:11.583  MLSD
+< 2014-02-27 15:41:11.583  AUTH SSL
+< 2014-02-27 15:41:11.583  AUTH TLS
+< 2014-02-27 15:41:11.583  PROT
+< 2014-02-27 15:41:11.583  PBSZ
+< 2014-02-27 15:41:11.583  UTF8
+< 2014-02-27 15:41:11.583  CLNT
+< 2014-02-27 15:41:11.583  MFMT
+< 2014-02-27 15:41:11.583 211 End
+> 2014-02-27 15:41:11.583 PBSZ 0
+< 2014-02-27 15:41:11.583 200 PBSZ=0
+> 2014-02-27 15:41:11.583 PROT P
+< 2014-02-27 15:41:11.584 200 Protection level set to P
+. 2014-02-27 15:41:11.584 Connected
+. 2014-02-27 15:41:11.585 --------------------------------------------------------------------------
+. 2014-02-27 15:41:11.585 Using FTP protocol.
+. 2014-02-27 15:41:11.586 Doing startup conversation with host.
+> 2014-02-27 15:41:11.586 PWD
+< 2014-02-27 15:41:11.586 257 "/" is current directory.
+. 2014-02-27 15:41:11.587 Getting current directory name.
+. 2014-02-27 15:41:11.587 Startup conversation with host finished.
+< 2014-02-27 15:41:11.587 Script: Active session: [1] dorchester2@ftp.excent.com
+> 2014-02-27 15:41:11.587 Script: option transfer binary
+< 2014-02-27 15:41:11.587 Script: transfer        binary    
+> 2014-02-27 15:41:11.588 Script: lcd "E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Dorchester2"
+< 2014-02-27 15:41:11.588 Script: E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Dorchester2
+> 2014-02-27 15:41:11.588 Script: cd /
+. 2014-02-27 15:41:11.588 Cached directory change via "/" to "/".
+. 2014-02-27 15:41:11.588 Getting current directory name.
+< 2014-02-27 15:41:11.588 Script: /
+> 2014-02-27 15:41:11.588 Script: put "E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Dorchester2\ValidationReport_Detail.xls"
+. 2014-02-27 15:41:11.588 Copying 1 files/directories to remote directory "/"
+. 2014-02-27 15:41:11.588   PrTime: Yes; PrRO: No; Rght: rw-r--r--; PrR: No (No); FnCs: N; RIC: 0100; Resume: S (102400); CalcS: No; Mask: 
+. 2014-02-27 15:41:11.588   TM: B; ClAr: No; CPS: 0; InclM: 
+. 2014-02-27 15:41:11.588   AscM: *.*html; *.htm; *.txt; *.php; *.php3; *.cgi; *.c; *.cpp; *.h; *.pas; *.bas; *.tex; *.pl; *.js; .htaccess; *.xtml; *.css; *.cfg; *.ini; *.sh; *.xml
+. 2014-02-27 15:41:11.588 File: "E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Dorchester2\ValidationReport_Detail.xls"
+. 2014-02-27 15:41:11.588 Copying "E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Dorchester2\ValidationReport_Detail.xls" to remote directory started.
+. 2014-02-27 15:41:11.591 Binary transfer mode selected.
+. 2014-02-27 15:41:11.591 Starting upload of E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Dorchester2\ValidationReport_Detail.xls
+> 2014-02-27 15:41:11.592 TYPE A
+< 2014-02-27 15:41:11.592 200 Type set to A
+> 2014-02-27 15:41:11.592 PASV
+< 2014-02-27 15:41:11.593 227 Entering Passive Mode (10,0,1,27,199,25)
+> 2014-02-27 15:41:11.606 MLSD
+< 2014-02-27 15:41:11.608 150 Connection accepted
+. 2014-02-27 15:41:11.609 SSL connection established
+< 2014-02-27 15:41:11.610 226 Transfer OK
+. 2014-02-27 15:41:11.611 type=file;modify=20130620205811;size=1333702; 504 Config Guide_Mar 2013_DRAFT.pdf
+. 2014-02-27 15:41:11.611 type=file;modify=20130830185417;size=548598; 8.30 504 Final Config.zip
+. 2014-02-27 15:41:11.611 type=file;modify=20130830183005;size=263273; 8.30 Final Config.zip
+. 2014-02-27 15:41:11.611 type=file;modify=20131108175728;size=1462; Checklist.xml
+. 2014-02-27 15:41:11.611 type=file;modify=20130913165747;size=1672; CommLog.xml
+. 2014-02-27 15:41:11.611 type=file;modify=20130913165747;size=35602; Communication Log.docx
+. 2014-02-27 15:41:11.611 type=file;modify=20130412031609;size=7246; DD2 Logo_A.jpg
+. 2014-02-27 15:41:11.611 type=file;modify=20140108204642;size=36958; ESOL.docx
+. 2014-02-27 15:41:11.611 type=file;modify=20130923014218;size=42518; Invitation to Meeting.docx
+. 2014-02-27 15:41:11.611 type=file;modify=20130923014212;size=1429; InvMeet.xml
+. 2014-02-27 15:41:11.611 type=dir;modify=20140210062255; New directory
+. 2014-02-27 15:41:11.611 type=file;modify=20131108175744;size=22559; Permission for Speech-Language Screening.docx
+. 2014-02-27 15:41:11.611 type=file;modify=20131003183438;size=40488; ReferralForDetermination.docx
+. 2014-02-27 15:41:11.611 type=file;modify=20131101134740;size=546; SpeechPerm.xml
+. 2014-02-27 15:41:11.611 type=file;modify=20131119185442;size=36789; SST Intervention Meeting.docx
+. 2014-02-27 15:41:11.611 type=file;modify=20131025152228;size=35089; SST Invitation to Meeting.docx
+. 2014-02-27 15:41:11.611 type=file;modify=20140110154543;size=38773; SST Referral.docx
+. 2014-02-27 15:41:11.611 type=file;modify=20131025152224;size=1045; SSTMeet.xml
+. 2014-02-27 15:41:11.611 type=file;modify=20131119185453;size=8275; SSTMeeting.xml
+. 2014-02-27 15:41:11.611 type=file;modify=20140110154027;size=8639; SSTReferral.xml
+. 2014-02-27 15:41:11.611 type=file;modify=20131101134754;size=32930; Teacher Report Form.docx
+. 2014-02-27 15:41:11.611 type=dir;modify=20131216141014; Update
+. 2014-02-27 15:41:11.611 type=file;modify=20131031191619;size=219602; Update 10.31.zip
+. 2014-02-27 15:41:11.611 type=file;modify=20131101000910;size=106929; Update 11.1.zip
+. 2014-02-27 15:41:11.611 type=file;modify=20131113172543;size=72186; Update 11.12.zip
+. 2014-02-27 15:41:11.612 type=file;modify=20131115174717;size=38368; Update 11.15a.zip
+. 2014-02-27 15:41:11.612 type=dir;modify=20131122183510; Update 11.22
+. 2014-02-27 15:41:11.612 type=file;modify=20131104134314;size=320367; Update 11.4.zip
+. 2014-02-27 15:41:11.612 type=file;modify=20130920153824;size=851768; Update 9.20.zip
+. 2014-02-27 15:41:11.612 type=file;modify=20130924132454;size=171329; Update 9.24.zip
+. 2014-02-27 15:41:11.612 type=file;modify=20140227213027;size=8712192; ValidationReport_Detail.xls
+. 2014-02-27 15:41:11.612 type=file;modify=20131101134740;size=333; VisScreen.xml
+> 2014-02-27 15:41:11.620 TYPE I
+< 2014-02-27 15:41:11.620 200 Type set to I
+> 2014-02-27 15:41:11.620 PASV
+< 2014-02-27 15:41:11.621 227 Entering Passive Mode (10,0,1,27,199,26)
+> 2014-02-27 15:41:11.621 STOR ValidationReport_Detail.xls
+< 2014-02-27 15:41:11.624 150 Connection accepted
+. 2014-02-27 15:41:11.637 SSL connection established
+< 2014-02-27 15:41:12.380 226 Transfer OK
+> 2014-02-27 15:41:12.380 MFMT 20140227224108 ValidationReport_Detail.xls
+< 2014-02-27 15:41:12.381 213 modify=20140227224108; /ValidationReport_Detail.xls
+. 2014-02-27 15:41:12.381 Upload successful
+> 2014-02-27 15:41:12.381 Script: close
+. 2014-02-27 15:41:12.382 Disconnected from server
+. 2014-02-27 16:03:18.865 --------------------------------------------------------------------------
+. 2014-02-27 16:03:18.866 WinSCP Version 5.1.7 (Build 3446) (OS 6.1.7601 Service Pack 1)
+. 2014-02-27 16:03:18.866 Configuration: C:\Program Files (x86)\WinSCP\WinSCP.ini
+. 2014-02-27 16:03:18.866 Local account: RENEGADE\SQL2008User
+. 2014-02-27 16:03:18.866 Working directory: C:\Program Files (x86)\WinSCP
+. 2014-02-27 16:03:18.866 Process ID: 14068
+. 2014-02-27 16:03:18.867 Command-line: "C:\Program Files (x86)\WinSCP\WinSCP.exe" -script="E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Dorchester2\ValidationReport_Upload_FTP.txt" /log="E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Dorchester2\log_ftp.txt"
+. 2014-02-27 16:03:18.867 Time zone: Current: GMT-7, Standard: GMT-7, DST: GMT-6, DST Start: 3/9/2014, DST End: 11/2/2014
+. 2014-02-27 16:03:18.867 Login time: Thursday, February 27, 2014 4:03:18 PM
+. 2014-02-27 16:03:18.867 --------------------------------------------------------------------------
+. 2014-02-27 16:03:18.867 Session name: dorchester2@ftp.excent.com (Ad-Hoc session)
+. 2014-02-27 16:03:18.867 Host name: ftp.excent.com (Port: 21)
+. 2014-02-27 16:03:18.867 User name: dorchester2 (Password: Yes, Key file: No)
+. 2014-02-27 16:03:18.867 Tunnel: No
+. 2014-02-27 16:03:18.867 Transfer Protocol: FTP
+. 2014-02-27 16:03:18.867 Ping type: C, Ping interval: 30 sec; Timeout: 15 sec
+. 2014-02-27 16:03:18.867 Proxy: none
+. 2014-02-27 16:03:18.867 FTP: FTPS: Explicit TLS; Passive: Yes [Force IP: A]; List all: A
+. 2014-02-27 16:03:18.867 Session reuse: Yes
+. 2014-02-27 16:03:18.867 Local directory: default, Remote directory: home, Update: Yes, Cache: Yes
+. 2014-02-27 16:03:18.867 Cache directory changes: Yes, Permanent: Yes
+. 2014-02-27 16:03:18.867 DST mode: 1; Timezone offset: 0h 0m
+. 2014-02-27 16:03:18.867 --------------------------------------------------------------------------
+. 2014-02-27 16:03:18.868 Connecting to ftp.excent.com ...
+. 2014-02-27 16:03:18.871 Connected with ftp.excent.com, negotiating SSL connection...
+< 2014-02-27 16:03:18.873 220-Welcome to Excent FTP.
+< 2014-02-27 16:03:18.883 220-
+< 2014-02-27 16:03:18.883 220 We monitor connections so please, no monkey business.
+> 2014-02-27 16:03:18.883 AUTH TLS
+< 2014-02-27 16:03:18.883 234 Using authentication type TLS
+. 2014-02-27 16:03:19.149 Using TLSv1, cipher TLSv1/SSLv3: AES256-SHA, 1024 bit RSA
+. 2014-02-27 16:03:19.149 SSL connection established. Waiting for welcome message...
+> 2014-02-27 16:03:19.149 USER dorchester2
+< 2014-02-27 16:03:19.149 331 Password required for dorchester2
+> 2014-02-27 16:03:19.149 PASS *******
+< 2014-02-27 16:03:19.150 230 Logged on
+> 2014-02-27 16:03:19.150 SYST
+< 2014-02-27 16:03:19.151 215 UNIX emulated by FileZilla
+> 2014-02-27 16:03:19.151 FEAT
+< 2014-02-27 16:03:19.153 211-Features:
+< 2014-02-27 16:03:19.153  MDTM
+< 2014-02-27 16:03:19.153  REST STREAM
+< 2014-02-27 16:03:19.164  SIZE
+< 2014-02-27 16:03:19.164  MLST type*;size*;modify*;
+< 2014-02-27 16:03:19.164  MLSD
+< 2014-02-27 16:03:19.164  AUTH SSL
+< 2014-02-27 16:03:19.164  AUTH TLS
+< 2014-02-27 16:03:19.164  PROT
+< 2014-02-27 16:03:19.164  PBSZ
+< 2014-02-27 16:03:19.164  UTF8
+< 2014-02-27 16:03:19.164  CLNT
+< 2014-02-27 16:03:19.164  MFMT
+< 2014-02-27 16:03:19.164 211 End
+> 2014-02-27 16:03:19.164 PBSZ 0
+< 2014-02-27 16:03:19.164 200 PBSZ=0
+> 2014-02-27 16:03:19.164 PROT P
+< 2014-02-27 16:03:19.164 200 Protection level set to P
+. 2014-02-27 16:03:19.164 Connected
+. 2014-02-27 16:03:19.164 --------------------------------------------------------------------------
+. 2014-02-27 16:03:19.164 Using FTP protocol.
+. 2014-02-27 16:03:19.165 Doing startup conversation with host.
+> 2014-02-27 16:03:19.165 PWD
+< 2014-02-27 16:03:19.165 257 "/" is current directory.
+. 2014-02-27 16:03:19.165 Getting current directory name.
+. 2014-02-27 16:03:19.165 Startup conversation with host finished.
+< 2014-02-27 16:03:19.165 Script: Active session: [1] dorchester2@ftp.excent.com
+> 2014-02-27 16:03:19.165 Script: option transfer binary
+< 2014-02-27 16:03:19.165 Script: transfer        binary    
+> 2014-02-27 16:03:19.165 Script: lcd "E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Dorchester2"
+< 2014-02-27 16:03:19.166 Script: E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Dorchester2
+> 2014-02-27 16:03:19.166 Script: cd /
+. 2014-02-27 16:03:19.166 Cached directory change via "/" to "/".
+. 2014-02-27 16:03:19.166 Getting current directory name.
+< 2014-02-27 16:03:19.166 Script: /
+> 2014-02-27 16:03:19.166 Script: put "E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Dorchester2\ValidationReport_Detail.xls"
+. 2014-02-27 16:03:19.166 Copying 1 files/directories to remote directory "/"
+. 2014-02-27 16:03:19.166   PrTime: Yes; PrRO: No; Rght: rw-r--r--; PrR: No (No); FnCs: N; RIC: 0100; Resume: S (102400); CalcS: No; Mask: 
+. 2014-02-27 16:03:19.166   TM: B; ClAr: No; CPS: 0; InclM: 
+. 2014-02-27 16:03:19.166   AscM: *.*html; *.htm; *.txt; *.php; *.php3; *.cgi; *.c; *.cpp; *.h; *.pas; *.bas; *.tex; *.pl; *.js; .htaccess; *.xtml; *.css; *.cfg; *.ini; *.sh; *.xml
+. 2014-02-27 16:03:19.166 File: "E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Dorchester2\ValidationReport_Detail.xls"
+. 2014-02-27 16:03:19.166 Copying "E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Dorchester2\ValidationReport_Detail.xls" to remote directory started.
+. 2014-02-27 16:03:19.166 Binary transfer mode selected.
+. 2014-02-27 16:03:19.166 Starting upload of E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\Dorchester2\ValidationReport_Detail.xls
+> 2014-02-27 16:03:19.166 TYPE A
+< 2014-02-27 16:03:19.166 200 Type set to A
+> 2014-02-27 16:03:19.166 PASV
+< 2014-02-27 16:03:19.167 227 Entering Passive Mode (10,0,1,27,199,30)
+> 2014-02-27 16:03:19.167 MLSD
+< 2014-02-27 16:03:19.169 150 Connection accepted
+. 2014-02-27 16:03:19.169 SSL connection established
+< 2014-02-27 16:03:19.171 226 Transfer OK
+. 2014-02-27 16:03:19.171 type=file;modify=20130620205811;size=1333702; 504 Config Guide_Mar 2013_DRAFT.pdf
+. 2014-02-27 16:03:19.171 type=file;modify=20130830185417;size=548598; 8.30 504 Final Config.zip
+. 2014-02-27 16:03:19.171 type=file;modify=20130830183005;size=263273; 8.30 Final Config.zip
+. 2014-02-27 16:03:19.171 type=file;modify=20131108175728;size=1462; Checklist.xml
+. 2014-02-27 16:03:19.171 type=file;modify=20130913165747;size=1672; CommLog.xml
+. 2014-02-27 16:03:19.171 type=file;modify=20130913165747;size=35602; Communication Log.docx
+. 2014-02-27 16:03:19.171 type=file;modify=20130412031609;size=7246; DD2 Logo_A.jpg
+. 2014-02-27 16:03:19.171 type=file;modify=20140108204642;size=36958; ESOL.docx
+. 2014-02-27 16:03:19.171 type=file;modify=20130923014218;size=42518; Invitation to Meeting.docx
+. 2014-02-27 16:03:19.171 type=file;modify=20130923014212;size=1429; InvMeet.xml
+. 2014-02-27 16:03:19.171 type=dir;modify=20140210062255; New directory
+. 2014-02-27 16:03:19.171 type=file;modify=20131108175744;size=22559; Permission for Speech-Language Screening.docx
+. 2014-02-27 16:03:19.171 type=file;modify=20131003183438;size=40488; ReferralForDetermination.docx
+. 2014-02-27 16:03:19.171 type=file;modify=20131101134740;size=546; SpeechPerm.xml
+. 2014-02-27 16:03:19.171 type=file;modify=20131119185442;size=36789; SST Intervention Meeting.docx
+. 2014-02-27 16:03:19.171 type=file;modify=20131025152228;size=35089; SST Invitation to Meeting.docx
+. 2014-02-27 16:03:19.171 type=file;modify=20140110154543;size=38773; SST Referral.docx
+. 2014-02-27 16:03:19.171 type=file;modify=20131025152224;size=1045; SSTMeet.xml
+. 2014-02-27 16:03:19.171 type=file;modify=20131119185453;size=8275; SSTMeeting.xml
+. 2014-02-27 16:03:19.171 type=file;modify=20140110154027;size=8639; SSTReferral.xml
+. 2014-02-27 16:03:19.171 type=file;modify=20131101134754;size=32930; Teacher Report Form.docx
+. 2014-02-27 16:03:19.171 type=dir;modify=20131216141014; Update
+. 2014-02-27 16:03:19.171 type=file;modify=20131031191619;size=219602; Update 10.31.zip
+. 2014-02-27 16:03:19.171 type=file;modify=20131101000910;size=106929; Update 11.1.zip
+. 2014-02-27 16:03:19.171 type=file;modify=20131113172543;size=72186; Update 11.12.zip
+. 2014-02-27 16:03:19.171 type=file;modify=20131115174717;size=38368; Update 11.15a.zip
+. 2014-02-27 16:03:19.171 type=dir;modify=20131122183510; Update 11.22
+. 2014-02-27 16:03:19.172 type=file;modify=20131104134314;size=320367; Update 11.4.zip
+. 2014-02-27 16:03:19.172 type=file;modify=20130920153824;size=851768; Update 9.20.zip
+. 2014-02-27 16:03:19.172 type=file;modify=20130924132454;size=171329; Update 9.24.zip
+. 2014-02-27 16:03:19.172 type=file;modify=20140227224108;size=8712192; ValidationReport_Detail.xls
+. 2014-02-27 16:03:19.172 type=file;modify=20131101134740;size=333; VisScreen.xml
+> 2014-02-27 16:03:19.172 TYPE I
+< 2014-02-27 16:03:19.172 200 Type set to I
+> 2014-02-27 16:03:19.172 PASV
+< 2014-02-27 16:03:19.173 227 Entering Passive Mode (10,0,1,27,199,31)
+> 2014-02-27 16:03:19.173 STOR ValidationReport_Detail.xls
+< 2014-02-27 16:03:19.177 150 Connection accepted
+. 2014-02-27 16:03:19.179 SSL connection established
+< 2014-02-27 16:03:19.935 226 Transfer OK
+> 2014-02-27 16:03:19.935 MFMT 20140227230318 ValidationReport_Detail.xls
+< 2014-02-27 16:03:19.936 213 modify=20140227230318; /ValidationReport_Detail.xls
+. 2014-02-27 16:03:19.936 Upload successful
+> 2014-02-27 16:03:19.936 Script: close
+. 2014-02-27 16:03:19.936 Disconnected from server
