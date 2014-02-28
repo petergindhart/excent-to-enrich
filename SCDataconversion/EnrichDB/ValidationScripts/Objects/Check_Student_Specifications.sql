@@ -108,6 +108,7 @@ WHILE @Count<=@MaxCount
     END
 --SELECT @Txtflag AS Txtflag
 
+
 DECLARE @Txtfkrel VARCHAR(MAX)
 DECLARE @tblfkrel table (id int, columnname varchar(50),parenttable varchar(50), parentcolumn varchar(50))
 INSERT @tblfkrel
@@ -122,6 +123,7 @@ WHILE @Count<=@MaxCount
     SET @Count=@Count+1
     END
 --SELECT @Txtfkrel AS Txtfk
+
 
 DECLARE @Txtlookup VARCHAR(MAX)
 DECLARE @tbllookup table (id int, columnname varchar(50),lookuptable varchar(50),lookupcolumn varchar(50),lookuptype varchar(50), isrequired bit)
@@ -204,9 +206,10 @@ DECLARE @TxtPKStudentStateID VARCHAR(MAX)
 SET @TxtPKStudentStateID = ' AND (st.StudentStateID IS NOT NULL OR (st.StudentStateID IS NULL AND st.GradelevelCode = ''PK'' ))
 AND ((DATALENGTH(st.StudentStateID)/2) <= 50 OR (st.StudentStateID IS NULL AND st.GradelevelCode = ''PK''))'
 
-SET @sqlvalidated = @sqlvalidated +@Txtunique+@Txtfkrel +@TxtScAndDt+@Txtreq+@Txtflag+@Txtdatatype +@Txtlookup+@TxtPKStudentStateID
+SET @sqlvalidated = @sqlvalidated +@Txtunique+@Txtfkrel+@TxtScAndDt+@Txtreq+@Txtflag+@Txtdatatype +@Txtlookup+@TxtPKStudentStateID
+--SET @sqlvalidated = @sqlvalidated +@Txtunique+@Txtfkrel +@TxtScAndDt+@Txtreq+@Txtflag+@Txtdatatype +@Txtlookup+@TxtPKStudentStateID
 --SET @sqlvalidated = @sqlvalidated +@Txtunique+@Txtfkrel +@TxtScAndDt+@Txtdatalength+@Txtreq+@Txtflag+@Txtdatatype +@Txtlookup+@TxtPKStudentStateID
-print @sqlvalidated
+PRINT @sqlvalidated
 
 EXEC (@sqlvalidated)
 --EXEC sp_executesql @stmt = @sqlvalidated
@@ -403,6 +406,7 @@ END
 -------------------------------------------------------------------
 --Check the Referntial Integrity Issues
 -------------------------------------------------------------------
+
 IF (@isFkRelation = 1)
 BEGIN
 

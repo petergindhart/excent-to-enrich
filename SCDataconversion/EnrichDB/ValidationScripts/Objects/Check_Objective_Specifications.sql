@@ -328,6 +328,7 @@ END
 -------------------------------------------------------------------
 --Check the Referntial Integrity Issues
 -------------------------------------------------------------------
+/*
 IF (@isFkRelation = 1)
 BEGIN
 
@@ -350,7 +351,7 @@ SET @sumsql = @sumsql + @query
 EXEC sp_executesql @stmt=@sumsql
 
 END
-
+*/
 
 IF (@isFlagfield = 1)
 BEGIN

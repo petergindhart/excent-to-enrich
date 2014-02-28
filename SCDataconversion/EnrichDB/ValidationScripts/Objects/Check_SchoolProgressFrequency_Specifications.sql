@@ -120,6 +120,7 @@ WHILE @Count<=@MaxCount
     END
 --SELECT @Txtflag AS Txtflag
 
+
 DECLARE @Txtfkrel VARCHAR(MAX)
 DECLARE @tblfkrel table (id int, columnname varchar(50),parenttable varchar(50), parentcolumn varchar(50))
 INSERT @tblfkrel
@@ -134,6 +135,7 @@ WHILE @Count<=@MaxCount
     SET @Count=@Count+1
     END
 --SELECT @Txtfkrel AS Txtfk
+
 
 DECLARE @Txtlookup VARCHAR(MAX)
 DECLARE @tbllookup table (id int, columnname varchar(50),lookuptable varchar(50),lookupcolumn varchar(50),lookuptype varchar(50), isrequired bit)
@@ -218,6 +220,7 @@ WHILE @Count<=@MaxCount
 --SET @Txtunique = ' JOIN (SELECT StaffEmail,StudentRefId FROM x_DATAVALIDATION.TeamMember_LOCAL GROUP BY StaffEmail,StudentRefId HAVING COUNT(*)=1) ucteam ON (ucteam.StaffEmail = team.StaffEmail) AND (ucteam.StudentRefID = team.StudentRefID)'
 
 SET @sqlvalidated = @sqlvalidated +@Txtunique+@Txtfkrel+@Txtreq+@Txtflag+@Txtdatatype
+--SET @sqlvalidated = @sqlvalidated +@Txtunique+@Txtfkrel+@Txtreq+@Txtflag+@Txtdatatype
 --SET @sqlvalidated = @sqlvalidated +@Txtunique+@Txtfkrel+@Txtdatalength+@Txtreq+@Txtflag+@Txtdatatype
 --print @sqlvalidated
 
@@ -324,6 +327,7 @@ END
 -------------------------------------------------------------------
 --Check the Referntial Integrity Issues
 -------------------------------------------------------------------
+/*
 IF (@isFkRelation = 1)
 BEGIN
 
@@ -345,6 +349,7 @@ SET @sumsql = @sumsql + @query
 --PRINT @sumsql
 EXEC sp_executesql @stmt=@sumsql
 END
+*/
 -------------------------------------------------------------------
 --Check the flag fields
 -------------------------------------------------------------------

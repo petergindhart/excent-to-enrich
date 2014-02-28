@@ -211,7 +211,7 @@ WHILE @Count<=@MaxCount
     END
 SELECT @Txtunique AS Txtq
 
-SET @sqlvalidated = @sqlvalidated +@Txtunique +@Txtfkrel+@Txtreq+@Txtflag+@Txtdatatype+@Txtlookup
+SET @sqlvalidated = @sqlvalidated +@Txtunique+@Txtfkrel+@Txtreq+@Txtflag+@Txtdatatype+@Txtlookup
 --SET @sqlvalidated = @sqlvalidated +@Txtunique +@Txtfkrel+@Txtdatalength+@Txtreq+@Txtflag+@Txtdatatype+@Txtlookup
 print @sqlvalidated
 
@@ -369,6 +369,7 @@ END
 -------------------------------------------------------------------
 --Check the Referntial Integrity Issues
 -------------------------------------------------------------------
+/*
 IF (@isFkRelation = 1)
 BEGIN
 
@@ -390,7 +391,7 @@ SET @sumsql = @sumsql + @query
 --PRINT @sumsql
 EXEC sp_executesql @stmt=@sumsql
 END
-
+*/
 
 IF (@isFlagfield = 1)
 BEGIN

@@ -148,7 +148,7 @@ DECLARE @Txtunique VARCHAR(MAX)
 SET @Txtunique = ' JOIN (SELECT SchoolCode,DISTRICTCODE FROM x_DATAVALIDATION.School_LOCAL GROUP BY SchoolCode,DISTRICTCODE HAVING COUNT(*)=1) ucsc ON sc.SCHOOLCODE = ucsc.SCHOOLCODE AND sc.DISTRICTCODE = ucsc.DISTRICTCODE'
 SELECT @Txtunique AS Txtq
 
-SET @sqlvalidated = @sqlvalidated +@Txtunique +@Txtfkrel+@Txtreq+@Txtdatatype
+SET @sqlvalidated = @sqlvalidated +@Txtunique+@Txtfkrel+@Txtreq+@Txtdatatype
 --SET @sqlvalidated = @sqlvalidated +@Txtunique +@Txtfkrel+@Txtdatalength+@Txtreq+@Txtdatatype
 --print @sqlvalidated
 
@@ -263,6 +263,7 @@ END
 -------------------------------------------------------------------
 --Check the Referntial Integrity Issues
 -------------------------------------------------------------------
+/*
 IF (@isFkRelation = 1)
 BEGIN
 
@@ -285,7 +286,7 @@ SET @sumsql = @sumsql + @query
 --PRINT @sumsql
 EXEC sp_executesql @stmt=@sumsql
 END
-
+*/
 
 IF (@datatype = 'int')
 BEGIN
