@@ -25,7 +25,7 @@ FROM (
 		IEPRefID = x.IEPSeqNum, 
 		x.GStudentID, 
 		IEPComplete = isnull(i.IEPComplete, 'Draft')
-	from SpecialEdStudentsAndIEPs x 
+	from DataConvSpedStudentsAndIEPs x 
 	join IEPTbl i on x.GStudentID = i.GStudentID 
 	where i.iepseqnum = (
 		select min(imin.IEPSeqNum) ------ handles a bug in EO that caused multiple records to be inserted into IEPTbl

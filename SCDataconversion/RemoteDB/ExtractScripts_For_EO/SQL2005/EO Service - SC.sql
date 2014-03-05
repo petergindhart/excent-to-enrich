@@ -66,13 +66,13 @@ FROM (
 	EndDate = x.EndDate, -- SC does not use ServiceTbl for this
 	IsRelated = case when v.Type = 'R' then 1 else 0 end,
 	IsDirect = case when v.Type = 'S' then isnull(v.Include1,0) else 1 end,
-	ExcludesFromGenEd = cast(0 as bit), -- derive this from location?
+	ExcludesFromGenEd = cast(case when vl.LocationCode = 'SDE05' then 1 else 0 end as bit), -- derive this from location?
 	ServiceLocationCode = vl.LocationCode,
 	Sequence = v.ServOrder, 
 	IsEsy = cast(0 as bit), -- not available in SC
 	ServiceTime = isnull(vm.Minutes,0), ---------------------  this is exact now.  Is servicetime really assumed to be Minutes all the time?
 	ServiceFrequencyCode = vf.FrequencyCode, 
-	ServiceAreaText = '	Original Service Description : '+isnull(vd.ServDesc,'')+'
+	ServiceAreaText = '	Original Service Area : '+isnull(vd.ServDesc,'')+'
 	Original Location : '+isnull(vl.LocationDesc,'')+'
 	Original Frequency : '+isnull(vf.FrequencyDesc,'')+'
 	Original Length : '+isnull(vm.LengthDesc,'')+'
