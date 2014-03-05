@@ -5,17 +5,18 @@ GO
 CREATE PROC x_DATAVALIDATION.usp_GenerateValidationReport
 AS
 DECLARE @jobID uniqueidentifier, @cmd varchar(1000) ,@startdate int, @starttime int,@job_name varchar(50),@district varchar(50)
-,@vpndisconnect varchar(500);
+,@vpndisconnect varchar(500),@locfolder varchar(250);
 
 SET @startdate = CONVERT(INT,REPLACE(CONVERT(VARCHAR(10),GETDATE(),102),'.',''));
 SET @starttime = CONVERT(INT,REPLACE(CONVERT(VARCHAR(8),DATEADD(mi,2,GETDATE()),108),':',''));
 
 select @cmd = ParamValue from x_DATAVALIDATION.ParamValues where ParamName='ValidationreportFile'
 select @district = ParamValue from x_DATAVALIDATION.ParamValues where ParamName='district'
+select @locfolder = ParamValue from x_DATAVALIDATION.ParamValues where ParamName='locfolder'
 
 select @vpndisconnect=ParamValue from x_DATAVALIDATION.ParamValues where ParamName='VPNDisconnectFile'
 set @vpndisconnect = '"'+@vpndisconnect+'"';
-set @cmd=@cmd+' '+@district;
+set @cmd=@cmd+' '+@locfolder;
 set @job_name='_runValidationReport_'+@district;
 
 

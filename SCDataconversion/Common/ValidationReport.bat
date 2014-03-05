@@ -1,8 +1,9 @@
 @ECHO OFF
 rem get Enrich connection string from txt file here.
-set speddistrict=%1
+REM set speddistrict=%1
 REM echo %speddistrict%
-set locFolder=E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\%speddistrict%
+REM set locFolder=E:\GIT\excent-to-enrich\SCDataconversion\Common\Localization\%speddistrict%
+set locFolder=%1
 set /P connStr=<%locFolder%\0000-connStr.txt
 
 FOR /F "usebackq tokens=1 delims=~" %%i IN (`SQLCMD %connStr% -W -h-1 -Q"exec x_DATAVALIDATION.usp_GetParam 'DTEXC_PATH'"`) DO set DTEXC_PATH=%%i
