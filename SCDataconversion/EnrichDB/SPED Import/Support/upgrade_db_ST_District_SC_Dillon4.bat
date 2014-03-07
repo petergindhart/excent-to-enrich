@@ -17,6 +17,10 @@ SQLCMD %remoteConnStr% -i ..\..\..\RemoteDB\ExtractScripts_For_EO\SQL2005\Upgrad
 SQLCMD %connStr% -i %locFolder%\_UpgradeEnrichDVObjects.sql -o%locFolder%\log_UpgradeEnrichDVObjects.txt
 ExecuteTask\ExecuteTask.exe project projectfile="upgrade_db_project.xml" $connection="%connection%" $state="%state%" $speddistrict="%speddistrict%"
 
+SQLCMD %connStr% -i %locFolder%\..\..\Create_FTPdtsConfig.sql -h-1 -o%locFolder%\ValidationReport_UploadFTP_IEPwStuInfo.dtsConfig
+
+SQLCMD %connStr% -i %locFolder%\..\..\Create_Upload_FTP_txt.sql -h-1 -o%locFolder%\ValidationReport_Upload_FTP.txt
+
 VPNDisconnect.bat
 
 echo Tasks completed
