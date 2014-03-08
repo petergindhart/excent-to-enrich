@@ -1,36 +1,75 @@
 -- SC
-/*
-	If the state codes were the same in all 50 states we could put this code in the transform files, 
-	but so that the transforms can be used in all states, we are separating the state-specific code into this file.
-
-*/
 
 -- Ensure GradeLevel StateCode is populated.  Specific to South Carolina
 update gl set StateCode = case when Name like 'K%' then 'KG' when Name = '00' then NULL else Name end from GradeLevel gl where (ISNUMERIC(Name) = 1 or Name in ('K', 'PK', 'KG'))
 go
 
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'LEGACYSPED.ImportPrgSections') AND type in (N'U'))
+DROP TABLE LEGACYSPED.ImportPrgSections
+GO
+CREATE TABLE LEGACYSPED.ImportPrgSections (
+Enabled bit not null,
+SectionDefName varchar(100) not null,
+SectionDefID uniqueidentifier not null
+)
+GO
 
---	01	01
---	02	02
---	03	03
---	04	04
---	05	05
---	06	06
---	07	07
---	08	08
---	09	09
---	10	10
---	11	11
---	12	12
---	AE	AE
---	KG	Kindergarten
---	PK	Pre-Kindergarten
-
---select * from GradeLevel order by StateCode
+ALTER TABLE LEGACYSPED.ImportPrgSections
+	ADD CONSTRAINT PK_ImportPrgSections PRIMARY KEY CLUSTERED
+(
+	SectionDefID
+)
+GO
 
 
--- NEW powerschool map to indicate up to how many leading zeros to add to district and school numbers
--- This is necessary because PowerSchool trims leading zeros from District Numbers and SchoolNumbers, but the sped program does not.
+if not exists (select 1 from PrgSectionDef where ID = 'F60392DA-8EB3-49D0-822D-77A1618C1DAA')
+insert PrgSectionDef (ID, TypeID, ItemDefID, Sequence, IsVersioned, DisplayPrevious, CanCopy, HeaderFormTemplateID) values ('F60392DA-8EB3-49D0-822D-77A1618C1DAA', '9B10DCDE-15CC-4AA3-808A-DFD51CE91079', '1984F017-51CB-4E3C-9B3A-338A9D409EC6', 6, 0, 0, 0, NULL)
+set nocount on;
+
+declare @importPrgSections table (Enabled bit not null, SectionDefName varchar(100) not null, SectionDefID uniqueidentifier not null)
+-- update the Enabled column below to 0 if the section is not required for this district
+insert @importPrgSections values (1, 'IEP Services', 'F8261D6C-2528-4461-8E28-E70C40C417B2') -- boulder has opted not to import converted data services
+insert @importPrgSections values (1, 'IEP LRE', '3727E5F0-762F-44D8-B303-068B99A90475')
+insert @importPrgSections values (1, 'IEP Dates', 'D32860C0-9F4A-44B8-9925-A2E34241B5A0')
+insert @importPrgSections values (1, 'IEP Demographics', '3BD3B039-2805-4983-948A-F3BFA86A72C9')
+insert @importPrgSections values (1, 'Sped Eligibility Determination', 'DC3BE88C-7BA4-4041-A8FB-BCC96D2D4C29')
+insert @importPrgSections values (1, 'IEP Goals', 'A9DF977C-088E-47E8-9CEF-550D8A42AF58')
+insert @importPrgSections values (1, 'Sped Consent Services', '91D56FAB-554E-4F5C-9E84-55A85DAD30F0')
+--insert @importPrgSections values (1, 'Sped Consent Evaluation', '31A1AE20-5F63-47FD-852A-4801595033ED') -- BOULDER DID NOT PROVIDE THIS DATE!
+insert @importPrgSections values (1, 'IEP ESY', 'F60392DA-8EB3-49D0-822D-77A1618C1DAA' )
+
+insert LEGACYSPED.ImportPrgSections
+select * from @importPrgSections where SectionDefID not in (select SectionDefID from LEGACYSPED.ImportPrgSections)
+go
+
+-- custom setup
+declare @customsetup table (
+LoadTable	varchar(100),
+Enabled	bit
+)
+
+insert @customsetup values ('StudentRace', 0)
+insert @customsetup values ('Person', 0)
+insert @customsetup values ('UserProfile', 0)
+insert @customsetup values ('UserProfileOrgUnit', 0)
+insert @customsetup values ('UserProfileSchool', 0)
+insert @customsetup values ('FormInstance', 0)
+insert @customsetup values ('PrgItemForm', 0)
+insert @customsetup values ('FormInstanceInterval', 0)
+insert @customsetup values ('FormInputValue', 0)
+insert @customsetup values ('FormInputTextValue', 0)
+
+if (select count(*) from LEGACYSPED.MAP_ServiceFrequencyID) = 0
+insert @customsetup values ('ServiceFrequency', 0)
+
+
+-- select t.*
+update t set Enabled = c.Enabled
+from @customsetup c
+join VC3ETL.LoadTable t on c.LoadTable = t.DestTable and t.ExtractDatabase = 'E664C745-7397-4F7E-80FE-5D19B7B56EEE'
+
+GO
+
 -- See Transform_OrgUnit and Transform_School to see how this view is used
 IF EXISTS (SELECT * FROM sys.schemas s join sys.objects o on s.schema_id = o.schema_id WHERE s.name = 'LEGACYSPED' and o.Name ='DistrictSchoolLeadingZeros' and type = 'U')
 drop table LEGACYSPED.DistrictSchoolLeadingZeros
@@ -299,25 +338,6 @@ set statecode = p.statecode
 --select plop.* 
 From IepPlacementoption plop
 join @p p on p.ID = plop.ID
-
----- 
---select UsageID, IEPCode, PlacementDesc
---from [10.0.1.8\SQLServer2005].QASCConvert2005.dbo.LK_LREPlacements 
---where UsageID <> 'LREplaceHosp' 
---and (UsageID = 'LREplace') -- or (UsageID = 'LREPlacePK' and IEPCode not in ('1', '2', '3'))) 
---order by UsageID Desc, PlacementDesc
-
-
---select p.AgeGroup, p.LREPlacement, p.HomeHosPlace, k.PlacementDesc, count(*) tot
---from [10.0.1.8\SQLServer2005].QASCConvert2005.dbo.ReportICIEPLRETblPlace p
---join [10.0.1.8\SQLServer2005].QASCConvert2005.dbo.LK_LREPlacements k on p.HomeHosPlace = k.IEPCode and k.USageID = 'LREplaceHosp'
---where HomeHosPlace <> 0
---group by p.AgeGroup, p.LREPlacement, p.HomeHosPlace, k.PlacementDesc
-
-
---select * from [10.0.1.8\SQLServer2005].QASCConvert2005.dbo.LK_LREPlacements 
-
---select * from [10.0.1.8\SQLServer2005].QASCConvert2005.sys.objects where name like 'Report%Place%'
 
 
 -- this may need to be modified for states that don't have a specific code for each race, but set a flag for it (such as FL).  Eather that, or we can derive a code for those statues (first 2 letters of the fed name?)

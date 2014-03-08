@@ -1,6 +1,9 @@
 @echo off
-set state=SC
-set speddistrict=Dillon4
+REM set state=SC
+REM set speddistrict=Dillon4
+set state=%1
+set speddistrict=%2
+
 echo DB Upgrade %state% %speddistrict%
 set connection=server=10.0.1.30;uid=sa;pwd=vc3go!!;database=Enrich_DCB7_SC_Dillon4
 
@@ -16,6 +19,10 @@ rasphone -d "SC ExcentOnline" -f C:\ProgramData\Microsoft\Network\Connections\Pb
 SQLCMD %remoteConnStr% -i ..\..\..\RemoteDB\ExtractScripts_For_EO\SQL2005\UpgradeRemoteDB.sql -o%locFolder%\log_UpgradeRemoteDB.txt
 SQLCMD %connStr% -i %locFolder%\_UpgradeEnrichDVObjects.sql -o%locFolder%\log_UpgradeEnrichDVObjects.txt
 ExecuteTask\ExecuteTask.exe project projectfile="upgrade_db_project.xml" $connection="%connection%" $state="%state%" $speddistrict="%speddistrict%"
+
+SQLCMD %connStr% -i %locFolder%\..\..\Create_FTPdtsConfig.sql -h-1 -o%locFolder%\ValidationReport_UploadFTP_IEPwStuInfo.dtsConfig
+
+SQLCMD %connStr% -i %locFolder%\..\..\Create_Upload_FTP_txt.sql -h-1 -o%locFolder%\ValidationReport_Upload_FTP.txt
 
 VPNDisconnect.bat
 

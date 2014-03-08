@@ -6,6 +6,7 @@ declare @etlRoot varchar(100),
 	@linkedServerAddress varchar(100), 
 	@remoteDbUser varchar(50),
 	@remoteDbPwd varchar(20),
+	@enrichDataSource varchar(100),
 	@enrichDbname varchar(50),
 	@enrichDbUser varchar(50),
 	@enrichDbPwd varchar(20),
@@ -21,6 +22,7 @@ select
 	@linkedServerAlias = @linkedServerAddress+upper(@district),
 	@remoteDbUser = @district+'Conv',
 	@remoteDbPwd = 'ejmpo579', 
+	@enrichDataSource='.',
 	@enrichDbname = 'Enrich_DCB7_SC_Dillon4',
 	@enrichDbUser = 'sa',
 	@enrichDbPwd = 'vc3go!!',
@@ -41,6 +43,7 @@ insert x_DATAVALIDATION.ParamValues values ('databaseName', @district+'_SC_EO')
 insert x_DATAVALIDATION.ParamValues values ('EOdatabaseUserName', @remoteDbUser)
 insert x_DATAVALIDATION.ParamValues values ('EOdatabasepwd', @remoteDbPwd)
 
+insert x_DATAVALIDATION.ParamValues values ('enrichDataSource', @enrichDataSource)
 insert x_DATAVALIDATION.ParamValues values ('EnrichDbname', @enrichDbname)
 insert x_DATAVALIDATION.ParamValues values ('EnrichDbuser', @enrichDbUser)
 insert x_DATAVALIDATION.ParamValues values ('EnrichDbPwd', @enrichDbPwd)
