@@ -1,1 +1,0 @@
-sc delete "VC3 TestView Scheduled Tasks (DCB5)"

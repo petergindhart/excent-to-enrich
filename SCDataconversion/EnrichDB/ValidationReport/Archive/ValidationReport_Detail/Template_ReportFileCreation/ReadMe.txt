@@ -1,1 +1,0 @@
-Before running the Templatevalidationreportcration.bat, make sure to put the new Excel file(make copy from the Archive and paste it here).

@@ -1,1 +1,0 @@
-rasdial "SC Excentonline"  /DISCONNECT
