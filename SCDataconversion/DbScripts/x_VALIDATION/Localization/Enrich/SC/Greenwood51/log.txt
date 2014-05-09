@@ -1,0 +1,532 @@
+. 2014-04-15 04:12:39.779 --------------------------------------------------------------------------
+. 2014-04-15 04:12:39.780 WinSCP Version 5.1.7 (Build 3446) (OS 6.1.7601 Service Pack 1)
+. 2014-04-15 04:12:39.780 Configuration: C:\Program Files (x86)\WinSCP\WinSCP.ini
+. 2014-04-15 04:12:39.780 Local account: RENEGADE\muthuv
+. 2014-04-15 04:12:39.781 Working directory: C:\Program Files (x86)\WinSCP
+. 2014-04-15 04:12:39.781 Process ID: 8708
+. 2014-04-15 04:12:39.781 Command-line: "C:\Program Files (x86)\WinSCP\WinSCP.exe" -script="C:\EnrichETL_SC\DbScripts\x_VALIDATION\Localization\Enrich\SC\Greenwood51\ValidationReport_Upload_FTP.txt" /log="C:\EnrichETL_SC\DbScripts\x_VALIDATION\Localization\Enrich\SC\Greenwood51\log.txt"
+. 2014-04-15 04:12:39.781 Time zone: Current: GMT-6, Standard: GMT-7, DST: GMT-6, DST Start: 3/9/2014, DST End: 11/2/2014
+. 2014-04-15 04:12:39.781 Login time: Tuesday, April 15, 2014 4:12:39 AM
+. 2014-04-15 04:12:39.781 --------------------------------------------------------------------------
+. 2014-04-15 04:12:39.781 Session name: monicar@ftp.excent.com (Ad-Hoc session)
+. 2014-04-15 04:12:39.781 Host name: ftp.excent.com (Port: 21)
+. 2014-04-15 04:12:39.781 User name: monicar (Password: Yes, Key file: No)
+. 2014-04-15 04:12:39.781 Tunnel: No
+. 2014-04-15 04:12:39.781 Transfer Protocol: FTP
+. 2014-04-15 04:12:39.781 Ping type: C, Ping interval: 30 sec; Timeout: 15 sec
+. 2014-04-15 04:12:39.781 Proxy: none
+. 2014-04-15 04:12:39.781 FTP: FTPS: Explicit TLS; Passive: Yes [Force IP: A]; List all: A
+. 2014-04-15 04:12:39.781 Session reuse: Yes
+. 2014-04-15 04:12:39.781 Local directory: default, Remote directory: home, Update: Yes, Cache: Yes
+. 2014-04-15 04:12:39.781 Cache directory changes: Yes, Permanent: Yes
+. 2014-04-15 04:12:39.781 DST mode: 1; Timezone offset: 0h 0m
+. 2014-04-15 04:12:39.781 --------------------------------------------------------------------------
+. 2014-04-15 04:12:39.794 Connecting to ftp.excent.com ...
+. 2014-04-15 04:12:39.843 Connected with ftp.excent.com, negotiating SSL connection...
+< 2014-04-15 04:12:39.843 220-Welcome to Excent FTP.
+< 2014-04-15 04:12:39.843 220-
+< 2014-04-15 04:12:39.843 220 We monitor connections so please, no monkey business.
+> 2014-04-15 04:12:39.844 AUTH TLS
+< 2014-04-15 04:12:39.844 234 Using authentication type TLS
+. 2014-04-15 04:12:40.187 Using TLSv1, cipher TLSv1/SSLv3: AES256-SHA, 1024 bit RSA
+. 2014-04-15 04:12:40.187 SSL connection established. Waiting for welcome message...
+> 2014-04-15 04:12:40.187 USER monicar
+< 2014-04-15 04:12:40.188 331 Password required for monicar
+> 2014-04-15 04:12:40.188 PASS *******
+< 2014-04-15 04:12:40.188 230 Logged on
+> 2014-04-15 04:12:40.188 SYST
+< 2014-04-15 04:12:40.189 215 UNIX emulated by FileZilla
+> 2014-04-15 04:12:40.189 FEAT
+< 2014-04-15 04:12:40.190 211-Features:
+< 2014-04-15 04:12:40.190  MDTM
+< 2014-04-15 04:12:40.190  REST STREAM
+< 2014-04-15 04:12:40.190  SIZE
+< 2014-04-15 04:12:40.190  MLST type*;size*;modify*;
+< 2014-04-15 04:12:40.192  MLSD
+< 2014-04-15 04:12:40.192  AUTH SSL
+< 2014-04-15 04:12:40.192  AUTH TLS
+< 2014-04-15 04:12:40.192  PROT
+< 2014-04-15 04:12:40.192  PBSZ
+< 2014-04-15 04:12:40.192  UTF8
+< 2014-04-15 04:12:40.192  CLNT
+< 2014-04-15 04:12:40.192  MFMT
+< 2014-04-15 04:12:40.192 211 End
+> 2014-04-15 04:12:40.192 PBSZ 0
+< 2014-04-15 04:12:40.192 200 PBSZ=0
+> 2014-04-15 04:12:40.192 PROT P
+< 2014-04-15 04:12:40.192 200 Protection level set to P
+. 2014-04-15 04:12:40.192 Connected
+. 2014-04-15 04:12:40.193 --------------------------------------------------------------------------
+. 2014-04-15 04:12:40.202 Using FTP protocol.
+. 2014-04-15 04:12:40.203 Doing startup conversation with host.
+> 2014-04-15 04:12:40.203 PWD
+< 2014-04-15 04:12:40.204 257 "/" is current directory.
+. 2014-04-15 04:12:40.205 Getting current directory name.
+. 2014-04-15 04:12:40.205 Startup conversation with host finished.
+< 2014-04-15 04:12:40.205 Script: Active session: [1] monicar@ftp.excent.com
+> 2014-04-15 04:12:40.205 Script: option transfer binary
+< 2014-04-15 04:12:40.205 Script: transfer        binary    
+> 2014-04-15 04:12:40.205 Script: lcd "C:\EnrichETL_SC\DbScripts\x_VALIDATION\Localization\Enrich\SC\Greenwood51"
+< 2014-04-15 04:12:40.205 Script: C:\EnrichETL_SC\DbScripts\x_VALIDATION\Localization\Enrich\SC\Greenwood51
+> 2014-04-15 04:12:40.205 Script: cd /customer/SC/
+. 2014-04-15 04:12:40.205 Cached directory change via "/customer/SC/" to "/customer/SC".
+. 2014-04-15 04:12:40.205 Getting current directory name.
+< 2014-04-15 04:12:40.205 Script: /customer/SC
+> 2014-04-15 04:12:40.205 Script: put "C:\EnrichETL_SC\DbScripts\x_VALIDATION\Localization\Enrich\SC\Greenwood51\ValidationReport_Detail.xls"
+. 2014-04-15 04:12:40.205 Copying 1 files/directories to remote directory "/customer/SC"
+. 2014-04-15 04:12:40.205   PrTime: Yes; PrRO: No; Rght: rw-r--r--; PrR: No (No); FnCs: N; RIC: 0100; Resume: S (102400); CalcS: No; Mask: 
+. 2014-04-15 04:12:40.205   TM: B; ClAr: No; CPS: 0; InclM: 
+. 2014-04-15 04:12:40.205   AscM: *.*html; *.htm; *.txt; *.php; *.php3; *.cgi; *.c; *.cpp; *.h; *.pas; *.bas; *.tex; *.pl; *.js; .htaccess; *.xtml; *.css; *.cfg; *.ini; *.sh; *.xml
+. 2014-04-15 04:12:40.205 File: "C:\EnrichETL_SC\DbScripts\x_VALIDATION\Localization\Enrich\SC\Greenwood51\ValidationReport_Detail.xls"
+. 2014-04-15 04:12:40.210 Copying "C:\EnrichETL_SC\DbScripts\x_VALIDATION\Localization\Enrich\SC\Greenwood51\ValidationReport_Detail.xls" to remote directory started.
+. 2014-04-15 04:12:40.210 Binary transfer mode selected.
+. 2014-04-15 04:12:40.210 Starting upload of C:\EnrichETL_SC\DbScripts\x_VALIDATION\Localization\Enrich\SC\Greenwood51\ValidationReport_Detail.xls
+> 2014-04-15 04:12:40.210 CWD /customer/SC/
+< 2014-04-15 04:12:40.211 250 CWD successful. "/customer/SC" is current directory.
+> 2014-04-15 04:12:40.211 PWD
+< 2014-04-15 04:12:40.212 257 "/customer/SC" is current directory.
+> 2014-04-15 04:12:40.212 TYPE A
+< 2014-04-15 04:12:40.213 200 Type set to A
+> 2014-04-15 04:12:40.213 PASV
+< 2014-04-15 04:12:40.214 227 Entering Passive Mode (10,0,1,27,199,6)
+> 2014-04-15 04:12:40.216 MLSD
+< 2014-04-15 04:12:40.223 150 Connection accepted
+. 2014-04-15 04:12:40.223 SSL connection established
+< 2014-04-15 04:12:40.227 226 Transfer OK
+. 2014-04-15 04:12:40.227 type=dir;modify=20140122154421; Abbeville
+. 2014-04-15 04:12:40.227 type=dir;modify=20131206145351; Aiken
+. 2014-04-15 04:12:40.227 type=file;modify=20140328012322;size=1726; all hosted SC EO databases SPED AND REL ServiceDef report.sql
+. 2014-04-15 04:12:40.227 type=dir;modify=20140122175848; Allendale
+. 2014-04-15 04:12:40.227 type=dir;modify=20130613151904; Anderson1
+. 2014-04-15 04:12:40.227 type=dir;modify=20140122152157; Anderson2
+. 2014-04-15 04:12:40.227 type=dir;modify=20140122172244; Anderson3
+. 2014-04-15 04:12:40.227 type=dir;modify=20140122174228; Anderson4
+. 2014-04-15 04:12:40.227 type=dir;modify=20140212214819; Anderson5
+. 2014-04-15 04:12:40.227 type=dir;modify=20140128160923; Archive
+. 2014-04-15 04:12:40.227 type=dir;modify=20140224172307; Bamberg1
+. 2014-04-15 04:12:40.227 type=dir;modify=20140122160450; Bamberg2
+. 2014-04-15 04:12:40.227 type=dir;modify=20140122172401; Barnwell29
+. 2014-04-15 04:12:40.227 type=dir;modify=20140122175653; Barnwell45
+. 2014-04-15 04:12:40.227 type=dir;modify=20140110152421; Beaufort
+. 2014-04-15 04:12:40.227 type=dir;modify=20130122142855; Berkeley
+. 2014-04-15 04:12:40.227 type=dir;modify=20140122153357; Calhoun
+. 2014-04-15 04:12:40.227 type=dir;modify=20140122173002; Charleston
+. 2014-04-15 04:12:40.227 type=dir;modify=20140122173907; Cherokee
+. 2014-04-15 04:12:40.227 type=dir;modify=20140122162754; Chester
+. 2014-04-15 04:12:40.227 type=dir;modify=20130212042554; Chesterfield
+. 2014-04-15 04:12:40.227 type=dir;modify=20140122174231; Clarendon1
+. 2014-04-15 04:12:40.227 type=dir;modify=20140122171640; Clarendon2
+. 2014-04-15 04:12:40.227 type=dir;modify=20140122181216; Clarendon3
+. 2014-04-15 04:12:40.227 type=dir;modify=20140122162150; Colleton
+. 2014-04-15 04:12:40.227 type=dir;modify=20140122154008; Darlington
+. 2014-04-15 04:12:40.227 type=dir;modify=20140122175906; DeafBlind
+. 2014-04-15 04:12:40.227 type=dir;modify=20140122182415; Department of Corrections
+. 2014-04-15 04:12:40.227 type=dir;modify=20140122160806; Dillon3
+. 2014-04-15 04:12:40.227 type=dir;modify=20140317111602; Dillon4
+. 2014-04-15 04:12:40.227 type=dir;modify=20140122180857; DJJustice
+. 2014-04-15 04:12:40.227 type=dir;modify=20140226094215; Dorchester2
+. 2014-04-15 04:12:40.227 type=dir;modify=20140122171436; Dorchester4
+. 2014-04-15 04:12:40.227 type=dir;modify=20140306191027; Edgefield
+. 2014-04-15 04:12:40.227 type=file;modify=20140218100021;size=725924211; Enrich_DCB5_Sandbox_20140218.rar
+. 2014-04-15 04:12:40.227 type=file;modify=20140214115020;size=713376563; Enrich_SC_Sandbox_20140214.rar
+. 2014-04-15 04:12:40.227 type=file;modify=20140325071128;size=7783681; ExportedConfig_EnrichVersion9_2_9_5030_20140325_SC.zip
+. 2014-04-15 04:12:40.227 type=dir;modify=20140122172756; Fairfield
+. 2014-04-15 04:12:40.227 type=dir;modify=20140122173855; Felton
+. 2014-04-15 04:12:40.227 type=dir;modify=20140122180114; Florence1
+. 2014-04-15 04:12:40.227 type=dir;modify=20140122180415; Florence2
+. 2014-04-15 04:12:40.227 type=dir;modify=20140122180450; Florence3
+. 2014-04-15 04:12:40.227 type=dir;modify=20140122180638; Florence4
+. 2014-04-15 04:12:40.227 type=dir;modify=20140122170953; Florence5
+. 2014-04-15 04:12:40.227 type=dir;modify=20140122180232; Georgetown
+. 2014-04-15 04:12:40.227 type=dir;modify=20140122180036; GovArts
+. 2014-04-15 04:12:40.227 type=dir;modify=20140122180657; GovMath
+. 2014-04-15 04:12:40.227 type=dir;modify=20131107181158; Greenville
+. 2014-04-15 04:12:40.227 type=dir;modify=20131202221301; Greenwood
+. 2014-04-15 04:12:40.227 type=dir;modify=20140212151607; Greenwood50
+. 2014-04-15 04:12:40.227 type=dir;modify=20140414192309; Greenwood51
+. 2014-04-15 04:12:40.227 type=dir;modify=20140122172015; Greenwood52
+. 2014-04-15 04:12:40.227 type=dir;modify=20140331174416; Hampton1
+. 2014-04-15 04:12:40.227 type=dir;modify=20131104230208; Hampton2
+. 2014-04-15 04:12:40.227 type=dir;modify=20130805180541; Horry
+. 2014-04-15 04:12:40.227 type=dir;modify=20140122154232; Jasper
+. 2014-04-15 04:12:40.227 type=dir;modify=20140122174328; JohnDeLaHowe
+. 2014-04-15 04:12:40.227 type=dir;modify=20140122162915; Kershaw
+. 2014-04-15 04:12:40.227 type=dir;modify=20140407130509; Lancaster
+. 2014-04-15 04:12:40.227 type=dir;modify=20140122173043; Laurens55
+. 2014-04-15 04:12:40.227 type=dir;modify=20140122171455; Laurens56
+. 2014-04-15 04:12:40.227 type=dir;modify=20140122172138; Lee
+. 2014-04-15 04:12:40.227 type=dir;modify=20130821151533; Lexington1
+. 2014-04-15 04:12:40.227 type=dir;modify=20140122175707; Lexington2
+. 2014-04-15 04:12:40.227 type=dir;modify=20140122174558; Lexington3
+. 2014-04-15 04:12:40.227 type=dir;modify=20140122173138; Lexington4
+. 2014-04-15 04:12:40.227 type=dir;modify=20140122154107; Lexington5
+. 2014-04-15 04:12:40.227 type=dir;modify=20130613151758; Marion
+. 2014-04-15 04:12:40.227 type=dir;modify=20140122181104; Marlboro
+. 2014-04-15 04:12:40.227 type=dir;modify=20140122181115; McCormick
+. 2014-04-15 04:12:40.227 type=dir;modify=20130613150621; Newberry
+. 2014-04-15 04:12:40.227 type=dir;modify=20140319124251; Oconee
+. 2014-04-15 04:12:40.227 type=dir;modify=20140122182847; Orangeburg3
+. 2014-04-15 04:12:40.227 type=dir;modify=20140122173331; Orangeburg4
+. 2014-04-15 04:12:40.227 type=dir;modify=20140122163202; Orangeburg5
+. 2014-04-15 04:12:40.227 type=dir;modify=20140226093026; Pickens
+. 2014-04-15 04:12:40.227 type=dir;modify=20140122165649; Richland1
+. 2014-04-15 04:12:40.227 type=dir;modify=20140328071958; Richland2
+. 2014-04-15 04:12:40.227 type=dir;modify=20140122173706; Saluda
+. 2014-04-15 04:12:40.227 type=dir;modify=20140122181242; SC Public Charter
+. 2014-04-15 04:12:40.227 type=file;modify=20140328012225;size=1178252; SC ServiceDefCodes 20140327.xlsx
+. 2014-04-15 04:12:40.227 type=dir;modify=20140409171336; SCDOE
+. 2014-04-15 04:12:40.227 type=dir;modify=20140408180449; SCSchoolDistrict
+. 2014-04-15 04:12:40.228 type=file;modify=20140328011547;size=4851760; ServiceDefs20130327.csv
+. 2014-04-15 04:12:40.228 type=dir;modify=20130501174946; SIF
+. 2014-04-15 04:12:40.228 type=dir;modify=20130613150639; Spartanburg1
+. 2014-04-15 04:12:40.228 type=dir;modify=20140122155457; Spartanburg2
+. 2014-04-15 04:12:40.228 type=dir;modify=20140122172634; Spartanburg3
+. 2014-04-15 04:12:40.228 type=dir;modify=20140122175556; Spartanburg4
+. 2014-04-15 04:12:40.228 type=dir;modify=20140122181440; Spartanburg5
+. 2014-04-15 04:12:40.228 type=dir;modify=20140122165524; Spartanburg6
+. 2014-04-15 04:12:40.228 type=dir;modify=20140122173356; Spartanburg7
+. 2014-04-15 04:12:40.228 type=dir;modify=20140122152855; Sumter
+. 2014-04-15 04:12:40.228 type=dir;modify=20130122143106; Union
+. 2014-04-15 04:12:40.228 type=dir;modify=20140122172916; Williamsburg
+. 2014-04-15 04:12:40.228 type=dir;modify=20130306164018; York1
+. 2014-04-15 04:12:40.228 type=dir;modify=20140122181501; York2
+. 2014-04-15 04:12:40.228 type=dir;modify=20140122174138; York3
+> 2014-04-15 04:12:40.228 TYPE I
+< 2014-04-15 04:12:40.228 200 Type set to I
+> 2014-04-15 04:12:40.228 PASV
+< 2014-04-15 04:12:40.229 227 Entering Passive Mode (10,0,1,27,199,7)
+> 2014-04-15 04:12:40.229 STOR ValidationReport_Detail.xls
+< 2014-04-15 04:12:40.244 150 Connection accepted
+. 2014-04-15 04:12:40.275 SSL connection established
+< 2014-04-15 04:12:40.297 226 Transfer OK
+> 2014-04-15 04:12:40.297 MFMT 20140415091238 ValidationReport_Detail.xls
+< 2014-04-15 04:12:40.300 213 modify=20140415091238; /customer/SC/ValidationReport_Detail.xls
+. 2014-04-15 04:12:40.301 Upload successful
+> 2014-04-15 04:12:40.301 Script: close
+. 2014-04-15 04:12:40.302 Disconnected from server
+. 2014-04-15 04:53:11.456 --------------------------------------------------------------------------
+. 2014-04-15 04:53:11.456 WinSCP Version 5.1.7 (Build 3446) (OS 6.1.7601 Service Pack 1)
+. 2014-04-15 04:53:11.456 Configuration: C:\Program Files (x86)\WinSCP\WinSCP.ini
+. 2014-04-15 04:53:11.457 Local account: RENEGADE\muthuv
+. 2014-04-15 04:53:11.457 Working directory: C:\Program Files (x86)\WinSCP
+. 2014-04-15 04:53:11.457 Process ID: 10164
+. 2014-04-15 04:53:11.457 Command-line: "C:\Program Files (x86)\WinSCP\WinSCP.exe" -script="C:\EnrichETL_SC\DbScripts\x_VALIDATION\Localization\Enrich\SC\Greenwood51\ValidationReport_Upload_FTP.txt" /log="C:\EnrichETL_SC\DbScripts\x_VALIDATION\Localization\Enrich\SC\Greenwood51\log.txt"
+. 2014-04-15 04:53:11.457 Time zone: Current: GMT-6, Standard: GMT-7, DST: GMT-6, DST Start: 3/9/2014, DST End: 11/2/2014
+. 2014-04-15 04:53:11.457 Login time: Tuesday, April 15, 2014 4:53:11 AM
+. 2014-04-15 04:53:11.457 --------------------------------------------------------------------------
+. 2014-04-15 04:53:11.457 Session name: monicar@ftp.excent.com (Ad-Hoc session)
+. 2014-04-15 04:53:11.457 Host name: ftp.excent.com (Port: 21)
+. 2014-04-15 04:53:11.457 User name: monicar (Password: Yes, Key file: No)
+. 2014-04-15 04:53:11.457 Tunnel: No
+. 2014-04-15 04:53:11.457 Transfer Protocol: FTP
+. 2014-04-15 04:53:11.457 Ping type: C, Ping interval: 30 sec; Timeout: 15 sec
+. 2014-04-15 04:53:11.457 Proxy: none
+. 2014-04-15 04:53:11.457 FTP: FTPS: Explicit TLS; Passive: Yes [Force IP: A]; List all: A
+. 2014-04-15 04:53:11.457 Session reuse: Yes
+. 2014-04-15 04:53:11.457 Local directory: default, Remote directory: home, Update: Yes, Cache: Yes
+. 2014-04-15 04:53:11.457 Cache directory changes: Yes, Permanent: Yes
+. 2014-04-15 04:53:11.457 DST mode: 1; Timezone offset: 0h 0m
+. 2014-04-15 04:53:11.457 --------------------------------------------------------------------------
+. 2014-04-15 04:53:11.458 Connecting to ftp.excent.com ...
+. 2014-04-15 04:53:11.461 Connected with ftp.excent.com, negotiating SSL connection...
+< 2014-04-15 04:53:11.462 220-Welcome to Excent FTP.
+< 2014-04-15 04:53:11.462 220-
+< 2014-04-15 04:53:11.462 220 We monitor connections so please, no monkey business.
+> 2014-04-15 04:53:11.462 AUTH TLS
+< 2014-04-15 04:53:11.463 234 Using authentication type TLS
+. 2014-04-15 04:53:11.784 Using TLSv1, cipher TLSv1/SSLv3: AES256-SHA, 1024 bit RSA
+. 2014-04-15 04:53:11.784 SSL connection established. Waiting for welcome message...
+> 2014-04-15 04:53:11.784 USER monicar
+< 2014-04-15 04:53:11.785 331 Password required for monicar
+> 2014-04-15 04:53:11.785 PASS *******
+< 2014-04-15 04:53:11.785 230 Logged on
+> 2014-04-15 04:53:11.785 SYST
+< 2014-04-15 04:53:11.786 215 UNIX emulated by FileZilla
+> 2014-04-15 04:53:11.786 FEAT
+< 2014-04-15 04:53:11.787 211-Features:
+< 2014-04-15 04:53:11.787  MDTM
+< 2014-04-15 04:53:11.787  REST STREAM
+< 2014-04-15 04:53:11.787  SIZE
+< 2014-04-15 04:53:11.787  MLST type*;size*;modify*;
+< 2014-04-15 04:53:11.787  MLSD
+< 2014-04-15 04:53:11.787  AUTH SSL
+< 2014-04-15 04:53:11.787  AUTH TLS
+< 2014-04-15 04:53:11.787  PROT
+< 2014-04-15 04:53:11.787  PBSZ
+< 2014-04-15 04:53:11.787  UTF8
+< 2014-04-15 04:53:11.787  CLNT
+< 2014-04-15 04:53:11.787  MFMT
+< 2014-04-15 04:53:11.787 211 End
+> 2014-04-15 04:53:11.787 PBSZ 0
+< 2014-04-15 04:53:11.788 200 PBSZ=0
+> 2014-04-15 04:53:11.788 PROT P
+< 2014-04-15 04:53:11.788 200 Protection level set to P
+. 2014-04-15 04:53:11.788 Connected
+. 2014-04-15 04:53:11.788 --------------------------------------------------------------------------
+. 2014-04-15 04:53:11.788 Using FTP protocol.
+. 2014-04-15 04:53:11.789 Doing startup conversation with host.
+> 2014-04-15 04:53:11.789 PWD
+< 2014-04-15 04:53:11.789 257 "/" is current directory.
+. 2014-04-15 04:53:11.789 Getting current directory name.
+. 2014-04-15 04:53:11.789 Startup conversation with host finished.
+< 2014-04-15 04:53:11.789 Script: Active session: [1] monicar@ftp.excent.com
+> 2014-04-15 04:53:11.789 Script: option transfer binary
+< 2014-04-15 04:53:11.790 Script: transfer        binary    
+> 2014-04-15 04:53:11.790 Script: lcd "C:\EnrichETL_SC\DbScripts\x_VALIDATION\Localization\Enrich\SC\Greenwood51"
+< 2014-04-15 04:53:11.790 Script: C:\EnrichETL_SC\DbScripts\x_VALIDATION\Localization\Enrich\SC\Greenwood51
+> 2014-04-15 04:53:11.790 Script: cd /customer/sc/
+. 2014-04-15 04:53:11.790 Cached directory change via "/customer/sc/" to "/customer/sc".
+. 2014-04-15 04:53:11.790 Getting current directory name.
+< 2014-04-15 04:53:11.790 Script: /customer/sc
+> 2014-04-15 04:53:11.790 Script: put "C:\EnrichETL_SC\DbScripts\x_VALIDATION\Localization\Enrich\SC\Greenwood51\ValidationReport_Detail.xls"
+. 2014-04-15 04:53:11.790 Copying 1 files/directories to remote directory "/customer/sc"
+. 2014-04-15 04:53:11.790   PrTime: Yes; PrRO: No; Rght: rw-r--r--; PrR: No (No); FnCs: N; RIC: 0100; Resume: S (102400); CalcS: No; Mask: 
+. 2014-04-15 04:53:11.790   TM: B; ClAr: No; CPS: 0; InclM: 
+. 2014-04-15 04:53:11.790   AscM: *.*html; *.htm; *.txt; *.php; *.php3; *.cgi; *.c; *.cpp; *.h; *.pas; *.bas; *.tex; *.pl; *.js; .htaccess; *.xtml; *.css; *.cfg; *.ini; *.sh; *.xml
+. 2014-04-15 04:53:11.790 File: "C:\EnrichETL_SC\DbScripts\x_VALIDATION\Localization\Enrich\SC\Greenwood51\ValidationReport_Detail.xls"
+. 2014-04-15 04:53:11.790 Copying "C:\EnrichETL_SC\DbScripts\x_VALIDATION\Localization\Enrich\SC\Greenwood51\ValidationReport_Detail.xls" to remote directory started.
+. 2014-04-15 04:53:11.790 Binary transfer mode selected.
+. 2014-04-15 04:53:11.790 Starting upload of C:\EnrichETL_SC\DbScripts\x_VALIDATION\Localization\Enrich\SC\Greenwood51\ValidationReport_Detail.xls
+> 2014-04-15 04:53:11.790 CWD /customer/sc/
+< 2014-04-15 04:53:11.791 250 CWD successful. "/customer/sc" is current directory.
+> 2014-04-15 04:53:11.791 PWD
+< 2014-04-15 04:53:11.791 257 "/customer/sc" is current directory.
+> 2014-04-15 04:53:11.791 TYPE A
+< 2014-04-15 04:53:11.791 200 Type set to A
+> 2014-04-15 04:53:11.791 PASV
+< 2014-04-15 04:53:11.792 227 Entering Passive Mode (10,0,1,27,198,232)
+> 2014-04-15 04:53:11.792 MLSD
+< 2014-04-15 04:53:11.797 150 Connection accepted
+. 2014-04-15 04:53:11.797 SSL connection established
+< 2014-04-15 04:53:11.799 226 Transfer OK
+. 2014-04-15 04:53:11.799 type=dir;modify=20140122154421; Abbeville
+. 2014-04-15 04:53:11.799 type=dir;modify=20131206145351; Aiken
+. 2014-04-15 04:53:11.799 type=file;modify=20140328012322;size=1726; all hosted SC EO databases SPED AND REL ServiceDef report.sql
+. 2014-04-15 04:53:11.799 type=dir;modify=20140122175848; Allendale
+. 2014-04-15 04:53:11.800 type=dir;modify=20130613151904; Anderson1
+. 2014-04-15 04:53:11.800 type=dir;modify=20140122152157; Anderson2
+. 2014-04-15 04:53:11.800 type=dir;modify=20140122172244; Anderson3
+. 2014-04-15 04:53:11.800 type=dir;modify=20140122174228; Anderson4
+. 2014-04-15 04:53:11.800 type=dir;modify=20140212214819; Anderson5
+. 2014-04-15 04:53:11.800 type=dir;modify=20140128160923; Archive
+. 2014-04-15 04:53:11.800 type=dir;modify=20140224172307; Bamberg1
+. 2014-04-15 04:53:11.800 type=dir;modify=20140122160450; Bamberg2
+. 2014-04-15 04:53:11.800 type=dir;modify=20140122172401; Barnwell29
+. 2014-04-15 04:53:11.800 type=dir;modify=20140122175653; Barnwell45
+. 2014-04-15 04:53:11.800 type=dir;modify=20140110152421; Beaufort
+. 2014-04-15 04:53:11.800 type=dir;modify=20130122142855; Berkeley
+. 2014-04-15 04:53:11.800 type=dir;modify=20140122153357; Calhoun
+. 2014-04-15 04:53:11.800 type=dir;modify=20140122173002; Charleston
+. 2014-04-15 04:53:11.800 type=dir;modify=20140122173907; Cherokee
+. 2014-04-15 04:53:11.800 type=dir;modify=20140122162754; Chester
+. 2014-04-15 04:53:11.800 type=dir;modify=20130212042554; Chesterfield
+. 2014-04-15 04:53:11.800 type=dir;modify=20140122174231; Clarendon1
+. 2014-04-15 04:53:11.800 type=dir;modify=20140122171640; Clarendon2
+. 2014-04-15 04:53:11.800 type=dir;modify=20140122181216; Clarendon3
+. 2014-04-15 04:53:11.800 type=dir;modify=20140122162150; Colleton
+. 2014-04-15 04:53:11.800 type=dir;modify=20140122154008; Darlington
+. 2014-04-15 04:53:11.800 type=dir;modify=20140122175906; DeafBlind
+. 2014-04-15 04:53:11.800 type=dir;modify=20140122182415; Department of Corrections
+. 2014-04-15 04:53:11.800 type=dir;modify=20140122160806; Dillon3
+. 2014-04-15 04:53:11.800 type=dir;modify=20140317111602; Dillon4
+. 2014-04-15 04:53:11.800 type=dir;modify=20140122180857; DJJustice
+. 2014-04-15 04:53:11.800 type=dir;modify=20140226094215; Dorchester2
+. 2014-04-15 04:53:11.800 type=dir;modify=20140122171436; Dorchester4
+. 2014-04-15 04:53:11.800 type=dir;modify=20140306191027; Edgefield
+. 2014-04-15 04:53:11.800 type=file;modify=20140218100021;size=725924211; Enrich_DCB5_Sandbox_20140218.rar
+. 2014-04-15 04:53:11.800 type=file;modify=20140214115020;size=713376563; Enrich_SC_Sandbox_20140214.rar
+. 2014-04-15 04:53:11.800 type=file;modify=20140325071128;size=7783681; ExportedConfig_EnrichVersion9_2_9_5030_20140325_SC.zip
+. 2014-04-15 04:53:11.800 type=dir;modify=20140122172756; Fairfield
+. 2014-04-15 04:53:11.800 type=dir;modify=20140122173855; Felton
+. 2014-04-15 04:53:11.800 type=dir;modify=20140122180114; Florence1
+. 2014-04-15 04:53:11.800 type=dir;modify=20140122180415; Florence2
+. 2014-04-15 04:53:11.800 type=dir;modify=20140122180450; Florence3
+. 2014-04-15 04:53:11.800 type=dir;modify=20140122180638; Florence4
+. 2014-04-15 04:53:11.800 type=dir;modify=20140122170953; Florence5
+. 2014-04-15 04:53:11.800 type=dir;modify=20140122180232; Georgetown
+. 2014-04-15 04:53:11.800 type=dir;modify=20140122180036; GovArts
+. 2014-04-15 04:53:11.800 type=dir;modify=20140122180657; GovMath
+. 2014-04-15 04:53:11.800 type=dir;modify=20131107181158; Greenville
+. 2014-04-15 04:53:11.800 type=dir;modify=20131202221301; Greenwood
+. 2014-04-15 04:53:11.800 type=dir;modify=20140212151607; Greenwood50
+. 2014-04-15 04:53:11.800 type=dir;modify=20140414192309; Greenwood51
+. 2014-04-15 04:53:11.800 type=dir;modify=20140122172015; Greenwood52
+. 2014-04-15 04:53:11.800 type=dir;modify=20140331174416; Hampton1
+. 2014-04-15 04:53:11.800 type=dir;modify=20131104230208; Hampton2
+. 2014-04-15 04:53:11.800 type=dir;modify=20130805180541; Horry
+. 2014-04-15 04:53:11.800 type=dir;modify=20140122154232; Jasper
+. 2014-04-15 04:53:11.800 type=dir;modify=20140122174328; JohnDeLaHowe
+. 2014-04-15 04:53:11.800 type=dir;modify=20140122162915; Kershaw
+. 2014-04-15 04:53:11.800 type=dir;modify=20140407130509; Lancaster
+. 2014-04-15 04:53:11.800 type=dir;modify=20140122173043; Laurens55
+. 2014-04-15 04:53:11.800 type=dir;modify=20140122171455; Laurens56
+. 2014-04-15 04:53:11.800 type=dir;modify=20140122172138; Lee
+. 2014-04-15 04:53:11.800 type=dir;modify=20130821151533; Lexington1
+. 2014-04-15 04:53:11.800 type=dir;modify=20140122175707; Lexington2
+. 2014-04-15 04:53:11.800 type=dir;modify=20140122174558; Lexington3
+. 2014-04-15 04:53:11.800 type=dir;modify=20140122173138; Lexington4
+. 2014-04-15 04:53:11.800 type=dir;modify=20140122154107; Lexington5
+. 2014-04-15 04:53:11.800 type=dir;modify=20130613151758; Marion
+. 2014-04-15 04:53:11.800 type=dir;modify=20140122181104; Marlboro
+. 2014-04-15 04:53:11.800 type=dir;modify=20140122181115; McCormick
+. 2014-04-15 04:53:11.800 type=dir;modify=20130613150621; Newberry
+. 2014-04-15 04:53:11.800 type=dir;modify=20140319124251; Oconee
+. 2014-04-15 04:53:11.800 type=dir;modify=20140122182847; Orangeburg3
+. 2014-04-15 04:53:11.800 type=dir;modify=20140122173331; Orangeburg4
+. 2014-04-15 04:53:11.800 type=dir;modify=20140122163202; Orangeburg5
+. 2014-04-15 04:53:11.800 type=dir;modify=20140226093026; Pickens
+. 2014-04-15 04:53:11.800 type=dir;modify=20140122165649; Richland1
+. 2014-04-15 04:53:11.800 type=dir;modify=20140328071958; Richland2
+. 2014-04-15 04:53:11.800 type=dir;modify=20140122173706; Saluda
+. 2014-04-15 04:53:11.800 type=dir;modify=20140122181242; SC Public Charter
+. 2014-04-15 04:53:11.800 type=file;modify=20140328012225;size=1178252; SC ServiceDefCodes 20140327.xlsx
+. 2014-04-15 04:53:11.800 type=dir;modify=20140409171336; SCDOE
+. 2014-04-15 04:53:11.800 type=dir;modify=20140408180449; SCSchoolDistrict
+. 2014-04-15 04:53:11.800 type=file;modify=20140328011547;size=4851760; ServiceDefs20130327.csv
+. 2014-04-15 04:53:11.800 type=dir;modify=20130501174946; SIF
+. 2014-04-15 04:53:11.800 type=dir;modify=20130613150639; Spartanburg1
+. 2014-04-15 04:53:11.800 type=dir;modify=20140122155457; Spartanburg2
+. 2014-04-15 04:53:11.800 type=dir;modify=20140122172634; Spartanburg3
+. 2014-04-15 04:53:11.800 type=dir;modify=20140122175556; Spartanburg4
+. 2014-04-15 04:53:11.800 type=dir;modify=20140122181440; Spartanburg5
+. 2014-04-15 04:53:11.800 type=dir;modify=20140122165524; Spartanburg6
+. 2014-04-15 04:53:11.800 type=dir;modify=20140122173356; Spartanburg7
+. 2014-04-15 04:53:11.800 type=dir;modify=20140122152855; Sumter
+. 2014-04-15 04:53:11.800 type=dir;modify=20130122143106; Union
+. 2014-04-15 04:53:11.800 type=file;modify=20140415091238;size=523776; ValidationReport_Detail.xls
+. 2014-04-15 04:53:11.800 type=dir;modify=20140122172916; Williamsburg
+. 2014-04-15 04:53:11.800 type=dir;modify=20130306164018; York1
+. 2014-04-15 04:53:11.800 type=dir;modify=20140122181501; York2
+. 2014-04-15 04:53:11.800 type=dir;modify=20140122174138; York3
+> 2014-04-15 04:53:11.822 TYPE I
+< 2014-04-15 04:53:11.823 200 Type set to I
+> 2014-04-15 04:53:11.823 PASV
+< 2014-04-15 04:53:11.823 227 Entering Passive Mode (10,0,1,27,198,233)
+> 2014-04-15 04:53:11.824 STOR ValidationReport_Detail.xls
+< 2014-04-15 04:53:11.825 150 Connection accepted
+. 2014-04-15 04:53:11.836 SSL connection established
+< 2014-04-15 04:53:11.877 226 Transfer OK
+> 2014-04-15 04:53:11.877 MFMT 20140415095311 ValidationReport_Detail.xls
+< 2014-04-15 04:53:11.883 213 modify=20140415095311; /customer/sc/ValidationReport_Detail.xls
+. 2014-04-15 04:53:11.883 Upload successful
+> 2014-04-15 04:53:11.883 Script: close
+. 2014-04-15 04:53:11.883 Disconnected from server
+. 2014-04-16 02:43:49.580 --------------------------------------------------------------------------
+. 2014-04-16 02:43:49.580 WinSCP Version 5.1.7 (Build 3446) (OS 6.1.7601 Service Pack 1)
+. 2014-04-16 02:43:49.581 Configuration: C:\Program Files (x86)\WinSCP\WinSCP.ini
+. 2014-04-16 02:43:49.581 Local account: RENEGADE\muthuv
+. 2014-04-16 02:43:49.581 Working directory: C:\Program Files (x86)\WinSCP
+. 2014-04-16 02:43:49.581 Process ID: 9716
+. 2014-04-16 02:43:49.581 Command-line: "C:\Program Files (x86)\WinSCP\WinSCP.exe" -script="C:\EnrichETL_SC\DbScripts\x_VALIDATION\Localization\Enrich\SC\Greenwood51\ValidationReport_Upload_FTP.txt" /log="C:\EnrichETL_SC\DbScripts\x_VALIDATION\Localization\Enrich\SC\Greenwood51\log.txt"
+. 2014-04-16 02:43:49.581 Time zone: Current: GMT-6, Standard: GMT-7, DST: GMT-6, DST Start: 3/9/2014, DST End: 11/2/2014
+. 2014-04-16 02:43:49.581 Login time: Wednesday, April 16, 2014 2:43:49 AM
+. 2014-04-16 02:43:49.581 --------------------------------------------------------------------------
+. 2014-04-16 02:43:49.581 Session name: monicar@ftp.excent.com (Ad-Hoc session)
+. 2014-04-16 02:43:49.581 Host name: ftp.excent.com (Port: 21)
+. 2014-04-16 02:43:49.581 User name: monicar (Password: Yes, Key file: No)
+. 2014-04-16 02:43:49.581 Tunnel: No
+. 2014-04-16 02:43:49.581 Transfer Protocol: FTP
+. 2014-04-16 02:43:49.581 Ping type: C, Ping interval: 30 sec; Timeout: 15 sec
+. 2014-04-16 02:43:49.581 Proxy: none
+. 2014-04-16 02:43:49.582 FTP: FTPS: Explicit TLS; Passive: Yes [Force IP: A]; List all: A
+. 2014-04-16 02:43:49.582 Session reuse: Yes
+. 2014-04-16 02:43:49.582 Local directory: default, Remote directory: home, Update: Yes, Cache: Yes
+. 2014-04-16 02:43:49.582 Cache directory changes: Yes, Permanent: Yes
+. 2014-04-16 02:43:49.582 DST mode: 1; Timezone offset: 0h 0m
+. 2014-04-16 02:43:49.582 --------------------------------------------------------------------------
+. 2014-04-16 02:43:49.583 Connecting to ftp.excent.com ...
+. 2014-04-16 02:43:49.585 Connected with ftp.excent.com, negotiating SSL connection...
+< 2014-04-16 02:43:49.586 220-Welcome to Excent FTP.
+< 2014-04-16 02:43:49.586 220-
+< 2014-04-16 02:43:49.586 220 We monitor connections so please, no monkey business.
+> 2014-04-16 02:43:49.586 AUTH TLS
+< 2014-04-16 02:43:49.588 234 Using authentication type TLS
+. 2014-04-16 02:43:49.875 Using TLSv1, cipher TLSv1/SSLv3: AES256-SHA, 1024 bit RSA
+. 2014-04-16 02:43:49.875 SSL connection established. Waiting for welcome message...
+> 2014-04-16 02:43:49.875 USER monicar
+< 2014-04-16 02:43:49.876 331 Password required for monicar
+> 2014-04-16 02:43:49.876 PASS *******
+< 2014-04-16 02:43:49.876 230 Logged on
+> 2014-04-16 02:43:49.876 SYST
+< 2014-04-16 02:43:49.877 215 UNIX emulated by FileZilla
+> 2014-04-16 02:43:49.877 FEAT
+< 2014-04-16 02:43:49.878 211-Features:
+< 2014-04-16 02:43:49.878  MDTM
+< 2014-04-16 02:43:49.878  REST STREAM
+< 2014-04-16 02:43:49.878  SIZE
+< 2014-04-16 02:43:49.878  MLST type*;size*;modify*;
+< 2014-04-16 02:43:49.878  MLSD
+< 2014-04-16 02:43:49.878  AUTH SSL
+< 2014-04-16 02:43:49.878  AUTH TLS
+< 2014-04-16 02:43:49.878  PROT
+< 2014-04-16 02:43:49.878  PBSZ
+< 2014-04-16 02:43:49.878  UTF8
+< 2014-04-16 02:43:49.878  CLNT
+< 2014-04-16 02:43:49.878  MFMT
+< 2014-04-16 02:43:49.878 211 End
+> 2014-04-16 02:43:49.878 PBSZ 0
+< 2014-04-16 02:43:49.878 200 PBSZ=0
+> 2014-04-16 02:43:49.878 PROT P
+< 2014-04-16 02:43:49.879 200 Protection level set to P
+. 2014-04-16 02:43:49.879 Connected
+. 2014-04-16 02:43:49.879 --------------------------------------------------------------------------
+. 2014-04-16 02:43:49.879 Using FTP protocol.
+. 2014-04-16 02:43:49.880 Doing startup conversation with host.
+> 2014-04-16 02:43:49.880 PWD
+< 2014-04-16 02:43:49.880 257 "/" is current directory.
+. 2014-04-16 02:43:49.880 Getting current directory name.
+. 2014-04-16 02:43:49.880 Startup conversation with host finished.
+< 2014-04-16 02:43:49.880 Script: Active session: [1] monicar@ftp.excent.com
+> 2014-04-16 02:43:49.880 Script: option transfer binary
+< 2014-04-16 02:43:49.880 Script: transfer        binary    
+> 2014-04-16 02:43:49.880 Script: lcd "C:\EnrichETL_SC\DbScripts\x_VALIDATION\Localization\Enrich\SC\Greenwood51"
+< 2014-04-16 02:43:49.880 Script: C:\EnrichETL_SC\DbScripts\x_VALIDATION\Localization\Enrich\SC\Greenwood51
+> 2014-04-16 02:43:49.880 Script: cd /
+. 2014-04-16 02:43:49.880 Cached directory change via "/" to "/".
+. 2014-04-16 02:43:49.880 Getting current directory name.
+< 2014-04-16 02:43:49.881 Script: /
+> 2014-04-16 02:43:49.881 Script: put "C:\EnrichETL_SC\DbScripts\x_VALIDATION\Localization\Enrich\SC\Greenwood51\ValidationReport_Detail.xls"
+. 2014-04-16 02:43:49.881 Copying 1 files/directories to remote directory "/"
+. 2014-04-16 02:43:49.881   PrTime: Yes; PrRO: No; Rght: rw-r--r--; PrR: No (No); FnCs: N; RIC: 0100; Resume: S (102400); CalcS: No; Mask: 
+. 2014-04-16 02:43:49.881   TM: B; ClAr: No; CPS: 0; InclM: 
+. 2014-04-16 02:43:49.881   AscM: *.*html; *.htm; *.txt; *.php; *.php3; *.cgi; *.c; *.cpp; *.h; *.pas; *.bas; *.tex; *.pl; *.js; .htaccess; *.xtml; *.css; *.cfg; *.ini; *.sh; *.xml
+. 2014-04-16 02:43:49.881 File: "C:\EnrichETL_SC\DbScripts\x_VALIDATION\Localization\Enrich\SC\Greenwood51\ValidationReport_Detail.xls"
+. 2014-04-16 02:43:49.881 Copying "C:\EnrichETL_SC\DbScripts\x_VALIDATION\Localization\Enrich\SC\Greenwood51\ValidationReport_Detail.xls" to remote directory started.
+. 2014-04-16 02:43:49.881 Binary transfer mode selected.
+. 2014-04-16 02:43:49.881 Starting upload of C:\EnrichETL_SC\DbScripts\x_VALIDATION\Localization\Enrich\SC\Greenwood51\ValidationReport_Detail.xls
+> 2014-04-16 02:43:49.881 TYPE A
+< 2014-04-16 02:43:49.882 200 Type set to A
+> 2014-04-16 02:43:49.882 PASV
+< 2014-04-16 02:43:49.883 227 Entering Passive Mode (10,0,1,27,199,26)
+> 2014-04-16 02:43:49.883 MLSD
+< 2014-04-16 02:43:49.887 150 Connection accepted
+. 2014-04-16 02:43:49.887 SSL connection established
+< 2014-04-16 02:43:49.888 226 Transfer OK
+. 2014-04-16 02:43:49.888 type=dir;modify=20140411103846; Customer
+. 2014-04-16 02:43:49.888 type=dir;modify=20140317175041; Excent
+> 2014-04-16 02:43:49.888 TYPE I
+< 2014-04-16 02:43:49.889 200 Type set to I
+> 2014-04-16 02:43:49.889 PASV
+< 2014-04-16 02:43:49.890 227 Entering Passive Mode (10,0,1,27,199,27)
+> 2014-04-16 02:43:49.890 STOR ValidationReport_Detail.xls
+< 2014-04-16 02:43:49.891 550 Permission denied
+. 2014-04-16 02:43:49.891 Copying files to remote side failed.
+* 2014-04-16 02:43:49.891 (ExtException) type=dir;modify=20140411103846; Customer
+* 2014-04-16 02:43:49.891 type=dir;modify=20140317175041; Excent
+* 2014-04-16 02:43:49.891 Copying files to remote side failed.
+* 2014-04-16 02:43:49.891 Permission denied
+. 2014-04-16 02:43:49.891 Asking user:
+. 2014-04-16 02:43:49.891 Error transferring file 'C:\EnrichETL_SC\DbScripts\x_VALIDATION\Localization\Enrich\SC\Greenwood51\ValidationReport_Detail.xls'. ("type=dir;modify=20140411103846; Customer","type=dir;modify=20140317175041; Excent","Copying files to remote side failed.","Permission denied")
+< 2014-04-16 02:43:49.891 Script: Error transferring file 'C:\EnrichETL_SC\DbScripts\x_VALIDATION\Localization\Enrich\SC\Greenwood51\ValidationReport_Detail.xls'.
+< 2014-04-16 02:43:49.891 Script: type=dir;modify=20140411103846; Customer
+< 2014-04-16 02:43:49.891 type=dir;modify=20140317175041; Excent
+< 2014-04-16 02:43:49.891 Copying files to remote side failed.
+< 2014-04-16 02:43:49.891 Permission denied
+* 2014-04-16 02:43:49.899 (EScpSkipFile) Error transferring file 'C:\EnrichETL_SC\DbScripts\x_VALIDATION\Localization\Enrich\SC\Greenwood51\ValidationReport_Detail.xls'.
+* 2014-04-16 02:43:49.899 type=dir;modify=20140411103846; Customer
+* 2014-04-16 02:43:49.899 type=dir;modify=20140317175041; Excent
+* 2014-04-16 02:43:49.899 Copying files to remote side failed.
+* 2014-04-16 02:43:49.899 Permission denied
+. 2014-04-16 02:43:49.899 Script: Failed
+. 2014-04-16 02:43:49.899 Script: Exit code: 1
+. 2014-04-16 02:43:49.899 Disconnected from server

@@ -184,13 +184,13 @@ delete x from PrgDocument x join PrgItem i on x.ItemID = i.ID where i.StudentID 
 
 delete x from IepDisabilityEligibility x join PrgSection ps on x.InstanceID = ps.ID join PrgItem i on ps.ItemID = i.ID  where i.StudentID not in (select isnull(StudentID, @zg) from @SaveStudents) ; print 'IepDisabilityEligibility : ' + convert(varchar(10), @@rowcount)
 delete x from IepGoal x join PrgGoal g on x.ID = g.ID join PrgSection ps on g.InstanceID = ps.ID join PrgItem i on ps.ItemID = i.ID  where i.StudentID not in (select isnull(StudentID, @zg) from @SaveStudents) ; print 'IepGoal : ' + convert(varchar(10), @@rowcount)
-delete x from IepGoalArea x join PrgGoals gs on x.InstanceID = gs.ID join PrgSection ps on gs.ID = ps.ID join PrgItem i on ps.ItemID = i.ID where i.StudentID not in (select isnull(StudentID, @zg) from @SaveStudents)  ; print 'IepGoalArea : ' + convert(varchar(10), @@rowcount)
+delete x from PrgGoalArea x join PrgGoals gs on x.InstanceID = gs.ID join PrgSection ps on gs.ID = ps.ID join PrgItem i on ps.ItemID = i.ID where i.StudentID not in (select isnull(StudentID, @zg) from @SaveStudents)  ; print 'PrgGoalArea : ' + convert(varchar(10), @@rowcount)
 
 delete x from IepJustification x join PrgSection ps on x.InstanceID = ps.ID join PrgItem i on ps.ItemID = i.ID where i.StudentID not in (select isnull(StudentID, @zg) from @SaveStudents) ; print 'IepJustification : ' + convert(varchar(10), @@rowcount)
 delete x from IepPostSchoolArea x join PrgSection ps on x.InstanceID = ps.ID join PrgItem i on ps.ItemID = i.ID where i.StudentID not in (select isnull(StudentID, @zg) from @SaveStudents) ; print 'IepPostSchoolArea : ' + convert(varchar(10), @@rowcount)
 delete x from IepSpecialFactor x join PrgSection ps on x.InstanceID = ps.ID join PrgItem i on ps.ItemID = i.ID where i.StudentID not in (select isnull(StudentID, @zg) from @SaveStudents) ; print 'IepSpecialFactor : ' + convert(varchar(10), @@rowcount)
 delete x from IepTestAccom x join IepAccommodation ia on x.AccommodationID = ia.ID join IepAccommodationCategory iac on ia.CategoryID = iac.ID join PrgSection ps on ia.InstanceID = ps.ID join PrgItem i on ps.ItemID = i.ID where i.StudentID not in (select isnull(StudentID, @zg) from @SaveStudents) ; print 'IepTestAccom : ' + convert(varchar(10), @@rowcount)
-delete x from IntvGoal x join PrgItem i on x.InterventionID = i.ID where i.StudentID not in (select isnull(StudentID, @zg) from @SaveStudents) ; print 'IntvGoal : ' + convert(varchar(10), @@rowcount)
+--delete x from IntvGoal x join PrgItem i on x.InterventionID = i.ID where i.StudentID not in (select isnull(StudentID, @zg) from @SaveStudents) ; print 'IntvGoal : ' + convert(varchar(10), @@rowcount)
 
 -- delete x from MosRelatedService x join PrgMatrixOfServices pms on x.MatrixOfServicesID = pms.ID join PrgItem i on pms.ID = i.ID where i.StudentID not in (select isnull(StudentID, @zg) from @SaveStudents) ; print 'MosRelatedService : ' + convert(varchar(10), @@rowcount)
 delete x from PrgActivity x join PrgItem i on x.ID = i.ID where i.StudentID not in (select isnull(StudentID, @zg) from @SaveStudents) ; print 'PrgActivity : ' + convert(varchar(10), @@rowcount)
@@ -331,15 +331,15 @@ delete PrgStatus where IsExit = 1 and ProgramID = 'F98A8EF2-98E2-4CAC-95AF-D7D89
 --51C976DF-DC56-4F89-BCA1-E9AB6A01FBE7
 
 --select * 
---from IepGoalAreaDef d left join 
---MosRatingDef m on d.ID = m.IepGoalAreaDefID 
+--from PrgGoalAreaDef d left join 
+--MosRatingDef m on d.ID = m.PrgGoalAreaDefID 
 --where DeletedDate is not null and d.Sequence = 99
 
 --set nocount off;
 --begin tran test2
-delete x from MosRatingDef x join IepGoalAreaDef d on x.IepGoalAreaDefID = x.ID where d.DeletedDate is not null and d.Sequence = 99
+delete x from MosRatingDef x join PrgGoalAreaDef d on x.IEPGoalAreaDefID = x.ID where d.DeletedDate is not null and d.Sequence = 99
 
-delete x from IepGoalAreaDef x where x.DeletedDate is not null and x.Sequence = 99 -- IN FLA DO NOT DELETE under Sequence 99!!!
+delete x from PrgGoalAreaDef x where x.DeletedDate is not null and x.Sequence = 99 -- IN FLA DO NOT DELETE under Sequence 99!!!
 
 --rollback tran test2
 
@@ -669,9 +669,9 @@ and h.GradeLevelID is null
 --and s.ID not in ( select isnull(StudentID, @zg) from @SaveStudents)
 
 
--- break the association between the mosratingdef and iepgoalareas that will be deleted.  is this okay?
-update dbo.MosRatingDef set IepGoalAreaDefID = NULL where IepGoalAreaDefID in (select ID from dbo.IepGoalAreaDef where DeletedDate is not null ) -- is this okay?
-delete dbo.IepGoalAreaDef where DeletedDate is not null -- 
+-- break the association between the mosratingdef and PrgGoalAreas that will be deleted.  is this okay?
+update dbo.MosRatingDef set IEPGoalAreaDefID = NULL where IEPGoalAreaDefID in (select ID from dbo.PrgGoalAreaDef where DeletedDate is not null ) -- is this okay?
+delete dbo.PrgGoalAreaDef where DeletedDate is not null -- 
 
 
 
@@ -790,12 +790,12 @@ where DestID not in (select ID from PrgVersion) -- destination
 print 'LEGACYSPED.MAP_PrgVersionID : ' +convert(varchar(10), @@rowcount)
 
 -- new
-if exists (select 1 from sys.objects where name = 'LEGACYSPED.MAP_IepGoalAreaDefID' and type = 'U')
+if exists (select 1 from sys.objects where name = 'LEGACYSPED.MAP_PrgGoalAreaDefID' and type = 'U')
 begin
 delete x -- select *
-from LEGACYSPED.MAP_IepGoalAreaDefID x -- map
+from LEGACYSPED.MAP_PrgGoalAreaDefID x -- map
 where DestID not in (select ID from PrgGoal) -- destination
-print 'LEGACYSPED.MAP_IepGoalAreaDefID : ' +convert(varchar(10), @@rowcount)
+print 'LEGACYSPED.MAP_PrgGoalAreaDefID : ' +convert(varchar(10), @@rowcount)
 end
 
 delete x -- select *
@@ -865,9 +865,9 @@ where DestID not in (select ID from PrgInvolvement) -- destination
 print 'LEGACYSPED.MAP_PrgInvolvementID : ' +convert(varchar(10), @@rowcount)
 
 delete x -- select *
-from LEGACYSPED.MAP_IepGoalArea x -- map
-where DestID not in (select ID from IepGoalArea) -- destination
-print 'LEGACYSPED.MAP_IepGoalArea : ' +convert(varchar(10), @@rowcount)
+from LEGACYSPED.MAP_PrgGoalArea x -- map
+where DestID not in (select ID from PrgGoalArea) -- destination
+print 'LEGACYSPED.MAP_PrgGoalArea : ' +convert(varchar(10), @@rowcount)
 
 print 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX 20 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'
 
@@ -1130,7 +1130,7 @@ go
 
 declare @t varchar(100), @q varchar(max)
 declare T cursor for 
-select DestTable from VC3ETL.LoadTable where ExtractDatabase = '29D14961-928D-4BEE-9025-238496D144C6' and DestTable is not null and DestTable not like 'LEGACYSPED%'
+select DestTable from VC3ETL.LoadTable where ExtractDatabase = '29D14961-928D-4BEE-9025-238496D144C6' and DestTable is not null and DestTable not like 'LEGACYSPED%' and DestTable not in ('IEPGoalArea','IEPGoalAreaDef')
 union 
 select 'PrgDocument'
 union

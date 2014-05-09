@@ -1,0 +1,1 @@
+-S10.0.1.8\SQLSERVER2005 -Uenrich_demo_user -Pvc3go!! -dQASCConvert2005

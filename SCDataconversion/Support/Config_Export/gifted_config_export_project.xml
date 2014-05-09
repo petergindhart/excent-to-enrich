@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<project name="Gifted Education Configuration">
+	<scriptdbdata
+		ConnectionString="${connection}"
+		DeleteObsoleteRecords="false"
+		OutputFile="${outputfile}"
+		Tables="VC3ETL.ExtractDatabase[Id='${extractdatabase}'],VC3ETL.FlatFileExtractDatabase[Id='${extractdatabase}'];dbo.InformExtractDatabase[Id='${extractdatabase}'];dbo.EnrichFileFormatExtractDatabase[Id='${extractdatabase}'];VC3ETL.FlatFileExtractTableType,VC3ETL.ExtractTable[ExtractDatabase='${extractdatabase}'],VC3ETL.FlatFileExtractTable[Id in (select ID from VC3ETL.ExtractTable where ExtractDatabase='${extractdatabase}')],VC3ETL.LoadTable[ExtractDatabase='${extractdatabase}'],VC3ETL.LoadColumn[LoadTable in (select ID from VC3ETL.LoadTable where ExtractDatabase='${extractdatabase}')]"
+		PreBatchSQL="set nocount on;update VC3ETL.LoadTable set LastLoadDate = NULL where ExtractDatabase='${extractdatabase}';"
+		PostBatchSQL="set nocount off;" />
+</project>

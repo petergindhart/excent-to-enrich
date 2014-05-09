@@ -1,0 +1,1054 @@
+. 2014-03-19 08:51:44.439 --------------------------------------------------------------------------
+. 2014-03-19 08:51:44.439 WinSCP Version 5.1.7 (Build 3446) (OS 6.0.6002 Service Pack 2)
+. 2014-03-19 08:51:44.440 Configuration: C:\Program Files\WinSCP\WinSCP.ini
+. 2014-03-19 08:51:44.441 Local account: SDOC\testview
+. 2014-03-19 08:51:44.441 Working directory: C:\Program Files (x86)\WinSCP
+. 2014-03-19 08:51:44.441 Process ID: 6024
+. 2014-03-19 08:51:44.441 Command-line: "C:\Program Files\WinSCP\WinSCP.exe" -script="C:\EnrichETL\DbScripts\x_VALIDATION\Localization\Enrich\SC\Oconee\ValidationReport_Upload_FTP.txt" /log="C:\EnrichETL\DbScripts\x_VALIDATION\Localization\Enrich\SC\Oconee\log.txt"
+. 2014-03-19 08:51:44.441 Time zone: Current: GMT-4, Standard: GMT-5, DST: GMT-4, DST Start: 3/9/2014, DST End: 11/2/2014
+. 2014-03-19 08:51:44.441 Login time: Wednesday, March 19, 2014 8:51:44 AM
+. 2014-03-19 08:51:44.441 --------------------------------------------------------------------------
+. 2014-03-19 08:51:44.441 Session name: oconee@ftp.excent.com (Ad-Hoc session)
+. 2014-03-19 08:51:44.441 Host name: ftp.excent.com (Port: 21)
+. 2014-03-19 08:51:44.441 User name: oconee (Password: Yes, Key file: No)
+. 2014-03-19 08:51:44.441 Tunnel: No
+. 2014-03-19 08:51:44.441 Transfer Protocol: FTP
+. 2014-03-19 08:51:44.441 Ping type: C, Ping interval: 30 sec; Timeout: 15 sec
+. 2014-03-19 08:51:44.441 Proxy: none
+. 2014-03-19 08:51:44.441 FTP: FTPS: Explicit TLS; Passive: Yes [Force IP: A]; List all: A
+. 2014-03-19 08:51:44.441 Session reuse: Yes
+. 2014-03-19 08:51:44.441 Local directory: default, Remote directory: home, Update: Yes, Cache: Yes
+. 2014-03-19 08:51:44.441 Cache directory changes: Yes, Permanent: Yes
+. 2014-03-19 08:51:44.441 DST mode: 1; Timezone offset: 0h 0m
+. 2014-03-19 08:51:44.441 --------------------------------------------------------------------------
+. 2014-03-19 08:51:44.446 Connecting to ftp.excent.com ...
+. 2014-03-19 08:51:44.590 Connected with ftp.excent.com, negotiating SSL connection...
+< 2014-03-19 08:51:44.649 220-Welcome to Excent FTP.
+< 2014-03-19 08:51:44.649 220-
+< 2014-03-19 08:51:44.659 220 We monitor connections so please, no monkey business.
+> 2014-03-19 08:51:44.659 AUTH TLS
+< 2014-03-19 08:51:44.718 234 Using authentication type TLS
+. 2014-03-19 08:51:45.030 Using TLSv1, cipher TLSv1/SSLv3: AES256-SHA, 1024 bit RSA
+. 2014-03-19 08:51:45.030 SSL connection established. Waiting for welcome message...
+> 2014-03-19 08:51:45.030 USER oconee
+< 2014-03-19 08:51:45.089 331 Password required for oconee
+> 2014-03-19 08:51:45.089 PASS *******
+< 2014-03-19 08:51:45.148 230 Logged on
+> 2014-03-19 08:51:45.149 SYST
+< 2014-03-19 08:51:45.208 215 UNIX emulated by FileZilla
+> 2014-03-19 08:51:45.208 FEAT
+< 2014-03-19 08:51:45.267 211-Features:
+< 2014-03-19 08:51:45.267  MDTM
+< 2014-03-19 08:51:45.267  REST STREAM
+< 2014-03-19 08:51:45.267  SIZE
+< 2014-03-19 08:51:45.277  MLST type*;size*;modify*;
+< 2014-03-19 08:51:45.277  MLSD
+< 2014-03-19 08:51:45.277  AUTH SSL
+< 2014-03-19 08:51:45.277  AUTH TLS
+< 2014-03-19 08:51:45.277  PROT
+< 2014-03-19 08:51:45.277  PBSZ
+< 2014-03-19 08:51:45.277  UTF8
+< 2014-03-19 08:51:45.277  CLNT
+< 2014-03-19 08:51:45.277  MFMT
+< 2014-03-19 08:51:45.277 211 End
+> 2014-03-19 08:51:45.277 PBSZ 0
+< 2014-03-19 08:51:45.327 200 PBSZ=0
+> 2014-03-19 08:51:45.327 PROT P
+< 2014-03-19 08:51:45.386 200 Protection level set to P
+. 2014-03-19 08:51:45.386 Connected
+. 2014-03-19 08:51:45.386 --------------------------------------------------------------------------
+. 2014-03-19 08:51:45.386 Using FTP protocol.
+. 2014-03-19 08:51:45.387 Doing startup conversation with host.
+> 2014-03-19 08:51:45.387 PWD
+< 2014-03-19 08:51:45.446 257 "/" is current directory.
+. 2014-03-19 08:51:45.446 Getting current directory name.
+. 2014-03-19 08:51:45.446 Startup conversation with host finished.
+< 2014-03-19 08:51:45.446 Script: Active session: [1] oconee@ftp.excent.com
+> 2014-03-19 08:51:45.446 Script: option transfer binary
+< 2014-03-19 08:51:45.447 Script: transfer        binary    
+> 2014-03-19 08:51:45.447 Script: lcd "C:\EnrichETL\DbScripts\x_VALIDATION\Localization\Enrich\SC\Oconee"
+< 2014-03-19 08:51:45.447 Script: C:\EnrichETL\DbScripts\x_VALIDATION\Localization\Enrich\SC\Oconee
+> 2014-03-19 08:51:45.447 Script: cd /
+. 2014-03-19 08:51:45.447 Cached directory change via "/" to "/".
+. 2014-03-19 08:51:45.447 Getting current directory name.
+< 2014-03-19 08:51:45.447 Script: /
+> 2014-03-19 08:51:45.447 Script: put "C:\EnrichETL\DbScripts\x_VALIDATION\Localization\Enrich\SC\Oconee\ValidationReport_Detail.xls"
+. 2014-03-19 08:51:45.448 Copying 1 files/directories to remote directory "/"
+. 2014-03-19 08:51:45.448   PrTime: Yes; PrRO: No; Rght: rw-r--r--; PrR: No (No); FnCs: N; RIC: 0100; Resume: S (102400); CalcS: No; Mask: 
+. 2014-03-19 08:51:45.448   TM: B; ClAr: No; CPS: 0; InclM: 
+. 2014-03-19 08:51:45.448   AscM: *.*html; *.htm; *.txt; *.php; *.php3; *.cgi; *.c; *.cpp; *.h; *.pas; *.bas; *.tex; *.pl; *.js; .htaccess; *.xtml; *.css; *.cfg; *.ini; *.sh; *.xml
+. 2014-03-19 08:51:45.448 File: "C:\EnrichETL\DbScripts\x_VALIDATION\Localization\Enrich\SC\Oconee\ValidationReport_Detail.xls"
+. 2014-03-19 08:51:45.467 Copying "C:\EnrichETL\DbScripts\x_VALIDATION\Localization\Enrich\SC\Oconee\ValidationReport_Detail.xls" to remote directory started.
+. 2014-03-19 08:51:45.467 Binary transfer mode selected.
+. 2014-03-19 08:51:45.467 Starting upload of C:\EnrichETL\DbScripts\x_VALIDATION\Localization\Enrich\SC\Oconee\ValidationReport_Detail.xls
+> 2014-03-19 08:51:45.467 TYPE A
+< 2014-03-19 08:51:45.526 200 Type set to A
+> 2014-03-19 08:51:45.526 PASV
+< 2014-03-19 08:51:45.586 227 Entering Passive Mode (66,45,109,131,199,10)
+> 2014-03-19 08:51:45.586 MLSD
+< 2014-03-19 08:51:45.704 150 Connection accepted
+. 2014-03-19 08:51:45.705 SSL connection established
+< 2014-03-19 08:51:45.764 226 Transfer OK
+. 2014-03-19 08:51:45.764 <Empty directory listing>
+> 2014-03-19 08:51:45.765 TYPE I
+< 2014-03-19 08:51:45.824 200 Type set to I
+> 2014-03-19 08:51:45.824 PASV
+< 2014-03-19 08:51:45.883 227 Entering Passive Mode (66,45,109,131,199,11)
+> 2014-03-19 08:51:45.883 STOR ValidationReport_Detail.xls
+< 2014-03-19 08:51:46.002 150 Connection accepted
+. 2014-03-19 08:51:46.063 SSL connection established
+< 2014-03-19 08:51:48.106 226 Transfer OK
+> 2014-03-19 08:51:48.106 MFMT 20140319115143 ValidationReport_Detail.xls
+< 2014-03-19 08:51:48.165 213 modify=20140319115143; /ValidationReport_Detail.xls
+. 2014-03-19 08:51:48.166 Upload successful
+> 2014-03-19 08:51:48.166 Script: close
+. 2014-03-19 08:51:48.167 Disconnected from server
+. 2014-03-19 08:56:10.523 --------------------------------------------------------------------------
+. 2014-03-19 08:56:10.523 WinSCP Version 5.1.7 (Build 3446) (OS 6.0.6002 Service Pack 2)
+. 2014-03-19 08:56:10.524 Configuration: C:\Program Files\WinSCP\WinSCP.ini
+. 2014-03-19 08:56:10.525 Local account: SDOC\testview
+. 2014-03-19 08:56:10.525 Working directory: C:\Program Files (x86)\WinSCP
+. 2014-03-19 08:56:10.525 Process ID: 6636
+. 2014-03-19 08:56:10.525 Command-line: "C:\Program Files\WinSCP\WinSCP.exe" -script="C:\EnrichETL\DbScripts\x_VALIDATION\Localization\Enrich\SC\Oconee\ValidationReport_Upload_FTP.txt" /log="C:\EnrichETL\DbScripts\x_VALIDATION\Localization\Enrich\SC\Oconee\log.txt"
+. 2014-03-19 08:56:10.525 Time zone: Current: GMT-4, Standard: GMT-5, DST: GMT-4, DST Start: 3/9/2014, DST End: 11/2/2014
+. 2014-03-19 08:56:10.525 Login time: Wednesday, March 19, 2014 8:56:10 AM
+. 2014-03-19 08:56:10.525 --------------------------------------------------------------------------
+. 2014-03-19 08:56:10.525 Session name: oconee@ftp.excent.com (Ad-Hoc session)
+. 2014-03-19 08:56:10.525 Host name: ftp.excent.com (Port: 21)
+. 2014-03-19 08:56:10.525 User name: oconee (Password: Yes, Key file: No)
+. 2014-03-19 08:56:10.525 Tunnel: No
+. 2014-03-19 08:56:10.525 Transfer Protocol: FTP
+. 2014-03-19 08:56:10.525 Ping type: C, Ping interval: 30 sec; Timeout: 15 sec
+. 2014-03-19 08:56:10.525 Proxy: none
+. 2014-03-19 08:56:10.525 FTP: FTPS: Explicit TLS; Passive: Yes [Force IP: A]; List all: A
+. 2014-03-19 08:56:10.526 Session reuse: Yes
+. 2014-03-19 08:56:10.526 Local directory: default, Remote directory: home, Update: Yes, Cache: Yes
+. 2014-03-19 08:56:10.526 Cache directory changes: Yes, Permanent: Yes
+. 2014-03-19 08:56:10.526 DST mode: 1; Timezone offset: 0h 0m
+. 2014-03-19 08:56:10.526 --------------------------------------------------------------------------
+. 2014-03-19 08:56:10.530 Connecting to ftp.excent.com ...
+. 2014-03-19 08:56:10.599 Connected with ftp.excent.com, negotiating SSL connection...
+< 2014-03-19 08:56:10.658 220-Welcome to Excent FTP.
+< 2014-03-19 08:56:10.658 220-
+< 2014-03-19 08:56:10.658 220 We monitor connections so please, no monkey business.
+> 2014-03-19 08:56:10.658 AUTH TLS
+< 2014-03-19 08:56:10.718 234 Using authentication type TLS
+. 2014-03-19 08:56:11.036 Using TLSv1, cipher TLSv1/SSLv3: AES256-SHA, 1024 bit RSA
+. 2014-03-19 08:56:11.036 SSL connection established. Waiting for welcome message...
+> 2014-03-19 08:56:11.036 USER oconee
+< 2014-03-19 08:56:11.095 331 Password required for oconee
+> 2014-03-19 08:56:11.095 PASS *******
+< 2014-03-19 08:56:11.155 230 Logged on
+> 2014-03-19 08:56:11.155 SYST
+< 2014-03-19 08:56:11.214 215 UNIX emulated by FileZilla
+> 2014-03-19 08:56:11.214 FEAT
+< 2014-03-19 08:56:11.274 211-Features:
+< 2014-03-19 08:56:11.274  MDTM
+< 2014-03-19 08:56:11.274  REST STREAM
+< 2014-03-19 08:56:11.274  SIZE
+< 2014-03-19 08:56:11.274  MLST type*;size*;modify*;
+< 2014-03-19 08:56:11.274  MLSD
+< 2014-03-19 08:56:11.274  AUTH SSL
+< 2014-03-19 08:56:11.274  AUTH TLS
+< 2014-03-19 08:56:11.274  PROT
+< 2014-03-19 08:56:11.274  PBSZ
+< 2014-03-19 08:56:11.274  UTF8
+< 2014-03-19 08:56:11.274  CLNT
+< 2014-03-19 08:56:11.274  MFMT
+< 2014-03-19 08:56:11.274 211 End
+> 2014-03-19 08:56:11.275 PBSZ 0
+< 2014-03-19 08:56:11.334 200 PBSZ=0
+> 2014-03-19 08:56:11.334 PROT P
+< 2014-03-19 08:56:11.393 200 Protection level set to P
+. 2014-03-19 08:56:11.393 Connected
+. 2014-03-19 08:56:11.393 --------------------------------------------------------------------------
+. 2014-03-19 08:56:11.393 Using FTP protocol.
+. 2014-03-19 08:56:11.394 Doing startup conversation with host.
+> 2014-03-19 08:56:11.394 PWD
+< 2014-03-19 08:56:11.453 257 "/" is current directory.
+. 2014-03-19 08:56:11.453 Getting current directory name.
+. 2014-03-19 08:56:11.453 Startup conversation with host finished.
+< 2014-03-19 08:56:11.453 Script: Active session: [1] oconee@ftp.excent.com
+> 2014-03-19 08:56:11.453 Script: option transfer binary
+< 2014-03-19 08:56:11.453 Script: transfer        binary    
+> 2014-03-19 08:56:11.453 Script: lcd "C:\EnrichETL\DbScripts\x_VALIDATION\Localization\Enrich\SC\Oconee"
+< 2014-03-19 08:56:11.454 Script: C:\EnrichETL\DbScripts\x_VALIDATION\Localization\Enrich\SC\Oconee
+> 2014-03-19 08:56:11.454 Script: cd /
+. 2014-03-19 08:56:11.454 Cached directory change via "/" to "/".
+. 2014-03-19 08:56:11.454 Getting current directory name.
+< 2014-03-19 08:56:11.454 Script: /
+> 2014-03-19 08:56:11.454 Script: put "C:\EnrichETL\DbScripts\x_VALIDATION\Localization\Enrich\SC\Oconee\ValidationReport_Detail.xls"
+. 2014-03-19 08:56:11.454 Copying 1 files/directories to remote directory "/"
+. 2014-03-19 08:56:11.454   PrTime: Yes; PrRO: No; Rght: rw-r--r--; PrR: No (No); FnCs: N; RIC: 0100; Resume: S (102400); CalcS: No; Mask: 
+. 2014-03-19 08:56:11.454   TM: B; ClAr: No; CPS: 0; InclM: 
+. 2014-03-19 08:56:11.454   AscM: *.*html; *.htm; *.txt; *.php; *.php3; *.cgi; *.c; *.cpp; *.h; *.pas; *.bas; *.tex; *.pl; *.js; .htaccess; *.xtml; *.css; *.cfg; *.ini; *.sh; *.xml
+. 2014-03-19 08:56:11.455 File: "C:\EnrichETL\DbScripts\x_VALIDATION\Localization\Enrich\SC\Oconee\ValidationReport_Detail.xls"
+. 2014-03-19 08:56:11.481 Copying "C:\EnrichETL\DbScripts\x_VALIDATION\Localization\Enrich\SC\Oconee\ValidationReport_Detail.xls" to remote directory started.
+. 2014-03-19 08:56:11.481 Binary transfer mode selected.
+. 2014-03-19 08:56:11.482 Starting upload of C:\EnrichETL\DbScripts\x_VALIDATION\Localization\Enrich\SC\Oconee\ValidationReport_Detail.xls
+> 2014-03-19 08:56:11.482 TYPE A
+< 2014-03-19 08:56:11.541 200 Type set to A
+> 2014-03-19 08:56:11.541 PASV
+< 2014-03-19 08:56:11.600 227 Entering Passive Mode (66,45,109,131,199,12)
+> 2014-03-19 08:56:11.601 MLSD
+< 2014-03-19 08:56:11.721 150 Connection accepted
+. 2014-03-19 08:56:11.721 SSL connection established
+. 2014-03-19 08:56:11.781 type=file;modify=20140319115143;size=1859072; ValidationReport_Detail.xls
+< 2014-03-19 08:56:11.781 226 Transfer OK
+> 2014-03-19 08:56:11.781 TYPE I
+< 2014-03-19 08:56:11.840 200 Type set to I
+> 2014-03-19 08:56:11.840 PASV
+< 2014-03-19 08:56:11.899 227 Entering Passive Mode (66,45,109,131,199,13)
+> 2014-03-19 08:56:11.900 STOR ValidationReport_Detail.xls
+< 2014-03-19 08:56:12.019 150 Connection accepted
+. 2014-03-19 08:56:12.079 SSL connection established
+< 2014-03-19 08:56:14.297 226 Transfer OK
+> 2014-03-19 08:56:14.297 MFMT 20140319115610 ValidationReport_Detail.xls
+< 2014-03-19 08:56:14.356 213 modify=20140319115610; /ValidationReport_Detail.xls
+. 2014-03-19 08:56:14.356 Upload successful
+> 2014-03-19 08:56:14.357 Script: close
+. 2014-03-19 08:56:14.358 Disconnected from server
+. 2014-04-02 11:32:27.359 --------------------------------------------------------------------------
+. 2014-04-02 11:32:27.363 WinSCP Version 5.1.7 (Build 3446) (OS 6.0.6002 Service Pack 2)
+. 2014-04-02 11:32:27.364 Configuration: C:\Program Files\WinSCP\WinSCP.ini
+. 2014-04-02 11:32:27.365 Local account: SDOC\testview
+. 2014-04-02 11:32:27.365 Working directory: C:\Program Files (x86)\WinSCP
+. 2014-04-02 11:32:27.365 Process ID: 8840
+. 2014-04-02 11:32:27.365 Command-line: "C:\Program Files\WinSCP\WinSCP.exe" -script="C:\EnrichETL\DbScripts\x_VALIDATION\Localization\Enrich\SC\Oconee\ValidationReport_Upload_FTP.txt" /log="C:\EnrichETL\DbScripts\x_VALIDATION\Localization\Enrich\SC\Oconee\log.txt"
+. 2014-04-02 11:32:27.365 Time zone: Current: GMT-4, Standard: GMT-5, DST: GMT-4, DST Start: 3/9/2014, DST End: 11/2/2014
+. 2014-04-02 11:32:27.365 Login time: Wednesday, April 02, 2014 11:32:27 AM
+. 2014-04-02 11:32:27.365 --------------------------------------------------------------------------
+. 2014-04-02 11:32:27.365 Session name: oconee@ftp.excent.com (Ad-Hoc session)
+. 2014-04-02 11:32:27.365 Host name: ftp.excent.com (Port: 21)
+. 2014-04-02 11:32:27.365 User name: oconee (Password: Yes, Key file: No)
+. 2014-04-02 11:32:27.365 Tunnel: No
+. 2014-04-02 11:32:27.365 Transfer Protocol: FTP
+. 2014-04-02 11:32:27.366 Ping type: C, Ping interval: 30 sec; Timeout: 15 sec
+. 2014-04-02 11:32:27.366 Proxy: none
+. 2014-04-02 11:32:27.366 FTP: FTPS: Explicit TLS; Passive: Yes [Force IP: A]; List all: A
+. 2014-04-02 11:32:27.366 Session reuse: Yes
+. 2014-04-02 11:32:27.366 Local directory: default, Remote directory: home, Update: Yes, Cache: Yes
+. 2014-04-02 11:32:27.366 Cache directory changes: Yes, Permanent: Yes
+. 2014-04-02 11:32:27.366 DST mode: 1; Timezone offset: 0h 0m
+. 2014-04-02 11:32:27.366 --------------------------------------------------------------------------
+. 2014-04-02 11:32:27.371 Connecting to ftp.excent.com ...
+. 2014-04-02 11:32:27.440 Connected with ftp.excent.com, negotiating SSL connection...
+< 2014-04-02 11:32:27.498 220-Welcome to Excent FTP.
+< 2014-04-02 11:32:27.498 220-
+< 2014-04-02 11:32:27.498 220 We monitor connections so please, no monkey business.
+> 2014-04-02 11:32:27.498 AUTH TLS
+< 2014-04-02 11:32:27.558 234 Using authentication type TLS
+. 2014-04-02 11:32:27.870 Using TLSv1, cipher TLSv1/SSLv3: AES256-SHA, 1024 bit RSA
+. 2014-04-02 11:32:27.870 SSL connection established. Waiting for welcome message...
+> 2014-04-02 11:32:27.870 USER oconee
+< 2014-04-02 11:32:27.929 331 Password required for oconee
+> 2014-04-02 11:32:27.929 PASS *******
+< 2014-04-02 11:32:27.988 230 Logged on
+> 2014-04-02 11:32:27.988 SYST
+< 2014-04-02 11:32:28.047 215 UNIX emulated by FileZilla
+> 2014-04-02 11:32:28.047 FEAT
+< 2014-04-02 11:32:28.107 211-Features:
+< 2014-04-02 11:32:28.107  MDTM
+< 2014-04-02 11:32:28.107  REST STREAM
+< 2014-04-02 11:32:28.107  SIZE
+< 2014-04-02 11:32:28.107  MLST type*;size*;modify*;
+< 2014-04-02 11:32:28.107  MLSD
+< 2014-04-02 11:32:28.107  AUTH SSL
+< 2014-04-02 11:32:28.107  AUTH TLS
+< 2014-04-02 11:32:28.107  PROT
+< 2014-04-02 11:32:28.107  PBSZ
+< 2014-04-02 11:32:28.107  UTF8
+< 2014-04-02 11:32:28.108  CLNT
+< 2014-04-02 11:32:28.108  MFMT
+< 2014-04-02 11:32:28.108 211 End
+> 2014-04-02 11:32:28.108 PBSZ 0
+< 2014-04-02 11:32:28.166 200 PBSZ=0
+> 2014-04-02 11:32:28.166 PROT P
+< 2014-04-02 11:32:28.225 200 Protection level set to P
+. 2014-04-02 11:32:28.225 Connected
+. 2014-04-02 11:32:28.225 --------------------------------------------------------------------------
+. 2014-04-02 11:32:28.225 Using FTP protocol.
+. 2014-04-02 11:32:28.226 Doing startup conversation with host.
+> 2014-04-02 11:32:28.227 PWD
+< 2014-04-02 11:32:28.285 257 "/" is current directory.
+. 2014-04-02 11:32:28.285 Getting current directory name.
+. 2014-04-02 11:32:28.285 Startup conversation with host finished.
+< 2014-04-02 11:32:28.286 Script: Active session: [1] oconee@ftp.excent.com
+> 2014-04-02 11:32:28.286 Script: option transfer binary
+< 2014-04-02 11:32:28.286 Script: transfer        binary    
+> 2014-04-02 11:32:28.286 Script: lcd "C:\EnrichETL\DbScripts\x_VALIDATION\Localization\Enrich\SC\Oconee"
+< 2014-04-02 11:32:28.286 Script: C:\EnrichETL\DbScripts\x_VALIDATION\Localization\Enrich\SC\Oconee
+> 2014-04-02 11:32:28.286 Script: cd /
+. 2014-04-02 11:32:28.286 Cached directory change via "/" to "/".
+. 2014-04-02 11:32:28.286 Getting current directory name.
+< 2014-04-02 11:32:28.286 Script: /
+> 2014-04-02 11:32:28.286 Script: put "C:\EnrichETL\DbScripts\x_VALIDATION\Localization\Enrich\SC\Oconee\ValidationReport_Detail.xls"
+. 2014-04-02 11:32:28.287 Copying 1 files/directories to remote directory "/"
+. 2014-04-02 11:32:28.287   PrTime: Yes; PrRO: No; Rght: rw-r--r--; PrR: No (No); FnCs: N; RIC: 0100; Resume: S (102400); CalcS: No; Mask: 
+. 2014-04-02 11:32:28.287   TM: B; ClAr: No; CPS: 0; InclM: 
+. 2014-04-02 11:32:28.287   AscM: *.*html; *.htm; *.txt; *.php; *.php3; *.cgi; *.c; *.cpp; *.h; *.pas; *.bas; *.tex; *.pl; *.js; .htaccess; *.xtml; *.css; *.cfg; *.ini; *.sh; *.xml
+. 2014-04-02 11:32:28.287 File: "C:\EnrichETL\DbScripts\x_VALIDATION\Localization\Enrich\SC\Oconee\ValidationReport_Detail.xls"
+. 2014-04-02 11:32:28.307 Copying "C:\EnrichETL\DbScripts\x_VALIDATION\Localization\Enrich\SC\Oconee\ValidationReport_Detail.xls" to remote directory started.
+. 2014-04-02 11:32:28.307 Binary transfer mode selected.
+. 2014-04-02 11:32:28.308 Starting upload of C:\EnrichETL\DbScripts\x_VALIDATION\Localization\Enrich\SC\Oconee\ValidationReport_Detail.xls
+> 2014-04-02 11:32:28.308 TYPE A
+< 2014-04-02 11:32:28.366 200 Type set to A
+> 2014-04-02 11:32:28.366 PASV
+< 2014-04-02 11:32:28.426 227 Entering Passive Mode (66,45,109,131,199,8)
+> 2014-04-02 11:32:28.426 MLSD
+< 2014-04-02 11:32:28.544 150 Connection accepted
+. 2014-04-02 11:32:28.545 SSL connection established
+< 2014-04-02 11:32:28.604 226 Transfer OK
+. 2014-04-02 11:32:28.604 type=file;modify=20140319115610;size=1603072; ValidationReport_Detail.xls
+> 2014-04-02 11:32:28.605 TYPE I
+< 2014-04-02 11:32:28.664 200 Type set to I
+> 2014-04-02 11:32:28.664 PASV
+< 2014-04-02 11:32:28.723 227 Entering Passive Mode (66,45,109,131,199,9)
+> 2014-04-02 11:32:28.723 STOR ValidationReport_Detail.xls
+< 2014-04-02 11:32:28.841 150 Connection accepted
+. 2014-04-02 11:32:28.901 SSL connection established
+< 2014-04-02 11:32:30.701 226 Transfer OK
+> 2014-04-02 11:32:30.701 MFMT 20140402143226 ValidationReport_Detail.xls
+< 2014-04-02 11:32:30.760 213 modify=20140402143226; /ValidationReport_Detail.xls
+. 2014-04-02 11:32:30.760 Upload successful
+> 2014-04-02 11:32:30.760 Script: close
+. 2014-04-02 11:32:30.762 Disconnected from server
+. 2014-05-01 15:05:17.217 --------------------------------------------------------------------------
+. 2014-05-01 15:05:17.221 WinSCP Version 5.1.7 (Build 3446) (OS 6.0.6002 Service Pack 2)
+. 2014-05-01 15:05:17.222 Configuration: C:\Program Files\WinSCP\WinSCP.ini
+. 2014-05-01 15:05:17.223 Local account: SDOC\testview
+. 2014-05-01 15:05:17.223 Working directory: C:\Program Files (x86)\WinSCP
+. 2014-05-01 15:05:17.223 Process ID: 11328
+. 2014-05-01 15:05:17.223 Command-line: "C:\Program Files\WinSCP\WinSCP.exe" -script="C:\EnrichETL\DbScripts\x_VALIDATION\Localization\Enrich\SC\Oconee\ValidationReport_Upload_FTP.txt" /log="C:\EnrichETL\DbScripts\x_VALIDATION\Localization\Enrich\SC\Oconee\log.txt"
+. 2014-05-01 15:05:17.223 Time zone: Current: GMT-4, Standard: GMT-5, DST: GMT-4, DST Start: 3/9/2014, DST End: 11/2/2014
+. 2014-05-01 15:05:17.223 Login time: Thursday, May 01, 2014 3:05:17 PM
+. 2014-05-01 15:05:17.223 --------------------------------------------------------------------------
+. 2014-05-01 15:05:17.223 Session name: oconee@ftp.excent.com (Ad-Hoc session)
+. 2014-05-01 15:05:17.224 Host name: ftp.excent.com (Port: 21)
+. 2014-05-01 15:05:17.224 User name: oconee (Password: Yes, Key file: No)
+. 2014-05-01 15:05:17.224 Tunnel: No
+. 2014-05-01 15:05:17.224 Transfer Protocol: FTP
+. 2014-05-01 15:05:17.224 Ping type: C, Ping interval: 30 sec; Timeout: 15 sec
+. 2014-05-01 15:05:17.224 Proxy: none
+. 2014-05-01 15:05:17.224 FTP: FTPS: Explicit TLS; Passive: Yes [Force IP: A]; List all: A
+. 2014-05-01 15:05:17.224 Session reuse: Yes
+. 2014-05-01 15:05:17.224 Local directory: default, Remote directory: home, Update: Yes, Cache: Yes
+. 2014-05-01 15:05:17.224 Cache directory changes: Yes, Permanent: Yes
+. 2014-05-01 15:05:17.224 DST mode: 1; Timezone offset: 0h 0m
+. 2014-05-01 15:05:17.224 --------------------------------------------------------------------------
+. 2014-05-01 15:05:17.228 Connecting to ftp.excent.com ...
+. 2014-05-01 15:05:17.383 Connected with ftp.excent.com, negotiating SSL connection...
+< 2014-05-01 15:05:17.442 220-Welcome to Excent FTP.
+< 2014-05-01 15:05:17.442 220-
+< 2014-05-01 15:05:17.442 220 We monitor connections so please, no monkey business.
+> 2014-05-01 15:05:17.443 AUTH TLS
+< 2014-05-01 15:05:17.503 234 Using authentication type TLS
+. 2014-05-01 15:05:17.812 Using TLSv1, cipher TLSv1/SSLv3: AES256-SHA, 1024 bit RSA
+. 2014-05-01 15:05:17.812 SSL connection established. Waiting for welcome message...
+> 2014-05-01 15:05:17.812 USER oconee
+< 2014-05-01 15:05:17.871 331 Password required for oconee
+> 2014-05-01 15:05:17.871 PASS *******
+< 2014-05-01 15:05:17.930 230 Logged on
+> 2014-05-01 15:05:17.930 SYST
+< 2014-05-01 15:05:17.989 215 UNIX emulated by FileZilla
+> 2014-05-01 15:05:17.989 FEAT
+< 2014-05-01 15:05:18.049 211-Features:
+< 2014-05-01 15:05:18.049  MDTM
+< 2014-05-01 15:05:18.049  REST STREAM
+< 2014-05-01 15:05:18.049  SIZE
+< 2014-05-01 15:05:18.049  MLST type*;size*;modify*;
+< 2014-05-01 15:05:18.049  MLSD
+< 2014-05-01 15:05:18.049  AUTH SSL
+< 2014-05-01 15:05:18.049  AUTH TLS
+< 2014-05-01 15:05:18.049  PROT
+< 2014-05-01 15:05:18.049  PBSZ
+< 2014-05-01 15:05:18.049  UTF8
+< 2014-05-01 15:05:18.049  CLNT
+< 2014-05-01 15:05:18.050  MFMT
+< 2014-05-01 15:05:18.050 211 End
+> 2014-05-01 15:05:18.050 PBSZ 0
+< 2014-05-01 15:05:18.108 200 PBSZ=0
+> 2014-05-01 15:05:18.108 PROT P
+< 2014-05-01 15:05:18.168 200 Protection level set to P
+. 2014-05-01 15:05:18.168 Connected
+. 2014-05-01 15:05:18.168 --------------------------------------------------------------------------
+. 2014-05-01 15:05:18.168 Using FTP protocol.
+. 2014-05-01 15:05:18.169 Doing startup conversation with host.
+> 2014-05-01 15:05:18.170 PWD
+< 2014-05-01 15:05:18.229 257 "/" is current directory.
+. 2014-05-01 15:05:18.229 Getting current directory name.
+. 2014-05-01 15:05:18.229 Startup conversation with host finished.
+< 2014-05-01 15:05:18.229 Script: Active session: [1] oconee@ftp.excent.com
+> 2014-05-01 15:05:18.229 Script: option transfer binary
+< 2014-05-01 15:05:18.229 Script: transfer        binary    
+> 2014-05-01 15:05:18.229 Script: lcd "C:\EnrichETL\DbScripts\x_VALIDATION\Localization\Enrich\SC\Oconee"
+< 2014-05-01 15:05:18.230 Script: C:\EnrichETL\DbScripts\x_VALIDATION\Localization\Enrich\SC\Oconee
+> 2014-05-01 15:05:18.230 Script: cd /
+. 2014-05-01 15:05:18.230 Cached directory change via "/" to "/".
+. 2014-05-01 15:05:18.230 Getting current directory name.
+< 2014-05-01 15:05:18.230 Script: /
+> 2014-05-01 15:05:18.230 Script: put "C:\EnrichETL\DbScripts\x_VALIDATION\Localization\Enrich\SC\Oconee\ValidationReport_Detail.xls"
+. 2014-05-01 15:05:18.230 Copying 1 files/directories to remote directory "/"
+. 2014-05-01 15:05:18.230   PrTime: Yes; PrRO: No; Rght: rw-r--r--; PrR: No (No); FnCs: N; RIC: 0100; Resume: S (102400); CalcS: No; Mask: 
+. 2014-05-01 15:05:18.230   TM: B; ClAr: No; CPS: 0; InclM: 
+. 2014-05-01 15:05:18.230   AscM: *.*html; *.htm; *.txt; *.php; *.php3; *.cgi; *.c; *.cpp; *.h; *.pas; *.bas; *.tex; *.pl; *.js; .htaccess; *.xtml; *.css; *.cfg; *.ini; *.sh; *.xml
+. 2014-05-01 15:05:18.231 File: "C:\EnrichETL\DbScripts\x_VALIDATION\Localization\Enrich\SC\Oconee\ValidationReport_Detail.xls"
+. 2014-05-01 15:05:18.258 Copying "C:\EnrichETL\DbScripts\x_VALIDATION\Localization\Enrich\SC\Oconee\ValidationReport_Detail.xls" to remote directory started.
+. 2014-05-01 15:05:18.258 Binary transfer mode selected.
+. 2014-05-01 15:05:18.258 Starting upload of C:\EnrichETL\DbScripts\x_VALIDATION\Localization\Enrich\SC\Oconee\ValidationReport_Detail.xls
+> 2014-05-01 15:05:18.258 TYPE A
+< 2014-05-01 15:05:18.317 200 Type set to A
+> 2014-05-01 15:05:18.318 PASV
+< 2014-05-01 15:05:18.377 227 Entering Passive Mode (66,45,109,131,198,255)
+> 2014-05-01 15:05:18.378 MLSD
+< 2014-05-01 15:05:18.497 150 Connection accepted
+. 2014-05-01 15:05:18.497 SSL connection established
+< 2014-05-01 15:05:18.556 226 Transfer OK
+. 2014-05-01 15:05:18.556 type=file;modify=20140402143226;size=1603072; ValidationReport_Detail.xls
+> 2014-05-01 15:05:18.557 TYPE I
+< 2014-05-01 15:05:18.616 200 Type set to I
+> 2014-05-01 15:05:18.616 PASV
+< 2014-05-01 15:05:18.675 227 Entering Passive Mode (66,45,109,131,199,0)
+> 2014-05-01 15:05:18.675 STOR ValidationReport_Detail.xls
+< 2014-05-01 15:05:18.809 150 Connection accepted
+. 2014-05-01 15:05:18.869 SSL connection established
+< 2014-05-01 15:05:21.672 226 Transfer OK
+> 2014-05-01 15:05:21.672 MFMT 20140501180516 ValidationReport_Detail.xls
+< 2014-05-01 15:05:21.731 213 modify=20140501180516; /ValidationReport_Detail.xls
+. 2014-05-01 15:05:21.732 Upload successful
+> 2014-05-01 15:05:21.732 Script: close
+. 2014-05-01 15:05:21.733 Disconnected from server
+. 2014-05-02 03:53:52.394 --------------------------------------------------------------------------
+. 2014-05-02 03:53:52.395 WinSCP Version 5.1.7 (Build 3446) (OS 6.0.6002 Service Pack 2)
+. 2014-05-02 03:53:52.396 Configuration: C:\Program Files\WinSCP\WinSCP.ini
+. 2014-05-02 03:53:52.397 Local account: SDOC\testview
+. 2014-05-02 03:53:52.397 Working directory: C:\Program Files (x86)\WinSCP
+. 2014-05-02 03:53:52.397 Process ID: 9784
+. 2014-05-02 03:53:52.397 Command-line: "C:\Program Files\WinSCP\WinSCP.exe" -script="C:\EnrichETL\DbScripts\x_VALIDATION\Localization\Enrich\SC\Oconee\ValidationReport_Upload_FTP.txt" /log="C:\EnrichETL\DbScripts\x_VALIDATION\Localization\Enrich\SC\Oconee\log.txt"
+. 2014-05-02 03:53:52.397 Time zone: Current: GMT-4, Standard: GMT-5, DST: GMT-4, DST Start: 3/9/2014, DST End: 11/2/2014
+. 2014-05-02 03:53:52.397 Login time: Friday, May 02, 2014 3:53:52 AM
+. 2014-05-02 03:53:52.397 --------------------------------------------------------------------------
+. 2014-05-02 03:53:52.397 Session name: oconee@ftp.excent.com (Ad-Hoc session)
+. 2014-05-02 03:53:52.397 Host name: ftp.excent.com (Port: 21)
+. 2014-05-02 03:53:52.397 User name: oconee (Password: Yes, Key file: No)
+. 2014-05-02 03:53:52.397 Tunnel: No
+. 2014-05-02 03:53:52.397 Transfer Protocol: FTP
+. 2014-05-02 03:53:52.397 Ping type: C, Ping interval: 30 sec; Timeout: 15 sec
+. 2014-05-02 03:53:52.397 Proxy: none
+. 2014-05-02 03:53:52.397 FTP: FTPS: Explicit TLS; Passive: Yes [Force IP: A]; List all: A
+. 2014-05-02 03:53:52.397 Session reuse: Yes
+. 2014-05-02 03:53:52.397 Local directory: default, Remote directory: home, Update: Yes, Cache: Yes
+. 2014-05-02 03:53:52.398 Cache directory changes: Yes, Permanent: Yes
+. 2014-05-02 03:53:52.398 DST mode: 1; Timezone offset: 0h 0m
+. 2014-05-02 03:53:52.398 --------------------------------------------------------------------------
+. 2014-05-02 03:53:52.418 Connecting to ftp.excent.com ...
+. 2014-05-02 03:53:52.653 Connected with ftp.excent.com, negotiating SSL connection...
+< 2014-05-02 03:53:52.712 220-Welcome to Excent FTP.
+< 2014-05-02 03:53:52.712 220-
+< 2014-05-02 03:53:52.712 220 We monitor connections so please, no monkey business.
+> 2014-05-02 03:53:52.712 AUTH TLS
+< 2014-05-02 03:53:52.772 234 Using authentication type TLS
+. 2014-05-02 03:53:53.090 Using TLSv1, cipher TLSv1/SSLv3: AES256-SHA, 1024 bit RSA
+. 2014-05-02 03:53:53.091 SSL connection established. Waiting for welcome message...
+> 2014-05-02 03:53:53.091 USER oconee
+< 2014-05-02 03:53:53.149 331 Password required for oconee
+> 2014-05-02 03:53:53.149 PASS *******
+< 2014-05-02 03:53:53.209 230 Logged on
+> 2014-05-02 03:53:53.209 SYST
+< 2014-05-02 03:53:53.267 215 UNIX emulated by FileZilla
+> 2014-05-02 03:53:53.268 FEAT
+< 2014-05-02 03:53:53.327 211-Features:
+< 2014-05-02 03:53:53.327  MDTM
+< 2014-05-02 03:53:53.327  REST STREAM
+< 2014-05-02 03:53:53.327  SIZE
+< 2014-05-02 03:53:53.327  MLST type*;size*;modify*;
+< 2014-05-02 03:53:53.327  MLSD
+< 2014-05-02 03:53:53.327  AUTH SSL
+< 2014-05-02 03:53:53.327  AUTH TLS
+< 2014-05-02 03:53:53.328  PROT
+< 2014-05-02 03:53:53.328  PBSZ
+< 2014-05-02 03:53:53.328  UTF8
+< 2014-05-02 03:53:53.328  CLNT
+< 2014-05-02 03:53:53.328  MFMT
+< 2014-05-02 03:53:53.328 211 End
+> 2014-05-02 03:53:53.328 PBSZ 0
+< 2014-05-02 03:53:53.387 200 PBSZ=0
+> 2014-05-02 03:53:53.387 PROT P
+< 2014-05-02 03:53:53.446 200 Protection level set to P
+. 2014-05-02 03:53:53.447 Connected
+. 2014-05-02 03:53:53.447 --------------------------------------------------------------------------
+. 2014-05-02 03:53:53.447 Using FTP protocol.
+. 2014-05-02 03:53:53.448 Doing startup conversation with host.
+> 2014-05-02 03:53:53.448 PWD
+< 2014-05-02 03:53:53.507 257 "/" is current directory.
+. 2014-05-02 03:53:53.507 Getting current directory name.
+. 2014-05-02 03:53:53.507 Startup conversation with host finished.
+< 2014-05-02 03:53:53.507 Script: Active session: [1] oconee@ftp.excent.com
+> 2014-05-02 03:53:53.508 Script: option transfer binary
+< 2014-05-02 03:53:53.508 Script: transfer        binary    
+> 2014-05-02 03:53:53.508 Script: lcd "C:\EnrichETL\DbScripts\x_VALIDATION\Localization\Enrich\SC\Oconee"
+< 2014-05-02 03:53:53.508 Script: C:\EnrichETL\DbScripts\x_VALIDATION\Localization\Enrich\SC\Oconee
+> 2014-05-02 03:53:53.508 Script: cd /
+. 2014-05-02 03:53:53.508 Cached directory change via "/" to "/".
+. 2014-05-02 03:53:53.508 Getting current directory name.
+< 2014-05-02 03:53:53.508 Script: /
+> 2014-05-02 03:53:53.508 Script: put "C:\EnrichETL\DbScripts\x_VALIDATION\Localization\Enrich\SC\Oconee\ValidationReport_Detail.xls"
+. 2014-05-02 03:53:53.509 Copying 1 files/directories to remote directory "/"
+. 2014-05-02 03:53:53.509   PrTime: Yes; PrRO: No; Rght: rw-r--r--; PrR: No (No); FnCs: N; RIC: 0100; Resume: S (102400); CalcS: No; Mask: 
+. 2014-05-02 03:53:53.509   TM: B; ClAr: No; CPS: 0; InclM: 
+. 2014-05-02 03:53:53.509   AscM: *.*html; *.htm; *.txt; *.php; *.php3; *.cgi; *.c; *.cpp; *.h; *.pas; *.bas; *.tex; *.pl; *.js; .htaccess; *.xtml; *.css; *.cfg; *.ini; *.sh; *.xml
+. 2014-05-02 03:53:53.509 File: "C:\EnrichETL\DbScripts\x_VALIDATION\Localization\Enrich\SC\Oconee\ValidationReport_Detail.xls"
+. 2014-05-02 03:53:53.525 Copying "C:\EnrichETL\DbScripts\x_VALIDATION\Localization\Enrich\SC\Oconee\ValidationReport_Detail.xls" to remote directory started.
+. 2014-05-02 03:53:53.525 Binary transfer mode selected.
+. 2014-05-02 03:53:53.525 Starting upload of C:\EnrichETL\DbScripts\x_VALIDATION\Localization\Enrich\SC\Oconee\ValidationReport_Detail.xls
+> 2014-05-02 03:53:53.525 TYPE A
+< 2014-05-02 03:53:53.584 200 Type set to A
+> 2014-05-02 03:53:53.585 PASV
+< 2014-05-02 03:53:53.644 227 Entering Passive Mode (66,45,109,131,198,220)
+> 2014-05-02 03:53:53.654 MLSD
+< 2014-05-02 03:53:53.772 150 Connection accepted
+. 2014-05-02 03:53:53.773 SSL connection established
+< 2014-05-02 03:53:53.832 226 Transfer OK
+. 2014-05-02 03:53:53.832 type=file;modify=20140501180516;size=2639360; ValidationReport_Detail.xls
+> 2014-05-02 03:53:53.833 TYPE I
+< 2014-05-02 03:53:53.892 200 Type set to I
+> 2014-05-02 03:53:53.892 PASV
+< 2014-05-02 03:53:53.951 227 Entering Passive Mode (66,45,109,131,198,221)
+> 2014-05-02 03:53:53.952 STOR ValidationReport_Detail.xls
+< 2014-05-02 03:53:54.070 150 Connection accepted
+. 2014-05-02 03:53:54.130 SSL connection established
+< 2014-05-02 03:53:55.735 226 Transfer OK
+> 2014-05-02 03:53:55.736 MFMT 20140502065351 ValidationReport_Detail.xls
+< 2014-05-02 03:53:55.795 213 modify=20140502065351; /ValidationReport_Detail.xls
+. 2014-05-02 03:53:55.795 Upload successful
+> 2014-05-02 03:53:55.795 Script: close
+. 2014-05-02 03:53:55.797 Disconnected from server
+. 2014-05-02 04:01:48.557 --------------------------------------------------------------------------
+. 2014-05-02 04:01:48.557 WinSCP Version 5.1.7 (Build 3446) (OS 6.0.6002 Service Pack 2)
+. 2014-05-02 04:01:48.558 Configuration: C:\Program Files\WinSCP\WinSCP.ini
+. 2014-05-02 04:01:48.559 Local account: SDOC\testview
+. 2014-05-02 04:01:48.559 Working directory: C:\Program Files (x86)\WinSCP
+. 2014-05-02 04:01:48.559 Process ID: 12704
+. 2014-05-02 04:01:48.559 Command-line: "C:\Program Files\WinSCP\WinSCP.exe" -script="C:\EnrichETL\DbScripts\x_VALIDATION\Localization\Enrich\SC\Oconee\ValidationReport_Upload_FTP.txt" /log="C:\EnrichETL\DbScripts\x_VALIDATION\Localization\Enrich\SC\Oconee\log.txt"
+. 2014-05-02 04:01:48.559 Time zone: Current: GMT-4, Standard: GMT-5, DST: GMT-4, DST Start: 3/9/2014, DST End: 11/2/2014
+. 2014-05-02 04:01:48.559 Login time: Friday, May 02, 2014 4:01:48 AM
+. 2014-05-02 04:01:48.559 --------------------------------------------------------------------------
+. 2014-05-02 04:01:48.559 Session name: oconee@ftp.excent.com (Ad-Hoc session)
+. 2014-05-02 04:01:48.559 Host name: ftp.excent.com (Port: 21)
+. 2014-05-02 04:01:48.559 User name: oconee (Password: Yes, Key file: No)
+. 2014-05-02 04:01:48.559 Tunnel: No
+. 2014-05-02 04:01:48.559 Transfer Protocol: FTP
+. 2014-05-02 04:01:48.559 Ping type: C, Ping interval: 30 sec; Timeout: 15 sec
+. 2014-05-02 04:01:48.559 Proxy: none
+. 2014-05-02 04:01:48.559 FTP: FTPS: Explicit TLS; Passive: Yes [Force IP: A]; List all: A
+. 2014-05-02 04:01:48.559 Session reuse: Yes
+. 2014-05-02 04:01:48.559 Local directory: default, Remote directory: home, Update: Yes, Cache: Yes
+. 2014-05-02 04:01:48.559 Cache directory changes: Yes, Permanent: Yes
+. 2014-05-02 04:01:48.559 DST mode: 1; Timezone offset: 0h 0m
+. 2014-05-02 04:01:48.559 --------------------------------------------------------------------------
+. 2014-05-02 04:01:48.563 Connecting to ftp.excent.com ...
+. 2014-05-02 04:01:48.632 Connected with ftp.excent.com, negotiating SSL connection...
+< 2014-05-02 04:01:48.691 220-Welcome to Excent FTP.
+< 2014-05-02 04:01:48.691 220-
+< 2014-05-02 04:01:48.691 220 We monitor connections so please, no monkey business.
+> 2014-05-02 04:01:48.691 AUTH TLS
+< 2014-05-02 04:01:48.750 234 Using authentication type TLS
+. 2014-05-02 04:01:49.062 Using TLSv1, cipher TLSv1/SSLv3: AES256-SHA, 1024 bit RSA
+. 2014-05-02 04:01:49.062 SSL connection established. Waiting for welcome message...
+> 2014-05-02 04:01:49.062 USER oconee
+< 2014-05-02 04:01:49.121 331 Password required for oconee
+> 2014-05-02 04:01:49.121 PASS *******
+< 2014-05-02 04:01:49.190 230 Logged on
+> 2014-05-02 04:01:49.190 SYST
+< 2014-05-02 04:01:49.248 215 UNIX emulated by FileZilla
+> 2014-05-02 04:01:49.249 FEAT
+< 2014-05-02 04:01:49.308 211-Features:
+< 2014-05-02 04:01:49.308  MDTM
+< 2014-05-02 04:01:49.308  REST STREAM
+< 2014-05-02 04:01:49.308  SIZE
+< 2014-05-02 04:01:49.308  MLST type*;size*;modify*;
+< 2014-05-02 04:01:49.309  MLSD
+< 2014-05-02 04:01:49.309  AUTH SSL
+< 2014-05-02 04:01:49.319  AUTH TLS
+< 2014-05-02 04:01:49.319  PROT
+< 2014-05-02 04:01:49.319  PBSZ
+< 2014-05-02 04:01:49.319  UTF8
+< 2014-05-02 04:01:49.319  CLNT
+< 2014-05-02 04:01:49.319  MFMT
+< 2014-05-02 04:01:49.319 211 End
+> 2014-05-02 04:01:49.319 PBSZ 0
+< 2014-05-02 04:01:49.368 200 PBSZ=0
+> 2014-05-02 04:01:49.368 PROT P
+< 2014-05-02 04:01:49.426 200 Protection level set to P
+. 2014-05-02 04:01:49.427 Connected
+. 2014-05-02 04:01:49.427 --------------------------------------------------------------------------
+. 2014-05-02 04:01:49.427 Using FTP protocol.
+. 2014-05-02 04:01:49.429 Doing startup conversation with host.
+> 2014-05-02 04:01:49.430 PWD
+< 2014-05-02 04:01:49.490 257 "/" is current directory.
+. 2014-05-02 04:01:49.490 Getting current directory name.
+. 2014-05-02 04:01:49.490 Startup conversation with host finished.
+< 2014-05-02 04:01:49.490 Script: Active session: [1] oconee@ftp.excent.com
+> 2014-05-02 04:01:49.490 Script: option transfer binary
+< 2014-05-02 04:01:49.490 Script: transfer        binary    
+> 2014-05-02 04:01:49.490 Script: lcd "C:\EnrichETL\DbScripts\x_VALIDATION\Localization\Enrich\SC\Oconee"
+< 2014-05-02 04:01:49.490 Script: C:\EnrichETL\DbScripts\x_VALIDATION\Localization\Enrich\SC\Oconee
+> 2014-05-02 04:01:49.490 Script: cd /
+. 2014-05-02 04:01:49.490 Cached directory change via "/" to "/".
+. 2014-05-02 04:01:49.490 Getting current directory name.
+< 2014-05-02 04:01:49.490 Script: /
+> 2014-05-02 04:01:49.490 Script: put "C:\EnrichETL\DbScripts\x_VALIDATION\Localization\Enrich\SC\Oconee\ValidationReport_Detail.xls"
+. 2014-05-02 04:01:49.491 Copying 1 files/directories to remote directory "/"
+. 2014-05-02 04:01:49.491   PrTime: Yes; PrRO: No; Rght: rw-r--r--; PrR: No (No); FnCs: N; RIC: 0100; Resume: S (102400); CalcS: No; Mask: 
+. 2014-05-02 04:01:49.491   TM: B; ClAr: No; CPS: 0; InclM: 
+. 2014-05-02 04:01:49.491   AscM: *.*html; *.htm; *.txt; *.php; *.php3; *.cgi; *.c; *.cpp; *.h; *.pas; *.bas; *.tex; *.pl; *.js; .htaccess; *.xtml; *.css; *.cfg; *.ini; *.sh; *.xml
+. 2014-05-02 04:01:49.491 File: "C:\EnrichETL\DbScripts\x_VALIDATION\Localization\Enrich\SC\Oconee\ValidationReport_Detail.xls"
+. 2014-05-02 04:01:49.514 Copying "C:\EnrichETL\DbScripts\x_VALIDATION\Localization\Enrich\SC\Oconee\ValidationReport_Detail.xls" to remote directory started.
+. 2014-05-02 04:01:49.514 Binary transfer mode selected.
+. 2014-05-02 04:01:49.514 Starting upload of C:\EnrichETL\DbScripts\x_VALIDATION\Localization\Enrich\SC\Oconee\ValidationReport_Detail.xls
+> 2014-05-02 04:01:49.514 TYPE A
+< 2014-05-02 04:01:49.573 200 Type set to A
+> 2014-05-02 04:01:49.573 PASV
+< 2014-05-02 04:01:49.632 227 Entering Passive Mode (66,45,109,131,198,223)
+> 2014-05-02 04:01:49.633 MLSD
+< 2014-05-02 04:01:49.751 150 Connection accepted
+. 2014-05-02 04:01:49.752 SSL connection established
+< 2014-05-02 04:01:49.810 226 Transfer OK
+. 2014-05-02 04:01:49.811 type=file;modify=20140502065351;size=1363456; ValidationReport_Detail.xls
+> 2014-05-02 04:01:49.811 TYPE I
+< 2014-05-02 04:01:49.870 200 Type set to I
+> 2014-05-02 04:01:49.870 PASV
+< 2014-05-02 04:01:49.929 227 Entering Passive Mode (66,45,109,131,198,224)
+> 2014-05-02 04:01:49.929 STOR ValidationReport_Detail.xls
+< 2014-05-02 04:01:50.048 150 Connection accepted
+. 2014-05-02 04:01:50.108 SSL connection established
+< 2014-05-02 04:01:52.133 226 Transfer OK
+> 2014-05-02 04:01:52.133 MFMT 20140502070148 ValidationReport_Detail.xls
+< 2014-05-02 04:01:52.192 213 modify=20140502070148; /ValidationReport_Detail.xls
+. 2014-05-02 04:01:52.192 Upload successful
+> 2014-05-02 04:01:52.192 Script: close
+. 2014-05-02 04:01:52.194 Disconnected from server
+. 2014-05-06 14:37:28.232 --------------------------------------------------------------------------
+. 2014-05-06 14:37:28.236 WinSCP Version 5.1.7 (Build 3446) (OS 6.0.6002 Service Pack 2)
+. 2014-05-06 14:37:28.237 Configuration: C:\Program Files\WinSCP\WinSCP.ini
+. 2014-05-06 14:37:28.238 Local account: SDOC\testview
+. 2014-05-06 14:37:28.239 Working directory: C:\Program Files (x86)\WinSCP
+. 2014-05-06 14:37:28.239 Process ID: 15916
+. 2014-05-06 14:37:28.239 Command-line: "C:\Program Files\WinSCP\WinSCP.exe" -script="C:\EnrichETL\DbScripts\x_VALIDATION\Localization\Enrich\SC\Oconee\ValidationReport_Upload_FTP.txt" /log="C:\EnrichETL\DbScripts\x_VALIDATION\Localization\Enrich\SC\Oconee\log.txt"
+. 2014-05-06 14:37:28.239 Time zone: Current: GMT-4, Standard: GMT-5, DST: GMT-4, DST Start: 3/9/2014, DST End: 11/2/2014
+. 2014-05-06 14:37:28.239 Login time: Tuesday, May 06, 2014 2:37:28 PM
+. 2014-05-06 14:37:28.239 --------------------------------------------------------------------------
+. 2014-05-06 14:37:28.239 Session name: oconee@ftp.excent.com (Ad-Hoc session)
+. 2014-05-06 14:37:28.239 Host name: ftp.excent.com (Port: 21)
+. 2014-05-06 14:37:28.239 User name: oconee (Password: Yes, Key file: No)
+. 2014-05-06 14:37:28.239 Tunnel: No
+. 2014-05-06 14:37:28.239 Transfer Protocol: FTP
+. 2014-05-06 14:37:28.239 Ping type: C, Ping interval: 30 sec; Timeout: 15 sec
+. 2014-05-06 14:37:28.239 Proxy: none
+. 2014-05-06 14:37:28.239 FTP: FTPS: Explicit TLS; Passive: Yes [Force IP: A]; List all: A
+. 2014-05-06 14:37:28.239 Session reuse: Yes
+. 2014-05-06 14:37:28.239 Local directory: default, Remote directory: home, Update: Yes, Cache: Yes
+. 2014-05-06 14:37:28.239 Cache directory changes: Yes, Permanent: Yes
+. 2014-05-06 14:37:28.239 DST mode: 1; Timezone offset: 0h 0m
+. 2014-05-06 14:37:28.239 --------------------------------------------------------------------------
+. 2014-05-06 14:37:28.244 Connecting to ftp.excent.com ...
+. 2014-05-06 14:37:28.315 Connected with ftp.excent.com, negotiating SSL connection...
+< 2014-05-06 14:37:28.374 220-Welcome to Excent FTP.
+< 2014-05-06 14:37:28.374 220-
+< 2014-05-06 14:37:28.374 220 We monitor connections so please, no monkey business.
+> 2014-05-06 14:37:28.374 AUTH TLS
+< 2014-05-06 14:37:28.434 234 Using authentication type TLS
+. 2014-05-06 14:37:28.754 Using TLSv1, cipher TLSv1/SSLv3: AES256-SHA, 1024 bit RSA
+. 2014-05-06 14:37:28.754 SSL connection established. Waiting for welcome message...
+> 2014-05-06 14:37:28.754 USER oconee
+< 2014-05-06 14:37:28.813 331 Password required for oconee
+> 2014-05-06 14:37:28.813 PASS *******
+< 2014-05-06 14:37:28.873 230 Logged on
+> 2014-05-06 14:37:28.873 SYST
+< 2014-05-06 14:37:28.932 215 UNIX emulated by FileZilla
+> 2014-05-06 14:37:28.932 FEAT
+< 2014-05-06 14:37:28.992 211-Features:
+< 2014-05-06 14:37:28.992  MDTM
+< 2014-05-06 14:37:28.992  REST STREAM
+< 2014-05-06 14:37:28.992  SIZE
+< 2014-05-06 14:37:28.992  MLST type*;size*;modify*;
+< 2014-05-06 14:37:28.992  MLSD
+< 2014-05-06 14:37:28.992  AUTH SSL
+< 2014-05-06 14:37:28.992  AUTH TLS
+< 2014-05-06 14:37:28.992  PROT
+< 2014-05-06 14:37:28.992  PBSZ
+< 2014-05-06 14:37:28.993  UTF8
+< 2014-05-06 14:37:28.993  CLNT
+< 2014-05-06 14:37:28.993  MFMT
+< 2014-05-06 14:37:28.993 211 End
+> 2014-05-06 14:37:28.993 PBSZ 0
+< 2014-05-06 14:37:29.052 200 PBSZ=0
+> 2014-05-06 14:37:29.052 PROT P
+< 2014-05-06 14:37:29.111 200 Protection level set to P
+. 2014-05-06 14:37:29.111 Connected
+. 2014-05-06 14:37:29.111 --------------------------------------------------------------------------
+. 2014-05-06 14:37:29.111 Using FTP protocol.
+. 2014-05-06 14:37:29.112 Doing startup conversation with host.
+> 2014-05-06 14:37:29.112 PWD
+< 2014-05-06 14:37:29.172 257 "/" is current directory.
+. 2014-05-06 14:37:29.172 Getting current directory name.
+. 2014-05-06 14:37:29.172 Startup conversation with host finished.
+< 2014-05-06 14:37:29.172 Script: Active session: [1] oconee@ftp.excent.com
+> 2014-05-06 14:37:29.172 Script: option transfer binary
+< 2014-05-06 14:37:29.172 Script: transfer        binary    
+> 2014-05-06 14:37:29.172 Script: lcd "C:\EnrichETL\DbScripts\x_VALIDATION\Localization\Enrich\SC\Oconee"
+< 2014-05-06 14:37:29.172 Script: C:\EnrichETL\DbScripts\x_VALIDATION\Localization\Enrich\SC\Oconee
+> 2014-05-06 14:37:29.172 Script: cd /
+. 2014-05-06 14:37:29.173 Cached directory change via "/" to "/".
+. 2014-05-06 14:37:29.173 Getting current directory name.
+< 2014-05-06 14:37:29.173 Script: /
+> 2014-05-06 14:37:29.173 Script: put "C:\EnrichETL\DbScripts\x_VALIDATION\Localization\Enrich\SC\Oconee\ValidationReport_Detail.xls"
+. 2014-05-06 14:37:29.173 Copying 1 files/directories to remote directory "/"
+. 2014-05-06 14:37:29.173   PrTime: Yes; PrRO: No; Rght: rw-r--r--; PrR: No (No); FnCs: N; RIC: 0100; Resume: S (102400); CalcS: No; Mask: 
+. 2014-05-06 14:37:29.173   TM: B; ClAr: No; CPS: 0; InclM: 
+. 2014-05-06 14:37:29.173   AscM: *.*html; *.htm; *.txt; *.php; *.php3; *.cgi; *.c; *.cpp; *.h; *.pas; *.bas; *.tex; *.pl; *.js; .htaccess; *.xtml; *.css; *.cfg; *.ini; *.sh; *.xml
+. 2014-05-06 14:37:29.173 File: "C:\EnrichETL\DbScripts\x_VALIDATION\Localization\Enrich\SC\Oconee\ValidationReport_Detail.xls"
+. 2014-05-06 14:37:29.202 Copying "C:\EnrichETL\DbScripts\x_VALIDATION\Localization\Enrich\SC\Oconee\ValidationReport_Detail.xls" to remote directory started.
+. 2014-05-06 14:37:29.202 Binary transfer mode selected.
+. 2014-05-06 14:37:29.203 Starting upload of C:\EnrichETL\DbScripts\x_VALIDATION\Localization\Enrich\SC\Oconee\ValidationReport_Detail.xls
+> 2014-05-06 14:37:29.203 TYPE A
+< 2014-05-06 14:37:29.262 200 Type set to A
+> 2014-05-06 14:37:29.262 PASV
+< 2014-05-06 14:37:29.321 227 Entering Passive Mode (66,45,109,131,198,218)
+> 2014-05-06 14:37:29.322 MLSD
+< 2014-05-06 14:37:29.440 150 Connection accepted
+. 2014-05-06 14:37:29.442 SSL connection established
+< 2014-05-06 14:37:29.501 226 Transfer OK
+. 2014-05-06 14:37:29.501 type=file;modify=20140503064228;size=1419271089; Enrich_Dev_20140503.zip
+. 2014-05-06 14:37:29.501 type=file;modify=20140502070148;size=1355264; ValidationReport_Detail.xls
+> 2014-05-06 14:37:29.502 TYPE I
+< 2014-05-06 14:37:29.562 200 Type set to I
+> 2014-05-06 14:37:29.562 PASV
+< 2014-05-06 14:37:29.621 227 Entering Passive Mode (66,45,109,131,198,219)
+> 2014-05-06 14:37:29.622 STOR ValidationReport_Detail.xls
+< 2014-05-06 14:37:29.740 150 Connection accepted
+. 2014-05-06 14:37:29.801 SSL connection established
+< 2014-05-06 14:37:32.130 226 Transfer OK
+> 2014-05-06 14:37:32.130 MFMT 20140506173727 ValidationReport_Detail.xls
+< 2014-05-06 14:37:32.190 213 modify=20140506173727; /ValidationReport_Detail.xls
+. 2014-05-06 14:37:32.190 Upload successful
+> 2014-05-06 14:37:32.190 Script: close
+. 2014-05-06 14:37:32.192 Disconnected from server
+. 2014-05-07 10:07:22.369 --------------------------------------------------------------------------
+. 2014-05-07 10:07:22.369 WinSCP Version 5.1.7 (Build 3446) (OS 6.0.6002 Service Pack 2)
+. 2014-05-07 10:07:22.369 Configuration: C:\Program Files\WinSCP\WinSCP.ini
+. 2014-05-07 10:07:22.371 Local account: SDOC\testview
+. 2014-05-07 10:07:22.371 Working directory: C:\Program Files (x86)\WinSCP
+. 2014-05-07 10:07:22.371 Process ID: 7312
+. 2014-05-07 10:07:22.371 Command-line: "C:\Program Files\WinSCP\WinSCP.exe" -script="C:\EnrichETL\DbScripts\x_VALIDATION\Localization\Enrich\SC\Oconee\ValidationReport_Upload_FTP.txt" /log="C:\EnrichETL\DbScripts\x_VALIDATION\Localization\Enrich\SC\Oconee\log.txt"
+. 2014-05-07 10:07:22.371 Time zone: Current: GMT-4, Standard: GMT-5, DST: GMT-4, DST Start: 3/9/2014, DST End: 11/2/2014
+. 2014-05-07 10:07:22.371 Login time: Wednesday, May 07, 2014 10:07:22 AM
+. 2014-05-07 10:07:22.371 --------------------------------------------------------------------------
+. 2014-05-07 10:07:22.371 Session name: oconee@ftp.excent.com (Ad-Hoc session)
+. 2014-05-07 10:07:22.371 Host name: ftp.excent.com (Port: 21)
+. 2014-05-07 10:07:22.371 User name: oconee (Password: Yes, Key file: No)
+. 2014-05-07 10:07:22.371 Tunnel: No
+. 2014-05-07 10:07:22.371 Transfer Protocol: FTP
+. 2014-05-07 10:07:22.371 Ping type: C, Ping interval: 30 sec; Timeout: 15 sec
+. 2014-05-07 10:07:22.371 Proxy: none
+. 2014-05-07 10:07:22.371 FTP: FTPS: Explicit TLS; Passive: Yes [Force IP: A]; List all: A
+. 2014-05-07 10:07:22.371 Session reuse: Yes
+. 2014-05-07 10:07:22.371 Local directory: default, Remote directory: home, Update: Yes, Cache: Yes
+. 2014-05-07 10:07:22.371 Cache directory changes: Yes, Permanent: Yes
+. 2014-05-07 10:07:22.371 DST mode: 1; Timezone offset: 0h 0m
+. 2014-05-07 10:07:22.371 --------------------------------------------------------------------------
+. 2014-05-07 10:07:22.376 Connecting to ftp.excent.com ...
+. 2014-05-07 10:07:22.584 Connected with ftp.excent.com, negotiating SSL connection...
+< 2014-05-07 10:07:22.638 220-Welcome to Excent FTP.
+< 2014-05-07 10:07:22.638 220-
+< 2014-05-07 10:07:22.638 220 We monitor connections so please, no monkey business.
+> 2014-05-07 10:07:22.639 AUTH TLS
+< 2014-05-07 10:07:22.699 234 Using authentication type TLS
+. 2014-05-07 10:07:23.009 Using TLSv1, cipher TLSv1/SSLv3: AES256-SHA, 1024 bit RSA
+. 2014-05-07 10:07:23.009 SSL connection established. Waiting for welcome message...
+> 2014-05-07 10:07:23.009 USER oconee
+< 2014-05-07 10:07:23.068 331 Password required for oconee
+> 2014-05-07 10:07:23.068 PASS *******
+< 2014-05-07 10:07:23.128 230 Logged on
+> 2014-05-07 10:07:23.128 SYST
+< 2014-05-07 10:07:23.187 215 UNIX emulated by FileZilla
+> 2014-05-07 10:07:23.187 FEAT
+< 2014-05-07 10:07:23.247 211-Features:
+< 2014-05-07 10:07:23.247  MDTM
+< 2014-05-07 10:07:23.247  REST STREAM
+< 2014-05-07 10:07:23.247  SIZE
+< 2014-05-07 10:07:23.247  MLST type*;size*;modify*;
+< 2014-05-07 10:07:23.247  MLSD
+< 2014-05-07 10:07:23.247  AUTH SSL
+< 2014-05-07 10:07:23.247  AUTH TLS
+< 2014-05-07 10:07:23.247  PROT
+< 2014-05-07 10:07:23.247  PBSZ
+< 2014-05-07 10:07:23.247  UTF8
+< 2014-05-07 10:07:23.247  CLNT
+< 2014-05-07 10:07:23.247  MFMT
+< 2014-05-07 10:07:23.247 211 End
+> 2014-05-07 10:07:23.248 PBSZ 0
+< 2014-05-07 10:07:23.306 200 PBSZ=0
+> 2014-05-07 10:07:23.306 PROT P
+< 2014-05-07 10:07:23.365 200 Protection level set to P
+. 2014-05-07 10:07:23.365 Connected
+. 2014-05-07 10:07:23.365 --------------------------------------------------------------------------
+. 2014-05-07 10:07:23.365 Using FTP protocol.
+. 2014-05-07 10:07:23.367 Doing startup conversation with host.
+> 2014-05-07 10:07:23.367 PWD
+< 2014-05-07 10:07:23.426 257 "/" is current directory.
+. 2014-05-07 10:07:23.426 Getting current directory name.
+. 2014-05-07 10:07:23.426 Startup conversation with host finished.
+< 2014-05-07 10:07:23.426 Script: Active session: [1] oconee@ftp.excent.com
+> 2014-05-07 10:07:23.426 Script: option transfer binary
+< 2014-05-07 10:07:23.426 Script: transfer        binary    
+> 2014-05-07 10:07:23.426 Script: lcd "C:\EnrichETL\DbScripts\x_VALIDATION\Localization\Enrich\SC\Oconee"
+< 2014-05-07 10:07:23.426 Script: C:\EnrichETL\DbScripts\x_VALIDATION\Localization\Enrich\SC\Oconee
+> 2014-05-07 10:07:23.426 Script: cd /
+. 2014-05-07 10:07:23.426 Cached directory change via "/" to "/".
+. 2014-05-07 10:07:23.426 Getting current directory name.
+< 2014-05-07 10:07:23.426 Script: /
+> 2014-05-07 10:07:23.426 Script: put "C:\EnrichETL\DbScripts\x_VALIDATION\Localization\Enrich\SC\Oconee\ValidationReport_Detail.xls"
+. 2014-05-07 10:07:23.427 Copying 1 files/directories to remote directory "/"
+. 2014-05-07 10:07:23.427   PrTime: Yes; PrRO: No; Rght: rw-r--r--; PrR: No (No); FnCs: N; RIC: 0100; Resume: S (102400); CalcS: No; Mask: 
+. 2014-05-07 10:07:23.427   TM: B; ClAr: No; CPS: 0; InclM: 
+. 2014-05-07 10:07:23.427   AscM: *.*html; *.htm; *.txt; *.php; *.php3; *.cgi; *.c; *.cpp; *.h; *.pas; *.bas; *.tex; *.pl; *.js; .htaccess; *.xtml; *.css; *.cfg; *.ini; *.sh; *.xml
+. 2014-05-07 10:07:23.427 File: "C:\EnrichETL\DbScripts\x_VALIDATION\Localization\Enrich\SC\Oconee\ValidationReport_Detail.xls"
+. 2014-05-07 10:07:23.451 Copying "C:\EnrichETL\DbScripts\x_VALIDATION\Localization\Enrich\SC\Oconee\ValidationReport_Detail.xls" to remote directory started.
+. 2014-05-07 10:07:23.451 Binary transfer mode selected.
+. 2014-05-07 10:07:23.452 Starting upload of C:\EnrichETL\DbScripts\x_VALIDATION\Localization\Enrich\SC\Oconee\ValidationReport_Detail.xls
+> 2014-05-07 10:07:23.452 TYPE A
+< 2014-05-07 10:07:23.511 200 Type set to A
+> 2014-05-07 10:07:23.511 PASV
+< 2014-05-07 10:07:23.570 227 Entering Passive Mode (66,45,109,131,199,48)
+> 2014-05-07 10:07:23.571 MLSD
+< 2014-05-07 10:07:23.689 150 Connection accepted
+. 2014-05-07 10:07:23.690 SSL connection established
+< 2014-05-07 10:07:23.749 226 Transfer OK
+. 2014-05-07 10:07:23.749 type=file;modify=20140503064228;size=1419271089; Enrich_Dev_20140503.zip
+. 2014-05-07 10:07:23.749 type=file;modify=20140506173727;size=2136064; ValidationReport_Detail.xls
+> 2014-05-07 10:07:23.750 TYPE I
+< 2014-05-07 10:07:23.809 200 Type set to I
+> 2014-05-07 10:07:23.809 PASV
+< 2014-05-07 10:07:23.868 227 Entering Passive Mode (66,45,109,131,199,49)
+> 2014-05-07 10:07:23.869 STOR ValidationReport_Detail.xls
+< 2014-05-07 10:07:23.987 150 Connection accepted
+. 2014-05-07 10:07:24.046 SSL connection established
+< 2014-05-07 10:07:25.607 226 Transfer OK
+> 2014-05-07 10:07:25.608 MFMT 20140507130721 ValidationReport_Detail.xls
+< 2014-05-07 10:07:25.667 213 modify=20140507130721; /ValidationReport_Detail.xls
+. 2014-05-07 10:07:25.667 Upload successful
+> 2014-05-07 10:07:25.667 Script: close
+. 2014-05-07 10:07:25.668 Disconnected from server
+. 2014-05-08 14:04:27.874 --------------------------------------------------------------------------
+. 2014-05-08 14:04:27.880 WinSCP Version 5.1.7 (Build 3446) (OS 6.0.6002 Service Pack 2)
+. 2014-05-08 14:04:27.880 Configuration: C:\Program Files\WinSCP\WinSCP.ini
+. 2014-05-08 14:04:27.882 Local account: SDOC\testview
+. 2014-05-08 14:04:27.882 Working directory: C:\Program Files (x86)\WinSCP
+. 2014-05-08 14:04:27.882 Process ID: 5728
+. 2014-05-08 14:04:27.882 Command-line: "C:\Program Files\WinSCP\WinSCP.exe" -script="C:\EnrichETL\DbScripts\x_VALIDATION\Localization\Enrich\SC\Oconee\ValidationReport_Upload_FTP.txt" /log="C:\EnrichETL\DbScripts\x_VALIDATION\Localization\Enrich\SC\Oconee\log.txt"
+. 2014-05-08 14:04:27.882 Time zone: Current: GMT-4, Standard: GMT-5, DST: GMT-4, DST Start: 3/9/2014, DST End: 11/2/2014
+. 2014-05-08 14:04:27.882 Login time: Thursday, May 08, 2014 2:04:27 PM
+. 2014-05-08 14:04:27.882 --------------------------------------------------------------------------
+. 2014-05-08 14:04:27.882 Session name: oconee@ftp.excent.com (Ad-Hoc session)
+. 2014-05-08 14:04:27.882 Host name: ftp.excent.com (Port: 21)
+. 2014-05-08 14:04:27.882 User name: oconee (Password: Yes, Key file: No)
+. 2014-05-08 14:04:27.882 Tunnel: No
+. 2014-05-08 14:04:27.882 Transfer Protocol: FTP
+. 2014-05-08 14:04:27.882 Ping type: C, Ping interval: 30 sec; Timeout: 15 sec
+. 2014-05-08 14:04:27.882 Proxy: none
+. 2014-05-08 14:04:27.882 FTP: FTPS: Explicit TLS; Passive: Yes [Force IP: A]; List all: A
+. 2014-05-08 14:04:27.882 Session reuse: Yes
+. 2014-05-08 14:04:27.882 Local directory: default, Remote directory: home, Update: Yes, Cache: Yes
+. 2014-05-08 14:04:27.882 Cache directory changes: Yes, Permanent: Yes
+. 2014-05-08 14:04:27.882 DST mode: 1; Timezone offset: 0h 0m
+. 2014-05-08 14:04:27.882 --------------------------------------------------------------------------
+. 2014-05-08 14:04:27.887 Connecting to ftp.excent.com ...
+. 2014-05-08 14:04:27.955 Connected with ftp.excent.com, negotiating SSL connection...
+< 2014-05-08 14:04:28.014 220-Welcome to Excent FTP.
+< 2014-05-08 14:04:28.014 220-
+< 2014-05-08 14:04:28.014 220 We monitor connections so please, no monkey business.
+> 2014-05-08 14:04:28.014 AUTH TLS
+< 2014-05-08 14:04:28.074 234 Using authentication type TLS
+. 2014-05-08 14:04:28.390 Using TLSv1, cipher TLSv1/SSLv3: AES256-SHA, 1024 bit RSA
+. 2014-05-08 14:04:28.390 SSL connection established. Waiting for welcome message...
+> 2014-05-08 14:04:28.390 USER oconee
+< 2014-05-08 14:04:28.449 331 Password required for oconee
+> 2014-05-08 14:04:28.449 PASS *******
+< 2014-05-08 14:04:28.508 230 Logged on
+> 2014-05-08 14:04:28.508 SYST
+< 2014-05-08 14:04:28.567 215 UNIX emulated by FileZilla
+> 2014-05-08 14:04:28.567 FEAT
+< 2014-05-08 14:04:28.627 211-Features:
+< 2014-05-08 14:04:28.627  MDTM
+< 2014-05-08 14:04:28.627  REST STREAM
+< 2014-05-08 14:04:28.627  SIZE
+< 2014-05-08 14:04:28.627  MLST type*;size*;modify*;
+< 2014-05-08 14:04:28.627  MLSD
+< 2014-05-08 14:04:28.628  AUTH SSL
+< 2014-05-08 14:04:28.628  AUTH TLS
+< 2014-05-08 14:04:28.628  PROT
+< 2014-05-08 14:04:28.628  PBSZ
+< 2014-05-08 14:04:28.628  UTF8
+< 2014-05-08 14:04:28.628  CLNT
+< 2014-05-08 14:04:28.628  MFMT
+< 2014-05-08 14:04:28.628 211 End
+> 2014-05-08 14:04:28.628 PBSZ 0
+< 2014-05-08 14:04:28.687 200 PBSZ=0
+> 2014-05-08 14:04:28.687 PROT P
+< 2014-05-08 14:04:28.746 200 Protection level set to P
+. 2014-05-08 14:04:28.746 Connected
+. 2014-05-08 14:04:28.746 --------------------------------------------------------------------------
+. 2014-05-08 14:04:28.746 Using FTP protocol.
+. 2014-05-08 14:04:28.747 Doing startup conversation with host.
+> 2014-05-08 14:04:28.747 PWD
+< 2014-05-08 14:04:28.806 257 "/" is current directory.
+. 2014-05-08 14:04:28.807 Getting current directory name.
+. 2014-05-08 14:04:28.807 Startup conversation with host finished.
+< 2014-05-08 14:04:28.807 Script: Active session: [1] oconee@ftp.excent.com
+> 2014-05-08 14:04:28.807 Script: option transfer binary
+< 2014-05-08 14:04:28.807 Script: transfer        binary    
+> 2014-05-08 14:04:28.807 Script: lcd "C:\EnrichETL\DbScripts\x_VALIDATION\Localization\Enrich\SC\Oconee"
+< 2014-05-08 14:04:28.807 Script: C:\EnrichETL\DbScripts\x_VALIDATION\Localization\Enrich\SC\Oconee
+> 2014-05-08 14:04:28.807 Script: cd /
+. 2014-05-08 14:04:28.807 Cached directory change via "/" to "/".
+. 2014-05-08 14:04:28.807 Getting current directory name.
+< 2014-05-08 14:04:28.807 Script: /
+> 2014-05-08 14:04:28.807 Script: put "C:\EnrichETL\DbScripts\x_VALIDATION\Localization\Enrich\SC\Oconee\ValidationReport_Detail.xls"
+. 2014-05-08 14:04:28.808 Copying 1 files/directories to remote directory "/"
+. 2014-05-08 14:04:28.808   PrTime: Yes; PrRO: No; Rght: rw-r--r--; PrR: No (No); FnCs: N; RIC: 0100; Resume: S (102400); CalcS: No; Mask: 
+. 2014-05-08 14:04:28.808   TM: B; ClAr: No; CPS: 0; InclM: 
+. 2014-05-08 14:04:28.808   AscM: *.*html; *.htm; *.txt; *.php; *.php3; *.cgi; *.c; *.cpp; *.h; *.pas; *.bas; *.tex; *.pl; *.js; .htaccess; *.xtml; *.css; *.cfg; *.ini; *.sh; *.xml
+. 2014-05-08 14:04:28.808 File: "C:\EnrichETL\DbScripts\x_VALIDATION\Localization\Enrich\SC\Oconee\ValidationReport_Detail.xls"
+. 2014-05-08 14:04:28.824 Copying "C:\EnrichETL\DbScripts\x_VALIDATION\Localization\Enrich\SC\Oconee\ValidationReport_Detail.xls" to remote directory started.
+. 2014-05-08 14:04:28.824 Binary transfer mode selected.
+. 2014-05-08 14:04:28.824 Starting upload of C:\EnrichETL\DbScripts\x_VALIDATION\Localization\Enrich\SC\Oconee\ValidationReport_Detail.xls
+> 2014-05-08 14:04:28.824 TYPE A
+< 2014-05-08 14:04:28.883 200 Type set to A
+> 2014-05-08 14:04:28.883 PASV
+< 2014-05-08 14:04:28.943 227 Entering Passive Mode (66,45,109,131,199,16)
+> 2014-05-08 14:04:28.943 MLSD
+< 2014-05-08 14:04:29.061 150 Connection accepted
+. 2014-05-08 14:04:29.062 SSL connection established
+< 2014-05-08 14:04:29.121 226 Transfer OK
+. 2014-05-08 14:04:29.121 type=file;modify=20140503064228;size=1419271089; Enrich_Dev_20140503.zip
+. 2014-05-08 14:04:29.121 type=file;modify=20140507130721;size=1356288; ValidationReport_Detail.xls
+> 2014-05-08 14:04:29.122 TYPE I
+< 2014-05-08 14:04:29.181 200 Type set to I
+> 2014-05-08 14:04:29.181 PASV
+< 2014-05-08 14:04:29.240 227 Entering Passive Mode (66,45,109,131,199,17)
+> 2014-05-08 14:04:29.240 STOR ValidationReport_Detail.xls
+< 2014-05-08 14:04:29.358 150 Connection accepted
+. 2014-05-08 14:04:29.418 SSL connection established
+< 2014-05-08 14:04:30.985 226 Transfer OK
+> 2014-05-08 14:04:30.985 MFMT 20140508170427 ValidationReport_Detail.xls
+< 2014-05-08 14:04:31.045 213 modify=20140508170427; /ValidationReport_Detail.xls
+. 2014-05-08 14:04:31.045 Upload successful
+> 2014-05-08 14:04:31.045 Script: close
+. 2014-05-08 14:04:31.047 Disconnected from server
+. 2014-05-08 14:33:18.723 --------------------------------------------------------------------------
+. 2014-05-08 14:33:18.723 WinSCP Version 5.1.7 (Build 3446) (OS 6.0.6002 Service Pack 2)
+. 2014-05-08 14:33:18.724 Configuration: C:\Program Files\WinSCP\WinSCP.ini
+. 2014-05-08 14:33:18.725 Local account: SDOC\testview
+. 2014-05-08 14:33:18.725 Working directory: C:\Program Files (x86)\WinSCP
+. 2014-05-08 14:33:18.725 Process ID: 648
+. 2014-05-08 14:33:18.725 Command-line: "C:\Program Files\WinSCP\WinSCP.exe" -script="C:\EnrichETL\DbScripts\x_VALIDATION\Localization\Enrich\SC\Oconee\ValidationReport_Upload_FTP.txt" /log="C:\EnrichETL\DbScripts\x_VALIDATION\Localization\Enrich\SC\Oconee\log.txt"
+. 2014-05-08 14:33:18.725 Time zone: Current: GMT-4, Standard: GMT-5, DST: GMT-4, DST Start: 3/9/2014, DST End: 11/2/2014
+. 2014-05-08 14:33:18.725 Login time: Thursday, May 08, 2014 2:33:18 PM
+. 2014-05-08 14:33:18.725 --------------------------------------------------------------------------
+. 2014-05-08 14:33:18.725 Session name: oconee@ftp.excent.com (Ad-Hoc session)
+. 2014-05-08 14:33:18.725 Host name: ftp.excent.com (Port: 21)
+. 2014-05-08 14:33:18.726 User name: oconee (Password: Yes, Key file: No)
+. 2014-05-08 14:33:18.726 Tunnel: No
+. 2014-05-08 14:33:18.726 Transfer Protocol: FTP
+. 2014-05-08 14:33:18.726 Ping type: C, Ping interval: 30 sec; Timeout: 15 sec
+. 2014-05-08 14:33:18.726 Proxy: none
+. 2014-05-08 14:33:18.726 FTP: FTPS: Explicit TLS; Passive: Yes [Force IP: A]; List all: A
+. 2014-05-08 14:33:18.726 Session reuse: Yes
+. 2014-05-08 14:33:18.726 Local directory: default, Remote directory: home, Update: Yes, Cache: Yes
+. 2014-05-08 14:33:18.726 Cache directory changes: Yes, Permanent: Yes
+. 2014-05-08 14:33:18.726 DST mode: 1; Timezone offset: 0h 0m
+. 2014-05-08 14:33:18.726 --------------------------------------------------------------------------
+. 2014-05-08 14:33:18.730 Connecting to ftp.excent.com ...
+. 2014-05-08 14:33:18.798 Connected with ftp.excent.com, negotiating SSL connection...
+< 2014-05-08 14:33:18.857 220-Welcome to Excent FTP.
+< 2014-05-08 14:33:18.857 220-
+< 2014-05-08 14:33:18.857 220 We monitor connections so please, no monkey business.
+> 2014-05-08 14:33:18.857 AUTH TLS
+< 2014-05-08 14:33:18.917 234 Using authentication type TLS
+. 2014-05-08 14:33:19.228 Using TLSv1, cipher TLSv1/SSLv3: AES256-SHA, 1024 bit RSA
+. 2014-05-08 14:33:19.228 SSL connection established. Waiting for welcome message...
+> 2014-05-08 14:33:19.228 USER oconee
+< 2014-05-08 14:33:19.287 331 Password required for oconee
+> 2014-05-08 14:33:19.288 PASS *******
+< 2014-05-08 14:33:19.348 230 Logged on
+> 2014-05-08 14:33:19.348 SYST
+< 2014-05-08 14:33:19.407 215 UNIX emulated by FileZilla
+> 2014-05-08 14:33:19.407 FEAT
+< 2014-05-08 14:33:19.467 211-Features:
+< 2014-05-08 14:33:19.467  MDTM
+< 2014-05-08 14:33:19.467  REST STREAM
+< 2014-05-08 14:33:19.467  SIZE
+< 2014-05-08 14:33:19.467  MLST type*;size*;modify*;
+< 2014-05-08 14:33:19.467  MLSD
+< 2014-05-08 14:33:19.467  AUTH SSL
+< 2014-05-08 14:33:19.467  AUTH TLS
+< 2014-05-08 14:33:19.467  PROT
+< 2014-05-08 14:33:19.467  PBSZ
+< 2014-05-08 14:33:19.467  UTF8
+< 2014-05-08 14:33:19.467  CLNT
+< 2014-05-08 14:33:19.467  MFMT
+< 2014-05-08 14:33:19.467 211 End
+> 2014-05-08 14:33:19.467 PBSZ 0
+< 2014-05-08 14:33:19.526 200 PBSZ=0
+> 2014-05-08 14:33:19.526 PROT P
+< 2014-05-08 14:33:19.585 200 Protection level set to P
+. 2014-05-08 14:33:19.585 Connected
+. 2014-05-08 14:33:19.585 --------------------------------------------------------------------------
+. 2014-05-08 14:33:19.585 Using FTP protocol.
+. 2014-05-08 14:33:19.587 Doing startup conversation with host.
+> 2014-05-08 14:33:19.587 PWD
+< 2014-05-08 14:33:19.645 257 "/" is current directory.
+. 2014-05-08 14:33:19.645 Getting current directory name.
+. 2014-05-08 14:33:19.646 Startup conversation with host finished.
+< 2014-05-08 14:33:19.646 Script: Active session: [1] oconee@ftp.excent.com
+> 2014-05-08 14:33:19.646 Script: option transfer binary
+< 2014-05-08 14:33:19.646 Script: transfer        binary    
+> 2014-05-08 14:33:19.646 Script: lcd "C:\EnrichETL\DbScripts\x_VALIDATION\Localization\Enrich\SC\Oconee"
+< 2014-05-08 14:33:19.646 Script: C:\EnrichETL\DbScripts\x_VALIDATION\Localization\Enrich\SC\Oconee
+> 2014-05-08 14:33:19.646 Script: cd /
+. 2014-05-08 14:33:19.646 Cached directory change via "/" to "/".
+. 2014-05-08 14:33:19.646 Getting current directory name.
+< 2014-05-08 14:33:19.646 Script: /
+> 2014-05-08 14:33:19.646 Script: put "C:\EnrichETL\DbScripts\x_VALIDATION\Localization\Enrich\SC\Oconee\ValidationReport_Detail.xls"
+. 2014-05-08 14:33:19.647 Copying 1 files/directories to remote directory "/"
+. 2014-05-08 14:33:19.647   PrTime: Yes; PrRO: No; Rght: rw-r--r--; PrR: No (No); FnCs: N; RIC: 0100; Resume: S (102400); CalcS: No; Mask: 
+. 2014-05-08 14:33:19.647   TM: B; ClAr: No; CPS: 0; InclM: 
+. 2014-05-08 14:33:19.647   AscM: *.*html; *.htm; *.txt; *.php; *.php3; *.cgi; *.c; *.cpp; *.h; *.pas; *.bas; *.tex; *.pl; *.js; .htaccess; *.xtml; *.css; *.cfg; *.ini; *.sh; *.xml
+. 2014-05-08 14:33:19.647 File: "C:\EnrichETL\DbScripts\x_VALIDATION\Localization\Enrich\SC\Oconee\ValidationReport_Detail.xls"
+. 2014-05-08 14:33:19.662 Copying "C:\EnrichETL\DbScripts\x_VALIDATION\Localization\Enrich\SC\Oconee\ValidationReport_Detail.xls" to remote directory started.
+. 2014-05-08 14:33:19.662 Binary transfer mode selected.
+. 2014-05-08 14:33:19.663 Starting upload of C:\EnrichETL\DbScripts\x_VALIDATION\Localization\Enrich\SC\Oconee\ValidationReport_Detail.xls
+> 2014-05-08 14:33:19.663 TYPE A
+< 2014-05-08 14:33:19.721 200 Type set to A
+> 2014-05-08 14:33:19.722 PASV
+< 2014-05-08 14:33:19.781 227 Entering Passive Mode (66,45,109,131,199,30)
+> 2014-05-08 14:33:19.782 MLSD
+< 2014-05-08 14:33:19.903 150 Connection accepted
+. 2014-05-08 14:33:19.904 SSL connection established
+< 2014-05-08 14:33:19.963 226 Transfer OK
+. 2014-05-08 14:33:19.964 type=file;modify=20140503064228;size=1419271089; Enrich_Dev_20140503.zip
+. 2014-05-08 14:33:19.964 type=file;modify=20140508170427;size=1356288; ValidationReport_Detail.xls
+> 2014-05-08 14:33:19.964 TYPE I
+< 2014-05-08 14:33:20.024 200 Type set to I
+> 2014-05-08 14:33:20.024 PASV
+< 2014-05-08 14:33:20.083 227 Entering Passive Mode (66,45,109,131,199,31)
+> 2014-05-08 14:33:20.084 STOR ValidationReport_Detail.xls
+< 2014-05-08 14:33:20.203 150 Connection accepted
+. 2014-05-08 14:33:20.263 SSL connection established
+< 2014-05-08 14:33:21.830 226 Transfer OK
+> 2014-05-08 14:33:21.831 MFMT 20140508173318 ValidationReport_Detail.xls
+< 2014-05-08 14:33:21.890 213 modify=20140508173318; /ValidationReport_Detail.xls
+. 2014-05-08 14:33:21.890 Upload successful
+> 2014-05-08 14:33:21.890 Script: close
+. 2014-05-08 14:33:21.892 Disconnected from server

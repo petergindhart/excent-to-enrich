@@ -1,0 +1,4 @@
+Msg 4060, Level 11, State 1, Server RENEGADE, Line 1
+Cannot open database "Enrich_Dev" requested by the login. The login failed.
+Msg 18456, Level 14, State 1, Server RENEGADE, Line 1
+Login failed for user 'RENEGADE\muthuv'.

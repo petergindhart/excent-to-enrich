@@ -1,0 +1,176 @@
+DB Upgrade SC Demo
+..\DbScripts\x_VALIDATION\Localization\Enrich\SC\Demo -S10.0.1.30 -Usa -Pvc3go!! -dEnrich_DCB8_SC_Demo -S10.0.1.8\SQLServer2005 -Uenrich_demo_user -Pvc3go!! -dQASCConvert2005
+Comment:  Transaction started
+Comment:  Processing VC3Deployment object scripts.
+Debug:  Module found: LEGACYSPED
+Debug:  Module found: VC3Deployment
+Comment:  Registering module x_VALIDATION
+Debug:  Module found: x_VALIDATION
+Warning:  The module 'dbo' was in the Module table, but was not found in the list of actual modules.
+Warning:  The module 'PWRSCH' was in the Module table, but was not found in the list of actual modules.
+Warning:  The module 'VC3' was in the Module table, but was not found in the list of actual modules.
+Warning:  The module 'dbo' was in the Module table, but was not found in the list of actual modules.
+Warning:  The module 'VC3ETL' was in the Module table, but was not found in the list of actual modules.
+Warning:  The module 'VC3Reporting' was in the Module table, but was not found in the list of actual modules.
+Warning:  The module 'VC3TaskScheduler' was in the Module table, but was not found in the list of actual modules.
+Warning:  The module 'dbo' was in the Module table, but was not found in the list of actual modules.
+Warning:  The module 'VC3ETL' was in the Module table, but was not found in the list of actual modules.
+Warning:  The module 'dbo' was in the Module table, but was not found in the list of actual modules.
+Warning:  The module 'VC3ETL' was in the Module table, but was not found in the list of actual modules.
+Warning:  The module 'dbo' was in the Module table, but was not found in the list of actual modules.
+Warning:  The module 'VC3ETL' was in the Module table, but was not found in the list of actual modules.
+Warning:  The module 'dbo' was in the Module table, but was not found in the list of actual modules.
+Warning:  The module 'VC3ETL' was in the Module table, but was not found in the list of actual modules.
+Warning:  The module 'dbo' was in the Module table, but was not found in the list of actual modules.
+Warning:  The module 'VC3ETL' was in the Module table, but was not found in the list of actual modules.
+Warning:  The module 'dbo' was in the Module table, but was not found in the list of actual modules.
+Warning:  The module 'VC3ETL' was in the Module table, but was not found in the list of actual modules.
+Warning:  The module 'API' was in the Module table, but was not found in the list of actual modules.
+Warning:  The module 'dbo' was in the Module table, but was not found in the list of actual modules.
+Warning:  The module 'dbo' was in the Module table, but was not found in the list of actual modules.
+Warning:  The module 'PWRSCH' was in the Module table, but was not found in the list of actual modules.
+Warning:  The module 'PWRSCH' was in the Module table, but was not found in the list of actual modules.
+Comment:  Processing database scripts. Only new change scripts will be applied.
+Comment:  Module: LEGACYSPED @..\DbScripts\LEGACYSPED\
+Comment:  Module: VC3Deployment @..\DbScripts\VC3Deployment\
+Comment:  Module: x_VALIDATION @..\DbScripts\x_VALIDATION\
+Debug:    E:\GITConsolidation\excent-to-enrich\DbScripts\x_VALIDATION\Objects\Check_AccomMod_Specifications.sql
+Debug:    E:\GITConsolidation\excent-to-enrich\DbScripts\x_VALIDATION\Objects\Check_AssessAccomm_Specifications.sql
+Debug:    E:\GITConsolidation\excent-to-enrich\DbScripts\x_VALIDATION\Objects\Check_ClassroomAccommod_Specifications.sql
+Debug:    E:\GITConsolidation\excent-to-enrich\DbScripts\x_VALIDATION\Objects\Check_District_Specifications.sql
+Debug:    E:\GITConsolidation\excent-to-enrich\DbScripts\x_VALIDATION\Objects\Check_Evaluation_Specifications.sql
+Debug:    E:\GITConsolidation\excent-to-enrich\DbScripts\x_VALIDATION\Objects\Check_EvaluationAssess_Specifications.sql
+Debug:    E:\GITConsolidation\excent-to-enrich\DbScripts\x_VALIDATION\Objects\Check_IEP_Specifications.sql
+Debug:    E:\GITConsolidation\excent-to-enrich\DbScripts\x_VALIDATION\Objects\Check_IsInteger.sql
+Debug:    E:\GITConsolidation\excent-to-enrich\DbScripts\x_VALIDATION\Objects\Check_PostSchoolConsider_Specifications.sql
+Debug:    E:\GITConsolidation\excent-to-enrich\DbScripts\x_VALIDATION\Objects\Check_PostSchoolStatement_Specifications.sql
+Debug:    E:\GITConsolidation\excent-to-enrich\DbScripts\x_VALIDATION\Objects\Check_PresentLevel_Specifications.sql
+Debug:    E:\GITConsolidation\excent-to-enrich\DbScripts\x_VALIDATION\Objects\Check_PriorWrittenNotice_Specifications.sql
+Debug:    E:\GITConsolidation\excent-to-enrich\DbScripts\x_VALIDATION\Objects\Check_School_Specifications.sql
+Debug:    E:\GITConsolidation\excent-to-enrich\DbScripts\x_VALIDATION\Objects\Check_SchoolProgressFrequency_Specifications.sql
+Debug:    E:\GITConsolidation\excent-to-enrich\DbScripts\x_VALIDATION\Objects\Check_SelectLists_Specifications.sql
+Debug:    E:\GITConsolidation\excent-to-enrich\DbScripts\x_VALIDATION\Objects\Check_Service_Specifications.sql
+Debug:    E:\GITConsolidation\excent-to-enrich\DbScripts\x_VALIDATION\Objects\Check_SpecialFactors_Specifications.sql
+Debug:    E:\GITConsolidation\excent-to-enrich\DbScripts\x_VALIDATION\Objects\Check_SpedStaffMember_Specifications.sql
+Debug:    E:\GITConsolidation\excent-to-enrich\DbScripts\x_VALIDATION\Objects\Check_StaffSchool_Specifications.sql
+Debug:    E:\GITConsolidation\excent-to-enrich\DbScripts\x_VALIDATION\Objects\Check_Student_Specifications.sql
+Debug:    E:\GITConsolidation\excent-to-enrich\DbScripts\x_VALIDATION\Objects\Check_TeamMember_Specifications.sql
+Debug:    E:\GITConsolidation\excent-to-enrich\DbScripts\x_VALIDATION\Objects\Populate_TableOrder.sql
+Debug:    E:\GITConsolidation\excent-to-enrich\DbScripts\x_VALIDATION\Objects\Script_ValidationRules_Populate.sql
+Debug:    E:\GITConsolidation\excent-to-enrich\DbScripts\x_VALIDATION\Objects\usp_CheckColumnNameAndOrder.sql
+Debug:    E:\GITConsolidation\excent-to-enrich\DbScripts\x_VALIDATION\Objects\usp_DataValidationReport_History.sql
+Debug:    E:\GITConsolidation\excent-to-enrich\DbScripts\x_VALIDATION\Objects\usp_DatavalidatoinCleanUp_EO.sql
+Debug:    E:\GITConsolidation\excent-to-enrich\DbScripts\x_VALIDATION\Objects\usp_DatavalidatoinCleanUp_Flatfile.sql
+Debug:    E:\GITConsolidation\excent-to-enrich\DbScripts\x_VALIDATION\Objects\usp_ExtractDatafile_EO.sql
+Debug:    E:\GITConsolidation\excent-to-enrich\DbScripts\x_VALIDATION\Objects\usp_ExtractDatafile_From_Csv.sql
+Debug:    E:\GITConsolidation\excent-to-enrich\DbScripts\x_VALIDATION\Objects\usp_ExtractFlatfile.sql
+Debug:    E:\GITConsolidation\excent-to-enrich\DbScripts\x_VALIDATION\Objects\usp_GetParam.sql
+Debug:    E:\GITConsolidation\excent-to-enrich\DbScripts\x_VALIDATION\Objects\usp_ImportDataFileStaging.sql
+Debug:    E:\GITConsolidation\excent-to-enrich\DbScripts\x_VALIDATION\Objects\usp_ImportLegacyToEnrich.sql
+Debug:    E:\GITConsolidation\excent-to-enrich\DbScripts\x_VALIDATION\Objects\usp_ReportFilePreaprtion.sql
+Debug:    E:\GITConsolidation\excent-to-enrich\DbScripts\x_VALIDATION\Objects\usp_ValidationSummaryreport.sql
+Debug:    E:\GITConsolidation\excent-to-enrich\DbScripts\x_VALIDATION\Objects\vw_Validationsummaryreport.sql
+Debug:    E:\GITConsolidation\excent-to-enrich\DbScripts\LEGACYSPED\Objects\0000-Localization.sql
+    E:\GITConsolidation\excent-to-enrich\DbScripts\LEGACYSPED\Localization\SC\0010-Extract-Goal.sql
+    E:\GITConsolidation\excent-to-enrich\DbScripts\LEGACYSPED\Localization\SC\GoalAreaExists.sql
+    E:\GITConsolidation\excent-to-enrich\DbScripts\LEGACYSPED\Localization\SC\Demo\0002-Prep_District.sql
+    E:\GITConsolidation\excent-to-enrich\DbScripts\LEGACYSPED\Localization\SC\0001-Prep_State.sql
+    E:\GITConsolidation\excent-to-enrich\DbScripts\LEGACYSPED\Localization\SC\Transform_PrgGoalareaDef.sql
+    E:\GITConsolidation\excent-to-enrich\DbScripts\LEGACYSPED\Objects\Transform_ServiceFrequency.sql
+    E:\GITConsolidation\excent-to-enrich\DbScripts\LEGACYSPED\Localization\SC\StudentView.sql
+    E:\GITConsolidation\excent-to-enrich\DbScripts\LEGACYSPED\Objects\Transform_OrgUnit.sql
+    E:\GITConsolidation\excent-to-enrich\DbScripts\LEGACYSPED\Objects\Transform_School.sql
+    E:\GITConsolidation\excent-to-enrich\DbScripts\LEGACYSPED\Objects\Transform_GradeLevel.sql
+    E:\GITConsolidation\excent-to-enrich\DbScripts\LEGACYSPED\Objects\Transform_Student.sql
+    E:\GITConsolidation\excent-to-enrich\DbScripts\LEGACYSPED\Objects\Populate_MAP_StudentRefIDAll.sql
+    E:\GITConsolidation\excent-to-enrich\DbScripts\LEGACYSPED\Objects\EvaluateIncomingItems.sql
+    E:\GITConsolidation\excent-to-enrich\DbScripts\LEGACYSPED\Localization\SC\Demo\MAP_PrgStatus_ConvertedDataPlan.sql
+    E:\GITConsolidation\excent-to-enrich\DbScripts\LEGACYSPED\Objects\Transform_PrgInvolvement.sql
+    E:\GITConsolidation\excent-to-enrich\DbScripts\LEGACYSPED\Objects\Transform_PrgIep.sql
+    E:\GITConsolidation\excent-to-enrich\DbScripts\LEGACYSPED\Objects\Transform_IepServices.sql
+    E:\GITConsolidation\excent-to-enrich\DbScripts\LEGACYSPED\Objects\Transform_PrgSection.sql
+    E:\GITConsolidation\excent-to-enrich\DbScripts\LEGACYSPED\Objects\Transform_PrgGoals.sql
+    E:\GITConsolidation\excent-to-enrich\DbScripts\LEGACYSPED\Objects\Transform_PrgSubGoalAreaDef.sql
+    E:\GITConsolidation\excent-to-enrich\DbScripts\LEGACYSPED\Objects\PrimaryGoalAreaPerGoal.sql
+    E:\GITConsolidation\excent-to-enrich\DbScripts\LEGACYSPED\Localization\SC\Transform_PrgGoalarea.sql
+    E:\GITConsolidation\excent-to-enrich\DbScripts\LEGACYSPED\Objects\Transform_PrgGoal.sql
+    E:\GITConsolidation\excent-to-enrich\DbScripts\LEGACYSPED\Localization\SC\Transform_IepGoalPostSchoolAreaDef.sql
+    E:\GITConsolidation\excent-to-enrich\DbScripts\LEGACYSPED\Localization\SC\Transform_PrgGoalSubGoalAreaDef.sql
+    E:\GITConsolidation\excent-to-enrich\DbScripts\LEGACYSPED\Objects\Transform_IepPlacementOption.sql
+    E:\GITConsolidation\excent-to-enrich\DbScripts\LEGACYSPED\Objects\Transform_IepLeastRestrictiveEnvironment.sql
+    E:\GITConsolidation\excent-to-enrich\DbScripts\LEGACYSPED\Objects\Transform_IepPlacement.sql
+    E:\GITConsolidation\excent-to-enrich\DbScripts\LEGACYSPED\Objects\Transform_PrgLocation.sql
+    E:\GITConsolidation\excent-to-enrich\DbScripts\LEGACYSPED\Objects\Transform_IepServiceCategory.sql
+    E:\GITConsolidation\excent-to-enrich\DbScripts\LEGACYSPED\Objects\Transform_ServiceDef.sql
+    E:\GITConsolidation\excent-to-enrich\DbScripts\LEGACYSPED\Objects\Transform_ServiceProviderTitle.sql
+    E:\GITConsolidation\excent-to-enrich\DbScripts\LEGACYSPED\Objects\Transform_Schedule.sql
+    E:\GITConsolidation\excent-to-enrich\DbScripts\LEGACYSPED\Objects\Transform_PrgItemTeamMember.sql
+    E:\GITConsolidation\excent-to-enrich\DbScripts\LEGACYSPED\Objects\Transform_IepService.sql
+Debug:    E:\GITConsolidation\excent-to-enrich\DbScripts\LEGACYSPED\Objects\Create_IepServiceSnapshot.sql
+Debug:    E:\GITConsolidation\excent-to-enrich\DbScripts\LEGACYSPED\Objects\Create_ServiceSchedule_Snapshot.sql
+Debug:    E:\GITConsolidation\excent-to-enrich\DbScripts\LEGACYSPED\Objects\EvaluateIncomingItems.sql
+Debug:    E:\GITConsolidation\excent-to-enrich\DbScripts\LEGACYSPED\Objects\Populate_MAP_StudentRefIDAll.sql
+Debug:    E:\GITConsolidation\excent-to-enrich\DbScripts\LEGACYSPED\Objects\PrimaryGoalAreaPerGoal.sql
+Debug:    E:\GITConsolidation\excent-to-enrich\DbScripts\LEGACYSPED\Objects\Transform_Ethnicity.sql
+Debug:    E:\GITConsolidation\excent-to-enrich\DbScripts\LEGACYSPED\Objects\Transform_GradeLevel.sql
+Debug:    E:\GITConsolidation\excent-to-enrich\DbScripts\LEGACYSPED\Objects\Transform_IepDates.sql
+Debug:    E:\GITConsolidation\excent-to-enrich\DbScripts\LEGACYSPED\Objects\Transform_IepDemographics.sql
+Debug:    E:\GITConsolidation\excent-to-enrich\DbScripts\LEGACYSPED\Objects\Transform_IepDisability.sql
+Debug:    E:\GITConsolidation\excent-to-enrich\DbScripts\LEGACYSPED\Objects\Transform_IepDisabilityEligibility.sql
+Debug:    E:\GITConsolidation\excent-to-enrich\DbScripts\LEGACYSPED\Objects\Transform_IepEligibilityDetermination.sql
+Debug:    E:\GITConsolidation\excent-to-enrich\DbScripts\LEGACYSPED\Objects\Transform_IepEsy.sql
+Debug:    E:\GITConsolidation\excent-to-enrich\DbScripts\LEGACYSPED\Objects\Transform_IepGoal.sql
+Debug:    E:\GITConsolidation\excent-to-enrich\DbScripts\LEGACYSPED\Objects\Transform_IepGoal_Function.sql
+Debug:    E:\GITConsolidation\excent-to-enrich\DbScripts\LEGACYSPED\Objects\Transform_IepLeastRestrictiveEnvironment.sql
+Debug:    E:\GITConsolidation\excent-to-enrich\DbScripts\LEGACYSPED\Objects\Transform_IepPlacement.sql
+Debug:    E:\GITConsolidation\excent-to-enrich\DbScripts\LEGACYSPED\Objects\Transform_IepPlacement_Function.sql
+Debug:    E:\GITConsolidation\excent-to-enrich\DbScripts\LEGACYSPED\Objects\Transform_IepPlacementOption.sql
+Debug:    E:\GITConsolidation\excent-to-enrich\DbScripts\LEGACYSPED\Objects\Transform_IepService.sql
+Debug:    E:\GITConsolidation\excent-to-enrich\DbScripts\LEGACYSPED\Objects\Transform_IepServiceCategory.sql
+Debug:    E:\GITConsolidation\excent-to-enrich\DbScripts\LEGACYSPED\Objects\Transform_IepServiceDef.sql
+Debug:    E:\GITConsolidation\excent-to-enrich\DbScripts\LEGACYSPED\Objects\Transform_IepServicePlan_ss.sql
+    E:\GITConsolidation\excent-to-enrich\DbScripts\LEGACYSPED\Objects\Transform_IepService.sql
+Debug:    E:\GITConsolidation\excent-to-enrich\DbScripts\LEGACYSPED\Objects\Transform_IepServices.sql
+Debug:    E:\GITConsolidation\excent-to-enrich\DbScripts\LEGACYSPED\Objects\Transform_OrgUnit.sql
+Debug:    E:\GITConsolidation\excent-to-enrich\DbScripts\LEGACYSPED\Objects\Transform_Person.sql
+Debug:    E:\GITConsolidation\excent-to-enrich\DbScripts\LEGACYSPED\Objects\Transform_PrgConsent.sql
+Debug:    E:\GITConsolidation\excent-to-enrich\DbScripts\LEGACYSPED\Objects\Transform_PrgDocument.sql
+Debug:    E:\GITConsolidation\excent-to-enrich\DbScripts\LEGACYSPED\Objects\Transform_PrgGoal.sql
+Debug:    E:\GITConsolidation\excent-to-enrich\DbScripts\LEGACYSPED\Objects\Transform_PrgGoalObjective.sql
+Debug:    E:\GITConsolidation\excent-to-enrich\DbScripts\LEGACYSPED\Objects\Transform_PrgGoalProgress.sql
+Debug:    E:\GITConsolidation\excent-to-enrich\DbScripts\LEGACYSPED\Objects\Transform_PrgGoalProgress_Objective.sql
+Debug:    E:\GITConsolidation\excent-to-enrich\DbScripts\LEGACYSPED\Objects\Transform_PrgGoals.sql
+Debug:    E:\GITConsolidation\excent-to-enrich\DbScripts\LEGACYSPED\Objects\Transform_PrgGoalSecondaryGoalAreaDef.sql
+Debug:    E:\GITConsolidation\excent-to-enrich\DbScripts\LEGACYSPED\Objects\Transform_PrgIep.sql
+Debug:    E:\GITConsolidation\excent-to-enrich\DbScripts\LEGACYSPED\Objects\Transform_PrgInvolvement.sql
+Debug:    E:\GITConsolidation\excent-to-enrich\DbScripts\LEGACYSPED\Objects\Transform_PrgInvolvement_Status.sql
+Debug:    E:\GITConsolidation\excent-to-enrich\DbScripts\LEGACYSPED\Objects\Transform_PrgInvolvementTeamMember.sql
+Debug:    E:\GITConsolidation\excent-to-enrich\DbScripts\LEGACYSPED\Objects\Transform_PrgItemTeamMember.sql
+Debug:    E:\GITConsolidation\excent-to-enrich\DbScripts\LEGACYSPED\Objects\Transform_PrgLocation.sql
+Debug:    E:\GITConsolidation\excent-to-enrich\DbScripts\LEGACYSPED\Objects\Transform_PrgSection.sql
+Debug:    E:\GITConsolidation\excent-to-enrich\DbScripts\LEGACYSPED\Objects\Transform_PrgStatus.sql
+Debug:    E:\GITConsolidation\excent-to-enrich\DbScripts\LEGACYSPED\Objects\Transform_PrgSubGoalAreaDef.sql
+Debug:    E:\GITConsolidation\excent-to-enrich\DbScripts\LEGACYSPED\Objects\Transform_Schedule.sql
+Debug:    E:\GITConsolidation\excent-to-enrich\DbScripts\LEGACYSPED\Objects\Transform_Schedule_Function.sql
+Debug:    E:\GITConsolidation\excent-to-enrich\DbScripts\LEGACYSPED\Objects\Transform_School.sql
+Debug:    E:\GITConsolidation\excent-to-enrich\DbScripts\LEGACYSPED\Objects\Transform_ServiceDef.sql
+Debug:    E:\GITConsolidation\excent-to-enrich\DbScripts\LEGACYSPED\Objects\Transform_ServiceFrequency.sql
+Debug:    E:\GITConsolidation\excent-to-enrich\DbScripts\LEGACYSPED\Objects\Transform_ServiceProviderTitle.sql
+Debug:    E:\GITConsolidation\excent-to-enrich\DbScripts\LEGACYSPED\Objects\Transform_ServiceSchedule.sql
+Debug:    E:\GITConsolidation\excent-to-enrich\DbScripts\LEGACYSPED\Objects\Transform_ServiceSchedule_ss.sql
+Debug:    E:\GITConsolidation\excent-to-enrich\DbScripts\LEGACYSPED\Objects\Transform_StaffSchool.sql
+Debug:    E:\GITConsolidation\excent-to-enrich\DbScripts\LEGACYSPED\Objects\Transform_Student.sql
+Debug:    E:\GITConsolidation\excent-to-enrich\DbScripts\LEGACYSPED\Objects\Transform_StudentRace_Function.sql
+Debug:    E:\GITConsolidation\excent-to-enrich\DbScripts\LEGACYSPED\Objects\Transform_StudentSchoolAndGrade.sql
+Debug:    E:\GITConsolidation\excent-to-enrich\DbScripts\LEGACYSPED\Objects\Transform_UserProfile.sql
+Debug:    E:\GITConsolidation\excent-to-enrich\DbScripts\LEGACYSPED\Objects\Transform_UserProfileOrgUnit.sql
+Debug:    E:\GITConsolidation\excent-to-enrich\DbScripts\LEGACYSPED\Objects\Transform_UserProfileSchool.sql
+Debug:    E:\GITConsolidation\excent-to-enrich\DbScripts\LEGACYSPED\Objects\zProc_IepGoal_InsertAllRecordsFromLegacySped.sql
+Debug:    E:\GITConsolidation\excent-to-enrich\DbScripts\LEGACYSPED\Objects\zProc_PrgItem_DeleteObsoleteRecords.sql
+Debug:    E:\GITConsolidation\excent-to-enrich\DbScripts\LEGACYSPED\Objects\zzz_WrapUpTasks.sql
+    E:\GITConsolidation\excent-to-enrich\DbScripts\LEGACYSPED\Localization\SC\Demo\0002-Prep_District.sql
+Debug:    E:\GITConsolidation\excent-to-enrich\DbScripts\LEGACYSPED\Objects\zzzz_Delete_MAP_IepRefID_Orphans.sql
+Comment:  Successfully executed 99 scripts
+Comment:  Transaction commited
+Execution succeeded for project.
+Command completed successfully.

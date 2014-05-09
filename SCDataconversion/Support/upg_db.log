@@ -1,0 +1,268 @@
+DB Upgrade SC Greenwood51
+..\DbScripts\x_VALIDATION\Localization\Enrich\SC\Greenwood51 -S. -E -dEnrich_DCB5_SC_Greenwood51 -S10.10.10.123 -UGreenwood51Conv -Phsfe6239 -dGreenwood51_SC_EO
+Comment:  Transaction started
+Comment:  Processing VC3Deployment object scripts.
+Debug:  Module found: LEGACYSPED
+Debug:  Module found: VC3Deployment
+Debug:  Module found: x_LEGACYDOC
+Comment:  Registering module x_VALIDATION
+Debug:  Module found: x_VALIDATION
+Warning:  The module 'dbo' was in the Module table, but was not found in the list of actual modules.
+Warning:  The module 'PWRSCH' was in the Module table, but was not found in the list of actual modules.
+Warning:  The module 'VC3' was in the Module table, but was not found in the list of actual modules.
+Warning:  The module 'dbo' was in the Module table, but was not found in the list of actual modules.
+Warning:  The module 'VC3ETL' was in the Module table, but was not found in the list of actual modules.
+Warning:  The module 'VC3Reporting' was in the Module table, but was not found in the list of actual modules.
+Warning:  The module 'VC3TaskScheduler' was in the Module table, but was not found in the list of actual modules.
+Warning:  The module 'dbo' was in the Module table, but was not found in the list of actual modules.
+Warning:  The module 'VC3ETL' was in the Module table, but was not found in the list of actual modules.
+Warning:  The module 'dbo' was in the Module table, but was not found in the list of actual modules.
+Warning:  The module 'VC3ETL' was in the Module table, but was not found in the list of actual modules.
+Warning:  The module 'dbo' was in the Module table, but was not found in the list of actual modules.
+Warning:  The module 'VC3ETL' was in the Module table, but was not found in the list of actual modules.
+Warning:  The module 'dbo' was in the Module table, but was not found in the list of actual modules.
+Warning:  The module 'VC3ETL' was in the Module table, but was not found in the list of actual modules.
+Warning:  The module 'dbo' was in the Module table, but was not found in the list of actual modules.
+Warning:  The module 'VC3ETL' was in the Module table, but was not found in the list of actual modules.
+Warning:  The module 'dbo' was in the Module table, but was not found in the list of actual modules.
+Warning:  The module 'VC3ETL' was in the Module table, but was not found in the list of actual modules.
+Warning:  The module 'API' was in the Module table, but was not found in the list of actual modules.
+Warning:  The module 'dbo' was in the Module table, but was not found in the list of actual modules.
+Warning:  The module 'dbo' was in the Module table, but was not found in the list of actual modules.
+Warning:  The module 'PWRSCH' was in the Module table, but was not found in the list of actual modules.
+Warning:  The module 'PWRSCH' was in the Module table, but was not found in the list of actual modules.
+Warning:  The module 'dbo' was in the Module table, but was not found in the list of actual modules.
+Warning:  The module 'VC3ETL' was in the Module table, but was not found in the list of actual modules.
+Warning:  The module 'x_LEGACY504' was in the Module table, but was not found in the list of actual modules.
+Warning:  The module 'x_LEGACYGIFT' was in the Module table, but was not found in the list of actual modules.
+Comment:  Processing database scripts. Only new change scripts will be applied.
+Comment:  Module: VC3Deployment @..\DbScripts\VC3Deployment\
+Comment:  Module: x_LEGACYDOC @..\DbScripts\x_LEGACYDOC\
+Comment:  Module: LEGACYSPED @..\DbScripts\LEGACYSPED\
+Comment:  Module: x_VALIDATION @..\DbScripts\x_VALIDATION\
+Debug:    C:\EnrichETL_SC\DbScripts\x_VALIDATION\Objects\Check_AccomMod_Specifications.sql
+Debug:    C:\EnrichETL_SC\DbScripts\x_VALIDATION\Objects\Check_AssessAccomm_Specifications.sql
+Debug:    C:\EnrichETL_SC\DbScripts\x_VALIDATION\Objects\Check_ClassroomAccommod_Specifications.sql
+Debug:    C:\EnrichETL_SC\DbScripts\x_VALIDATION\Objects\Check_District_Specifications.sql
+Debug:    C:\EnrichETL_SC\DbScripts\x_VALIDATION\Objects\Check_Evaluation_Specifications.sql
+Debug:    C:\EnrichETL_SC\DbScripts\x_VALIDATION\Objects\Check_EvaluationAssess_Specifications.sql
+Debug:    C:\EnrichETL_SC\DbScripts\x_VALIDATION\Objects\Check_IEP_Specifications.sql
+Debug:    C:\EnrichETL_SC\DbScripts\x_VALIDATION\Objects\Check_IsInteger.sql
+Debug:    C:\EnrichETL_SC\DbScripts\x_VALIDATION\Objects\Check_PostSchoolConsider_Specifications.sql
+Debug:    C:\EnrichETL_SC\DbScripts\x_VALIDATION\Objects\Check_PostSchoolStatement_Specifications.sql
+Debug:    C:\EnrichETL_SC\DbScripts\x_VALIDATION\Objects\Check_PresentLevel_Specifications.sql
+Debug:    C:\EnrichETL_SC\DbScripts\x_VALIDATION\Objects\Check_PriorWrittenNotice_Specifications.sql
+Debug:    C:\EnrichETL_SC\DbScripts\x_VALIDATION\Objects\Check_School_Specifications.sql
+Debug:    C:\EnrichETL_SC\DbScripts\x_VALIDATION\Objects\Check_SchoolProgressFrequency_Specifications.sql
+Debug:    C:\EnrichETL_SC\DbScripts\x_VALIDATION\Objects\Check_SelectLists_Specifications.sql
+Debug:    C:\EnrichETL_SC\DbScripts\x_VALIDATION\Objects\Check_Service_Specifications.sql
+Debug:    C:\EnrichETL_SC\DbScripts\x_VALIDATION\Objects\Check_SpecialFactors_Specifications.sql
+Debug:    C:\EnrichETL_SC\DbScripts\x_VALIDATION\Objects\Check_SpedStaffMember_Specifications.sql
+Debug:    C:\EnrichETL_SC\DbScripts\x_VALIDATION\Objects\Check_StaffSchool_Specifications.sql
+Debug:    C:\EnrichETL_SC\DbScripts\x_VALIDATION\Objects\Check_Student_Specifications.sql
+Debug:    C:\EnrichETL_SC\DbScripts\x_VALIDATION\Objects\Check_TeamMember_Specifications.sql
+Debug:    C:\EnrichETL_SC\DbScripts\x_VALIDATION\Objects\Create_FTPdtsConfig.sql
+Debug:    C:\EnrichETL_SC\DbScripts\x_VALIDATION\Objects\Create_Upload_FTP_txt.sql
+Debug:    C:\EnrichETL_SC\DbScripts\x_VALIDATION\Objects\Populate_TableOrder.sql
+Debug:    C:\EnrichETL_SC\DbScripts\x_VALIDATION\Objects\Script_ValidationRules_Populate.sql
+Debug:    C:\EnrichETL_SC\DbScripts\x_VALIDATION\Objects\usp_CheckColumnNameAndOrder.sql
+Debug:    C:\EnrichETL_SC\DbScripts\x_VALIDATION\Objects\usp_DataValidationReport_History.sql
+Debug:    C:\EnrichETL_SC\DbScripts\x_VALIDATION\Objects\usp_DatavalidatoinCleanUp_EO.sql
+Debug:    C:\EnrichETL_SC\DbScripts\x_VALIDATION\Objects\usp_DatavalidatoinCleanUp_Flatfile.sql
+Debug:    C:\EnrichETL_SC\DbScripts\x_VALIDATION\Objects\usp_ExtractDatafile_EO.sql
+Debug:    C:\EnrichETL_SC\DbScripts\x_VALIDATION\Objects\usp_ExtractDatafile_From_Csv.sql
+Debug:    C:\EnrichETL_SC\DbScripts\x_VALIDATION\Objects\usp_ExtractFlatfile.sql
+Debug:    C:\EnrichETL_SC\DbScripts\x_VALIDATION\Objects\usp_GetParam.sql
+Debug:    C:\EnrichETL_SC\DbScripts\x_VALIDATION\Objects\usp_ImportDataFileStaging.sql
+Debug:    C:\EnrichETL_SC\DbScripts\x_VALIDATION\Objects\usp_ImportLegacyToEnrich.sql
+Debug:    C:\EnrichETL_SC\DbScripts\x_VALIDATION\Objects\usp_ReportFilePreaprtion.sql
+Debug:    C:\EnrichETL_SC\DbScripts\x_VALIDATION\Objects\usp_ValidationSummaryreport.sql
+Debug:    C:\EnrichETL_SC\DbScripts\x_VALIDATION\Objects\vw_Validationsummaryreport.sql
+Debug:    C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\0000-Localization.sql
+    C:\EnrichETL_SC\DbScripts\LEGACYSPED\Localization\SC\0010-Extract-Goal.sql
+    C:\EnrichETL_SC\DbScripts\LEGACYSPED\Localization\SC\GoalAreaExists.sql
+    C:\EnrichETL_SC\DbScripts\LEGACYSPED\Localization\SC\Greenwood51\0002-Prep_District.sql
+    C:\EnrichETL_SC\DbScripts\LEGACYSPED\Localization\SC\0001-Prep_State.sql
+    C:\EnrichETL_SC\DbScripts\LEGACYSPED\Localization\SC\Transform_PrgGoalareaDef.sql
+    C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_ServiceFrequency.sql
+    C:\EnrichETL_SC\DbScripts\LEGACYSPED\Localization\SC\StudentView.sql
+    C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_OrgUnit.sql
+    C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_School.sql
+    C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_GradeLevel.sql
+    C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_Student.sql
+    C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Populate_MAP_StudentRefIDAll.sql
+    C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\EvaluateIncomingItems.sql
+    C:\EnrichETL_SC\DbScripts\LEGACYSPED\Localization\SC\Greenwood51\MAP_PrgStatus_ConvertedDataPlan.sql
+    C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_PrgInvolvement.sql
+    C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_PrgIep.sql
+    C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_IepServices.sql
+    C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_PrgSection.sql
+    C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_PrgGoals.sql
+    C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_PrgSubGoalAreaDef.sql
+    C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\PrimaryGoalAreaPerGoal.sql
+    C:\EnrichETL_SC\DbScripts\LEGACYSPED\Localization\SC\Transform_PrgGoalarea.sql
+    C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_PrgGoal.sql
+    C:\EnrichETL_SC\DbScripts\LEGACYSPED\Localization\SC\Transform_IepGoalPostSchoolAreaDef.sql
+    C:\EnrichETL_SC\DbScripts\LEGACYSPED\Localization\SC\Transform_PrgGoalSubGoalAreaDef.sql
+    C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_IepPlacementOption.sql
+    C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_IepLeastRestrictiveEnvironment.sql
+    C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_IepPlacement.sql
+    C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_PrgLocation.sql
+    C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_IepServiceCategory.sql
+    C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_ServiceDef.sql
+    C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_ServiceProviderTitle.sql
+    C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_Schedule.sql
+    C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_PrgItemTeamMember.sql
+    C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_IepService.sql
+Debug:    C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\0003-SetupETL.sql
+Debug:    C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Create_IepServiceSnapshot.sql
+Debug:    C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Create_ServiceSchedule_Snapshot.sql
+Debug:    C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\EvaluateIncomingItems.sql
+Debug:    C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Populate_MAP_StudentRefIDAll.sql
+Debug:    C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\PrimaryGoalAreaPerGoal.sql
+Debug:    C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_Ethnicity.sql
+Debug:    C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_GradeLevel.sql
+Debug:    C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_IepDates.sql
+Debug:    C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_IepDemographics.sql
+Debug:    C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_IepDisability.sql
+Debug:    C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_IepDisabilityEligibility.sql
+Debug:    C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_IepEligibilityDetermination.sql
+Debug:    C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_IepEsy.sql
+Debug:    C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_IepGoal.sql
+Debug:    C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_IepGoal_Function.sql
+Debug:    C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_IepLeastRestrictiveEnvironment.sql
+Debug:    C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_IepPlacement.sql
+Debug:    C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_IepPlacement_Function.sql
+Debug:    C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_IepPlacementOption.sql
+Debug:    C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_IepService.sql
+Debug:    C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_IepServiceCategory.sql
+Debug:    C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_IepServiceDef.sql
+Debug:    C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_IepServicePlan_ss.sql
+    C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_IepService.sql
+Debug:    C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_IepServices.sql
+Debug:    C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_OrgUnit.sql
+Debug:    C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_Person.sql
+Debug:    C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_PrgConsent.sql
+Debug:    C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_PrgDocument.sql
+Debug:    C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_PrgGoal.sql
+Debug:    C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_PrgGoalObjective.sql
+Debug:    C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_PrgGoalProgress.sql
+Debug:    C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_PrgGoalProgress_Objective.sql
+Debug:    C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_PrgGoals.sql
+Debug:    C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_PrgGoalSecondaryGoalAreaDef.sql
+Debug:    C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_PrgIep.sql
+Debug:    C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_PrgInvolvement.sql
+Debug:    C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_PrgInvolvement_Status.sql
+Debug:    C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_PrgInvolvementTeamMember.sql
+Debug:    C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_PrgItemTeamMember.sql
+Debug:    C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_PrgLocation.sql
+Debug:    C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_PrgSection.sql
+Debug:    C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_PrgStatus.sql
+Debug:    C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_PrgSubGoalAreaDef.sql
+Debug:    C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_Schedule.sql
+Debug:    C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_Schedule_Function.sql
+Debug:    C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_School.sql
+Debug:    C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_ServiceDef.sql
+Debug:    C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_ServiceFrequency.sql
+Debug:    C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_ServiceProviderTitle.sql
+Debug:    C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_ServiceSchedule.sql
+Debug:    C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_ServiceSchedule_ss.sql
+Debug:    C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_StaffSchool.sql
+Debug:    C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_Student.sql
+Debug:    C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_StudentRace_Function.sql
+Debug:    C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_StudentSchoolAndGrade.sql
+Debug:    C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_UserProfile.sql
+Debug:    C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_UserProfileOrgUnit.sql
+Debug:    C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_UserProfileSchool.sql
+Debug:    C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\zProc_IepGoal_InsertAllRecordsFromLegacySped.sql
+Debug:    C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\zProc_PrgItem_DeleteObsoleteRecords.sql
+Debug:    C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\zzz_WrapUpTasks.sql
+    C:\EnrichETL_SC\DbScripts\LEGACYSPED\Localization\SC\Greenwood51\0002-Prep_District.sql
+Debug:    C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\zzzz_Delete_MAP_IepRefID_Orphans.sql
+Debug:    C:\EnrichETL_SC\DbScripts\x_LEGACYDOC\Objects\0000-Localization.sql
+    C:\EnrichETL_SC\DbScripts\x_LEGACYDOC\Objects\0000-RunFirst.sql
+      C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\0000-Localization.sql
+        C:\EnrichETL_SC\DbScripts\LEGACYSPED\Localization\SC\0010-Extract-Goal.sql
+        C:\EnrichETL_SC\DbScripts\LEGACYSPED\Localization\SC\GoalAreaExists.sql
+        C:\EnrichETL_SC\DbScripts\LEGACYSPED\Localization\SC\Greenwood51\0002-Prep_District.sql
+        C:\EnrichETL_SC\DbScripts\LEGACYSPED\Localization\SC\0001-Prep_State.sql
+        C:\EnrichETL_SC\DbScripts\LEGACYSPED\Localization\SC\Transform_PrgGoalareaDef.sql
+        C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_ServiceFrequency.sql
+        C:\EnrichETL_SC\DbScripts\LEGACYSPED\Localization\SC\StudentView.sql
+        C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_OrgUnit.sql
+        C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_School.sql
+        C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_GradeLevel.sql
+        C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_Student.sql
+        C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Populate_MAP_StudentRefIDAll.sql
+        C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\EvaluateIncomingItems.sql
+        C:\EnrichETL_SC\DbScripts\LEGACYSPED\Localization\SC\Greenwood51\MAP_PrgStatus_ConvertedDataPlan.sql
+        C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_PrgInvolvement.sql
+        C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_PrgIep.sql
+        C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_IepServices.sql
+        C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_PrgSection.sql
+        C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_PrgGoals.sql
+        C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_PrgSubGoalAreaDef.sql
+        C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\PrimaryGoalAreaPerGoal.sql
+        C:\EnrichETL_SC\DbScripts\LEGACYSPED\Localization\SC\Transform_PrgGoalarea.sql
+        C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_PrgGoal.sql
+        C:\EnrichETL_SC\DbScripts\LEGACYSPED\Localization\SC\Transform_IepGoalPostSchoolAreaDef.sql
+        C:\EnrichETL_SC\DbScripts\LEGACYSPED\Localization\SC\Transform_PrgGoalSubGoalAreaDef.sql
+        C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_IepPlacementOption.sql
+        C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_IepLeastRestrictiveEnvironment.sql
+        C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_IepPlacement.sql
+        C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_PrgLocation.sql
+        C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_IepServiceCategory.sql
+        C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_ServiceDef.sql
+        C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_ServiceProviderTitle.sql
+        C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_Schedule.sql
+        C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_PrgItemTeamMember.sql
+        C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_IepService.sql
+    C:\EnrichETL_SC\DbScripts\x_LEGACYDOC\Objects\Transform_FileData.sql
+    C:\EnrichETL_SC\DbScripts\x_LEGACYDOC\Objects\Transform_Attachment.sql
+      C:\EnrichETL_SC\DbScripts\x_LEGACYDOC\Objects\Transform_FileData.sql
+Debug:    C:\EnrichETL_SC\DbScripts\x_LEGACYDOC\Objects\0000-RunFirst.sql
+    C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\0000-Localization.sql
+      C:\EnrichETL_SC\DbScripts\LEGACYSPED\Localization\SC\0010-Extract-Goal.sql
+      C:\EnrichETL_SC\DbScripts\LEGACYSPED\Localization\SC\GoalAreaExists.sql
+      C:\EnrichETL_SC\DbScripts\LEGACYSPED\Localization\SC\Greenwood51\0002-Prep_District.sql
+      C:\EnrichETL_SC\DbScripts\LEGACYSPED\Localization\SC\0001-Prep_State.sql
+      C:\EnrichETL_SC\DbScripts\LEGACYSPED\Localization\SC\Transform_PrgGoalareaDef.sql
+      C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_ServiceFrequency.sql
+      C:\EnrichETL_SC\DbScripts\LEGACYSPED\Localization\SC\StudentView.sql
+      C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_OrgUnit.sql
+      C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_School.sql
+      C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_GradeLevel.sql
+      C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_Student.sql
+      C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Populate_MAP_StudentRefIDAll.sql
+      C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\EvaluateIncomingItems.sql
+      C:\EnrichETL_SC\DbScripts\LEGACYSPED\Localization\SC\Greenwood51\MAP_PrgStatus_ConvertedDataPlan.sql
+      C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_PrgInvolvement.sql
+      C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_PrgIep.sql
+      C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_IepServices.sql
+      C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_PrgSection.sql
+      C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_PrgGoals.sql
+      C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_PrgSubGoalAreaDef.sql
+      C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\PrimaryGoalAreaPerGoal.sql
+      C:\EnrichETL_SC\DbScripts\LEGACYSPED\Localization\SC\Transform_PrgGoalarea.sql
+      C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_PrgGoal.sql
+      C:\EnrichETL_SC\DbScripts\LEGACYSPED\Localization\SC\Transform_IepGoalPostSchoolAreaDef.sql
+      C:\EnrichETL_SC\DbScripts\LEGACYSPED\Localization\SC\Transform_PrgGoalSubGoalAreaDef.sql
+      C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_IepPlacementOption.sql
+      C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_IepLeastRestrictiveEnvironment.sql
+      C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_IepPlacement.sql
+      C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_PrgLocation.sql
+      C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_IepServiceCategory.sql
+      C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_ServiceDef.sql
+      C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_ServiceProviderTitle.sql
+      C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_Schedule.sql
+      C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_PrgItemTeamMember.sql
+      C:\EnrichETL_SC\DbScripts\LEGACYSPED\Objects\Transform_IepService.sql
+Debug:    C:\EnrichETL_SC\DbScripts\x_LEGACYDOC\Objects\0001-SetupETL.sql
+Debug:    C:\EnrichETL_SC\DbScripts\x_LEGACYDOC\Objects\Populate_AllDocs.sql
+Debug:    C:\EnrichETL_SC\DbScripts\x_LEGACYDOC\Objects\Transform_Attachment.sql
+    C:\EnrichETL_SC\DbScripts\x_LEGACYDOC\Objects\Transform_FileData.sql
+Debug:    C:\EnrichETL_SC\DbScripts\x_LEGACYDOC\Objects\Transform_FileData.sql
+Comment:  Successfully executed 108 scripts
+Comment:  Transaction commited
+Execution succeeded for project.
+Command completed successfully.

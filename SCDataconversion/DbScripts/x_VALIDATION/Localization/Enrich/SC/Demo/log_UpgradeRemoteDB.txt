@@ -1,0 +1,4 @@
+Msg 121, Level 15, State 1, Server DEVSERVER\SQLSERVER2005, Line 3
+The select list for the INSERT statement contains more items than the insert list. The number of SELECT values must match the number of INSERT columns.
+Msg 121, Level 15, State 1, Server DEVSERVER\SQLSERVER2005, Procedure DataConversionSpeedObjects, Line 66
+The select list for the INSERT statement contains more items than the insert list. The number of SELECT values must match the number of INSERT columns.

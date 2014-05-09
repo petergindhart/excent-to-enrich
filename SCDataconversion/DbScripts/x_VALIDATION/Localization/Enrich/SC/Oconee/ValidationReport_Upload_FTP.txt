@@ -1,0 +1,18 @@
+# Automatically abort script on errors
+option batch abort
+# Disable overwrite confirmations that conflict with the previous
+option confirm off
+# Connect using a password
+# open ftp://oconee:r5h8ks3@ftp.excent.com:21
+# Connect
+open ftp://oconee:r5h8ks3@ftp.excent.com:21 -explicittls
+# Force binary mode transfer
+option transfer binary
+lcd "C:\EnrichETL\DbScripts\x_VALIDATION\Localization\Enrich\SC\Oconee"
+cd /Report
+put "C:\EnrichETL\DbScripts\x_VALIDATION\Localization\Enrich\SC\Oconee\ValidationReport_Detail.xls"
+# Disconnect
+close
+# Exit WinSCP
+exit
+                                                                                                                                                                                                                                                                                                                                                                                                                                              

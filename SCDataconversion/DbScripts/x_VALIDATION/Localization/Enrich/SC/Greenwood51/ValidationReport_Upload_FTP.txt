@@ -1,0 +1,18 @@
+# Automatically abort script on errors
+option batch abort
+# Disable overwrite confirmations that conflict with the previous
+option confirm off
+# Connect using a password
+# open ftp://monicar:mr-7007@ftp.excent.com:21
+# Connect
+open ftp://monicar:mr-7007@ftp.excent.com:21 -explicittls
+# Force binary mode transfer
+option transfer binary
+lcd "C:\EnrichETL_SC\DbScripts\x_VALIDATION\Localization\Enrich\SC\Greenwood51"
+cd /
+put "C:\EnrichETL_SC\DbScripts\x_VALIDATION\Localization\Enrich\SC\Greenwood51\ValidationReport_Detail.xls"
+# Disconnect
+close
+# Exit WinSCP
+exit
+                                                                                                                                                                                                                                                                                                                                                                                                                                

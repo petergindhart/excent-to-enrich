@@ -1,0 +1,1 @@
+-Sservername -Uremotedbuser -Ppassword -ddbname
