@@ -27,7 +27,7 @@
 --#include Transform_IepLeastRestrictiveEnvironment.sql
 --#include Transform_IepPlacement.sql
 --#include Transform_PrgLocation.sql
---#include Transform_IepServiceCategory.sql
+--#include Transform_ServiceCategory.sql
 --#include Transform_ServiceDef.sql
 --#include Transform_ServiceProviderTitle.sql
 --#include Transform_Schedule.sql
