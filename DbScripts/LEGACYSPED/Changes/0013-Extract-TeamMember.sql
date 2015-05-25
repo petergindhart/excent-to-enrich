@@ -7,9 +7,10 @@ DROP VIEW LEGACYSPED.TeamMember
 GO  
   
 CREATE TABLE LEGACYSPED.TeamMember_LOCAL(  
-   StaffEmail	varchar(150)	not null,
+  StaffEmail	varchar(150)	not null,
   StudentRefId	varchar(150)	not null,
-  IsCaseManager	varchar(1)	not null
+  IsCaseManager	varchar(1)	not null,
+  IsPrimaryServiceProvider varchar(1)	not null
 )  
 GO  
 Alter table LEGACYSPED.TeamMember_LOCAL
