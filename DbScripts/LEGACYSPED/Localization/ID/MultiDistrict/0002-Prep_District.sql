@@ -19,8 +19,8 @@ go
 
 -- to consider:  in case these get deleted, have code that will insert them if they are not here.  Not necessary at this point.
 declare @OrgUnit table (ID uniqueidentifier, Name varchar(200), Number varchar(10))
-insert @OrgUnit values ('CB3869D6-0AF1-412A-AA09-227A9BD3DA61', 'Inspire  #457', '7597')
-insert @OrgUnit values ('FCEA67BE-5E12-4D65-BDA4-D12E938D010E', 'Melba School District 136', '136')
+--insert @OrgUnit values ('CB3869D6-0AF1-412A-AA09-227A9BD3DA61', 'Inspire  #457', '7597')
+--insert @OrgUnit values ('FCEA67BE-5E12-4D65-BDA4-D12E938D010E', 'Melba School District 136', '136')
 
 update ou set Number = t.Number
 -- select * 
