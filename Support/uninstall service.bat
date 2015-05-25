@@ -1,1 +1,1 @@
-sc delete "VC3 TestView Scheduled Tasks (DCB7)"
+sc delete "VC3 TestView Scheduled Tasks (DCB9)"
