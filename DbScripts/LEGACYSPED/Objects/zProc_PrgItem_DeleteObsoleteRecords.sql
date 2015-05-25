@@ -27,7 +27,7 @@ where iep.IEPRefID is null
 	and item.Revision = 0
 	and item.IsApprovalPending = 0 
 	and v.IsApprovalPending = 0 -- I don't know how this would be incremented for a converted iep, but...
-	and item.ID not in (select i.ID from PrgItem i join PrgSection s on i.ID = s.ItemID join IepServicePlan isp on s.ID = isp.InstanceID join ServiceDeliveryStudent sds on isp.ID = sds.PlanID) 
+	and item.ID not in (select i.ID from PrgItem i join PrgSection s on i.ID = s.ItemID join ServicePlan isp on s.ID = isp.InstanceID join ServiceDeliveryStudent sds on isp.ID = sds.PlanID) 
 
 -- do not touch items associated with ended milestones 
 delete d from @item d join PrgSection s on d.ItemID = s.ItemID join PrgMilestone ms on s.ID = ms.EndingSectionID
@@ -36,12 +36,12 @@ delete d from @item d join PrgSection s on d.ItemID = s.ItemID join PrgMilestone
 declare @services table (ID uniqueidentifier) 
 insert @services 
 select isp.ID 
-from @item item join PrgSection sec on item.ItemID = sec.ItemID join IepServicePlan isp on sec.ID = isp.InstanceID 
+from @item item join PrgSection sec on item.ItemID = sec.ItemID join ServicePlan isp on sec.ID = isp.InstanceID 
 --where isp.ID not in (Select PlanID from ServiceDeliveryStudent where PlanID is not null)
 
-delete v from IepServices v where v.ID in (select distinct s.ID from @services s ) ; print 'deleted IepServices: '+convert(varchar(10), @@rowcount)
+--delete v from IepServices v where v.ID in (select distinct s.ID from @services s ) ; print 'deleted IepServices: '+convert(varchar(10), @@rowcount)
 delete sds from ServiceDeliveryStudent sds join Serviceplan sp ON sp.ID = sds.PlanID Where Sp.ID in (select ID from @services) ; print 'deleted ServiceDeliveryStudent: '+convert(varchar(10), @@rowcount)
-delete IepServicePlan where ID in (select ID from @services) ; print 'deleted IepServicePlan: '+convert(varchar(10), @@rowcount)
+delete ServicePlan where ID in (select ID from @services) ; print 'deleted IepServicePlan: '+convert(varchar(10), @@rowcount)
 delete ServicePlan where ID in (select ID from @services) ; print 'deleted ServicePlan: '+convert(varchar(10), @@rowcount)
 -- from Pete
 /*

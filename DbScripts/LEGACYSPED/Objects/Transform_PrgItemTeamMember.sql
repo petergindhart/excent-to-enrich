@@ -36,7 +36,8 @@ AS
 		MtgAbsent = CAST(0 AS BIT),
 		PersonID = u.ID,
 		Agency = NULL,
-		ExcusalFormId = CAST(NULL as uniqueidentifier)
+		ExcusalFormId = CAST(NULL as uniqueidentifier),
+		IsPrimaryServiceProvider = CASE WHEN team.IsPrimaryServiceProvider = 'Y' THEN 1 ELSE 0 END
 	FROM
 		LEGACYSPED.EvaluateIncomingItems i JOIN
 		LEGACYSPED.TeamMember team on team.StudentRefId = i.StudentRefID JOIN

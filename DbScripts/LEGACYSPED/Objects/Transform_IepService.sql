@@ -70,7 +70,7 @@ FROM
 	LEGACYSPED.Transform_PrgIep iep JOIN
 	PrgSection sec ON
 		sec.ItemID = iep.DestID AND
-		iep.VersionDestID = sec.VersionID AND
+		--iep.VersionDestID = sec.VersionID AND
 		sec.DefID = '9AC79680-7989-4CC9-8116-1CCDB1D0AE5F' JOIN --IEP Services
 	LEGACYSPED.Service v on iep.IepRefId = v.IepRefId LEFT JOIN
 	LEGACYSPED.MAP_ServicePlanID m on v.ServiceRefID = m.ServiceRefID LEFT JOIN 

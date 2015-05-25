@@ -10,7 +10,7 @@ AS
 	SELECT
 		StudentRefID = stu.StudentRefID,
 		-- x = x.ID, t = t.ID, m = m.DestID, ev = ev.ExistingInvolvementID,
-		DestID = coalesce(x.ID, t.ID, m.DestID, ev.ExistingInvolvementID),
+		DestID = coalesce(x.ID, t.ID, ev.ExistingInvolvementID, m.DestID),
 		StudentID = stu.DestID,
 		ProgramID = 'F98A8EF2-98E2-4CAC-95AF-D7D89EF7F80C',   -- Special Education
 		VariantID = '6DD95EA1-A265-4E04-8EE9-78AE04B5DB9A',   -- Special Education
@@ -23,9 +23,9 @@ AS
 			end),
 		EndStatusID = case when stu.SpecialEdStatus = 'E' then '12086FE0-B509-4F9F-ABD0-569681C59EE2' else t.EndStatus end,
 		IsManuallyEnded = cast(case when stu.SpecialEdStatus = 'E' then 1 else isnull(t.IsManuallyEnded,0) end as tinyint),
-		Touched = isnull(cast(t.IsManuallyEnded as int),0) -- select ev.StudentRefID
-		,
+		Touched = isnull(cast(t.IsManuallyEnded as int),0), -- select ev.StudentRefID,
 		stu.SpecialEdStatus,
+		StartedByTransfer = CAST(0 AS BIT),
 		-- PrgInvolvementStatus
 		StatusID = (select DestID from LEGACYSPED.MAP_PrgStatus_ConvertedDataPlan)
 	FROM

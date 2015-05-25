@@ -67,7 +67,7 @@ AS
 	SELECT
 		iep.IepRefID,
 		DestID = me.DestID,
-		InstanceID = m.DestID, 
+		InstanceID = isnull(m.DestID,mnv.DestID), 
 		DisabilityID = d.DestID, 
 		s.Sequence,
 		IsEligibileID = 'B76DDCD6-B261-4D46-A98E-857B0A814A0C', -- Only Eligible disabilities provided  
@@ -76,16 +76,17 @@ AS
 		WasPreviouslyEligible = cast(0 as Bit),
 		iep.DoNotTouch
 	FROM
-		LEGACYSPED.Transform_PrgIep iep JOIN
+		LEGACYSPED.Transform_PrgIep iep LEFT JOIN
 		LEGACYSPED.MAP_PrgSectionID m on 
 			iep.VersionDestID  = m.VersionID and
-			m.DefID = 'F050EF5E-3ED8-43D5-8FE7-B122502DE86A' JOIN
+			m.DefID = 'F050EF5E-3ED8-43D5-8FE7-B122502DE86A'  JOIN
+		LEGACYSPED.MAP_PrgSectionID_NonVersioned mnv on iep.DestID = mnv.ItemID and mnv.DefID = 'F050EF5E-3ED8-43D5-8FE7-B122502DE86A'  JOIN
 		LEGACYSPED.StudentDisabilitySequenced s on iep.StudentRefID = s.StudentRefID JOIN
-		LEGACYSPED.Transform_IepDisability d on s.DisabilityCode = d.DisabilityCode left join
+		LEGACYSPED.Transform_IepDisability d on s.DisabilityCode = d.DisabilityCode and d.deleteddate is null left join
 		LEGACYSPED.MAP_IepDisabilityEligibilityID me on 
 			iep.IepRefID = me.IepRefID and
 			d.DestID = me.DisabilityID
-	WHERE m.DestID in (select ID from dbo.IepEligibilityDetermination)
+	WHERE mnv.DestID in (select ID from dbo.IepEligibilityDetermination)
 GO
 --
 /*

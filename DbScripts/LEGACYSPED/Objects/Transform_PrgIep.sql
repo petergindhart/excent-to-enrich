@@ -70,7 +70,7 @@ from LEGACYSPED.EvaluateIncomingItems ev left join
 	LEGACYSPED.SelectLists k on iep.LRECode = k.LegacySpedCode and k.Type = 'LRE' -- ID sees some students with wrong LREAgeGroup
 		and k.SubType = iep.LREAgeGroup left join --- fixes issue for flagler
 	dbo.PrgItem t on ev.ExistingConvertedItemID = t.ID left join
-	LEGACYSPED.MAP_PrgInvolvementID minv on iep.StudentRefID = minv.StudentRefID 
+	LEGACYSPED.Transform_PrgInvolvement minv on iep.StudentRefID = minv.StudentRefID 
 go
 
 

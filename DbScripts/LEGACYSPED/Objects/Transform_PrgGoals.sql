@@ -13,7 +13,8 @@ AS
 	FROM
 	LEGACYSPED.Transform_PrgIep iep JOIN -- 10721
 	PrgSection sec ON
-		sec.VersionID = iep.VersionDestID AND -- our map of PrgSection is using ItemID instead of VersionID.  Does that matter?
+		--sec.VersionID = iep.VersionDestID AND -- our map of PrgSection is using ItemID instead of VersionID.  Does that matter?
+		sec.itemID = iep.DestID AND -- our map of PrgSection is using ItemID instead of VersionID.  Does that matter?
 		sec.DefID = '84E5A67D-CC9A-4D5B-A7B8-C04E8C3B8E0A' left join --IEP Goals
 	dbo.School h on iep.SchoolID = h.ID left join
 	LEGACYSPED.SchoolProgressFrequency sf on h.Number = sf.SchoolCode left join 

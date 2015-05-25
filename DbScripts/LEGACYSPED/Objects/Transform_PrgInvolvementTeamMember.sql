@@ -28,12 +28,13 @@ SELECT
       PersonID = u.ID,
       InvolvementID = i.ExistingInvolvementID,
       ResponsibilityID = u.PrgResponsibilityID,
-      IsPrimary = CASE WHEN team.IsCaseManager = 'Y' THEN 1 ELSE 0 END
+      IsPrimaryServiceProvider = CASE WHEN team.IsPrimaryServiceProvider = 'Y' THEN 1 ELSE 0 END,
+	  IsPrimary = CASE WHEN team.IsCaseManager = 'Y' THEN 1 ELSE 0 END
+	  
 FROM
       LEGACYSPED.EvaluateIncomingItems i JOIN
       LEGACYSPED.TeamMember team on team.StudentRefId = i.StudentRefID  JOIN
       LEGACYSPED.MAP_SpedStaffMemberView staff on staff.StaffEmail = team.StaffEmail  JOIN
       UserProfile u on u.ID = staff.UserProfileID left join 
 	  LEGACYSPED.MAP_PrgInvolvementTeamMemberID mp ON mp.StudentRefId =team.StudentRefId and mp.StaffEmail = team.StaffEmail
-	  
 	  

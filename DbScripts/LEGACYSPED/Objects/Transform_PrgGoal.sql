@@ -110,7 +110,7 @@ AS
 	select g.IepRefID, ga.DefID, gad.GoalAreaCode 
 	from LEGACYSPED.Goal g join
 	LEGACYSPED.Transform_PrgGoalArea_goals ga on g.GoalRefID = ga.GoalRefID join ----------------- May be able to use MAP table for speed
-	LEGACYSPED.MAP_PrgGoalAreaDefID gad on ga.DefID = gad.DestID
+	LEGACYSPED.Transform_PrgGoalAreaDef gad on ga.DefID = gad.DestID
 	group by g.IepRefID, ga.DefID, gad.GoalAreaCode
 	) ga1 on g.IepRefId = ga1.IepRefID and ga.DefID = ga1.DefID LEFT JOIN 
   LEGACYSPED.MAP_PrgGoalID m on g.GoalRefID = m.GoalRefID LEFT JOIN 

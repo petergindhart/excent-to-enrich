@@ -6,7 +6,7 @@ CREATE VIEW LEGACYSPED.Transform_IepEligibilityDetermination
 AS
 SELECT   
 	IEPRefID = iep.ExistingIEPRefID,
-	DestID = s.DestID,
+	DestID = isnull(s.DestID,mnv.DestID),
 	DateDetermined = i.LatestEvaluationDate, -- had briefly used the EligibilityDate here, but it did not make sense, so it has been removed.
 	NoneSuspected = cast(0 as Bit),
 	iep.Touched
@@ -15,6 +15,7 @@ FROM
 	LEGACYSPED.IEP i on iep.ExistingIEPRefID = i.IepRefID LEFT JOIN
 	LEGACYSPED.MAP_PrgSectionID s on 
 		s.DefID = 'F050EF5E-3ED8-43D5-8FE7-B122502DE86A' and
-		s.VersionID = iep.ExistingConvertedVersionID 
--- where s.VersionID is not null
+		s.VersionID = iep.ExistingConvertedVersionID LEFT JOIN
+	LEGACYSPED.MAP_PrgSectionID_NonVersioned mnv on mnv.DefID = 'F050EF5E-3ED8-43D5-8FE7-B122502DE86A' and iep.ExistingConvertedItemID = mnv.ItemID
+ --where s.VersionID is not null
 GO

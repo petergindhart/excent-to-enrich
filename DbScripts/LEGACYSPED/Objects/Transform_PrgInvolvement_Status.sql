@@ -19,6 +19,7 @@ EndStatusID	uniqueidentifier,
 IsManuallyEnded	tinyint,
 Touched	int	NOT NULL,
 SpecialEdStatus	char(1)	NOT NULL,
+StartedByTransfer bit,
 StatusID	uniqueidentifier
 )
 

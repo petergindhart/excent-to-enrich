@@ -10,7 +10,7 @@ CREATE VIEW LEGACYSPED.Transform_IepDemographics
 AS
 	SELECT
 		iep.StudentRefID,
-		DestID = m.DestID,
+		DestID = isnull(m.DestID,mnv.DestID),
 		ServiceDistrictID = ss.OrgUnitID,
 		ServiceSchoolID = ss.DestID,
 		HomeDistrictID = sh.OrgUnitID,
@@ -21,6 +21,7 @@ AS
 		LEGACYSPED.MAP_PrgSectionID m on 
 			m.DefID = '427AF47C-A2D2-47F0-8057-7040725E3D89' and
 			m.VersionID = iep.VersionDestID LEFT JOIN
+		LEGACYSPED.MAP_PrgSectionID_NonVersioned mnv on mnv.DefID = '427AF47C-A2D2-47F0-8057-7040725E3D89' and iep.DestID = mnv.ItemID  left join 
 		LEGACYSPED.Student s on s.StudentRefID = iep.StudentRefID LEFT JOIN
 		LEGACYSPED.Transform_School ss on s.ServiceSchoolCode = ss.SchoolCode and s.ServiceDistrictCode = ss.DistrictCode/* and ss.DeletedDate is null */ LEFT JOIN
 		LEGACYSPED.Transform_School sh on s.HomeSchoolCode = sh.SchoolCode and s.HomeDistrictCode = sh.DistrictCode /* and sh.DeletedDate is null */ LEFT JOIN
