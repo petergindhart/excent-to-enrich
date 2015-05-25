@@ -108,7 +108,7 @@ select
 	EsyID = case when g.IsEsy = 'Y' then 'B76DDCD6-B261-4D46-A98E-857B0A814A0C' else 'F7E20A86-2709-4170-9810-15B601C61B79' end
 from LEGACYSPED.Goal g join 
 LEGACYSPED.MAP_GoalAreaPivot p on g.GoalRefID = p.GoalRefID join -- in the where clause we will limit this to the primary goal area.  Another transform will insert subgoals, and yet another will insert secondary goals
-LEGACYSPED.MAP_PrgGoalAreaDefID md on p.GoalAreaCode = md.GoalAreaCode left join
+LEGACYSPED.Transform_PrgGoalAreadef md on p.GoalAreaCode = md.GoalAreaCode left join
 LEGACYSPED.MAP_PrgGoalID mg on g.GoalRefID = mg.GoalRefID left join
 LEGACYSPED.Transform_PrgGoals gs on g.IepRefID = gs.IepRefId left join
 LEGACYSPED.MAP_PrgGoalAreaID mga on g.IEPRefID = mga.IEPRefID and md.DestID = mga.DefID left join --------------- used to join on goalrefid.  can't now
@@ -129,7 +129,7 @@ as
 select gap.IepRefID, gap.GoalAreaCode, DestID = isnull(ga.ID, mga.DestID), DefID = gad.DestID, InstanceID = gs.DestID, FormInstanceID = cast(NULL as uniqueidentifier)
 from LEGACYSPED.GoalAreaPivotView gap
 join LEGACYSPED.PrimaryGoalAreaPerGoal pg on gap.GoalRefID = pg.GoalRefID and gap.GoalAreaDefIndex = pg.PrimaryGoalAreaDefIndex
-join LEGACYSPED.MAP_PrgGoalAreaDefID gad on gap.GoalAreaCode = gad.GoalAreaCode
+join LEGACYSPED.Transform_PrgGoalAreaDef gad on gap.GoalAreaCode = gad.GoalAreaCode
 join LEGACYSPED.Transform_PrgGoals gs on gap.IepRefID = gs.IepRefId
 left join LEGACYSPED.MAP_PrgGoalAreaID mga on gap.IepRefID = mga.IEPRefID and gad.DestID = mga.DefID
 left join dbo.PrgGoalArea ga on mga.DestID = ga.ID

@@ -111,9 +111,9 @@ PK_MAP_PrgGoalAreaDefID PRIMARY KEY CLUSTERED
 insert LEGACYSPED.MAP_PrgGoalAreaDefID values ('ZZZ', 'FED37909-91FF-43F6-8772-C7D5513F1A01')
 
 if not exists (select 1 from PrgGoalAreaDef where ID = 'FED37909-91FF-43F6-8772-C7D5513F1A01')
-insert PrgGoalAreaDef (ID, Sequence, Name, AllowCustomProbes, RequireGoal) values ('FED37909-91FF-43F6-8772-C7D5513F1A01', 99, 'Not Defined', 0, 0)
+insert PrgGoalAreaDef (ID, Sequence, Name, AllowCustomProbes, RequireGoal, ProgramID) values ('FED37909-91FF-43F6-8772-C7D5513F1A01', 99, 'Not Defined', 0, 0, 'F98A8EF2-98E2-4CAC-95AF-D7D89EF7F80C')
 
-
+--select * from Program
 
 END
 GO
