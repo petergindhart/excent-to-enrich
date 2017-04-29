@@ -46,8 +46,8 @@ CREATE FUNCTION LEGACYSPED.Transform_Schedule_Function ()
 		FROM
 			LEGACYSPED.Service v LEFT JOIN
 			LEGACYSPED.MAP_ScheduleID m on v.ServiceRefID = m.ServiceRefID LEFT JOIN
-			LEGACYSPED.MAP_ServiceFrequencyID mf on isnull(v.ServiceFrequencyCode, 'ZZZ') = mf.ServiceFrequencyCode left join 
-			dbo.Schedule sched on m.DestID = sched.ID
+			LEGACYSPED.MAP_ServiceFrequencyID mf on isnull(v.ServiceFrequencyCode, 'ZZZ') = mf.ServiceFrequencyCode 
+			--left join dbo.Schedule sched on m.DestID = sched.ID
 	return 
 	END
 GO
