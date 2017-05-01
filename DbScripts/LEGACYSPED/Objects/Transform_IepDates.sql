@@ -17,11 +17,11 @@ AS
 		NextEvaluationDate = CASE WHEN ISDATE(iep.NextEvaluationDate) = 1 THEN iep.NextEvaluationDate ELSE NULL END,
 		InitialEvaluationDate = CASE WHEN ISDATE(iep.InitialEvaluationDate) = 1 THEN iep.InitialEvaluationDate ELSE NULL END,
 		LatestEvaluationDate = CASE WHEN ISDATE(iep.LatestEvaluationDate) = 1 THEN iep.LatestEvaluationDate ELSE NULL END,
-		InitialEligibilityDate = CASE WHEN ISDATE(iep.EligibilityDate) = 1 THEN iep.EligibilityDate ELSE NULL END,
-		NextEligibilityDate = CASE WHEN ISDATE(iep.NextEvaluationDate) = 1 THEN iep.NextEvaluationDate ELSE NULL END,
-		InitialIepDate = NULL, 
+		InitialEligibilityDate = CASE WHEN ISDATE(iep.InitialEligibilityDate) = 1 THEN iep.InitialEligibilityDate ELSE NULL END,
+		NextEligibilityDate = CASE WHEN ISDATE(iep.NextEligibilityDate) = 1 THEN iep.NextEligibilityDate ELSE NULL END,
+		InitialIepDate = CASE WHEN ISDATE(iep.InitialIepDate) = 1 THEN iep.InitialIepDate ELSE NULL END,
 		InitialConsentforServicesDate = CASE WHEN ISDATE(iep.InitialConsentforServicesDate) = 1 THEN iep.InitialConsentforServicesDate ELSE NULL END,
-		InitialConsentforEvaluationDate = COALESCE(iep.consentforEvaluationdate,iep.latestEvaluationdate),
+		InitialConsentforEvaluationDate = COALESCE(iep.InitialConsentforEvaluationDate, iep.InitialEvaluationDate, iep.LatestEvaluationDate),
 		i.DoNotTouch
 	FROM
 		LEGACYSPED.Transform_PrgIep i LEFT JOIN
