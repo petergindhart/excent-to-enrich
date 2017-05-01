@@ -6,7 +6,7 @@ CREATE VIEW LEGACYSPED.Transform_IepEligibilityDetermination
 AS
 SELECT   
 	IEPRefID = iep.ExistingIEPRefID,
-	DestID = isnull(s.DestID,mnv.DestID),
+	DestID = isnull(s.DestID, mnv.DestID),
 	DateDetermined = i.LatestEvaluationDate, -- had briefly used the EligibilityDate here, but it did not make sense, so it has been removed.
 	NoneSuspected = cast(0 as Bit),
 	iep.Touched

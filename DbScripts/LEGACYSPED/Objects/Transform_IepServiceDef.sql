@@ -67,7 +67,6 @@ select
 	--IsMedicalService = cast (0 as bit),	
 	UseServiceAmountRange = cast( 0 as bit),
 	MedicaidServiceID=NULL
---select k.*
 from LEGACYSPED.SelectLists k left join 
 	 LEGACYSPED.Transform_IepServiceCategory ltsc ON ltsc.ServiceCategoryCode = k.SubType left join
 	dbo.ServiceDef i on k.EnrichID = i.ID left join 
@@ -90,6 +89,7 @@ from LEGACYSPED.SelectLists k left join
 	left join 
 	dbo.ServiceDef t on m.DestID = t.ID
 where k.Type = 'Service' -- and k.SubType is not null 
+GO
 --
 
 /*
@@ -149,14 +149,7 @@ and not ((sl.SubType = 'Related' and sl.LegacySpedCode in ('Speech/Language Ther
 order by CategoryName, ServiceDef
 
 
-select * from 
-
 
 */
-
-
-
-
-
 
 

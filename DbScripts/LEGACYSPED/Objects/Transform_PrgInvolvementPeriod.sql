@@ -38,7 +38,7 @@ AS
 				else
 				case when t.EndDate > getdate() then NULL else t.EndDate end
 			end),
-		EndStatusID = case when stu.SpecialEdStatus = 'E' then '75489662-F5C9-4EFB-AEF3-02E943EEC6F5' else t.EndStatus end--'12086FE0-B509-4F9F-ABD0-569681C59EE2'
+		EndStatusID = case when stu.SpecialEdStatus = 'E' then '12086FE0-B509-4F9F-ABD0-569681C59EE2' else t.EndStatus end--75489662-F5C9-4EFB-AEF3-02E943EEC6F5
 	FROM
 		LEGACYSPED.EvaluateIncomingItems ev join 
 		LEGACYSPED.Transform_Student stu on ev.StudentRefID = stu.StudentRefID JOIN 

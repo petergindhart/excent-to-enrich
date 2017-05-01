@@ -10,7 +10,7 @@ CREATE VIEW LEGACYSPED.Transform_IepDemographics
 AS
 	SELECT
 		iep.StudentRefID,
-		DestID = isnull(m.DestID,mnv.DestID),
+		DestID = isnull(m.DestID, mnv.DestID),
 		ServiceDistrictID = ss.OrgUnitID,
 		ServiceSchoolID = ss.DestID,
 		HomeDistrictID = sh.OrgUnitID,

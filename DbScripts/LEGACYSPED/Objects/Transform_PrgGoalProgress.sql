@@ -6,7 +6,7 @@ go
 create view LEGACYSPED.Transform_PrgGoalProgress
 as
 -- insert PrgGoalProgress (ID, GoalID, ReportPeriodID)
-select ID = newid(), GoalID = g.ID, ReportPeriodID = p.ID 
+select ID = newid(), GoalID = g.ID, ReportPeriodID = p.ID
 from PrgGoals gs join 
 PrgGoal g on gs.ID = g.InstanceID join 
 IepGoal ig on g.ID = ig.ID join 

@@ -29,8 +29,7 @@ SELECT
       InvolvementID = i.ExistingInvolvementID,
       ResponsibilityID = u.PrgResponsibilityID,
       IsPrimaryServiceProvider = CASE WHEN team.IsPrimaryServiceProvider = 'Y' THEN 1 ELSE 0 END,
-	  IsPrimary = CASE WHEN team.IsCaseManager = 'Y' THEN 1 ELSE 0 END
-	  
+      IsPrimary = CASE WHEN team.IsCaseManager = 'Y' THEN 1 ELSE 0 END
 FROM
       LEGACYSPED.EvaluateIncomingItems i JOIN
       LEGACYSPED.TeamMember team on team.StudentRefId = i.StudentRefID  JOIN

@@ -25,7 +25,7 @@ CREATE VIEW LEGACYSPED.Transform_IepServiceCategory
 AS
 	SELECT
 		k.ServiceCategoryCode,
-		DestID = ISNULL(t.ID,MISerCatCode.DestID),
+		DestID = ISNULL(t.ID, MISerCatCode.DestID),
 		Name = coalesce(t.Name, case k.ServiceCategoryCode when 'SpecialEd' then 'Special Education' else k.ServiceCategoryCode end), -- It is important to get t where it exists because we are updating the target table and we don't want to change t where t already existed
 		Sequence = coalesce(t.Sequence, 99),
 		DeletedDate = CAST(null as datetime)
@@ -37,5 +37,6 @@ AS
 		and SubType is not null
 		GROUP BY SubType
 		) k LEFT JOIN
-		dbo.ServiceCategory t on case k.ServiceCategoryCode when 'SpecialEd' then 'Special Education' else k.ServiceCategoryCode end = t.Name  LEFT JOIN LEGACYSPED.MAP_IepServiceCategoryID MISerCatCode ON k.ServiceCategoryCode = MISerCatCode.ServiceCategoryCode
+	dbo.ServiceCategory t on case k.ServiceCategoryCode when 'SpecialEd' then 'Special Education' else k.ServiceCategoryCode end = t.Name LEFT JOIN 
+	LEGACYSPED.MAP_IepServiceCategoryID MISerCatCode ON k.ServiceCategoryCode = MISerCatCode.ServiceCategoryCode
 GO

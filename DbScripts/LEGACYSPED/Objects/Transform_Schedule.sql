@@ -39,12 +39,11 @@ AS
   WeeklyFri = cast(0 as bit),
   WeeklySat = cast(0 as bit),
   WeeklySun = cast(0 as bit),
-  TimesPerDay = cast(0 as int) -- select v.*
+  TimesPerDay = cast(0 as int)
  FROM
   LEGACYSPED.Service v LEFT JOIN
   LEGACYSPED.MAP_ScheduleID m on v.ServiceRefID = m.ServiceRefID LEFT JOIN
-  LEGACYSPED.MAP_ServiceFrequencyID mf on isnull(v.ServiceFrequencyCode, 'ZZZ') = mf.ServiceFrequencyCode left join -- select * from  LEGACYSPED.MAP_ServiceFrequencyID
-  dbo.Schedule sched on m.DestID = sched.ID
+  LEGACYSPED.MAP_ServiceFrequencyID mf on isnull(v.ServiceFrequencyCode, 'ZZZ') = mf.ServiceFrequencyCode 
 GO
 --
 

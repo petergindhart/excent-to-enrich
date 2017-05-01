@@ -23,11 +23,12 @@ AS
 			end),
 		EndStatusID = case when stu.SpecialEdStatus = 'E' then '12086FE0-B509-4F9F-ABD0-569681C59EE2' else t.EndStatus end,
 		IsManuallyEnded = cast(case when stu.SpecialEdStatus = 'E' then 1 else isnull(t.IsManuallyEnded,0) end as tinyint),
-		Touched = isnull(cast(t.IsManuallyEnded as int),0), -- select ev.StudentRefID,
+		Touched = isnull(cast(t.IsManuallyEnded as int), 0),
 		stu.SpecialEdStatus,
 		StartedByTransfer = CAST(0 AS BIT),
 		-- PrgInvolvementStatus
-		StatusID = (select DestID from LEGACYSPED.MAP_PrgStatus_ConvertedDataPlan)
+		StatusID = (select DestID from LEGACYSPED.MAP_PrgStatus_ConvertedDataPlan),
+		Sequence = cast(0 as int)
 	FROM
 		LEGACYSPED.EvaluateIncomingItems ev join 
 		LEGACYSPED.Transform_Student stu on ev.StudentRefID = stu.StudentRefID JOIN 

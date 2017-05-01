@@ -57,7 +57,6 @@ as
 	from LEGACYSPED.StudentDisabilityPivot p
 go
 
-
 IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.Transform_IepDisabilityEligibility') AND OBJECTPROPERTY(id, N'IsView') = 1)
 DROP VIEW LEGACYSPED.Transform_IepDisabilityEligibility
 GO
@@ -67,8 +66,8 @@ AS
 	SELECT
 		iep.IepRefID,
 		DestID = me.DestID,
-		InstanceID = isnull(m.DestID,mnv.DestID), 
-		DisabilityID = d.DestID, 
+		InstanceID = isnull(m.DestID, mnv.DestID), 
+		DisabilityID = d.ID, 
 		s.Sequence,
 		IsEligibileID = 'B76DDCD6-B261-4D46-A98E-857B0A814A0C', -- Only Eligible disabilities provided  
 		FormInstanceID = cast(NULL as uniqueidentifier), 
@@ -79,15 +78,16 @@ AS
 		LEGACYSPED.Transform_PrgIep iep LEFT JOIN
 		LEGACYSPED.MAP_PrgSectionID m on 
 			iep.VersionDestID  = m.VersionID and
-			m.DefID = 'F050EF5E-3ED8-43D5-8FE7-B122502DE86A'  JOIN
+			m.DefID = 'F050EF5E-3ED8-43D5-8FE7-B122502DE86A'  LEFT JOIN
 		LEGACYSPED.MAP_PrgSectionID_NonVersioned mnv on iep.DestID = mnv.ItemID and mnv.DefID = 'F050EF5E-3ED8-43D5-8FE7-B122502DE86A'  JOIN
 		LEGACYSPED.StudentDisabilitySequenced s on iep.StudentRefID = s.StudentRefID JOIN
-		LEGACYSPED.Transform_IepDisability d on s.DisabilityCode = d.DisabilityCode and d.deleteddate is null left join
+		IepDisability d on s.DisabilityCode = d.StateCode and d.IsOutOfState = 0 and d.DeletedDate is null left join
 		LEGACYSPED.MAP_IepDisabilityEligibilityID me on 
 			iep.IepRefID = me.IepRefID and
-			d.DestID = me.DisabilityID
-	WHERE mnv.DestID in (select ID from dbo.IepEligibilityDetermination)
+			d.ID = me.DisabilityID  
+	WHERE m.DestID in (select ID from dbo.IepEligibilityDetermination)
 GO
+
 --
 /*
 -- the inline query to derive a disability sequence from  studentdisabilitypivot is apparently causing a severe performance issue

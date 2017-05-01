@@ -12,7 +12,7 @@ as
 	and ev.Touched = 0 was commented out in order to be able to import the section for these records.
 */
 select 
-	DestID = isnull(m.DestID,mv.DestID),
+	DestID = isnull(m.DestID, mv.DestID),
 	ts.IepRefID,
 	ItemID = iv.DestID,
 	SectionDefID = 'F60392DA-8EB3-49D0-822D-77A1618C1DAA',
@@ -40,12 +40,9 @@ from LEGACYSPED.EvaluateIncomingItems ev join
 LEGACYSPED.MAP_IEPStudentRefID ts on ev.StudentRefID = ts.StudentRefID join
 LEGACYSPED.Transform_PrgIep iv on ts.IepRefID = iv.IEPRefID join
 LEGACYSPED.Student s on ts.StudentRefID = s.StudentRefID  /* and ev.Touched = 0 */ left join
-LEGACYSPED.MAP_PrgSectionID_NonVersioned m on ts.DestID = m.ItemID and m.DefID = 'F60392DA-8EB3-49D0-822D-77A1618C1DAA' 
- LEFT JOIN
-		LEGACYSPED.MAP_PrgSectionID mv on 
-			mv.DefID = 'F60392DA-8EB3-49D0-822D-77A1618C1DAA'  and
-			mv.VersionID = iv.VersionDestID 
-left join
+LEGACYSPED.MAP_PrgSectionID_NonVersioned m on ts.DestID = m.ItemID and m.DefID = 'F60392DA-8EB3-49D0-822D-77A1618C1DAA' LEFT JOIN
+LEGACYSPED.MAP_PrgSectionID mv on mv.DefID = 'F60392DA-8EB3-49D0-822D-77A1618C1DAA' and
+	mv.VersionID = iv.VersionDestID LEFT JOIN
 IepEsy t on m.DestID = t.ID
 --where  s.EsyTBDDate is not null
 
