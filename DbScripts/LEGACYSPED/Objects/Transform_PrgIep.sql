@@ -59,8 +59,8 @@ select
 		end, 
 	iep.LRECode,
 	iep.MinutesPerWeek,
-	iep.ConsentForServicesDate,
-	iep.ConsentForEvaluationDate,
+	iep.InitialConsentForServicesDate,
+	iep.InitialConsentForEvaluationDate,
 	iep.ServiceDeliveryStatement, 
 	OID = isnull(stu.OID, '6531EF88-352D-4620-AF5D-CE34C54A9F53'), 
 	stu.SpecialEdStatus
