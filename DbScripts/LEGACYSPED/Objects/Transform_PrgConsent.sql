@@ -10,7 +10,7 @@ AS
 		ConsentDate = 
 			case m.DefID 
 				when 'D83A4710-A69F-4310-91F8-CB5BFFB1FE4C' then CAST(isnull(iep.InitialConsentForServicesDate, iep.StartDate) as DATETIME) -- sped consent services
-				when (select SectionDefID from LEGACYSPED.ImportPrgSections where SectionDefName = 'Sped Consent Evaluation') then cast(iep.ConsentForEvaluationDate as datetime) -- consent for evaluation 
+				when (select SectionDefID from LEGACYSPED.ImportPrgSections where SectionDefName = 'Sped Consent Evaluation') then cast(iep.InitialConsentForEvaluationDate as datetime) -- consent for evaluation 
 			end, 
 		iep.DoNotTouch
 	FROM
