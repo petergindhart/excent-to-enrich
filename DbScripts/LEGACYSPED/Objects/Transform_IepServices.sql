@@ -126,10 +126,13 @@ AS
 		--Value = iep.ServiceDeliveryStatement, -- selecting this twice on this view.  Target table column name is Value.  Source table column name is ServiceDeliveryStatement (VC3ETL.LoadColumn)
 		iep.DoNotTouch
 	FROM
-		LEGACYSPED.Transform_PrgIep iep JOIN 
+		LEGACYSPED.Transform_PrgIep iep LEFT JOIN 
 		LEGACYSPED.MAP_PrgSectionID m on 
 			m.DefID = '9AC79680-7989-4CC9-8116-1CCDB1D0AE5F' and 
 			m.VersionID = iep.VersionDestID left join 
+		LEGACYSPED.MAP_PrgSectionID_NonVersioned mnv on 
+			mnv.DefID = '9AC79680-7989-4CC9-8116-1CCDB1D0AE5F' and
+			mnv.ItemID = iep.DestID left join
 		LEGACYSPED.MAP_FormInstance_Services mfi on iep.IepRefID = mfi.IEPRefID left join 
 		LEGACYSPED.MAP_FormInstanceInterval_Services mfii on iep.IepRefID = mfii.IepRefID left join 
 		LEGACYSPED.MAP_FormInputValue_Services mfiv on iep.IepRefID = mfiv.IepRefID 
