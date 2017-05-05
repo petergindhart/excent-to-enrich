@@ -50,5 +50,8 @@ SELECT
 	LEGACYSPED.MAP_PrgGoalAreaDefID m on k.LegacySpedCode = m.GoalAreaCode LEFT JOIN 
 	dbo.PrgGoalAreaDef t on m.DestID = t.ID 
 WHERE k.Type = 'GoalArea'
+union
+select GoalAreaCode = 'ZZZ', ProgramID = 'F98A8EF2-98E2-4CAC-95AF-D7D89EF7F80C', SubType = NULL, DestID = t.ID, t.Sequence, t.Name, t.AllowCustomProbes, t.StateCode, t.DeletedDate, t.RequireGoal
+from PrgGoalAreaDef t where ID = 'FED37909-91FF-43F6-8772-C7D5513F1A01'
 GO
 
