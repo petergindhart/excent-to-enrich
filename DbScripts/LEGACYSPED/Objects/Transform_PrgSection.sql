@@ -6,24 +6,6 @@ GO
 
 -- ############################################################################# 
 -- Section
-IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.MAP_PrgSectionID_NonVersioned') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
-BEGIN
-CREATE TABLE LEGACYSPED.MAP_PrgSectionID_NonVersioned
-(
-	DefID uniqueidentifier NOT NULL,
-	ItemID uniqueidentifier NOT NULL,
-	DestID uniqueidentifier NOT NULL
-)
-
-ALTER TABLE LEGACYSPED.MAP_PrgSectionID_NonVersioned ADD CONSTRAINT
-PK_MAP_PrgSectionID_NonVersioned PRIMARY KEY CLUSTERED
-(
-	DefID, ItemID
-)
-END
-
-if not exists (select 1 from sys.indexes where name = 'IX_LEGACYSPED_MAP_PrgSectionID_NonVersioned_DestID')
-create nonclustered index  IX_LEGACYSPED_MAP_PrgSectionID_NonVersioned_DestID on LEGACYSPED.MAP_PrgSectionID_NonVersioned (DestID)
 
 if not exists (select 1 from sys.indexes where name = 'IX_LEGACYSPED_IEP_LOCAL_StudentRefID')
 CREATE NONCLUSTERED INDEX  IX_LEGACYSPED_IEP_LOCAL_StudentRefID ON [LEGACYSPED].[IEP_LOCAL] ([StudentRefID])
