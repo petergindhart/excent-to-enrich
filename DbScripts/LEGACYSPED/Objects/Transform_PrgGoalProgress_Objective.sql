@@ -8,6 +8,7 @@ as
 select ID = newid(), GoalID = o.ID, ReportPeriodID = p.ID 
 from PrgGoals gs join 
 PrgGoal g on gs.ID = g.InstanceID join 
+LEGACYSPED.MAP_PrgGoalID m on g.ID = m.DestID join
 IepGoal ig on g.ID = ig.ID join
 PrgGoal o on g.ID = o.ParentID join
 PrgGoalProgressPeriod p on gs.ReportFrequencyID = p.FrequencyID 

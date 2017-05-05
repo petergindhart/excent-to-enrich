@@ -100,7 +100,7 @@ CREATE VIEW LEGACYSPED.Transform_IepServices
 AS
 	SELECT
 		IEP.IepRefId,
-		m.DestID,
+		DestID = isnull(m.DestID, mnv.DestID),
 		DeliveryStatement = iep.ServiceDeliveryStatement, -- since Transform_IepServices is use in a lot of operations, leave the text field out of the transform for speed
 		ItemID = iep.DestID,
 	-- FormInstance
