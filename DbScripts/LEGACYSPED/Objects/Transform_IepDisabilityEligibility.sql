@@ -65,7 +65,7 @@ CREATE VIEW LEGACYSPED.Transform_IepDisabilityEligibility
 AS
 	SELECT
 		iep.IepRefID,
-		DestID = me.DestID,
+		DestID = isnull(me.DestID, mnv.DestID),
 		InstanceID = isnull(m.DestID, mnv.DestID), 
 		DisabilityID = d.ID, 
 		s.Sequence,
@@ -74,6 +74,7 @@ AS
 		PrimaryOrSecondaryID = case when s.Sequence = 1 then 'AF6825FF-336C-42CE-AF57-CD095CD0DD2C' else '51619296-9938-4977-8B5F-A6E0FAEE4294' end, -- snatched PrimaryOrSecondaryID values from Lee Template.  Consistent everywhere?
 		WasPreviouslyEligible = cast(0 as Bit),
 		iep.DoNotTouch
+	-- select mnv.*, s.*
 	FROM
 		LEGACYSPED.Transform_PrgIep iep LEFT JOIN
 		LEGACYSPED.MAP_PrgSectionID m on 
@@ -85,7 +86,7 @@ AS
 		LEGACYSPED.MAP_IepDisabilityEligibilityID me on 
 			iep.IepRefID = me.IepRefID and
 			d.ID = me.DisabilityID  
-	WHERE m.DestID in (select ID from dbo.IepEligibilityDetermination)
+	WHERE isnull(m.DestID, mnv.DestID) in (select ID from dbo.IepEligibilityDetermination)
 GO
 
 --
