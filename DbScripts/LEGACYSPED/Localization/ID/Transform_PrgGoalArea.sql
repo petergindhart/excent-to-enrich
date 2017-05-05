@@ -53,7 +53,7 @@ GO
 
 create view LEGACYSPED.GoalAreaPivotView
 as
-select g.IepRefID, g.GoalRefID, g.GoalAreaCode, GoalAreaDefIndex = k.Sequence
+select g.IepRefID, g.GoalRefID, GoalAreaCode = k.LegacySpedCode, GoalAreaDefIndex = k.Sequence
 from LEGACYSPED.Goal g join (
 	select k.Type, k.LegacySpedCode, k.EnrichLabel, Sequence = (
 		select count(*) 
@@ -63,7 +63,9 @@ from LEGACYSPED.Goal g join (
 		) 
 	from LEGACYSPED.SelectLists k 
 	where k.Type = 'GoalArea'
-	) k on g.GoalAreaCode = k.LegacySpedCode 
+	union all
+	select Type = 'GoalArea', 'ZZZ', 'Not Defined', 99
+	) k on isnull(g.GoalAreaCode, 'ZZZ') = k.LegacySpedCode
 GO
 
 IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'LEGACYSPED.MAP_PrgGoalID') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
