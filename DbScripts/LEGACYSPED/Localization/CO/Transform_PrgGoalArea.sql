@@ -63,6 +63,8 @@ from LEGACYSPED.Goal g join (
 		) 
 	from LEGACYSPED.SelectLists k 
 	where k.Type = 'GoalArea'
+	union all
+	select Type = 'GoalArea', LegacySpedCode = 'ZZZ', EnrichLabel = 'Not Defined', Sequence = 99
 	) k on g.GoalAreaCode = k.LegacySpedCode 
 GO
 
