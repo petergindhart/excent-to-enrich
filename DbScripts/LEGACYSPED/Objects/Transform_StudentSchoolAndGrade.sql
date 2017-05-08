@@ -16,7 +16,7 @@ select
   s.ManuallyEntered 
  from LEGACYSPED.MAP_StudentRefID sm join
  LEGACYSPED.Transform_Student s on sm.StudentRefID = s.StudentRefID  and s.CurrentSchoolID is not null cross join -- change this to LEGACYSPED.MAP_StudentRefID ONLY 
-	(select ry.ID, ry.StartDate from RosterYear ry where dbo.DateInRange(dateadd(yy, -1, getdate()), ry.StartDate, ry.EndDate) = 1) ry left join
+	(select ry.ID, ry.StartDate from RosterYear ry where dbo.DateInRange(current_timestamp, ry.StartDate, ry.EndDate) = 1) ry left join
  StudentSchoolHistory ssh on
 	s.DestID = ssh.StudentID and
 	s.CurrentSchoolID = ssh.SchoolID and
