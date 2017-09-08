@@ -28,7 +28,6 @@ CREATE TABLE LEGACYSPED.MAP_IEPStudentRefID
 (
 	IepRefID varchar(150) NOT NULL ,
 	StudentRefID varchar(150) not null,
-	SpecialEdStatus	char(1) NULL, -- this speeds up EvaluateIncomingItems by light years
 	DestID uniqueidentifier NOT NULL)
 
 ALTER TABLE LEGACYSPED.MAP_IEPStudentRefID ADD CONSTRAINT
@@ -47,7 +46,7 @@ PK_MAP_IEPStudentRefID PRIMARY KEY CLUSTERED
 if exists (select 1 from sys.schemas s join sys.objects o on s.schema_id = o.schema_id where s.name = 'LEGACYSPED' and o.name = 'Transform_PrgIep')
 begin
 	insert LEGACYSPED.MAP_IEPStudentRefID
-	select distinct m.IepRefID, s.StudentRefID, m.DestID, stu.SpecialEdStatus
+	select distinct m.IepRefID, s.StudentRefID, m.DestID
 	from LEGACYSPED.MAP_IepRefID m join --  we could have just used the transform, but using the MAP facilitates excluding NULLs
 	LEGACYSPED.Transform_PrgIep s on m.IepRefID = s.IepRefID join  -- since this map table already exists, this is okay.
 	LEGACYSPED.Student stu on s.StudentRefID = stu.StudentRefID left join
@@ -83,7 +82,6 @@ AS
   src.StudentRefID,
   DestID = coalesce(sst.ID, sloc.ID, snam.ID, m.DestID),
   LegacyData = ISNULL(m.LegacyData, case when coalesce(sst.ID, sloc.ID, snam.ID) IS NULL then 1 else 0 end), -- allows updating only legacy data by adding a DestFilter in LoadTable.  Leaves real ManuallyEntered students untouched.
-  src.SpecialEdStatus,
   CurrentSchoolID = sch.DestID,
   CurrentGradeLevelID = g.DestID,
   EthnicityID = CAST(NULL as uniqueidentifier),
