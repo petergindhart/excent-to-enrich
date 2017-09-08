@@ -32,13 +32,8 @@ AS
 		-- x = x.ID, t = t.ID, m = m.DestID, ev = ev.ExistingInvolvementID,
 		InvolvementID  = coalesce(x.ID, t.ID, m.DestID, ev.ExistingInvolvementID),
 		StartDate = iep.IEPStartDate,   -- school start for this IEP period
-		EndDate = isnull(t.EndDate, 
-			case when stu.SpecialEdStatus = 'E' then 
-				case when iep.IEPEndDate > getdate() then NULL else iep.IEPEndDate end 
-				else
-				case when t.EndDate > getdate() then NULL else t.EndDate end
-			end),
-		EndStatusID = case when stu.SpecialEdStatus = 'E' then '12086FE0-B509-4F9F-ABD0-569681C59EE2' else t.EndStatus end--75489662-F5C9-4EFB-AEF3-02E943EEC6F5
+		EndDate = case when t.EndDate > getdate() then NULL else t.EndDate end,
+		EndStatusID = t.EndStatus 
 	FROM
 		LEGACYSPED.EvaluateIncomingItems ev join 
 		LEGACYSPED.Transform_Student stu on ev.StudentRefID = stu.StudentRefID JOIN 
