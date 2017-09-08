@@ -27,20 +27,19 @@ select
 	StudentID = isnull(stu.DestID, ev.StudentID),
 	MeetDate = iep.iepmeetdate, 
 	StartDate = isnull(iep.IEPStartDate, convert(varchar, t.StartDate, 101)), -- logic :  if the iep coming in again, let's update with values coming in.  if it's not coming in and we didn't delete it, keep values the same
-	EndDate = case when stu.SpecialEdStatus = 'E' then isnull(iep.IEPEndDate, convert(varchar, t.EndDate, 101)) else NULL end,
-	ItemOutcomeID = cast(case when stu.SpecialEdStatus = 'E' then (select PrgItemOutcomeID from LEGACYSPED.PrgItemOutcome_EndIEP) else NULL end as uniqueidentifier), 
+	EndDate = NULL,
+	ItemOutcomeID = cast(NULL as uniqueidentifier), 
 	CreatedDate = '1/1/1970',
 	CreatedBy = 'EEE133BD-C557-47E1-AB67-EE413DD3D1AB', -- BuiltIn: Support
-	EndedDate = cast(case when stu.SpecialEdStatus = 'E' then isnull(iep.IEPEndDate, convert(varchar, t.EndedDate, 101)) else NULL end as datetime),
+	EndedDate = cast(NULL as datetime),
 	EndedBy = cast(t.EndedBy as uniqueidentifier),
 	SchoolID = isnull(stu.CurrentSchoolID, t.SchoolID),
 	GradeLevelID = isnull(stu.CurrentGradeLevelID, t.GradeLevelID),
 	InvolvementID = isnull(minv.DestID, ev.ExistingInvolvementID), 
-	StartStatusID =  case when stu.SpecialEdStatus = 'E' then '64736B6C-4C2C-4CE0-BED1-3EA7D825B2D6' else -- select * from PrgStatus where ID = '72E79F66-A103-4F72-B8BE-364B586FAF35'
-		(select DestID from LEGACYSPED.MAP_PrgStatus_ConvertedDataPlan) end, --- 64736B6C-4C2C-4CE0-BED1-3EA7D825B2D6 (Eligible) -- 0B5D5C72-5058-4BF5-A414-BDB27BD5DD94 (Converted Data Plan)
-	EndStatusID = cast(case when stu.SpecialEdStatus = 'E' then '12086FE0-B509-4F9F-ABD0-569681C59EE2' else NULL end as uniqueidentifier), -- Exited After Eligibility
+	StartStatusID = (select DestID from LEGACYSPED.MAP_PrgStatus_ConvertedDataPlan), --- 64736B6C-4C2C-4CE0-BED1-3EA7D825B2D6 (Eligible) -- 0B5D5C72-5058-4BF5-A414-BDB27BD5DD94 (Converted Data Plan)
+	EndStatusID = cast(NULL as uniqueidentifier), -- Exited After Eligibility
 	PlannedEndDate = isnull(convert(datetime, iep.IEPEndDate), dateadd(yy, 1, dateadd(dd, -1, convert(datetime, iep.IEPStartDate)))),
-	IsEnded = cast(case when stu.SpecialEdStatus = 'E' then 1 else 0 end as Bit),
+	IsEnded = cast(0 as Bit),
 	Revision = cast(isnull(t.Revision,0) as bigint),
 	IsApprovalPending = cast(isnull(t.IsApprovalPending,0) as bit),
 	ApprovedDate = cast(t.ApprovedDate as datetime),
@@ -62,13 +61,14 @@ select
 	iep.InitialConsentForServicesDate,
 	iep.InitialConsentForEvaluationDate,
 	iep.ServiceDeliveryStatement, 
-	OID = isnull(stu.OID, '6531EF88-352D-4620-AF5D-CE34C54A9F53'), 
-	stu.SpecialEdStatus
+	OID = isnull(stu.OID, '6531EF88-352D-4620-AF5D-CE34C54A9F53')
 from LEGACYSPED.EvaluateIncomingItems ev left join 
 	LEGACYSPED.Transform_Student stu on ev.StudentRefID = stu.StudentRefID left join 
 	LEGACYSPED.IEP iep on ev.IncomingIEPRefID = iep.IepRefID left join -------------------------------------------------------------------------------- do we need to the Existing IEPRefID or the Incoming IEPRefID ?
-	LEGACYSPED.SelectLists k on iep.LRECode = k.LegacySpedCode and k.Type = 'LRE' -- ID sees some students with wrong LREAgeGroup
-		and k.SubType = iep.LREAgeGroup left join --- fixes issue for flagler
+	LEGACYSPED.SelectLists k on iep.LRECode = k.LegacySpedCode
+		and k.Type = 'LRE' -- ID sees some students with wrong LREAgeGroup
+		--and k.SubType = iep.LREAgeGroup --- fixes issue for flagler (gg: 20170628 - how could this ever work?)
+		left join 
 	dbo.PrgItem t on ev.ExistingConvertedItemID = t.ID left join
 	LEGACYSPED.Transform_PrgInvolvement minv on iep.StudentRefID = minv.StudentRefID 
 go
