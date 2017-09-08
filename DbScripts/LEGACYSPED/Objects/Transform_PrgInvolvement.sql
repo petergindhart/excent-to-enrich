@@ -15,16 +15,10 @@ AS
 		ProgramID = 'F98A8EF2-98E2-4CAC-95AF-D7D89EF7F80C',   -- Special Education
 		VariantID = '6DD95EA1-A265-4E04-8EE9-78AE04B5DB9A',   -- Special Education
 		StartDate = iep.IEPStartDate,   -- school start for this IEP period
-		EndDate = isnull(t.EndDate, 
-			case when stu.SpecialEdStatus = 'E' then 
-				case when iep.IEPEndDate > getdate() then NULL else iep.IEPEndDate end 
-				else
-				case when t.EndDate > getdate() then NULL else t.EndDate end
-			end),
-		EndStatusID = case when stu.SpecialEdStatus = 'E' then '12086FE0-B509-4F9F-ABD0-569681C59EE2' else t.EndStatus end,
-		IsManuallyEnded = cast(case when stu.SpecialEdStatus = 'E' then 1 else isnull(t.IsManuallyEnded,0) end as tinyint),
+		EndDate = isnull(t.EndDate, case when t.EndDate > getdate() then NULL else t.EndDate end),
+		EndStatusID = t.EndStatus,
+		IsManuallyEnded = cast(isnull(t.IsManuallyEnded,0) as tinyint),
 		Touched = isnull(cast(t.IsManuallyEnded as int), 0),
-		stu.SpecialEdStatus,
 		StartedByTransfer = CAST(0 AS BIT),
 		-- PrgInvolvementStatus
 		StatusID = (select DestID from LEGACYSPED.MAP_PrgStatus_ConvertedDataPlan),
