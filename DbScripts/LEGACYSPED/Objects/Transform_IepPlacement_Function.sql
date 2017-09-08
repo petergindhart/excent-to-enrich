@@ -91,8 +91,7 @@ MinutesPerWeek	int,
 InitialConsentForServicesDate	datetime,
 InitialConsentForEvaluationDate	datetime,
 ServiceDeliveryStatement varchar(8000),
-OID uniqueidentifier,
-SpecialEdStatus char(1)
+OID uniqueidentifier
 )
 
 insert @Transform_IepLeastRestrictiveEnvironment
