@@ -145,6 +145,14 @@ order
 	source (existing vs incoming)
 	type (converted vs non-converted)
 
+, ExistingInvolvementID = cast(NULL as uniqueidentifier)
+, ExistingConvertedItemID  = cast(NULL as uniqueidentifier)
+, ExistingIEPRefID = cast(NULL as varchar(150))
+, IncomingIEPRefID = cast(NULL as uniqueidentifier)
+, Touched = cast(NULL as int)
+, StudentID = cast(NULL as uniqueidentifier)
+, ExistingConvertedVersionID = cast(NULL as uniqueidentifier)
+
 */
 
 select  
@@ -157,7 +165,7 @@ select
 	ExistingInvolvementID = coalesce(xcpm.DestID, xp.ID, xci.InvolvementID), -- if no inv created through ETL, get the inv created through the UI.  DO NOT display the xpe.ID here.  We need it to fail if no active involvement.
 --	ExistingInvolvementIsEnded = isnull(case when xp.EndDate is null then 0 else 1 end, case when xp.EndDate is null then 0 else 1 end), -- (may not need this since we can ignore ended involvements).  don't want to resurrect one!
 	InvolvementStartDate = case when isnull(xp.StartDate, xcip.StartDate) > gci.IEPStartDate then gci.IEPStartDate else isnull(xp.StartDate, xcip.StartDate) end, -- reset to start date of IEP if inv start is after IEP start.  to use in Transform_PrgInvolvement
-	InvolvementEndDate = cast(case when ts.SpecialEdStatus = 'I' then gci.IEPEndDate else case when isnull(xp.EndDate, xcip.EndDate) > getdate() then NULL else isnull(xp.EndDate, xcip.EndDate) end end as datetime), -- reset to NULL if inv.EndDate is future.  This will be used in Transform_PrgInvolvement
+	InvolvementEndDate = cast(case when isnull(xp.EndDate, xcip.EndDate) > getdate() then NULL else isnull(xp.EndDate, xcip.EndDate) end as datetime), -- reset to NULL if inv.EndDate is future.  This will be used in Transform_PrgInvolvement
 -- Item
 	ExistingIEPRefID = xcm.IepRefID, 
 	IncomingIEPRefID = gci.IepRefID, 
@@ -171,12 +179,15 @@ select
 	ExistingNonConvertedItemID = xni.ItemID, ExistingNonConvertedVersionID = xnv.ID, ExistingNonConvertedItemIsEnded = xni.IsEnded, NonConvertedIEPExists = case when xni.ItemID is null then 0 else 1 end, 
 -- if touched, we do nothing with the item (no update, no delete)
 	-- Touched = cast(isnull(xci.IsEnded,0) as int)+isnull(xci.Revision,0)+case when (xp.ID is null and xpe.ID is not null) then 1 else 0 end  -- + case when xni.ItemID is null then 0 else 1 end -- could be 2 different items.  Want this ??????????  no.  this causes incoming ieps not to be imported where a non-converted item exists
-	Touched = cast(case when ts.SpecialEdStatus='A' then isnull(xci.IsEnded,0) else 0 end as int)+isnull(xci.Revision,0)+case when (isnull(xp.ID, xcip.ID) is null and (ts.SpecialEdStatus='A' and xpe.ID in (select DestID from LEGACYSPED.MAP_PrgInvolvementID))) then 1 else 0 end  -- + case when xni.ItemID is null then 0 else 1 end -- could be 2 different items.  Want this ??????????  no.  this causes incoming ieps not to be imported where a non-converted item exists
+	Touched = cast(isnull(xci.IsEnded,0) as int)+
+		isnull(xci.Revision,0)+
+		case when isnull(xp.ID, xcip.ID) is null then 1 else 0 end  -- + case when xni.ItemID is null then 0 else 1 end -- could be 2 different items.  Want this ??????????  no.  this causes incoming ieps not to be imported where a non-converted item exists
 -- select xp.*
 from 
 -- All students, existing and incoming -- select ts.DestID, count(*) tot from 
-	(select StudentRefID from LEGACYSPED.MAP_IEPStudentRefID union select StudentRefID from LEGACYSPED.IEP ) s left join -- 12084
---	(select i.IepRefID, i.StudentRefID, i.SpecialEdStatus, ItemID = i.DestID, s.DestID from LEGACYSPED.MAP_IEPStudentRefID i join LEGACYSPED.MAP_StudentRefIDAll s on i.StudentRefID = s.studentrefID)  ts on s.StudentRefID = ts.StudentRefID left join -- does not include those students that were imported previously, but not in new data set
+	(select StudentRefID from LEGACYSPED.MAP_IEPStudentRefID union select StudentRefID from LEGACYSPED.IEP ) s 
+	left join -- 12084
+--	(select i.IepRefID, i.StudentRefID, ItemID = i.DestID, s.DestID from LEGACYSPED.MAP_IEPStudentRefID i join LEGACYSPED.MAP_StudentRefIDAll s on i.StudentRefID = s.studentrefID)  ts on s.StudentRefID = ts.StudentRefID left join -- does not include those students that were imported previously, but not in new data set
 	LEGACYSPED.Transform_Student ts on s.StudentRefID = ts.StudentRefID left join 
 		-- need to make sure MAP_IEPStudentRefID will be populated any time this view is used.
 -- EXISTING INVOLVEMENT (ACTIVE).  either created through ETL or UI.  consider isnull(xcmp.DestID, xp.ID).  check for involvement date range
