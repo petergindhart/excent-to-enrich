@@ -70,7 +70,7 @@ insert @importPrgSections values (1, 'Sped Eligibility Determination', 'F050EF5E
 insert @importPrgSections values (0, 'IEP Goals', '84E5A67D-CC9A-4D5B-A7B8-C04E8C3B8E0A')
 insert @importPrgSections values (1, 'Sped Consent Services', 'D83A4710-A69F-4310-91F8-CB5BFFB1FE4C')
 insert @importPrgSections values (1, 'Sped Consent Evaluation', '0FEB4F39-9450-43A4-BF09-A98C4D296916') -- BOULDER DID NOT PROVIDE THIS DATE!
-insert @importPrgSections values (1, 'IEP ESY', 'F60392DA-8EB3-49D0-822D-77A1618C1DAA')
+insert @importPrgSections values (0, 'IEP ESY', 'F60392DA-8EB3-49D0-822D-77A1618C1DAA')
 
 insert LEGACYSPED.ImportPrgSections
 select * from @importPrgSections where SectionDefID not in (select SectionDefID from LEGACYSPED.ImportPrgSections)
