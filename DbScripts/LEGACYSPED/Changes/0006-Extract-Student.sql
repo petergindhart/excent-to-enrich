@@ -33,10 +33,7 @@ Disability7Code    varchar(150) null,
 Disability8Code    varchar(150) null,
 Disability9Code    varchar(150) null,
 EsyElig	varchar(1) null,
-EsyTBDDate datetime null,
-ExitDate datetime null,
-ExitCode varchar(150) null,
-SpecialEdStatus char(1) not null
+EsyTBDDate datetime null
 )
 GO
 Alter table LEGACYSPED.Student_LOCAL
